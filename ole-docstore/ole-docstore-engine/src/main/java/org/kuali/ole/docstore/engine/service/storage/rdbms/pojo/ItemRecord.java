@@ -100,6 +100,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     @AuditField
     private Timestamp originalDueDate;
     private HoldingsRecord holdingsRecord;
+    private String operationType;
 
     public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {
         return missingPieceItemRecordList;
@@ -629,5 +630,13 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setHoldingsRecord(HoldingsRecord holdingsRecord) {
         this.holdingsRecord = holdingsRecord;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 }

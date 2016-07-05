@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by SheikS on 12/26/2015.
@@ -35,6 +36,7 @@ public class CreateItemHandler extends Handler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
+        Set<String> discardedHoldingsForAdditionalOverlayOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_HOLDINGS_FOR_ADDITIONAL_OVERLAY_OPS);
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
 
         if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
@@ -45,13 +47,15 @@ public class CreateItemHandler extends Handler {
                         ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
                         String holdingsId = itemRecord.getHoldingsRecord().getHoldingsId();
                         if (StringUtils.isNotBlank(holdingsId)) {
-                            JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                            exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
-                            itemRecord.setHoldingsId(holdingsId);
-                            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                            processDataMappings(itemJSONObject, exchange);
-                            setCommonValuesToItemRecord(requestJsonObject, itemRecord);
-                            itemRecords.add(itemRecord);
+                            if (!isDiscardedByAdditionalOverlayOps(discardedHoldingsForAdditionalOverlayOps, holdingsId)) {
+                                JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                                exchange.add(OleNGConstants.DATAMAPPING,dataMapping);
+                                itemRecord.setHoldingsId(holdingsId);
+                                exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                                processDataMappings(itemJSONObject, exchange);
+                                setCommonValuesToItemRecord(requestJsonObject, itemRecord);
+                                itemRecords.add(itemRecord);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -63,6 +67,10 @@ public class CreateItemHandler extends Handler {
             exchange.remove(OleNGConstants.DATAMAPPING);
             try {
                 getOleDsNGMemorizeService().getItemDAO().saveAll(itemRecords);
+                for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                    ItemRecord itemRecord = iterator.next();
+                    itemRecord.setOperationType(OleNGConstants.CREATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , itemRecords.size());
