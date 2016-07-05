@@ -1,4 +1,4 @@
-package org.kuali.ole.dsng.util;
+package org.kuali.ole.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;

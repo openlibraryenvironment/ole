@@ -9,6 +9,7 @@ import org.kuali.ole.cache.Memoize;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord;
 import org.kuali.ole.module.purap.businessobject.ItemType;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderTransmissionMethod;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
@@ -25,6 +26,7 @@ import org.kuali.ole.select.document.service.OleDocstoreHelperService;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.ItemUtil;
 import org.kuali.ole.utility.LocationUtil;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.VendorService;
@@ -52,6 +54,7 @@ public class OleNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil
     private OleDocstoreHelperService oleDocstoreHelperService;
     private VendorService vendorService;
     private OlePurapService olePurapService;
+    private ItemUtil itemUtil;
 
     @Override
     public OleNgCommonMemorizeService getOleNgCommonMemorizeService() {
@@ -195,6 +198,11 @@ public class OleNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil
         return (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
     }
 
+    @Memoize
+    public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName) {
+        return getItemUtil().fetchItemStatusByName(itemStatusTypeName);
+    }
+
     @Override
     public LocationUtil getLocationUtil() {
         if(null == locationUtil){
@@ -226,5 +234,14 @@ public class OleNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil
         }
         return olePurapService;
     }
+
+    public ItemUtil getItemUtil() {
+        if(null == itemUtil) {
+            itemUtil = new ItemUtil();
+        }
+        return itemUtil;
+    }
+
+
 
 }

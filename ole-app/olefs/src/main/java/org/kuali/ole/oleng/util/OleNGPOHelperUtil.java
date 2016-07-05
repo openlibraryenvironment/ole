@@ -89,6 +89,7 @@ public class OleNGPOHelperUtil {
                     String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
                     oleOrderRecord.setBibImportProfileName(bibProfileName);
                     oleOrderRecord.setRecordIndex(recordIndex);
+                    getOleNGPOValidationUtil().setOleNGMemorizeService(createReqAndPOServiceHandler.getOleNGMemorizeService());
                     boolean valid = getOleNGPOValidationUtil().validateOleOrderRecord(oleOrderRecord, exchange, recordIndex);
                     if(valid) {
                         oleOrderRecords.add(oleOrderRecord);
