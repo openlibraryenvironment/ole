@@ -31,14 +31,14 @@ public class HoldingsUtil extends OleDsHelperUtil{
     }
 
     public void processIfDeleteAllExistOpsFound(HoldingsRecord holdingsRecord, JSONObject requestJsonObject) {
-        ArrayList<ItemRecord> holdingsListToDelete = getListOfItemsToDelete(holdingsRecord, requestJsonObject);
+        ArrayList<ItemRecord> itemListToDelete = getListOfItemsToDelete(holdingsRecord, requestJsonObject);
 
-        if (CollectionUtils.isNotEmpty(holdingsListToDelete)) {
+        if (CollectionUtils.isNotEmpty(itemListToDelete)) {
 
-            getBusinessObjectService().delete(holdingsListToDelete);
+            getBusinessObjectService().delete(itemListToDelete);
 
             StringBuilder itemIdsString = new StringBuilder();
-            for (Iterator<ItemRecord> iterator = holdingsListToDelete.iterator(); iterator.hasNext(); ) {
+            for (Iterator<ItemRecord> iterator = itemListToDelete.iterator(); iterator.hasNext(); ) {
                 ItemRecord itemRecord = iterator.next();
                 String itemId = itemRecord.getItemId();
                 itemIdsString.append(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemId);

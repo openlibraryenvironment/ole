@@ -133,6 +133,8 @@ public class OleNGConstants {
     public static final String MATCHPOINT_FOR_DATAMAPPING = "matchpointForDataMapping";
     public static final String ADDED_OPS = "addedOps";
     public static final String ADDITIONAL_OVERLAY_OPS = "additionalOverlayOps";
+    public static final String DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS = "discardedBibForAdditionalOverlayOps";
+    public static final String DISCARDED_HOLDINGS_FOR_ADDITIONAL_OVERLAY_OPS = "discardedHoldingsForAdditionalOverlayOps";
     public static final String ACTION_OPS = "actionOps";
     public static final String FIELD_OPS = "fieldOps";
     public static final String BIB_DATAMAPPINGS = "bibDataMappings";
