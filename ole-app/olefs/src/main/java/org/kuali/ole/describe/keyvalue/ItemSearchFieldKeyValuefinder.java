@@ -68,9 +68,12 @@ public class ItemSearchFieldKeyValuefinder extends UifKeyValuesFinderBase implem
         }
 
         for (String searchField : sortedMap.keySet()) {
-            options.add(new ConcreteKeyValue(sortedMap.get(searchField), searchField));
+            if(!searchField.equalsIgnoreCase("Item Barcode")){
+                options.add(new ConcreteKeyValue(sortedMap.get(searchField), searchField));
+            }
         }
-        options.add(0,new ConcreteKeyValue("any","ANY"));
+        options.add(0,new ConcreteKeyValue("ItemBarcode_search","Item Barcode"));
+        options.add(1,new ConcreteKeyValue("any","ANY"));
         return options;
     }
 }
