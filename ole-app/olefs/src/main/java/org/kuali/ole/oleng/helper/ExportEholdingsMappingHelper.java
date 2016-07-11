@@ -45,20 +45,21 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
             List<BatchProfileDataMapping> mappingOptionsBoList = profile.getBatchProfileDataMappingList();
             for (BatchProfileDataMapping mappingOptionsBo : mappingOptionsBoList) {
-                if (mappingOptionsBo.getDataType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_EHOLDINGS)) {
+                String key=buildkey(mappingOptionsBo);
+                if (mappingOptionsBo.getDestination().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_EHOLDINGS)) {
                     if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_DATE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_DATE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_ISSUE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_ISSUE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_VOLUME)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_VOLUME)) {
-                        dataFieldCoverageMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldCoverageMap.put(key, mappingOptionsBo.getField());
                     } else if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
-                        dataFieldsDonorMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldsDonorMap.put(key, mappingOptionsBo.getField());
                     } else {
-                        dataFieldEHoldingMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldEHoldingMap.put(key, mappingOptionsBo.getField());
                     }
                 }
             }
@@ -196,7 +197,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                     } else {
                         generateAccessStatus(oleHoldings, getCode(entry.getKey()), dataField);
                     }
-                }/*else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_MATIRIAL_SPECIFIED)) {
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_MATIRIAL_SPECIFIED)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
@@ -223,7 +224,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                     } else {
                         generateHoldingsAccesssInformationSI(oleHoldings, getCode(entry.getKey()), dataField);
                     }
-                }*/ else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PLATFORM)) {
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PLATFORM)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
@@ -739,7 +740,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
         }
     }
 
-/*    private void generateHoldingsAccesssInformationFI(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+    private void generateHoldingsAccesssInformationFI(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
         try {
             if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
                 Subfield subField = new SubfieldImpl();
@@ -777,6 +778,6 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
         } catch (Exception ex) {
             logError(oleHoldings, ex, "generateHoldingsAccesssInformation()");
         }
-    }*/
+    }
 
 }

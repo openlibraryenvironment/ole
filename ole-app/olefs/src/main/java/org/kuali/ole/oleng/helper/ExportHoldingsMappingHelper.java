@@ -47,15 +47,16 @@ public class ExportHoldingsMappingHelper {
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
             List<BatchProfileDataMapping> mappingOptionsBoList = profile.getBatchProfileDataMappingList();
             for (BatchProfileDataMapping mappingOptionsBo : mappingOptionsBoList) {
-                if (mappingOptionsBo.getDataType().equalsIgnoreCase(BATCH_PROCESS_PROFILE_DATATYPE_HOLDINGS)) {
-                    dataFieldsHoldingsMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
-                } else if (mappingOptionsBo.getDataType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_ITEM)) {
+                String key=buildkey(mappingOptionsBo);
+                if (mappingOptionsBo.getDestination().equalsIgnoreCase(BATCH_PROCESS_PROFILE_DATATYPE_HOLDINGS)) {
+                    dataFieldsHoldingsMap.put(key, mappingOptionsBo.getField());
+                } else if (mappingOptionsBo.getDestination().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_PROCESS_PROFILE_DATATYPE_ITEM)) {
                     if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
-                        dataFieldsDonorMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldsDonorMap.put(key, mappingOptionsBo.getField());
                     } else {
-                        dataFieldsItemsMap.put(mappingOptionsBo.getDestination(), mappingOptionsBo.getField());
+                        dataFieldsItemsMap.put(key, mappingOptionsBo.getField());
                     }
                 }
             }
@@ -222,8 +223,8 @@ public class ExportHoldingsMappingHelper {
     protected DataField getDataField(Map.Entry<String, String> entry) {
         DataField dataField = new DataFieldImpl();
         dataField.setTag(StringUtils.trim(entry.getKey()).substring(0, 3));
-        dataField.setIndicator1(' ');
-        dataField.setIndicator2(' ');
+        dataField.setIndicator1(entry.getKey().charAt(3));
+        dataField.setIndicator2(entry.getKey().charAt(4));
         return dataField;
     }
 
@@ -1268,6 +1269,23 @@ public class ExportHoldingsMappingHelper {
         }catch (Exception ex) {
             logError(item, ex, "generateHoldingLocalIdentifier()");
         }
+    }
+
+    protected String buildkey(BatchProfileDataMapping mappingOptionsBo) {
+        StringBuilder key= new StringBuilder(mappingOptionsBo.getDataField());
+        if(mappingOptionsBo.getInd1() !=null){
+            key.append(mappingOptionsBo.getInd1());
+        }else{
+            key.append(" ");
+        }
+        if(mappingOptionsBo.getInd2() !=null){
+            key.append(mappingOptionsBo.getInd2());
+        }else{
+            key.append(" ");
+        }
+        key.append("$");
+        key.append(mappingOptionsBo.getSubField());
+        return  key.toString();
     }
 
 }

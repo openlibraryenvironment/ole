@@ -39,7 +39,10 @@ import javax.xml.bind.annotation.XmlType;
         "accessLocation",
         "authenticationType",
         "accessUsername",
-        "accessPassword"
+        "accessPassword",
+        "materialsSpecified",
+        "firstIndicator",
+        "secondIndicator"
 })
 @XStreamAlias("holdingsAccessInformation")
 public class HoldingsAccessInformation {
@@ -50,6 +53,9 @@ public class HoldingsAccessInformation {
     protected String authenticationType;
     protected String accessUsername;
     protected String accessPassword;
+    protected String materialsSpecified;
+    protected String firstIndicator;
+    protected String secondIndicator;
 
     /**
      * Gets the value of the numberOfSimultaneousUser property.
@@ -171,4 +177,27 @@ public class HoldingsAccessInformation {
         this.accessPassword = value;
     }
 
+    public String getMaterialsSpecified() {
+        return materialsSpecified;
+    }
+
+    public void setMaterialsSpecified(String materialsSpecified) {
+        this.materialsSpecified = materialsSpecified;
+    }
+
+    public String getFirstIndicator() {
+        return firstIndicator;
+    }
+
+    public void setFirstIndicator(String firstIndicator) {
+        this.firstIndicator = firstIndicator;
+    }
+
+    public String getSecondIndicator() {
+        return secondIndicator;
+    }
+
+    public void setSecondIndicator(String secondIndicator) {
+        this.secondIndicator = secondIndicator;
+    }
 }
