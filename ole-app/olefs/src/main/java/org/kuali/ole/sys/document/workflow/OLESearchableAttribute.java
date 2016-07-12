@@ -423,26 +423,26 @@ public class OLESearchableAttribute extends DataDictionarySearchableAttribute {
             if(doc instanceof OleInvoiceDocument){
                 StringBuffer purchaseOrderDocumentNums = new StringBuffer();
                 OleInvoiceDocument invoiceDocument = (OleInvoiceDocument) doc;
-                KualiDecimal invoicedAmount = KualiDecimal.ZERO;
+               // KualiDecimal invoicedAmount = KualiDecimal.ZERO;
                 for (Object purApItem : invoiceDocument.getItems()) {
                     OleInvoiceItem invoiceItem = (OleInvoiceItem) purApItem;
                     if (invoiceItem.getPurchaseOrderIdentifier() != null) {
                         purchaseOrderDocumentNums.append(invoiceItem.getPurchaseOrderIdentifier().toString() + ",");
                     }
-                    if (invoiceItem.isDebitItem()) {
+                   /* if (invoiceItem.isDebitItem()) {
                         invoicedAmount = invoicedAmount.add(invoiceItem.getItemListPrice().multiply(new KualiDecimal(invoiceItem.getOleCopiesOrdered())));
                     } else {
                         invoicedAmount = invoicedAmount.subtract(invoiceItem.getItemListPrice().multiply(new KualiDecimal(invoiceItem.getOleCopiesOrdered())));
-                    }
+                    }*/
                 }
-                for(int i=0;i<searchAttrValues.size();i++) {
+                /*for(int i=0;i<searchAttrValues.size();i++) {
                     if (searchAttrValues.get(i).getName().equals(OLEPropertyConstants.FIN_DOC_TOT_AMT)) {
                         searchAttrValues.remove(i);
                         DocumentAttributeDecimal.Builder invDebitItemSearchableAttributeValue = DocumentAttributeDecimal.Builder.create(OLEPropertyConstants.FIN_DOC_TOT_AMT);
                         invDebitItemSearchableAttributeValue.setValue(invoicedAmount.bigDecimalValue());
                         searchAttrValues.add(invDebitItemSearchableAttributeValue.build());
                     }
-                }
+                }*/
 
                 int len = purchaseOrderDocumentNums.lastIndexOf(",");
                 if (len > 0) {
