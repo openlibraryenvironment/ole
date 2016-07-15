@@ -1174,11 +1174,11 @@
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronNotes" />
         <property name="propertyName" value="notes" />
         <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="renderAddLine" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>
-        <property name="renderLineActions" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>
+        <!--<property name="renderAddLine" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>
+        <property name="renderLineActions" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>-->
         <property name="items">
             <list>
-                <bean id="patronNoteTypeId" parent="OlePatron-InputField" p:propertyName="patronNoteTypeId" p:label="Note Type" p:required="true" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                <bean id="patronNoteTypeId" parent="OlePatron-InputField" p:propertyName="patronNoteTypeId" p:label="Note Type" p:required="true">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleNoteTypeKeyValues" />
                     </property>
@@ -1187,7 +1187,7 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                     </property>
                 </bean>
-                <bean id="patronNoteText" parent="OlePatron-InputField" p:propertyName="patronNoteText" p:label="Note Text" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                <bean id="patronNoteText" parent="OlePatron-InputField" p:propertyName="patronNoteText" p:label="Note Text">
                     <property name="control">
                         <bean parent="Uif-LargeTextAreaControl" p:cssClasses="comments" p:watermarkText="size 800"/>
                     </property>
