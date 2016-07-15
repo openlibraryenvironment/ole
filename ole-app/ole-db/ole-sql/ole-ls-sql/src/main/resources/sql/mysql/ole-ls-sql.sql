@@ -6638,6 +6638,8 @@ CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
         , CREATED_BY VARCHAR(40)
         , CREATED_ON DATETIME
         , NEXT_RUN_TIME DATETIME
+        , NUM_OF_RECORD INTEGER(10)
+        , OUTPUT_FORMAT VARCHAR(40)
         , OBJ_ID VARCHAR(36)
         , VER_NBR INTEGER(8)
     
@@ -6648,7 +6650,7 @@ CREATE TABLE OLE_NG_BAT_PRCS_JOB_T
 
 
     
-                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_NG_BAT_PRCS_I (PRF_ID )
 
@@ -6689,7 +6691,7 @@ CREATE TABLE OLE_NG_BAT_JOB_DETAILS_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_NG_BAT_JOB_I (JOB_ID )
 
