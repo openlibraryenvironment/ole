@@ -83,6 +83,7 @@ var dataMappingObject = {
         {id: 'donorCode', name: 'Donor Code'},
         {id: 'donorPublicDisplay', name: 'Donor Public Display'},
         {id: 'donor Note', name: 'Donor Note'},
+        {id: 'publicNote', name: 'Public Note'},
         {id: 'enumeration', name: 'Enumeration'},
         {id: 'chronology', name: 'Chronology'},
         {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'},

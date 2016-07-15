@@ -44,6 +44,7 @@ public class ExportHoldingsMappingHelper {
         if (holdingsTree != null) {
             Map<String, String> dataFieldsHoldingsMap = new HashMap<>();
             Map<String, String> dataFieldsItemsMap = new HashMap<>();
+            Map<String, String> dataFieldsItemNoteMap = new HashMap<>();
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
             List<BatchProfileDataMapping> mappingOptionsBoList = profile.getBatchProfileDataMappingList();
             for (BatchProfileDataMapping mappingOptionsBo : mappingOptionsBoList) {
@@ -55,7 +56,9 @@ public class ExportHoldingsMappingHelper {
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
                         dataFieldsDonorMap.put(key, mappingOptionsBo.getField());
-                    } else {
+                    } else if(mappingOptionsBo.getField().equalsIgnoreCase(OLEConstants.OLEBatchProcess.PUBLIC_NOTE)){
+                        dataFieldsItemNoteMap.put(key, mappingOptionsBo.getField());
+                    } else{
                         dataFieldsItemsMap.put(key, mappingOptionsBo.getField());
                     }
                 }
@@ -63,7 +66,7 @@ public class ExportHoldingsMappingHelper {
             if (!CollectionUtils.isEmpty(dataFieldsHoldingsMap)) {
                 generateSubFieldsForHolding(holdingsTree.getHoldings(), dataFieldsHoldingsMap);
             }
-            if (!CollectionUtils.isEmpty(dataFieldsItemsMap) || !CollectionUtils.isEmpty(dataFieldsDonorMap)) {
+            if (!CollectionUtils.isEmpty(dataFieldsItemsMap) || !CollectionUtils.isEmpty(dataFieldsDonorMap) || !CollectionUtils.isEmpty(dataFieldsItemNoteMap)) {
                 for (org.kuali.ole.docstore.common.document.Item itemDoc : holdingsTree.getItems()) {
                     if (itemDoc == null) continue;
                     boolean isStaffOnly = false;
@@ -78,14 +81,14 @@ public class ExportHoldingsMappingHelper {
                         } else {
                             item = (Item) itemDoc.getContentObject();
                         }
-                        List<DataField> dataFieldsItemList = generateSubFieldsForItem(holdingsTree.getHoldings(), item, dataFieldsItemsMap, dataFieldsDonorMap, new ArrayList<DataField>());
+                        List<DataField> dataFieldsItemList = generateSubFieldsForItem(holdingsTree.getHoldings(), item, dataFieldsItemsMap, dataFieldsDonorMap, new ArrayList<DataField>(),dataFieldsItemNoteMap);
                         if (!CollectionUtils.isEmpty(dataFieldsItemList))
                             dataFieldList.addAll(dataFieldsItemList);
                         dataFieldsItemList.clear();
                     }
                 }
             }
-            if (CollectionUtils.isEmpty(dataFieldsHoldingsMap) && CollectionUtils.isEmpty(dataFieldsItemsMap) && CollectionUtils.isEmpty(dataFieldsDonorMap)) {
+            if (CollectionUtils.isEmpty(dataFieldsHoldingsMap) && CollectionUtils.isEmpty(dataFieldsItemsMap) && CollectionUtils.isEmpty(dataFieldsDonorMap) && CollectionUtils.isEmpty(dataFieldsItemNoteMap)){
                 return Collections.EMPTY_LIST;
             }
         }
@@ -228,7 +231,7 @@ public class ExportHoldingsMappingHelper {
         return dataField;
     }
 
-    protected List<DataField> generateSubFieldsForItem(Holdings holdingsDocument, Item item, Map<String, String> dataFieldsItemsMap, Map<String, String> dataFieldsDonorMap, List<DataField> dataFieldItemList) throws Exception {
+    protected List<DataField> generateSubFieldsForItem(Holdings holdingsDocument, Item item, Map<String, String> dataFieldsItemsMap, Map<String, String> dataFieldsDonorMap, List<DataField> dataFieldItemList, Map<String, String> dataFieldsItemNoteMap) throws Exception {
         OleHoldings holdings = null;
         //List<DataField> donorFieldList = new ArrayList<>();
         try {
@@ -484,6 +487,10 @@ public class ExportHoldingsMappingHelper {
                     }
                 }
             }
+            if (!CollectionUtils.isEmpty(dataFieldsItemNoteMap)) {
+                generateItemNoteFields(item, dataFieldsItemNoteMap);
+            }
+
             if (!CollectionUtils.isEmpty(dataFieldsDonorMap)) {
                 //dataFieldItemList.addAll(donorFieldList);
                 generateDonorFields(item, dataFieldsDonorMap);
@@ -494,6 +501,31 @@ public class ExportHoldingsMappingHelper {
             throw ex;
         }
         return dataFieldItemList;
+    }
+
+    private void generateItemNoteFields(Item item,Map<String, String> dataFieldsItemNoteMap){
+        List<DataField> itemPublicNoteList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(item.getNote())) {
+            for(Note note : item.getNote()){
+                if(note.getType().equalsIgnoreCase(OLEConstants.NOTE_TYPE)){
+                    for (Map.Entry<String, String> entry : dataFieldsItemNoteMap.entrySet()) {
+                        DataField dataField;
+                        if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.PUBLIC_NOTE)) {
+                            dataField = checkDataField(itemPublicNoteList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                            if (dataField == null) {
+                                dataField = getDataField(entry);
+                                generateItemPublicNote(item, note, getCode(entry.getKey()), dataField);
+                                if (!dataField.getSubfields().isEmpty()) itemPublicNoteList.add(dataField);
+                            } else {
+                                generateItemPublicNote(item, note, getCode(entry.getKey()), dataField);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        dataFieldList.addAll(itemPublicNoteList);
+        itemPublicNoteList.clear();
     }
 
     private void generateDonorFields(Item item, Map<String, String> dataFieldsDonorMap) {
@@ -1078,6 +1110,25 @@ public class ExportHoldingsMappingHelper {
         }
     }
 
+    /**
+     * generates the subfield for the item public note
+     *
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateItemPublicNote(Item item, Note note, char code, DataField dataField) {
+        try {
+            if (null != note && note.getValue()!=null && !note.getValue().isEmpty()) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(note.getValue());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateDonorPublicDisplay()");
+        }
+    }
     /**
      * generates the subfield for the item donor public display
      *
