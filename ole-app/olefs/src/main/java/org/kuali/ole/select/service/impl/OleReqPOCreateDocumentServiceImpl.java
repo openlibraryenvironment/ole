@@ -537,8 +537,8 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
     protected RequisitionItem createRequisitionItem(OleOrderRecord oleOrderRecord, int itemLineNumber, OLEBatchProcessJobDetailsBo job, OleRequisitionDocument requisitionDocument) throws Exception {
         OleRequisitionItem item = new OleRequisitionItem();
         item.setOleOrderRecord(oleOrderRecord);
-        item.setSingleCopyNumber(oleOrderRecord.getOleTxRecord().getSingleCopyNumber());
-        item.setItemPriceSourceId(getItemPriceSourceId(oleOrderRecord.getOleTxRecord()));
+       // item.setSingleCopyNumber(oleOrderRecord.getOleTxRecord().getSingleCopyNumber());
+       // item.setItemPriceSourceId(getItemPriceSourceId(oleOrderRecord.getOleTxRecord()));
         //item.setBibInfoBean(bibInfoBean);
         item.setItemLineNumber(itemLineNumber);
         item.setItemUnitOfMeasureCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));

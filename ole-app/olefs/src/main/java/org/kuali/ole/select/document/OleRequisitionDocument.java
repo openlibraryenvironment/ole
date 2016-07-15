@@ -492,11 +492,11 @@ public class OleRequisitionDocument extends RequisitionDocument {
         //if (requestSourceTypeId == null) {
         setRequestSourceTypeId(singleItem);
         //TODO: Why are we checking this again?
-        //if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
+        if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
         if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
             singleItem.setCopyList(getCopyList(singleItem));
         }
-        //}
+        }
         if (singleItem.getBibInfoBean() != null) {
             singleItem.getBibInfoBean().setRequestSource(OleSelectConstant.REQUEST_SRC_TYPE_STAFF);
         }
