@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.dsng.dao.BibValidationDao;
 import org.kuali.ole.dsng.model.HoldingsRecordAndDataMapping;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.ole.dsng.util.HoldingsUtil;
@@ -80,7 +81,13 @@ public class UpdateHoldingsHandler extends Handler {
                     if (null != dataMappingByValue) {
                         processOverlay(exchange, holdingsRecord, dataMappingByValue);
                         holdingsRecords.add(holdingsRecord);
-                        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject);
+                        BibValidationDao bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
+                        if (bibValidationDao.isHoldingAttachedToPo(holdingsRecord.getHoldingsId())) {
+                            Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO);
+                            addFailureReportToExchange(requestJsonObject, exchange,"holdings",e,null);
+                        }else{
+                            HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
