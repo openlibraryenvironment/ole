@@ -41,6 +41,7 @@ import org.kuali.ole.module.purap.document.service.PurapService;
 import org.kuali.ole.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
 import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.ole.module.purap.util.PurApItemUtils;
 import org.kuali.ole.module.purap.util.SummaryAccount;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
@@ -2810,5 +2811,33 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     public void setCurrencyFormat(String currencyFormat) {
         this.currencyFormat = currencyFormat;
+    }
+
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
+        // return total without inactive and with below the line
+        return getTotalDollarAmount(false, true);
+    }
+
+    public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (OleInvoiceItem item : (List<OleInvoiceItem>) getItems()) {
+
+            if (item.getPurapDocument() == null) {
+                item.setPurapDocument(this);
+            }
+            ItemType it = item.getItemType();
+            if ((includeBelowTheLine) && (includeInactive || PurApItemUtils.checkItemActive(item))) {
+                KualiDecimal totalAmount = item.getTotalAmount();
+                KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
+                if(item.isDebitItem()) {
+                    total = total.add(itemTotal);
+                }
+               else {
+                    total = total.subtract(itemTotal);
+                }
+            }
+        }
+        return total;
     }
 }
