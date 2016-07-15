@@ -7,6 +7,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.Exchange;
+import org.kuali.ole.dsng.dao.BibValidationDao;
 import org.kuali.ole.dsng.rest.handler.AdditionalOverlayOpsHandler;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.VariableField;
@@ -69,8 +70,14 @@ public class UpdateBibHandler extends BibHandler {
                         bibRecord.setStatusUpdatedBy(updatedBy);
                         bibRecord.setStatusUpdatedDate(updatedDate);
                     }
+                    BibValidationDao bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
+                    if (bibValidationDao.isBibAttachedToPo(bibRecord.getBibId())) {
+                        Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO);
+                        addFailureReportToExchange(requestJsonObject, exchange,"holdings",e,null);
+                    }else{
+                        processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
+                    }
 
-                    processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
 
                     getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
                     bibRecord.setOperationType(OleNGConstants.UPDATED);
