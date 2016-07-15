@@ -12,7 +12,7 @@ public class BibValidationDao extends PlatformAwareDaoBaseJdbc {
     private static final Logger LOG = LoggerFactory.getLogger(BibValidationDao.class);
     public boolean isHoldingAttachedToPo(String holdingsId) {
         boolean isAttached = false;
-        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT COUNT(INSTANCE_UUID) as total FROM OLE_COPY_T where INSTANCE_UUID=" + holdingsId);
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT COUNT(INSTANCE_UUID) as total FROM OLE_COPY_T where INSTANCE_UUID='who-" + holdingsId+"'");
         while (totalCountSet.next()) {
             int count = totalCountSet.getInt("total");
             if (count > 0) {
