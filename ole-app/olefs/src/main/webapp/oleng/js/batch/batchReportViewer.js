@@ -47,16 +47,22 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
             $scope.batchReportViewer.reportContent = data.fileContent;
             if (fileName.indexOf('txt') != -1) {
                 initializePanels($scope);
-                var fileContent = JSON.parse(data.fileContent);
-                if (fileName.indexOf('BibImport') != -1) {
-                    populateBibImportReportFromContent(fileContent, $scope);
-                } else if (fileName.indexOf('OrderImport') != -1) {
-                    populateOrderImportReportFromContent(fileContent, $scope);
-                } else if (fileName.indexOf('Invoice') != -1) {
-                    populateInvoiceImportReportFromContent(fileContent, $scope);
-                } else if (fileName.indexOf('BatchExport') != -1) {
-                    populateBatchExportReportFromContent(fileContent, $scope);
+                var fileContent = data.fileContent;
+                if(fileName.indexOf('BatchExport')  != -1 && fileName.indexOf('_DeletedBibIds')  != -1) {
+                    fileContent = data.fileContent;
+                } else {
+                    fileContent = JSON.parse(data.fileContent);
+                    if (fileName.indexOf('BibImport') != -1) {
+                        populateBibImportReportFromContent(fileContent, $scope);
+                    } else if (fileName.indexOf('OrderImport') != -1) {
+                        populateOrderImportReportFromContent(fileContent, $scope);
+                    } else if (fileName.indexOf('Invoice') != -1) {
+                        populateInvoiceImportReportFromContent(fileContent, $scope);
+                    } else if (fileName.indexOf('BatchExport') != -1) {
+                        populateBatchExportReportFromContent(fileContent, $scope);
+                    }
                 }
+
             }
             $scope.batchReportViewer.showModal = true;
         });

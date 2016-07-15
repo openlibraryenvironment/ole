@@ -226,12 +226,16 @@ public class BatchRestController extends OleNgControllerBase {
 
     @RequestMapping(method = RequestMethod.POST, value = "/job/schedule", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
-    public String scheduleJob(@RequestParam("jobId") String jobId, @RequestParam("file") MultipartFile file, @RequestParam("scheduleJob") String scheduleJobString, HttpServletRequest request) {
+    public String scheduleJob(@RequestParam("jobId") String jobId, @RequestParam("numOfRecordsInFile") String numOfRecordsInFile,
+                              @RequestParam("extension") String extension, @RequestParam(value = "file", required = false) MultipartFile file,
+                              @RequestParam("scheduleJob") String scheduleJobString, HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
         try {
             BatchScheduleJob batchScheduleJob = convertJsonToScheduleJob(scheduleJobString);
             BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
             if(matchedBatchJob != null) {
+                matchedBatchJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
+                matchedBatchJob.setOutputFileFormat(extension);
                 String cronExpression = oleNGBatchJobScheduler.getCronExpression(batchScheduleJob);
                 if(StringUtils.isNotBlank(cronExpression) && CronExpression.isValidExpression(cronExpression)) {
                     if (null != file) {
@@ -466,10 +470,10 @@ public class BatchRestController extends OleNgControllerBase {
 
         String extension = FilenameUtils.getExtension(fileName);
         String fileNameWithoutExtension = FilenameUtils.getBaseName(fileName);
-        if(extension.contains(OleNGConstants.MARC)) {
+        if(extension.contains(OleNGConstants.MARC) || extension.contains(OleNGConstants.XML)) {
             fileContentBytes = fileContent.getBytes();
         } else {
-            if(fileName.contains("FailureMessages")) {
+            if(fileName.contains("FailureMessages") || fileName.contains("_DeletedBibIds")) {
                 fileContentBytes = fileContent.getBytes();
             } else if(fileName.contains("BibImport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForBibImport(fileContent);
@@ -479,6 +483,9 @@ public class BatchRestController extends OleNgControllerBase {
                 extension = "xlsx";
             } else if(fileName.contains("InvoiceImport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent);
+                extension = "xlsx";
+            } else if(fileName.contains("BatchExport")) {
+                fileContentBytes = getBatchExcelReportUtil().getExcelSheetForBatchExport(fileContent);
                 extension = "xlsx";
             }
         }

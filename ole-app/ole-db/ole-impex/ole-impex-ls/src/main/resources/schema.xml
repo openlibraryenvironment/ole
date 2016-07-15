@@ -3568,6 +3568,8 @@
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
         <column name="CREATED_ON" type="TIMESTAMP"/>
         <column name="NEXT_RUN_TIME" type="TIMESTAMP"/>
+        <column name="NUM_OF_RECORD"  size="10" type="INTEGER"/>
+        <column name="OUTPUT_FORMAT" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="INTEGER"/>
         <foreign-key foreignTable="OLE_NG_BAT_PRF_T" name="OLE_NG_BAT_PRF_ID_FK">
