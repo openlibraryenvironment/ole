@@ -331,6 +331,51 @@ public class BatchExcelReportUtil extends BatchUtil{
         return byteArrayInputStream.toByteArray();
     }
 
+    public byte[] getExcelSheetForBatchExport(String fileContent)  {
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        OleNGBatchExportResponse oleNGBatchExportResponse = null;
+        try {
+            oleNGBatchExportResponse = getObjectMapper().readValue(fileContent, OleNGBatchExportResponse.class);
+            int rowId = 0;
+            if(oleNGBatchExportResponse != null) {
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet spreadsheet = workbook.createSheet("Batch Export Response");
+                String[] headerArray = {"Job Name", "Job Execution Id", "Total Bib Count", "Success Bib Count",
+                        "Failed Bib Count"};
+                rowId = addHeaders(workbook, spreadsheet, rowId, new String[]{"Main Section"}, GREEN_COLOR);
+                rowId = addHeaders(workbook, spreadsheet, rowId, headerArray, null);
+                int cellId;
+
+                XSSFRow mainSectionValueRow = spreadsheet.createRow(rowId++);
+                List<String> mainSectionValueList = getBatchExportMainSectionValues(oleNGBatchExportResponse);
+
+                cellId = 0;
+                for (Iterator<String> iterator = mainSectionValueList.iterator(); iterator.hasNext(); ) {
+                    String value = iterator.next();
+                    Cell cell = mainSectionValueRow.createCell(cellId++);
+                    cell.setCellValue(value);
+                }
+
+                // Success Section
+                String[] successSectionReportHeader = {"Bib Id", "Message"};
+                List<List<String>> batchExportSuccessContent = getBatchExportSuccessResponseContent(oleNGBatchExportResponse.getBatchExportSuccessResponseList());
+                rowId = addSection(workbook, spreadsheet, rowId, successSectionReportHeader,  batchExportSuccessContent, "Export Success Section ");
+
+                // Failure Section
+                String[] failureSectionReportHeader = {"Bib Id", "Message"};
+                List<List<String>> batchExportFailureContent = getBatchExportFailureResponseContent(oleNGBatchExportResponse.getBatchExportFailureResponseList());
+                rowId = addSection(workbook, spreadsheet, rowId, failureSectionReportHeader,  batchExportFailureContent, "Export Failure Section ");
+
+                workbook.write(byteArrayInputStream);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return byteArrayInputStream.toByteArray();
+    }
+
     private List<List<String>> getInvoiceResponseContent(List<InvoiceResponse> invoiceResponses) {
         List<List<String>> itemValues = new ArrayList<>();
         for (Iterator<InvoiceResponse> iterator = invoiceResponses.iterator(); iterator.hasNext(); ) {
@@ -353,6 +398,43 @@ public class BatchExcelReportUtil extends BatchUtil{
         values.add(String.valueOf(oleNGInvoiceImportResponse.getUnmatchedCount()));
         values.add(String.valueOf(oleNGInvoiceImportResponse.getMultiMatchedCount()));
         return values;
+    }
+
+    private List<String> getBatchExportMainSectionValues(OleNGBatchExportResponse oleNGBatchExportResponse) {
+        List<String> values = new ArrayList<>();
+        values.add(oleNGBatchExportResponse.getJobName());
+        values.add(oleNGBatchExportResponse.getJobDetailId());
+        values.add(String.valueOf(oleNGBatchExportResponse.getTotalNumberOfRecords()));
+        values.add(String.valueOf(oleNGBatchExportResponse.getNoOfSuccessRecords()));
+        values.add(String.valueOf(oleNGBatchExportResponse.getNoOfFailureRecords()));
+        return values;
+    }
+
+
+
+    private List<List<String>> getBatchExportSuccessResponseContent(List<BatchExportSuccessResponse> exportSuccessResponses) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<BatchExportSuccessResponse> iterator = exportSuccessResponses.iterator(); iterator.hasNext(); ) {
+            BatchExportSuccessResponse batchExportSuccessResponse = iterator.next();
+            List<String> rowValue = new ArrayList<>();
+            rowValue.add(batchExportSuccessResponse.getBibId());
+            rowValue.add(batchExportSuccessResponse.getMessage());
+            itemValues.add(rowValue);
+        }
+        return itemValues;
+    }
+
+
+    private List<List<String>> getBatchExportFailureResponseContent(List<BatchExportFailureResponse> batchExportFailureResponses) {
+        List<List<String>> itemValues = new ArrayList<>();
+        for (Iterator<BatchExportFailureResponse> iterator = batchExportFailureResponses.iterator(); iterator.hasNext(); ) {
+            BatchExportFailureResponse batchExportFailureResponse = iterator.next();
+            List<String> rowValue = new ArrayList<>();
+            rowValue.add(batchExportFailureResponse.getBibId());
+            rowValue.add(batchExportFailureResponse.getMessage());
+            itemValues.add(rowValue);
+        }
+        return itemValues;
     }
 
 }

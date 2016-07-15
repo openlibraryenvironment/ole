@@ -36,10 +36,10 @@
                                 name="quickLaunch_{{$index}}" ng-click="quickLaunchPopUp(batchProcessJob)">Quick Launch
                         </button>
                         <button type="button" id="processSchedule_{{$index}}" class="btn btn-info btn-xs"
-                                name="processSchedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
+                                name="processSchedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob)" ng-show="batchProcessJob.jobType === 'Adhoc'">Schedule
                         </button>
                         <button type="button" id="processReschedule_{{$index}}" class="btn btn-info btn-xs"
-                                name="processReschedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob.jobId)" ng-show="batchProcessJob.jobType === 'Scheduled' ||
+                                name="processReschedule_{{$index}}" ng-click="schedulePopUp($index, batchProcessJob)" ng-show="batchProcessJob.jobType === 'Scheduled' ||
                                 batchProcessJob.jobType === 'Paused'">Reschedule
                         </button>
                         <button type="button" id="processPause_{{$index}}" class="btn btn-info btn-sm"
@@ -99,9 +99,27 @@
     <div>
         <modal id="scheduleJobPopUpId" title="Schedule Job" visible="batchSchedule.showModal">
             <div class="form-group" style="height: 200px; width: inherit;">
-                <div>
+                <div ng-hide="profileType == 'Batch Export' && !exportInputFile">
                     <label for="scheduleJobFile">Upload File</label>
                     <input id="scheduleJobFile" name="scheduleJobFile" type="file" file-model="batchSchedule.scheduleJobFile" placeholder="Upload File"/>
+                </div>
+                <br/>
+                <div ng-show="profileType == 'Batch Export'">
+                    <label for="outputFormat">Output Format</label>
+                    <select class="form-control" id="scheduleJobOutputFormat" name="outputFormat"
+                            ng-model="batchSchedule.outputFormat" style="width: 150px">
+                        <option ng-repeat="option in batchSchedule.outputFormats"
+                                value="{{option.name}}">
+                            {{option.name}}
+                        </option>
+                    </select>
+                </div>
+                <div ng-show="profileType == 'Batch Export'">
+                    <label for="scheduleJobnumOfRecordsInFile" class="col-sm-5">Number Of Records In File</label>
+                    <div>
+                        <input id="scheduleJobnumOfRecordsInFile" name="scheduleJobnumOfRecordsInFile" type="text"
+                               ng-model="batchSchedule.numOfRecordsInFile" ng-init="batchSchedule.numOfRecordsInFile='100000'"/>
+                    </div>
                 </div>
                 <br/>
                 <div ng-include src="'batchScheduling/views/batchScheduleJob.html'"></div>

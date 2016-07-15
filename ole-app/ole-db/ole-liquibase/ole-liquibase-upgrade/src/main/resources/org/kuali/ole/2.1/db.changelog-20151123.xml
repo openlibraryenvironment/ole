@@ -801,4 +801,11 @@
         <dropForeignKeyConstraint baseTableName="OLE_NG_BAT_JOB_DETAILS_T" constraintName="OLE_NG_BAT_PRCS_ID_FK"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_NG_BAT_PRCS_JOB_T_ADD">
+        <addColumn tableName="OLE_NG_BAT_PRCS_JOB_T">
+            <column name="NUM_OF_RECORD"   type="INTEGER(10)"/>
+            <column name="OUTPUT_FORMAT"   type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
