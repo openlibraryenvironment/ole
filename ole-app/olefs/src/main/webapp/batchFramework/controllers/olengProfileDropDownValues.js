@@ -132,6 +132,7 @@ var dataMappingObject = {
         {id: 'cancellationDecisionDate', name: 'Cancellation Decision Date'},
         {id: 'cancellationEffectiveDate', name: 'Cancellation Effective Date'},
         {id: 'cancellationReason', name: 'Cancellation Reason'},
+        {id: 'donor Note', name: 'Donor Note'},
         {id: 'publicNote', name: 'Public Note'},
         {id: 'materialsSpecified', name: 'Materials Specified'},
         {id: 'firstIndicator', name: 'First Indicator'},
