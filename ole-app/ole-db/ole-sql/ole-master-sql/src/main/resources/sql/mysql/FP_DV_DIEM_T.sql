@@ -27,3 +27,12 @@ INSERT INTO FP_DV_DIEM_T (UNIV_FISCAL_YR,DV_DIEM_CNTRY_NM,OBJ_ID,VER_NBR,DV_DIEM
 INSERT INTO FP_DV_DIEM_T (UNIV_FISCAL_YR,DV_DIEM_CNTRY_NM,OBJ_ID,VER_NBR,DV_DIEM_CNTRY_TXT)
   VALUES (2016.0,'US-AK & HI','6d3cdb72-4c37-4a14-a716-7dd929d2ccf3',1.0,'http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T')
 /
+INSERT INTO FP_DV_DIEM_T (UNIV_FISCAL_YR,DV_DIEM_CNTRY_NM,OBJ_ID,VER_NBR,DV_DIEM_CNTRY_TXT)
+  VALUES (2017.0,'Foreign','206d284d-1820-4a74-bf90-66b96f5edc2f',1.0,'http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T')
+/
+INSERT INTO FP_DV_DIEM_T (UNIV_FISCAL_YR,DV_DIEM_CNTRY_NM,OBJ_ID,VER_NBR,DV_DIEM_CNTRY_TXT)
+  VALUES (2017.0,'U.S. 48','6242f41a-5ef9-47d8-a91a-5653cac45fc0',1.0,'http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T')
+/
+INSERT INTO FP_DV_DIEM_T (UNIV_FISCAL_YR,DV_DIEM_CNTRY_NM,OBJ_ID,VER_NBR,DV_DIEM_CNTRY_TXT)
+  VALUES (2017.0,'US-AK & HI','3f936ee6-3480-4c7f-8c18-25ac3238952b',1.0,'http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T')
+/
