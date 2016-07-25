@@ -215,22 +215,23 @@ public CircDeskLocationResolver(){
 
     public Map<String, String> getLocationMap(String itemLocation){
         Map<String, String> locationMap = new HashMap<String, String>();
-        String[] locationArray = itemLocation.split("['/']");
-        List<String> locationList = Arrays.asList(locationArray);
-        for (String value : locationList) {
-            Map<String, String> requestMap = new HashMap<>();
+        if(itemLocation!=null && itemLocation.isEmpty()) {
+            String[] locationArray = itemLocation.split("['/']");
+            List<String> locationList = Arrays.asList(locationArray);
+            for (String value : locationList) {
+                Map<String, String> requestMap = new HashMap<>();
             /*requestMap.put(OLEConstants.LOCATION_CODE, value);
             List<OleLocation> oleLocations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, requestMap);*/
-            OleLocation oleLocations = null;
-            try {
-                 oleLocations = getLocationByLocationCode(value);
-            }catch (Exception location){
-                LOG.error("Location Code does not exist." + location.getMessage());
-            }
-            if (oleLocations != null) {
-                String locationLevelId = oleLocations.getLevelId();
-               // requestMap.clear();
-                String locationLevelCode = locationLevelMap.get(locationLevelId);
+                OleLocation oleLocations = null;
+                try {
+                    oleLocations = getLocationByLocationCode(value);
+                } catch (Exception location) {
+                    LOG.error("Location Code does not exist." + location.getMessage());
+                }
+                if (oleLocations != null) {
+                    String locationLevelId = oleLocations.getLevelId();
+                    // requestMap.clear();
+                    String locationLevelCode = locationLevelMap.get(locationLevelId);
                     if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_CAMPUS)) {
                         locationMap.put(OLEConstants.ITEM_CAMPUS, value);
                     } else if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_INSTITUTION)) {
@@ -242,7 +243,8 @@ public CircDeskLocationResolver(){
                     } else if (locationLevelCode.equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_SHELVING)) {
                         locationMap.put(OLEConstants.ITEM_SHELVING, value);
                     }
-               }
+                }
+            }
         }
         return locationMap;
     }
