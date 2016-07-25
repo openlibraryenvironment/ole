@@ -4,11 +4,11 @@ import groovy.xml.XmlUtil
 
 
 //TODO: Refactor this to pick from the relative project root path. Will do it for the 1.0.0-M2 release.
-File dataDirectory = new File( "/Users/pvsubrah/Development/kuali/ole-1.5/ole-app/ole-db/ole-impex/ole-impex-master/src/main/resources" )
+File dataDirectory = new File( "/home/likewise-open/HTCINDIA/sureshss/workspace/OLE-3.0_New/ole/ole-app/ole-db/ole-impex/ole-impex-master/src/main/resources" )
 println "Scanning Dir: $dataDirectory"
 
-def sourceFiscalYear = 2015
-def destFiscalYear = 2016
+def sourceFiscalYear = 2016
+def destFiscalYear = 2017
 
 dataDirectory.eachFile( FileType.FILES ) { file ->
     if ( file.text.contains( """UNIV_FISCAL_YR="$sourceFiscalYear.0" """ )
