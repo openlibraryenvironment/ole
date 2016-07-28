@@ -20,9 +20,9 @@ import java.util.*;
  * Created by SheikS on 11/30/2015.
  */
 public class ItemIndexer extends OleDsNgIndexer  {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ItemIndexer.class);
-    
+
     @Override
     public void indexDocument(Object object) {
         ItemRecord itemRecord = (ItemRecord) object;
@@ -62,7 +62,7 @@ public class ItemIndexer extends OleDsNgIndexer  {
         }
 
         if(null != holdingSolrInputDocuemnt) {
-            Object bibs = holdingSolrInputDocuemnt.get(BIB_IDENTIFIER);
+            Object bibs = holdingSolrInputDocuemnt.getFieldValues(BIB_IDENTIFIER);
             addItemDetailsToHoldings(itemSolrInputDocument, holdingSolrInputDocuemnt);
 
             addBibInfoForHoldingsOrItems(itemSolrInputDocument, holdingSolrInputDocuemnt);
@@ -118,14 +118,16 @@ public class ItemIndexer extends OleDsNgIndexer  {
 
             solrInputDocument.addField(CLMS_RET_FLAG, itemRecord.getClaimsReturnedFlag());
             Date claimsReturnedDateCreated = itemRecord.getClaimsReturnedFlagCreateDate();
-            solrInputDocument.addField(CLMS_RET_FLAG_CRE_DATE, (claimsReturnedDateCreated != null ? DOCSTORE_DATE_FORMAT.format(claimsReturnedDateCreated) : null));
+            solrInputDocument.addField(CLMS_RET_FLAG_CRE_DATE, convertDateToString(DOCSTORE_DATE_FORMAT, claimsReturnedDateCreated));
             solrInputDocument.addField(CLMS_RET_NOTE, itemRecord.getClaimsReturnedNote());
             solrInputDocument.addField(CURRENT_BORROWER, itemRecord.getCurrentBorrower());
             solrInputDocument.addField(PROXY_BORROWER, itemRecord.getProxyBorrower());
-            solrInputDocument.addField(DUE_DATE_TIME, itemRecord.getDueDateTime());
-            solrInputDocument.addField(ORG_DUE_DATE_TIME, itemRecord.getOriginalDueDate());
-            solrInputDocument.addField(ITEM_STATUS_EFFECTIVE_DATE, itemRecord.getEffectiveDate());
-            solrInputDocument.addField(CHECK_OUT_DUE_DATE_TIME, itemRecord.getCheckOutDateTime());
+            String dueDateString = convertDateToString(DOCSTORE_DATE_FORMAT, itemRecord.getDueDateTime());
+            solrInputDocument.addField(DUE_DATE_TIME, dueDateString);
+            String originalDueDateString = convertDateToString(DOCSTORE_DATE_FORMAT, itemRecord.getOriginalDueDate());
+            solrInputDocument.addField(ORG_DUE_DATE_TIME, originalDueDateString);
+            solrInputDocument.addField(ITEM_STATUS_EFFECTIVE_DATE, convertDateToString(DOCSTORE_DATE_FORMAT, itemRecord.getEffectiveDate()));
+            solrInputDocument.addField(CHECK_OUT_DUE_DATE_TIME, convertDateToString(DOCSTORE_DATE_FORMAT, itemRecord.getCheckOutDateTime()));
             solrInputDocument.addField(STAFF_ONLY_FLAG, itemRecord.getStaffOnlyFlag());
 //        solrInputDocument.addField(IS_ANALYTIC, itemRecord.isAnalytic()); // Todo : Need to verify (Ans : Need to verify with bib status) (HoldingsItemRecord - holdingsId and ItemId)
             solrInputDocument.addField(ITEM_IDENTIFIER_SEARCH, itemIdentifierWithPrefix);
@@ -365,23 +367,22 @@ public class ItemIndexer extends OleDsNgIndexer  {
         String chronology = itemRecord.getChronology();
         String checkinNote = itemRecord.getCheckInNote();
         Date claimsReturnedDateCreated = itemRecord.getClaimsReturnedFlagCreateDate();
-        String claimsReturnedFlagCreateDate = (claimsReturnedDateCreated != null ? DOCSTORE_DATE_FORMAT.format(claimsReturnedDateCreated) : null);
+        String claimsReturnedFlagCreateDate = convertDateToString(DOCSTORE_DATE_FORMAT, claimsReturnedDateCreated);
         String claimsReturnedNote = itemRecord.getClaimsReturnedNote();
         //String copyNumberLabel = itemRecord.getCopyNumberLabel(); // TODO : Need to check
         String currentBorrower = itemRecord.getCurrentBorrower();
         String damagedItemNote = itemRecord.getDamagedItemNote();
 
-        Date dueDate = itemRecord.getDueDateTime();
-        String dueDateTime = (dueDate != null ? DOCSTORE_DATE_FORMAT.format(dueDate) : null);
+        String dueDateTime = convertDateToString(DOCSTORE_DATE_FORMAT, new Date(itemRecord.getDueDateTime().getTime()));
 
         String fund = itemRecord.getFund();
 
         Date itemStatusDateUpdated = itemRecord.getUpdatedDate();
-        String itemStatusEffectiveDate = (itemStatusDateUpdated != null ? DOCSTORE_DATE_FORMAT.format(itemStatusDateUpdated) : null);
+        String itemStatusEffectiveDate = convertDateToString(DOCSTORE_DATE_FORMAT, itemStatusDateUpdated);
 
 
         Date missingPiecesEffectiveDate = itemRecord.getMissingPieceEffectiveDate();
-        String missingPieceEffectiveDate = (missingPiecesEffectiveDate != null ? DOCSTORE_DATE_FORMAT.format(missingPiecesEffectiveDate) : null);
+        String missingPieceEffectiveDate = convertDateToString(DOCSTORE_DATE_FORMAT, missingPiecesEffectiveDate);
 
         String missingPieceFlagNote = itemRecord.getMissingPieceFlagNote();
         String missingPiecesCount = String.valueOf(itemRecord.getMissingPiecesCount());
