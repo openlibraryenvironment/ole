@@ -9,9 +9,9 @@ import org.apache.solr.common.SolrInputField;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 
+import java.text.DateFormat;
 import java.util.*;
 
 /**
@@ -326,5 +326,16 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
             oleDsHelperUtil = new OleDsHelperUtil();
         }
         return oleDsHelperUtil;
+    }
+
+    public static String convertDateToString(DateFormat dateFormat, Date date) {
+        if (null != date) {
+            try {
+                return dateFormat.format(date);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }
