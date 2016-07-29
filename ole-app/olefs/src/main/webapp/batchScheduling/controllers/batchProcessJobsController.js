@@ -66,6 +66,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
     };
 
     $scope.batchSchedule = {
+        outputFormats: BATCH_CONSTANTS.OUTPUT_FORMATS,
+        outputFormat: 'Marc',
         scheduleOption: 'Provide Cron Expression',
         scheduleOptions: scheduleOptions,
         scheduleTypes: scheduleTypes,
@@ -213,11 +215,22 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         $scope.quickLaunch.showModal = !$scope.quickLaunch.showModal;
     };
 
-    $scope.schedulePopUp = function (index, jobId) {
+    $scope.schedulePopUp = function (index, batchProcessJob) {
         clearScheduleValues();
         $scope.clearValidationMessages();
         document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.width = '750px';
-        $scope.jobId = jobId;
+        if (batchProcessJob.profileType == 'Batch Export') {
+            if(batchProcessJob.exportInputFile) {
+                document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.height = '400px';
+            } else {
+                document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.height = '350px';
+            }
+        } else {
+            document.getElementById('scheduleJobPopUpId').firstElementChild.firstElementChild.style.height = '300px';
+        }
+        $scope.jobId = batchProcessJob.jobId;
+        $scope.profileType = batchProcessJob.profileType;
+        $scope.exportInputFile = batchProcessJob.exportInputFile;
         $scope.index = index;
         $scope.batchSchedule.showModal = !$scope.batchSchedule.showModal;
     };
@@ -241,6 +254,8 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         var isValid = $scope.validateSchedulerOptions($scope);
         if(isValid) {
             fd.append('jobId', $scope.jobId);
+            fd.append('numOfRecordsInFile', $scope.batchSchedule.numOfRecordsInFile);
+            fd.append('extension', $scope.batchSchedule.outputFormat);
             fd.append('file', $scope.batchSchedule.scheduleJobFile);
             fd.append('scheduleJob', JSON.stringify(getBatchSchedule()));
             doPostRequestWithMultiPartData($scope, $http, OLENG_CONSTANTS.PROCESS_SCHEDULE, fd, function(response) {

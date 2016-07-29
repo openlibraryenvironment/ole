@@ -549,6 +549,8 @@
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="createdOn" column="CREATED_ON" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="nextRunTime" column="NEXT_RUN_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="numOfRecordsInFile" column="NUM_OF_RECORD" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="outputFileFormat" column="OUTPUT_FORMAT" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <collection-descriptor name="batchJobDetailsList" element-class-ref="org.kuali.ole.oleng.batch.process.model.BatchJobDetails"
