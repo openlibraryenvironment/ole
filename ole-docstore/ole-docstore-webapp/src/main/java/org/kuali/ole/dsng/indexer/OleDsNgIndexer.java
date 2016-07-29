@@ -13,6 +13,7 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
 
+import java.text.DateFormat;
 import java.util.*;
 
 /**
@@ -345,5 +346,16 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
             oleDsHelperUtil = new OleDsHelperUtil();
         }
         return oleDsHelperUtil;
+    }
+
+    public static String convertDateToString(DateFormat dateFormat, Date date) {
+        if (null != date) {
+            try {
+                return dateFormat.format(date);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }
