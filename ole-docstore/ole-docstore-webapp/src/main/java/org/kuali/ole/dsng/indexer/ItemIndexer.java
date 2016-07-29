@@ -67,7 +67,7 @@ public class ItemIndexer extends OleDsNgIndexer {
         }
 
         if(null != holdingSolrInputDocuemnt) {
-            Object bibs = holdingSolrInputDocuemnt.get(BIB_IDENTIFIER);
+            Object bibs = holdingSolrInputDocuemnt.getFieldValues(BIB_IDENTIFIER);
             addItemDetailsToHoldings(itemSolrInputDocument, holdingSolrInputDocuemnt);
 
             addBibInfoForHoldingsOrItems(itemSolrInputDocument, holdingSolrInputDocuemnt);
