@@ -1126,7 +1126,7 @@ public class ExportHoldingsMappingHelper {
                 dataField.addSubfield(subField);
             }
         } catch (Exception ex) {
-            logError(item, ex, "generateDonorPublicDisplay()");
+            logError(item, ex, "generateItemPublicNote()");
         }
     }
     /**
@@ -1138,7 +1138,7 @@ public class ExportHoldingsMappingHelper {
      */
     private void generateDonorPublicDisplay(Item item, DonorInfo donorInfo, char code, DataField dataField) {
         try {
-            if (null != donorInfo) {
+            if (null != donorInfo && StringUtils.isNotBlank(donorInfo.getDonorPublicDisplay())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(donorInfo.getDonorPublicDisplay());
@@ -1158,7 +1158,7 @@ public class ExportHoldingsMappingHelper {
      */
     private void generateDonorNote(Item item, DonorInfo donorInfo, char code, DataField dataField) {
         try {
-            if (null != donorInfo) {
+            if (null != donorInfo && StringUtils.isNotBlank(donorInfo.getDonorNote())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(donorInfo.getDonorNote());
@@ -1178,7 +1178,7 @@ public class ExportHoldingsMappingHelper {
      */
     private void generateDonorCode(Item item, DonorInfo donorInfo, char code, DataField dataField) {
         try {
-            if (null != donorInfo) {
+            if (null != donorInfo && StringUtils.isNotBlank(donorInfo.getDonorCode())){
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(donorInfo.getDonorCode());
