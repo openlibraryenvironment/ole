@@ -2,6 +2,7 @@ package org.kuali.ole.utility;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.marc4j.MarcSplitStreamWriter;
@@ -22,6 +23,8 @@ import java.util.StringTokenizer;
  * Created by SheikS on 12/11/2015.
  */
 public class MarcRecordUtil {
+
+    private static final Logger LOG = Logger.getLogger(MarcRecordUtil.class);
 
     private MarcXMLConverter marcXMLConverter;
 
@@ -275,7 +278,14 @@ public class MarcRecordUtil {
         MarcWriter writer = new MarcSplitStreamWriter(byteArrayOutputStream, OleNGConstants.UTF_8, 70000, "880");
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record record = iterator.next();
-            writer.write(record);
+            if (null != record) {
+                try {
+                    writer.write(record);
+                } catch (Exception e) {
+                    LOG.error("Problem with writing Marc record with 001 tag : " + getControlFieldValue(record,OleNGConstants.TAG_001));
+                    e.printStackTrace();
+                }
+            }
         }
         writer.close();
         return byteArrayOutputStream.toString();

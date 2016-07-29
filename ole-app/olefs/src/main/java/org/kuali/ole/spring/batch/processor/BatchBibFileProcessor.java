@@ -200,6 +200,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         // Prepare data mapping before MARC Transformation
         Map<String, List<JSONObject>> dataMappingsMapPreTransformation = prepareDataMapping(marcRecord, batchProcessProfile, OleNGConstants.PRE_MARC_TRANSFORMATION);
 
+        JSONObject holdingsData = getMatchPointProcessor().prepareMatchPointsForHoldings(marcRecord, batchProcessProfile);
+        JSONObject eholdingsData = getMatchPointProcessor().prepareMatchPointsForEHoldings(marcRecord, batchProcessProfile);
+        JSONObject itemData = getMatchPointProcessor().prepareMatchPointsForItem(marcRecord, batchProcessProfile);
 
         //Transformations pertaining to MARC record (001,003,035$a etc..)
         handleBatchProfileTransformations(marcRecord, batchProcessProfile);
@@ -214,19 +217,16 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<JSONObject> bibDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.BIB_DATAMAPPINGS);
         bibData.put(OleNGConstants.DATAMAPPING, buildOneObjectForList(bibDataMappingsPreTrans, bibDataMappingsPostTrans));
 
-        JSONObject holdingsData = getMatchPointProcessor().prepareMatchPointsForHoldings(marcRecord, batchProcessProfile);
         List<JSONObject> holdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         List<JSONObject> holdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.HOLDINGS_DATAMAPPINGS);
         holdingsData.put(OleNGConstants.DATAMAPPING, buildOneObjectForList(holdingsDataMappingsPreTrans, holdingsDataMappingsPostTrans));
         bibData.put(OleNGConstants.HOLDINGS, holdingsData);
 
-        JSONObject eholdingsData = getMatchPointProcessor().prepareMatchPointsForEHoldings(marcRecord, batchProcessProfile);
         List<JSONObject> eholdingsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         List<JSONObject> eholdingsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.EHOLDINGS_DATAMAPPINGS);
         eholdingsData.put(OleNGConstants.DATAMAPPING, buildOneObjectForList(eholdingsDataMappingsPreTrans, eholdingsDataMappingsPostTrans));
         bibData.put(OleNGConstants.EHOLDINGS, eholdingsData);
 
-        JSONObject itemData = getMatchPointProcessor().prepareMatchPointsForItem(marcRecord, batchProcessProfile);
         List<JSONObject> itemsDataMappingsPreTrans = dataMappingsMapPreTransformation.get(OleNGConstants.ITEM_DATAMAPPINGS);
         List<JSONObject> itemsDataMappingsPostTrans = dataMappingsMapPostTransformations.get(OleNGConstants.ITEM_DATAMAPPINGS);
         itemData.put(OleNGConstants.DATAMAPPING, buildOneObjectForList(itemsDataMappingsPreTrans, itemsDataMappingsPostTrans));
@@ -286,8 +286,8 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         List<JSONObject> finalObjects = new ArrayList<>();
 
         for (int index = 0; index < dataMappingsPreTrans.size(); index++) {
-            JSONObject preTransformObject = dataMappingsPreTrans.get(index);
-            JSONObject postTransformObject = dataMappingsPostTrans.get(index);
+            JSONObject preTransformObject =  dataMappingsPreTrans.size() > index ? dataMappingsPreTrans.get(index) : new JSONObject();
+            JSONObject postTransformObject = dataMappingsPostTrans.size() > index ? dataMappingsPostTrans.get(index) : new JSONObject();
             finalObjects.add(buildOneObject(preTransformObject, postTransformObject));
         }
 

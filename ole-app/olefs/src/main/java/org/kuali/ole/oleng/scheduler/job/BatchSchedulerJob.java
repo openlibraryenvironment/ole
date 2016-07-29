@@ -48,11 +48,16 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
                 String schedulerUploadLocation = ConfigContext.getCurrentContextConfig().getProperty("schedulerUploadLocation");
                 File schedulerFileUploadLocation = new File(schedulerUploadLocation, String.valueOf(jobId));
                 File file = getFileName(schedulerFileUploadLocation);
-                if (null != file) {
+                String profileType = batchProcessJobById.getProfileType();
+                if (null != file || StringUtils.equals(profileType, OleNGConstants.BATCH_EXPORT)) {
                     File uploadedFileDirecotry = storeUploadedFileToFileSystem(file, jobId);
                     if(null != uploadedFileDirecotry) {
-                        String fileName = file.getName();
-                        String extension = FilenameUtils.getExtension(fileName);
+                        String fileName = "";
+                        String extension = "";
+                        if (null != file) {
+                            fileName = file.getName();
+                            extension = FilenameUtils.getExtension(fileName);
+                        }
                         BatchJobDetails batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(batchProcessJobById, fileName);
                         getBusinessObjectService().save(batchJobDetails);
                         try {
@@ -93,7 +98,9 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
             batchUploadLocation = batchUploadLocation + File.separator + jobId + "_" + OleNGConstants.DATE_FORMAT.format(new Date());
             File uploadDirectory = new File(batchUploadLocation);
             try {
-                FileUtils.moveFileToDirectory(file, uploadDirectory, true);
+                if(null != file) {
+                    FileUtils.moveFileToDirectory(file, uploadDirectory, true);
+                }
                 return uploadDirectory;
             } catch (IOException e) {
                 e.printStackTrace();

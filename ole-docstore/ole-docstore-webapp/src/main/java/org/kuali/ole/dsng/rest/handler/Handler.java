@@ -1,5 +1,6 @@
 package org.kuali.ole.dsng.rest.handler;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -101,5 +102,10 @@ public abstract class Handler extends OleDsHelperUtil {
             values.add(stringTokenizer.nextToken());
         }
         return values;
+    }
+
+
+    public boolean isDiscardedByAdditionalOverlayOps(Set<String> discardedIdsForAdditionalOverlayOps, String id) {
+        return CollectionUtils.isNotEmpty(discardedIdsForAdditionalOverlayOps) ? discardedIdsForAdditionalOverlayOps.contains(id) : false;
     }
 }

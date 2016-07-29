@@ -436,7 +436,7 @@ public class BatchUtil extends OleNgUtil {
         exportFailureResponse.setFailureMessage(message);
         exportFailureResponse.setFailedBibId(bibId);
         exportFailureResponses.add(exportFailureResponse);
-        exchange.add(OleNGConstants.FAILURE_RESPONSE, exportFailureResponse);
+        exchange.add(OleNGConstants.FAILURE_RESPONSE, exportFailureResponses);
     }
 
     public String writeBatchRunningStatusToFile(String directoryPath, String status, String totalTimeTaken) {

@@ -16,7 +16,7 @@ public class BatchExportDeletedIdsFileProcessor extends OleNGReportProcessor {
         if (OleNGConstants.TXT.equalsIgnoreCase(batchExportFileResponse.getFileType())) {
             if (CollectionUtils.isNotEmpty(batchExportFileResponse.getDeletedBibIds())) {
                 String bibIds = StringUtils.join(batchExportFileResponse.getDeletedBibIds(), "\n");
-                logMessage(directoryToWrite, batchExportFileResponse.getFileName() + "_DeletedBibIds", "txt", bibIds, false);
+                logMessage(directoryToWrite, "BatchExport_" + batchExportFileResponse.getFileName() + "_DeletedBibIds", "txt", bibIds, false);
             }
         }
     }
