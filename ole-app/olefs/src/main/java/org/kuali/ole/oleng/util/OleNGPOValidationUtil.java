@@ -11,6 +11,8 @@ import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.oleng.dao.impl.SelectDAOImpl;
 import org.kuali.ole.oleng.exception.ValidationException;
+import org.kuali.ole.oleng.service.OleNGMemorizeService;
+import org.kuali.ole.oleng.service.impl.OleNGMemorizeServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
@@ -34,6 +36,7 @@ import java.util.List;
  */
 public class OleNGPOValidationUtil {
     private BatchUtil batchUtil;
+    private OleNGMemorizeService oleNGMemorizeService;
 
     private SelectDAO selectDAO;
     private ItemUtil itemUtil;
@@ -61,6 +64,7 @@ public class OleNGPOValidationUtil {
         valid = validateCostSource(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateMethodOfPOTransmission(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateNumberOfParts(oleTxRecord, exchange, recordIndex) && valid;
+        valid = validateItemStatus(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateDefaultLocation(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateListPrice(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateFundingSource(oleTxRecord, exchange, recordIndex) && valid;
@@ -69,7 +73,6 @@ public class OleNGPOValidationUtil {
 
         validateDonorCode(oleTxRecord, exchange, recordIndex);
         validateVendorCustomerNumber(oleTxRecord, exchange, recordIndex);
-        validateItemStatus(oleTxRecord, exchange, recordIndex);
         validateRecurringPaymentType(oleTxRecord, exchange, recordIndex);
         validateRequestSource(oleTxRecord, exchange, recordIndex);
         validateRequestorName(oleTxRecord, exchange, recordIndex);
@@ -463,19 +466,22 @@ public class OleNGPOValidationUtil {
         }
     }
 
-    private void validateItemStatus(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
+    private boolean validateItemStatus(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
         String itemStatus = oleTxRecord.getItemStatus();
         if (StringUtils.isNotBlank(itemStatus)) {
-            ItemStatusRecord itemStatusRecord = getItemUtil().fetchItemStatusByName(itemStatus);
+            ItemStatusRecord itemStatusRecord = getOleNGMemorizeService().fetchItemStatusByName(itemStatus);
             if (null == itemStatusRecord) {
                 getBatchUtil().addOrderFaiureResponseToExchange(
                         new ValidationException("Invalid Item Status : " + itemStatus), recordIndex, exchange);
                 oleTxRecord.setItemStatus(null);
             } else {
                 oleTxRecord.setItemStatus(itemStatusRecord.getCode());
+                return true;
             }
         }
+        return false;
     }
+
 
     private boolean validateDefaultLocation(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
         String defaultLocation = oleTxRecord.getDefaultLocation();
@@ -640,5 +646,16 @@ public class OleNGPOValidationUtil {
 
     public void setItemUtil(ItemUtil itemUtil) {
         this.itemUtil = itemUtil;
+    }
+
+    public OleNGMemorizeService getOleNGMemorizeService() {
+        if(null == oleNGMemorizeService) {
+            oleNGMemorizeService = new OleNGMemorizeServiceImpl();
+        }
+        return oleNGMemorizeService;
+    }
+
+    public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
+        this.oleNGMemorizeService = oleNGMemorizeService;
     }
 }
