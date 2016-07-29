@@ -14,10 +14,7 @@ import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/26/2015.
@@ -41,6 +38,7 @@ public class UpdateItemHandler extends Handler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<ItemRecordAndDataMapping> itemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
+        Set<String> discardedHoldingsForAdditionalOverlayOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_HOLDINGS_FOR_ADDITIONAL_OVERLAY_OPS);
         List<ItemRecord> itemRecords = new ArrayList<ItemRecord>();
         if (CollectionUtils.isNotEmpty(itemRecordAndDataMappings)) {
 
@@ -52,17 +50,20 @@ public class UpdateItemHandler extends Handler {
                     try {
                         ItemRecordAndDataMapping itemRecordAndDataMapping = iterator.next();
                         ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
-                        JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
-                        itemRecord.setUpdatedBy(updatedBy);
-                        itemRecord.setUpdatedDate(updatedDate);
-                        if(itemRecord.getStaffOnlyFlag()==null){
-                            itemRecord.setStaffOnlyFlag(false);
+                        String holdingsId = itemRecord.getHoldingsId();
+                        if (!isDiscardedByAdditionalOverlayOps(discardedHoldingsForAdditionalOverlayOps, holdingsId)) {
+                            JSONObject dataMapping = itemRecordAndDataMapping.getDataMapping();
+                            itemRecord.setUpdatedBy(updatedBy);
+                            itemRecord.setUpdatedDate(updatedDate);
+                            if(itemRecord.getStaffOnlyFlag()==null){
+                                itemRecord.setStaffOnlyFlag(false);
+                            }
+                            exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
+                            if (null != dataMapping) {
+                                processOverlay(exchange, dataMapping, itemRecord);
+                            }
+                            itemRecords.add(itemRecord);
                         }
-                        exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
-                        if (null != dataMapping) {
-                            processOverlay(exchange, dataMapping, itemRecord);
-                        }
-                        itemRecords.add(itemRecord);
                     } catch (Exception e) {
                         e.printStackTrace();
                         addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e, 1);
@@ -72,6 +73,10 @@ public class UpdateItemHandler extends Handler {
             exchange.remove(OleNGConstants.ITEM_RECORD);
             try {
                 getOleDsNGMemorizeService().getItemDAO().saveAll(itemRecords);
+                for (Iterator<ItemRecord> iterator = itemRecords.iterator(); iterator.hasNext(); ) {
+                    ItemRecord itemRecord = iterator.next();
+                    itemRecord.setOperationType(OleNGConstants.UPDATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_ITEM, e , itemRecords.size());

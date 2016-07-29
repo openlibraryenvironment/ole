@@ -15,10 +15,7 @@ import org.kuali.ole.dsng.util.HoldingsUtil;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 12/23/15.
@@ -61,6 +58,7 @@ public class UpdateHoldingsHandler extends Handler {
     public void process(JSONObject requestJsonObject, Exchange exchange) {
 
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.HOLDINGS_FOR_UPDATE);
+        Set<String> discardedBibForAdditionalOverlayOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS);
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
             String updatedBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
@@ -71,16 +69,18 @@ public class UpdateHoldingsHandler extends Handler {
                 try {
                     HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
                     HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                    holdingsRecord.setUpdatedDate(updatedDate);
-                    holdingsRecord.setUpdatedBy(updatedBy);
-                    if(holdingsRecord.getStaffOnlyFlag()==null){
-                        holdingsRecord.setStaffOnlyFlag(false);
-                    }
-                    exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                    JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
-                    if (null != dataMappingByValue) {
-                        processOverlay(exchange, holdingsRecord, dataMappingByValue);
-                        holdingsRecords.add(holdingsRecord);
+                    String bibId = holdingsRecord.getBibId();
+                    if (!isDiscardedByAdditionalOverlayOps(discardedBibForAdditionalOverlayOps, bibId)) {
+                        holdingsRecord.setUpdatedDate(updatedDate);
+                        holdingsRecord.setUpdatedBy(updatedBy);
+                        if(holdingsRecord.getStaffOnlyFlag()==null){
+                            holdingsRecord.setStaffOnlyFlag(false);
+                        }
+                        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                        JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
+                        if (null != dataMappingByValue) {
+                            processOverlay(exchange, holdingsRecord, dataMappingByValue);
+                        }
                         BibValidationDao bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
                         if (bibValidationDao.isHoldingAttachedToPo(holdingsRecord.getHoldingsId())) {
                             Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO);
@@ -88,6 +88,14 @@ public class UpdateHoldingsHandler extends Handler {
                         }else{
                             HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject);
                         }
+                        holdingsRecords.add(holdingsRecord);
+                    }else {
+                        Set<String> discardedHoldingsIdsForAdditionalOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_HOLDINGS_FOR_ADDITIONAL_OVERLAY_OPS);
+                        if(null == discardedHoldingsIdsForAdditionalOps) {
+                            discardedHoldingsIdsForAdditionalOps = new HashSet<String>();
+                        }
+                        discardedHoldingsIdsForAdditionalOps.add(holdingsRecord.getHoldingsId());
+                        exchange.add(OleNGConstants.DISCARDED_HOLDINGS_FOR_ADDITIONAL_OVERLAY_OPS, discardedHoldingsIdsForAdditionalOps);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -97,6 +105,10 @@ public class UpdateHoldingsHandler extends Handler {
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
             try {
                 getOleDsNGMemorizeService().getHoldingDAO().saveAll(holdingsRecords);
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    holdingsRecord.setOperationType(OleNGConstants.UPDATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_HOLDINGS, e , 1);

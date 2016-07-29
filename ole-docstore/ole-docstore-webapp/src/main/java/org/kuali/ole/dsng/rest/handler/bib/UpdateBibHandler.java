@@ -13,9 +13,7 @@ import org.marc4j.marc.Record;
 import org.marc4j.marc.VariableField;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 12/23/15.
@@ -85,7 +83,14 @@ public class UpdateBibHandler extends BibHandler {
                     getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
                     bibRecord.setOperationType(OleNGConstants.UPDATED);
 
-                    saveBibInfoRecord(bibRecord, false);
+                    saveBibInfoRecord(bibRecord,false);
+                } else {
+                    Set<String> discardedBibIdsForAdditionalOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS);
+                    if(null == discardedBibIdsForAdditionalOps) {
+                        discardedBibIdsForAdditionalOps = new HashSet<String>();
+                    }
+                    discardedBibIdsForAdditionalOps.add(bibRecord.getBibId());
+                    exchange.add(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS, discardedBibIdsForAdditionalOps);
                 }
 
             }

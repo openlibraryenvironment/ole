@@ -100,6 +100,7 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
     private List<BibRecord> bibRecords;
     private List<OLEHoldingsDonorRecord> donorList;
     private List<HoldingsUriRecord> accessUriRecords;
+    private String operationType;
 
     public List<HoldingsUriRecord> getAccessUriRecords() {
         return accessUriRecords;
@@ -611,5 +612,13 @@ public class HoldingsRecord extends PersistableBusinessObjectBase
 
     public void setSecondIndicator(String secondIndicator) {
         this.secondIndicator = secondIndicator;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 }
