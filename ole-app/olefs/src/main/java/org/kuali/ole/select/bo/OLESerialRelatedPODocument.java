@@ -5,6 +5,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.krad.util.KRADConstants;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +14,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * Time: 3:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLESerialRelatedPODocument {
+public class OLESerialRelatedPODocument implements Serializable {
 
     private boolean selectPO;
     private String poId;
