@@ -411,6 +411,20 @@ function clonePopUp(){
     }
 }
 
+function addVendorAlias(){
+    var id = jq("#invoice-vendorHeaderIdentifier_control").val();
+    if(id.length > 0){
+        var amount = jq("#invoice-invoiceNumber_control").val();
+        if(amount.length > 0){
+            jq("#invoice-invoiceDate_control").focus();
+        } else{
+            jq("#invoice-invoiceNumber_control").focus();
+        }
+    }else{
+        jq("#invoice-vendorHeaderIdentifier_control").focus();
+    }
+}
+
 jq(document).keypress(function(e) {
     if(e.which == 13) {
         if(e.target.id == "OleInvoice_POLookup_control"){
@@ -524,6 +538,10 @@ function saveCurrencyType() {
     jq("#invoice-currencyType").live("change", function() {
         currencyType=jq("#invoice-currencyType_control").val();
     });
+}
+
+function clearVendorName() {
+    jq("#invoice-vendorHeaderIdentifier_control").val("");
 }
 
 jq(window).load(function () {
