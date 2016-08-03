@@ -23,7 +23,9 @@ import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectNotificationConstant;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
+import org.kuali.ole.select.businessobject.OleNoteType;
 import org.kuali.ole.select.businessobject.OleRequisitionItem;
+import org.kuali.ole.select.businessobject.OleRequisitionNotes;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.sys.businessobject.Building;
@@ -188,6 +190,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {
             item.setItemTitleId(oleBibRecord.getBibUUID());
         }
+        setItemNotes(item, oleOrderRecord.getOleTxRecord());
         item.setVendorItemPoNumber(oleTxRecord.getVendorItemIdentifier());
         return item;
     }
@@ -438,6 +441,42 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         }
 
     }
+
+    private void setItemNotes(OleRequisitionItem item, OleTxRecord oleTxRecord) {
+        if (StringUtils.isNotBlank(oleTxRecord.getMiscellaneousNote())) {
+            setNoteTypeValues(item, oleTxRecord.getMiscellaneousNote(), oleTxRecord.getMiscellaneousNotes());
+        }
+        if (StringUtils.isNotBlank(oleTxRecord.getReceiptNote())) {
+            setNoteTypeValues(item, oleTxRecord.getReceiptNote(), oleTxRecord.getReceiptNotes());
+        }
+        if (StringUtils.isNotBlank(oleTxRecord.getRequestorNote())) {
+            setNoteTypeValues(item, oleTxRecord.getRequestorNote(), oleTxRecord.getRequestorNotes());
+        }
+        if (StringUtils.isNotBlank(oleTxRecord.getSelectorNote())) {
+            setNoteTypeValues(item, oleTxRecord.getSelectorNote(), oleTxRecord.getSelectorNotes());
+        }
+        if (StringUtils.isNotBlank(oleTxRecord.getSplProcessInstrNote())) {
+            setNoteTypeValues(item, oleTxRecord.getSplProcessInstrNote(), oleTxRecord.getSplProcessInstrNotes());
+        }
+        if (StringUtils.isNotBlank(oleTxRecord.getVendorInstrNote())) {
+            setNoteTypeValues(item, oleTxRecord.getVendorInstrNote(), oleTxRecord.getVendorInstrNotes());
+        }
+    }
+
+    private void setNoteTypeValues(OleRequisitionItem item, String noteType, List<String> noteValues) {
+        Map notes = new HashMap();
+        notes.put(OLEConstants.NOTE_TYP, noteType);
+        List<OleNoteType> noteTypeList = (List) getBusinessObjectService().findMatching(org.kuali.ole.select.businessobject.OleNoteType.class, notes);
+        if (noteTypeList != null && noteTypeList.size() > 0) {
+            for (int noteCount = 0; noteCount < noteValues.size(); noteCount++) {
+                OleRequisitionNotes note = new OleRequisitionNotes();
+                note.setNoteTypeId(noteTypeList.get(0).getNoteTypeId());
+                note.setNote(noteValues.get(noteCount));
+                item.getNotes().add(note);
+            }
+        }
+    }
+
     public DocumentService getDocumentService() {
         if(null == documentService) {
             documentService = (DocumentService) SpringContext.getService("documentService");
