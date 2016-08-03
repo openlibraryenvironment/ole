@@ -505,7 +505,7 @@
                         <list>
                             <bean id="invoice-vendorAlias" parent="Uif-InputField" p:propertyName="vendorAlias"
                                   p:label="Vendor Alias Name"/>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="selectVendor"
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="selectVendor" p:ajaxSubmit="true"  p:successCallback="addVendorAlias();" p:onClickScript="clearVendorName();"
                                   p:actionLabel="Select Vendor" p:colSpan="1"/>
                         </list>
                     </property>
