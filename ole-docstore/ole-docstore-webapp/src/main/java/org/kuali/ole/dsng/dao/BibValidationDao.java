@@ -22,6 +22,18 @@ public class BibValidationDao extends PlatformAwareDaoBaseJdbc {
         return isAttached;
     }
 
+    public boolean isItemAttachedToPO(String itemId) {
+        boolean isAttached = false;
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT COUNT(ITEM_UUID) as total FROM OLE_COPY_T where ITEM_UUID='wio-" + itemId+"'");
+        while (totalCountSet.next()) {
+            int count = totalCountSet.getInt("total");
+            if (count > 0) {
+                isAttached = true;
+            }
+        }
+        return isAttached;
+    }
+
     public boolean isBibAttachedToPo(String bibId) {
         boolean isAttached = false;
         SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT COUNT(BIB_UUID) as total FROM OLE_COPY_T where BIB_UUID='wbm-" + bibId+"'");

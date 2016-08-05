@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -74,7 +75,7 @@ public class UpdateBibHandlerTest {
         UpdateBibHandler updateBibHandler = new UpdateBibHandler();
         updateBibHandler.setBusinessObjectService(mockBusinessObjectService);
         updateBibHandler.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        updateBibHandler.processIfDeleteAllExistOpsFound(bibRecord,bibData);
+        updateBibHandler.processIfDeleteAllExistOpsFound(bibRecord,bibData, new Exchange());
         assertTrue(CollectionUtils.isEmpty(bibRecord.getHoldingsRecords()));
     }
 
@@ -112,7 +113,7 @@ public class UpdateBibHandlerTest {
         UpdateBibHandler updateBibHandler = new UpdateBibHandler();
         updateBibHandler.setBusinessObjectService(mockBusinessObjectService);
         updateBibHandler.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        updateBibHandler.processIfDeleteAllExistOpsFound(bibRecord,bibData);
+        updateBibHandler.processIfDeleteAllExistOpsFound(bibRecord,bibData, new Exchange());
         assertTrue(CollectionUtils.isEmpty(bibRecord.getHoldingsRecords()));
     }
 
