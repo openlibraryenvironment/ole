@@ -18,7 +18,10 @@ import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
+import org.kuali.ole.docstore.common.exception.DocstoreResources;
+import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
+import org.kuali.ole.gobi.dao.BibDAO;
 import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -71,7 +74,15 @@ public class AbstractEditor implements DocumentEditor {
     protected void getResponseFromDocStore(EditorForm editorForm, String docId, String operation) throws Exception {
         try {
             if(DocType.BIB.getCode().equalsIgnoreCase(editorForm.getDocType())){
-                getDocstoreClientLocator().getDocstoreClient().deleteBib(docId);
+                BibDAO bibDao = (BibDAO) org.kuali.ole.sys.context.SpringContext.getBean("bibDAO");
+                if (!bibDao.isBibAttachedToPo(docId)) {
+                    getDocstoreClientLocator().getDocstoreClient().deleteBib(docId);
+                }else{
+                   // editorForm.setDeleteMessage("Failed to delete record. Requisition or Purchase order or EResource exists for the record");
+                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.COPY_DELETE_MESSAGE, DocstoreResources.COPY_DELETE_MESSAGE);
+                    docstoreException.addErrorParams("DocId", docId);
+                    throw docstoreException;
+                }
             }  else if(DocType.HOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType()) || DocType.EHOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType())){
                 if (!DocumentUniqueIDPrefix.hasPrefix(docId)) {
                     docId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, docId);

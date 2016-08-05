@@ -13,6 +13,7 @@ import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.impl.DataFieldImpl;
 import org.marc4j.marc.impl.SubfieldImpl;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -105,5 +106,17 @@ public class BibDAO extends PlatformAwareDaoBaseJdbc {
         String requestParameter = "action=start&batchSize=10&startIndex=" + bibId + "&endIndex=" + bibId+1 + "&updateDate=" + simpleDateFormat.format(new Date());
         String response = new OleHttpRestClient().sendPostRequest(docstoreUrl+"/rebuildIndex", requestParameter,"json");
         return response;
+    }
+
+    public boolean isBibAttachedToPo(String bibId) {
+        boolean isAttached = false;
+        SqlRowSet totalCountSet = getJdbcTemplate().queryForRowSet("SELECT COUNT(BIB_UUID) as total FROM OLE_COPY_T where BIB_UUID='" + bibId+"'");
+        while (totalCountSet.next()) {
+            int count = totalCountSet.getInt("total");
+            if (count > 0) {
+                isAttached = true;
+            }
+        }
+        return isAttached;
     }
 }
