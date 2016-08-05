@@ -70,14 +70,8 @@ public class UpdateBibHandler extends BibHandler {
                         bibRecord.setStatusUpdatedBy(updatedBy);
                         bibRecord.setStatusUpdatedDate(updatedDate);
                     }
-                    BibValidationDao bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
-                    if (bibValidationDao.isBibAttachedToPo(bibRecord.getBibId())) {
-                        Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO);
-                        addFailureReportToExchange(requestJsonObject, exchange,"holdings",e,null);
-                    }else{
-                        processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject);
-                    }
 
+                    processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject,exchange);
 
                     getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
                     bibRecord.setOperationType(OleNGConstants.UPDATED);

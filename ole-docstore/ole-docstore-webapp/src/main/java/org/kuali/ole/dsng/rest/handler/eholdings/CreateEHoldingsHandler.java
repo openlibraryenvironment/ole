@@ -63,6 +63,10 @@ public class CreateEHoldingsHandler extends Handler {
             exchange.remove(OleNGConstants.DATAMAPPING);
             try {
                 getOleDsNGMemorizeService().getHoldingDAO().saveAll(holdingsRecords);
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    holdingsRecord.setOperationType(OleNGConstants.CREATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , holdingsRecords.size());

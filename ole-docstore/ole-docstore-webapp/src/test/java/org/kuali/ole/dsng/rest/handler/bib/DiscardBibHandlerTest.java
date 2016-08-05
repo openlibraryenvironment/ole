@@ -7,6 +7,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -72,7 +73,7 @@ public class DiscardBibHandlerTest {
         DiscardBibHandler discardBibHandler = new DiscardBibHandler();
         discardBibHandler.setBusinessObjectService(mockBusinessObjectService);
         discardBibHandler.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        discardBibHandler.processIfDeleteAllExistOpsFound(bibRecord,bibData);
+        discardBibHandler.processIfDeleteAllExistOpsFound(bibRecord,bibData,new Exchange());
         assertTrue(CollectionUtils.isEmpty(bibRecord.getHoldingsRecords()));
     }
 

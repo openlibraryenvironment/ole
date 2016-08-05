@@ -7,6 +7,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
@@ -17,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by SheikS on 2/2/2016.
@@ -65,7 +66,7 @@ public class UpdateHoldingsHandlerTest {
         HoldingsUtil.getInstance().setBusinessObjectService(mockBusinessObjectService);
         updateHoldingsHandler.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
         HoldingsUtil.getInstance().setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord,bibData);
+        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord,bibData, new Exchange());
         assertTrue(CollectionUtils.isEmpty(holdingsRecord.getItemRecords()));
     }
 
@@ -97,7 +98,7 @@ public class UpdateHoldingsHandlerTest {
         HoldingsUtil.getInstance().setBusinessObjectService(mockBusinessObjectService);
         updateHoldingsHandler.setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
         HoldingsUtil.getInstance().setSolrRequestReponseHandler(mockSolrRequestReponseHandler);
-        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord,bibData);
+        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord,bibData, new Exchange());
         assertTrue(CollectionUtils.isEmpty(holdingsRecord.getItemRecords()));
     }
 
