@@ -18,7 +18,10 @@ import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
+import org.kuali.ole.docstore.common.exception.DocstoreResources;
+import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
+import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -71,7 +74,16 @@ public class AbstractEditor implements DocumentEditor {
     protected void getResponseFromDocStore(EditorForm editorForm, String docId, String operation) throws Exception {
         try {
             if(DocType.BIB.getCode().equalsIgnoreCase(editorForm.getDocType())){
-                getDocstoreClientLocator().getDocstoreClient().deleteBib(docId);
+                Map<String, String> map = new HashMap<>();
+                map.put(OLEConstants.BIB_ID, docId);
+                List<OleCopy> oleCopy = (List<OleCopy>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCopy.class,map);
+                if (oleCopy.size()==0) {
+                    getDocstoreClientLocator().getDocstoreClient().deleteBib(docId);
+                }else{
+                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.COPY_DELETE_MESSAGE, DocstoreResources.COPY_DELETE_MESSAGE);
+                    docstoreException.addErrorParams("DocId", docId);
+                    throw docstoreException;
+                }
             }  else if(DocType.HOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType()) || DocType.EHOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType())){
                 if (!DocumentUniqueIDPrefix.hasPrefix(docId)) {
                     docId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, docId);
