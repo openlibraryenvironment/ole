@@ -1,5 +1,6 @@
 package org.kuali.ole.oleng.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.ole.Exchange;
@@ -10,7 +11,10 @@ import org.kuali.ole.oleng.service.impl.OleNGMemorizeServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.spring.batch.BatchUtil;
+
+import java.util.List;
 
 /**
  * Created by SheikS on 3/30/2016.
@@ -40,6 +44,7 @@ public class OleNGPOValidationUtil {
         valid = validateDefaultLocation(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateListPrice(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateFundingSource(oleTxRecord, exchange, recordIndex) && valid;
+        valid = validateDonorCode(oleTxRecord, exchange, recordIndex) && valid;
 
         valid = validateBibRecord(oleOrderRecord, exchange, recordIndex) && valid;
         return valid;
@@ -137,6 +142,21 @@ public class OleNGPOValidationUtil {
             getBatchUtil().addOrderFaiureResponseToExchange(
                     new ValidationException("Method of PO Transmission cannot be blank or null."), recordIndex, exchange);
             return false;
+        }
+        return true;
+    }
+
+    private boolean validateDonorCode(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
+        List<String> oleDonors = oleTxRecord.getOleDonors();
+        if (CollectionUtils.isNotEmpty(oleDonors)) {
+            for (String donorCode : oleDonors) {
+                OLEDonor oleDonor = getOleNGMemorizeService().getDonorCode(donorCode);
+                if (null == oleDonor) {
+                    getBatchUtil().addOrderFaiureResponseToExchange(
+                            new ValidationException("Invalid donor Code : " + donorCode), recordIndex, exchange);
+                    return false;
+                }
+            }
         }
         return true;
     }
