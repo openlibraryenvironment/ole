@@ -68,10 +68,10 @@ public class OleNGPOValidationUtil {
         valid = validateDefaultLocation(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateListPrice(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateFundingSource(oleTxRecord, exchange, recordIndex) && valid;
+        valid = validateDonorCode(oleTxRecord, exchange, recordIndex) && valid;
 
         valid = validateBibRecord(oleOrderRecord, exchange, recordIndex) && valid;
 
-        validateDonorCode(oleTxRecord, exchange, recordIndex);
         validateVendorCustomerNumber(oleTxRecord, exchange, recordIndex);
         validateRecurringPaymentType(oleTxRecord, exchange, recordIndex);
         validateRequestSource(oleTxRecord, exchange, recordIndex);
@@ -440,18 +440,19 @@ public class OleNGPOValidationUtil {
         return false;
     }
 
-    private void validateDonorCode(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
+    private boolean validateDonorCode(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
         List<String> oleDonors = oleTxRecord.getOleDonors();
         if (CollectionUtils.isNotEmpty(oleDonors)) {
             for (String donorCode : oleDonors) {
-                OLEDonor oleDonor = getSelectDAO().getOLEDonorByCode(donorCode);
+                OLEDonor oleDonor = getOleNGMemorizeService().getDonorCode(donorCode);
                 if (null == oleDonor) {
                     getBatchUtil().addOrderFaiureResponseToExchange(
                             new ValidationException("Invalid donor Code : " + donorCode), recordIndex, exchange);
+                    return false;
                 }
             }
         }
-
+        return true;
     }
 
     private void validateVendorCustomerNumber(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
