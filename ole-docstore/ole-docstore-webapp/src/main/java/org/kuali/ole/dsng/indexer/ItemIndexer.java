@@ -373,7 +373,7 @@ public class ItemIndexer extends OleDsNgIndexer  {
         String currentBorrower = itemRecord.getCurrentBorrower();
         String damagedItemNote = itemRecord.getDamagedItemNote();
 
-        String dueDateTime = convertDateToString(DOCSTORE_DATE_FORMAT, new Date(itemRecord.getDueDateTime().getTime()));
+        String dueDateTime = convertDateToString(DOCSTORE_DATE_FORMAT, itemRecord.getDueDateTime());
 
         String fund = itemRecord.getFund();
 
