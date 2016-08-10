@@ -56,13 +56,14 @@ public class BatchExportHandler extends BatchExportUtil {
         Date lastExportDate = getLastExportDateForProfile(batchProcessTxObject);
         String query = getIncrementalSolrQuery(lastExportDate);
         exportDao.export(this, query, batchProcessTxObject, oleNGBatchExportResponse);
-        processDeletedBibs(lastExportDate, batchProcessTxObject, oleNGBatchExportResponse);
+        processDeletedAndStaffOnlyBibs(lastExportDate, batchProcessTxObject);
     }
 
     private void processIncrementalExceptStaffOnly(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        String query = getIncrementalExceptStaffOnlySolrQuery(getLastExportDateForProfile(batchProcessTxObject));
+        Date lastExportDateForProfile = getLastExportDateForProfile(batchProcessTxObject);
+        String query = getIncrementalExceptStaffOnlySolrQuery(lastExportDateForProfile);
         exportDao.export(this, query, batchProcessTxObject, oleNGBatchExportResponse);
-        generateFileForBibIds(oleNGBatchExportResponse.getDeletedBibIds(), batchProcessTxObject);
+        processDeletedAndStaffOnlyBibs(lastExportDateForProfile, batchProcessTxObject);
     }
 
     private void processFilterExport(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {

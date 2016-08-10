@@ -368,7 +368,7 @@ public class OleNGConstants {
     public final static String ERR_BIB_ITEM_LOANED = "Bib record contains loaned item";
     public final static String ERR_BIB_ITEM_REQUESTED = "Bib record contains requested item";
     public final static String ERR_DUPLICATE_LINE_DATA = "Duplicate line data in File";
-    public final static String ERR_DUPLICATE_LOCAL_ID = "Duplicate bib local id";
+    public final static String ERR_DUPLICATE_LOCAL_ID = "Duplicate bib ids in incoming file";
     public final static String ERR_DELETING_FROM_DB = "Exception while deleting bib record from database";
     public final static String ERR_DELETING_FROM_SOLR = "Exception while deleting bib record from solr";
 
