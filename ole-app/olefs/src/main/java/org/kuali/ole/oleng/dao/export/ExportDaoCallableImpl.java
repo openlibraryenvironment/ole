@@ -56,7 +56,7 @@ public class ExportDaoCallableImpl implements Callable {
     public ExportDaoCallableImpl(Map<String, Map<String, String>> commomFields, JdbcTemplate jdbcTemplate, int start, int chunkSize, String query, int fileNumber, BatchExportHandler batchExportHandler, BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
         SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(query, start, chunkSize, OleNGConstants.BIB_IDENTIFIER);
         if (solrDocumentList.size() > 0) {
-            List<String> bibIdentifiers = new ArrayList<>();
+            Set<String> bibIdentifiers = new HashSet<>();
             for (SolrDocument solrDocument : solrDocumentList) {
                 if (solrDocument.containsKey(OleNGConstants.BIB_IDENTIFIER)) {
                     List<String> bibIds = (List) solrDocument.getFieldValue(OleNGConstants.BIB_IDENTIFIER);
@@ -65,7 +65,6 @@ public class ExportDaoCallableImpl implements Callable {
                     }
                 }
             }
-            batchExportHandler.removeDuplicates(bibIdentifiers, oleNGBatchExportResponse);
             this.bibIds = StringUtils.join(bibIdentifiers, ',');
         }
         this.jdbcTemplate = jdbcTemplate;
