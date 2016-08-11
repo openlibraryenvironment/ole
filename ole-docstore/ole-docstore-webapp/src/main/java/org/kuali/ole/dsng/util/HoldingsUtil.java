@@ -43,8 +43,9 @@ public class HoldingsUtil extends OleDsHelperUtil{
                 if (getBibValidationDao().isItemAttachedToPO(itemRecord.getItemId())) {
                     Exception e = new Exception(OleNGConstants.ERR_ITEM_HAS_REQ_OR_PO + DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemRecord.getItemId());
                     addFailureReportToExchange(requestJsonObject, exchange,OleNGConstants.ITEM,e,null);
+                } else {
+                    finalListToDelete.add(itemRecord);
                 }
-                finalListToDelete.add(itemRecord);
             }
 
 
