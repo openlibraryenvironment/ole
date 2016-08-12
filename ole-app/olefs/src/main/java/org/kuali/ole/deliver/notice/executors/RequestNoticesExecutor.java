@@ -154,7 +154,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         if (StringUtils.isNotBlank(mailContent)) {
             System.out.println(mailContent);
 
-            if (noticeContentConfigName.equals(OLEConstants.ON_HOLD_EXP_NOTICE)) {
+            if (noticeContentConfigName!=null && noticeContentConfigName.equals(OLEConstants.ON_HOLD_EXP_NOTICE)) {
                 if (getParameterValue(OLEConstants.HOLD_COUR_NOT_TYP).equals(OLEConstants.EMAIL_NOT_TYP)) {
                     sendMail(mailContent);
                 }
