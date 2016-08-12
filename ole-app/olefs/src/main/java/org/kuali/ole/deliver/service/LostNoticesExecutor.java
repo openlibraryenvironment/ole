@@ -85,7 +85,9 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
             OLEDeliverNotice deliverNotice = iterator.next();
             if (deliverNotice.getNoticeType().equals(OLEConstants.NOTICE_LOST)) {
                 BigDecimal replacementFeeAmount = deliverNotice.getReplacementFeeAmount();
-                feeAmount = feeAmount.add(replacementFeeAmount);
+                if(replacementFeeAmount!=null) {
+                    feeAmount = feeAmount.add(replacementFeeAmount);
+                }
             }
         }
         return feeAmount;
