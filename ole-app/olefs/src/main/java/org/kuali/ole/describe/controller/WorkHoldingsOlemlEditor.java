@@ -399,8 +399,8 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             holdings.setCategory(editorForm.getDocCategory());
             holdings.setType(editorForm.getDocType());
             holdings.setFormat(editorForm.getDocFormat());
-            holdingsTree.setHoldings(holdings);
-            holdingsTree.getItems().add(getItemRecord());
+            /*holdingsTree.setHoldings(holdings);
+            holdingsTree.getItems().add(getItemRecord());*/
             long startTime = System.currentTimeMillis();
             try {
                 docstoreClient.updateHoldings(holdings);
