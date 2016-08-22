@@ -2967,6 +2967,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     }
                     removeFromInvoiceItemList.add(item);
                 }
+                totalUnitPrice = BigDecimal.ZERO;
             }
         }
         inv.getItems().removeAll(removeFromInvoiceItemList);
