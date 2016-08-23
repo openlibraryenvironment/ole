@@ -698,6 +698,7 @@
                             <bean parent="OLEInvoice-AdditionalCharges-Prorate" p:align="CENTER" p:style="float:middle"/>
                         </list>
                     </property>
+                    <property name="headerText" value=' [color=red]*Do not Add Accounting Lines for "Prorate By Price" and "Prorate By Qty" Options[/color]'/>
                 </bean>
             </list>
         </property>
