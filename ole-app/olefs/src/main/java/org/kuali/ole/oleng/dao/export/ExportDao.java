@@ -1,10 +1,13 @@
 package org.kuali.ole.oleng.dao.export;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.response.OleNGBatchExportResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.handler.BatchExportHandler;
@@ -55,7 +58,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             init();
             this.chunkSize = batchExportHandler.getBatchChunkSize();
             List<Future> futures = new ArrayList<>();
-            ExecutorService executorService = Executors.newFixedThreadPool(10);
+            ExecutorService executorService = Executors.newFixedThreadPool(getMaximumNumberOfThreadForExportService());
             int fileCount = 1;
             int fileSize = batchProcessTxObject.getBatchJobDetails().getNumOfRecordsInFile();
             int numOfRecordsInFile = 0;
@@ -66,7 +69,6 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
             do {
                 futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), start, chunkSize, query, fileCount, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse)));
-                prepareBatchExportResponse(futures, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse);
                 numOfRecordsInFile += chunkSize;
                 if (numOfRecordsInFile == fileSize) {
                     fileCount++;
@@ -74,6 +76,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                 }
                 start += chunkSize;
             } while (start <= totalCount);
+            prepareBatchExportResponse(futures, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse);
             executorService.shutdown();
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,6 +158,27 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             extentOfOwnershipTypeMap.put(resultSet.getString("TYPE_OWNERSHIP_ID"), resultSet.getString("TYPE_OWNERSHIP_CD") + "|" + resultSet.getString("TYPE_OWNERSHIP_NM"));
         }
         commonFields.put("extentOfOwnershipTypeMap", extentOfOwnershipTypeMap);
+    }
+
+    public int getMaximumNumberOfThreadForExportService() {
+        String maxNumberOfThreadFromParameter = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants.DESCRIBE_COMPONENT, OleNGConstants.MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE);
+        int maxNumberOfThread = 10;
+        if(StringUtils.isNotBlank(maxNumberOfThreadFromParameter)){
+            try{
+                int maxNumberOfThreadFromParameterInterger = Integer.parseInt(maxNumberOfThreadFromParameter);
+                if(maxNumberOfThreadFromParameterInterger > 0){
+                    maxNumberOfThread = maxNumberOfThreadFromParameterInterger;
+                }else{
+                    LOG.info("Invalid max number of thread for export service from system parameter. So taking the default max number of thread : " + maxNumberOfThread);
+                }
+            }catch(Exception exception){
+                LOG.info("Invalid max number of thread for export service from system parameter. So taking the default max number of thread : " + maxNumberOfThread);
+            }
+        }else{
+            LOG.info("Invalid max number of thread for export service from system parameter. So taking the default max number of thread : " + maxNumberOfThread);
+        }
+        return maxNumberOfThread;
     }
 
 
