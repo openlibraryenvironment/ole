@@ -415,5 +415,6 @@ public class OleNGConstants {
     public static final String _VERSION_ = "_version_";
     public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Requisition/PO linked with holdings/eholdings : ";
     public final static String ERR_ITEM_HAS_REQ_OR_PO = "Requisition/PO linked with item : ";
+    public static final String MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE = "MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE";
 
 }
