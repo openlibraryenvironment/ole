@@ -1,6 +1,5 @@
 package org.kuali.ole.oleng.dao.export;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -16,8 +15,9 @@ import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataTransformer;
 import org.kuali.ole.oleng.handler.BatchExportHandler;
+import org.kuali.ole.oleng.helper.ExportEholdingsMappingHelper;
+import org.kuali.ole.oleng.helper.ExportHoldingsMappingHelper;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -28,7 +28,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
 
 /**
  * Created by rajeshbabuk on 4/25/16.
@@ -132,27 +132,16 @@ public class ExportDaoCallableImpl implements Callable {
     }
 
     private void processDataMappings(String bibId, Record marcRecord, List<HoldingsTree> holdingsTreeList, BatchProcessProfile batchProcessProfile, OleNGBatchExportResponse oleNGBatchExportResponse) {
-
-        List<Future> futures = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-
-        for (Iterator<HoldingsTree> iterator = holdingsTreeList.iterator(); iterator.hasNext(); ) {
-            HoldingsTree holdingsTree = iterator.next();
-            Future submit = executorService.submit(new ExportHoldingsDaoCallable(holdingsTree, bibId, batchProcessTxObject, batchProcessProfile, oleNGBatchExportResponse, batchExportHandler));
-            futures.add(submit);
-        }
-
-        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
-            Future future = iterator.next();
+        for (HoldingsTree holdingsTree : holdingsTreeList) {
             try {
-                List<DataField> dataFields = (List<DataField>) future.get();
-                if(CollectionUtils.isNotEmpty(dataFields)) {
-                    marcRecord.getDataFields().addAll(dataFields);
+                if (holdingsTree.getHoldings().getHoldingsType().equalsIgnoreCase(OleNGConstants.PRINT)) {
+                    marcRecord.getDataFields().addAll(new ExportHoldingsMappingHelper().generateDataFieldForHolding(holdingsTree, batchProcessProfile, oleNGBatchExportResponse));
+                } else {
+                    marcRecord.getDataFields().addAll(new ExportEholdingsMappingHelper().generateDataFieldForEHolding(holdingsTree, batchProcessProfile, oleNGBatchExportResponse));
                 }
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+                batchExportHandler.addBatchExportFailureResponseToExchange(e, bibId, batchProcessTxObject.getExchangeObjectForBatchExport());
             }
         }
     }
