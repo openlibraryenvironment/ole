@@ -101,14 +101,16 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         }
 
         createBibInfoRecord(bibRecord);
-        try {
-            OleAuditManager.getInstance().audit(BibAudit.class,oldBibRecord,bibRecord,bibRecord.getBibId(),"ole");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        if (Boolean.TRUE == isAuditRequired()) {
+            try {
+                OleAuditManager.getInstance().audit(BibAudit.class,oldBibRecord,bibRecord,bibRecord.getBibId(),"ole");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
         }
     }
 

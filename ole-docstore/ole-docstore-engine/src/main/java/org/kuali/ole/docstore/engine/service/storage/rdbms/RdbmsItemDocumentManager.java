@@ -171,10 +171,12 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         String content =  itemOlemlRecordProcessor.toXML(item);
         itemDocument.setContent(content);
         try {
-            oldItemRecord = processItemRecordForAudit(oldItemRecord);
-            ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
-            modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
-            List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
+            if (Boolean.TRUE == isAuditRequired()) {
+                oldItemRecord = processItemRecordForAudit(oldItemRecord);
+                ItemRecord modifiedItemRecord = (ItemRecord) SerializationUtils.clone(itemRecord);
+                modifiedItemRecord = processItemRecordForAudit(modifiedItemRecord);
+                List<Audit> itemAuditedFields = OleAuditManager.getInstance().audit(ItemAudit.class, oldItemRecord, modifiedItemRecord, itemRecord.getItemId(), "ole");
+            }
             String oldBarcode = oldItemRecord.getBarCode();
             String newBarcode = itemRecord.getBarCode();
             if((oldBarcode!=null && (!oldBarcode.equals(newBarcode))) || (oldBarcode==null && newBarcode!=null)){
