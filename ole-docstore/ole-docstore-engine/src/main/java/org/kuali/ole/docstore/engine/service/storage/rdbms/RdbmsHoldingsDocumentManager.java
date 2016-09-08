@@ -473,16 +473,18 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         content = workHoldingOlemlRecordProcessor.toXML(oleHoldings);
         holdings.setContent(content);
         buildLabelForHoldings(holdingsRecord, holdings);
-        try {
-            oldHoldingsRecord = processHoldingsForAudit(oldHoldingsRecord);
-            holdingsRecord = processHoldingsForAudit(holdingsRecord);
-            List<Audit> auditList= OleAuditManager.getInstance().audit(HoldingsAudit.class, oldHoldingsRecord, holdingsRecord, holdingsRecord.getHoldingsId(), "ole");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        if (Boolean.TRUE == isAuditRequired()) {
+            try {
+                oldHoldingsRecord = processHoldingsForAudit(oldHoldingsRecord);
+                holdingsRecord = processHoldingsForAudit(holdingsRecord);
+                List<Audit> auditList= OleAuditManager.getInstance().audit(HoldingsAudit.class, oldHoldingsRecord, holdingsRecord, holdingsRecord.getHoldingsId(), "ole");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
         }
     }
 

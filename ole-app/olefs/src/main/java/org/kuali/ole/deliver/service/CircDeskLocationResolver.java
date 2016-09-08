@@ -215,7 +215,7 @@ public CircDeskLocationResolver(){
 
     public Map<String, String> getLocationMap(String itemLocation){
         Map<String, String> locationMap = new HashMap<String, String>();
-        if(itemLocation!=null && itemLocation.isEmpty()) {
+        if(StringUtils.isNotBlank(itemLocation)) {
             String[] locationArray = itemLocation.split("['/']");
             List<String> locationList = Arrays.asList(locationArray);
             for (String value : locationList) {

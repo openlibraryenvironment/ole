@@ -2,6 +2,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.DocStoreConstants;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
@@ -180,6 +181,11 @@ public abstract class RdbmsAbstarctDocumentManager implements DocumentManager {
         ParameterKey parameterKey = ParameterKey.create(applicationId, namespace, componentId, parameterName);
         Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
         return parameter!=null?parameter.getValue():null;
+    }
+
+    public boolean isAuditRequired() {
+        return ParameterValueResolver.getInstance().getParameterAsBoolean(OleNGConstants
+                .APPL_ID_OLE, OleNGConstants.DESC_NMSPC, OleNGConstants.DESCRIBE_COMPONENT, OleNGConstants.PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM);
     }
 
 }
