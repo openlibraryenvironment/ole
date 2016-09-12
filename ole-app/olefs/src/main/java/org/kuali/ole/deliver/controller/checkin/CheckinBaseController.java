@@ -22,6 +22,7 @@ import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.notice.executors.HoldExpirationNoticesExecutor;
 import org.kuali.ole.deliver.notice.executors.MissingPieceNoticesExecutor;
 import org.kuali.ole.deliver.notice.executors.OnHoldNoticesExecutor;
+import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.*;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.deliver.util.printSlip.*;
@@ -91,6 +92,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
     private OleLoanDocumentDaoOjb loanDaoOjb;
     private ParameterValueResolver parameterValueResolver;
+    private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
 
     public OnHoldCourtesyNoticeUtil getOnHoldCourtesyNoticeUtil() {
         if (null == onHoldCourtesyNoticeUtil) {
@@ -155,6 +157,12 @@ public abstract class CheckinBaseController extends CircUtilController {
         DroolsResponse droolsResponse = null;
         if (null != itemRecord) {
             OleLoanDocument loanDocument = getLoanDocument(itemBarcode);
+            try {
+                loanDocument = getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(loanDocument, false);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
             setDataElements(oleForm, itemRecord, loanDocument);
             droolsResponse = preValidations(itemRecord, oleForm);
             if (null != droolsResponse) {
@@ -171,6 +179,13 @@ public abstract class CheckinBaseController extends CircUtilController {
         transferExchangeInfoFromDroolsResponseToCheckinForm(oleForm, droolsResponse);
 
         return droolsResponse;
+    }
+
+    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestDocumentHelperService() {
+        if (oleDeliverRequestDocumentHelperService == null) {
+            oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
+        }
+        return oleDeliverRequestDocumentHelperService;
     }
 
     private void transferExchangeInfoFromDroolsResponseToCheckinForm(OLEForm oleForm, DroolsResponse droolsResponse) {

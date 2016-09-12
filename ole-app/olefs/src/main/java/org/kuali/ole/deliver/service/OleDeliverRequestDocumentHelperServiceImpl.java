@@ -126,6 +126,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private OleMailer oleMailer;
     private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
     private SolrRequestReponseHandler solrRequestReponseHandler;
+    private String numberOfRecords = null;
     public SolrRequestReponseHandler getSolrRequestReponseHandler() {
                 if (null == solrRequestReponseHandler) {
                         solrRequestReponseHandler = new SolrRequestReponseHandler();
@@ -4974,6 +4975,51 @@ return oleLoanDocument;
                 parameterMap.put("itemBarcodes",itemBarcodes);
                 return parameterMap;
             }
+
+    public OleLoanDocument getLoanDocumentWithItemInfo(OleLoanDocument oleLoanDocument, boolean updateClaimsCount) throws Exception {
+        Long startTime = System.currentTimeMillis();
+        List<OleLoanDocument> loanDocumentsWithItemInfo = new ArrayList<OleLoanDocument>();
+        if (oleLoanDocument != null) {
+            Map<String, OleLoanDocument> loanDocumentMap = new HashMap<String, OleLoanDocument>();
+            SearchParams searchParams = new SearchParams();
+            List<SearchCondition> searchConditions = new ArrayList<>();
+            SearchResponse searchResponse = new SearchResponse();
+            if (numberOfRecords == null) {
+                numberOfRecords = getLoanProcessor().getParameter(OLEConstants.NUMBER_OF_ITEM_INFO);
+            }
+            try {
+                searchConditions = new ArrayList<>();
+                searchParams = new SearchParams();
+                loanDocumentMap.put(oleLoanDocument.getItemUuid(), oleLoanDocument);
+                searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "id", oleLoanDocument.getItemUuid()), "OR"));
+                searchParams.setPageSize(Integer.parseInt(OLEConstants.MAX_PAGE_SIZE_FOR_LOAN));
+                buildSearchParams(searchParams);
+                searchParams.getSearchConditions().addAll(searchConditions);
+                try {
+                    searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                } catch (Exception e) {
+                    LOG.error(e, e);
+                    throw new Exception("Exception occured while fetching data from solr");
+                }
+                try {
+                    List<OleLoanDocument> processedLoanDocuments = buildSearchResultsFields(searchResponse, loanDocumentMap);
+                    loanDocumentsWithItemInfo.addAll(processedLoanDocuments);
+                } catch (Exception e) {
+                    LOG.error(e, e);
+                    throw new Exception("Exception occured while setting the item information to loan document");
+                }
+            } catch (Exception e) {
+                LOG.info("Exception occured while setting the item information to the loan document");
+                LOG.error(e, e);
+            }
+        }
+        // }
+        Long endTime = System.currentTimeMillis();
+        Long timeDifference = endTime - startTime;
+        LOG.info("Time Taken to set the item information in the loan records in milliseconds : " + timeDifference);
+        return loanDocumentsWithItemInfo.get(0);
+    }
+
 }
 
 
