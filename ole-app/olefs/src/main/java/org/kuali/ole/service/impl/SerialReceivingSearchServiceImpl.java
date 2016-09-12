@@ -102,7 +102,7 @@ public class SerialReceivingSearchServiceImpl implements SerialReceivingSearchSe
             searchParam.getSearchConditions().add(searchParam.buildSearchCondition("AND", searchParam.buildSearchField(DocType.BIB.getCode(), Bib.TITLE, title), "AND"));
         }
         if (!issn.isEmpty()) {
-            searchParam.getSearchConditions().add(searchParam.buildSearchCondition("AND", searchParam.buildSearchField(DocType.BIB.getCode(), Bib.ISSN, issn), "AND"));
+            searchParam.getSearchConditions().add(searchParam.buildSearchCondition("AND", searchParam.buildSearchField(DocType.HOLDINGS.getCode(), Bib.ISSN, issn), "AND"));
         }
         if (!localIdentifier.isEmpty()) {
             searchParam.getSearchConditions().add(searchParam.buildSearchCondition("", searchParam.buildSearchField(DocType.BIB.getCode(), OLEConstants.LOCALID_SEARCH, localIdentifier), "AND"));
