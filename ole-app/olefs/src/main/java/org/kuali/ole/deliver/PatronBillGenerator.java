@@ -97,7 +97,7 @@ public class PatronBillGenerator {
         }
 
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
-        contentForSendMail.append(oleDeliverBatchService.generateMailContentFromPatronBill(oleLoanDocument, oleLoanDocument.getOlePatron(), feeTypeName, String.valueOf(fineAmount), patronBillPayment));
+        contentForSendMail.append(oleDeliverBatchService.generateMailContentFromPatronBill(oleLoanDocument, oleLoanDocument.getOlePatron(), feeTypeName, String.valueOf(new KualiDecimal(fineAmount)), patronBillPayment));
         OleMailer oleMail = GlobalResourceLoader.getService("oleMailer");
         String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleLoanDocument.getItemLocation());
         if (replyToEmail != null) {
