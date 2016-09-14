@@ -939,6 +939,9 @@ public class BrowseServiceImpl implements BrowseService {
 
             }
             list = browseListPrevious(callNumberBrowseParams);
+            if (startIndex < this.firstStartIndex) {
+                Collections.reverse(list);
+            }
         } catch (Exception e) {
             LOG.info("Exception in callNumberBrowsePrev " + e);
         }
@@ -970,6 +973,9 @@ public class BrowseServiceImpl implements BrowseService {
             }
 
             list = browseListNext(callNumberBrowseParams);
+            if (startIndex < this.firstStartIndex) {
+                Collections.reverse(list);
+            }
         } catch (Exception e) {
             LOG.info("Exception in callNumberBrowseNext " + e);
         }
