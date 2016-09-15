@@ -880,3 +880,7 @@ OLE-SYS,Batch,FUND_ACCOUNTING_LINE_RECORD_CSV_NAME,151,1,CONFG,FundCodeAccountin
 "OLE-DESC","Describe","PROCESS_SOLR_IND","OLE7006","1","CONFG","true","This parameter is added for docstore API process for solr indexing","A","OLE"
 "OLE-DESC","Describe","SLEEP_TIME_FOR_ORDER_PROCESS","OLE7060","1","CONFG","1000","This parameter value is used for holding the sleep time for order process.","A","OLE"
 "OLE-SELECT","E-Resource","AGREEMENT_AUTH_USERS","OLEER1001","1","CONFG","Students,Faculty,Staff,Affiliates,Walk-ins,Retired Staff,Alumni","This parameter value is used to get Authorized user for Agreement.","A","OLE"
+"OLE-DLVR","Deliver","DELETE_LOAN_NOTICE_HISTORY_TO_DATE","OLE1616750","1","CONFG","01/01/2015","Date used by batch job to delete Loan Notice History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"
+"OLE-DLVR","Deliver","DELETE_RENEWAL_HISTORY_TO_DATE","OLE1616751","1","CONFG","08/01/2015","Date used by batch job to delete Renewal History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"
+"OLE-DLVR","Deliver","DELETE_REQUEST_HISTORY_TO_DATE","OLE1616752","1","CONFG","06/01/2015","Date used by batch job to delete Request History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"
+"OLE-DLVR","Deliver","DELETE_RETURN_HISTORY_TO_DATE","OLE1616753","1","CONFG","06/01/2015","Date used by batch job to delete Return History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"

@@ -203,7 +203,19 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SYS', 'Batch', 'FUND_ACCOUNTING_LINE_RECORD_CSV_NAME', '151', '1', 'CONFG', 'FundCodeAccountingLines', 'The Name of the csv file ingested for FundCode Accounting Lines record import document name should ends with the value specified in this parameter', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 11, '7:e6f6382d297c0677161137951d30fbe7', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DELETE_LOAN_NOTICE_HISTORY_TO_DATE', 'OLE1616750', '1', 'CONFG', '01/01/2015', 'Date used by batch job to delete Loan Notice History Record upto the date provided. Use "mm/dd/yyyy" format.', 'A', 'KUALI')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DELETE_RENEWAL_HISTORY_TO_DATE', 'OLE1616751', '1', 'CONFG', '08/01/2015', 'Date used by batch job to delete Renewal History Record upto the date provided. Use "mm/dd/yyyy" format.', 'A', 'KUALI')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DELETE_REQUEST_HISTORY_TO_DATE', 'OLE1616752', '1', 'CONFG', '06/01/2015', 'Date used by batch job to delete Request History Record upto the date provided. Use "mm/dd/yyyy" format.', 'A', 'KUALI')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DELETE_RETURN_HISTORY_TO_DATE', 'OLE1616753', '1', 'CONFG', '06/01/2015', 'Date used by batch job to delete Return History Record upto the date provided. Use "mm/dd/yyyy" format.', 'A', 'KUALI')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 11, '7:6a0776ab0cfa5fe95b6c07c04ad031be', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/3.0/db.changelog-20160208.xml::OLE_DS_ITEM_T_ADD::ole
@@ -742,6 +754,22 @@ ALTER TABLE ole.OLE_BAT_PRCS_PRFLE_CNST_S AUTO_INCREMENT=70
 /
 
 INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_BAT_PRCS_PRFLE_CNST_S_ALTER_MYSQL', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 33, '7:a3b084fbe88783b93e1fe9e8c036d2b3', 'sql', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/3.0/db.changelog-20160208.xml::OLE_DLVR_BATCH_JOB_T_Insert::ole
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 3 15 * ?','13','deleteLoanNoticeHistoryJob','13','Y',1)
+/
+
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 4 15 * ?','14','deleteRenewalHistoryJob','14','Y',1)
+/
+
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 5 15 * ?','15','deleteRequestistoryJob','15','Y',1)
+/
+
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 6 15 * ?','16','deleteReturnHistoryJob','16','Y',1)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_BATCH_JOB_T_Insert', 'ole', 'org/kuali/ole/3.0/db.changelog-20160208.xml', NOW(), 34, '7:c2eec64b4bc5e7556d0d3183b903b47a', 'sql (x4)', '', 'EXECUTED', '3.2.0')
 /
 
 --  Release Database Lock

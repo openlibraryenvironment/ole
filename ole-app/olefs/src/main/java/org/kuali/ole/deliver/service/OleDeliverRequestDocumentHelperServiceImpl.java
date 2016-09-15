@@ -11,6 +11,7 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.DeliverConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.batch.OleMailer;
@@ -46,6 +47,7 @@ import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.ingest.pojo.MatchBo;
+import org.kuali.ole.module.purap.util.PurApDateFormatUtils;
 import org.kuali.ole.ncip.bo.OLEPlaceRequest;
 import org.kuali.ole.ncip.converter.OLEPlaceRequestConverter;
 import org.kuali.ole.service.OleCirculationPolicyService;
@@ -5019,6 +5021,103 @@ return oleLoanDocument;
         LOG.info("Time Taken to set the item information in the loan records in milliseconds : " + timeDifference);
         return loanDocumentsWithItemInfo.get(0);
     }
+
+    public void deleteLoanNoticeHistoryRecord() throws Exception {
+
+        List<OLEDeliverNoticeHistory> loanHistoryDocuments = new ArrayList<OLEDeliverNoticeHistory>();
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(DeliverConstants.KUALI_SIMPLE_DATE_FORMAT);
+
+        String loanNoticeHistoryDateString = getParameterResolverInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, DeliverConstants.DELETE_LOAN_NOTICE_HISTORY_TO_DATE);
+        java.sql.Date loanNoticeHistoryDate = null;
+        try {
+            loanNoticeHistoryDate = org.kuali.ole.sys.util.KfsDateUtils.convertToSqlDate(sdf.parse(loanNoticeHistoryDateString));
+        } catch (Exception e) {
+            loanNoticeHistoryDate = null;
+        }
+        if (loanNoticeHistoryDate != null) {
+            OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+            loanHistoryDocuments = oleLoanDocumentDaoOjb.getLaonHistoryRecords(loanNoticeHistoryDate);
+            LOG.info("loanHistoryDocuments size >>>>>>>>>>>" + loanHistoryDocuments.size());
+            getBusinessObjectService().delete(loanHistoryDocuments);
+            LOG.info("deleteLoanNoticeHistoryRecord job completed. " + loanHistoryDocuments.size() +  "records deleted");
+        } else {
+            LOG.info("loanNoticeHistoryDate is empty. Provide value for DDELETE_LOAN_NOTICE_HISTORY_TO_DATE parameter");
+        }
+    }
+
+    public void deleteRenewalHistoryRecord() throws Exception {
+
+        List<OleRenewalHistory> renewalHistoryDocuments = new ArrayList<OleRenewalHistory>();
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(DeliverConstants.KUALI_SIMPLE_DATE_FORMAT);
+
+        String renewalHistoryDateString = getParameterResolverInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, DeliverConstants.DELETE_RENEWAL_HISTORY_TO_DATE);
+        java.sql.Date renewalHistoryDate = null;
+        try {
+            renewalHistoryDate = org.kuali.ole.sys.util.KfsDateUtils.convertToSqlDate(sdf.parse(renewalHistoryDateString));
+        } catch (Exception e) {
+            renewalHistoryDate = null;
+        }
+        if (renewalHistoryDate != null) {
+            OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+            renewalHistoryDocuments = oleLoanDocumentDaoOjb.getRenewalHistoryRecords(renewalHistoryDate);
+            LOG.info("renewalHistoryDocuments size >>>>>>>>>>>" + renewalHistoryDocuments.size());
+            getBusinessObjectService().delete(renewalHistoryDocuments);
+            LOG.info("deleteRenewalHistoryRecord job completed. " + renewalHistoryDocuments.size() +  "records deleted");
+        } else {
+            LOG.info("renewalHistoryDate is empty. Provide value for DELETE_RENEWAL_HISTORY_TO_DATE parameter");
+        }
+    }
+
+    public void deleteReturnHistoryRecord() throws Exception {
+
+        List<OLEReturnHistoryRecord> returnHistoryDocuments = new ArrayList<OLEReturnHistoryRecord>();
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(DeliverConstants.KUALI_SIMPLE_DATE_FORMAT);
+
+        String renewalHistoryDateString = getParameterResolverInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, DeliverConstants.DELETE_RETURN_HISTORY_TO_DATE);
+        java.sql.Date returnHistoryDate = null;
+        try {
+            returnHistoryDate = org.kuali.ole.sys.util.KfsDateUtils.convertToSqlDate(sdf.parse(renewalHistoryDateString));
+        } catch (Exception e) {
+            returnHistoryDate = null;
+        }
+        if (returnHistoryDate != null) {
+            OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+            returnHistoryDocuments = oleLoanDocumentDaoOjb.getReturnHistoryRecords(returnHistoryDate);
+            LOG.info("returnHistoryDocuments size >>>>>>>>>>>" + returnHistoryDocuments.size());
+            getBusinessObjectService().delete(returnHistoryDocuments);
+            LOG.info("deleteReturnHistoryRecord job completed. " + returnHistoryDocuments.size() + " records deleted");
+        } else {
+            LOG.info("returnHistoryRecord is empty. Provide value for DELETE_RETURN_HISTORY_TO_DATE parameter");
+        }
+    }
+
+    public void deleteRequestHistoryRecord() throws Exception {
+
+        List<OleDeliverRequestHistoryRecord> requestHistoryDocuments = new ArrayList<OleDeliverRequestHistoryRecord>();
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(DeliverConstants.KUALI_SIMPLE_DATE_FORMAT);
+
+        String requestHistoryDateString = getParameterResolverInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, DeliverConstants.DELETE_REQUEST_HISTORY_TO_DATE);
+        java.sql.Date requestHistoryDate = null;
+        try {
+            requestHistoryDate = org.kuali.ole.sys.util.KfsDateUtils.convertToSqlDate(sdf.parse(requestHistoryDateString));
+        } catch (Exception e) {
+            requestHistoryDate = null;
+        }
+        if (requestHistoryDate != null) {
+            OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+            requestHistoryDocuments = oleLoanDocumentDaoOjb.getRequestHistoryRecords(requestHistoryDate);
+            LOG.info("requestHistoryDocuments size >>>>>>>>>>>" + requestHistoryDocuments.size());
+            getBusinessObjectService().delete(requestHistoryDocuments);
+            LOG.info("deleteRequestHistoryRecord job completed. " + requestHistoryDocuments.size() + " records deleted");
+        } else {
+            LOG.info("deleteRequestHistoryRecord is empty. Provide value for DELETE_REQUEST_HISTORY_TO_DATE parameter");
+        }
+    }
+
 
 }
 
