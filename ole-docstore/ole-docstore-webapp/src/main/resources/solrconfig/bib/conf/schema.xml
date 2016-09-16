@@ -351,7 +351,7 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         -->
 
         <field name="noticeType" type="string" indexed="true" stored="true"/>
-        <field name="noticeContent" type="string" indexed="true" stored="true"/>
+        <field name="noticeContent" type="text_icu" indexed="true" stored="true"/>
         <field name="patronBarcode" type="string" indexed="true" stored="true"/>
         <field name="itemBarcode" type="string" indexed="true" stored="true" multiValued="true"/>
         <field name="dateSent" type="date" indexed="true" stored="true"/>
