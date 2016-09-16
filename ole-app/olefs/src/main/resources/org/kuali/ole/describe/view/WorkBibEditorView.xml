@@ -249,8 +249,17 @@
             <list>
                 <bean id="bibSave" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                       p:style="float:left;margin-left:30em" p:render="@{needToCreateInstance eq false}"/>
-                <bean id="continueBibProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance"
+                <bean id="continueBibProcess" parent="Uif-SecondaryActionButton"
                       p:actionLabel="Continue Process"
+                      p:actionScript=" var count=0;
+                                        var id=setInterval(function(){
+                                            if(count==2){
+                                               clearInterval(id);
+                                            }else{
+                                                count++;
+                                                submitForm('EditNewInstance',null,null,null,null);
+                                            }
+                                           },0);"
                       p:style="float:left;margin-left:30em" p:performClientSideValidation="false"
                       p:render="@{needToCreateInstance eq true}"/>
                 <!--<bean id="cancelInstance" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>-->
