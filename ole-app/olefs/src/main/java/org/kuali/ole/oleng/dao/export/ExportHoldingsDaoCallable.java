@@ -41,9 +41,9 @@ public class ExportHoldingsDaoCallable implements Callable {
         List<DataField> dataFields = new ArrayList<>();
         try {
             if (holdingsTree.getHoldings().getHoldingsType().equalsIgnoreCase(OleNGConstants.PRINT)) {
-                dataFields = new ExportHoldingsMappingHelper().generateDataFieldForHolding(holdingsTree, batchProcessProfile, oleNGBatchExportResponse);
+                dataFields = new ExportHoldingsMappingHelper().generateDataFieldForHolding(holdingsTree, batchProcessProfile);
             } else {
-                dataFields = new ExportEholdingsMappingHelper().generateDataFieldForEHolding(holdingsTree, batchProcessProfile, oleNGBatchExportResponse);
+                dataFields = new ExportEholdingsMappingHelper().generateDataFieldForEHolding(holdingsTree, batchProcessProfile);
             }
         } catch (Exception e) {
             e.printStackTrace();

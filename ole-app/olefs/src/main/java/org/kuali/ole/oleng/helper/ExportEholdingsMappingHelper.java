@@ -30,7 +30,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
     private static final Logger LOG = Logger.getLogger(InstanceMappingHelper.class);
     private HoldingOlemlRecordProcessor workEHoldingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
 
-    public List<DataField> generateDataFieldForEHolding(HoldingsTree holdingsTree, BatchProcessProfile profile, OleNGBatchExportResponse oleNGBatchExportResponse) throws Exception {
+    public List<DataField> generateDataFieldForEHolding(HoldingsTree holdingsTree, BatchProcessProfile profile) throws Exception {
         dataFieldList.clear();
         if (holdingsTree != null) {
             OleHoldings oleHoldings = null;

@@ -1,10 +1,9 @@
 package org.kuali.ole.oleng.dao.export;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
@@ -53,7 +52,8 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
         fetchExtentOfOwnershipType();
     }
 
-    public void export(BatchExportHandler batchExportHandler, String query, BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
+    public void export(BatchExportHandler batchExportHandler, String query, BatchProcessTxObject batchProcessTxObject,
+                       OleNGBatchExportResponse oleNGBatchExportResponse) {
         try {
             init();
             this.chunkSize = batchExportHandler.getBatchChunkSize();
@@ -64,18 +64,31 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             int numOfRecordsInFile = 0;
             SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(query, start, chunkSize, OleNGConstants.BIB_IDENTIFIER);
             totalCount = solrDocumentList.getNumFound();
+
+            List<String> bibIds = getBibIds(query, totalCount, chunkSize, batchExportHandler, batchProcessTxObject);
+
+            totalCount = bibIds.size();
+
+            if(fileSize < chunkSize) {
+                chunkSize = fileSize;
+            }
+
             batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(totalCount));
-            oleNGBatchExportResponse.setTotalNumberOfRecords((int) totalCount);
+            oleNGBatchExportResponse.setTotalNumberOfRecords(((int)totalCount));
             batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
-            do {
-                futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), start, chunkSize, query, fileCount, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse)));
+
+            List<List<String>> partition = Lists.partition(bibIds, chunkSize);
+
+            for (Iterator<List<String>> iterator = partition.iterator(); iterator.hasNext(); ) {
+                List<String> bibIdLists = iterator.next();
+                futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(),bibIdLists,
+                        fileCount, batchExportHandler, batchProcessTxObject)));
                 numOfRecordsInFile += chunkSize;
-                if (numOfRecordsInFile == fileSize) {
+                if (numOfRecordsInFile >= fileSize) {
                     fileCount++;
                     numOfRecordsInFile = 0;
                 }
-                start += chunkSize;
-            } while (start <= totalCount);
+            }
             prepareBatchExportResponse(futures, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse);
             executorService.shutdown();
         } catch (Exception e) {
@@ -84,14 +97,41 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
         }
     }
 
-    private void prepareBatchExportResponse(List<Future> futures, BatchExportHandler batchExportHandler, BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
+    private List<String> getBibIds(String query, long totalCount, int chunkSize, BatchExportHandler batchExportHandler, BatchProcessTxObject batchProcessTxObject) {
+        Set<String> bibIdentifiers = new HashSet<>();
+        List<Future> futures = new ArrayList<>();
+        int startIndex = 0;
+        ExecutorService executorService = Executors.newFixedThreadPool(getMaximumNumberOfThreadForExportService());
+        do {
+            futures.add(executorService.submit(new ExportBibIdFinderCallable(query,startIndex, chunkSize, batchExportHandler)));
+            startIndex += chunkSize;
+        } while (startIndex <= totalCount);
+
+        for (Future future : futures) {
+            try {
+                Object response = future.get();
+                if (null != response) {
+                    Set<String> bibIds = (Set<String>) response;
+                    bibIdentifiers.addAll(bibIds);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                batchExportHandler.addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
+            }
+        }
+        return new ArrayList<String>(bibIdentifiers);
+    }
+
+    private void prepareBatchExportResponse(List<Future> futures, BatchExportHandler batchExportHandler, BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse originalResponse) {
         if (CollectionUtils.isNotEmpty(futures)) {
             for (Future future : futures) {
                 try {
-                    if (null != future.get()) {
-                        OleNGBatchExportResponse exportResponse = (OleNGBatchExportResponse) future.get();
-                        batchProcessTxObject.getBatchJobDetails().setTotalFailureRecords(String.valueOf(exportResponse.getNoOfFailureRecords()));
-                        batchProcessTxObject.getBatchJobDetails().setTotalRecordsProcessed(String.valueOf(exportResponse.getNoOfSuccessRecords() + exportResponse.getNoOfFailureRecords()));
+                    Object response = future.get();
+                    if (null != response) {
+                        OleNGBatchExportResponse exportResponse = (OleNGBatchExportResponse) response;
+                        mergeResponses(originalResponse, exportResponse);
+                        batchProcessTxObject.getBatchJobDetails().setTotalFailureRecords(String.valueOf(originalResponse.getNoOfFailureRecords()));
+                        batchProcessTxObject.getBatchJobDetails().setTotalRecordsProcessed(String.valueOf(originalResponse.getNoOfSuccessRecords() + originalResponse.getNoOfFailureRecords()));
                         batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
                     }
                 } catch (InterruptedException e) {
@@ -101,6 +141,14 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                 }
             }
         }
+    }
+
+    private void mergeResponses(OleNGBatchExportResponse originalResponse, OleNGBatchExportResponse exportResponse) {
+        originalResponse.addNoOfSuccessRecords(exportResponse.getNoOfSuccessRecords());
+        originalResponse.addNoOfFailureRecords(exportResponse.getNoOfFailureRecords());
+        originalResponse.getBatchExportSuccessResponseList().addAll(exportResponse.getBatchExportSuccessResponseList());
+        originalResponse.getBatchExportFailureResponseList().addAll(exportResponse.getBatchExportFailureResponseList());
+        originalResponse.getDeletedBibIds().addAll(exportResponse.getDeletedBibIds());
     }
 
 
