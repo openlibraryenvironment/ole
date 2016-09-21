@@ -1461,11 +1461,11 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             .getEntityTypeContactInfos().get(0);
                     String emailAddress = noticesExecutor.getPatronHomeEmailId(entityTypeContactInfoBo) != null ?
                             noticesExecutor.getPatronHomeEmailId(entityTypeContactInfoBo) : "";
-                    noticesExecutor.sendMailsToPatron(emailAddress, mailContent, oleDeliverRequestBo.getItemLocation());
+                    noticesExecutor.sendMailsToPatron(emailAddress, mailContent, oleDeliverRequestBo.getItemLocation(),oleNoticeContentConfigurationBo.getNoticeTitle());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                noticesExecutor.sendMail(mailContent);
+                noticesExecutor.sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeTitle());
                 saveNoticeHistory(mailContent, OLEConstants.RECALL_NOTICE, oleDeliverRequestBo, olePatron.getOlePatronId());
                 noticesExecutor.getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
                         noticesExecutor.getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
@@ -1616,13 +1616,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 if (!content.trim().equals("")) {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(oleNoticeBo.getNoticeName()), new EmailBody(content), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(oleNoticeBo.getNoticeName()), new EmailBody(content), true);
                     }
                 } else {
                     if (LOG.isDebugEnabled()) {
@@ -2656,13 +2656,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 if (!content.trim().equals("")) {
                                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                                     if (oleDeliverRequestBo.getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail())) {
-                                        oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                                        oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE), new EmailBody(content), true);
                                     } else {
                                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                             fromAddress = OLEConstants.KUALI_MAIL;
                                         }
-                                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE), new EmailBody(content), true);
                                     }
                                     if (LOG.isDebugEnabled()) {
                                         LOG.debug("Mail send Successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -2980,13 +2980,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 if (!content.trim().equals("")) {
                                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                                     if (oleDeliverRequestBo.getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail())) {
-                                        oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                                        oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE), new EmailBody(content), true);
                                     } else {
                                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                             fromAddress = OLEConstants.KUALI_MAIL;
                                         }
-                                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE), new EmailBody(content), true);
                                     }
                                     if (LOG.isDebugEnabled()) {
                                         LOG.debug("Mail send Successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3836,10 +3836,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     replyToEmail = getCircDeskLocationResolver().getReplyToEmail(overdueItemLocations.iterator().next());
                 }
                 if (replyToEmail != null) {
-                    sendMailsToPatron(olePatronDocument, mailContent.toString(), replyToEmail);
+                    sendMailsToPatron(olePatronDocument, mailContent.toString(), replyToEmail,OLEConstants.OVERDUE_NOTICE);
                 } else {
                     String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    sendMailsToPatron(olePatronDocument, mailContent.toString(), fromAddress);
+                    sendMailsToPatron(olePatronDocument, mailContent.toString(), fromAddress,OLEConstants.OVERDUE_NOTICE);
                 }
                 try {
                     if (document != null && outputStream != null) {
@@ -3858,10 +3858,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     replyToEmail = getCircDeskLocationResolver().getReplyToEmail(courtesyItemLocations.iterator().next());
                 }
                 if (replyToEmail != null) {
-                    sendMailsToPatron(olePatronDocument, mailContent.toString(), replyToEmail);
+                    sendMailsToPatron(olePatronDocument, mailContent.toString(), replyToEmail,OLEConstants.COURTESY_NOTICE);
                 } else {
                     String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    sendMailsToPatron(olePatronDocument, mailContent.toString(), fromAddress);
+                    sendMailsToPatron(olePatronDocument, mailContent.toString(), fromAddress,OLEConstants.COURTESY_NOTICE);
                 }
                 try {
                     if (document != null && outputStream != null) {
@@ -3878,7 +3878,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         }
     }
 
-    public void sendMailsToPatron(OlePatronDocument olePatronDocument, String noticeContent, String fromAddress) {
+    public void sendMailsToPatron(OlePatronDocument olePatronDocument, String noticeContent, String fromAddress,String mailSubject) {
 
         Long b1 = System.currentTimeMillis();
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
@@ -3899,7 +3899,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 noticeContent = noticeContent.replace(']', ' ');
                 if (!noticeContent.trim().equals("")) {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(emailAddress), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(noticeContent), true);
+                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(emailAddress), new EmailSubject(mailSubject), new EmailBody(noticeContent), true);
                 }
             } else {
                 LOG.error("Patron Email Address --sendMailsToPatron-- is Empty or Null");

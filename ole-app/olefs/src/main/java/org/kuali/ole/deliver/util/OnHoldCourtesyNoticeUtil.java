@@ -234,7 +234,7 @@ public class OnHoldCourtesyNoticeUtil {
                 noticeContent = noticeContent.replace(']', ' ');
                 if (!noticeContent.trim().equals("")) {
                     OleMailer oleMailer = getOleMailer();
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(emailAddress), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(noticeContent), true);
+                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(emailAddress), new EmailSubject(OLEConstants.NOTICE_HOLD_COURTESY_SUBJECT), new EmailBody(noticeContent), true);
                 }
             } else {
             }

@@ -3908,5 +3908,10 @@ public class OLEConstants {
 
     public static final String AGREEMENT_AUTH_USERS="AGREEMENT_AUTH_USERS";
     public static final String AGREEMENT_RECORD="agreementRecord";
+    public static final String RECALL_NOTICE_SUBJECT = "Recall Notice";
+    public static final String ONHOLD_NOTICE_SUBJECT = "On Hold Notice";
+    public static final String REQUEST_EXPIRATION_NOTICE_SUBJECT = "Request Expiration Notice";
+    public static final String NOTICE_HOLD_COURTESY_SUBJECT = "Hold Courtesy Notice";
+
 
 }

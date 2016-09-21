@@ -7,7 +7,7 @@ import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
  */
 public interface OlePatronLoanNoticeService {
 
-    public boolean sendMail(String toMailAddress,String mailContent);
+    public boolean sendMail(String toMailAddress,String mailContent,String mailSubject);
 
     public OLEDeliverNoticeHistory cloneOleDeliverNoticeHistory(OLEDeliverNoticeHistory oleDeliverNoticeHistory);
 }

@@ -35,7 +35,7 @@ public class OlePatronLoanNoticeServiceImpl implements OlePatronLoanNoticeServic
         return oleMailer;
     }
     @Override
-    public boolean sendMail(String toMailAddress, String mailContent) {
+    public boolean sendMail(String toMailAddress, String mailContent,String mailSubject) {
            boolean mailSent = false;
            String fromAddress = getParameterResolverInstance().getParameter(OLEConstants.APPL_ID, OLEConstants
                         .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEParameterConstants
@@ -49,7 +49,7 @@ public class OlePatronLoanNoticeServiceImpl implements OlePatronLoanNoticeServic
                     mailContent = mailContent.replace(']', ' ');
                     if (!mailContent.trim().equals("")) {
                         OleMailer oleMailer = getOleMailer();
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(toMailAddress), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(mailContent), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(toMailAddress), new EmailSubject(mailSubject), new EmailBody(mailContent), true);
                         mailSent = true;
                     }
                 } else {
