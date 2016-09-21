@@ -38,7 +38,7 @@ public class ExportHoldingsMappingHelper {
     private static final Logger LOG = Logger.getLogger(ExportHoldingsMappingHelper.class);
 
 
-    public List<DataField> generateDataFieldForHolding(HoldingsTree holdingsTree, BatchProcessProfile profile, OleNGBatchExportResponse oleNGBatchExportResponse) throws Exception {
+    public List<DataField> generateDataFieldForHolding(HoldingsTree holdingsTree, BatchProcessProfile profile) throws Exception {
         dataFieldList.clear();
         Item item = null;
         if (holdingsTree != null) {
