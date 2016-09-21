@@ -53,7 +53,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
     }
 
     public void export(BatchExportHandler batchExportHandler, String query, BatchProcessTxObject batchProcessTxObject,
-                       OleNGBatchExportResponse oleNGBatchExportResponse) {
+                       OleNGBatchExportResponse oleNGBatchExportResponse, boolean isIncremental) {
         try {
             init();
             this.chunkSize = batchExportHandler.getBatchChunkSize();
@@ -62,32 +62,47 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             int fileCount = 1;
             int fileSize = batchProcessTxObject.getBatchJobDetails().getNumOfRecordsInFile();
             int numOfRecordsInFile = 0;
-            SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(query, start, chunkSize, OleNGConstants.BIB_IDENTIFIER);
+            SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(
+                    query, null, null, OleNGConstants.BIB_IDENTIFIER);
             totalCount = solrDocumentList.getNumFound();
 
-            List<String> bibIds = getBibIds(query, totalCount, chunkSize, batchExportHandler, batchProcessTxObject);
+            List<String> bibIds = new ArrayList<>();
 
-            totalCount = bibIds.size();
-
-            if(fileSize < chunkSize) {
-                chunkSize = fileSize;
+            if(isIncremental) {
+                bibIds = getBibIds(query, totalCount, chunkSize, batchExportHandler, batchProcessTxObject);
+                totalCount = bibIds.size();
+                if(fileSize < chunkSize) {
+                    chunkSize = fileSize;
+                }
             }
 
             batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(totalCount));
-            oleNGBatchExportResponse.setTotalNumberOfRecords(((int)totalCount));
+            oleNGBatchExportResponse.setTotalNumberOfRecords((int) totalCount);
             batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
 
-            List<List<String>> partition = Lists.partition(bibIds, chunkSize);
-
-            for (Iterator<List<String>> iterator = partition.iterator(); iterator.hasNext(); ) {
-                List<String> bibIdLists = iterator.next();
-                futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(),bibIdLists,
-                        fileCount, batchExportHandler, batchProcessTxObject)));
-                numOfRecordsInFile += chunkSize;
-                if (numOfRecordsInFile >= fileSize) {
-                    fileCount++;
-                    numOfRecordsInFile = 0;
+            if(isIncremental) {
+                List<List<String>> partition = Lists.partition(bibIds, chunkSize);
+                for (Iterator<List<String>> iterator = partition.iterator(); iterator.hasNext(); ) {
+                    List<String> bibIdLists = iterator.next();
+                    futures.add(executorService.submit(new IncrementalExportCallableImpl(commonFields, getJdbcTemplate(),bibIdLists,
+                            fileCount, batchExportHandler, batchProcessTxObject)));
+                    numOfRecordsInFile += chunkSize;
+                    if (numOfRecordsInFile >= fileSize) {
+                        fileCount++;
+                        numOfRecordsInFile = 0;
+                    }
                 }
+            } else {
+                do {
+                    futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
+                            start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject)));
+                    numOfRecordsInFile += chunkSize;
+                    if (numOfRecordsInFile == fileSize) {
+                        fileCount++;
+                        numOfRecordsInFile = 0;
+                    }
+                    start += chunkSize;
+                } while (start <= totalCount);
             }
             prepareBatchExportResponse(futures, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse);
             executorService.shutdown();
