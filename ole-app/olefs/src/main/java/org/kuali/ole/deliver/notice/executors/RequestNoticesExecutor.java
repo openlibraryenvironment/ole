@@ -108,7 +108,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     }
 
 
-    public void sendMail(String mailContent) {
+    public void sendMail(String mailContent,String mailSubject) {
         if (CollectionUtils.isNotEmpty(deliverRequestBos)) {
             OlePatronDocument olePatron = deliverRequestBos.get(0).getOlePatron();
             try {
@@ -118,9 +118,9 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
                         getPatronHomeEmailId(entityTypeContactInfoBo) : "";
 
                 if (deliverRequestBos.size() == 1) {
-                    sendMailsToPatron(emailAddress, mailContent, deliverRequestBos.get(0).getItemLocation());
+                    sendMailsToPatron(emailAddress, mailContent, deliverRequestBos.get(0).getItemLocation(),mailSubject);
                 } else {
-                    sendMailsToPatron(emailAddress, mailContent, null);
+                    sendMailsToPatron(emailAddress, mailContent, null,mailSubject);
                 }
 
             } catch (Exception e) {
@@ -158,10 +158,10 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
             if (noticeContentConfigName!=null &&noticeContentConfigName.equals(OLEConstants.ON_HOLD_EXP_NOTICE)) {
                 if (getParameterValue(OLEConstants.HOLD_COUR_NOT_TYP).equals(OLEConstants.EMAIL_NOT_TYP)) {
-                    sendMail(mailContent);
+                    sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeTitle());
                 }
             } else {
-                sendMail(mailContent);
+                sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeTitle());
             }
 
 

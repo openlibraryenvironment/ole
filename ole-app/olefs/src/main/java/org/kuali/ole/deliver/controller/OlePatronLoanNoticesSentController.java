@@ -89,7 +89,7 @@ public OlePatronLoanNoticeService getOlePatronLoanNoticeService(){
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)getBusinessObjectService().findMatching(OlePatronDocument.class,patronMap);
         if(olePatronDocumentList.size()>0){
             String mailAddress = olePatronDocumentList.get(0).getOlePatronEntityViewBo().getEmailAddress();
-            getOlePatronLoanNoticeService().sendMail(mailAddress, new String(oleDeliverNoticeHistory.getNoticeContent()));
+            getOlePatronLoanNoticeService().sendMail(mailAddress, new String(oleDeliverNoticeHistory.getNoticeContent()),oleDeliverNoticeHistory.getNoticeType());
             oleLoanSentNoticesForm.setMessage("Mail Send Successfully for the patron  " + olePatronDocumentList.get(0).getPatronName()+" to the mail id "+mailAddress );
             OLEDeliverNoticeHistory oleDeliverNoticeHistory1 = getOlePatronLoanNoticeService().cloneOleDeliverNoticeHistory(oleDeliverNoticeHistory);
             getBusinessObjectService().save(oleDeliverNoticeHistory1);

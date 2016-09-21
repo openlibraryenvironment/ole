@@ -119,7 +119,7 @@ public abstract class NoticesExecutor implements Runnable {
 
     }
 
-    public abstract  void sendMail(String mailContent);
+  //  public abstract  void sendMail(String mailContent,String mailSubject);
 
     public void deleteNotices(List<OLEDeliverNotice> oleDeliverNotices) {
         getBusinessObjectService().delete(oleDeliverNotices);
@@ -156,7 +156,7 @@ public abstract class NoticesExecutor implements Runnable {
         return emailId;
     }
 
-    public String sendMailsToPatron(String emailAddress, String noticeContent, String itemLocation) {
+    public String sendMailsToPatron(String emailAddress, String noticeContent, String itemLocation,String mailSubject) {
         String fromAddress = getCircDeskLocationResolver().getReplyToEmail(itemLocation);
 
         if (fromAddress == null) {
@@ -173,7 +173,7 @@ public abstract class NoticesExecutor implements Runnable {
                 noticeContent = noticeContent.replace(']', ' ');
                 if (!noticeContent.trim().equals("")) {
                     OleMailer oleMailer = getOleMailer();
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(emailAddress), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(noticeContent), true);
+                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(emailAddress), new EmailSubject(mailSubject), new EmailBody(noticeContent), true);
                 }
             } else {
             }

@@ -909,7 +909,7 @@ public class PatronBillController extends UifControllerBase {
                         }
                         if (sendMail) {
                             OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(email), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(buffer.toString()), true);
+                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(email), new EmailSubject(OLEConstants.OVERDUE_NOTICE), new EmailBody(buffer.toString()), true);
                             if (LOG.isInfoEnabled()) {
                                 LOG.info("Mail send successfully to " + email);
                             }
