@@ -30,4 +30,16 @@
                           ROW_ACT_IND="Y" VER_NBR="1"/>
     <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 2 ? * SUN *" JOB_ID="12"
         JOB_TRG_NM="syncOleWithGOKbUpdatesJob" OBJ_ID="9" ROW_ACT_IND="Y" VER_NBR="1"/>
+    <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 4 15 * ?" JOB_ID="13"
+                          JOB_TRG_NM="deleteLoanNoticeHistoryJob" OBJ_ID="13"
+                          ROW_ACT_IND="Y" VER_NBR="1"/>
+    <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 5 15 * ?" JOB_ID="14"
+                          JOB_TRG_NM="deleteRenewalHistoryJob" OBJ_ID="14"
+                          ROW_ACT_IND="Y" VER_NBR="1"/>
+    <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 5 15 * ?" JOB_ID="15"
+                          JOB_TRG_NM="deleteRequestistoryJob" OBJ_ID="15"
+                          ROW_ACT_IND="Y" VER_NBR="1"/>
+    <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 5 15 * ?" JOB_ID="16"
+                          JOB_TRG_NM="deleteReturnHistoryJob" OBJ_ID="16"
+                          ROW_ACT_IND="Y" VER_NBR="1"/>
 </dataset>

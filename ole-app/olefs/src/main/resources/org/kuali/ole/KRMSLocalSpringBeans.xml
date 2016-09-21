@@ -643,6 +643,38 @@
         <property name="concurrent" value="false"/>
     </bean>
 
+    <bean id="deleteLoanNoticeHistoryJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="deleteLoanNoticeHistory"/>
+        <property name="name" value="deleteLoanNoticeHistory"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="deleteRenewalHistoryJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="deleteRenewalHistory"/>
+        <property name="name" value="deleteRenewalHistory"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="deleteReturnHistoryJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="deleteReturnHistory"/>
+        <property name="name" value="deleteReturnHistory"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="deleteRequestistoryJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="deleteRequestHistory"/>
+        <property name="name" value="deleteRequestHistory"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
     <bean id="generateOnHoldNoticeJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="oleOverDueNotice"/>
         <property name="targetMethod" value="generateOnHoldNotice"/>
