@@ -17,3 +17,4 @@ NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRT
 "OLE-DLVR","Deliver","DEFAULT_USER_FOR_REST_CALLS","OLE7058","1","CONFG","ole-quickstart","This parameter value is used for configuring the default user for the rest calls.","A","OLE"
 "OLE-DESC","Describe","CHUNK_SIZE_FOR_BATCH_PROCESSING","OLE7059","1","CONFG","1000","This parameter value is used for configuring the chunk size for batch processing.","A","OLE"
 "OLE-DESC","Describe","SLEEP_TIME_FOR_ORDER_PROCESS","OLE7060","1","CONFG","1000","This parameter value is used for holding the sleep time for order process.","A","OLE"
+"OLE-DESC","Describe","MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE","OLE7061","1","CONFG","10","This parameter value is used for holding the max number of thread for export process.","A","OLE"
