@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by SheikS on 1/22/2016.
@@ -36,6 +37,7 @@ public class CreateEHoldingsHandler extends Handler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_CREATE);
+        Set<String> discardedBibForAdditionalOverlayOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS);
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
             for (Iterator<HoldingsRecordAndDataMapping> iterator = holdingsRecordAndDataMappings.iterator(); iterator.hasNext(); ) {
@@ -44,14 +46,18 @@ public class CreateEHoldingsHandler extends Handler {
                     HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                     String bibId = holdingsRecord.getBibRecords().get(0).getBibId();
                     if (StringUtils.isNotBlank(bibId)) {
-                        JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
-                        holdingsRecord.setBibId(bibId);
-                        exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
-                        JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
-                        exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
-                        processDataMappings(holdingsJSONObject, exchange);
-                        setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
-                        holdingsRecords.add(holdingsRecord);
+                        if (!isDiscardedByAdditionalOverlayOps(discardedBibForAdditionalOverlayOps, bibId)) {
+                            JSONObject dataMapping = holdingsRecordAndDataMapping.getDataMapping();
+                            holdingsRecord.setBibId(bibId);
+                            exchange.add(OleNGConstants.HOLDINGS_RECORD, holdingsRecord);
+                            JSONObject holdingsJSONObject = requestJsonObject.getJSONObject(OleNGConstants.EHOLDINGS);
+                            if (null != dataMapping) {
+                                exchange.add(OleNGConstants.DATAMAPPING, dataMapping);
+                                processDataMappings(holdingsJSONObject, exchange);
+                            }
+                            setCommonValuesToHoldingsRecord(requestJsonObject, holdingsRecord);
+                            holdingsRecords.add(holdingsRecord);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -63,6 +69,10 @@ public class CreateEHoldingsHandler extends Handler {
             exchange.remove(OleNGConstants.DATAMAPPING);
             try {
                 getOleDsNGMemorizeService().getHoldingDAO().saveAll(holdingsRecords);
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    holdingsRecord.setOperationType(OleNGConstants.CREATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , holdingsRecords.size());

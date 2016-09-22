@@ -87,10 +87,10 @@ public class BatchExportUtil extends BatchUtil {
         return "(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])";
     }
 
-    public String getDeleteSolrQuery(Date lastExportDate) {
+    public String getDeletedAndStaffOnlyBibsSolrQuery(Date lastExportDate) {
         SimpleDateFormat format = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
         String fromDate = format.format(lastExportDate);
-        return "(DocType:bibliographic_delete)AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])";
+        return "(DocType:bibliographic_delete OR (DocType:bibliographic AND staffOnlyFlag:true))AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])";
     }
 
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
@@ -257,17 +257,6 @@ public class BatchExportUtil extends BatchUtil {
         bibLocalIds.addAll(bibLocalIdData);
     }
 
-    public void processDeletedBibs(Date lastExportDate, BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(getDeleteSolrQuery(lastExportDate));
-        SortedSet<String> deletedBibIds = new TreeSet<>();
-        if (solrDocumentList.size() > 0) {
-            for (SolrDocument solrDocument : solrDocumentList) {
-                deletedBibIds.add((String) solrDocument.getFieldValue(OleNGConstants.LOCAL_ID_DISPLAY));
-            }
-        }
-        generateFileForBibIds(deletedBibIds, batchProcessTxObject);
-    }
-
     public void generateFileForMarcRecords(int fileNumber, List<Record> marcRecords, BatchProcessTxObject batchProcessTxObject) {
         BatchExportFileResponse batchExportFileResponse = new BatchExportFileResponse();
         batchExportFileResponse.setMarcRecords(marcRecords);
@@ -289,6 +278,33 @@ public class BatchExportUtil extends BatchUtil {
         batchExportFileResponse.setDirectoryName(batchProcessTxObject.getReportDirectoryName());
         BatchExportFileLogHandler batchExportFileLogHandler = BatchExportFileLogHandler.getInstance();
         batchExportFileLogHandler.logMessage(batchExportFileResponse, batchProcessTxObject.getReportDirectoryName());
+    }
+
+    public void processDeletedAndStaffOnlyBibs(Date lastExportDate, BatchProcessTxObject batchProcessTxObject) {
+        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate));
+        SortedSet<String> deletedBibIds = new TreeSet<>();
+        if (solrDocumentList.size() > 0) {
+            for (SolrDocument solrDocument : solrDocumentList) {
+                deletedBibIds.add((String) solrDocument.getFieldValue(OleNGConstants.LOCAL_ID_DISPLAY));
+            }
+        }
+        generateFileForBibIds(deletedBibIds, batchProcessTxObject);
+    }
+
+    public Set<String> getBibIdentifiersForQuery(String query, int start, int chunkSize) {
+        Set<String> bibIdentifiers = new HashSet<>();
+        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query, start, chunkSize, OleNGConstants.BIB_IDENTIFIER);
+        if (solrDocumentList.size() > 0) {
+            for (SolrDocument solrDocument : solrDocumentList) {
+                if (solrDocument.containsKey(OleNGConstants.BIB_IDENTIFIER)) {
+                    List<String> bibIds = (List) solrDocument.getFieldValue(OleNGConstants.BIB_IDENTIFIER);
+                    for (String bibId : bibIds) {
+                        bibIdentifiers.add(DocumentUniqueIDPrefix.getDocumentId(bibId));
+                    }
+                }
+            }
+        }
+        return bibIdentifiers;
     }
 
 }

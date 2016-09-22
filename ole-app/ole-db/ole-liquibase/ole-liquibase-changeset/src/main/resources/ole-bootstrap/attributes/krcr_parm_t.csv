@@ -884,3 +884,5 @@ OLE-SYS,Batch,FUND_ACCOUNTING_LINE_RECORD_CSV_NAME,151,1,CONFG,FundCodeAccountin
 "OLE-DLVR","Deliver","DELETE_RENEWAL_HISTORY_TO_DATE","OLE1616751","1","CONFG","08/01/2015","Date used by batch job to delete Renewal History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"
 "OLE-DLVR","Deliver","DELETE_REQUEST_HISTORY_TO_DATE","OLE1616752","1","CONFG","06/01/2015","Date used by batch job to delete Request History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"
 "OLE-DLVR","Deliver","DELETE_RETURN_HISTORY_TO_DATE","OLE1616753","1","CONFG","06/01/2015","Date used by batch job to delete Return History Record upto the date provided. Use "mm/dd/yyyy" format.","A","KUALI"
+"OLE-DESC","Describe","MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE","OLE7061","1","CONFG","10","This parameter value is used for holding the max number of thread for export process.","A","OLE"
+"OLE-DESC","Describe","PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM","OLE7062","1","CONFG","Y","This parameter value is used for holding value to decide whether need to do auditing for bib, holdings and item.","A","OLE"

@@ -49,17 +49,7 @@ public class DiscardHoldingsHandler extends Handler {
                     holdingsRecord.setUpdatedDate(updatedDate);
                     holdingsRecord.setUpdatedBy(updatedBy);
                     exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
-                    JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
-                    if(null != dataMappingByValue) {
-                        BibValidationDao bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
-                        if (bibValidationDao.isHoldingAttachedToPo(holdingsRecord.getHoldingsId())) {
-                            Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO);
-                            addFailureReportToExchange(requestJsonObject, exchange,"holdings",e,null);
-                        }else{
-                            HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject);
-                        }
-
-                    }
+                    HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject, exchange);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

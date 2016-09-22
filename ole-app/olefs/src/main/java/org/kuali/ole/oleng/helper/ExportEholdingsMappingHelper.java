@@ -30,7 +30,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
     private static final Logger LOG = Logger.getLogger(InstanceMappingHelper.class);
     private HoldingOlemlRecordProcessor workEHoldingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
 
-    public List<DataField> generateDataFieldForEHolding(HoldingsTree holdingsTree, BatchProcessProfile profile, OleNGBatchExportResponse oleNGBatchExportResponse) throws Exception {
+    public List<DataField> generateDataFieldForEHolding(HoldingsTree holdingsTree, BatchProcessProfile profile) throws Exception {
         dataFieldList.clear();
         if (holdingsTree != null) {
             OleHoldings oleHoldings = null;
@@ -642,7 +642,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
      */
     private void generatePublicDisplayNote(OleHoldings oleHoldings, Note note, char code, DataField dataField) throws Exception {
         try {
-            if (null != oleHoldings && null != note) {
+            if (null != oleHoldings && null != note && StringUtils.isNotBlank(note.getValue())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(note.getValue());
@@ -662,7 +662,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
      */
     private void generateDonorPublicDisplay(OleHoldings oleHoldings, DonorInfo donorInfo, char code, DataField dataField) throws Exception {
         try {
-            if (null != donorInfo) {
+            if (null != donorInfo && StringUtils.isNotBlank(donorInfo.getDonorPublicDisplay())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(donorInfo.getDonorPublicDisplay());
@@ -682,7 +682,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
      */
     private void generateDonorNote(OleHoldings oleHoldings, DonorInfo donorInfo, char code, DataField dataField) throws Exception {
         try {
-            if (null != donorInfo) {
+            if (null != donorInfo && StringUtils.isNotBlank(donorInfo.getDonorNote())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(donorInfo.getDonorNote());
@@ -702,7 +702,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
      */
     private void generateDonorCode(OleHoldings oleHoldings, DonorInfo donorInfo, char code, DataField dataField) throws Exception {
         try {
-            if (null != donorInfo) {
+            if (null != donorInfo && StringUtils.isNotBlank(donorInfo.getDonorCode())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(donorInfo.getDonorCode());

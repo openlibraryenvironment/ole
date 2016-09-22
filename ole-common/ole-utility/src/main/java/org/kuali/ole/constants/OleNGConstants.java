@@ -368,7 +368,7 @@ public class OleNGConstants {
     public final static String ERR_BIB_ITEM_LOANED = "Bib record contains loaned item";
     public final static String ERR_BIB_ITEM_REQUESTED = "Bib record contains requested item";
     public final static String ERR_DUPLICATE_LINE_DATA = "Duplicate line data in File";
-    public final static String ERR_DUPLICATE_LOCAL_ID = "Duplicate bib local id";
+    public final static String ERR_DUPLICATE_LOCAL_ID = "Duplicate bib ids in incoming file";
     public final static String ERR_DELETING_FROM_DB = "Exception while deleting bib record from database";
     public final static String ERR_DELETING_FROM_SOLR = "Exception while deleting bib record from solr";
 
@@ -413,6 +413,17 @@ public class OleNGConstants {
     public static final String INVALID_LEADER="Invalid Leader Field - ";
 
     public static final String _VERSION_ = "_version_";
-    public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Holdings record is linked with Requisition/PO";
+    public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Requisition/PO linked with holdings/eholdings : ";
+    public final static String ERR_ITEM_HAS_REQ_OR_PO = "Requisition/PO linked with item : ";
+    public static final String MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE = "MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE";
+    public static final String PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM = "PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM";
+
+
+    public static final String DESCRIBE_COMPONENT = "Describe";
+    public static final String DESC_NMSPC = "OLE-DESC";
+    public static final String APPL_ID_OLE = "OLE";
+
+
+    public static final String SOLR_RECORD_NOT_SYNC_WITH_DB_RECORD = "Solr record is not sync with database";
 
 }

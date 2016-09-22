@@ -15,6 +15,7 @@ import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.businessobject.RequisitionAccount;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
+import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
 import org.kuali.ole.pojo.OleBibRecord;
@@ -60,6 +61,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
     protected DocumentService documentService;
     private BatchUtil batchUtil;
     private OleNGMemorizeService oleNGMemorizeService;
+    private OlePurapService olePurapService;
 
     @Override
     public OleRequisitionDocument createPurchaseOrderDocument(List<OleOrderRecord> oleOrderRecords, Exchange exchange) throws Exception {
@@ -165,9 +167,11 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
             item.setItemNoOfParts(new KualiInteger(oleTxRecord.getItemNoOfParts()));
         }
         setItemDescription(oleOrderRecord, item);
-        item.setItemUnitPrice(new BigDecimal(oleTxRecord.getListPrice()));
         item.setItemTypeCode(oleTxRecord.getItemType());
         item.setItemListPrice(new KualiDecimal(oleTxRecord.getListPrice()));
+
+        setDiscountAndItemUnitPrice(item, oleTxRecord);
+
         if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {
             item.setItemTitleId(oleBibRecord.getBibUUID());
         }
@@ -193,6 +197,15 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         setItemNotes(item, oleOrderRecord.getOleTxRecord());
         item.setVendorItemPoNumber(oleTxRecord.getVendorItemIdentifier());
         return item;
+    }
+
+    private void setDiscountAndItemUnitPrice(OleRequisitionItem item, OleTxRecord oleTxRecord) {
+        item.setItemDiscount(new KualiDecimal(oleTxRecord.getDiscount()));
+        item.setItemDiscountType(oleTxRecord.getDiscountType());
+        if (item.getItemDiscount() != null && item.getItemDiscountType() == null) {
+            item.setItemDiscountType(OLEConstants.PERCENTAGE);
+        }
+        item.setItemUnitPrice(getOlePurapService().calculateDiscount(item).setScale(2, BigDecimal.ROUND_HALF_UP));
     }
 
     private void setItemDescription(OleOrderRecord oleOrderRecord, OleRequisitionItem item) throws Exception {
@@ -500,5 +513,12 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
 
     public void setOleNGMemorizeService(OleNGMemorizeService oleNGMemorizeService) {
         this.oleNGMemorizeService = oleNGMemorizeService;
+    }
+
+    public OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
     }
 }

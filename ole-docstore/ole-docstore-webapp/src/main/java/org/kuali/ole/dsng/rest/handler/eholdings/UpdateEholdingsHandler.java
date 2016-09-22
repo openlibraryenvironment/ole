@@ -14,10 +14,7 @@ import org.kuali.ole.dsng.rest.handler.holdings.*;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 12/31/2015.
@@ -99,6 +96,7 @@ public class UpdateEholdingsHandler extends Handler {
     @Override
     public void process(JSONObject requestJsonObject, Exchange exchange) {
         List<HoldingsRecordAndDataMapping> holdingsRecordAndDataMappings = (List<HoldingsRecordAndDataMapping>) exchange.get(OleNGConstants.EHOLDINGS_FOR_UPDATE);
+        Set<String> discardedBibForAdditionalOverlayOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS);
         List<HoldingsRecord> holdingsRecords = new ArrayList<HoldingsRecord>();
         if (CollectionUtils.isNotEmpty(holdingsRecordAndDataMappings)) {
                 String updatedBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
@@ -109,17 +107,20 @@ public class UpdateEholdingsHandler extends Handler {
                     try {
                         HoldingsRecordAndDataMapping holdingsRecordAndDataMapping = iterator.next();
                         HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
-                        holdingsRecord.setUpdatedDate(updatedDate);
-                        holdingsRecord.setUpdatedBy(updatedBy);
-                        if(holdingsRecord.getStaffOnlyFlag()==null){
-                            holdingsRecord.setStaffOnlyFlag(false);
+                        String bibId = holdingsRecord.getBibId();
+                        if (!isDiscardedByAdditionalOverlayOps(discardedBibForAdditionalOverlayOps, bibId)) {
+                            holdingsRecord.setUpdatedDate(updatedDate);
+                            holdingsRecord.setUpdatedBy(updatedBy);
+                            if(holdingsRecord.getStaffOnlyFlag()==null){
+                                holdingsRecord.setStaffOnlyFlag(false);
+                            }
+                            exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
+                            JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
+                            if(null != dataMappingByValue) {
+                                processOverlay(exchange, holdingsRecord, dataMappingByValue);
+                            }
+                            holdingsRecords.add(holdingsRecord);
                         }
-                        exchange.add(OleNGConstants.HOLDINGS_RECORD,holdingsRecord);
-                        JSONObject dataMappingByValue = holdingsRecordAndDataMapping.getDataMapping();
-                        if(null != dataMappingByValue) {
-                            processOverlay(exchange, holdingsRecord, dataMappingByValue);
-                        }
-                        holdingsRecords.add(holdingsRecord);
                     } catch (Exception e) {
                         e.printStackTrace();
                         addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , 1);
@@ -128,6 +129,10 @@ public class UpdateEholdingsHandler extends Handler {
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
             try {
                 getOleDsNGMemorizeService().getHoldingDAO().saveAll(holdingsRecords);
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    holdingsRecord.setOperationType(OleNGConstants.UPDATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , holdingsRecords.size());
