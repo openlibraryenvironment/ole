@@ -4,9 +4,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.dsng.dao.BibValidationDao;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,6 +20,7 @@ import java.util.List;
 public class HoldingsUtil extends OleDsHelperUtil{
 
     private static HoldingsUtil holdingsUtil;
+    private BibValidationDao bibValidationDao;
 
     private HoldingsUtil() {
     }
@@ -29,23 +32,32 @@ public class HoldingsUtil extends OleDsHelperUtil{
         return holdingsUtil;
     }
 
-    public void processIfDeleteAllExistOpsFound(HoldingsRecord holdingsRecord, JSONObject requestJsonObject) {
+    public void processIfDeleteAllExistOpsFound(HoldingsRecord holdingsRecord, JSONObject requestJsonObject, Exchange exchange) {
         ArrayList<ItemRecord> itemListToDelete = getListOfItemsToDelete(holdingsRecord, requestJsonObject);
 
         if (CollectionUtils.isNotEmpty(itemListToDelete)) {
-
-            getBusinessObjectService().delete(itemListToDelete);
-
-            StringBuilder itemIdsString = new StringBuilder();
+            List<ItemRecord> finalListToDelete = new ArrayList<ItemRecord>();
             for (Iterator<ItemRecord> iterator = itemListToDelete.iterator(); iterator.hasNext(); ) {
                 ItemRecord itemRecord = iterator.next();
-                String itemId = itemRecord.getItemId();
-                itemIdsString.append(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemId);
-                if(iterator.hasNext()) {
-                    itemIdsString.append(" OR ");
+                if (getBibValidationDao().isItemAttachedToPO(itemRecord.getItemId())) {
+                    Exception e = new Exception(OleNGConstants.ERR_ITEM_HAS_REQ_OR_PO + DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemRecord.getItemId());
+                    addFailureReportToExchange(requestJsonObject, exchange,OleNGConstants.ITEM,e,null);
+                } else {
+                    finalListToDelete.add(itemRecord);
                 }
             }
-            if(StringUtils.isNotBlank(itemIdsString.toString())) {
+
+
+            getBusinessObjectService().delete(finalListToDelete);
+
+            List<String> itemIdsToDeleteFromSolr = new ArrayList<String>();
+            for (Iterator<ItemRecord> iterator = finalListToDelete.iterator(); iterator.hasNext(); ) {
+                ItemRecord itemRecord = iterator.next();
+                String itemId = itemRecord.getItemId();
+                itemIdsToDeleteFromSolr.add(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemId);
+            }
+            String itemIdsString = StringUtils.join(itemIdsToDeleteFromSolr, " OR ");
+            if(StringUtils.isNotBlank(itemIdsString)) {
                 String deleteQuery = "id:(" + itemIdsString + ")";
                 getSolrRequestReponseHandler().deleteFromSolr(deleteQuery);
             }
@@ -70,5 +82,19 @@ public class HoldingsUtil extends OleDsHelperUtil{
     private String getAddedOpsValue(JSONObject jsonObject, String docType) {
         JSONObject addedOps = getJSONObjectFromJSONObject(jsonObject, OleNGConstants.ADDED_OPS);
         return getStringValueFromJsonObject(addedOps,docType);
+    }
+
+
+
+    public BibValidationDao getBibValidationDao() {
+        if(null == bibValidationDao) {
+            bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
+        }
+
+        return bibValidationDao;
+    }
+
+    public void setBibValidationDao(BibValidationDao bibValidationDao) {
+        this.bibValidationDao = bibValidationDao;
     }
 }

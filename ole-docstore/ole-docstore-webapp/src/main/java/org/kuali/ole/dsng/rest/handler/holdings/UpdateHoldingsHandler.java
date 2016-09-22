@@ -81,13 +81,7 @@ public class UpdateHoldingsHandler extends Handler {
                         if (null != dataMappingByValue) {
                             processOverlay(exchange, holdingsRecord, dataMappingByValue);
                         }
-                        BibValidationDao bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
-                        if (bibValidationDao.isHoldingAttachedToPo(holdingsRecord.getHoldingsId())) {
-                            Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO);
-                            addFailureReportToExchange(requestJsonObject, exchange,"holdings",e,null);
-                        }else{
-                            HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject);
-                        }
+                        HoldingsUtil.getInstance().processIfDeleteAllExistOpsFound(holdingsRecord, requestJsonObject, exchange);
                         holdingsRecords.add(holdingsRecord);
                     }else {
                         Set<String> discardedHoldingsIdsForAdditionalOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_HOLDINGS_FOR_ADDITIONAL_OVERLAY_OPS);

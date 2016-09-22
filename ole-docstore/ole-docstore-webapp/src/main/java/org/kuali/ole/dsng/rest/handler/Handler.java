@@ -9,6 +9,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.dsng.dao.BibValidationDao;
 import org.kuali.ole.dsng.service.OleDsNGMemorizeService;
 import org.kuali.ole.dsng.service.impl.OleDsNGMemorizeServiceImpl;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
@@ -30,6 +31,9 @@ public abstract class Handler extends OleDsHelperUtil {
     OleDsNGMemorizeService oleDsNGMemorizeService;
 
     BusinessObjectService businessObjectService;
+
+
+    BibValidationDao bibValidationDao;
 
     public abstract Boolean isInterested(String operation);
 
@@ -107,5 +111,17 @@ public abstract class Handler extends OleDsHelperUtil {
 
     public boolean isDiscardedByAdditionalOverlayOps(Set<String> discardedIdsForAdditionalOverlayOps, String id) {
         return CollectionUtils.isNotEmpty(discardedIdsForAdditionalOverlayOps) ? discardedIdsForAdditionalOverlayOps.contains(id) : false;
+    }
+
+    public BibValidationDao getBibValidationDao() {
+        if(null == bibValidationDao) {
+            bibValidationDao = (BibValidationDao) org.kuali.ole.dsng.service.SpringContext.getBean("bibValidationDao");
+        }
+
+        return bibValidationDao;
+    }
+
+    public void setBibValidationDao(BibValidationDao bibValidationDao) {
+        this.bibValidationDao = bibValidationDao;
     }
 }

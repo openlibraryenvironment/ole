@@ -413,6 +413,7 @@ public class OleNGConstants {
     public static final String INVALID_LEADER="Invalid Leader Field - ";
 
     public static final String _VERSION_ = "_version_";
-    public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Holdings record is linked with Requisition/PO";
+    public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Requisition/PO linked with holdings/eholdings : ";
+    public final static String ERR_ITEM_HAS_REQ_OR_PO = "Requisition/PO linked with item : ";
 
 }

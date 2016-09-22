@@ -17,6 +17,7 @@ import org.kuali.ole.docstore.common.util.BibMarcUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.DataField;
@@ -286,7 +287,7 @@ public abstract class BibHandler extends Handler {
         return truncateData;
     }
 
-    public void processIfDeleteAllExistOpsFound(BibRecord bibRecord, JSONObject requestJsonObject) {
+    public void processIfDeleteAllExistOpsFound(BibRecord bibRecord, JSONObject requestJsonObject, Exchange exchange) {
         ArrayList<HoldingsRecord> holdingsListToDelete = new ArrayList<HoldingsRecord>();
 
         ArrayList<HoldingsRecord> listOfHoldingsToDelete = getListOfHoldingsToDelete(bibRecord, requestJsonObject);
@@ -296,18 +297,43 @@ public abstract class BibHandler extends Handler {
         holdingsListToDelete.addAll(listOfEHoldingsToDelete);
 
         if (CollectionUtils.isNotEmpty(holdingsListToDelete)) {
-            getBusinessObjectService().delete(holdingsListToDelete);
-            StringBuilder holdingIdsString = new StringBuilder();
+            List<HoldingsRecord> finalHoldingsRecordsToDelete = new ArrayList<HoldingsRecord>();
             for (Iterator<HoldingsRecord> iterator = holdingsListToDelete.iterator(); iterator.hasNext(); ) {
                 HoldingsRecord holdingsRecord = iterator.next();
                 String holdingsId = holdingsRecord.getHoldingsId();
-                holdingIdsString.append(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsId);
-                if(iterator.hasNext()) {
-                    holdingIdsString.append(" OR ");
+                boolean holdingAttachedToPo = getBibValidationDao().isHoldingAttachedToPo(holdingsId);
+                if(holdingAttachedToPo) {
+                    Exception e = new Exception(OleNGConstants.ERR_HOLDINGS_HAS_REQ_OR_PO + DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsId);
+                    addFailureReportToExchange(requestJsonObject, exchange,OleNGConstants.HOLDINGS,e,null);
+                } else {
+                    finalHoldingsRecordsToDelete.add(holdingsRecord);
                 }
             }
-            if(StringUtils.isNotBlank(holdingIdsString.toString())) {
-                String deleteQuery = "id:(" + holdingIdsString + ")";
+
+            /*Delete from db*/
+            getBusinessObjectService().delete(finalHoldingsRecordsToDelete);
+
+            /*Delete from Solr*/
+            List<String> idsToDeleteFromSolr = new ArrayList<String>();
+            for (Iterator<HoldingsRecord> iterator = finalHoldingsRecordsToDelete.iterator(); iterator.hasNext(); ) {
+                HoldingsRecord holdingsRecord = iterator.next();
+                String holdingsId = holdingsRecord.getHoldingsId();
+                idsToDeleteFromSolr.add(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsId);
+                if(PHoldings.PRINT.equalsIgnoreCase(holdingsRecord.getHoldingsType())) {
+                    List<ItemRecord> itemRecords = holdingsRecord.getItemRecords();
+                    if(CollectionUtils.isNotEmpty(itemRecords)) {
+                        for (Iterator<ItemRecord> itemRecordIterator = itemRecords.iterator(); itemRecordIterator.hasNext(); ) {
+                            ItemRecord itemRecord = itemRecordIterator.next();
+                            idsToDeleteFromSolr.add(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + itemRecord.getItemId());
+                        }
+                    }
+                }
+            }
+
+            String idsToDeleteFromSolrString = StringUtils.join(idsToDeleteFromSolr, " OR ");
+
+            if(StringUtils.isNotBlank(idsToDeleteFromSolrString)) {
+                String deleteQuery = "id:(" + idsToDeleteFromSolrString + ")";
                 getSolrRequestReponseHandler().deleteFromSolr(deleteQuery);
             }
         }

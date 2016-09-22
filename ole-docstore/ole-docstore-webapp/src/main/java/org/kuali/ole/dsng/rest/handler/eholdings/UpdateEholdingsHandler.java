@@ -128,6 +128,10 @@ public class UpdateEholdingsHandler extends Handler {
             exchange.remove(OleNGConstants.HOLDINGS_RECORD);
             try {
                 getOleDsNGMemorizeService().getHoldingDAO().saveAll(holdingsRecords);
+                for (Iterator<HoldingsRecord> iterator = holdingsRecords.iterator(); iterator.hasNext(); ) {
+                    HoldingsRecord holdingsRecord = iterator.next();
+                    holdingsRecord.setOperationType(OleNGConstants.UPDATED);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 addFailureReportToExchange(requestJsonObject, exchange, OleNGConstants.NO_OF_FAILURE_EHOLDINGS, e , holdingsRecords.size());
