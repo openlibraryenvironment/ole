@@ -416,5 +416,11 @@ public class OleNGConstants {
     public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Requisition/PO linked with holdings/eholdings : ";
     public final static String ERR_ITEM_HAS_REQ_OR_PO = "Requisition/PO linked with item : ";
     public static final String MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE = "MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE";
+    public static final String PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM = "PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM";
+
+
+    public static final String DESCRIBE_COMPONENT = "Describe";
+    public static final String DESC_NMSPC = "OLE-DESC";
+    public static final String APPL_ID_OLE = "OLE";
 
 }
