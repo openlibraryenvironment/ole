@@ -1,8 +1,7 @@
 package org.kuali.ole.oleng.dao.export;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.*;
@@ -45,28 +44,18 @@ public class ExportDaoCallableImpl implements Callable {
 
 
     private PlatformTransactionManager transactionManager;
-    String bibQuery = "SELECT * FROM OLE_DS_BIB_T WHERE BIB_ID ";
-    JdbcTemplate jdbcTemplate;
-    String bibIds;
-    int fileNumber;
-    OleNGBatchExportResponse oleNGBatchExportResponse;
-    BatchExportHandler batchExportHandler;
-    BatchProcessTxObject batchProcessTxObject;
+    private String bibQuery = "SELECT * FROM OLE_DS_BIB_T WHERE BIB_ID ";
+    private JdbcTemplate jdbcTemplate;
+    private String bibIdsString;
+    private int fileNumber;
+    private OleNGBatchExportResponse oleNGBatchExportResponse;
+    private BatchExportHandler batchExportHandler;
+    private BatchProcessTxObject batchProcessTxObject;
+    private List<String> bibIds;
 
-    public ExportDaoCallableImpl(Map<String, Map<String, String>> commomFields, JdbcTemplate jdbcTemplate, int start, int chunkSize, String query, int fileNumber, BatchExportHandler batchExportHandler, BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(query, start, chunkSize, OleNGConstants.BIB_IDENTIFIER);
-        if (solrDocumentList.size() > 0) {
-            Set<String> bibIdentifiers = new HashSet<>();
-            for (SolrDocument solrDocument : solrDocumentList) {
-                if (solrDocument.containsKey(OleNGConstants.BIB_IDENTIFIER)) {
-                    List<String> bibIds = (List) solrDocument.getFieldValue(OleNGConstants.BIB_IDENTIFIER);
-                    for (String bibId : bibIds) {
-                        bibIdentifiers.add(DocumentUniqueIDPrefix.getDocumentId(bibId));
-                    }
-                }
-            }
-            this.bibIds = StringUtils.join(bibIdentifiers, ',');
-        }
+    public ExportDaoCallableImpl(Map<String, Map<String, String>> commomFields, JdbcTemplate jdbcTemplate,List<String> bibIds, int fileNumber, BatchExportHandler batchExportHandler, BatchProcessTxObject batchProcessTxObject) {
+        this.bibIds = new ArrayList<>(bibIds);
+        this.bibIdsString = StringUtils.join(bibIds, ',');
         this.jdbcTemplate = jdbcTemplate;
         this.callNumberType = commomFields.get("callNumberType");
         this.receiptStatus = commomFields.get("receiptStatus");
@@ -76,15 +65,15 @@ public class ExportDaoCallableImpl implements Callable {
         this.statisticalSearchCodeMap = commomFields.get("statisticalSearchCodeMap");
         this.extentOfOwnershipTypeMap = commomFields.get("extentOfOwnershipTypeMap");
         this.fileNumber = fileNumber;
-        this.oleNGBatchExportResponse = oleNGBatchExportResponse;
         this.batchExportHandler = batchExportHandler;
         this.batchProcessTxObject = batchProcessTxObject;
+        this.oleNGBatchExportResponse = new OleNGBatchExportResponse();
     }
 
     @Override
     public Object call() throws Exception {
         final TransactionTemplate template = new TransactionTemplate(getTransactionManager());
-        final SqlRowSet bibResultSet = this.jdbcTemplate.queryForRowSet(bibQuery + " IN ( " + bibIds + " )");
+        final SqlRowSet bibResultSet = this.jdbcTemplate.queryForRowSet(bibQuery + " IN ( " + bibIdsString + " )");
         try {
             template.execute(new TransactionCallback<Object>() {
                 @Override
@@ -93,14 +82,17 @@ public class ExportDaoCallableImpl implements Callable {
                     Bib bib = null;
                     List<HoldingsTree> holdingsTreeList = null;
                     List<Record> marcRecord = null;
+                    int numberOfSuccesssRecord = 0;
+                    int numberOfFailureRecord = 0;
                     while (bibResultSet.next()) {
                         try {
+                            bibIds.remove(bibResultSet.getString(1));
                             bib = fetchBibRecord(bibResultSet);
                             holdingsTreeList = fetchHoldingsTreeForBib(Integer.parseInt(bib.getLocalId()));
                             marcRecord = batchExportHandler.getMarcRecordUtil().convertMarcXmlContentToMarcRecord(bib.getContent());
-                            processDataMappings(bib.getId(), marcRecord.get(0), holdingsTreeList, batchProcessTxObject.getBatchProcessProfile(), oleNGBatchExportResponse);
-                            processDataTransformations(bib.getId(), marcRecord.get(0), batchProcessTxObject.getBatchProcessProfile(), batchExportHandler, oleNGBatchExportResponse);
-                            oleNGBatchExportResponse.addNoOfSuccessRecords(1);
+                            processDataMappings(bib.getId(), marcRecord.get(0), holdingsTreeList, batchProcessTxObject.getBatchProcessProfile());
+                            processDataTransformations(bib.getId(), marcRecord.get(0), batchProcessTxObject.getBatchProcessProfile(), batchExportHandler);
+                            numberOfSuccesssRecord++;
                             oleNGBatchExportResponse.addSuccessRecord(bib.getLocalId(), bib.getId(), OleNGConstants.SUCCESS);
                             marcRecords.addAll(marcRecord);
 
@@ -110,15 +102,15 @@ public class ExportDaoCallableImpl implements Callable {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            oleNGBatchExportResponse.addNoOfFailureRecords(1);
+                            numberOfFailureRecord++;
                             oleNGBatchExportResponse.addFailureRecord(bib.getLocalId(), bib.getId(), e.getMessage());
                             batchExportHandler.addBatchExportFailureResponseToExchange(e, bib.getId(), batchProcessTxObject.getExchangeObjectForBatchExport());
                         }
                     }
+                    preparedReportForUnSyncRecords(bibIds, oleNGBatchExportResponse);
+                    oleNGBatchExportResponse.addNoOfSuccessRecords(numberOfSuccesssRecord);
+                    oleNGBatchExportResponse.addNoOfFailureRecords(numberOfFailureRecord + bibIds.size());
                     batchExportHandler.generateFileForMarcRecords(fileNumber, marcRecords, batchProcessTxObject);
-                    batchProcessTxObject.getBatchJobDetails().setTotalFailureRecords(String.valueOf(oleNGBatchExportResponse.getNoOfFailureRecords()));
-                    batchProcessTxObject.getBatchJobDetails().setTotalRecordsProcessed(String.valueOf(oleNGBatchExportResponse.getNoOfSuccessRecords() + oleNGBatchExportResponse.getNoOfFailureRecords()));
-                    batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
                     return oleNGBatchExportResponse;
                 }
             });
@@ -131,13 +123,23 @@ public class ExportDaoCallableImpl implements Callable {
         return oleNGBatchExportResponse;
     }
 
-    private void processDataMappings(String bibId, Record marcRecord, List<HoldingsTree> holdingsTreeList, BatchProcessProfile batchProcessProfile, OleNGBatchExportResponse oleNGBatchExportResponse) {
+    private void preparedReportForUnSyncRecords(List<String> bibIds, OleNGBatchExportResponse oleNGBatchExportResponse) {
+        if(CollectionUtils.isNotEmpty(bibIds)) {
+            for (Iterator<String> iterator = bibIds.iterator(); iterator.hasNext(); ) {
+                String bibId = iterator.next();
+                String bibIdWithPrefix = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, bibId);
+                oleNGBatchExportResponse.addFailureRecord(bibId, bibIdWithPrefix, OleNGConstants.SOLR_RECORD_NOT_SYNC_WITH_DB_RECORD);
+            }
+        }
+    }
+
+    private void processDataMappings(String bibId, Record marcRecord, List<HoldingsTree> holdingsTreeList, BatchProcessProfile batchProcessProfile) {
         for (HoldingsTree holdingsTree : holdingsTreeList) {
             try {
                 if (holdingsTree.getHoldings().getHoldingsType().equalsIgnoreCase(OleNGConstants.PRINT)) {
-                    marcRecord.getDataFields().addAll(new ExportHoldingsMappingHelper().generateDataFieldForHolding(holdingsTree, batchProcessProfile, oleNGBatchExportResponse));
+                    marcRecord.getDataFields().addAll(new ExportHoldingsMappingHelper().generateDataFieldForHolding(holdingsTree, batchProcessProfile));
                 } else {
-                    marcRecord.getDataFields().addAll(new ExportEholdingsMappingHelper().generateDataFieldForEHolding(holdingsTree, batchProcessProfile, oleNGBatchExportResponse));
+                    marcRecord.getDataFields().addAll(new ExportEholdingsMappingHelper().generateDataFieldForEHolding(holdingsTree, batchProcessProfile));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -146,7 +148,7 @@ public class ExportDaoCallableImpl implements Callable {
         }
     }
 
-    private void processDataTransformations(String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile, BatchExportHandler batchExportHandler, OleNGBatchExportResponse oleNGBatchExportResponse) {
+    private void processDataTransformations(String bibId, Record marcRecord, BatchProcessProfile batchProcessProfile, BatchExportHandler batchExportHandler) {
         List<BatchProfileDataTransformer> dataTransformerList = batchProcessProfile.getBatchProfileDataTransformerList();
         for (BatchProfileDataTransformer dataTransformer : dataTransformerList) {
             try {

@@ -423,4 +423,7 @@ public class OleNGConstants {
     public static final String DESC_NMSPC = "OLE-DESC";
     public static final String APPL_ID_OLE = "OLE";
 
+
+    public static final String SOLR_RECORD_NOT_SYNC_WITH_DB_RECORD = "Solr record is not sync with database";
+
 }
