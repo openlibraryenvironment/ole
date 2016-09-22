@@ -291,4 +291,20 @@ public class BatchExportUtil extends BatchUtil {
         generateFileForBibIds(deletedBibIds, batchProcessTxObject);
     }
 
+    public Set<String> getBibIdentifiersForQuery(String query, int start, int chunkSize) {
+        Set<String> bibIdentifiers = new HashSet<>();
+        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query, start, chunkSize, OleNGConstants.BIB_IDENTIFIER);
+        if (solrDocumentList.size() > 0) {
+            for (SolrDocument solrDocument : solrDocumentList) {
+                if (solrDocument.containsKey(OleNGConstants.BIB_IDENTIFIER)) {
+                    List<String> bibIds = (List) solrDocument.getFieldValue(OleNGConstants.BIB_IDENTIFIER);
+                    for (String bibId : bibIds) {
+                        bibIdentifiers.add(DocumentUniqueIDPrefix.getDocumentId(bibId));
+                    }
+                }
+            }
+        }
+        return bibIdentifiers;
+    }
+
 }

@@ -28,7 +28,7 @@ public class SolrRequestReponseHandler {
     private HttpSolrServer server;
 
     public List retriveResults(String queryString) {
-        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
+        ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
 
         server = getHttpSolrServer();
 
@@ -111,7 +111,7 @@ public class SolrRequestReponseHandler {
         return sdl;
     }
 
-    public SolrDocumentList getSolrDocumentList(String queryString, int start, int rows, String fieldList) {
+    public SolrDocumentList getSolrDocumentList(String queryString, Integer start, Integer rows, String fieldList) {
         ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<>();
         SolrDocumentList sdl = null;
 
@@ -119,8 +119,12 @@ public class SolrRequestReponseHandler {
 
         SolrQuery query = new SolrQuery();
         query.setQuery(queryString);
-        query.setStart(start);
-        query.setRows(rows);
+        if(null != start) {
+            query.setStart(start);
+        }
+        if(null != rows) {
+            query.setRows(rows);
+        }
         query.setFields(fieldList);
         query.setIncludeScore(true);
 
