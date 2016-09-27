@@ -1,10 +1,12 @@
 package org.kuali.ole.spring.batch.processor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
+import org.kuali.ole.docstore.common.response.ExportFailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBatchExportResponse;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +43,10 @@ public class BatchExportFileProcessor extends BatchFileProcessor {
             batchProcessProfile = fetchBatchProcessProfile(profileId);
             batchProcessTxObject = buildBatchProcessTxObject(inputFileDirectoryPath, fileType, batchProcessProfile, reportDirectoryName, batchJobDetails);
             batchExportHandler.processExport(batchProcessTxObject, oleNGBatchExportResponse);
+            List<ExportFailureResponse> exportFailureResponses = (List<ExportFailureResponse>) batchProcessTxObject.getExchangeObjectForBatchExport().get(OleNGConstants.FAILURE_RESPONSE);
+            if(CollectionUtils.isNotEmpty(exportFailureResponses)) {
+                oleNGBatchExportResponse.setExportFailureResponses(exportFailureResponses);
+            }
             generateBatchReport(inputFileDirectoryPath, batchJobDetails, oleNGBatchExportResponse);
             jsonResponse.put(OleNGConstants.STATUS, true);
         } catch (Exception e) {
