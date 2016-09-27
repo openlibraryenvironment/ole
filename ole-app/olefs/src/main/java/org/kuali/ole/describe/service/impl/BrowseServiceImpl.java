@@ -580,7 +580,7 @@ public class BrowseServiceImpl implements BrowseService {
 
     private void buildSchemaOrder(CallNumberBrowseParams callNumberBrowseParams) {
         String classificationScheme = callNumberBrowseParams.getClassificationScheme();
-        String callNumberBrowseText = callNumberBrowseParams.getCallNumberBrowseText().replaceAll(" ", "");;
+        String callNumberBrowseText = callNumberBrowseParams.getCallNumberBrowseText();
         CallNumber callNumber = CallNumberFactory.getInstance().getCallNumber(classificationScheme);
         callNumber.parse(callNumberBrowseText);
         String normalizedCallNumberBrowseText = callNumber.getShelfKey();
