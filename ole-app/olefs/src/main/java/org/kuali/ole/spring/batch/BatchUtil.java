@@ -393,9 +393,6 @@ public class BatchUtil extends OleNgUtil {
     }
 
 
-
-
-
     public void addBatchExportFailureResponseToExchange(Exception exception, String bibId, Exchange exchange) {
         String message = exception.toString();
         List<ExportFailureResponse> exportFailureResponses = (List<ExportFailureResponse>) exchange.get(OleNGConstants.FAILURE_RESPONSE);

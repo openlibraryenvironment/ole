@@ -111,7 +111,8 @@ public abstract class ExportCallable implements Callable {
                 }
             });
         } catch (Exception ex) {
-            throw ex;
+            ex.printStackTrace();
+            batchExportHandler.addBatchExportFailureResponseToExchange(ex, null, batchProcessTxObject.getExchangeObjectForBatchExport());
         } finally {
             this.transactionManager = null;
 

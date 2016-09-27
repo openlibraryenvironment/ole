@@ -14,8 +14,8 @@ public class BatchExportFailureReportProcessor extends OleNGReportProcessor {
 
     @Override
     public void process(Object object, String directoryToWrite) throws Exception {
-        OleNGBatchExportResponse oleNGBatchDeleteResponse = (OleNGBatchExportResponse) object;
-        List<ExportFailureResponse> exportFailureResponses = oleNGBatchDeleteResponse.getExportFailureResponses();
+        OleNGBatchExportResponse oleNGBatchExportResponse = (OleNGBatchExportResponse) object;
+        List<ExportFailureResponse> exportFailureResponses = oleNGBatchExportResponse.getExportFailureResponses();
         if (CollectionUtils.isNotEmpty(exportFailureResponses)) {
             String exportFailureMessages = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(exportFailureResponses);
             logMessage(directoryToWrite, "BatchExport-FailureMessages", "txt", exportFailureMessages, false);
