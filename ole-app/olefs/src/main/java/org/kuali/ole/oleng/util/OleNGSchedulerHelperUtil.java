@@ -5,6 +5,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
+import org.quartz.CronExpression;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -142,5 +143,16 @@ public class OleNGSchedulerHelperUtil extends BusinessObjectServiceHelperUtil {
             cron = "0 " + minutes + " " + hour + " " + day + " " + "1/" + frequency + " " + "?" + " " + "*";;
         }
         return cron;
+    }
+
+
+    public Date getNextValidTimeAfter(String cron) {
+        try {
+            CronExpression exp = new CronExpression(cron);
+            return exp.getNextValidTimeAfter(new Date());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

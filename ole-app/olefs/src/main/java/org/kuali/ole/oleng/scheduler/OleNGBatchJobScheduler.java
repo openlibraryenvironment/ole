@@ -80,16 +80,6 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
         }
     }
 
-    private Date getNextValidTimeAfter(String cron) {
-        try {
-            CronExpression exp = new CronExpression(cron);
-            return exp.getNextValidTimeAfter(new Date());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public void scheduleOrRescheduleJob(long id, long profileId, String jobType, String cron) {
         try {
             String jobId = OleNGConstants.JOB_NAME_PFX + id;
