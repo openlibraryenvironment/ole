@@ -149,10 +149,9 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                         batchProcessTxObject.getBatchJobDetails().setTotalRecordsProcessed(String.valueOf(originalResponse.getNoOfSuccessRecords() + originalResponse.getNoOfFailureRecords()));
                         batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
                     }
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                    batchExportHandler.addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
                 }
             }
         }
