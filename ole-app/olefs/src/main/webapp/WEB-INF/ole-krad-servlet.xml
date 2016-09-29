@@ -40,6 +40,7 @@
     <context:component-scan base-package="org.kuali.ole.select"/>
     <context:component-scan base-package="org.kuali.ole.describe"/>
     <context:component-scan base-package="org.kuali.ole.batch"/>
+    <context:component-scan base-package="org.kuali.ole.gobi.documentController"/>
     <context:component-scan base-package="org.kuali.ole.coa"/>
     <context:component-scan base-package="org.kuali.ole.alert"/>
     <context:component-scan base-package="org.kuali.ole.deliver.rest"/>

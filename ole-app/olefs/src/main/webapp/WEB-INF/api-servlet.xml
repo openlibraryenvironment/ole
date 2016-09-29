@@ -37,8 +37,8 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <!--<context:component-scan base-package="org.kuali.ole.gobi"/>-->
+    <context:component-scan base-package="org.kuali.ole.gobi"/>
 
-    <!--<bean id="gobiAPIService" class="org.kuali.ole.gobi.service.impl.GobiAPIServiceImpl"/>-->
+    <bean id="gobiAPIService" class="org.kuali.ole.gobi.service.impl.GobiAPIServiceImpl"/>
 
 </beans>

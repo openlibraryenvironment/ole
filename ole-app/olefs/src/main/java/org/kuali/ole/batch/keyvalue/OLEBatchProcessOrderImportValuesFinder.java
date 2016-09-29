@@ -9,6 +9,7 @@ import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
+import org.kuali.ole.select.businessobject.OleItemPriceSource;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.businessobject.Building;
@@ -254,6 +255,17 @@ public class OLEBatchProcessOrderImportValuesFinder extends UifKeyValuesFinderBa
                                     attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR)){
                                 keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.TRUE,OLEConstants.OLEBatchProcess.TRUE));
                                 keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.FALSE,OLEConstants.OLEBatchProcess.FALSE));
+                            }
+                            else if(attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.ITEM_PRICE_SOURCE)){
+                                List<OleItemPriceSource> itemPriceSourceList = (List<OleItemPriceSource>) getBusinessObjectService().findAll(OleItemPriceSource.class);
+                                for (OleItemPriceSource itemPriceSource : itemPriceSourceList) {
+                                    keyValues.add(new ConcreteKeyValue(itemPriceSource.getItemPriceSource(), itemPriceSource.getItemPriceSource()));
+                                }
+                            } else if(attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.REQUISITION_SOURCE)){
+                                List<RequisitionSource> requisitionSourceList = (List<RequisitionSource>) getBusinessObjectService().findAll(RequisitionSource.class);
+                                for (RequisitionSource requisitionSource : requisitionSourceList) {
+                                    keyValues.add(new ConcreteKeyValue(requisitionSource.getRequisitionSourceCode(), requisitionSource.getRequisitionSourceCode()));
+                                }
                             }
                             else if (attributeName.equalsIgnoreCase(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
                                 List<OleFundCode> fundCodeList = (List<OleFundCode>) KRADServiceLocator.getBusinessObjectService().findAll(OleFundCode.class);
