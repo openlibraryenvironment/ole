@@ -20,25 +20,30 @@ public class BatchExportHandler extends BatchExportUtil {
     private ExportDao exportDao = (ExportDao) SpringContext.getBean("exportDao");
 
     public void processExport(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        String exportScope = batchProcessTxObject.getBatchProcessProfile().getExportScope();
-        if (StringUtils.isNotBlank(exportScope)) {
-            switch (exportScope) {
-                case OleNGConstants.FULL_EXPORT:
-                    processFullExport(batchProcessTxObject, oleNGBatchExportResponse);
-                    break;
-                case OleNGConstants.FULL_EXCEPT_STAFF_ONLY:
-                    processFullExceptStaffOnly(batchProcessTxObject, oleNGBatchExportResponse);
-                    break;
-                case OleNGConstants.INCREMENTAL:
-                    processIncremental(batchProcessTxObject, oleNGBatchExportResponse);
-                    break;
-                case OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY:
-                    processIncrementalExceptStaffOnly(batchProcessTxObject, oleNGBatchExportResponse);
-                    break;
-                case OleNGConstants.FILTER:
-                    processFilterExport(batchProcessTxObject, oleNGBatchExportResponse);
-                    break;
+        try {
+            String exportScope = batchProcessTxObject.getBatchProcessProfile().getExportScope();
+            if (StringUtils.isNotBlank(exportScope)) {
+                switch (exportScope) {
+                    case OleNGConstants.FULL_EXPORT:
+                        processFullExport(batchProcessTxObject, oleNGBatchExportResponse);
+                        break;
+                    case OleNGConstants.FULL_EXCEPT_STAFF_ONLY:
+                        processFullExceptStaffOnly(batchProcessTxObject, oleNGBatchExportResponse);
+                        break;
+                    case OleNGConstants.INCREMENTAL:
+                        processIncremental(batchProcessTxObject, oleNGBatchExportResponse);
+                        break;
+                    case OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY:
+                        processIncrementalExceptStaffOnly(batchProcessTxObject, oleNGBatchExportResponse);
+                        break;
+                    case OleNGConstants.FILTER:
+                        processFilterExport(batchProcessTxObject, oleNGBatchExportResponse);
+                        break;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
         }
     }
 
