@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
+import org.kuali.ole.oleng.util.OleNGSchedulerHelperUtil;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.spring.batch.processor.BatchFileProcessor;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -18,6 +19,7 @@ import org.quartz.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -28,6 +30,7 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
     private static final Logger LOG = Logger.getLogger(BatchSchedulerJob.class);
 
     private BatchUtil batchUtil;
+    private OleNGSchedulerHelperUtil oleNGSchedulerHelperUtil;
 
     public void execute(JobExecutionContext context)
             throws JobExecutionException {
@@ -41,10 +44,7 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
             GlobalVariables.setUserSession(new UserSession(principalName));
             BatchProcessJob batchProcessJobById = getBatchUtil().getBatchProcessJobById(jobId);
             if(null != processor && batchProcessJobById != null) {
-                batchProcessJobById.setJobType(OleNGConstants.ADHOC);
-                batchProcessJobById.setNextRunTime(null);
-                batchProcessJobById.setCronExpression(null);
-                getBusinessObjectService().save(batchProcessJobById);
+                processNextExecutionTime(batchProcessJobById);
                 String schedulerUploadLocation = ConfigContext.getCurrentContextConfig().getProperty("schedulerUploadLocation");
                 File schedulerFileUploadLocation = new File(schedulerUploadLocation, String.valueOf(jobId));
                 File file = getFileName(schedulerFileUploadLocation);
@@ -71,6 +71,17 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void processNextExecutionTime(BatchProcessJob batchProcessJobById) {
+        Date nextValidTimeAfter = getOleNGSchedulerHelperUtil().getNextValidTimeAfter(batchProcessJobById.getCronExpression());
+        if(null == nextValidTimeAfter) {
+            batchProcessJobById.setJobType(OleNGConstants.ADHOC);
+            batchProcessJobById.setNextRunTime(null);
+        } else {
+            batchProcessJobById.setNextRunTime(new Timestamp(nextValidTimeAfter.getTime()));
+        }
+        getBusinessObjectService().save(batchProcessJobById);
     }
 
     private File getFileName(File uploadedFileDirecotry) {
@@ -120,4 +131,14 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
         return batchUtil;
     }
 
+    public OleNGSchedulerHelperUtil getOleNGSchedulerHelperUtil() {
+        if(null == oleNGSchedulerHelperUtil) {
+            oleNGSchedulerHelperUtil = new OleNGSchedulerHelperUtil();
+        }
+        return oleNGSchedulerHelperUtil;
+    }
+
+    public void setOleNGSchedulerHelperUtil(OleNGSchedulerHelperUtil oleNGSchedulerHelperUtil) {
+        this.oleNGSchedulerHelperUtil = oleNGSchedulerHelperUtil;
+    }
 }
