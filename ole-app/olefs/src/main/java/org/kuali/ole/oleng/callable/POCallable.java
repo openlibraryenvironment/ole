@@ -36,6 +36,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by SheikS on 1/10/2016.
  */
+@Deprecated
 public class POCallable implements Callable {
 
     private static final Logger LOG = Logger.getLogger(POCallable.class);
