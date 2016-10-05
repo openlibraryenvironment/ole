@@ -427,5 +427,6 @@ public class OleNGConstants {
     public static final String SOLR_RECORD_NOT_SYNC_WITH_DB_RECORD = "Solr record is not sync with database";
 
     public static final String GOBI_API = "GobiApi-";
+    public static final String SHOW_LOCAL_DATA_MAPPING_SECTION="SHOW_LOCAL_DATA_MAPPING_SECTION";
 
 }

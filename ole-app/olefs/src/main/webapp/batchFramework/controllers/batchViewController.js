@@ -9,6 +9,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
     $scope.addOrOverlayActivePanel = [];
     $scope.fieldOperationsActivePanel = [];
     $scope.dataMappingsActivePanel = [];
+    $scope.localDataMappingsActivePanel = [];
     $scope.dataTransformationsActivePanel = [];
     $scope.filterCriteriaActivePanel = [];
     $scope.mainSectionPanel = mainSection;
@@ -55,6 +56,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataMappingsPanel = [dataMapping];
             $scope.matchPointsPanel[0].matchPointTypes = orderFields;
             $scope.dataMappingsPanel[0].dataMappingFields = orderFields;
+            $scope.localDataMappingsPanel = [localDataMapping];
+            $scope.localDataMappingsPanel[0].destinations = orderFields;
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
             $scope.mainSectionPanel.orderType = "Holdings and Item";
             $scope.mainSectionPanel.matchPointToUse = "Order Import";
@@ -99,6 +102,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.matchPointsActivePanel = [];
         $scope.addOrOverlayActivePanel = [];
         $scope.dataMappingsActivePanel = [];
+        $scope.localDataMappingsActivePanel = [];
         $scope.matchPointsPanel[0].matchPointType = null;
         $scope.matchPointsPanel[0].matchPointDocType = 'Bib Marc';
         $scope.dataMappingsPanel[0].dataMappingDocType = 'Bib Marc';
@@ -810,7 +814,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "batchProfileAddOrOverlayList": $scope.addOrOverlayPanel,
             "batchProfileFieldOperationList": $scope.fieldOperationsPanel,
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
-            "batchProfileDataTransformerList": $scope.dataTransformationsPanel
+            "batchProfileDataTransformerList": $scope.dataTransformationsPanel,
+            "batchProfileLocalDataMappings": $scope.localDataMappingsPanel
         };
         doPostRequest($scope, $http, OLENG_CONSTANTS.PROFILE_SUBMIT, profile, function (response) {
                 var data = response.data;
@@ -821,6 +826,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
 
     $scope.init = function () {
         //JSON.stringify(vars)
+        $scope.decideToShowLocalDataMapping();
         var urlVars = getUrlVars();
         var profileId = urlVars['profileId'];
         var profileType = decodeURIComponent(urlVars['profileType']);
@@ -851,6 +857,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
                     $scope.dataMappingsPanel = data.batchProfileDataMappingList;
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
+                    $scope.localDataMappingsPanel = data.batchProfileLocalDataMappings;
 
                     addEmptyValueToAddNew(data.batchProcessType);
                     $scope.enableFilterCriteria($scope.mainSectionPanel);
@@ -880,6 +887,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel.splice(0, 1);
             $scope.addOrOverlayPanel.splice(0, 1);
             $scope.dataMappingsPanel.splice(0, 1);
+            $scope.localDataMappingsPanel.splice(0, 1);
         }
         if($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.matchPointsPanel.splice(0, 1);
@@ -907,6 +915,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel.unshift(matchPoint);
             $scope.addOrOverlayPanel.unshift(addOrOverlay);
             $scope.dataMappingsPanel.unshift(dataMappingOrder);
+            $scope.localDataMappingsPanel.unshift(localDataMapping);
         }
         if($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.matchPointsPanel.unshift(matchPoint);
@@ -987,5 +996,74 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         var index = $scope.filterCriteriaPanel.indexOf(filterCriteria);
         $scope.filterCriteriaPanel.splice(index, 1);
     };
+
+    $scope.localDataMappingAdd = function () {
+        $scope.localDataMappingIndex = 0;
+        var localDataMappingRow = getLocalDataMappingRowByIndex(0);
+        if (!isValidLocalDataMappingRow(localDataMappingRow, 0, $scope)) {
+            return;
+        }
+        $scope.localDataMappingsPanel.push(localDataMappingRow);
+        $scope.localDataMappingsPanel[0].source = null;
+        $scope.localDataMappingsPanel[0].destination = null;
+        removeOptions('Local Data Mappings', 0);
+    };
+
+    $scope.localDataMappingCopyRow = function (index) {
+        var copiedRow = getLocalDataMappingRowByIndex(index);
+        $scope.localDataMappingsPanel.splice(index + 1, 0, copiedRow);
+    };
+
+    $scope.localDataMappingEditRow = function(index) {
+        if ($scope.rowToEdit === null || $scope.rowToEdit === undefined) {
+            $scope.rowToEdit = getLocalDataMappingRowByIndex(index);
+            $scope.localDataMappingsPanel[index].isEdit = true;
+            $scope.localDataMappingsPanel[index].destinations = orderFields;
+            $scope.localDataMappingsPanel[index].isAddLine = false;
+        }
+    };
+
+    $scope.localDataMappingUpdateRow = function(index) {
+        $scope.localDataMappingIndex = index;
+        var updatedRow = getLocalDataMappingRowByIndex(index);
+        if (!isValidLocalDataMappingRow(updatedRow, index, $scope)) {
+            return;
+        }
+        $scope.localDataMappingsPanel[index] = updatedRow;
+        $scope.localDataMappingsPanel[index].isEdit = false;
+        $scope.rowToEdit = null;
+        removeOptions('Local Data Mappings', index);
+    };
+
+    $scope.localDataMappingCancelUpdate = function(index) {
+        $scope.localDataMappingsPanel[index].isEdit = false;
+        $scope.localDataMappingsPanel[index] = $scope.rowToEdit;
+        $scope.localDataMappingsPanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    };
+
+    $scope.localDataMappingRemove = function (localDataMapping) {
+        var index = $scope.localDataMappingsPanel.indexOf(localDataMapping);
+        $scope.localDataMappingsPanel.splice(index, 1);
+    };
+
+    $scope.decideToShowLocalDataMapping = function () {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.CAN_SHOW_LOCAL_DATA_MAPPING, null, function (response) {
+            var data = response.data;
+            $scope.showLocalDataMapping = data.canShow;
+            console.log("Show local datamapping : " + $scope.showLocalDataMapping);
+        });
+    };
+
+    function getLocalDataMappingRowByIndex(index) {
+        var dataMappingNewRow = {
+            source: $scope.localDataMappingsPanel[index].source,
+            destination: $scope.localDataMappingsPanel[index].destination,
+            isAddLine: true,
+            isEdit: false
+        };
+        return dataMappingNewRow;
+    }
+
 
 }]);
