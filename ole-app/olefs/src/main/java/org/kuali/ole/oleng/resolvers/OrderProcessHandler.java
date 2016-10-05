@@ -21,6 +21,7 @@ import java.util.*;
  */
 public abstract class OrderProcessHandler {
     private  OleNGRequisitionService oleNGRequisitionService;
+    private OleNGPOHelperUtil oleNGPOHelperUtil;
 
     private static final Logger LOG = Logger.getLogger(OrderProcessHandler.class);
 
@@ -31,7 +32,6 @@ public abstract class OrderProcessHandler {
     public Map<Integer, Set<Integer>> processOrder(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
                                                    OleNGMemorizeService oleNGMemorizeService, Exchange exchange) throws Exception {
         Map<Integer, Set<Integer>> poIdsMap = new HashMap<>();
-        OleNGPOHelperUtil oleNGPOHelperUtil = OleNGPOHelperUtil.getInstance();
 
         String requisitionForTitlesOption = batchProcessProfile.getRequisitionForTitlesOption();
 
@@ -43,14 +43,14 @@ public abstract class OrderProcessHandler {
         CreateReqAndPOBaseServiceHandler createReqOrPOServiceHandler = getCreateReqOrPOServiceHandler();
         createReqOrPOServiceHandler.setOleNGMemorizeService(oleNGMemorizeService);
         if(multiTitle) {
-            Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(recordDetailsList, batchProcessProfile,
+            Map<Integer, Set<Integer>> poIdMap = getOleNGPOHelperUtil().processReqAndPo(recordDetailsList, batchProcessProfile,
                     createReqOrPOServiceHandler, exchange);
             poIdsMap.putAll(poIdMap);
         } else {
             for (Iterator<RecordDetails> iterator = recordDetailsList.iterator(); iterator.hasNext(); ) {
                 RecordDetails recordDetails = iterator.next();
                 Thread.sleep(getSleepTimeForOrderProcess());
-                Map<Integer, Set<Integer>> poIdMap = oleNGPOHelperUtil.processReqAndPo(Collections.singletonList(recordDetails),
+                Map<Integer, Set<Integer>> poIdMap = getOleNGPOHelperUtil().processReqAndPo(Collections.singletonList(recordDetails),
                         batchProcessProfile, createReqOrPOServiceHandler, exchange);
                 poIdsMap.putAll(poIdMap);
             }
@@ -73,5 +73,16 @@ public abstract class OrderProcessHandler {
             return Integer.valueOf(parameterValue);
         }
         return 1000;
+    }
+
+    public OleNGPOHelperUtil getOleNGPOHelperUtil() {
+        if(null == oleNGPOHelperUtil) {
+            oleNGPOHelperUtil = new OleNGPOHelperUtil();
+        }
+        return oleNGPOHelperUtil;
+    }
+
+    public void setOleNGPOHelperUtil(OleNGPOHelperUtil oleNGPOHelperUtil) {
+        this.oleNGPOHelperUtil = oleNGPOHelperUtil;
     }
 }

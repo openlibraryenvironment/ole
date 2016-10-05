@@ -7,7 +7,10 @@ import org.kuali.ole.gobi.datobjects.PurchaseOrder;
 import org.kuali.ole.gobi.processor.GobiAPIProcessor;
 import org.kuali.ole.gobi.service.impl.ListedPrintSerialGobiOrderRecordServiceImpl;
 import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
+import org.kuali.ole.oleng.gobi.service.impl.OleNGListedPrintSerialGobiOrderRecordServiceImpl;
+import org.kuali.ole.oleng.gobi.service.impl.OleNgGobiOrderImportServiceImpl;
 import org.kuali.ole.pojo.OleOrderRecord;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
 /**
  * Created by SheikS on 8/3/2016.
  */
+@Service("oleNGListedPrintSerialRecordProcessor")
 public class OleNGListedPrintSerialRecordProcessor extends OleNGGobiApiProcessor {
 
     @Override
@@ -35,16 +39,16 @@ public class OleNGListedPrintSerialRecordProcessor extends OleNGGobiApiProcessor
     }
 
     @Override
-    protected OleGobiOrderRecordServiceImpl getOleOrderRecordService() {
-        return new ListedPrintSerialGobiOrderRecordServiceImpl();
+    protected OleNgGobiOrderImportServiceImpl getOleOrderRecordService() {
+        return new OleNGListedPrintSerialGobiOrderRecordServiceImpl();
     }
 
     @Override
     protected void linkToOrderOption() {
-        List<OleOrderRecord> oleOrderRecordList = getOleOrderRecordList();
+       /* List<OleOrderRecord> oleOrderRecordList = getOleOrderRecordList();
         for (Iterator<OleOrderRecord> iterator = oleOrderRecordList.iterator(); iterator.hasNext(); ) {
             OleOrderRecord oleOrderRecord = iterator.next();
             oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
-        }
+        }*/
     }
 }

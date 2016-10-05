@@ -30,22 +30,10 @@ import java.util.*;
  */
 public class OleNGPOHelperUtil {
     private static final Logger LOG = Logger.getLogger(OleNGPOHelperUtil.class);
-    private static OrderImportService oleOrderImportService;
+    private OrderImportService oleOrderImportService;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     private BatchUtil batchUtil;
     private OleNGPOValidationUtil oleNGPOValidationUtil;
-
-    private static OleNGPOHelperUtil oleNGPOHelperUtil;
-
-    private OleNGPOHelperUtil() {
-    }
-
-    public static OleNGPOHelperUtil getInstance() {
-        if(null == oleNGPOHelperUtil) {
-            oleNGPOHelperUtil = new OleNGPOHelperUtil();
-        }
-        return oleNGPOHelperUtil;
-    }
 
     public Map<Integer, Set<Integer>> processReqAndPo(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
                                                       CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler,
@@ -62,7 +50,8 @@ public class OleNGPOHelperUtil {
             if (StringUtils.isNotBlank(bibUUID)) {
                 try {
 
-                    OleOrderRecord oleOrderRecord = getOleOrderImportService().prepareOleOrderRecord(recordDetails, batchProcessProfile, exchange);
+                    OleOrderRecord oleOrderRecord = getOleOrderImportService().prepareOleOrderRecord(recordDetails,
+                            batchProcessProfile, exchange);
 
                     OleBibRecord oleBibRecord = new OleBibRecord();
                     Bib bib = getBibDetails(bibUUID);
@@ -144,6 +133,10 @@ public class OleNGPOHelperUtil {
             oleOrderImportService = new OrderImportServiceImpl();
         }
         return oleOrderImportService;
+    }
+
+    public void setOleOrderImportService(OrderImportService oleOrderImportService) {
+        this.oleOrderImportService = oleOrderImportService;
     }
 
     public SolrRequestReponseHandler getSolrRequestReponseHandler() {

@@ -1,4 +1,4 @@
-package org.kuali.ole.gobi.controller;
+package org.kuali.ole.oleng.gobi.controller;
 
 import org.kuali.ole.gobi.GobiRequest;
 import org.kuali.ole.gobi.processor.*;
@@ -7,6 +7,7 @@ import org.kuali.ole.gobi.request.GobiRequestValidator;
 import org.kuali.ole.gobi.response.GobiResponseHandler;
 import org.kuali.ole.gobi.response.Response;
 import org.kuali.ole.gobi.service.GobiAPIService;
+import org.kuali.ole.oleng.gobi.processor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Created by sheiks on 05/10/16.
+ */
 @Controller
 @RequestMapping("/order")
-public class GobiAPIController {
-
+public class OleNgGobiAPIController {
     @Autowired
     private GobiAPIService gobiAPIService;
-    List<GobiAPIProcessor> gobiAPIProcessors;
+    List<OleNGGobiApiProcessor> gobiAPIProcessors;
     private GobiRequestHandler gobiRequestHandler;
     private GobiResponseHandler gobiResponseHandler;
+
+    @Autowired
+    private OleNGListedPrintSerialRecordProcessor oleNGListedPrintSerialRecordProcessor;
+    @Autowired
+    private OleNGUnListedPrintSerialRecordProcessor oleNGUnListedPrintSerialRecordProcessor;
+    @Autowired
+    private OleNGListedElectronicSerialRecordProcessor oleNGListedElectronicSerialRecordProcessor;
+    @Autowired
+    private OleNGUnlistedPrintMonographRecordProcessor oleNGUnlistedPrintMonographRecordProcessor;
+    @Autowired
+    private OleNGListedPrintMonographRecordProcessor oleNGListedPrintMonographRecordProcessor;
+    @Autowired
+    private OleNGListedElectronicMonographRecordProcessor oleNGListedElectronicMonographRecordProcessor;
+    @Autowired
+    private OleNGUnListedElectronicMonographRecordProcessor oleNGUnListedElectronicMonographRecordProcessor;
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/createOrder", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -42,8 +60,8 @@ public class GobiAPIController {
             GobiRequest gobiRequest = getGobiRequestHandler().unmarshal(body);
             String baseAccount = gobiRequest.getPurchaseOrder().getCustomerDetail().getBaseAccount();
             gobiRequest.setProfileIdForDefaultMapping(baseAccount);
-            for (Iterator<GobiAPIProcessor> iterator = getGobiAPIProcessors().iterator(); iterator.hasNext(); ) {
-                GobiAPIProcessor gobiAPIProcessor = iterator.next();
+            for (Iterator<OleNGGobiApiProcessor> iterator = getGobiAPIProcessors().iterator(); iterator.hasNext(); ) {
+                OleNGGobiApiProcessor gobiAPIProcessor = iterator.next();
                 if (gobiAPIProcessor.isInterested(gobiRequest)) {
                     gobiResponse = gobiAPIProcessor.process(gobiRequest);
                 }
@@ -88,15 +106,15 @@ public class GobiAPIController {
         this.gobiAPIService = gobiAPIService;
     }
 
-    public List<GobiAPIProcessor> getGobiAPIProcessors() {
+    public List<OleNGGobiApiProcessor> getGobiAPIProcessors() {
         gobiAPIProcessors = new ArrayList<>();
-        gobiAPIProcessors.add(new ListedPrintSerialRecordProcessor());
-        gobiAPIProcessors.add(new UnListedPrintSerialRecordProcessor());
-        gobiAPIProcessors.add(new ListedElectronicSerialRecordProcessor());
-        gobiAPIProcessors.add(new UnlistedPrintMonographRecordProcessor());
-        gobiAPIProcessors.add(new ListedPrintMonographRecordProcessor());
-        gobiAPIProcessors.add(new ListedElectronicMonographRecordProcessor());
-        gobiAPIProcessors.add(new UnListedElectronicMonographRecordProcessor());
+        gobiAPIProcessors.add(oleNGListedPrintSerialRecordProcessor);
+        gobiAPIProcessors.add(oleNGUnListedPrintSerialRecordProcessor);
+        gobiAPIProcessors.add(oleNGListedElectronicSerialRecordProcessor);
+        gobiAPIProcessors.add(oleNGUnlistedPrintMonographRecordProcessor);
+        gobiAPIProcessors.add(oleNGListedPrintMonographRecordProcessor);
+        gobiAPIProcessors.add(oleNGListedElectronicMonographRecordProcessor);
+        gobiAPIProcessors.add(oleNGUnListedElectronicMonographRecordProcessor);
         return gobiAPIProcessors;
     }
 

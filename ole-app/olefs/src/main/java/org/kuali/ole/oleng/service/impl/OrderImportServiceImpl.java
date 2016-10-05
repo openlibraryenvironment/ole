@@ -96,7 +96,7 @@ public class OrderImportServiceImpl implements OrderImportService {
     }
 
     public List<String> getDataMappingTypesToProcess() {
-        if (CollectionUtils.isNotEmpty(datamappingTypes)) {
+        if (CollectionUtils.isEmpty(datamappingTypes)) {
             datamappingTypes = new ArrayList<>();
             datamappingTypes.add(OleNGConstants.CONSTANT);
             datamappingTypes.add(OleNGConstants.BIB_MARC);
