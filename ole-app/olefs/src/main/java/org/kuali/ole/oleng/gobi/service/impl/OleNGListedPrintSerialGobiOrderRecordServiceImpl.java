@@ -1,7 +1,6 @@
 package org.kuali.ole.oleng.gobi.service.impl;
 
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
-import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
 
 /**
  * Created by SheikS on 8/3/2016.
@@ -9,10 +8,6 @@ import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
 public class OleNGListedPrintSerialGobiOrderRecordServiceImpl  extends OleNgGobiOrderImportServiceImpl {
 
     private PurchaseOrder.Order.ListedPrintSerial.OrderDetail orderDetail;
-
-    @Override
-    protected void setDefaultLocation() {
-    }
 
     @Override
     protected void setListPrice() {

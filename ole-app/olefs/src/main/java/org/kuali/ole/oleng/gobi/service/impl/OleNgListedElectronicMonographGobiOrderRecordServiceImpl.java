@@ -11,11 +11,6 @@ public class OleNgListedElectronicMonographGobiOrderRecordServiceImpl extends Ol
     private PurchaseOrder.Order.ListedElectronicMonograph.OrderDetail orderDetail;
 
     @Override
-    protected void setDefaultLocation() {
-        setDefaultLocation(orderDetail.getLocation());
-    }
-
-    @Override
     protected void setListPrice() {
         String listPrice = orderDetail.getListPrice().getAmount().toString();
         if (StringUtils.isNotBlank(listPrice)) {

@@ -12,6 +12,7 @@ import org.kuali.ole.gobi.resolvers.LocalDataMappingValueResolver;
 import org.kuali.ole.gobi.resolvers.MiscellaneousNoteValueResolver;
 import org.kuali.ole.gobi.resolvers.localdata.*;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileLocalDataMapping;
 import org.kuali.ole.oleng.resolvers.orderimport.*;
 import org.kuali.ole.oleng.service.impl.OrderImportServiceImpl;
 import org.kuali.ole.pojo.OleOrderRecord;
@@ -19,10 +20,7 @@ import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.VendorCustomerNumber;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SheikS on 8/3/2016.
@@ -57,8 +55,6 @@ public abstract class OleNgGobiOrderImportServiceImpl extends OrderImportService
     private void processIncomingTxInfoNotHandledByProfileMapping() {
         preProcess();
 
-        setDefaultLocation();
-
         setListPrice();
 
         setQuantity();
@@ -78,35 +74,26 @@ public abstract class OleNgGobiOrderImportServiceImpl extends OrderImportService
         setDeliveryInfo();
     }
 
-    public void setLocalDataMappings(OleTxRecord oleTxRecord, BatchProcessProfile job) {
-        /*List<OLEBatchProcessProfileMappingOptionsBo> oleBatchProcessProfileMappingOptionsList = job.getOrderImportHelperBo().getOleBatchProcessProfileBo().getOleBatchProcessProfileMappingOptionsList();
-
-        if (CollectionUtils.isNotEmpty(oleBatchProcessProfileMappingOptionsList)) {
-
-            for (Iterator<OLEBatchProcessProfileMappingOptionsBo> oleBatchProcessProfileMappingOptionsBoIterator = oleBatchProcessProfileMappingOptionsList.iterator(); oleBatchProcessProfileMappingOptionsBoIterator.hasNext(); ) {
-                OLEBatchProcessProfileMappingOptionsBo oleBatchProcessProfileMappingOptionsBo = oleBatchProcessProfileMappingOptionsBoIterator.next();
-                List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList = oleBatchProcessProfileMappingOptionsBo.getOleBatchProcessProfileDataMappingOptionsBoList();
-
-                if (CollectionUtils.isNotEmpty(oleBatchProcessProfileDataMappingOptionsBoList)) {
-
-                    for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBoList) {
-                        String sourceName = oleBatchProcessProfileDataMappingOptionsBo.getSourceField();
-                        String destFieldName = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
-                        for (Iterator<LocalDataMappingValueResolver> iterator = getLocalDataMappingValueResolvers().iterator(); iterator.hasNext(); ) {
-                            LocalDataMappingValueResolver localDataMappingValueResolver = iterator.next();
-                            if (localDataMappingValueResolver.isInterested(sourceName)) {
-                                localDataMappingValueResolver.setPurchaseOrder(order);
-                                localDataMappingValueResolver.setDestFieldName(destFieldName);
-                                localDataMappingValueResolver.setAttributeValue(oleTxRecord, null);
-                            }
-                        }
+    public void setLocalDataMappings(OleTxRecord oleTxRecord, BatchProcessProfile batchProcessProfile) {
+        List<BatchProfileLocalDataMapping> batchProfileLocalDataMappings = batchProcessProfile.getBatchProfileLocalDataMappings();
+        if(CollectionUtils.isNotEmpty(batchProfileLocalDataMappings)) {
+            for (Iterator<BatchProfileLocalDataMapping> iterator = batchProfileLocalDataMappings.iterator(); iterator.hasNext(); ) {
+                BatchProfileLocalDataMapping batchProfileLocalDataMapping = iterator.next();
+                String source = batchProfileLocalDataMapping.getSource();
+                String destination = batchProfileLocalDataMapping.getDestination();
+                for (Iterator<LocalDataMappingValueResolver> localDataMappingValueResolverIterator = getLocalDataMappingValueResolvers().iterator(); localDataMappingValueResolverIterator.hasNext(); ) {
+                    LocalDataMappingValueResolver localDataMappingValueResolver = localDataMappingValueResolverIterator.next();
+                    if (localDataMappingValueResolver.isInterested(source)) {
+                        localDataMappingValueResolver.setPurchaseOrder(order);
+                        localDataMappingValueResolver.setDestFieldName(destination);
+                        localDataMappingValueResolver.setAttributeValue(oleTxRecord, null);
                     }
                 }
             }
-        }*/
+        }
     }
-
-    /*@Override
+/*
+    @Override
     public List<OleTxRecord> getQuantityItemPartsLocation(List<BibMarcRecord> bibMarcRecords, OLEBatchProcessJobDetailsBo job) {
         //TODO: Need to figure out;
 
@@ -229,8 +216,6 @@ public abstract class OleNgGobiOrderImportServiceImpl extends OrderImportService
             bibDAO.updateYPBOrderKeyContent(bibId, ybpOrderKey);
         }
     }
-
-    protected abstract void setDefaultLocation();
 
     protected abstract void setListPrice();
 

@@ -12,6 +12,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
     $scope.localDataMappingsActivePanel = [];
     $scope.dataTransformationsActivePanel = [];
     $scope.filterCriteriaActivePanel = [];
+    $scope.localDataMappingsPanel = [];
     $scope.mainSectionPanel = mainSection;
 
     $scope.setValuesForBatchProcessType = function (mainSectionPanel) {
@@ -857,9 +858,14 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
                     $scope.dataMappingsPanel = data.batchProfileDataMappingList;
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
-                    $scope.localDataMappingsPanel = data.batchProfileLocalDataMappings;
+                    console.log(data.batchProfileLocalDataMappings);
+                    if(null !== data.batchProfileLocalDataMappings && undefined !== data.batchProfileLocalDataMappings) {
+                        $scope.localDataMappingsPanel = data.batchProfileLocalDataMappings;
+                    }
 
                     addEmptyValueToAddNew(data.batchProcessType);
+
+                    console.log($scope.localDataMappingsPanel);
                     $scope.enableFilterCriteria($scope.mainSectionPanel);
 
                     if ((data.batchProcessType == 'Order Record Import' || data.batchProcessType == 'Invoice Import')) {
@@ -915,7 +921,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.matchPointsPanel.unshift(matchPoint);
             $scope.addOrOverlayPanel.unshift(addOrOverlay);
             $scope.dataMappingsPanel.unshift(dataMappingOrder);
-            $scope.localDataMappingsPanel.unshift(localDataMapping);
+            if(null !== $scope.localDataMappingsPanel &&  undefined !== $scope.localDataMappingsPanel){
+                $scope.localDataMappingsPanel.unshift(localDataMapping);
+            }
         }
         if($scope.mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.matchPointsPanel.unshift(matchPoint);

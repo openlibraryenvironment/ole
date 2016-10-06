@@ -2,7 +2,6 @@ package org.kuali.ole.oleng.gobi.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
-import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
 
 /**
  * Created by SheikS on 8/3/2016.
@@ -10,11 +9,6 @@ import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
 public class OleNGUnListedElectronicMonographGobiOrderRecordServiceImpl extends OleNgGobiOrderImportServiceImpl {
 
     private PurchaseOrder.Order.UnlistedElectronicMonograph.OrderDetail orderDetail;
-
-    @Override
-    protected void setDefaultLocation() {
-        setDefaultLocation(orderDetail.getLocation());
-    }
 
     @Override
     protected void setListPrice() {

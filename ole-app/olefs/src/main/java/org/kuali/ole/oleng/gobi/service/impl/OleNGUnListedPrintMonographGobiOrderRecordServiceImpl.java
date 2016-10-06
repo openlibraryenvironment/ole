@@ -2,7 +2,6 @@ package org.kuali.ole.oleng.gobi.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
-import org.kuali.ole.gobi.service.impl.OleGobiOrderRecordServiceImpl;
 
 /**
  * Created by SheikS on 8/3/2016.
@@ -18,11 +17,6 @@ public class OleNGUnListedPrintMonographGobiOrderRecordServiceImpl  extends OleN
     @Override
     protected void preProcess() {
         orderDetail = getOrder().getOrder().getUnlistedPrintMonograph().getOrderDetail();
-    }
-
-    @Override
-    protected void setDefaultLocation() {
-        setDefaultLocation(orderDetail.getLocation());
     }
 
     @Override
