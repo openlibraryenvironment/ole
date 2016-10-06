@@ -2,6 +2,7 @@ package org.kuali.ole.gobi.controller;
 
 import org.junit.Test;
 import org.kuali.ole.OLETestCaseBase;
+import org.kuali.ole.oleng.gobi.controller.OleNgGobiAPIController;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,11 @@ public class GobiAPIControllerTest extends OLETestCaseBase {
 
     @Test
     public void testCreateOrder() throws Exception {
-        /*GobiAPIController gobiAPIController = new GobiAPIController();
+        OleNgGobiAPIController gobiAPIController = new OleNgGobiAPIController();
         String body = readFileContent("org/kuali/ole/gobi/request/UnlistedPrintMonograph.xml");
         ResponseEntity<String> order = gobiAPIController.createOrder(body);
         assertNotNull(order);
-        System.out.println(order);*/
+        System.out.println(order);
     }
 
 

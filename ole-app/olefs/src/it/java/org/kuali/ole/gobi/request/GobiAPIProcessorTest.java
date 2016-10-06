@@ -3,13 +3,12 @@ package org.kuali.ole.gobi.request;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.gobi.GobiRequest;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
-import org.kuali.ole.gobi.processor.GobiAPIProcessor;
-import org.kuali.ole.gobi.processor.ListedPrintSerialRecordProcessor;
-import org.kuali.ole.gobi.processor.UnlistedPrintMonographRecordProcessor;
 import org.kuali.ole.gobi.response.Response;
+import org.kuali.ole.oleng.gobi.processor.OleNGGobiApiProcessor;
+import org.kuali.ole.oleng.gobi.processor.OleNGListedPrintSerialRecordProcessor;
+import org.kuali.ole.oleng.gobi.processor.OleNGUnlistedPrintMonographRecordProcessor;
 import org.mockito.MockitoAnnotations;
 
 import java.io.File;
@@ -40,7 +39,7 @@ public class GobiAPIProcessorTest { //} extends OLETestCaseBase {
 
 
         gobiRequest.setProfileIdForDefaultMapping("cp-ybp-gobi");
-        GobiAPIProcessor gobiAPIProcessor = new UnlistedPrintMonographRecordProcessor();
+        OleNGGobiApiProcessor gobiAPIProcessor = new OleNGUnlistedPrintMonographRecordProcessor();
         Response gobiResponse = gobiAPIProcessor.process(gobiRequest);
         assertNotNull(gobiResponse);
 
@@ -69,7 +68,7 @@ public class GobiAPIProcessorTest { //} extends OLETestCaseBase {
 
 
         gobiRequest.setProfileIdForDefaultMapping("cp-ybp-gobi");
-        GobiAPIProcessor gobiAPIProcessor = new ListedPrintSerialRecordProcessor();
+        OleNGGobiApiProcessor gobiAPIProcessor = new OleNGListedPrintSerialRecordProcessor();
         Response gobiResponse = gobiAPIProcessor.process(gobiRequest);
         assertNotNull(gobiResponse);
 
