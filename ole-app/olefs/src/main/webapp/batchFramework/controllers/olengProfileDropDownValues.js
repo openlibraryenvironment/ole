@@ -763,6 +763,13 @@ var dataMapping = {
     collapsed: true
 };
 
+var localDataMapping = {
+    title: 'Local Data Mappings',
+    destinations: orderFields,
+    isAddLine: false,
+    collapsed: true
+};
+
 var dataMappingOrder = {
     title: 'Data Mappings',
     dataMappingDocTypes: dataMappingProcessTypes,

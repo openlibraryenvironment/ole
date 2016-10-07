@@ -12,13 +12,16 @@ import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.kuali.ole.oleng.resolvers.orderimport.*;
 import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OrderImportService;
+import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
+import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.document.service.OleDocstoreHelperService;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.spring.batch.processor.BatchBibFileProcessor;
@@ -42,6 +45,22 @@ public class OrderImportServiceImpl implements OrderImportService {
     private BatchUtil batchUtil;
     private OleDocstoreHelperService oleDocstoreHelperService;
     private OleNGMemorizeService oleNGMemorizeService;
+    private List<String> datamappingTypes;
+
+    @Override
+    public OleOrderRecord prepareOleOrderRecord(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile, Exchange exchange) {
+        OleTxRecord oleTxRecord = processDataMapping(recordDetails, batchProcessProfile, exchange);
+
+        final OleOrderRecord oleOrderRecord = new OleOrderRecord();
+        oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
+        oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+        String linkToOption = getLinkToOption(batchProcessProfile);
+        oleOrderRecord.setLinkToOrderOption(linkToOption);
+        oleOrderRecord.setOleTxRecord(oleTxRecord);
+
+        return oleOrderRecord;
+
+    }
 
     @Override
     public OleTxRecord processDataMapping(RecordDetails recordDetails, BatchProcessProfile batchProcessProfile, Exchange exchange) {
@@ -51,9 +70,7 @@ public class OrderImportServiceImpl implements OrderImportService {
         if (CollectionUtils.isNotEmpty(batchProfileDataMappingList)) {
             Record marcRecord = recordDetails.getRecord();
 
-            ArrayList<String> datamappingTypes = new ArrayList<>();
-            datamappingTypes.add(OleNGConstants.CONSTANT);
-            datamappingTypes.add(OleNGConstants.BIB_MARC);
+            List<String> datamappingTypes = getDataMappingTypesToProcess();
             Map<String, List<ValueByPriority>> valueByPriorityMap = getBatchUtil().getvalueByPriorityMapForDataMapping(marcRecord, batchProfileDataMappingList, datamappingTypes);
 
             for (Iterator<String> iterator = valueByPriorityMap.keySet().iterator(); iterator.hasNext(); ) {
@@ -78,7 +95,16 @@ public class OrderImportServiceImpl implements OrderImportService {
         return oleTxRecord;
     }
 
-    private void overlayBibProfile(OleTxRecord oleTxRecord, Record marcRecord, String holdingsType, String bibImportProfileForOrderImport, ArrayList<String> datamappingTypes, Exchange exchange) {
+    public List<String> getDataMappingTypesToProcess() {
+        if (CollectionUtils.isEmpty(datamappingTypes)) {
+            datamappingTypes = new ArrayList<>();
+            datamappingTypes.add(OleNGConstants.CONSTANT);
+            datamappingTypes.add(OleNGConstants.BIB_MARC);
+        }
+        return datamappingTypes;
+    }
+
+    private void overlayBibProfile(OleTxRecord oleTxRecord, Record marcRecord, String holdingsType, String bibImportProfileForOrderImport, List<String> datamappingTypes, Exchange exchange) {
         BatchProcessProfile bibProfile = getBatchUtil().getProfileByNameAndType(bibImportProfileForOrderImport, OleNGConstants.BIB_IMPORT);
         if(null != bibProfile) {
             try {
@@ -213,6 +239,19 @@ public class OrderImportServiceImpl implements OrderImportService {
                 oleTxRecord.setItemStatus(itemStatusName);
             }
         }
+    }
+
+    public String getLinkToOption(BatchProcessProfile batchProcessProfile) {
+        String orderType = batchProcessProfile.getOrderType();
+        String linkToOption = "";
+        if(StringUtils.isNotBlank(orderType) && orderType.equalsIgnoreCase(OleNGConstants.BatchProcess.ORDER_TYPE_EHOLDINGS)) {
+            linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC;
+        }
+
+        if(StringUtils.isBlank(linkToOption)) {
+            linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
+        }
+        return linkToOption;
     }
 
 

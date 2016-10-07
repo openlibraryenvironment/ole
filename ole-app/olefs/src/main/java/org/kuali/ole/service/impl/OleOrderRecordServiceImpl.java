@@ -91,7 +91,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
     private Map<String,String> fundDetails = new HashMap<String,String>();
     private List<String> failureRecords = new ArrayList<>();
 
-    private LookupService getLookupService() {
+    public LookupService getLookupService() {
         return KRADServiceLocatorWeb.getLookupService();
     }
     //DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
@@ -156,6 +156,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         OleOrderRecord oleOrderRecord = new OleOrderRecord();
         oleOrderRecord.setOriginalRecord(bibMarcRecord);
         OleTxRecord oleTxRecord = new OleTxRecord();
+        oleTxRecord.setBibId(bibId);
         oleTxRecord.setItemType(OLEConstants.ITEM_TYP);
         Map<String,String> failureMsges = new HashMap<>();
         failureMsges = mapDataFieldsToTxnRecord(oleTxRecord, bibMarcRecord,recordPosition, job);
@@ -175,7 +176,9 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                 failureRecords.clear();
             }
         }
-        oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+        if (null == oleTxRecord.getRequisitionSource()) {
+            oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
+        }
         if(oleTxRecord.getOrderType() == null){
             oleTxRecord.setOrderType(OLEConstants.ORDER_TYPE_VALUE);
         }
@@ -327,23 +330,23 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         return oleTxRecord;
     }
 
-    private Map<String,String> mapDataFieldsToTxnRecord(OleTxRecord oleTxRecord, BibMarcRecord bibMarcRecord,int recordPosition, OLEBatchProcessJobDetailsBo job) {
+    protected Map<String,String> mapDataFieldsToTxnRecord(OleTxRecord oleTxRecord, BibMarcRecord bibMarcRecord,int recordPosition, OLEBatchProcessJobDetailsBo job) {
         Map<String,String> mappingFailures = new HashMap<String,String>();
         LOG.debug("----Inside mapDataFieldsToTxnRecord()------------------------------");
         String destinationField = null;
         List<OLEBatchProcessProfileMappingOptionsBo> oleBatchProcessProfileMappingOptionsBoList = job.getOrderImportHelperBo().getOleBatchProcessProfileBo().getOleBatchProcessProfileMappingOptionsList();
         for (OLEBatchProcessProfileMappingOptionsBo oleBatchProcessProfileMappingOptionsBo : oleBatchProcessProfileMappingOptionsBoList) {
             List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList = oleBatchProcessProfileMappingOptionsBo.getOleBatchProcessProfileDataMappingOptionsBoList();
-                Collections.sort(oleBatchProcessProfileDataMappingOptionsBoList, new Comparator<OLEBatchProcessProfileDataMappingOptionsBo>() {
-                    @Override
-                    public int compare(OLEBatchProcessProfileDataMappingOptionsBo obj1, OLEBatchProcessProfileDataMappingOptionsBo obj2) {
-                        int result = obj1.getDestinationField().compareTo(obj2.getDestinationField());
-                        if(result != 0){
-                            return result;
-                        }
-                        return obj1.getPriority() > obj2.getPriority() ? -1 : obj1.getPriority() < obj2.getPriority() ? 1 : 0;
+            Collections.sort(oleBatchProcessProfileDataMappingOptionsBoList, new Comparator<OLEBatchProcessProfileDataMappingOptionsBo>() {
+                @Override
+                public int compare(OLEBatchProcessProfileDataMappingOptionsBo obj1, OLEBatchProcessProfileDataMappingOptionsBo obj2) {
+                    int result = obj1.getDestinationField().compareTo(obj2.getDestinationField());
+                    if(result != 0){
+                        return result;
                     }
-                });
+                    return obj1.getPriority() > obj2.getPriority() ? -1 : obj1.getPriority() < obj2.getPriority() ? 1 : 0;
+                }
+            });
             List<String> donors=new ArrayList<>();
             List<String> miscellaneousNotes = new ArrayList<>();
             List<String> receiptNotes = new ArrayList<>();
@@ -352,628 +355,628 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
             List<String> splProcessInstrNotes = new ArrayList<>();
             List<String> vendorInstrNotes = new ArrayList<>();
             for (int dataMapCount = 0;dataMapCount<oleBatchProcessProfileDataMappingOptionsBoList.size();dataMapCount++) {
-                    destinationField = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField();
-                    String sourceField = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getSourceField();
-                    String sourceFields[] = sourceField.split("\\$");
-                    if (sourceFields.length == 2) {
-                        String dataField = sourceFields[0].trim();
-                        String tagField = sourceFields[1].trim();
-                        if (OLEConstants.OLEBatchProcess.CHART_CODE.equals(destinationField)) {
-                            String chartCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(chartCode)) {
-                                Map<String,String> chartCodeMap = new HashMap<>();
-                                chartCodeMap.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, chartCode);
-                                List<Organization> chartCodeList = (List) getBusinessObjectService().findMatching(Organization.class, chartCodeMap);
-                                if(chartCodeList!= null && chartCodeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_CHART_CD + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + chartCode);
-                                    chartCode = null;
-                                }
-                                oleTxRecord.setChartCode(chartCode);
+                destinationField = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField();
+                String sourceField = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getSourceField();
+                String sourceFields[] = sourceField.split("\\$");
+                if (sourceFields.length == 2) {
+                    String dataField = sourceFields[0].trim();
+                    String tagField = sourceFields[1].trim();
+                    if (OLEConstants.OLEBatchProcess.CHART_CODE.equals(destinationField)) {
+                        String chartCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(chartCode)) {
+                            Map<String,String> chartCodeMap = new HashMap<>();
+                            chartCodeMap.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, chartCode);
+                            List<Organization> chartCodeList = (List) getBusinessObjectService().findMatching(Organization.class, chartCodeMap);
+                            if(chartCodeList!= null && chartCodeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_CHART_CD + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + chartCode);
+                                chartCode = null;
+                            }
+                            oleTxRecord.setChartCode(chartCode);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_CHART_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ORG_CODE.equals(destinationField)) {
+                        String orgCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(orgCode)){
+                            Map<String,String> orgCodeMap = new HashMap<>();
+                            orgCodeMap.put(OLEConstants.OLEBatchProcess.ORGANIZATION_CODE, orgCode);
+                            List<Organization> organizationCodeList = (List) getBusinessObjectService().findMatching(Organization.class, orgCodeMap);
+                            if(organizationCodeList != null && organizationCodeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.ORGANIZATION_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ORG_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + orgCode);
+                                orgCode = null;
+                            }
+                            oleTxRecord.setOrgCode(orgCode);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ORGANIZATION_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ORG_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.CONTRACT_MANAGER.equals(destinationField)) {
+                        String contractManager = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(contractManager)){
+                            Map<String,String> contractManagerMap = new HashMap<>();
+                            contractManagerMap.put(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER_NAME, contractManager);
+                            List<ContractManager> contractManagerList = (List) getBusinessObjectService().findMatching(ContractManager.class, contractManagerMap);
+                            if(contractManagerList != null && contractManagerList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_CONTRACT_MANAGER_NM + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + contractManager);
+                                contractManager = null;
+                            }
+                            oleTxRecord.setContractManager(contractManager);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER_NAME,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_CONTRACT_MGR_NM + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ASSIGN_TO_USER.equals(destinationField)) {
+                        String assignToUser = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(assignToUser)){
+                            Person assignedUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignToUser);
+                            if(assignedUser == null){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ASSIGN_TO_USER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + assignToUser);
+                                assignToUser = null;
+                            }
+                            oleTxRecord.setAssignToUser(assignToUser);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ASSIGN_TO_USER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ORDER_TYPE.equals(destinationField)) {
+                        String orderType = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(orderType)){
+                            Map<String,String> orderTypeMap = new HashMap<>();
+                            orderTypeMap.put(OLEConstants.OLEBatchProcess.PURCHASE_ORDER_TYPE, orderType);
+                            List<PurchaseOrderType> purchaseOrderTypeList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, orderTypeMap);
+                            if(purchaseOrderTypeList != null && purchaseOrderTypeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.PURCHASE_ORDER_TYPE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ORDER_TYPE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + orderType);
+                                orderType = null;
+                            }
+                            oleTxRecord.setOrderType(orderType);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PURCHASE_ORDER_TYPE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ORDER_TYPE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.FUNDING_SOURCE.equals(destinationField)) {
+                        String fundingSource = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(fundingSource)){
+                            Map<String,String> fundingSourceMap = new HashMap<>();
+                            fundingSourceMap.put(OLEConstants.OLEBatchProcess.FUNDING_SOURCE_CODE, fundingSource);
+                            List<FundingSource> fundingSourceList = (List) getBusinessObjectService().findMatching(FundingSource.class, fundingSourceMap);
+                            if(fundingSourceList != null && fundingSourceList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.FUNDING_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FUNDING_SOURCE_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + fundingSource);
+                                fundingSource = null;
+                            }
+                            oleTxRecord.setFundingSource(fundingSource);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.FUNDING_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FUNDING_SOURCE+ " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE.equals(destinationField)) {
+                        String deliveryCampusCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(deliveryCampusCode)){
+                            Map<String,String> campusCodeMap = new HashMap<>();
+                            campusCodeMap.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE, deliveryCampusCode);
+                            List<Building> campusList= (List) getBusinessObjectService().findMatching(Building.class, campusCodeMap);
+                            if(campusList != null && campusList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_CAMPUS_CODE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + deliveryCampusCode);
+                                deliveryCampusCode = null;
+                            }
+                            oleTxRecord.setDeliveryCampusCode(deliveryCampusCode);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DELIVERY_CAMPUS_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.BUILDING_CODE.equals(destinationField)) {
+                        String buildingCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(buildingCode)){
+                            Map<String,String> buildingCodeMap = new HashMap<>();
+                            buildingCodeMap.put(OLEConstants.OLEBatchProcess.BUILDING_CODE, buildingCode);
+                            List<Building> buildingList= (List) getBusinessObjectService().findMatching(Building.class, buildingCodeMap);
+                            if(buildingList != null && buildingList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.BUILDING_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_BUILDING_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + buildingCode);
+                                buildingCode = null;
+                            }
+                            oleTxRecord.setBuildingCode(buildingCode);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.BUILDING_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_BUILDING_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER.equals(destinationField)) {
+                        String deliveryBuildingRoomNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(deliveryBuildingRoomNumber)){
+                            Map<String,String> deliveryBuildingRoomNumberMap = new HashMap<>();
+                            deliveryBuildingRoomNumberMap.put(OLEConstants.BUILDING_ROOM_NUMBER, deliveryBuildingRoomNumber);
+                            List<Room> roomList= (List) getBusinessObjectService().findMatching(Room.class, deliveryBuildingRoomNumberMap);
+                            if(roomList != null && roomList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DELIVERY_BUILDING_ROOM_NUMBER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + deliveryBuildingRoomNumber);
+                                deliveryBuildingRoomNumber = null;
+                            }
+                            oleTxRecord.setDeliveryBuildingRoomNumber(deliveryBuildingRoomNumber);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DELIVERY_BUILDING_ROOM_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_CHOICE.equals(destinationField)) {
+                        String vendorChoice = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(vendorChoice)){
+                            Map<String,String> vendorChoiceMap = new HashMap<>();
+                            vendorChoiceMap.put(OLEConstants.OLEBatchProcess.PO_VENDOR_CHOICE_CODE, vendorChoice);
+                            List<PurchaseOrderVendorChoice> purchaseOrderVendorChoiceList = (List) getBusinessObjectService().findMatching(PurchaseOrderVendorChoice.class, vendorChoiceMap);
+                            if(purchaseOrderVendorChoiceList != null && purchaseOrderVendorChoiceList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.PO_VENDOR_CHOICE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_VENDOR_CHOICE_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + vendorChoice);
+                                vendorChoice = null;
+                            }
+                            oleTxRecord.setVendorChoice(vendorChoice);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PO_VENDOR_CHOICE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_CHOICE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION.equals(destinationField)) {
+                        String methodOfPOTransmission = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(methodOfPOTransmission)){
+                            Map<String,String> methodOfPOTransmissionMap = new HashMap<>();
+                            methodOfPOTransmissionMap.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE, methodOfPOTransmission);
+                            List<PurchaseOrderTransmissionMethod> purchaseOrderTransmissionMethodList = (List) getBusinessObjectService().findMatching(PurchaseOrderTransmissionMethod.class, methodOfPOTransmissionMap);
+                            if(purchaseOrderTransmissionMethodList != null && purchaseOrderTransmissionMethodList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_METHOD_OF_PO_TRANSMISSION_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + methodOfPOTransmission);
+                                methodOfPOTransmission = null;
+                            }
+                            oleTxRecord.setMethodOfPOTransmission(methodOfPOTransmission);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_METHOD_OF_PO_TRANSMISSION + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP.equals(destinationField)) {
+                        String recurringPaymentType = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(recurringPaymentType)){
+                            Map<String,String> recurringPaymentTypeMap = new HashMap<>();
+                            recurringPaymentTypeMap.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP_CODE, recurringPaymentType);
+                            List<RecurringPaymentType> recurringPaymentTypeList = (List) getBusinessObjectService().findMatching(RecurringPaymentType.class, recurringPaymentTypeMap);
+                            if(recurringPaymentTypeList != null && recurringPaymentTypeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_PAYMENT_TYP_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + recurringPaymentType);
+                                recurringPaymentType = null;
+                            }
+                            oleTxRecord.setMethodOfPOTransmission(recurringPaymentType);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_PAYMENT_TYP_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(destinationField)) {
+                        String recurringPaymentBeginDate = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(recurringPaymentBeginDate)){
+                            boolean validDate = new OLEBatchProcessProfileController().validateRecurringPaymentDate(recurringPaymentBeginDate);
+                            if(!validDate){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_BEGIN_DT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + recurringPaymentBeginDate);
+                                recurringPaymentBeginDate = null;
+                            }
+                            oleTxRecord.setRecurringPaymentBeginDate(recurringPaymentBeginDate);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.RECURRING_BEGIN_DT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(destinationField)) {
+                        String recurringPaymentEndDate = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(recurringPaymentEndDate)){
+                            boolean validDate = new OLEBatchProcessProfileController().validateRecurringPaymentDate(recurringPaymentEndDate);
+                            if(!validDate){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_END_DT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + recurringPaymentEndDate);
+                                recurringPaymentEndDate = null;
+                            }
+                            oleTxRecord.setRecurringPaymentEndDate(recurringPaymentEndDate);
+                        }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.RECURRING_END_DT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.COST_SOURCE.equals(destinationField)) {
+                        String costSource = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(costSource)){
+                            Map<String,String> costSourceMap = new HashMap<>();
+                            costSourceMap.put(OLEConstants.OLEBatchProcess.PO_COST_SOURCE_CODE, costSource);
+                            List<PurchaseOrderCostSource> purchaseOrderCostSourceList= (List) getBusinessObjectService().findMatching(PurchaseOrderCostSource.class, costSourceMap);
+                            if(purchaseOrderCostSourceList != null && purchaseOrderCostSourceList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.PO_COST_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_COST_SOURCE_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + costSource);
+                                costSource = null;
+                            }
+                            oleTxRecord.setCostSource(costSource);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PO_COST_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_COST_SOURCE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.PERCENT.equals(destinationField)) {
+                        String percent = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if(!StringUtils.isBlank(percent)){
+                            boolean validPercent = validateForPercentage(percent);
+                            if(!validPercent){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.PERCENT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_PERCENT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + percent);
+                                percent = null;
+                            }
+                            oleTxRecord.setPercent(percent);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PERCENT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_PERCENT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.DEFAULT_LOCATION.equals(destinationField)) {
+                        String defaultLocation = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(defaultLocation)){
+                            boolean validDefaultLocation = validateDefaultLocation(defaultLocation);
+                            if(!validDefaultLocation){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_LOCN_NM + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + defaultLocation);
+                                defaultLocation = null;
+                            }
+                            oleTxRecord.setDefaultLocation(defaultLocation);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_LOCATION_NM + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.LIST_PRICE.equals(destinationField)) {
+                        String listPrice = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(listPrice)){
+                            boolean validListPrice = validateDestinationFieldValues(listPrice);
+                            if(!validListPrice){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.LIST_PRICE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_LIST_PRICE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + listPrice);
+                                listPrice = null;
                             }
                             else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_CHART_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                                listPrice = Float.parseFloat(listPrice) + "";
                             }
+                            oleTxRecord.setListPrice(listPrice);
                         }
-                        else if (OLEConstants.OLEBatchProcess.ORG_CODE.equals(destinationField)) {
-                            String orgCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(orgCode)){
-                                Map<String,String> orgCodeMap = new HashMap<>();
-                                orgCodeMap.put(OLEConstants.OLEBatchProcess.ORGANIZATION_CODE, orgCode);
-                                List<Organization> organizationCodeList = (List) getBusinessObjectService().findMatching(Organization.class, orgCodeMap);
-                                if(organizationCodeList != null && organizationCodeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.ORGANIZATION_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ORG_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + orgCode);
-                                    orgCode = null;
-                                }
-                                oleTxRecord.setOrgCode(orgCode);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ORGANIZATION_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ORG_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.LIST_PRICE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_LIST_PRICE +  " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.CONTRACT_MANAGER.equals(destinationField)) {
-                            String contractManager = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(contractManager)){
-                                Map<String,String> contractManagerMap = new HashMap<>();
-                                contractManagerMap.put(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER_NAME, contractManager);
-                                List<ContractManager> contractManagerList = (List) getBusinessObjectService().findMatching(ContractManager.class, contractManagerMap);
-                                if(contractManagerList != null && contractManagerList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_CONTRACT_MANAGER_NM + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + contractManager);
-                                    contractManager = null;
-                                }
-                                oleTxRecord.setContractManager(contractManager);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(destinationField)) {
+                        String vendorNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(vendorNumber)){
+                            boolean validVendorNumber = validateVendorNumber(vendorNumber);
+                            if(!validVendorNumber){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_VENDOR_NUMBER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + vendorNumber);
+                                vendorNumber = null;
                             }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER_NAME,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_CONTRACT_MGR_NM + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                            oleTxRecord.setVendorNumber(vendorNumber);
                         }
-                        else if (OLEConstants.OLEBatchProcess.ASSIGN_TO_USER.equals(destinationField)) {
-                            String assignToUser = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(assignToUser)){
-                                Person assignedUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignToUser);
-                                if(assignedUser == null){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ASSIGN_TO_USER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + assignToUser);
-                                    assignToUser = null;
-                                }
-                                oleTxRecord.setAssignToUser(assignToUser);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ASSIGN_TO_USER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.ORDER_TYPE.equals(destinationField)) {
-                            String orderType = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(orderType)){
-                                Map<String,String> orderTypeMap = new HashMap<>();
-                                orderTypeMap.put(OLEConstants.OLEBatchProcess.PURCHASE_ORDER_TYPE, orderType);
-                                List<PurchaseOrderType> purchaseOrderTypeList = (List) getBusinessObjectService().findMatching(PurchaseOrderType.class, orderTypeMap);
-                                if(purchaseOrderTypeList != null && purchaseOrderTypeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.PURCHASE_ORDER_TYPE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ORDER_TYPE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + orderType);
-                                    orderType = null;
-                                }
-                                oleTxRecord.setOrderType(orderType);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(destinationField)) {
+                        String vendorAliasName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(vendorAliasName)) {
+                            Map<String, String> vendorAliasMap = new HashMap<>();
+                            vendorAliasMap.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, vendorAliasName);
+                            List<VendorAlias> vendorAliasList = (List) getLookupService().findCollectionBySearchHelper(VendorAlias.class, vendorAliasMap, true);
+                            if (vendorAliasList != null && vendorAliasList.size() == 0) {
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_VENDOR_ALIAS_NAME + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + vendorAliasName);
+                                vendorAliasName = null;
                             }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.PURCHASE_ORDER_TYPE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ORDER_TYPE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                            oleTxRecord.setVendorAliasName(vendorAliasName);
+                        } else {
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_VENDOR_ALIAS_NAME + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.FUNDING_SOURCE.equals(destinationField)) {
-                            String fundingSource = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(fundingSource)){
-                                Map<String,String> fundingSourceMap = new HashMap<>();
-                                fundingSourceMap.put(OLEConstants.OLEBatchProcess.FUNDING_SOURCE_CODE, fundingSource);
-                                List<FundingSource> fundingSourceList = (List) getBusinessObjectService().findMatching(FundingSource.class, fundingSourceMap);
-                                if(fundingSourceList != null && fundingSourceList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.FUNDING_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FUNDING_SOURCE_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + fundingSource);
-                                    fundingSource = null;
-                                }
-                                oleTxRecord.setFundingSource(fundingSource);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(destinationField)) {
+                        String vendorCustomerNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(vendorCustomerNumber)){
+                            Map<String,String> vendorCustomerMap = new HashMap<>();
+                            vendorCustomerMap.put(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR, vendorCustomerNumber);
+                            List<VendorCustomerNumber> vendorCustomerList = (List) getBusinessObjectService().findMatching(VendorCustomerNumber.class, vendorCustomerMap);
+                            if(vendorCustomerList != null && vendorCustomerList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_VENDOR_CUST_NBR + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + vendorCustomerNumber);
+                                vendorCustomerNumber = null;
                             }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.FUNDING_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FUNDING_SOURCE+ " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                            oleTxRecord.setVendorInfoCustomer(vendorCustomerNumber);
                         }
-                        else if (OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE.equals(destinationField)) {
-                            String deliveryCampusCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(deliveryCampusCode)){
-                                Map<String,String> campusCodeMap = new HashMap<>();
-                                campusCodeMap.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE, deliveryCampusCode);
-                                List<Building> campusList= (List) getBusinessObjectService().findMatching(Building.class, campusCodeMap);
-                                if(campusList != null && campusList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_CAMPUS_CODE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + deliveryCampusCode);
-                                    deliveryCampusCode = null;
-                                }
-                                oleTxRecord.setDeliveryCampusCode(deliveryCampusCode);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.CAMPUS_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DELIVERY_CAMPUS_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_CUST_NBR + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.BUILDING_CODE.equals(destinationField)) {
-                            String buildingCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(buildingCode)){
-                                Map<String,String> buildingCodeMap = new HashMap<>();
-                                buildingCodeMap.put(OLEConstants.OLEBatchProcess.BUILDING_CODE, buildingCode);
-                                List<Building> buildingList= (List) getBusinessObjectService().findMatching(Building.class, buildingCodeMap);
-                                if(buildingList != null && buildingList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.BUILDING_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_BUILDING_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + buildingCode);
-                                    buildingCode = null;
-                                }
-                                oleTxRecord.setBuildingCode(buildingCode);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.QUANTITY.equals(destinationField)) {
+                        String quantity = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(quantity)){
+                            boolean validQuantity = validateForNumber(quantity);
+                            if(!validQuantity){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.QUANTITY, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_QTY + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + quantity);
+                                quantity = null;
                             }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.BUILDING_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_BUILDING_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                            oleTxRecord.setQuantity(quantity);
                         }
-                        else if (OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER.equals(destinationField)) {
-                            String deliveryBuildingRoomNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(deliveryBuildingRoomNumber)){
-                                Map<String,String> deliveryBuildingRoomNumberMap = new HashMap<>();
-                                deliveryBuildingRoomNumberMap.put(OLEConstants.BUILDING_ROOM_NUMBER, deliveryBuildingRoomNumber);
-                                List<Room> roomList= (List) getBusinessObjectService().findMatching(Room.class, deliveryBuildingRoomNumberMap);
-                                if(roomList != null && roomList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DELIVERY_BUILDING_ROOM_NUMBER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + deliveryBuildingRoomNumber);
-                                    deliveryBuildingRoomNumber = null;
-                                }
-                                oleTxRecord.setDeliveryBuildingRoomNumber(deliveryBuildingRoomNumber);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DELIVERY_BUILDING_ROOM_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.QUANTITY, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_QTY + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.VENDOR_CHOICE.equals(destinationField)) {
-                            String vendorChoice = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(vendorChoice)){
-                                Map<String,String> vendorChoiceMap = new HashMap<>();
-                                vendorChoiceMap.put(OLEConstants.OLEBatchProcess.PO_VENDOR_CHOICE_CODE, vendorChoice);
-                                List<PurchaseOrderVendorChoice> purchaseOrderVendorChoiceList = (List) getBusinessObjectService().findMatching(PurchaseOrderVendorChoice.class, vendorChoiceMap);
-                                if(purchaseOrderVendorChoiceList != null && purchaseOrderVendorChoiceList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.PO_VENDOR_CHOICE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_VENDOR_CHOICE_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + vendorChoice);
-                                    vendorChoice = null;
-                                }
-                                oleTxRecord.setVendorChoice(vendorChoice);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(destinationField)) {
+                        String itemNoOfParts = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(itemNoOfParts)){
+                            boolean validNoOfParts = validateForNumber(itemNoOfParts);
+                            if(!validNoOfParts){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_NO_OF_PARTS + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + itemNoOfParts);
+                                itemNoOfParts = null;
                             }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.PO_VENDOR_CHOICE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_CHOICE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                            oleTxRecord.setItemNoOfParts(itemNoOfParts);
                         }
-                        else if (OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION.equals(destinationField)) {
-                            String methodOfPOTransmission = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(methodOfPOTransmission)){
-                                Map<String,String> methodOfPOTransmissionMap = new HashMap<>();
-                                methodOfPOTransmissionMap.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE, methodOfPOTransmission);
-                                List<PurchaseOrderTransmissionMethod> purchaseOrderTransmissionMethodList = (List) getBusinessObjectService().findMatching(PurchaseOrderTransmissionMethod.class, methodOfPOTransmissionMap);
-                                if(purchaseOrderTransmissionMethodList != null && purchaseOrderTransmissionMethodList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_METHOD_OF_PO_TRANSMISSION_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + methodOfPOTransmission);
-                                    methodOfPOTransmission = null;
-                                }
-                                oleTxRecord.setMethodOfPOTransmission(methodOfPOTransmission);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.PO_TRANSMISSION_METHOD_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_METHOD_OF_PO_TRANSMISSION + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_NO_OF_PARTS + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP.equals(destinationField)) {
-                            String recurringPaymentType = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(recurringPaymentType)){
-                                Map<String,String> recurringPaymentTypeMap = new HashMap<>();
-                                recurringPaymentTypeMap.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP_CODE, recurringPaymentType);
-                                List<RecurringPaymentType> recurringPaymentTypeList = (List) getBusinessObjectService().findMatching(RecurringPaymentType.class, recurringPaymentTypeMap);
-                                if(recurringPaymentTypeList != null && recurringPaymentTypeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_PAYMENT_TYP_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + recurringPaymentType);
-                                    recurringPaymentType = null;
-                                }
-                                oleTxRecord.setMethodOfPOTransmission(recurringPaymentType);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_PAYMENT_TYP_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER.equals(destinationField)) {
+                        String vendorReferenceNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(vendorReferenceNumber)){
+                            oleTxRecord.setVendorItemIdentifier(vendorReferenceNumber);
                         }
-                        else if (OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(destinationField)) {
-                            String recurringPaymentBeginDate = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(recurringPaymentBeginDate)){
-                               boolean validDate = new OLEBatchProcessProfileController().validateRecurringPaymentDate(recurringPaymentBeginDate);
-                               if(!validDate){
-                                   mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_BEGIN_DT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + recurringPaymentBeginDate);
-                                   recurringPaymentBeginDate = null;
-                               }
-                                oleTxRecord.setRecurringPaymentBeginDate(recurringPaymentBeginDate);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.RECURRING_BEGIN_DT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_REF_NMBR + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
-                        else if (OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(destinationField)) {
-                            String recurringPaymentEndDate = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(recurringPaymentEndDate)){
-                                boolean validDate = new OLEBatchProcessProfileController().validateRecurringPaymentDate(recurringPaymentEndDate);
-                                if(!validDate){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECURRING_END_DT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + recurringPaymentEndDate);
-                                    recurringPaymentEndDate = null;
-                                }
-                                oleTxRecord.setRecurringPaymentEndDate(recurringPaymentEndDate);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.RECURRING_END_DT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED.equals(destinationField)) {
+                        String receivingRequired = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!receivingRequired.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !receivingRequired.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECEIVING_REQUIRED + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + receivingRequired);
                         }
-                        else if (OLEConstants.OLEBatchProcess.COST_SOURCE.equals(destinationField)) {
-                            String costSource = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(costSource)){
-                                Map<String,String> costSourceMap = new HashMap<>();
-                                costSourceMap.put(OLEConstants.OLEBatchProcess.PO_COST_SOURCE_CODE, costSource);
-                                List<PurchaseOrderCostSource> purchaseOrderCostSourceList= (List) getBusinessObjectService().findMatching(PurchaseOrderCostSource.class, costSourceMap);
-                                if(purchaseOrderCostSourceList != null && purchaseOrderCostSourceList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.PO_COST_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_COST_SOURCE_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + costSource);
-                                    costSource = null;
-                                }
-                                oleTxRecord.setCostSource(costSource);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.PO_COST_SOURCE_CODE,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_COST_SOURCE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        oleTxRecord.setReceivingRequired(Boolean.parseBoolean(receivingRequired));
+                    }
+                    else if (OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR.equals(destinationField)) {
+                        String useTaxIndicator = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if(!useTaxIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !useTaxIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_USE_TAX_INDICATOR + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + useTaxIndicator);
                         }
-                        else if (OLEConstants.OLEBatchProcess.PERCENT.equals(destinationField)) {
-                            String percent = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if(!StringUtils.isBlank(percent)){
-                                boolean validPercent = validateForPercentage(percent);
-                                if(!validPercent){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.PERCENT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_PERCENT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + percent);
-                                    percent = null;
-                                }
-                                oleTxRecord.setPercent(percent);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.PERCENT,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_PERCENT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        oleTxRecord.setUseTaxIndicator(Boolean.parseBoolean(useTaxIndicator));
+                    }
+                    else if (OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ.equals(destinationField)) {
+                        String payReqPositiveApprovalReq = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if(!payReqPositiveApprovalReq.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !payReqPositiveApprovalReq.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_PREQ_POSITIVE_APPROVAL_REQ + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + payReqPositiveApprovalReq);
                         }
-                        else if (OLEConstants.OLEBatchProcess.DEFAULT_LOCATION.equals(destinationField)) {
-                            String defaultLocation = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(defaultLocation)){
-                                boolean validDefaultLocation = validateDefaultLocation(defaultLocation);
-                                if(!validDefaultLocation){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_LOCN_NM + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + defaultLocation);
-                                    defaultLocation = null;
-                                }
-                                oleTxRecord.setDefaultLocation(defaultLocation);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_LOCATION_NM + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                        oleTxRecord.setPayReqPositiveApprovalReq(Boolean.parseBoolean(payReqPositiveApprovalReq));
+                    }
+                    else if (OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR.equals(destinationField)) {
+                        String purchaseOrderConfirmationIndicator = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if(!purchaseOrderConfirmationIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !purchaseOrderConfirmationIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_PO_CONFIRMATION_INDICATOR + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + purchaseOrderConfirmationIndicator);
                         }
-                        else if (OLEConstants.OLEBatchProcess.LIST_PRICE.equals(destinationField)) {
-                            String listPrice = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                                if(!StringUtils.isBlank(listPrice)){
-                                    boolean validListPrice = validateDestinationFieldValues(listPrice);
-                                    if(!validListPrice){
-                                        mappingFailures.put(OLEConstants.OLEBatchProcess.LIST_PRICE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_LIST_PRICE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + listPrice);
-                                        listPrice = null;
-                                    }
-                                    else {
-                                        listPrice = Float.parseFloat(listPrice) + "";
-                                    }
-                                    oleTxRecord.setListPrice(listPrice);
-                                }
-                                else {
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.LIST_PRICE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_LIST_PRICE +  " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                                }
+                        oleTxRecord.setPurchaseOrderConfirmationIndicator(Boolean.parseBoolean(purchaseOrderConfirmationIndicator));
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR.equals(destinationField)) {
+                        String routeToRequestor = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if(!routeToRequestor.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !routeToRequestor.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_ROUTE_TO_REQUESTOR + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + routeToRequestor);
                         }
-                        else if (OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(destinationField)) {
-                            String vendorNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(vendorNumber)){
-                                boolean validVendorNumber = validateVendorNumber(vendorNumber);
-                                if(!validVendorNumber){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_VENDOR_NUMBER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + vendorNumber);
-                                    vendorNumber = null;
-                                }
-                                oleTxRecord.setVendorNumber(vendorNumber);
-                            }
-                            else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(destinationField)) {
-                            String vendorAliasName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(vendorAliasName)) {
-                                Map<String, String> vendorAliasMap = new HashMap<>();
-                                vendorAliasMap.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, vendorAliasName);
-                                List<VendorAlias> vendorAliasList = (List) getLookupService().findCollectionBySearchHelper(VendorAlias.class, vendorAliasMap, true);
-                                if (vendorAliasList != null && vendorAliasList.size() == 0) {
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_VENDOR_ALIAS_NAME + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + vendorAliasName);
-                                    vendorAliasName = null;
-                                }
-                                oleTxRecord.setVendorAliasName(vendorAliasName);
+                        oleTxRecord.setRouteToRequestor(Boolean.parseBoolean(routeToRequestor));
+                    }
+                    else if (OLEConstants.DONOR_CODE.equals(destinationField)) {
+                        String donorCode = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (donorCode != null && !donorCode.isEmpty()) {
+                            Map<String, String> donorCodeMap = new HashMap<>();
+                            donorCodeMap.put(OLEConstants.DONOR_CODE, donorCode);
+                            List<OLEDonor> donorCodeList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
+                            if (donorCodeList != null && donorCodeList.size() > 0) {
+                                donors.add(donorCodeList.get(0).getDonorCode());
                             } else {
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_VENDOR_ALIAS_NAME + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                                mappingFailures.put(OLEConstants.DONOR_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DONOR_CODE + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + " " + donorCode);
                             }
                         }
-                        else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(destinationField)) {
-                            String vendorCustomerNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(vendorCustomerNumber)){
-                                Map<String,String> vendorCustomerMap = new HashMap<>();
-                                vendorCustomerMap.put(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR, vendorCustomerNumber);
-                                List<VendorCustomerNumber> vendorCustomerList = (List) getBusinessObjectService().findMatching(VendorCustomerNumber.class, vendorCustomerMap);
-                                if(vendorCustomerList != null && vendorCustomerList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_VENDOR_CUST_NBR + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +  "  " + vendorCustomerNumber);
-                                    vendorCustomerNumber = null;
-                                }
-                                oleTxRecord.setVendorInfoCustomer(vendorCustomerNumber);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR,OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_CUST_NBR + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.QUANTITY.equals(destinationField)) {
-                            String quantity = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(quantity)){
-                                boolean validQuantity = validateForNumber(quantity);
-                                if(!validQuantity){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.QUANTITY, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_QTY + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + quantity);
-                                    quantity = null;
-                                }
-                                oleTxRecord.setQuantity(quantity);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.QUANTITY, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_QTY + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(destinationField)) {
-                            String itemNoOfParts = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(itemNoOfParts)){
-                                boolean validNoOfParts = validateForNumber(itemNoOfParts);
-                                if(!validNoOfParts){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_NO_OF_PARTS + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + itemNoOfParts);
-                                    itemNoOfParts = null;
-                                }
-                                oleTxRecord.setItemNoOfParts(itemNoOfParts);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_NO_OF_PARTS + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER.equals(destinationField)) {
-                            String vendorReferenceNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(vendorReferenceNumber)){
-                                oleTxRecord.setVendorItemIdentifier(vendorReferenceNumber);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_VENDOR_REF_NMBR + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED.equals(destinationField)) {
-                            String receivingRequired = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!receivingRequired.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !receivingRequired.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_RECEIVING_REQUIRED + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + receivingRequired);
-                            }
-                            oleTxRecord.setReceivingRequired(Boolean.parseBoolean(receivingRequired));
-                        }
-                        else if (OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR.equals(destinationField)) {
-                            String useTaxIndicator = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if(!useTaxIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !useTaxIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_USE_TAX_INDICATOR + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + useTaxIndicator);
-                            }
-                            oleTxRecord.setUseTaxIndicator(Boolean.parseBoolean(useTaxIndicator));
-                        }
-                        else if (OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ.equals(destinationField)) {
-                            String payReqPositiveApprovalReq = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if(!payReqPositiveApprovalReq.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !payReqPositiveApprovalReq.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_PREQ_POSITIVE_APPROVAL_REQ + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + payReqPositiveApprovalReq);
-                            }
-                            oleTxRecord.setPayReqPositiveApprovalReq(Boolean.parseBoolean(payReqPositiveApprovalReq));
-                        }
-                        else if (OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR.equals(destinationField)) {
-                            String purchaseOrderConfirmationIndicator = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                             if(!purchaseOrderConfirmationIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !purchaseOrderConfirmationIndicator.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
-                                 mappingFailures.put(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_PO_CONFIRMATION_INDICATOR + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + purchaseOrderConfirmationIndicator);
-                             }
-                             oleTxRecord.setPurchaseOrderConfirmationIndicator(Boolean.parseBoolean(purchaseOrderConfirmationIndicator));
-                        }
-                        else if (OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR.equals(destinationField)) {
-                            String routeToRequestor = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if(!routeToRequestor.equalsIgnoreCase(OLEConstants.OLEBatchProcess.TRUE) && !routeToRequestor.equalsIgnoreCase(OLEConstants.OLEBatchProcess.FALSE)){
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.INVALID_ROUTE_TO_REQUESTOR + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + "  " + routeToRequestor);
-                            }
-                            oleTxRecord.setRouteToRequestor(Boolean.parseBoolean(routeToRequestor));
-                        }
-                        else if (OLEConstants.DONOR_CODE.equals(destinationField)) {
-                            String donorCode = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (donorCode != null && !donorCode.isEmpty()) {
-                                Map<String, String> donorCodeMap = new HashMap<>();
-                                donorCodeMap.put(OLEConstants.DONOR_CODE, donorCode);
-                                List<OLEDonor> donorCodeList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
-                                if (donorCodeList != null && donorCodeList.size() > 0) {
-                                    donors.add(donorCodeList.get(0).getDonorCode());
-                                } else {
-                                    mappingFailures.put(OLEConstants.DONOR_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DONOR_CODE + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + " " + donorCode);
-                                }
-                            }
-                            //Commented for jira OLE-7587
+                        //Commented for jira OLE-7587
                             /*
                             else{
                                 mappingFailures.put(OLEConstants.DONOR_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_DONOR_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                             }*/
+                    }
+                    else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(destinationField)) {
+                        String requestorName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if(!StringUtils.isBlank(requestorName)){
+                            boolean validRequestorName =  checkRequestorName(requestorName);
+                            if(!validRequestorName){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.REQUESTOR_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_REQUESTOR_NAME + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + requestorName);
+                                requestorName = null;
+                            }
+                            oleTxRecord.setRequestorName(requestorName);
                         }
-                        else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(destinationField)) {
-                            String requestorName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if(!StringUtils.isBlank(requestorName)){
-                                boolean validRequestorName =  checkRequestorName(requestorName);
-                                if(!validRequestorName){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.REQUESTOR_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_REQUESTOR_NAME + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + requestorName);
-                                    requestorName = null;
-                                }
-                                oleTxRecord.setRequestorName(requestorName);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.REQUESTOR_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_REQUESTOR_NM + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.ITEM_STATUS.equals(destinationField)) {
-                            String itemStatus = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord, dataField, tagField);
-                            if(!StringUtils.isBlank(itemStatus)){
-                                boolean validItemStatus = validateItemStatus(itemStatus);
-                                if(!validItemStatus){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_STATUS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ITEM_STATUS + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +" " + itemStatus);
-                                    itemStatus = null;
-                                }
-                                oleTxRecord.setItemStatus(itemStatus);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_STATUS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ITEM_STATUS + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.DISCOUNT.equals(destinationField)) {
-                            String discount = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(discount)){
-                                boolean validDiscount = validateDestinationFieldValues(discount);
-                                if(!validDiscount){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DISCOUNT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + discount);
-                                    discount = null;
-                                }
-                                oleTxRecord.setDiscount(discount);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DISCOUNT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.DISCOUNT_TYPE.equals(destinationField)) {
-                            String discountType = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(discountType)){
-                                if(!discountType.equalsIgnoreCase(OLEConstants.PERCENTAGE) && !discountType.equalsIgnoreCase(OLEConstants.DELIMITER_HASH)){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DISCOUNT_TYPE  + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + discountType);
-                                    discountType = null;
-                                }
-                                oleTxRecord.setDiscountType(discountType);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DISCOUNT_TYPE+ " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER.equals(destinationField)) {
-                            String accountNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(accountNumber)){
-                                Map<String,String> accountNumberMap = new HashMap<>();
-                                accountNumberMap.put(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, accountNumber);
-                                List<Account> accountNumberList = (List) getLookupService().findCollectionBySearchHelper(Account.class, accountNumberMap,true);
-                                if(accountNumberList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ACCOUNT_NUMBER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + accountNumber);
-                                    accountNumber = null;
-                                }
-                                oleTxRecord.setAccountNumber(accountNumber);
-                                if (StringUtils.isNotBlank(accountNumber)) {
-                                    oleTxRecord.setAccountNumber(accountNumberList.get(0).getAccountNumber());
-                                }
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ACCOUNT_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(destinationField)) {
-                            String objectCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(objectCode)) {
-                                Map<String,String> objectCodeMap = new HashMap<>();
-                                objectCodeMap.put(OLEConstants.OLEBatchProcess.OBJECT_CODE, objectCode);
-                                List<ObjectCode> objectCodeList = (List) getBusinessObjectService().findMatching(ObjectCode.class, objectCodeMap);
-                                if(objectCodeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.OBJECT_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_OBJECT_CODE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + objectCode);
-                                    objectCode = null;
-                                }
-                                oleTxRecord.setObjectCode(objectCode);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.OBJECT_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_OBJECT_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(destinationField)) {
-                            String itemChartCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(itemChartCode)) {
-                                Map<String,String> itemChartCodeMap = new HashMap<>();
-                                itemChartCodeMap.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, itemChartCode);
-                                List<Chart> itemChartCodeList = (List) getBusinessObjectService().findMatching(Chart.class, itemChartCodeMap);
-                                if(itemChartCodeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ITEM_CHART_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + itemChartCode);
-                                    itemChartCode = null;
-                                }
-                                oleTxRecord.setItemChartCode(itemChartCode);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ITEM_CHART_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(destinationField)) {
-                            String fundCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(StringUtils.isNotBlank(fundCode)) {
-                                Map<String,String> fundCodeMap = new HashMap<>();
-                                fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
-                                List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
-                                if(CollectionUtils.isEmpty(fundCodeList)){
-                                    mappingFailures.put(OLEConstants.OLEEResourceRecord.FUND_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FUND_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + fundCode);
-                                    fundCode = null;
-                                }
-                                oleTxRecord.setFundCode(fundCode);
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEEResourceRecord.FUND_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FUND_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.FORMAT_TYP_NM.equals(destinationField)) {
-                            String formatTypeName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            if(!StringUtils.isBlank(formatTypeName)) {
-                                Map<String,String> formatTypeMap = new HashMap<>();
-                                formatTypeMap.put(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM, formatTypeName);
-                                List<OleFormatType> formatTypeList = (List) getBusinessObjectService().findMatching(OleFormatType.class, formatTypeMap);
-                                if(formatTypeList == null || formatTypeList.size() == 0){
-                                    mappingFailures.put(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FORMAT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + formatTypeName);
-                                }
-                                else{
-                                    oleTxRecord.setFormatTypeId(formatTypeList.get(0).getFormatTypeId().toString());
-                                }
-                            }
-                            else{
-                                mappingFailures.put(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FORMAT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.MISC_NOTE.equals(destinationField)) {
-                            String miscellaneousNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(miscellaneousNote)) {
-                                if (miscellaneousNote.length() > 2000) {
-                                    miscellaneousNote = miscellaneousNote.substring(0, 2000);
-                                }
-                                miscellaneousNotes.add(miscellaneousNote);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.RCPT_NOTE.equals(destinationField)) {
-                            String receiptNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(receiptNote)) {
-                                if (receiptNote.length() > 2000) {
-                                    receiptNote = receiptNote.substring(0, 2000);
-                                }
-                                receiptNotes.add(receiptNote);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.RQST_NOTE.equals(destinationField)) {
-                            String requestorNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(requestorNote)) {
-                                if (requestorNote.length() > 2000) {
-                                    requestorNote = requestorNote.substring(0, 2000);
-                                }
-                                requestorNotes.add(requestorNote);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.SELECTOR_NOTE.equals(destinationField)) {
-                            String selectorNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(selectorNote)) {
-                                if (selectorNote.length() > 2000) {
-                                    selectorNote = selectorNote.substring(0, 2000);
-                                }
-                                selectorNotes.add(selectorNote);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.SPL_PROCESS_NOTE.equals(destinationField)) {
-                            String splProcessInstrNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(splProcessInstrNote)) {
-                                if (splProcessInstrNote.length() > 2000) {
-                                    splProcessInstrNote = splProcessInstrNote.substring(0, 2000);
-                                }
-                                splProcessInstrNotes.add(splProcessInstrNote);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.VNDR_INSTR_NOTE.equals(destinationField)) {
-                            String vendorInstrNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (!StringUtils.isBlank(vendorInstrNote)) {
-                                if (vendorInstrNote.length() > 2000) {
-                                    vendorInstrNote = vendorInstrNote.substring(0, 2000);
-                                }
-                                vendorInstrNotes.add(vendorInstrNote);
-                            }
-                        }
-                        else if (OLEConstants.OLEBatchProcess.CAPTION.equals(destinationField)) {
-                            String caption = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
-                            oleTxRecord.setCaption(caption);
-                        }
-                        else if (OLEConstants.OLEBatchProcess.VOLUME_NUMBER.equals(destinationField)) {
-                            String volumeNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            oleTxRecord.setVolumeNumber(volumeNumber);
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.REQUESTOR_NAME, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_REQUESTOR_NM + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                         }
                     }
+                    else if (OLEConstants.OLEBatchProcess.ITEM_STATUS.equals(destinationField)) {
+                        String itemStatus = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord, dataField, tagField);
+                        if(!StringUtils.isBlank(itemStatus)){
+                            boolean validItemStatus = validateItemStatus(itemStatus);
+                            if(!validItemStatus){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_STATUS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ITEM_STATUS + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +" " + itemStatus);
+                                itemStatus = null;
+                            }
+                            oleTxRecord.setItemStatus(itemStatus);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_STATUS, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ITEM_STATUS + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.DISCOUNT.equals(destinationField)) {
+                        String discount = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(discount)){
+                            boolean validDiscount = validateDestinationFieldValues(discount);
+                            if(!validDiscount){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DISCOUNT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + discount);
+                                discount = null;
+                            }
+                            oleTxRecord.setDiscount(discount);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DISCOUNT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.DISCOUNT_TYPE.equals(destinationField)) {
+                        String discountType = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(discountType)){
+                            if(!discountType.equalsIgnoreCase(OLEConstants.PERCENTAGE) && !discountType.equalsIgnoreCase(OLEConstants.DELIMITER_HASH)){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DISCOUNT_TYPE  + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + discountType);
+                                discountType = null;
+                            }
+                            oleTxRecord.setDiscountType(discountType);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_DISCOUNT_TYPE+ " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER.equals(destinationField)) {
+                        String accountNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(accountNumber)){
+                            Map<String,String> accountNumberMap = new HashMap<>();
+                            accountNumberMap.put(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, accountNumber);
+                            List<Account> accountNumberList = (List) getLookupService().findCollectionBySearchHelper(Account.class, accountNumberMap,true);
+                            if(accountNumberList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ACCOUNT_NUMBER + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + accountNumber);
+                                accountNumber = null;
+                            }
+                            oleTxRecord.setAccountNumber(accountNumber);
+                            if (StringUtils.isNotBlank(accountNumber)) {
+                                oleTxRecord.setAccountNumber(accountNumberList.get(0).getAccountNumber());
+                            }
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ACCOUNT_NUMBER + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(destinationField)) {
+                        String objectCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(objectCode)) {
+                            Map<String,String> objectCodeMap = new HashMap<>();
+                            objectCodeMap.put(OLEConstants.OLEBatchProcess.OBJECT_CODE, objectCode);
+                            List<ObjectCode> objectCodeList = (List) getBusinessObjectService().findMatching(ObjectCode.class, objectCodeMap);
+                            if(objectCodeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.OBJECT_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_OBJECT_CODE + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + objectCode);
+                                objectCode = null;
+                            }
+                            oleTxRecord.setObjectCode(objectCode);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.OBJECT_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_OBJECT_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(destinationField)) {
+                        String itemChartCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(itemChartCode)) {
+                            Map<String,String> itemChartCodeMap = new HashMap<>();
+                            itemChartCodeMap.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE, itemChartCode);
+                            List<Chart> itemChartCodeList = (List) getBusinessObjectService().findMatching(Chart.class, itemChartCodeMap);
+                            if(itemChartCodeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_ITEM_CHART_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + itemChartCode);
+                                itemChartCode = null;
+                            }
+                            oleTxRecord.setItemChartCode(itemChartCode);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ITEM_CHART_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(destinationField)) {
+                        String fundCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(StringUtils.isNotBlank(fundCode)) {
+                            Map<String,String> fundCodeMap = new HashMap<>();
+                            fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
+                            List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+                            if(CollectionUtils.isEmpty(fundCodeList)){
+                                mappingFailures.put(OLEConstants.OLEEResourceRecord.FUND_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FUND_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + fundCode);
+                                fundCode = null;
+                            }
+                            oleTxRecord.setFundCode(fundCode);
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEEResourceRecord.FUND_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FUND_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.FORMAT_TYP_NM.equals(destinationField)) {
+                        String formatTypeName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        if(!StringUtils.isBlank(formatTypeName)) {
+                            Map<String,String> formatTypeMap = new HashMap<>();
+                            formatTypeMap.put(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM, formatTypeName);
+                            List<OleFormatType> formatTypeList = (List) getBusinessObjectService().findMatching(OleFormatType.class, formatTypeMap);
+                            if(formatTypeList == null || formatTypeList.size() == 0){
+                                mappingFailures.put(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FORMAT + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + formatTypeName);
+                            }
+                            else{
+                                oleTxRecord.setFormatTypeId(formatTypeList.get(0).getFormatTypeId().toString());
+                            }
+                        }
+                        else{
+                            mappingFailures.put(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FORMAT + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.MISC_NOTE.equals(destinationField)) {
+                        String miscellaneousNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(miscellaneousNote)) {
+                            if (miscellaneousNote.length() > 2000) {
+                                miscellaneousNote = miscellaneousNote.substring(0, 2000);
+                            }
+                            miscellaneousNotes.add(miscellaneousNote);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.RCPT_NOTE.equals(destinationField)) {
+                        String receiptNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(receiptNote)) {
+                            if (receiptNote.length() > 2000) {
+                                receiptNote = receiptNote.substring(0, 2000);
+                            }
+                            receiptNotes.add(receiptNote);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.RQST_NOTE.equals(destinationField)) {
+                        String requestorNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(requestorNote)) {
+                            if (requestorNote.length() > 2000) {
+                                requestorNote = requestorNote.substring(0, 2000);
+                            }
+                            requestorNotes.add(requestorNote);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.SELECTOR_NOTE.equals(destinationField)) {
+                        String selectorNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(selectorNote)) {
+                            if (selectorNote.length() > 2000) {
+                                selectorNote = selectorNote.substring(0, 2000);
+                            }
+                            selectorNotes.add(selectorNote);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.SPL_PROCESS_NOTE.equals(destinationField)) {
+                        String splProcessInstrNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(splProcessInstrNote)) {
+                            if (splProcessInstrNote.length() > 2000) {
+                                splProcessInstrNote = splProcessInstrNote.substring(0, 2000);
+                            }
+                            splProcessInstrNotes.add(splProcessInstrNote);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VNDR_INSTR_NOTE.equals(destinationField)) {
+                        String vendorInstrNote = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        if (!StringUtils.isBlank(vendorInstrNote)) {
+                            if (vendorInstrNote.length() > 2000) {
+                                vendorInstrNote = vendorInstrNote.substring(0, 2000);
+                            }
+                            vendorInstrNotes.add(vendorInstrNote);
+                        }
+                    }
+                    else if (OLEConstants.OLEBatchProcess.CAPTION.equals(destinationField)) {
+                        String caption = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                        oleTxRecord.setCaption(caption);
+                    }
+                    else if (OLEConstants.OLEBatchProcess.VOLUME_NUMBER.equals(destinationField)) {
+                        String volumeNumber = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                        oleTxRecord.setVolumeNumber(volumeNumber);
+                    }
+                }
             }
             if (donors.size()>0){
                 oleTxRecord.setOleDonors(donors);
@@ -1021,7 +1024,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         }
     }
 
-    private String setDataMappingValues(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList,int dataMapCount,BibMarcRecord bibMarcRecord,String dataField,String tagField){
+    public String setDataMappingValues(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList,int dataMapCount,BibMarcRecord bibMarcRecord,String dataField,String tagField){
         String subFieldValue = getSubFieldValueFor(bibMarcRecord, dataField, tagField);
         if (StringUtils.isBlank(subFieldValue)) {
             OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount);
@@ -1037,7 +1040,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         return subFieldValue;
     }
 
-    private String setDataMappingValuesForDonorAndNotesSection(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList, int dataMapCount, BibMarcRecord bibMarcRecord, String dataField, String tagField) {
+    public String setDataMappingValuesForDonorAndNotesSection(List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList, int dataMapCount, BibMarcRecord bibMarcRecord, String dataField, String tagField) {
         String subFieldValue = getSubFieldValueFor(bibMarcRecord, dataField, tagField);
         if (StringUtils.isBlank(subFieldValue)) {
             OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo = oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount);
@@ -1125,7 +1128,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
      * This method sets the value for OLE transaction record by getting the value from Constant and default section of profile.
      * @param oleTxRecord
      */
-    private Map<String,String> setDefaultAndConstantValuesToTxnRecord(OleTxRecord oleTxRecord, Map<String,String> failureRecords, OLEBatchProcessJobDetailsBo job) {
+    protected Map<String,String> setDefaultAndConstantValuesToTxnRecord(OleTxRecord oleTxRecord, Map<String,String> failureRecords, OLEBatchProcessJobDetailsBo job) {
         if (failureRecords == null) {
             failureRecords = new HashMap<String,String>();
         }
@@ -1134,477 +1137,477 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         LOG.debug("----Inside setDefaultAndConstantValuesToTxnRecord()------------------------------");
         List<OLEBatchProcessProfileConstantsBo> oleBatchProcessProfileConstantsBoList = job.getOrderImportHelperBo().getOleBatchProcessProfileBo().getOleBatchProcessProfileConstantsList();
         for (OLEBatchProcessProfileConstantsBo oleBatchProcessProfileConstantsBo : oleBatchProcessProfileConstantsBoList) {
-                attributeName = oleBatchProcessProfileConstantsBo.getAttributeName();
-                attributeValue = oleBatchProcessProfileConstantsBo.getAttributeValue();
-                if (OLEConstants.OLEBatchProcess.CONSTANT.equals(oleBatchProcessProfileConstantsBo.getDefaultValue())) {
+            attributeName = oleBatchProcessProfileConstantsBo.getAttributeName();
+            attributeValue = oleBatchProcessProfileConstantsBo.getAttributeValue();
+            if (OLEConstants.OLEBatchProcess.CONSTANT.equals(oleBatchProcessProfileConstantsBo.getDefaultValue())) {
 
-                    if (OLEConstants.OLEBatchProcess.CHART_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CHART_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.CHART_CODE);
-                        }
-                        oleTxRecord.setChartCode(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.ORG_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORG_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ORG_CODE);
-                        }
-                        oleTxRecord.setOrgCode(attributeValue);
+                if (OLEConstants.OLEBatchProcess.CHART_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CHART_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.CHART_CODE);
                     }
-                    else if(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED);
-                        }
-                        oleTxRecord.setReceivingRequired(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setChartCode(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.ORG_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORG_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ORG_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.CONTRACT_MANAGER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER);
-                        }
-                        oleTxRecord.setContractManager(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.ASSIGN_TO_USER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER);
-                        }
-                        oleTxRecord.setAssignToUser(attributeValue);
+                    oleTxRecord.setOrgCode(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED);
                     }
-                    else if(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR);
-                        }
-                        oleTxRecord.setUseTaxIndicator(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setReceivingRequired(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.CONTRACT_MANAGER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ORDER_TYPE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORDER_TYPE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ORDER_TYPE);
-                        }
-                        oleTxRecord.setOrderType(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.FUNDING_SOURCE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.FUNDING_SOURCE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.FUNDING_SOURCE);
-                        }
-                        oleTxRecord.setFundingSource(attributeValue);
+                    oleTxRecord.setContractManager(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.ASSIGN_TO_USER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER);
                     }
-                    else if(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ);
-                        }
-                        oleTxRecord.setPayReqPositiveApprovalReq(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setAssignToUser(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR);
                     }
-                    else if(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR);
-                        }
-                        oleTxRecord.setPurchaseOrderConfirmationIndicator(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setUseTaxIndicator(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.ORDER_TYPE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORDER_TYPE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ORDER_TYPE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE);
-                        }
-                        oleTxRecord.setDeliveryCampusCode(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.BUILDING_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.BUILDING_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.BUILDING_CODE);
-                        }
-                        oleTxRecord.setBuildingCode(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.VENDOR_CHOICE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CHOICE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CHOICE);
-                        }
-                        oleTxRecord.setVendorChoice(attributeValue);
+                    oleTxRecord.setOrderType(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.FUNDING_SOURCE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.FUNDING_SOURCE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.FUNDING_SOURCE);
                     }
-                    else if(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR);
-                        }
-                        oleTxRecord.setRouteToRequestor(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setFundingSource(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ);
                     }
-                    else if (OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION);
-                        }
-                        oleTxRecord.setMethodOfPOTransmission(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.COST_SOURCE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.COST_SOURCE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.COST_SOURCE);
-                        }
-                        oleTxRecord.setCostSource(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.PERCENT.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PERCENT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.PERCENT);
-                        }
-                        oleTxRecord.setPercent(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.DEFAULT_LOCATION.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION);
-                        }
-                        oleTxRecord.setDefaultLocation(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.LIST_PRICE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.LIST_PRICE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.LIST_PRICE);
-                        }
-                        oleTxRecord.setListPrice(attributeValue);
-                    } else if (OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
-                        }
-                        oleTxRecord.setVendorNumber(attributeValue);
+                    oleTxRecord.setPayReqPositiveApprovalReq(Boolean.parseBoolean(attributeValue));
+                }
+                else if(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME);
-                        }
-                        oleTxRecord.setVendorAliasName(attributeValue);
+                    oleTxRecord.setPurchaseOrderConfirmationIndicator(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR);
-                        }
-                        oleTxRecord.setVendorInfoCustomer(attributeValue);
+                    oleTxRecord.setDeliveryCampusCode(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.BUILDING_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.BUILDING_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.BUILDING_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.QUANTITY.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.QUANTITY)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.QUANTITY);
-                        }
-                        oleTxRecord.setQuantity(attributeValue);
+                    oleTxRecord.setBuildingCode(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.VENDOR_CHOICE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CHOICE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CHOICE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS);
-                        }
-                        oleTxRecord.setItemNoOfParts(attributeValue);
+                    oleTxRecord.setVendorChoice(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER);
-                        }
-                        oleTxRecord.setVendorItemIdentifier(attributeValue);
+                    oleTxRecord.setRouteToRequestor(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION);
                     }
-                    else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUESTOR_NAME)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.REQUESTOR_NAME);
-                        }
-                        oleTxRecord.setRequestorName(attributeValue);
+                    oleTxRecord.setMethodOfPOTransmission(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.COST_SOURCE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.COST_SOURCE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.COST_SOURCE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ITEM_STATUS.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_STATUS)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_STATUS);
-                        }
-                        oleTxRecord.setItemStatus(attributeValue);
+                    oleTxRecord.setCostSource(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.PERCENT.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PERCENT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.PERCENT);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DISCOUNT.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT);
-                        }
-                        oleTxRecord.setDiscount(attributeValue);
+                    oleTxRecord.setPercent(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.DEFAULT_LOCATION.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DISCOUNT_TYPE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE);
-                        }
-                        oleTxRecord.setDiscountType(attributeValue);
+                    oleTxRecord.setDefaultLocation(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.LIST_PRICE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.LIST_PRICE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.LIST_PRICE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
-                        }
-                        oleTxRecord.setAccountNumber(attributeValue);
+                    oleTxRecord.setListPrice(attributeValue);
+                } else if (OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.OBJECT_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.OBJECT_CODE);
-                        }
-                        oleTxRecord.setObjectCode(attributeValue);
+                    oleTxRecord.setVendorNumber(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
-                        }
-                        oleTxRecord.setItemChartCode(attributeValue);
+                    oleTxRecord.setVendorAliasName(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR);
                     }
-                    else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEEResourceRecord.FUND_CODE);
-                        }
-                        oleTxRecord.setFundCode(attributeValue);
+                    oleTxRecord.setVendorInfoCustomer(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.QUANTITY.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.QUANTITY)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.QUANTITY);
                     }
-                    else if (OLEConstants.OLEBatchProcess.REQUEST_SRC.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUEST_SRC)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.REQUEST_SRC);
-                        }
-                        oleTxRecord.setRequestSourceType(attributeValue);
+                    oleTxRecord.setQuantity(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS);
                     }
-                    else if (OLEConstants.OLEBatchProcess.CAPTION.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CAPTION)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.CAPTION);
-                        }
-                        oleTxRecord.setCaption(attributeValue);
+                    oleTxRecord.setItemNoOfParts(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VOLUME_NUMBER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VOLUME_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VOLUME_NUMBER);
-                        }
-                        oleTxRecord.setVolumeNumber(attributeValue);
+                    oleTxRecord.setVendorItemIdentifier(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUESTOR_NAME)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.REQUESTOR_NAME);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER);
-                        }
-                        oleTxRecord.setDeliveryBuildingRoomNumber(attributeValue);
-                    }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP);
-                        }
-                        oleTxRecord.setRecurringPaymentType(attributeValue);
-                    }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT);
-                        }
-                        oleTxRecord.setRecurringPaymentBeginDate(attributeValue);
-                    }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT);
-                        }
-                        oleTxRecord.setRecurringPaymentEndDate(attributeValue);
+                    oleTxRecord.setRequestorName(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ITEM_STATUS.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_STATUS)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_STATUS);
                     }
+                    oleTxRecord.setItemStatus(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DISCOUNT.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT);
+                    }
+                    oleTxRecord.setDiscount(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DISCOUNT_TYPE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE);
+                    }
+                    oleTxRecord.setDiscountType(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
+                    }
+                    oleTxRecord.setAccountNumber(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.OBJECT_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.OBJECT_CODE);
+                    }
+                    oleTxRecord.setObjectCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
+                    }
+                    oleTxRecord.setItemChartCode(attributeValue);
+                }
+                else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEEResourceRecord.FUND_CODE);
+                    }
+                    oleTxRecord.setFundCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.REQUEST_SRC.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUEST_SRC)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.REQUEST_SRC);
+                    }
+                    oleTxRecord.setRequestSourceType(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.CAPTION.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CAPTION)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.CAPTION);
+                    }
+                    oleTxRecord.setCaption(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VOLUME_NUMBER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VOLUME_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VOLUME_NUMBER);
+                    }
+                    oleTxRecord.setVolumeNumber(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER);
+                    }
+                    oleTxRecord.setDeliveryBuildingRoomNumber(attributeValue);
+                }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP);
+                    }
+                    oleTxRecord.setRecurringPaymentType(attributeValue);
+                }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT);
+                    }
+                    oleTxRecord.setRecurringPaymentBeginDate(attributeValue);
+                }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT);
+                    }
+                    oleTxRecord.setRecurringPaymentEndDate(attributeValue);
+                }
 
-                } else if (OLEConstants.OLEBatchProcess.DEFAULT.equals(oleBatchProcessProfileConstantsBo.getDefaultValue())) {
+            } else if (OLEConstants.OLEBatchProcess.DEFAULT.equals(oleBatchProcessProfileConstantsBo.getDefaultValue())) {
 
-                    if (OLEConstants.OLEBatchProcess.CHART_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getChartCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CHART_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.CHART_CODE);
-                        }
-                        oleTxRecord.setChartCode(attributeValue);
+                if (OLEConstants.OLEBatchProcess.CHART_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getChartCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CHART_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.CHART_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ORG_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getOrgCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORG_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ORG_CODE);
-                        }
-                        oleTxRecord.setOrgCode(attributeValue);
+                    oleTxRecord.setChartCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ORG_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getOrgCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORG_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ORG_CODE);
                     }
-                    else if(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED);
-                        }
-                        oleTxRecord.setReceivingRequired(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setOrgCode(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECEIVING_REQUIRED);
                     }
-                    else if (OLEConstants.OLEBatchProcess.CONTRACT_MANAGER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getContractManager())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER);
-                        }
-                        oleTxRecord.setContractManager(attributeValue);
+                    oleTxRecord.setReceivingRequired(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.CONTRACT_MANAGER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getContractManager())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.CONTRACT_MANAGER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ASSIGN_TO_USER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getAssignToUser())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER);
-                        }
-                        oleTxRecord.setAssignToUser(attributeValue);
+                    oleTxRecord.setContractManager(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ASSIGN_TO_USER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getAssignToUser())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ASSIGN_TO_USER);
                     }
-                    else if(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR);
-                        }
-                        oleTxRecord.setUseTaxIndicator(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setAssignToUser(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.USE_TAX_INDICATOR);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ORDER_TYPE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getOrderType())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORDER_TYPE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ORDER_TYPE);
-                        }
-                        oleTxRecord.setOrderType(attributeValue);
+                    oleTxRecord.setUseTaxIndicator(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.ORDER_TYPE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getOrderType())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ORDER_TYPE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ORDER_TYPE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.FUNDING_SOURCE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getFundingSource())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.FUNDING_SOURCE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.FUNDING_SOURCE);
-                        }
-                        oleTxRecord.setFundingSource(attributeValue);
+                    oleTxRecord.setOrderType(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.FUNDING_SOURCE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getFundingSource())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.FUNDING_SOURCE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.FUNDING_SOURCE);
                     }
-                    else if(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ);
-                        }
-                        oleTxRecord.setPayReqPositiveApprovalReq(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setFundingSource(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.PREQ_POSITIVE_APPROVAL_REQ);
                     }
-                    else if(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR);
-                        }
-                        oleTxRecord.setPurchaseOrderConfirmationIndicator(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setPayReqPositiveApprovalReq(Boolean.parseBoolean(attributeValue));
+                }
+                else if(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.PO_CONFIRMATION_INDICATOR);
                     }
-                   else if (OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDeliveryCampusCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE);
-                        }
-                        oleTxRecord.setDeliveryCampusCode(attributeValue);
+                    oleTxRecord.setPurchaseOrderConfirmationIndicator(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDeliveryCampusCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_CAMPUS_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.BUILDING_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getBuildingCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.BUILDING_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.BUILDING_CODE);
-                        }
-                        oleTxRecord.setBuildingCode(attributeValue);
+                    oleTxRecord.setDeliveryCampusCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.BUILDING_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getBuildingCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.BUILDING_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.BUILDING_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_CHOICE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorChoice())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CHOICE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CHOICE);
-                        }
-                        oleTxRecord.setVendorChoice(attributeValue);
+                    oleTxRecord.setBuildingCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_CHOICE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorChoice())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CHOICE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CHOICE);
                     }
-                    else if(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR.equals(attributeName)) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR);
-                        }
-                        oleTxRecord.setRouteToRequestor(Boolean.parseBoolean(attributeValue));
+                    oleTxRecord.setVendorChoice(attributeValue);
+                }
+                else if(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR.equals(attributeName)) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ROUTE_TO_REQUESTOR);
                     }
-                    else if (OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getMethodOfPOTransmission())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION);
-                        }
-                        oleTxRecord.setMethodOfPOTransmission(attributeValue);
+                    oleTxRecord.setRouteToRequestor(Boolean.parseBoolean(attributeValue));
+                }
+                else if (OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getMethodOfPOTransmission())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.METHOD_OF_PO_TRANSMISSION);
                     }
-                    else if (OLEConstants.OLEBatchProcess.COST_SOURCE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getCostSource())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.COST_SOURCE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.COST_SOURCE);
-                        }
-                        oleTxRecord.setCostSource(attributeValue);
+                    oleTxRecord.setMethodOfPOTransmission(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.COST_SOURCE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getCostSource())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.COST_SOURCE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.COST_SOURCE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.PERCENT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getPercent())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PERCENT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.PERCENT);
-                        }
-                        oleTxRecord.setPercent(attributeValue);
+                    oleTxRecord.setCostSource(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.PERCENT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getPercent())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.PERCENT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.PERCENT);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DEFAULT_LOCATION.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDefaultLocation())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION);
-                        }
-                        oleTxRecord.setDefaultLocation(attributeValue);
+                    oleTxRecord.setPercent(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DEFAULT_LOCATION.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDefaultLocation())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION);
                     }
-                    else if (OLEConstants.OLEBatchProcess.LIST_PRICE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getListPrice())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.LIST_PRICE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.LIST_PRICE);
-                        }
-                        oleTxRecord.setListPrice(attributeValue);
+                    oleTxRecord.setDefaultLocation(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.LIST_PRICE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getListPrice())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.LIST_PRICE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.LIST_PRICE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorNumber())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
-                        }
-                        oleTxRecord.setVendorNumber(attributeValue);
+                    oleTxRecord.setListPrice(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorNumber())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorAliasName())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME);
-                        }
-                        oleTxRecord.setVendorAliasName(attributeValue);
+                    oleTxRecord.setVendorNumber(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorAliasName())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_ALIAS_NAME);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorInfoCustomer())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR);
-                        }
-                        oleTxRecord.setVendorInfoCustomer(attributeValue);
+                    oleTxRecord.setVendorAliasName(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorInfoCustomer())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_CUST_NBR);
                     }
-                    else if (OLEConstants.OLEBatchProcess.QUANTITY.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getQuantity())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.QUANTITY)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.QUANTITY);
-                        }
-                        oleTxRecord.setQuantity(attributeValue);
+                    oleTxRecord.setVendorInfoCustomer(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.QUANTITY.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getQuantity())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.QUANTITY)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.QUANTITY);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getItemNoOfParts())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS);
-                        }
-                        oleTxRecord.setItemNoOfParts(attributeValue);
+                    oleTxRecord.setQuantity(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getItemNoOfParts())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorItemIdentifier())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER);
-                        }
-                        oleTxRecord.setVendorItemIdentifier(attributeValue);
+                    oleTxRecord.setItemNoOfParts(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVendorItemIdentifier())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VENDOR_REFERENCE_NUMBER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRequestorName())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUESTOR_NAME)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.REQUESTOR_NAME);
-                        }
-                        oleTxRecord.setRequestorName(attributeValue);
+                    oleTxRecord.setVendorItemIdentifier(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRequestorName())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUESTOR_NAME)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.REQUESTOR_NAME);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ITEM_STATUS.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getItemStatus())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_STATUS)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_STATUS);
-                        }
-                        oleTxRecord.setItemStatus(attributeValue);
+                    oleTxRecord.setRequestorName(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ITEM_STATUS.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getItemStatus())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_STATUS)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_STATUS);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DISCOUNT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDiscount())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT);
-                        }
-                        oleTxRecord.setDiscount(attributeValue);
+                    oleTxRecord.setItemStatus(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DISCOUNT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDiscount())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DISCOUNT_TYPE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDiscountType())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE);
-                        }
-                        oleTxRecord.setDiscountType(attributeValue);
+                    oleTxRecord.setDiscount(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DISCOUNT_TYPE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getDiscountType())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DISCOUNT_TYPE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getAccountNumber())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
-                        }
-                        oleTxRecord.setAccountNumber(attributeValue);
+                    oleTxRecord.setDiscountType(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getAccountNumber())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getObjectCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.OBJECT_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.OBJECT_CODE);
-                        }
-                        oleTxRecord.setObjectCode(attributeValue);
+                    oleTxRecord.setAccountNumber(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getObjectCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.OBJECT_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.OBJECT_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getItemChartCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
-                        }
-                        oleTxRecord.setItemChartCode(attributeValue);
+                    oleTxRecord.setObjectCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getItemChartCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
                     }
-                    else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getFundCode())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
-                            failureRecords.remove(OLEConstants.OLEEResourceRecord.FUND_CODE);
-                        }
-                        oleTxRecord.setFundCode(attributeValue);
+                    oleTxRecord.setItemChartCode(attributeValue);
+                }
+                else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getFundCode())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                        failureRecords.remove(OLEConstants.OLEEResourceRecord.FUND_CODE);
                     }
-                    else if (OLEConstants.OLEBatchProcess.REQUEST_SRC.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRequestSourceType())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUEST_SRC)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.REQUEST_SRC);
-                        }
-                        oleTxRecord.setRequestSourceType(attributeValue);
+                    oleTxRecord.setFundCode(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.REQUEST_SRC.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRequestSourceType())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUEST_SRC)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.REQUEST_SRC);
                     }
-                    else if (OLEConstants.OLEBatchProcess.CAPTION.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getCaption())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CAPTION)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.CAPTION);
-                        }
-                        oleTxRecord.setCaption(attributeValue);
+                    oleTxRecord.setRequestSourceType(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.CAPTION.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getCaption())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.CAPTION)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.CAPTION);
                     }
-                    else if (OLEConstants.OLEBatchProcess.VOLUME_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVolumeNumber())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VOLUME_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.VOLUME_NUMBER);
-                        }
-                        oleTxRecord.setVolumeNumber(attributeValue);
+                    oleTxRecord.setCaption(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.VOLUME_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVolumeNumber())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.VOLUME_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.VOLUME_NUMBER);
                     }
-                    else if (OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVolumeNumber())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER);
-                        }
-                        oleTxRecord.setDeliveryBuildingRoomNumber(attributeValue);
-                    }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRecurringPaymentType())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP);
-                        }
-                        oleTxRecord.setRecurringPaymentType(attributeValue);
-                    }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRecurringPaymentBeginDate())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT);
-                        }
-                        oleTxRecord.setRecurringPaymentBeginDate(attributeValue);
-                    }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRecurringPaymentEndDate())) {
-                        if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT)) {
-                            failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT);
-                        }
-                        oleTxRecord.setRecurringPaymentEndDate(attributeValue);
+                    oleTxRecord.setVolumeNumber(attributeValue);
+                }
+                else if (OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getVolumeNumber())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER);
                     }
+                    oleTxRecord.setDeliveryBuildingRoomNumber(attributeValue);
+                }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRecurringPaymentType())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP);
+                    }
+                    oleTxRecord.setRecurringPaymentType(attributeValue);
+                }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRecurringPaymentBeginDate())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT);
+                    }
+                    oleTxRecord.setRecurringPaymentBeginDate(attributeValue);
+                }else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRecurringPaymentEndDate())) {
+                    if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT)) {
+                        failureRecords.remove(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT);
+                    }
+                    oleTxRecord.setRecurringPaymentEndDate(attributeValue);
+                }
 
             }
         }
@@ -1920,4 +1923,11 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
         return oleTxRecordList;
     }
 
+    public List<String> getFailureRecords() {
+        return failureRecords;
+    }
+
+    public void setFailureRecords(List<String> failureRecords) {
+        this.failureRecords = failureRecords;
+    }
 }

@@ -49,6 +49,7 @@ public class OLETestCaseBase {
 
     @Before
     public void setUp() throws Exception {
+        SpringContext.setApplicationContext(context);
         SpringContext.finishInitializationAfterRiceStartup();
 
         ConfigurationService configurationService = GlobalResourceLoader.getService("kualiConfigurationService");

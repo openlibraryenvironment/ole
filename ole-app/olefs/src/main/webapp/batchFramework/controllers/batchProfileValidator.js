@@ -73,6 +73,21 @@ isValidDataMappingRow = function(dataMappingRow, index, $scope) {
     return isValid;
 };
 
+isValidLocalDataMappingRow = function(localDataMappingRow, index, $scope) {
+    var isValid = true;
+    if (isFieldEmpty(localDataMappingRow.source)) {
+        $scope.batchProfileForm['localDataMappingSourceField_' + index].$dirty = true;
+        $scope.batchProfileForm['localDataMappingSourceField_' + index].$invalid = true;
+        isValid = false;
+    }
+    if (isFieldEmpty(localDataMappingRow.destination)) {
+        $scope.batchProfileForm['localDataMappingDestinationField_' + index].$dirty = true;
+        $scope.batchProfileForm['localDataMappingDestinationField_' + index].$invalid = true;
+        isValid = false;
+    }
+    return isValid;
+};
+
 isValidFieldOperationRow = function (fieldOperationRow, index, $scope) {
     var isValid = true;
     if (isFieldEmpty(fieldOperationRow.dataField)) {

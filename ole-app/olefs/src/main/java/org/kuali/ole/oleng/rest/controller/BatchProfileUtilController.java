@@ -94,4 +94,10 @@ public class BatchProfileUtilController extends OleNgControllerBase {
     public String getFilterNames() {
         return batchProfileRequestHandler.prepareFilterNames();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/canShowLocalDataMapping", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String canShowLocalDataMapping() {
+        return batchProfileRequestHandler.canShowLocalDataMapping();
+    }
 }

@@ -30,22 +30,10 @@ import java.util.*;
  */
 public class OleNGPOHelperUtil {
     private static final Logger LOG = Logger.getLogger(OleNGPOHelperUtil.class);
-    private static OrderImportService oleOrderImportService;
+    private OrderImportService oleOrderImportService;
     private SolrRequestReponseHandler solrRequestReponseHandler;
     private BatchUtil batchUtil;
     private OleNGPOValidationUtil oleNGPOValidationUtil;
-
-    private static OleNGPOHelperUtil oleNGPOHelperUtil;
-
-    private OleNGPOHelperUtil() {
-    }
-
-    public static OleNGPOHelperUtil getInstance() {
-        if(null == oleNGPOHelperUtil) {
-            oleNGPOHelperUtil = new OleNGPOHelperUtil();
-        }
-        return oleNGPOHelperUtil;
-    }
 
     public Map<Integer, Set<Integer>> processReqAndPo(List<RecordDetails> recordDetailsList, BatchProcessProfile batchProcessProfile,
                                                       CreateReqAndPOBaseServiceHandler createReqAndPOServiceHandler,
@@ -61,22 +49,9 @@ public class OleNGPOHelperUtil {
             String bibUUID = recordDetails.getBibUUID();
             if (StringUtils.isNotBlank(bibUUID)) {
                 try {
-                    OleTxRecord oleTxRecord = getOleOrderImportService().processDataMapping(recordDetails, batchProcessProfile, exchange);
 
-                    final OleOrderRecord oleOrderRecord = new OleOrderRecord();
-                    oleTxRecord.setItemType(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-                    oleTxRecord.setRequisitionSource(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST);
-                    String orderType = batchProcessProfile.getOrderType();
-                    String linkToOption = "";
-                    if(StringUtils.isNotBlank(orderType) && orderType.equalsIgnoreCase(OleNGConstants.BatchProcess.ORDER_TYPE_EHOLDINGS)) {
-                        linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC;
-                    }
-
-                    if(StringUtils.isBlank(linkToOption)) {
-                        linkToOption = OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
-                    }
-
-                    oleOrderRecord.setOleTxRecord(oleTxRecord);
+                    OleOrderRecord oleOrderRecord = getOleOrderImportService().prepareOleOrderRecord(recordDetails,
+                            batchProcessProfile, exchange);
 
                     OleBibRecord oleBibRecord = new OleBibRecord();
                     Bib bib = getBibDetails(bibUUID);
@@ -84,7 +59,6 @@ public class OleNGPOHelperUtil {
                     oleBibRecord.setBib(bib);
                     oleOrderRecord.setOleBibRecord(oleBibRecord);
 
-                    oleOrderRecord.setLinkToOrderOption(linkToOption);
 
                     String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
                     oleOrderRecord.setBibImportProfileName(bibProfileName);
@@ -159,6 +133,10 @@ public class OleNGPOHelperUtil {
             oleOrderImportService = new OrderImportServiceImpl();
         }
         return oleOrderImportService;
+    }
+
+    public void setOleOrderImportService(OrderImportService oleOrderImportService) {
+        this.oleOrderImportService = oleOrderImportService;
     }
 
     public SolrRequestReponseHandler getSolrRequestReponseHandler() {

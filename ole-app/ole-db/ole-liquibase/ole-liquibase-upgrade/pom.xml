@@ -203,6 +203,19 @@
                                 </execution>
 
                                 <execution>
+                                    <id>db.changelog-gobi</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/gobi/db.changelog-gobi.xml</changeLogFile>
+                                        <verbose>true</verbose>
+                                        <defaultSchemaName>OLE</defaultSchemaName>
+                                    </configuration>
+                                </execution>
+
+                                <execution>
                                     <id>db.changelog-3.0</id>
                                     <phase>${lb.phase}</phase>
                                     <goals>
@@ -523,6 +536,19 @@
                                     <configuration>
                                         <changeLogFile>org/kuali/ole/2.1/db.changelog-20151123.xml</changeLogFile>
                                         <migrationSqlOutputFile>${lb.sql.dir}/2.1.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
+
+                                <execution>
+                                    <id>db.changelog-gobi</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/gobi/db.changelog-gobi.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/gobi.sql
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>

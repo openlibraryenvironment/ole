@@ -1,0 +1,113 @@
+<div class="panel-group" ng-model="localDataMappingsActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="localDataMappingsPanel.collapsed = !localDataMappingsPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !localDataMappingsPanel.collapsed, 'glyphicon-chevron-down': localDataMappingsPanel.collapsed}"></span>
+                    Local Data Mapping
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red"
+                   ng-show="batchProfileForm['localDataMappingSourceField_'+localDataMappingIndex].$dirty && batchProfileForm['localDataMappingSourceField_'+localDataMappingIndex].$invalid">
+                    <i class="fa fa-circle" style="font-size: 9px"></i> Source Field is required</p>
+                <p style="color:red"
+                   ng-show="batchProfileForm['localDataMappingDestinationField_'+localDataMappingIndex].$dirty && batchProfileForm['localDataMappingDestField_'+localDataMappingIndex].$invalid">
+                    <i class="fa fa-circle" style="font-size: 9px"></i> Destination Field is required</p>
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th>Source Field</th>
+                        <th>Destination Field</th>
+                        <th ng-hide="submitted" style="width: 90px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="localDataMapping in localDataMappingsPanel">
+                        <td>
+                            <input class="form-control" id="localDataMappingSourceField_{{$index}}"
+                                   name="localDataMappingSourceField_{{$index}}"
+                                   type="text"
+                                   ng-model="localDataMapping.source"
+                                   ng-hide="localDataMapping.isAddLine"/>
+                            <span ng-show="localDataMapping.isAddLine" ng-bind="localDataMapping.source"></span>
+                        </td>
+                        <td>
+                            <select class="form-control" name="localDataMappingDestinationField_{{$index}}"
+                                    id="localDataMappingDestinationField_{{$index}}"
+                                    ng-model="localDataMapping.destination"
+                                    ng-hide="localDataMapping.isAddLine">
+                                <option ng-selected="{{option.name == localDataMapping.destination}}"
+                                        ng-repeat="option in localDataMapping.destinations"
+                                        value="{{option.name}}">{{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="localDataMapping.isAddLine"
+                                  ng-bind="localDataMapping.destination"></span>
+                        </td>
+                        <td ng-hide="submitted">
+                            <button id="localDataMappingAddButton_{{$index}}"
+                                    name="localDataMappingAddButton_{{$index}}"
+                                    ng-click="localDataMappingAdd()"
+                                    ng-hide="localDataMapping.isAddLine || localDataMapping.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="localDataMappingCopyButton_{{$index}}"
+                                    name="localDataMappingCopyButton_{{$index}}"
+                                    ng-click="localDataMappingCopyRow($index)"
+                                    ng-show="localDataMapping.isAddLine && !localDataMapping.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Copy"
+                                    tooltip-placement="top"
+                                    class="btn btn-info btn-xs"><i class="fa fa-copy"></i>
+                            </button>
+                            <button id="localDataMappingEditButton_{{$index}}"
+                                    name="localDataMappingEditButton_{{$index}}"
+                                    ng-click="localDataMappingEditRow($index)"
+                                    ng-show="localDataMapping.isAddLine && !localDataMapping.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="localDataMappingUpdateButton_{{$index}}"
+                                    name="localDataMappingUpdateButton_{{$index}}"
+                                    ng-click="localDataMappingUpdateRow($index)" ng-show="localDataMapping.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="localDataMappingUpdateCancelButton_{{$index}}"
+                                    name="localDataMappingUpdateCancelButton_{{$index}}"
+                                    ng-click="localDataMappingCancelUpdate($index)" ng-show="localDataMapping.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button id="localDataMappingRemoveButton_{{$index}}"
+                                    name="localDataMappingRemoveButton_{{$index}}"
+                                    ng-click="localDataMappingRemove(dataMapping)"
+                                    ng-show="localDataMapping.isAddLine && !localDataMapping.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

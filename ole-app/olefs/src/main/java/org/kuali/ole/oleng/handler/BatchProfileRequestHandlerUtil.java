@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
@@ -342,6 +343,23 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     return new Long(priorityForDataMapping1).compareTo(new Long(priorityForDataMapping2));
                 }
             });
+        }
+    }
+
+    public String canShowLocalDataMapping() {
+        ParameterValueResolver instance = ParameterValueResolver.getInstance();
+        Boolean showDataMapping = instance.getParameterAsBoolean(OleNGConstants.APPL_ID_OLE,
+                OleNGConstants.DESC_NMSPC, OleNGConstants.DESCRIBE_COMPONENT, OleNGConstants.SHOW_LOCAL_DATA_MAPPING_SECTION);
+        JSONObject jsonObject = new JSONObject();
+        addElementToJsonObject(jsonObject, "canShow", showDataMapping);
+        return jsonObject.toString();
+    }
+
+    private void addElementToJsonObject(JSONObject jsonObject, String key, Object value) {
+        try {
+            jsonObject.put(key, value);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

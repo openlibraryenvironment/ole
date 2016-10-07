@@ -27,6 +27,7 @@ import org.kuali.ole.oleng.resolvers.CreateRequisitionOnlyHander;
 import org.kuali.ole.oleng.resolvers.OrderProcessHandler;
 import org.kuali.ole.oleng.service.OleNGMemorizeService;
 import org.kuali.ole.oleng.service.OleNGRequisitionService;
+import org.kuali.ole.oleng.util.OleNGPOHelperUtil;
 import org.kuali.ole.utility.BibUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.Record;
@@ -58,6 +59,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
     private List<OrderProcessHandler> orderProcessHandlers;
     private Map matchOptionIndMap;
     private HashMap operationIndMap;
+    private OleNGPOHelperUtil oleNGPOHelperUtil;
 
     @Override
     public OleNgBatchResponse processRecords(Map<Integer, RecordDetails> recordsMap, BatchProcessTxObject batchProcessTxObject,
@@ -150,6 +152,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                         try {
                             if (orderProcessHandler.isInterested(batchProfileAddOrOverlay.getAddOperation())) {
                                 orderProcessHandler.setOleNGRequisitionService(oleNGRequisitionService);
+                                orderProcessHandler.setOleNGPOHelperUtil(getOleNGPOHelperUtil());
                                 List<RecordDetails> recordsToProcess = new ArrayList<>();
                                 List<OrderData> orderDatasToReport = new ArrayList<OrderData>();
                                 if (batchProfileAddOrOverlay.getMatchOption().equalsIgnoreCase(OleNGConstants.IF_MATCH_FOUND)) {
@@ -364,5 +367,16 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
 
     private void clearMarcRecordObjects(OleNGOrderImportResponse oleNGOrderImportResponse) {
         oleNGOrderImportResponse.getRecordsMap().clear();
+    }
+
+    public OleNGPOHelperUtil getOleNGPOHelperUtil() {
+        if(null == oleNGPOHelperUtil) {
+            oleNGPOHelperUtil = new OleNGPOHelperUtil();
+        }
+        return oleNGPOHelperUtil;
+    }
+
+    public void setOleNGPOHelperUtil(OleNGPOHelperUtil oleNGPOHelperUtil) {
+        this.oleNGPOHelperUtil = oleNGPOHelperUtil;
     }
 }
