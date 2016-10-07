@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.util;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.net.ntp.TimeStamp;
 import org.joda.time.Interval;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
@@ -30,10 +31,11 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     private ParameterValueResolver parameterValueResolver;
     private Date timeToCalculateFrom;
 
-    public Date calculateDateTimeByPeriod(String loanPeriod, OleCirculationDesk oleCirculationDesk) {
-        Date loanDueDate;
+    public Date calculateDateTimeByPeriod(String loanPeriod, OleCirculationDesk oleCirculationDesk,Timestamp dueDate) {
 
-        loanDueDate = getLoanDueDate(loanPeriod);
+        Date loanDueDate=dueDate;
+
+        loanDueDate = getLoanDueDate(loanPeriod,loanDueDate);
 
         if (null != loanDueDate && null != oleCirculationDesk) {
             OleCalendar activeCalendar = getActiveCalendar(loanDueDate, oleCirculationDesk.getCalendarGroupId());
@@ -182,7 +184,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
         return calendar.after(loanDueDateCalendar);
     }
 
-    private Date getLoanDueDate(String loanPeriod) {
+    private Date getLoanDueDate(String loanPeriod,Date dueDate) {
         Date loanDueDate = null;
         if (StringUtils.isNotBlank(loanPeriod)) {
             if (loanPeriod.equalsIgnoreCase(OLEConstants.FIXED_DUE_DATE)) {
@@ -193,13 +195,13 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
                 period = stringTokenizer.nextToken();
 
                 if (period.equalsIgnoreCase("m")) {
-                    loanDueDate = DateUtils.addMinutes(getTimeToCalculateFrom(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addMinutes(dueDate!=null ? dueDate:getTimeToCalculateFrom(), Integer.parseInt(amount));
                 } else if (period.equalsIgnoreCase("h")) {
-                    loanDueDate = DateUtils.addHours(getTimeToCalculateFrom(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addHours(dueDate!=null ? dueDate:getTimeToCalculateFrom(), Integer.parseInt(amount));
                 } else if (period.equalsIgnoreCase("d")) {
-                    loanDueDate = DateUtils.addDays(getTimeToCalculateFrom(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addDays(dueDate!=null ? dueDate:getTimeToCalculateFrom(), Integer.parseInt(amount));
                 } else if (period.equalsIgnoreCase("w")) {
-                    loanDueDate = DateUtils.addWeeks(getTimeToCalculateFrom(), Integer.parseInt(amount));
+                    loanDueDate = DateUtils.addWeeks(dueDate!=null ? dueDate:getTimeToCalculateFrom(), Integer.parseInt(amount));
                 }
             }
         }

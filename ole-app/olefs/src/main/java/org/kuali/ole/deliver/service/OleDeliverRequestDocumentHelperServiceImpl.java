@@ -4775,8 +4775,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     }
                     if (oleCirculationDesk != null && oleCirculationDesk.getCalendarGroupId() != null) {
                         LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
-                        Date minimumLoanPeriodDate = loanDateTimeUtil.calculateDateTimeByPeriod(minimumLoanPeriod, oleCirculationDesk);
-                        Date recallLoanPeriodDate = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, oleCirculationDesk);
+                        Date minimumLoanPeriodDate = loanDateTimeUtil.calculateDateTimeByPeriod(minimumLoanPeriod, oleCirculationDesk,null);
+                        Date recallLoanPeriodDate = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, oleCirculationDesk,null);
                         dueDate = getDueDate(new Timestamp(minimumLoanPeriodDate.getTime()), new Timestamp(recallLoanPeriodDate.getTime()), oleLoanDocument.getCreateDate(), minimumLoanPeriod, oleCirculationDesk);
                         oleLoanDocument.setPastDueDate(oleLoanDocument.getLoanDueDate());
                         oleLoanDocument.setLoanDueDate(dueDate);
@@ -4826,7 +4826,7 @@ return oleLoanDocument;
         } else {
             LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
             loanDateTimeUtil.setTimeToCalculateFrom(createdDate);
-            minimumLoanDateByLoanedDate = loanDateTimeUtil.calculateDateTimeByPeriod(minimumLoanDays, oleCirculationDesk);
+            minimumLoanDateByLoanedDate = loanDateTimeUtil.calculateDateTimeByPeriod(minimumLoanDays, oleCirculationDesk,null);
             if (recallLoanPeriodDate.compareTo(minimumLoanDateByLoanedDate) >= 0) {
                 dueDate = recallLoanPeriodDate;
             } else {
