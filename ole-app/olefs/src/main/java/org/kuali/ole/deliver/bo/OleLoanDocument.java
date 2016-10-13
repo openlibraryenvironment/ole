@@ -1967,9 +1967,9 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         }
         Date calculateDateTimeByPeriod = null;
         if (!isRequestPatron()) {
-            calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(defaultLoanPeriod, getOleCirculationDesk(),getLoanDueDate());
+            calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(defaultLoanPeriod, getOleCirculationDesk());
         } else {
-            calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, getOleCirculationDesk(),getLoanDueDate());
+            calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, getOleCirculationDesk());
         }
         setLoanDueDate((calculateDateTimeByPeriod != null ? new Timestamp(calculateDateTimeByPeriod.getTime()) : null));
     }

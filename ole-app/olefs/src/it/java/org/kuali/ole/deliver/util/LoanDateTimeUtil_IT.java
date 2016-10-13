@@ -57,7 +57,7 @@ public class LoanDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfMinutes() throws Exception {
         String loanPeriod = "30-M";
-        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null,null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 30 minutes:" + dueDate + "\n");
     }
@@ -66,7 +66,7 @@ public class LoanDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfDays() throws Exception {
         String loanPeriod = "1-D";
-        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null,null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 1 day:" +dueDate+ "\n");
     }
@@ -75,7 +75,7 @@ public class LoanDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfHours() throws Exception {
         String loanPeriod = "2-H";
-        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null,null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 2 hours:" +dueDate+ "\n");
     }
@@ -84,7 +84,7 @@ public class LoanDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfWeeks() throws Exception {
         String loanPeriod = "2-W";
-        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null,null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 2 Weeks:" +dueDate+ "\n");
     }
@@ -165,7 +165,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("3-d", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("3-d", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -204,7 +204,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilDefaultDueTimeBlank();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("3-d", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("3-d", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -243,7 +243,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -282,7 +282,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -331,7 +331,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -380,7 +380,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -429,7 +429,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -470,7 +470,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -512,7 +512,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -571,7 +571,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -660,7 +660,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(loanDueDate);
         System.out.println(loanDueDate);
     }
@@ -741,7 +741,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(loanDueDate);
         System.out.println(loanDueDate);
     }
@@ -804,7 +804,7 @@ public class LoanDateTimeUtil_IT {
         mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(loanDueDate);
         System.out.println(loanDueDate);
     }
@@ -869,7 +869,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(loanDueDate);
         System.out.println(loanDueDate);
 
@@ -937,7 +937,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -1062,7 +1062,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(loanDueDate);
         System.out.println(loanDueDate);
     }
@@ -1107,7 +1107,7 @@ public class LoanDateTimeUtil_IT {
 
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
-        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk,null);
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("24-h", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -1311,7 +1311,7 @@ public class LoanDateTimeUtil_IT {
         mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
 
         LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
-        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("3-D", oleCirculationDesk,null);
+        Date loanDueDate = loanDateTimeUtil.calculateDateTimeByPeriod("3-D", oleCirculationDesk);
         assertNotNull(loanDueDate);
         System.out.println(loanDueDate);
     }
