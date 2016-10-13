@@ -17,9 +17,13 @@ import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -175,8 +179,13 @@ public abstract class CheckoutBaseController extends CircUtilController {
     public DroolsResponse preValidationForMissingPiece(ItemRecord itemRecord, OLEForm oleForm) {
         DroolsExchange droolsExchange = oleForm.getDroolsExchange();
         DroolsResponse droolsResponse;
-        droolsResponse = checkForMissingPieceNote(itemRecord);
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) droolsExchange.getContext().get("oleItemRecordForCirc");
+        String operatorId=(String)droolsExchange.getFromContext("operatorId");
+        if(operatorId!=null && getParameterValue(OLENCIPConstants.NCIPAPI_PARAMETER_NAME).contains(operatorId)){
+            return processCheckoutAfterPreValidations(oleForm, oleItemRecordForCirc);
+        }else {
+            droolsResponse = checkForMissingPieceNote(itemRecord);
+        }
         if (droolsResponse != null) return droolsResponse;
         return processCheckoutAfterPreValidations(oleForm, oleItemRecordForCirc);
     }
@@ -650,5 +659,11 @@ public abstract class CheckoutBaseController extends CircUtilController {
             missingPieceNoteHandler = new MissingPieceNoteHandler();
         }
         return missingPieceNoteHandler;
+    }
+
+    public String getParameterValue(String key){
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, key);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
     }
 }
