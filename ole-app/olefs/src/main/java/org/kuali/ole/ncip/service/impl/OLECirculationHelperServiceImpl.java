@@ -528,6 +528,7 @@ public class OLECirculationHelperServiceImpl {
                         oleCheckOutItem.setUserType(oleLoanDocument.getBorrowerTypeName());
                         oleCheckOutItem.setBarcode(oleLoanDocument.getItemId());
                         oleCheckOutItem.setPatronId(oleLoanDocument.getPatronId());
+                        oleCheckOutItem.setTitleIdentifier(oleLoanDocument.getTitle());
                         oleCheckOutItem.setPatronBarcode(patronId);
                         if (oleLoanDocument.getOleItem() != null && oleLoanDocument.getOleItem().getItemType() != null) {
                             oleCheckOutItem.setItemType(oleLoanDocument.getOleItem().getItemType().getCodeValue());
