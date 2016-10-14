@@ -3,6 +3,7 @@ package org.kuali.ole.sip2.sip2Server;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +17,9 @@ import java.io.InputStream;
 import java.net.SocketAddress;
 import java.util.*;
 
-/**
- * Created by chenchulakshmig on 8/27/15.
- */
+
+
+@ChannelHandler.Sharable
 public class SIP2NettyServerHandler extends NettyHandler {
 
     private final static Logger LOG = Logger.getLogger(SIP2NettyServerHandler.class.getName());
