@@ -1,6 +1,4 @@
 NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
-"OLE-PURAP","AutoClosePurchaseOrdersStep","AUTO_CLOSE_PO_ORDER_TYPE","OLEAC1001","1","CONFG","Firm, Fixed;Approval;Blanket;","Order Types Included in AutoClose Job PO Job. Change it to 'All' to include all open PO for AutoClose Job","A","OLE"
-"OLE-SELECT","Select","POBA_CANCEL_PDF_CREATION","OLE7057","1","CONFG","false","This parameter is to stop the PDF creation process while creating POA document using Purchase Order Bulk Amendment","A","OLE"
 "OLE-DLVR","Deliver","CR_ITEMS_COUNT_TOWARD_LOANED_ITEMS_COUNT","OLEAC1002","1","CONFG","true","This parameter value is used to identify whether to include item in loan count or not","A","KUALI"
 "OLE-DLVR","Deliver","NOTIFY_CLAIMS_RETURNED_TO_PATRON","OLEAC1003","1","CONFG","true","This parameter value is used to identify whether to notify the patron about claims returned item or not.","A","OLE"
 "OLE-DLVR","Deliver","CLAIMS_RETURNED_NOTICE_TITLE","OLEAC1004","1","CONFG","CLAIMS RETURNED NOTICE","Claims Returned Notice","A","KUALI"
