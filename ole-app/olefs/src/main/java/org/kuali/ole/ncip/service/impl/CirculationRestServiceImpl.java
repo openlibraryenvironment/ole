@@ -3,7 +3,9 @@ package org.kuali.ole.ncip.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleItemSearch;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
@@ -14,6 +16,7 @@ import org.kuali.ole.olekrad.filter.OLELoginFilter;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -145,12 +148,25 @@ public class CirculationRestServiceImpl implements CirculationRestService {
                 responseJsonObject.put("author", oleItemSearch.getAuthor());
                 responseJsonObject.put("shelvingLocation", oleItemSearch.getShelvingLocation());
                 responseJsonObject.put("itemStatus", oleItemSearch.getItemStatus());
-
+                responseJsonObject.put("itemStatusCode", itemStatusCodeSIP2(oleItemSearch.getItemStatus()));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return responseJsonObject.toString();
+    }
+
+
+    public String itemStatusCodeSIP2(String itemStatus){
+        Map<String, String> itemStatusCodeMap = new HashMap<>();
+        String value = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.SIP_CIRC_STATUS);
+        for(String keyValueList : value.split(",")){
+            String[] keyValue = keyValueList.split(":");
+            if(keyValue.length==2)
+                itemStatusCodeMap.put(keyValue[0],keyValue[1]);
+        }
+        return itemStatusCodeMap.get(itemStatus);
     }
 
 }

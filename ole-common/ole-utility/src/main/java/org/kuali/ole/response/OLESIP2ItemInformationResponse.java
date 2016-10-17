@@ -24,7 +24,7 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
         StringBuilder builder = new StringBuilder();
 
         builder.append(code);
-        builder.append("08");
+        builder.append(responseMap.get("itemStatusCode"));
         builder.append("00");
         builder.append(OLESIP2Constants.BLOCK_PATRON_REQUEST);
         builder.append(MessageUtil.getSipDateTime());
