@@ -3663,6 +3663,7 @@ public class OLEConstants {
     public static final String DB_VENDOR = "db.vendor";
     public static final String RENCUM_DATE_FORMAT = "yyyy-MM-dd";
     public static final String LOST_NOTICE_TO_DATE="LOST_NOTICE_TO_DATE";
+    public static final String SIP_CIRC_STATUS = "OLE_ITEM_STATUS_WITH_SIP_CIRC_STATUS";
     public static final String NOTICE_THREAD_POOL_SIZE = "NOTICE_THREAD_POOL_SIZE";
     public static final String BULK_PO_CHANGE_THREAD_POOL_SIZE = "NOTICE_THREAD_POOL_SIZE";
     public static final String COURTESY_NOTICE_TO_DATE = "COURTESY_NOTICE_TO_DATE";
