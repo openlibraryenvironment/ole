@@ -22,7 +22,7 @@ public class OleBorrowerKeyValue extends KeyValuesBase {
     @Override
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        Collection<OleBorrowerType> oleBorrowerTypes = KRADServiceLocator.getBusinessObjectService().findAll(OleBorrowerType.class);
+        Collection<OleBorrowerType> oleBorrowerTypes = KRADServiceLocator.getBusinessObjectService().findAllOrderBy(OleBorrowerType.class, "borrowerTypeName", true);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (OleBorrowerType oleBorrowerType : oleBorrowerTypes) {
             if (oleBorrowerType.isActive()) {
