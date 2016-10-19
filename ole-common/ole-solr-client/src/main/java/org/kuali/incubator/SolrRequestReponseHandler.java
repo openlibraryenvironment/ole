@@ -2,6 +2,7 @@ package org.kuali.incubator;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
@@ -133,7 +134,7 @@ public class SolrRequestReponseHandler {
         query.setIncludeScore(true);
 
         try {
-            QueryResponse qr = server.query(query);
+            QueryResponse qr = server.query(query, SolrRequest.METHOD.POST);
             sdl = qr.getResults();
         } catch (SolrServerException e) {
             e.printStackTrace();
