@@ -63,7 +63,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             int fileSize = batchProcessTxObject.getBatchJobDetails().getNumOfRecordsInFile();
             int numOfRecordsInFile = 0;
             SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(
-                    query, null, null, OleNGConstants.BIB_IDENTIFIER);
+                    query, 0, Integer.parseInt(batchProcessTxObject.getBatchJobDetails().getTotalRecords()), OleNGConstants.BIB_IDENTIFIER);
             totalCount = solrDocumentList.getNumFound();
 
             List<String> bibIds = new ArrayList<>();
