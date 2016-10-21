@@ -130,7 +130,9 @@ public class SolrRequestReponseHandler {
         if(null != rows) {
             query.setRows(rows);
         }
-        query.setFields(fieldList);
+        if(fieldList!=null) {
+            query.setFields(fieldList);
+        }
         query.setIncludeScore(true);
 
         try {
