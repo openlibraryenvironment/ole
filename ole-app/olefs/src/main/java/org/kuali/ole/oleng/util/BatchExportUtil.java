@@ -281,7 +281,9 @@ public class BatchExportUtil extends BatchUtil {
     }
 
     public void processDeletedAndStaffOnlyBibs(Date lastExportDate, BatchProcessTxObject batchProcessTxObject) {
-        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate));
+        String query = getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate);
+        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
+        solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query,0,((int)solrDocumentList.getNumFound()),null);
         SortedSet<String> deletedBibIds = new TreeSet<>();
         if (solrDocumentList.size() > 0) {
             for (SolrDocument solrDocument : solrDocumentList) {
