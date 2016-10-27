@@ -112,11 +112,13 @@
 
 
 <#list oleNoticeBos as oleNoticeBo>
-    <#if oleNoticeBo.noticeTitle == "Lost">
-        <@bill.bill oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@bill.bill>
+    <#if oleNoticeContentConfigurationBo??>
+        <#if oleNoticeBo.noticeTitle == "Lost">
+            <@bill.bill oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@bill.bill>
+        </#if>
+        <br/>
+        <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
     </#if>
-<br/>
-    <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
 <#if oleNoticeBo_has_next>
 ********************************************************************
 </#if>
