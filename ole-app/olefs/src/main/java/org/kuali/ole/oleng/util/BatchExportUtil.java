@@ -163,12 +163,15 @@ public class BatchExportUtil extends BatchUtil {
                             }
                             break;
                     }
-                } else if (StringUtils.isNotBlank(filterCriteriaList.get(i).getDataField())) {
+                } else if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldNameText())) {
                     addDocType = true;
-                    if (getMarcRecordUtil().isControlField(filterCriteriaList.get(i).getDataField())) {
-                        queryBuilder.append("(" + OleNGConstants.CONTROL_FIELD_ + filterCriteriaList.get(i).getDataField() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
-                    } else {
-                        queryBuilder.append("(" + OleNGConstants.MDF_ + filterCriteriaList.get(i).getDataField() + filterCriteriaList.get(i).getSubField() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                    String filterFieldList[]=filterCriteriaList.get(i).getFieldNameText().split("\\$");
+                    if(filterFieldList.length==2) {
+                        if (getMarcRecordUtil().isControlField(filterFieldList[0].trim())) {
+                            queryBuilder.append("(" + OleNGConstants.CONTROL_FIELD_ + filterFieldList[0].trim() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                        } else {
+                            queryBuilder.append("(" + OleNGConstants.MDF_ + filterFieldList[0].trim() + filterFieldList[1] + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                        }
                     }
                 }
                 if (i != filterCriteriaList.size() - 1) {
