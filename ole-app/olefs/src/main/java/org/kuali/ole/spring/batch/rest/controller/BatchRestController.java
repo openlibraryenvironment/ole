@@ -9,10 +9,12 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.drools.core.time.impl.CronExpression;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
+import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
 import org.kuali.ole.oleng.scheduler.OleNGBatchJobScheduler;
 import org.kuali.ole.oleng.util.BatchExcelReportUtil;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sheiksalahudeenm on 25/6/15.
@@ -61,6 +64,17 @@ public class BatchRestController extends OleNgControllerBase {
     private BatchExcelReportUtil batchExcelReportUtil;
 
     private BatchUtil batchUtil;
+
+    @Autowired
+    private DescribeDAO describeDAO;
+
+    public DescribeDAO getDescribeDAO() {
+        return describeDAO;
+    }
+
+    public void setDescribeDAO(DescribeDAO describeDAO) {
+        this.describeDAO = describeDAO;
+    }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
     @ResponseBody
@@ -128,8 +142,11 @@ public class BatchRestController extends OleNgControllerBase {
         File uploadedDirectory = storeUploadedFileToFileSystem(rawContent, originalFilename);
         if(null != uploadedDirectory) {
             String extension = FilenameUtils.getExtension(originalFilename);
-            JSONObject response = processBatch(uploadedDirectory, batchType, profileId, extension, batchJobDetails);
-            return response.toString();
+            boolean jobRunning = isJobRunning(batchJobDetails.getJobId());
+            if(!jobRunning) {
+                JSONObject response = processBatch(uploadedDirectory, batchType, profileId, extension, batchJobDetails);
+                return response.toString();
+            }
         }
         return null;
 
@@ -170,11 +187,13 @@ public class BatchRestController extends OleNgControllerBase {
                 extension = FilenameUtils.getExtension(originalFilename);
 
             }
-
-            batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
-            getBusinessObjectService().save(batchJobDetails);
-            JSONObject response = processBatch(uploadedDirectory, batchJobDetails.getProfileType(),
-                    String.valueOf(matchedBatchJob.getBatchProfileId()), extension, batchJobDetails);
+            boolean jobRunning = isJobRunning(matchedBatchJob.getJobId());
+            if(!jobRunning) {
+                batchJobDetails = getBatchUtil().createBatchJobDetailsEntry(matchedBatchJob, originalFilename);
+                getBusinessObjectService().save(batchJobDetails);
+                JSONObject response = processBatch(uploadedDirectory, batchJobDetails.getProfileType(),
+                        String.valueOf(matchedBatchJob.getBatchProfileId()), extension, batchJobDetails);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,31 +254,34 @@ public class BatchRestController extends OleNgControllerBase {
         try {
             BatchScheduleJob batchScheduleJob = convertJsonToScheduleJob(scheduleJobString);
             BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
-            if(matchedBatchJob != null) {
-                matchedBatchJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
-                matchedBatchJob.setOutputFileFormat(extension);
-                String cronExpression = oleNGBatchJobScheduler.getCronExpression(batchScheduleJob);
-                if(StringUtils.isNotBlank(cronExpression) && CronExpression.isValidExpression(cronExpression)) {
-                    if (null != file) {
-                        saveUploadedFile(matchedBatchJob, file);
+            boolean jobRunning = isJobRunning((new Long(jobId)).longValue());
+            if (!jobRunning) {
+                if (matchedBatchJob != null) {
+                    matchedBatchJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
+                    matchedBatchJob.setOutputFileFormat(extension);
+                    String cronExpression = oleNGBatchJobScheduler.getCronExpression(batchScheduleJob);
+                    if (StringUtils.isNotBlank(cronExpression) && CronExpression.isValidExpression(cronExpression)) {
+                        if (null != file) {
+                            saveUploadedFile(matchedBatchJob, file);
+                        }
+                        matchedBatchJob.setCronExpression(cronExpression);
+                        CronExpression cron = new CronExpression(cronExpression);
+                        Date date = cron.getNextValidTimeAfter(new Date());
+                        matchedBatchJob.setNextRunTime(null != date ? new Timestamp(date.getTime()) : null);
+                        matchedBatchJob.setJobType(OleNGConstants.SCHEDULED);
+                        getBusinessObjectService().save(matchedBatchJob);
+                        oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression());
+                        jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
+                        jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
+                        jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
+                        jsonObject.put(OleNGConstants.NEXT_RUN_TIME, matchedBatchJob.getNextRunTime());
                     }
-                    matchedBatchJob.setCronExpression(cronExpression);
-                    CronExpression cron = new CronExpression(cronExpression);
-                    Date date = cron.getNextValidTimeAfter(new Date());
-                    matchedBatchJob.setNextRunTime(null != date ? new Timestamp(date.getTime()) : null);
-                    matchedBatchJob.setJobType(OleNGConstants.SCHEDULED);
-                    getBusinessObjectService().save(matchedBatchJob);
-                    oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression());
-                    jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
-                    jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
-                    jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
-                    jsonObject.put(OleNGConstants.NEXT_RUN_TIME, matchedBatchJob.getNextRunTime());
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
+        }catch(Exception e){
+                e.printStackTrace();
+            }
+            return jsonObject.toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/job/pauseJob", produces = {MediaType. APPLICATION_JSON + OleNGConstants.CHARSET_UTF_8})
@@ -630,5 +652,23 @@ public class BatchRestController extends OleNgControllerBase {
 
     public void setBatchUtil(BatchUtil batchUtil) {
         this.batchUtil = batchUtil;
+    }
+
+    private boolean isJobRunning(long jobid) {
+        List<BatchProcessJob> batchProcessJobs = getDescribeDAO().fetchAllBatchProcessJobs();
+
+        for (BatchProcessJob batchProcessJob : batchProcessJobs) {
+
+            batchProcessJob.getStatus();
+            if (jobid == batchProcessJob.getJobId()) {
+                    List<BatchJobDetails> batchJobDetailsList = batchProcessJob.getBatchJobDetailsList();
+                    for (BatchJobDetails existingBatchJobDetails : batchJobDetailsList) {
+                        if (existingBatchJobDetails.getStatus().equals(OLEConstants.OLEBatchProcess.JOB_STATUS_RUNNING)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        return false;
     }
 }
