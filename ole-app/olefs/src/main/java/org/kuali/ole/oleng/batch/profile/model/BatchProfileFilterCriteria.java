@@ -14,7 +14,7 @@ public class BatchProfileFilterCriteria extends MarcDataField {
     @JsonProperty("filterFieldName")
     private String fieldName;
 
-    @JsonProperty("filterFieldText")
+    @JsonProperty("filterFieldNameText")
     private String fieldNameText;
 
     @JsonProperty("filterFieldValue")
