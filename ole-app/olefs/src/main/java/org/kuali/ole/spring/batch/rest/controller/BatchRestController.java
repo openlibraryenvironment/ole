@@ -654,13 +654,14 @@ public class BatchRestController extends OleNgControllerBase {
         this.batchUtil = batchUtil;
     }
 
-    private boolean isJobRunning(long jobid) {
-        List<BatchProcessJob> batchProcessJobs = getDescribeDAO().fetchAllBatchProcessJobs();
-
-        for (BatchProcessJob batchProcessJob : batchProcessJobs) {
-
-            batchProcessJob.getStatus();
-            if (jobid == batchProcessJob.getJobId()) {
+    // Method added as fix for OLE-9027 to disallow Second Instance of VUFIND Job to run at same time
+    private boolean isJobRunning(long jobId) {
+        BatchProcessJob jobRunning = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
+        if(jobRunning.getJobName().toUpperCase().contains("VU")) {
+            List<BatchProcessJob> batchProcessJobs = getDescribeDAO().fetchAllBatchProcessJobs();
+            for (BatchProcessJob batchProcessJob : batchProcessJobs) {
+                batchProcessJob.getStatus();
+                if (jobId == batchProcessJob.getJobId()) {
                     List<BatchJobDetails> batchJobDetailsList = batchProcessJob.getBatchJobDetailsList();
                     for (BatchJobDetails existingBatchJobDetails : batchJobDetailsList) {
                         if (existingBatchJobDetails.getStatus().equals(OLEConstants.OLEBatchProcess.JOB_STATUS_RUNNING)) {
@@ -669,6 +670,7 @@ public class BatchRestController extends OleNgControllerBase {
                     }
                 }
             }
+        }
         return false;
     }
 }
