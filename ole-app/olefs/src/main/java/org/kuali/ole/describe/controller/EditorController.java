@@ -766,7 +766,7 @@ public class EditorController extends UifControllerBase {
                 ((EditorForm) form).setWorkBibDocumentList(workBibDocumentList);
             }*/
 
-            List<BibTree> bibTreeList = (List) request.getSession().getAttribute("treeDocumentList");
+            List<BibTree> bibTreeList = (List) ((EditorForm) form).getDocumentForm().getBibTreeList();
             if (null != bibTreeList) {
                 ((EditorForm) form).getDocumentForm().setBibTreeList(bibTreeList);
                 ((EditorForm) form).setBibTreeList(bibTreeList);

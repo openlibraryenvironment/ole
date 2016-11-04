@@ -152,9 +152,9 @@ jq(document).ready(function () {
         if (parseInt(screenIdleTime) > parseInt(screenTimeoutCount)) {
             clearInterval(screenIdleInterval);
             screenIdleTime = 0;
-            submitForm('clearSession', null, null, null, null)
+            submitForm('redirectHomePage', null, null, null, null)
         }
-    }, 60000);
+    }, 100000);
     jq("input:text").live("click", function () {
         if (jq(this).attr("id") == undefined) {
             if (jq(this).parent().parent().attr("class") == "dataTables_filter") {

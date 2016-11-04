@@ -191,6 +191,16 @@ public class CircBaseController extends OLEUifControllerBase{
         return getUIFModelAndView(circForm);
     }
 
+    @RequestMapping(params = "methodToCall=redirectHomePage")
+    public ModelAndView redirect(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
+        String url = baseUrl + "/portal.do";
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, UifConstants.MethodToCallNames.REFRESH);
+        return performRedirect(form, url, props);
+    }
+
     public CheckoutUIController getCheckoutUIController(String formKey) {
         if (controllerMap.containsKey(formKey)) {
             return controllerMap.get(formKey);
