@@ -10,6 +10,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rajeshbabuk on 4/20/16.
@@ -72,8 +73,10 @@ public class BatchExportHandler extends BatchExportUtil {
     }
 
     private void processFilterExport(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        String query = getFilterSolrQuery(batchProcessTxObject, oleNGBatchExportResponse);
-        exportDao.export(this, query, batchProcessTxObject, oleNGBatchExportResponse, false);
+        List<String> queryList = getFilterSolrQuery(batchProcessTxObject, oleNGBatchExportResponse);
+        for(String query : queryList) {
+            exportDao.export(this, query, batchProcessTxObject, oleNGBatchExportResponse, false);
+        }
     }
 
 }
