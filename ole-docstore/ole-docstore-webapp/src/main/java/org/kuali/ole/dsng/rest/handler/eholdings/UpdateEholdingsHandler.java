@@ -88,6 +88,7 @@ public class UpdateEholdingsHandler extends Handler {
             eholdingMetaDataHandlers.add(new MaterialsSpecified());
             eholdingMetaDataHandlers.add(new FirstIndicator());
             eholdingMetaDataHandlers.add(new SecondIndicator());
+            eholdingMetaDataHandlers.add(new ShelvingOrderHandler());
         }
         return eholdingMetaDataHandlers;
 
