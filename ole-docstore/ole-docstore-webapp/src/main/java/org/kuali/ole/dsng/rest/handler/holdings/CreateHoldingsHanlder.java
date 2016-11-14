@@ -109,6 +109,7 @@ public class CreateHoldingsHanlder extends Handler {
             metaDataHandlers.add(new AccessStatusHandler());
             metaDataHandlers.add(new SubscriptionStatusHandler());
             metaDataHandlers.add(new HoldingsStaffOnlyHandler());
+            metaDataHandlers.add(new ShelvingOrderHandler());
         }
         return metaDataHandlers;
     }

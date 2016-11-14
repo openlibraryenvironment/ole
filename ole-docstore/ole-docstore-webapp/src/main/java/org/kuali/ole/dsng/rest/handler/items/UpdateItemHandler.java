@@ -12,6 +12,7 @@ import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
 
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
@@ -116,6 +117,7 @@ public class UpdateItemHandler extends Handler {
             itemMetaDataHandlers.add(new StatisticalSearchCodeHandler());
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());
             itemMetaDataHandlers.add(new ItemStaffOnlyHandler());
+            itemMetaDataHandlers.add(new ShelvingOrderHandler());
         }
         return itemMetaDataHandlers;
     }

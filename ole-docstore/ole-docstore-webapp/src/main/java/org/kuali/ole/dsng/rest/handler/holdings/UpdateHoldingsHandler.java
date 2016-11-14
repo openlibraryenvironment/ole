@@ -34,6 +34,7 @@ public class UpdateHoldingsHandler extends Handler {
             holdingMetaDataHandlers.add(new AccessStatusHandler());
             holdingMetaDataHandlers.add(new SubscriptionStatusHandler());
             holdingMetaDataHandlers.add(new HoldingsStaffOnlyHandler());
+            holdingMetaDataHandlers.add(new ShelvingOrderHandler());
         }
         return holdingMetaDataHandlers;
     }
