@@ -126,13 +126,13 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
             builder.append("|AT"+overDueItemBarcode);
         }*/
         //Charged Items
-        if(oleLookupUser.getOleCheckedOutItems() != null && oleLookupUser.getOleCheckedOutItems().getCheckedOutItems() != null){
+        /*if(oleLookupUser.getOleCheckedOutItems() != null && oleLookupUser.getOleCheckedOutItems().getCheckedOutItems() != null){
             for(OLECheckedOutItem oleCheckedOutItem : oleLookupUser.getOleCheckedOutItems().getCheckedOutItems()){
                 builder.append(OLESIP2Constants.SPLIT+
                         OLESIP2Constants.CHARGED_ITEMS_CODE+
                         oleCheckedOutItem.getItemId());
             }
-        }
+        }*/
 
         if (oleLookupUser.getPatronAddress() != null) {
             builder.append(OLESIP2Constants.SPLIT+
