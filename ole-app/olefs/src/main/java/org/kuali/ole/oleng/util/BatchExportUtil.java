@@ -156,12 +156,12 @@ public class BatchExportUtil extends BatchUtil {
                             break;
                         case "Updated By":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
-                        case "Staff Only":
+                        case "Staff Only(of Bib, Holdings or Item)":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
                     }
