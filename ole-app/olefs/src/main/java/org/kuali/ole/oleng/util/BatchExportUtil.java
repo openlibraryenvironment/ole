@@ -96,7 +96,7 @@ public class BatchExportUtil extends BatchUtil {
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
         SimpleDateFormat format = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
         String fromDate = format.format(lastExportDate);
-        return "(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
+        return "(DocType:bibliographic)AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
     }
 
     public List<String> getFilterSolrQuery(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
