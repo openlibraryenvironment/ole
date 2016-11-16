@@ -96,7 +96,7 @@ public class BatchExportUtil extends BatchUtil {
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
         SimpleDateFormat format = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
         String fromDate = format.format(lastExportDate);
-        return "(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
+        return "(DocType:bibliographic)AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
     }
 
     public List<String> getFilterSolrQuery(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
@@ -156,12 +156,12 @@ public class BatchExportUtil extends BatchUtil {
                             break;
                         case "Updated By":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
-                        case "Staff Only":
+                        case "Staff Only(of Bib, Holdings or Item)":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
                     }

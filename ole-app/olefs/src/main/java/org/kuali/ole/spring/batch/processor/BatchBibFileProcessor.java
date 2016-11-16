@@ -20,6 +20,7 @@ import org.kuali.ole.oleng.batch.profile.model.*;
 import org.kuali.ole.oleng.batch.reports.BibImportReportLogHandler;
 import org.kuali.ole.oleng.exception.ValidationException;
 import org.kuali.ole.utility.OleDsNgRestClient;
+import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.marc4j.marc.DataField;
@@ -284,13 +285,33 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
 
     public List<JSONObject> buildOneObjectForList(List<JSONObject> dataMappingsPreTrans, List<JSONObject> dataMappingsPostTrans) {
         List<JSONObject> finalObjects = new ArrayList<>();
-
+        Map<String,String> shelvingOrderCode = new HashMap<>();
         for (int index = 0; index < dataMappingsPreTrans.size(); index++) {
             JSONObject preTransformObject =  dataMappingsPreTrans.size() > index ? dataMappingsPreTrans.get(index) : new JSONObject();
             JSONObject postTransformObject = dataMappingsPostTrans.size() > index ? dataMappingsPostTrans.get(index) : new JSONObject();
             finalObjects.add(buildOneObject(preTransformObject, postTransformObject));
         }
-
+        Iterator<?> keys = dataMappingsPreTrans.get(0).keys();
+        while(keys.hasNext()){
+            String key = (String)keys.next();
+            if(key.equalsIgnoreCase("Call Number") || key.equalsIgnoreCase("Call Number Type"))
+                try {
+                    if ( dataMappingsPreTrans.get(0).get(key) instanceof JSONArray ) {
+                        shelvingOrderCode.put(key, dataMappingsPreTrans.get(0).get(key).toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }if(!shelvingOrderCode.isEmpty()){
+            List<String> preTransformObject =  buildSortableCallNumber(shelvingOrderCode);
+            if(preTransformObject.size()!=0){
+                try {
+                    finalObjects.get(0).put("Shelving Order", preTransformObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return finalObjects;
     }
 
@@ -548,7 +569,6 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
             }
             dataMappings.add(dataMapping);
         }
-
         return dataMappings;
     }
 
@@ -779,5 +799,18 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
         oleNGBibImportResponse.getMultipleMatchedRecords().clear();
         oleNGBibImportResponse.getRecordsMap().clear();
     }
+
+    protected List<String> buildSortableCallNumber(Map<String, String> codeValues) {
+        List<String> shelvingOrder = new ArrayList<>();
+        if(org.apache.commons.lang.StringUtils.isNotEmpty(codeValues.get("Call Number"))){
+            org.solrmarc.callnum.CallNumber callNumberObj= CallNumberFactory.getInstance().getCallNumber("LCC");
+            if (callNumberObj != null) {
+                callNumberObj.parse(codeValues.get("Call Number"));
+                shelvingOrder.add(callNumberObj.getShelfKey());
+            }
+        }
+        return shelvingOrder;
+    }
+
 
 }
