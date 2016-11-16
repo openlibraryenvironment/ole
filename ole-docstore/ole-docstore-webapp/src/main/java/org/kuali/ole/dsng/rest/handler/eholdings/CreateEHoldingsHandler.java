@@ -145,6 +145,7 @@ public class CreateEHoldingsHandler extends Handler {
             metaDataHandlers.add(new PublicNoteHandler());
             metaDataHandlers.add(new NoOfSumultaneousUserHander());
             metaDataHandlers.add(new HoldingsStaffOnlyHandler());
+            metaDataHandlers.add(new ShelvingOrderHandler());
         }
         return metaDataHandlers;
     }

@@ -85,6 +85,7 @@ public class UpdateEholdingsHandler extends Handler {
             eholdingMetaDataHandlers.add(new PublicNoteHandler());
             eholdingMetaDataHandlers.add(new NoOfSumultaneousUserHander());
             eholdingMetaDataHandlers.add(new HoldingsStaffOnlyHandler());
+            eholdingMetaDataHandlers.add(new ShelvingOrderHandler());
         }
         return eholdingMetaDataHandlers;
 
