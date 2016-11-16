@@ -575,9 +575,11 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                             if (rulePassed) {
                                 SpringContext.getBean(OlePurapService.class).calculateForeignCurrency(items);
                                 if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
-                                    items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate, 4, BigDecimal.ROUND_HALF_UP)));
-                                    items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate, 4, BigDecimal.ROUND_HALF_UP));
-                                    items.setItemListPrice(items.getItemUnitCostUSD());
+                                    if(!items.getItemForeignUnitCost().equals(new KualiDecimal("0.00"))) {
+                                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate, 4, BigDecimal.ROUND_HALF_UP)));
+                                        items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate, 4, BigDecimal.ROUND_HALF_UP));
+                                        items.setItemListPrice(items.getItemUnitCostUSD());
+                                    }
                                     if (!items.isDebitItem()) {
                                         items.setListPrice("-" + items.getItemListPrice().toString());
                                     } else {
@@ -1335,6 +1337,10 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         invoiceDocument.setDbRetrieval(true);
         invoiceDocument.setGrantTotal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(),null ).toString());
         invoiceDocument.setItemTotal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(), "ITEM").toString());
+        if(invoiceDocument.getForeignVendorInvoiceAmount().equals(new BigDecimal("0.00")) && invoiceDocument.getVendorInvoiceAmount().equals(new KualiDecimal("0.00"))
+                && !new KualiDecimal(invoiceDocument.getGrantTotal()).equals(new KualiDecimal("0.00"))) {
+            invoiceDocument.setVendorInvoiceAmount(new KualiDecimal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(), null).toString()));
+        }
         if (invoiceDocument.getInvoiceCurrencyTypeId()!=null) {
             String currencyType = getInvoiceService().getCurrencyType(invoiceDocument.getInvoiceCurrencyTypeId().toString());
             if (StringUtils.isNotBlank(currencyType)) {

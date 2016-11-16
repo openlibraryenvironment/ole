@@ -210,9 +210,11 @@ public class OlePaymentRequestAction extends PaymentRequestAction {
                             if (rulePassed) {
                                 SpringContext.getBean(OlePurapService.class).calculateForeignCurrency(items);
                                 if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
-                                    items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(items.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
-                                    items.setItemUnitPrice(items.getItemUnitCostUSD().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP));
-                                    items.setItemListPrice(items.getItemUnitCostUSD());
+                                    if(!items.getItemForeignUnitCost().equals(new KualiDecimal("0.00"))) {
+                                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(items.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
+                                        items.setItemUnitPrice(items.getItemUnitCostUSD().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP));
+                                        items.setItemListPrice(items.getItemUnitCostUSD());
+                                    }
                                     //items.setPurchaseOrderItemUnitPrice(items.getItemUnitPrice());
                                 }
                             }

@@ -1011,11 +1011,16 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                     items.setItemExchangeRate(new KualiDecimal(exchangeRate));
                     items.setExchangeRate(exchangeRate.toString());
                 }
-                if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null   && !this.getApplicationDocumentStatus().equals("Department-Approved")) {
-                    items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
-                    items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
-                    items.setItemListPrice(items.getItemUnitCostUSD());
-                    items.setExtendedPrice(items.calculateExtendedPrice());
+                if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null && !this.getApplicationDocumentStatus().equals("Department-Approved")) {
+                    if(!items.getItemForeignUnitCost().equals(new KualiDecimal("0.00"))) {
+                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
+                        items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
+                        items.setItemListPrice(items.getItemUnitCostUSD());
+                        items.setExtendedPrice(items.calculateExtendedPrice());
+                    }
+                    else {
+                        items.setExtendedPrice(items.calculateExtendedPrice());
+                    }
                 }
                 //this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
             }
@@ -1324,7 +1329,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                                     singleItem.setExchangeRate(exchangeRate.toString());
                                 }
                                 this.setVendorInvoiceAmount(this.getForeignVendorInvoiceAmount() != null ?
-                                        new KualiDecimal(this.getForeignVendorInvoiceAmount().divide(new BigDecimal(singleItem.getExchangeRate()), 4, RoundingMode.HALF_UP)) : null);
+                                        new KualiDecimal(this.getForeignVendorInvoiceAmount().divide(new BigDecimal(singleItem.getExchangeRate()), 4, RoundingMode.HALF_UP)) : new KualiDecimal("0.00"));
                             }
                         }
                     }
