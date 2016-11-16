@@ -35,6 +35,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.swing.*;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,8 +80,10 @@ public class OleInvoiceValidation extends GenericValidation {
 
         if (!currencyTypeIndicator) {
             if (ObjectUtils.isNull(document.getForeignVendorInvoiceAmount())) {
-                GlobalVariables.getMessageMap().putError(OleSelectConstant.FOREIGN_VENDOR_INVOICE_AMOUNT, OLEKeyConstants.ERROR_REQUIRED, OleSelectConstant.FOREIGN_VENDOR_INVOICE_AMOUNT_STRING);
-                valid &= false;
+                if (ObjectUtils.isNull(document.getVendorInvoiceAmount())) {
+                    GlobalVariables.getMessageMap().putError(OleSelectConstant.FOREIGN_VENDOR_INVOICE_AMOUNT, OLEKeyConstants.ERROR_REQUIRED, OleSelectConstant.FOREIGN_VENDOR_INVOICE_AMOUNT_STRING);
+                    valid &= false;
+                }
             } else {
                 Long currencyTypeId = po.getVendorDetail().getCurrencyType().getCurrencyTypeId();
                 Map documentNumberMap = new HashMap();
@@ -88,9 +91,14 @@ public class OleInvoiceValidation extends GenericValidation {
                 org.kuali.rice.krad.service.BusinessObjectService businessObjectService = SpringContext.getBean(org.kuali.rice.krad.service.BusinessObjectService.class);
                 List<OleExchangeRate> exchangeRateList = (List) businessObjectService.findMatchingOrderBy(OleExchangeRate.class, documentNumberMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
                 Iterator iterator = exchangeRateList.iterator();
-                if (iterator.hasNext()) {
-                    OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                    document.setVendorInvoiceAmount(new KualiDecimal(document.getForeignVendorInvoiceAmount().divide(tempOleExchangeRate.getExchangeRate(), 4, RoundingMode.HALF_UP)));
+                if(document.getForeignVendorInvoiceAmount().equals(new BigDecimal("0.00"))) {
+                    document.setVendorInvoiceAmount(document.getGrandTotal());
+                }
+                else {
+                    if (iterator.hasNext()) {
+                        OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
+                        document.setVendorInvoiceAmount(new KualiDecimal(document.getForeignVendorInvoiceAmount().divide(tempOleExchangeRate.getExchangeRate(), 4, RoundingMode.HALF_UP)));
+                    }
                 }
 
             }

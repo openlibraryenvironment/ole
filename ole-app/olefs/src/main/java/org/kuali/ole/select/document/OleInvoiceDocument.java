@@ -1013,10 +1013,15 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                     items.setExchangeRate(exchangeRate.toString());
                 }
                 if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null   && !this.getApplicationDocumentStatus().equals("Department-Approved")) {
-                    items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
-                    items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
-                    items.setItemListPrice(items.getItemUnitCostUSD());
-                    items.setExtendedPrice(items.calculateExtendedPrice());
+                    if(!items.getItemForeignUnitCost().equals(new KualiDecimal("0.00"))) {
+                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
+                        items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
+                        items.setItemListPrice(items.getItemUnitCostUSD());
+                        items.setExtendedPrice(items.calculateExtendedPrice());
+                    }
+                    else  {
+                        items.setExtendedPrice(items.calculateExtendedPrice());
+                    }
                 }
                 //this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
             }
