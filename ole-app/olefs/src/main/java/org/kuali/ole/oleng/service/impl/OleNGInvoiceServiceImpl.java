@@ -544,13 +544,19 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
             oleInvoiceItem.setItemForeignUnitCost(new KualiDecimal(new BigDecimal(String.valueOf(foreignListPrice)).subtract(new BigDecimal(oleInvoiceItem.getForeignDiscount()))));
         }
         oleInvoiceItem.setItemExchangeRate(new KualiDecimal(getInvoiceService().getExchangeRate(invoiceCurrencyType).getExchangeRate()));
-        if(StringUtils.isNotBlank(invoiceRecord.getInvoiceCurrencyExchangeRate())){
-            oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(invoiceRecord.getInvoiceCurrencyExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
-        }else{
-            oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().divide(oleInvoiceItem.getItemExchangeRate().bigDecimalValue(), 4, BigDecimal.ROUND_HALF_UP)));
+        if(!(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().equals(new BigDecimal("0.00")))) {
+            if (StringUtils.isNotBlank(invoiceRecord.getInvoiceCurrencyExchangeRate())) {
+                oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(invoiceRecord.getInvoiceCurrencyExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
+            } else {
+                oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().divide(oleInvoiceItem.getItemExchangeRate().bigDecimalValue(), 4, BigDecimal.ROUND_HALF_UP)));
+            }
+            oleInvoiceItem.setItemUnitPrice(oleInvoiceItem.getItemUnitCostUSD().bigDecimalValue());
+            oleInvoiceItem.setItemListPrice(oleInvoiceItem.getItemUnitCostUSD());
         }
-        oleInvoiceItem.setItemUnitPrice(oleInvoiceItem.getItemUnitCostUSD().bigDecimalValue());
-        oleInvoiceItem.setItemListPrice(oleInvoiceItem.getItemUnitCostUSD());
+        else {
+            oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemListPrice().bigDecimalValue()));
+            oleInvoiceItem.setItemUnitPrice(oleInvoiceItem.getItemListPrice().bigDecimalValue());
+        }
     }
 
 
