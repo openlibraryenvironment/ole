@@ -1337,9 +1337,11 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         invoiceDocument.setDbRetrieval(true);
         invoiceDocument.setGrantTotal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(),null ).toString());
         invoiceDocument.setItemTotal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(), "ITEM").toString());
-        if(invoiceDocument.getForeignVendorInvoiceAmount().equals(new BigDecimal("0.00")) && invoiceDocument.getVendorInvoiceAmount().equals(new KualiDecimal("0.00"))
-                && !new KualiDecimal(invoiceDocument.getGrantTotal()).equals(new KualiDecimal("0.00"))) {
-            invoiceDocument.setVendorInvoiceAmount(new KualiDecimal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(), null).toString()));
+        if(invoiceDocument.getForeignVendorInvoiceAmount() != null) {
+            if (invoiceDocument.getForeignVendorInvoiceAmount().equals(new BigDecimal("0.00")) && invoiceDocument.getVendorInvoiceAmount().equals(new KualiDecimal("0.00"))
+                    && !new KualiDecimal(invoiceDocument.getGrantTotal()).equals(new KualiDecimal("0.00"))) {
+                invoiceDocument.setVendorInvoiceAmount(new KualiDecimal(oleInvoiceDaoOjb.getInvoiceTotal(invoiceDocument.getPurapDocumentIdentifier(), null).toString()));
+            }
         }
         if (invoiceDocument.getInvoiceCurrencyTypeId()!=null) {
             String currencyType = getInvoiceService().getCurrencyType(invoiceDocument.getInvoiceCurrencyTypeId().toString());
