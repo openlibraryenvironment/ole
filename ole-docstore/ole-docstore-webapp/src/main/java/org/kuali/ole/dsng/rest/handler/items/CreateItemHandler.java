@@ -9,7 +9,6 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.model.ItemRecordAndDataMapping;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.dsng.rest.handler.Handler;
-import org.kuali.ole.dsng.rest.handler.holdings.ShelvingOrderHandler;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
