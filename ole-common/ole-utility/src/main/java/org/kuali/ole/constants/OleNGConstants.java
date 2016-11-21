@@ -105,6 +105,7 @@ public class OleNGConstants {
         public static final String CREATE_REQ_PO = "Create Requisition and PO";
         public static final String CREATE_REQ_ONLY = "Create Requisition Only";
         public static final String CREATE_NEITHER_REQ_NOR_PO = "Create neither a Requisition nor a PO";
+        public static final String PUBLIC_NOTE="Public Note";
 
 
         public final static String LOCATION_LEVEL_1 = "Location Level1";
