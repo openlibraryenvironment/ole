@@ -650,4 +650,12 @@
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 6 15 * ?','16','deleteReturnHistoryJob','16','N',1)</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Update_Mysql" dbms="mysql">
+        <sql>UPDATE OLE_DLVR_BATCH_JOB_T SET ROW_ACT_IND = 'N' WHERE JOB_ID IN ('13','14','15','16')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Update_Oracle" dbms="oracle">
+        <sql>UPDATE OLE_DLVR_BATCH_JOB_T SET ROW_ACT_IND = 'N' WHERE JOB_ID IN ('13','14','15','16')</sql>
+    </changeSet>
+
 </databaseChangeLog>
