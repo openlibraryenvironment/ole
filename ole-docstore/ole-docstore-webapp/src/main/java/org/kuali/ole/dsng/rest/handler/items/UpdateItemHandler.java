@@ -121,6 +121,7 @@ public class UpdateItemHandler extends Handler {
             itemMetaDataHandlers.add(new VendorLineItemIdHandler());
             itemMetaDataHandlers.add(new ItemStaffOnlyHandler());
             itemMetaDataHandlers.add(new ShelvingOrderHandler());
+            itemMetaDataHandlers.add(new PublicNoteHandler());
         }
         return itemMetaDataHandlers;
     }
