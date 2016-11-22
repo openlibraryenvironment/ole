@@ -31,14 +31,14 @@ INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_A
   VALUES ('0 0 2 ? * SUN *','12','syncOleWithGOKbUpdatesJob','9','Y',1)
 /
 INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR)
-  VALUES ('0 0 3 15 * ?','13','deleteLoanNoticeHistoryJob','13','Y',1)
+  VALUES ('0 0 4 15 * ?','13','deleteLoanNoticeHistoryJob','13','N',1)
 /
 INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR)
-  VALUES ('0 0 4 15 * ?','14','deleteRenewalHistoryJob','14','Y',1)
+  VALUES ('0 0 5 15 * ?','14','deleteRenewalHistoryJob','14','N',1)
 /
 INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR)
-  VALUES ('0 0 5 15 * ?','15','deleteRequestHistoryJob','15','Y',1)
+  VALUES ('0 0 5 15 * ?','15','deleteRequestHistoryJob','15','N',1)
 /
 INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR)
-  VALUES ('0 0 6 15 * ?','16','deleteReturnHistoryJob','16','Y',1)
-/
+  VALUES ('0 0 5 15 * ?','16','deleteReturnHistoryJob','16','N',1)
+/0
