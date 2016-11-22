@@ -282,6 +282,19 @@ public class EInstanceMappingHelper {
                             }
                         }
                     }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PUBLIC_NOTE)) {
+                    for (Note note : oleHoldings.getNote()) {
+                        if (StringUtils.isNotEmpty(note.getType()) && note.getType().equalsIgnoreCase(OLEConstants.NOTE_TYPE)) {
+                            dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                            if (dataField == null) {
+                                dataField = getDataField(entry);
+                                generatePublicDisplayNote(oleHoldings, note, getCode(entry.getKey()), dataField);
+                                if (!dataField.getSubFields().isEmpty()) dataFieldList.add(dataField);
+                            } else {
+                                generatePublicDisplayNote(oleHoldings, note, getCode(entry.getKey()), dataField);
+                            }
+                        }
+                    }
                 }
             }
             if (!CollectionUtils.isEmpty(dataFieldCoverageMap)) {

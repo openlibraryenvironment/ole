@@ -674,6 +674,7 @@ public class OLEConstants {
         public static final String DESTINATION_FIELD_LINK_URL = "URL";
         public static final String DESTINATION_FIELD_PERSISTENTLINK = "Persistent Link";
         public static final String DESTINATION_FIELD_PUBLIC_DISPLAY_NOTE = "Public Display Note";
+        public static final String DESTINATION_FIELD_PUBLIC_NOTE = "Public Note";
         public static final String DESTINATION_FIELD_COVERAGE_START_DATE = "Coverage Start Date";
         public static final String DESTINATION_FIELD_COVERAGE_START_ISSUE = "Coverage Start Issue";
         public static final String DESTINATION_FIELD_COVERAGE_START_VOLUME = "Coverage Start Volume";
