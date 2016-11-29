@@ -110,6 +110,7 @@ public class PurapParameterConstants {
     public static final String RECEIVING_DOCUMENT_REQUIRED_IND = "RECEIVING_DOCUMENT_REQUIRED_IND";
     public static final String PAYMENT_REQUEST_POSITIVE_APPROVAL_IND = "PAYMENT_REQUEST_POSITIVE_APPROVAL_IND";
 
+    public static final String ALLOW_INVOICE_SUFF_FUND_CHECK = "ALLOW_INVOICE_SUFF_FUND_CHECK";
 
     public static class CapitalAsset {
         // used in CAB module service

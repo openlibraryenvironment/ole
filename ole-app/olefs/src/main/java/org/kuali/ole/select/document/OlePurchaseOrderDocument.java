@@ -579,10 +579,10 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
                 || singleItem.getItemNoOfParts().isGreaterThan(new KualiInteger(1)))) {
             singleItem.setCopies(getOleCopyHelperService().setCopiesToLineItem(singleItem.getCopyList(), singleItem.getItemNoOfParts(), singleItem.getItemTitleId()));
         }
-        if(singleItem.getCopyList().size() > 0 && singleItem.getItemTitleId() != null) {
+       /* if(singleItem.getCopyList().size() > 0 && singleItem.getItemTitleId() != null) {
             //getOlePurapService().setInvoiceDocumentsForPO(singleItem);
-            getOlePurapService().setInvoiceDocumentsForPO(this,singleItem);
-        }
+           // getOlePurapService().setInvoiceDocumentsForPO(this,singleItem);
+        }*/
         else if (singleItem.getCopyList().size() > 0 && singleItem.getItemTitleId() == null) {
             getOlePurapService().setInvoiceDocumentsForEResourcePO(singleItem);
         }

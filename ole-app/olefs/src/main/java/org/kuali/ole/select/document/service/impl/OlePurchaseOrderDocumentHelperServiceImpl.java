@@ -367,7 +367,10 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
                 Object object = iterator.next();
                 if (object instanceof OlePurchaseOrderItem) {
                     OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) object;
-                    setItemDetailWhileProcessAfterRetrive(singleItem);
+                        setItemDetailWhileProcessAfterRetrive(singleItem);
+                    if(singleItem.getCopyList().size() > 0) {
+                        getOlePurapService().setInvoiceDocumentsForPO(purchaseOrderDocument,singleItem);
+                    }
                 }
             }
         } catch (Exception e) {
