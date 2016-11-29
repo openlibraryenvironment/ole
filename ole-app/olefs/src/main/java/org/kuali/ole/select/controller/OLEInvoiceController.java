@@ -8,6 +8,7 @@ import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapKeyConstants;
+import org.kuali.ole.module.purap.PurapParameterConstants;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.module.purap.document.PurchasingAccountsPayableDocument;
@@ -875,58 +876,60 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 oleInvoiceDocument.setValidationFlag(true);
             }
         }
-        if(oleInvoiceDocument.getSourceAccountingLines().size() > 0){
-            List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
-            for (SourceAccountingLine accLine : sourceAccountingLineList) {
-                Map searchMap = new HashMap();
-                String notificationOption = null;
-                boolean sufficientFundCheck;
-                Map<String, Object> key = new HashMap<String, Object>();
-                String chartCode = accLine.getChartOfAccountsCode();
-                String accNo = accLine.getAccountNumber();
-                String objectCd = accLine.getFinancialObjectCode();
-                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-                OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
-                        OleSufficientFundCheck.class, key);
-                if (account != null) {
-                    notificationOption = account.getNotificationOption();
-                }
-                if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
-                    if(oleInvoiceDocument.getPaymentMethodIdentifier() != null && (SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(oleInvoiceDocument.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
-                        sufficientFundCheck = false;
-                    }else{
-                        sufficientFundCheck = oleInvoiceFundCheckService.hasSufficientFundCheckRequired(accLine);
+        if(oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+            if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+                List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
+                for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                    Map searchMap = new HashMap();
+                    String notificationOption = null;
+                    boolean sufficientFundCheck;
+                    Map<String, Object> key = new HashMap<String, Object>();
+                    String chartCode = accLine.getChartOfAccountsCode();
+                    String accNo = accLine.getAccountNumber();
+                    String objectCd = accLine.getFinancialObjectCode();
+                    key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                    key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                    OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                            OleSufficientFundCheck.class, key);
+                    if (account != null) {
+                        notificationOption = account.getNotificationOption();
                     }
-                    oleInvoiceDocument.setSfcFlag(sufficientFundCheck);
-                    if (sufficientFundCheck) {
-                        oleInvoiceForm.setSubscriptionDateValidationMessage(null);
-                        oleInvoiceDocument.setSubscriptionDateValidationFlag(false);
+                    if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
+                        if (oleInvoiceDocument.getPaymentMethodIdentifier() != null && (SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(oleInvoiceDocument.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
+                            sufficientFundCheck = false;
+                        } else {
+                            sufficientFundCheck = oleInvoiceFundCheckService.hasSufficientFundCheckRequired(accLine);
+                        }
                         oleInvoiceDocument.setSfcFlag(sufficientFundCheck);
-                        oleInvoiceForm.setSfcFailRouteMsg(OLEConstants.INV_INSUFF_FUND +accLine.getAccountNumber());
-                        return getUIFModelAndView(oleInvoiceForm);
+                        if (sufficientFundCheck) {
+                            oleInvoiceForm.setSubscriptionDateValidationMessage(null);
+                            oleInvoiceDocument.setSubscriptionDateValidationFlag(false);
+                            oleInvoiceDocument.setSfcFlag(sufficientFundCheck);
+                            oleInvoiceForm.setSfcFailRouteMsg(OLEConstants.INV_INSUFF_FUND + accLine.getAccountNumber());
+                            return getUIFModelAndView(oleInvoiceForm);
+                        }
                     }
                 }
             }
         }
         boolean duplicationExists = false;
-        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"route");
+        duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument, oleInvoiceForm, "route");
         if (duplicationExists) {
             oleInvoiceDocument.setDuplicateRouteFlag(true);
             return getUIFModelAndView(form);
         }
         oleInvoiceDocument.setDuplicateRouteFlag(false);
-        if(oleInvoiceDocument.isValidationFlag() || oleInvoiceDocument.isSubscriptionDateValidationFlag()){
+        if (oleInvoiceDocument.isValidationFlag() || oleInvoiceDocument.isSubscriptionDateValidationFlag()) {
             return getUIFModelAndView(oleInvoiceForm);
         }
 
         getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
-        ModelAndView mv =  super.route(oleInvoiceForm,result,request,response);
+        ModelAndView mv = super.route(oleInvoiceForm, result, request, response);
         oleInvoiceDocument.loadInvoiceDocument();
-        if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
-            return  mv;
+        if (GlobalVariables.getMessageMap().getErrorMessages().size() > 0) {
+            return mv;
         }
-        return closeDocument(oleInvoiceForm,result,request,response);
+        return closeDocument(oleInvoiceForm, result, request, response);
 
         /*
         if (oleInvoiceDocument.getDocumentHeader() != null && oleInvoiceDocument.getDocumentHeader().getWorkflowDocument() != null &&
@@ -1095,33 +1098,35 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 oleInvoiceDocument.setBlanketApproveValidationFlag(true);
             }
         }
-        if(oleInvoiceDocument.getSourceAccountingLines().size() > 0){
-            List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
-            for (SourceAccountingLine accLine : sourceAccountingLineList) {
-                Map searchMap = new HashMap();
-                String notificationOption = null;
-                boolean sufficientFundCheck;
-                Map<String, Object> key = new HashMap<String, Object>();
-                String chartCode = accLine.getChartOfAccountsCode();
-                String accNo = accLine.getAccountNumber();
-                String objectCd = accLine.getFinancialObjectCode();
-                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-                OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
-                        OleSufficientFundCheck.class, key);
-                if (account != null) {
-                    notificationOption = account.getNotificationOption();
-                }
-                if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
-                    if(oleInvoiceDocument.getPaymentMethodIdentifier() != null && (SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(oleInvoiceDocument.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
-                        sufficientFundCheck = false;
-                    }else{
-                        sufficientFundCheck = oleInvoiceFundCheckService.hasSufficientFundCheckRequired(accLine);
+        if(oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+            if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+                List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
+                for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                    Map searchMap = new HashMap();
+                    String notificationOption = null;
+                    boolean sufficientFundCheck;
+                    Map<String, Object> key = new HashMap<String, Object>();
+                    String chartCode = accLine.getChartOfAccountsCode();
+                    String accNo = accLine.getAccountNumber();
+                    String objectCd = accLine.getFinancialObjectCode();
+                    key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                    key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                    OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                            OleSufficientFundCheck.class, key);
+                    if (account != null) {
+                        notificationOption = account.getNotificationOption();
                     }
-                    if (sufficientFundCheck) {
-                        oleInvoiceDocument.setBaSfcFlag(sufficientFundCheck);
-                        oleInvoiceForm.setSfcFailApproveMsg(OLEConstants.INV_INSUFF_FUND+accLine.getAccountNumber());
-                        return getUIFModelAndView(oleInvoiceForm);
+                    if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
+                        if (oleInvoiceDocument.getPaymentMethodIdentifier() != null && (SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(oleInvoiceDocument.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
+                            sufficientFundCheck = false;
+                        } else {
+                            sufficientFundCheck = oleInvoiceFundCheckService.hasSufficientFundCheckRequired(accLine);
+                        }
+                        if (sufficientFundCheck) {
+                            oleInvoiceDocument.setBaSfcFlag(sufficientFundCheck);
+                            oleInvoiceForm.setSfcFailApproveMsg(OLEConstants.INV_INSUFF_FUND + accLine.getAccountNumber());
+                            return getUIFModelAndView(oleInvoiceForm);
+                        }
                     }
                 }
             }
@@ -2551,30 +2556,32 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         oleInvoiceDocument.setBlanketApproveSubscriptionDateValidationFlag(false);
         oleInvoiceDocument.setValidationFlag(false);
         oleInvoiceDocument.setBlanketApproveValidationFlag(false);
-        if(oleInvoiceDocument.getSourceAccountingLines().size() > 0){
-            List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
-            for (SourceAccountingLine accLine : sourceAccountingLineList) {
-                Map searchMap = new HashMap();
-                String notificationOption = null;
-                boolean sufficientFundCheck;
-                Map<String, Object> key = new HashMap<String, Object>();
-                String chartCode = accLine.getChartOfAccountsCode();
-                String accNo = accLine.getAccountNumber();
-                String objectCd = accLine.getFinancialObjectCode();
-                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-                OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
-                        OleSufficientFundCheck.class, key);
-                if (account != null) {
-                    notificationOption = account.getNotificationOption();
-                }
-                if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
-                    sufficientFundCheck = oleInvoiceFundCheckService.hasSufficientFundCheckRequired(accLine);
-                    if (sufficientFundCheck) {
-                        oleInvoiceDocument.setBlanketApproveFlag(false);
-                        oleInvoiceDocument.setBaSfcFlag(sufficientFundCheck);
-                        oleInvoiceForm.setSfcFailApproveMsg(OLEConstants.INV_INSUFF_FUND+accLine.getAccountNumber());
-                        return getUIFModelAndView(oleInvoiceForm);
+        if(oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+            if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+                List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
+                for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                    Map searchMap = new HashMap();
+                    String notificationOption = null;
+                    boolean sufficientFundCheck;
+                    Map<String, Object> key = new HashMap<String, Object>();
+                    String chartCode = accLine.getChartOfAccountsCode();
+                    String accNo = accLine.getAccountNumber();
+                    String objectCd = accLine.getFinancialObjectCode();
+                    key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                    key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                    OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                            OleSufficientFundCheck.class, key);
+                    if (account != null) {
+                        notificationOption = account.getNotificationOption();
+                    }
+                    if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
+                        sufficientFundCheck = oleInvoiceFundCheckService.hasSufficientFundCheckRequired(accLine);
+                        if (sufficientFundCheck) {
+                            oleInvoiceDocument.setBlanketApproveFlag(false);
+                            oleInvoiceDocument.setBaSfcFlag(sufficientFundCheck);
+                            oleInvoiceForm.setSfcFailApproveMsg(OLEConstants.INV_INSUFF_FUND + accLine.getAccountNumber());
+                            return getUIFModelAndView(oleInvoiceForm);
+                        }
                     }
                 }
             }
