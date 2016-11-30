@@ -77,23 +77,6 @@ public class OlePurchaseOrderVoidDocument extends PurchaseOrderVoidDocument {
         if (this.getVendorAliasName() == null) {
             populateVendorAliasName();
         }
-        try {
-            List<OlePurchaseOrderItem> items = this.getItems();
-            Iterator iterator = items.iterator();
-            while (iterator.hasNext()) {
-                Object object = iterator.next();
-                if (object instanceof OlePurchaseOrderItem) {
-                    OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) object;
-                    if(singleItem.getCopyList().size() > 0) {
-                        //getOlePurapService().setInvoiceDocumentsForPO(olePurchaseOrderItem);
-                        getOlePurapService().setInvoiceDocumentsForPO(this,singleItem);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOG.error("Exception in OlePurchaseOrderCloseDocument:processAfterRetrieve" + e.getMessage());
-            throw new RuntimeException(e);
-        }
         SpringContext.getBean(OlePurchaseOrderDocumentHelperService.class).processAfterRetrieve(this);
     }
 

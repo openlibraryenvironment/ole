@@ -787,7 +787,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         distributeAccounting(paymentRequest);
 
-        purapService.calculateTax(paymentRequest);
+        calculateTax(paymentRequest);
 
         // do proration for full order and trade in
         purapService.prorateForTradeInAndFullOrderDiscount(paymentRequest);
@@ -798,6 +798,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         distributeAccounting(paymentRequest);
+    }
+
+    public void calculateTax(PaymentRequestDocument purapDocument) {
+        PurchaseOrderDocument pDoc = purapDocument.getPurchaseOrderDocument();
+        String deliveryState = pDoc.getDeliveryStateCode();
+        String deliveryPostalCode = pDoc.getBillingPostalCode();
+        purapService.calculateTaxForPREQ(purapDocument,deliveryState,deliveryPostalCode);
     }
 
 
