@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -362,11 +363,19 @@ public class OLEBatchProcessDefinitionController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+                              HttpServletRequest request, HttpServletResponse response) throws IOException {
         OLEBatchProcessDefinitionForm oleBatchProcessDefinitionForm = (OLEBatchProcessDefinitionForm) form;
         OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument = (OLEBatchProcessDefinitionDocument) oleBatchProcessDefinitionForm.getDocument();
         buildProcessDefinitionDocument(oleBatchProcessDefinitionDocument);
         oleBatchProcessDefinitionForm.setDocument(oleBatchProcessDefinitionDocument);
+        String content=null;
+
+        if(oleBatchProcessDefinitionDocument.getBatchProcessType().equals(OLEConstants.OLEBatchProcess.ORDER_RECORD_IMPORT)) {
+            content = new String(oleBatchProcessDefinitionDocument.getMarcFile().getBytes());
+        }else if ((oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT) && oleBatchProcessDefinitionDocument.getLoadIdFromFile().equalsIgnoreCase(String.valueOf(Boolean.TRUE))) || !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT)){
+            content = new String(oleBatchProcessDefinitionDocument.getIngestedFile().getBytes());
+        }
+
         boolean isValidated = getOleBatchProcessRule().batchValidations(oleBatchProcessDefinitionForm);
         if (!isValidated) {
             return getUIFModelAndView(oleBatchProcessDefinitionForm);
@@ -386,9 +395,9 @@ public class OLEBatchProcessDefinitionController extends UifControllerBase {
                 getBusinessObjectService().save(oleBatchProcessDefinitionDocument);
                 if (oleBatchProcessDefinitionDocument.getOleBatchProcessScheduleBoList() != null && oleBatchProcessDefinitionDocument.getOleBatchProcessScheduleBoList().size() > 0 && !updateDocFlag) {
                     if (oleBatchProcessDefinitionDocument.getBatchProcessType().equals(OLEConstants.OLEBatchProcess.ORDER_RECORD_IMPORT)) {
-                        createBatchProcessSchedulerFile(oleBatchProcessDefinitionDocument.getOleBatchProcessScheduleBoList().get(0), oleBatchProcessDefinitionDocument.getMarcFile(), oleBatchProcessDefinitionDocument.getEdiFile(), oleBatchProcessDefinitionDocument.getBatchProcessType(), OLEConstants.OLEBatchProcess.PROFILE_SCHEDULE);
+                        createBatchProcessSchedulerFile(oleBatchProcessDefinitionDocument.getOleBatchProcessScheduleBoList().get(0), oleBatchProcessDefinitionDocument.getMarcFile(), oleBatchProcessDefinitionDocument.getEdiFile(), oleBatchProcessDefinitionDocument.getBatchProcessType(), OLEConstants.OLEBatchProcess.PROFILE_SCHEDULE,content);
                     } else if ((oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT) && oleBatchProcessDefinitionDocument.getLoadIdFromFile().equalsIgnoreCase(String.valueOf(Boolean.TRUE))) || !oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT)) {
-                        createBatchProcessSchedulerFile(oleBatchProcessDefinitionDocument.getOleBatchProcessScheduleBoList().get(0), oleBatchProcessDefinitionDocument.getIngestedFile(), null, oleBatchProcessDefinitionDocument.getBatchProcessType(), OLEConstants.OLEBatchProcess.PROFILE_SCHEDULE);
+                        createBatchProcessSchedulerFile(oleBatchProcessDefinitionDocument.getOleBatchProcessScheduleBoList().get(0), oleBatchProcessDefinitionDocument.getIngestedFile(), null, oleBatchProcessDefinitionDocument.getBatchProcessType(), OLEConstants.OLEBatchProcess.PROFILE_SCHEDULE,content);
                     }
                 }
             } catch (Exception e) {
@@ -500,15 +509,15 @@ public class OLEBatchProcessDefinitionController extends UifControllerBase {
         }
     }
 
-    private void createBatchProcessSchedulerFile(OLEBatchProcessScheduleBo oleBatchProcessScheduleBo, MultipartFile ingestFile1, MultipartFile ingestFile2, String batchProceesType, String jobType) throws Exception {
+    private void createBatchProcessSchedulerFile(OLEBatchProcessScheduleBo oleBatchProcessScheduleBo, MultipartFile ingestFile1, MultipartFile ingestFile2, String batchProceesType, String jobType,String content) throws Exception {
         if (ingestFile2 == null && ingestFile1!=null) {
             String ingestFileName = oleBatchProcessScheduleBo.getScheduleId() + jobType + "_" + ingestFile1.getOriginalFilename();
-            getOLEBatchProcessDataHelper().createBatchProcessFile(batchProceesType, ingestFileName, new String(ingestFile1.getBytes()), oleBatchProcessScheduleBo.getScheduleId());
+            getOLEBatchProcessDataHelper().createBatchProcessFile(batchProceesType, ingestFileName, content, oleBatchProcessScheduleBo.getScheduleId());
         }
         else  if (ingestFile2 != null && ingestFile1!=null) {
             String mrcFileName = oleBatchProcessScheduleBo.getScheduleId() + jobType + "_" + ingestFile1.getOriginalFilename();
             String ediFileName = oleBatchProcessScheduleBo.getScheduleId() + jobType + "_" + ingestFile2.getOriginalFilename();
-            getOLEBatchProcessDataHelper().createBatchProcessFile(batchProceesType, mrcFileName, ediFileName, new String(ingestFile1.getBytes()), new String(ingestFile2.getBytes()) , oleBatchProcessScheduleBo.getScheduleId());
+            getOLEBatchProcessDataHelper().createBatchProcessFile(batchProceesType, mrcFileName, ediFileName, content, new String(ingestFile2.getBytes()) , oleBatchProcessScheduleBo.getScheduleId());
 
         }
 
