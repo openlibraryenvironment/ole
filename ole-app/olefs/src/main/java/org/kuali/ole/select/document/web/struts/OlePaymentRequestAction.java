@@ -134,7 +134,7 @@ public class OlePaymentRequestAction extends PaymentRequestAction {
         OlePaymentRequestDocument payDoc = (OlePaymentRequestDocument) paymentForm.getDocument();
         Map invMap = new HashMap();
         if (payDoc.getInvoiceIdentifier() != null) {
-            invMap.put(PurapConstants.PRQSDocumentsStrings.INV_ID, payDoc.getInvoiceIdentifier());
+            invMap.put(PurapConstants.PRQSDocumentsStrings.PUR_ID, payDoc.getInvoiceIdentifier());
             payDoc.getInvoiceIdentifier();
             OleInvoiceDocument oleInvoice = SpringContext
                     .getBean(org.kuali.rice.krad.service.BusinessObjectService.class).findByPrimaryKey(OleInvoiceDocument.class, invMap);

@@ -87,7 +87,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setItemTypeCode(poItem.getItemTypeCode());
 
         //recalculate tax
-        SpringContext.getBean(PurapService.class).calculateTax(cmDocument);
+        calculateTax(cmDocument);
 
         if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
@@ -119,6 +119,14 @@ public class CreditMemoItem extends AccountsPayableItemBase {
             getSourceAccountingLines().add(new CreditMemoAccount(account));
         }
     }
+
+    public void calculateTax(VendorCreditMemoDocument purapDocument) {
+        PurchaseOrderDocument pDoc = purapDocument.getPurchaseOrderDocument();
+        String deliveryState = pDoc.getDeliveryStateCode();
+        String deliveryPostalCode = pDoc.getBillingPostalCode();
+        SpringContext.getBean(PurapService.class).calculateTaxForPREQ(purapDocument,deliveryState,deliveryPostalCode);
+    }
+
 
     /**
      * Constructs a CreditMemoItem object from an existing Payment Request Item, and check and process expired or closed accounts

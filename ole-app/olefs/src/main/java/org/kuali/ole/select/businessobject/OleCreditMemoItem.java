@@ -19,6 +19,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.module.purap.businessobject.CreditMemoItem;
 import org.kuali.ole.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.ole.module.purap.document.service.AccountsPayableService;
 import org.kuali.ole.module.purap.document.service.PurapService;
@@ -166,7 +167,7 @@ public class OleCreditMemoItem extends CreditMemoItem {
             this.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(poItem.getItemTitleId()));
         }
         //recalculate tax
-        SpringContext.getBean(PurapService.class).calculateTax(cmDocument);
+        calculateTax(cmDocument);
 
         if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
@@ -208,6 +209,13 @@ public class OleCreditMemoItem extends CreditMemoItem {
         setItemExchangeRate(poItem.getItemExchangeRate());
         setItemUnitCostUSD(poItem.getItemUnitCostUSD());
 
+    }
+
+    public void calculateTax(VendorCreditMemoDocument purapDocument) {
+        PurchaseOrderDocument pDoc = purapDocument.getPurchaseOrderDocument();
+        String deliveryState = pDoc.getDeliveryStateCode();
+        String deliveryPostalCode = pDoc.getBillingPostalCode();
+        SpringContext.getBean(PurapService.class).calculateTaxForPREQ(purapDocument,deliveryState,deliveryPostalCode);
     }
 
     /**

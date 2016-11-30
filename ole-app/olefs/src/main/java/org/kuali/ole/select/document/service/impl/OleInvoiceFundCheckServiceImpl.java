@@ -18,6 +18,7 @@ package org.kuali.ole.select.document.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.gl.businessobject.Balance;
+import org.kuali.ole.module.purap.PurapParameterConstants;
 import org.kuali.ole.module.purap.businessobject.InvoiceAccount;
 import org.kuali.ole.module.purap.businessobject.InvoiceItem;
 import org.kuali.ole.module.purap.businessobject.PaymentRequestAccount;
@@ -455,32 +456,33 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
     }
 
     public boolean isBudgetReviewRequired(OleInvoiceDocument oleInvoiceDocument) {
-    	
-    	 if((SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(oleInvoiceDocument.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
-             return false;
-         }
-        List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
         boolean sufficientFundCheck = false;
-        for (SourceAccountingLine accLine : sourceAccountingLineList) {
-            Map searchMap = new HashMap();
-            String notificationOption = null;
-            Map<String, Object> key = new HashMap<String, Object>();
-            String chartCode = accLine.getChartOfAccountsCode();
-            String accNo = accLine.getAccountNumber();
-            key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-            key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-            OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
-                    OleSufficientFundCheck.class, key);
-            if (account != null) {
-                notificationOption = account.getNotificationOption();
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if ((SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(oleInvoiceDocument.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
+                return false;
             }
-            if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.BLOCK_USE)) {
-                sufficientFundCheck = hasSufficientFundCheckRequired(accLine);
-                if (sufficientFundCheck) {
-                    GlobalVariables.getMessageMap().putError(
-                            OLEConstants.SufficientFundCheck.ERROR_MSG_FOR_INSUFF_FUND, RiceKeyConstants.ERROR_CUSTOM,
-                            OLEConstants.SufficientFundCheck.INSUFF_FUND_INV + accLine.getAccountNumber());
-                    return sufficientFundCheck;
+            List<SourceAccountingLine> sourceAccountingLineList = oleInvoiceDocument.getSourceAccountingLines();
+            for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                Map searchMap = new HashMap();
+                String notificationOption = null;
+                Map<String, Object> key = new HashMap<String, Object>();
+                String chartCode = accLine.getChartOfAccountsCode();
+                String accNo = accLine.getAccountNumber();
+                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                        OleSufficientFundCheck.class, key);
+                if (account != null) {
+                    notificationOption = account.getNotificationOption();
+                }
+                if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.BLOCK_USE)) {
+                    sufficientFundCheck = hasSufficientFundCheckRequired(accLine);
+                    if (sufficientFundCheck) {
+                        GlobalVariables.getMessageMap().putError(
+                                OLEConstants.SufficientFundCheck.ERROR_MSG_FOR_INSUFF_FUND, RiceKeyConstants.ERROR_CUSTOM,
+                                OLEConstants.SufficientFundCheck.INSUFF_FUND_INV + accLine.getAccountNumber());
+                        return sufficientFundCheck;
+                    }
                 }
             }
         }
