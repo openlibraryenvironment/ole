@@ -963,13 +963,22 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         oleInvoiceForm.setDuplicationMessage(null);
         oleInvoiceDocument.setDuplicateRouteFlag(false);
-        getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
-        ModelAndView mv = super.route(oleInvoiceForm, result, request, response);
-        oleInvoiceDocument.loadInvoiceDocument();
-        if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
-            return  mv;
+        String validationMessage = getInvoiceService().createInvoiceNoMatchQuestionText(oleInvoiceDocument);
+        if (!validationMessage.isEmpty() && validationMessage != null) {
+            oleInvoiceForm.setValidationMessage(validationMessage);
+            oleInvoiceDocument.setValidationFlag(true);
+            return getUIFModelAndView(oleInvoiceForm);
         }
-        return closeDocument(oleInvoiceForm, result, request, response);
+        else {
+            oleInvoiceDocument.setValidationFlag(false);
+            getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
+            ModelAndView mv = super.route(oleInvoiceForm, result, request, response);
+            if (GlobalVariables.getMessageMap().getErrorMessages().size() > 0) {
+                return mv;
+            }
+            oleInvoiceDocument.setUnsaved(false);
+            return closeDocument(oleInvoiceForm, result, request, response);
+        }
     }
 
     @RequestMapping(params = "methodToCall=continueRoute")
@@ -1225,14 +1234,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         oleInvoiceDocument.setValidationFlag(false);
-        boolean duplicationExists =  getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"route");
-        if (duplicationExists){
-            oleInvoiceDocument.setDuplicateRouteFlag(true);
-        }
-        else {
-            oleInvoiceDocument.setValidationFlag(false);
-            performWorkflowAction(form, UifConstants.WorkflowAction.ROUTE, true);
-        }
+        oleInvoiceDocument.setValidationFlag(false);
+        performWorkflowAction(form, UifConstants.WorkflowAction.ROUTE, true);
         if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
             return getUIFModelAndView(form);
         }
@@ -2349,22 +2352,44 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         Boolean isAmountExceeds = getInvoiceService().isNotificationRequired(oleInvoiceDocument);
+        oleInvoiceDocument.setBlanketApproveValidationFlag(false);
+        OleInvoiceFundCheckService oleInvoiceFundCheckService = (OleInvoiceFundCheckService) SpringContext
+                .getBean("oleInvoiceFundCheckService");
+        String subscriptionValidationMessage = getInvoiceService().createSubscriptionDateOverlapQuestionText(oleInvoiceDocument);
+        if (!subscriptionValidationMessage.isEmpty() && subscriptionValidationMessage != null) {
+            oleInvoiceForm.setSubscriptionValidationMessage(subscriptionValidationMessage);
+            oleInvoiceDocument.setBlanketApproveSubscriptionDateValidationFlag(true);
+        }
+        if (oleInvoiceDocument.getInvoiceAmount() != null && oleInvoiceDocument.getInvoicedGrandTotal() != null ) {
+            String validationMessage = getInvoiceService().createInvoiceNoMatchQuestionText(oleInvoiceDocument);
+            if (!validationMessage.isEmpty() && validationMessage != null) {
+                oleInvoiceForm.setValidationMessage(validationMessage);
+                oleInvoiceDocument.setBlanketApproveValidationFlag(true);
+            }
+        }
         boolean duplicationExists = false;
         duplicationExists = getInvoiceService().isDuplicationExists(oleInvoiceDocument,oleInvoiceForm,"approve");
         if (duplicationExists) {
             //oleInvoiceForm.setDuplicationMessage(OleSelectConstant.DUPLICATE_INVOICE);
             oleInvoiceDocument.setDuplicateFlag(true);
+            return getUIFModelAndView(form);
         }
-        else {
-            if(isAmountExceeds){
-                oleInvoiceForm.setAmountExceedsMessage(getInvoiceService().createInvoiceAmountExceedsThresholdText(oleInvoiceDocument));
-                oleInvoiceDocument.setAmountExceeds(true);
+        boolean sfcFlag = false;
+        if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+            sfcFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
+            if (sfcFlag || oleInvoiceDocument.isBlanketApproveValidationFlag() || oleInvoiceDocument.isBlanketApproveSubscriptionDateValidationFlag()) {
                 return getUIFModelAndView(form);
             }
-            super.approve(oleInvoiceForm,result,request,response);
-            return closeDocument(oleInvoiceForm,result,request,response);
         }
-        return getUIFModelAndView(form);
+        if(isAmountExceeds){
+            oleInvoiceForm.setAmountExceedsMessage(getInvoiceService().createInvoiceAmountExceedsThresholdText(oleInvoiceDocument));
+            oleInvoiceDocument.setAmountExceeds(true);
+            return getUIFModelAndView(form);
+        }
+        oleInvoiceDocument.setDuplicateFlag(false);
+        oleInvoiceDocument.setBlanketApproveValidationFlag(false);
+        super.approve(oleInvoiceForm,result,request,response);
+        return closeDocument(oleInvoiceForm,result,request,response);
     }
     /**
      * close the popup in instance tab
@@ -2515,9 +2540,27 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         Boolean isAmountExceeds = getInvoiceService().isNotificationRequired(oleInvoiceDocument);
+        OleInvoiceFundCheckService oleInvoiceFundCheckService = (OleInvoiceFundCheckService) SpringContext
+                .getBean("oleInvoiceFundCheckService");
+        oleInvoiceDocument.setSfcFlag(false);
         if(isAmountExceeds){
             oleInvoiceForm.setAmountExceedsMessage(getInvoiceService().createInvoiceAmountExceedsThresholdText(oleInvoiceDocument));
             oleInvoiceDocument.setAmountExceeds(true);
+            return getUIFModelAndView(form);
+        }
+        String subscriptionValidationMessage = getInvoiceService().createSubscriptionDateOverlapQuestionText(oleInvoiceDocument);
+        if (!subscriptionValidationMessage.isEmpty() && subscriptionValidationMessage != null) {
+            oleInvoiceForm.setSubscriptionValidationMessage(subscriptionValidationMessage);
+            oleInvoiceDocument.setBlanketApproveSubscriptionDateValidationFlag(true);
+            return getUIFModelAndView(form);
+        }
+        if (oleInvoiceDocument.getInvoiceAmount() != null && oleInvoiceDocument.getInvoicedGrandTotal() != null ) {
+            String validationMessage = getInvoiceService().createInvoiceNoMatchQuestionText(oleInvoiceDocument);
+            if (!validationMessage.isEmpty() && validationMessage != null) {
+                oleInvoiceForm.setValidationMessage(validationMessage);
+                oleInvoiceDocument.setBlanketApproveValidationFlag(true);
+                return getUIFModelAndView(form);
+            }
         }
         else {
             super.approve(oleInvoiceForm,result,request,response);
@@ -2532,7 +2575,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         oleInvoiceDocument.setAmountExceeds(false);
-        return super.approve(oleInvoiceForm, result, request, response);
+        super.approve(oleInvoiceForm, result, request, response);
+        return closeDocument(oleInvoiceForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=cancelInvoiceApproval")
