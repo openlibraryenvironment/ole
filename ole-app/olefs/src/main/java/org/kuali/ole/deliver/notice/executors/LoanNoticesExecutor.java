@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.service.ClaimsReturnedNoticesExecutor;
 import org.kuali.ole.deliver.service.NoticesExecutor;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 
@@ -45,7 +46,9 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         //4. Generate notices
         List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
         //5. Save loan document
-        saveLoanDocument();
+        if(!(this instanceof ClaimsReturnedNoticesExecutor)){
+            saveLoanDocument();
+        }
         //6. Delete notices
         deleteNotices(oleDeliverNotices);
         //7. update notice history
