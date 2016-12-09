@@ -266,15 +266,17 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
         boolean isClosedPosExist = false;
         for (OlePurchaseOrderDocument olePurchaseOrderDocument : olePurchaseOrderDocuments) {
             if (StringUtils.isNotEmpty(oleAddTitlesToInvoiceForm.getForeignInvoiceAmount())) {
-                OleExchangeRate oleExchangeRate = getOleInvoiceService().getExchangeRate(olePurchaseOrderDocuments.get(0).getVendorDetail().getCurrencyTypeId().toString());
-                BigDecimal foreignInvoiceAmount = new BigDecimal(oleAddTitlesToInvoiceForm.getForeignInvoiceAmount());
-                for (OlePurchaseOrderItem olePurchaseOrderItem : (List<OlePurchaseOrderItem>) olePurchaseOrderDocument.getItems()) {
-                    if (olePurchaseOrderItem.getItemTypeCode().equalsIgnoreCase("ITEM")) {
-                        olePurchaseOrderItem.setItemForeignListPrice(new KualiDecimal(foreignInvoiceAmount));
+                if (!new KualiDecimal(oleAddTitlesToInvoiceForm.getForeignInvoiceAmount()).equals(new KualiDecimal("0.00"))) {
+                    OleExchangeRate oleExchangeRate = getOleInvoiceService().getExchangeRate(olePurchaseOrderDocuments.get(0).getVendorDetail().getCurrencyTypeId().toString());
+                    BigDecimal foreignInvoiceAmount = new BigDecimal(oleAddTitlesToInvoiceForm.getForeignInvoiceAmount());
+                    for (OlePurchaseOrderItem olePurchaseOrderItem : (List<OlePurchaseOrderItem>) olePurchaseOrderDocument.getItems()) {
+                        if (olePurchaseOrderItem.getItemTypeCode().equalsIgnoreCase("ITEM")) {
+                            olePurchaseOrderItem.setItemForeignListPrice(new KualiDecimal(foreignInvoiceAmount));
+                        }
                     }
+                    BigDecimal invoiceAmont = foreignInvoiceAmount.divide(oleExchangeRate.getExchangeRate(), 2, RoundingMode.HALF_UP);
+                    oleAddTitlesToInvoiceForm.setInvoiceAmount(invoiceAmont.toString());
                 }
-                BigDecimal invoiceAmont = foreignInvoiceAmount.divide(oleExchangeRate.getExchangeRate(), 2, RoundingMode.HALF_UP);
-                oleAddTitlesToInvoiceForm.setInvoiceAmount(invoiceAmont.toString());
             }
             if (!getNewOleAddTitlesToInvoiceService().validateStatusOfPurchaseOrderDocument(olePurchaseOrderDocument)) {
                 poId = poId + olePurchaseOrderDocument.getPurapDocumentIdentifier().toString() + ",";
