@@ -336,8 +336,9 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                         singleItemResultDisplayRow.setLastBorrowerLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
                         singleItemResultDisplayRow.setLastBorrowerMiddleName(olePatronDocument.getEntity().getNames().get(0).getMiddleName());
                         singleItemResultDisplayRow.setLastBorrowerType(olePatronDocument.getOleBorrowerType().getBorrowerTypeName());
-
-                        singleItemResultDisplayRow.setLastBorrowerExpDate(olePatronDocument.getExpirationDate().toString());
+                        if(olePatronDocument.getExpirationDate()!=null){
+                            singleItemResultDisplayRow.setLastBorrowerExpDate(olePatronDocument.getExpirationDate().toString());
+                        }
                         singleItemResultDisplayRow.setLastCheckinDate(new Timestamp(oleCirculationHistory.getCheckInDate().getTime()));
                         singleItemResultDisplayRow.setLastBorrowerItemStatusDate((new Timestamp(oleCirculationHistory.getCreateDate().getTime())));
                     }
