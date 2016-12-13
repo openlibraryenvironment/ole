@@ -75,6 +75,11 @@ public class OleDsNGMemorizeServiceImpl extends BusinessObjectServiceHelperUtil 
         return getItemUtil().fetchItemTypeByName(itemTypeName);
     }
 
+    @Memoize
+    public ItemTypeRecord fetchItemTypeByCode(String itemTypeCode) {
+        return getItemUtil().fetchItemTypeByCode(itemTypeCode);
+    }
+
     public BibDAO getBibDAO() {
         return bibDAO;
     }

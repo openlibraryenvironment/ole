@@ -43,14 +43,14 @@ public class ItemTypeHandler extends ItemHandler {
         JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, OleNGConstants.BatchProcess.ITEM_TYPE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
-            String itemTypeName = listFromJSONArray.get(0);
+            String itemTypeCode = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-            ItemTypeRecord itemTypeRecord = getOleDsNGMemorizeService().fetchItemTypeByName(itemTypeName);
+            ItemTypeRecord itemTypeRecord = getOleDsNGMemorizeService().fetchItemTypeByCode(itemTypeCode);
             if(null != itemTypeRecord) {
                 itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
                 itemRecord.setItemTypeRecord(itemTypeRecord);
             } else {
-                new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Item type : " + itemTypeName);
+                new OleNgUtil().addValidationErrorMessageToExchange(exchange, "Invalid Item type : " + itemTypeCode);
             }
             exchange.add(OleNGConstants.ITEM_RECORD, itemRecord);
         }

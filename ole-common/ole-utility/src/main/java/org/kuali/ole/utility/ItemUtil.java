@@ -31,4 +31,14 @@ public class ItemUtil extends BusinessObjectServiceHelperUtil {
         }
         return null;
     }
+
+    public ItemTypeRecord fetchItemTypeByCode(String itemTypeCode) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("code", itemTypeCode);
+        List<ItemTypeRecord> matching = (List<ItemTypeRecord>) getBusinessObjectService().findMatching(ItemTypeRecord.class, map);
+        if(CollectionUtils.isNotEmpty(matching)) {
+            return matching.get(0);
+        }
+        return null;
+    }
 }
