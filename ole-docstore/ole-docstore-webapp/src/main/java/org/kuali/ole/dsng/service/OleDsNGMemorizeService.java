@@ -23,6 +23,7 @@ public interface OleDsNGMemorizeService {
     public CallNumberTypeRecord fetchCallNumberTypeRecordById(String callNumberTypeId);
     public ItemStatusRecord fetchItemStatusByName(String itemStatusTypeName);
     public ItemTypeRecord fetchItemTypeByName(String itemTypeName);
+    public ItemTypeRecord fetchItemTypeByCode(String itemTypeCode);
 
 
 }

@@ -45,7 +45,7 @@ public class ItemTypeHandler extends ItemHandler {
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
             String itemTypeName = listFromJSONArray.get(0);
             ItemRecord itemRecord = (ItemRecord) exchange.get(OleNGConstants.ITEM_RECORD);
-            ItemTypeRecord itemTypeRecord = getOleDsNGMemorizeService().fetchItemTypeByName(itemTypeName);
+            ItemTypeRecord itemTypeRecord = getOleDsNGMemorizeService().fetchItemTypeByCode(itemTypeName);
             if(null != itemTypeRecord) {
                 itemRecord.setItemTypeId(itemTypeRecord.getItemTypeId());
                 itemRecord.setItemTypeRecord(itemTypeRecord);
