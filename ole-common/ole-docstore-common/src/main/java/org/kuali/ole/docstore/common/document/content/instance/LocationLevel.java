@@ -79,7 +79,7 @@ public class LocationLevel {
      */
     public void setName(String value) {
         this.name = value;
-        fullName = findOutFullName();
+        //fullName = findOutFullName();
     }
 
     /**
