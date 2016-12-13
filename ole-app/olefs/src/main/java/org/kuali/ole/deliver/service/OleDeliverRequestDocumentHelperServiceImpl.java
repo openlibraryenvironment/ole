@@ -2561,7 +2561,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                 }*/
                 processRequestTypeByPickUpLocation(oleDeliverRequestBo);
-                String message = ConfigContext.getCurrentContextConfig().getProperty(this.patronRecordExpired(oleDeliverRequestBo));
+                String message = this.patronRecordExpired(oleDeliverRequestBo)!=null?ConfigContext.getCurrentContextConfig().getProperty(this.patronRecordExpired(oleDeliverRequestBo)):this.patronRecordExpired(oleDeliverRequestBo);
                 if (message != null) {
                     olePlaceRequest.setCode("015");
                     olePlaceRequest.setMessage(message);

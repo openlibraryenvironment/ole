@@ -235,6 +235,10 @@ public interface PurapService {
      */
     public void calculateTax(PurchasingAccountsPayableDocument purapDocument);
 
+
+    public void calculateTaxForPREQ(PurchasingAccountsPayableDocument purapDocument, String deliveryState, String deliveryPostalCode);
+
+
     /**
      * Clears the tax from a document.  Useful when changing from use to sales
      *

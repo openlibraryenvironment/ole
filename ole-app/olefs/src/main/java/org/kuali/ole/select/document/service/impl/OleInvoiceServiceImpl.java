@@ -983,32 +983,33 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }
             }
         }
-        if((isItemLevelDebit == null && isAdditionalChargeLevelDebit!=null && isAdditionalChargeLevelDebit) ||
+        positiveLineItems.removeAll(lineItems);
+        negativeLineItems.removeAll(lineItems);
+        /*if((isItemLevelDebit == null && isAdditionalChargeLevelDebit!=null && isAdditionalChargeLevelDebit) ||
                 (isAdditionalChargeLevelDebit == null && isItemLevelDebit!=null && isItemLevelDebit) ||
                 (isItemLevelCredit == null && isAdditionalChargeLevelCredit!=null && isAdditionalChargeLevelCredit) ||
                 (isAdditionalChargeLevelCredit == null && isItemLevelCredit!=null && isItemLevelCredit)
                         && !(isItemLevelCredit!=null && isItemLevelCredit && isItemLevelDebit!=null && isItemLevelDebit)){
-           /* if(new KualiDecimal(firstPOTotalUnitPrice).isNegative()){
+           *//* if(new KualiDecimal(firstPOTotalUnitPrice).isNegative()){
                 createCreditMemoDocument(inv, lineItems,true);
             }else{
                 createPaymentRequestDocument(oleInvoiceDocument, lineItems,true);
-            }*/
+            }*//*
             if (positiveLineItems.size() > 0) {
                 createPaymentRequestDocument(oleInvoiceDocument, positiveLineItems,false);
             }
             if (negativeLineItems.size() > 0) {
                 createCreditMemoDocument(inv, negativeLineItems,false);
             }
-            positiveLineItems.removeAll(lineItems);
-            negativeLineItems.removeAll(lineItems);
-        }else{
-            if (positiveItems.size() > 0) {
-                createPaymentRequestDocument(oleInvoiceDocument, positiveItems,false);
-            }
-            if (negativeItems.size() > 0) {
-                createCreditMemoDocument(inv, negativeItems,false);
-            }
+
+        }else{*/
+        if (positiveItems.size() > 0) {
+            createPaymentRequestDocument(oleInvoiceDocument, positiveItems,true);
         }
+        if (negativeItems.size() > 0) {
+            createCreditMemoDocument(oleInvoiceDocument, negativeItems,true);
+        }
+    //    }
     }
 
     public void createPaymentRequestDocument(OleInvoiceDocument inv, List<OleInvoiceItem> items,boolean flag) {
@@ -1622,6 +1623,16 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 invItemMap.put(PurapConstants.PRQSDocumentsStrings.PUR_ID, invoiceDocument.getPurapDocumentIdentifier());
                 invItemMap.put(PurapConstants.PRQSDocumentsStrings.PO_ID, purchaseOrderId);
                 List<OleInvoiceItem> invoiceItems = (List<OleInvoiceItem>) businessObjectService.findMatchingOrderBy(OleInvoiceItem.class, invItemMap, PurapConstants.PRQSDocumentsStrings.PO_ID, true);
+                List<OleInvoiceItem> invoiceItemList = new ArrayList();
+                if(invoiceDocument.getProrateBy() != null && (invoiceDocument.getProrateBy().equals(OLEConstants.PRORATE_BY_QTY) || invoiceDocument.getProrateBy().equalsIgnoreCase(OLEConstants.PRORATE_BY_DOLLAR) || invoiceDocument.getProrateBy().equalsIgnoreCase(OLEConstants.MANUAL_PRORATE))) {
+                    for(OleInvoiceItem item : (List<OleInvoiceItem>)invoiceDocument.getItems()) {
+                        if(item.getPurchaseOrderIdentifier().intValue() == invoiceItems.get(0).getPurchaseOrderIdentifier().intValue()) {
+                            invoiceItemList.add(item);
+                        }
+                    }
+                } else {
+                    invoiceItemList = invoiceItems;
+                }
                 KualiDecimal itemCount = new KualiDecimal(0);
                 KualiDecimal itemPrice = new KualiDecimal(0);
                 PurchaseOrderDocument poDoc = invoiceDocument.getPurchaseOrderDocument(purchaseOrderId);
@@ -1641,7 +1652,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
 
                 HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).expiredOrClosedAccountsList(poDoc);
                 //int itemLineNumberCount = 0;
-                for (OleInvoiceItem invoiceItem : invoiceItems) {
+                for (OleInvoiceItem invoiceItem : invoiceItemList) {
                     if ((flag || !invoiceItem.isDebitItem()) && invoiceItem.getExtendedPrice().isNonZero()) {
 
                         OleCreditMemoItem creditMemoItem = new OleCreditMemoItem(invoiceItem, vendorCreditMemoDocument, expiredOrClosedAccountList);
@@ -2899,17 +2910,21 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     public void  calculateProrateForPOLevel(OleInvoiceDocument inv) {
         List<Integer> poIdList = new ArrayList<>();
         BigDecimal totalUnitPrice = BigDecimal.ZERO;
+        List<OleInvoiceItem> oleInvoiceItemList = new ArrayList<OleInvoiceItem>();
         int noOfCopies = 0;
         for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
             if(item.getItemTypeCode().equals(OLEConstants.ITEM)){
                 poIdList.add(item.getPurchaseOrderIdentifier());
                 noOfCopies += Integer.parseInt(item.getOleCopiesOrdered());
             }
+            else {
+                oleInvoiceItemList.add(item);
+            }
         }
         List<OleInvoiceItem> removeFromInvoiceItemList = new ArrayList<OleInvoiceItem>();
         List<OleInvoiceItem> addToInvoiceItemList = new ArrayList<OleInvoiceItem>();
         int invoiceItemsize = poIdList.size();
-        for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
+        for(OleInvoiceItem item : oleInvoiceItemList){
             if(!item.getItemTypeCode().equals(OLEConstants.ITEM) && item.getItemUnitPrice() != null) {
                 accountingAmount = KualiDecimal.ZERO;
                 percentage = BigDecimal.ZERO;
@@ -2939,7 +2954,12 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                         OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) ObjectUtils.deepCopy(item);
                         KualiDecimal totalAmount = ((OleInvoiceItem) inv.getItems().get(i)).getTotalAmount();
                         String listPrice = (String)((OleInvoiceItem) inv.getItems().get(i)).getListPrice();
-                        itemUnitPrice = (totalAmount.bigDecimalValue().multiply(item.getItemUnitPrice())).divide(new BigDecimal(inv.getItemTotal()),2,RoundingMode.HALF_UP);
+                        if (inv.getItemTotal().contains("(")) {
+                            itemUnitPrice = (totalAmount.bigDecimalValue().multiply(item.getItemUnitPrice())).divide(new BigDecimal(inv.getInvoicedItemTotal()), 2, RoundingMode.HALF_UP).abs();
+                        }
+                        else {
+                            itemUnitPrice = (totalAmount.bigDecimalValue().multiply(item.getItemUnitPrice())).divide(new BigDecimal(inv.getItemTotal()), 2, RoundingMode.HALF_UP);
+                        }
                         if((invoiceItemsize-1) == i) {
                             oleInvoiceItem.setItemUnitPrice(totalItemUnitPrice.subtract(totalUnitPrice));
                         } else {

@@ -9,6 +9,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.response.OleNGBatchExportResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
+import org.kuali.ole.oleng.batch.profile.model.BatchProfileFilterCriteria;
 import org.kuali.ole.oleng.handler.BatchExportHandler;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.slf4j.Logger;
@@ -75,9 +76,16 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                     chunkSize = fileSize;
                 }
             }
-
-            batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(totalCount));
-            oleNGBatchExportResponse.setTotalNumberOfRecords((int) totalCount);
+            List<BatchProfileFilterCriteria> filterCriteriaList = batchProcessTxObject.getBatchProcessProfile().getBatchProfileFilterCriteriaList();
+            if (CollectionUtils.isNotEmpty(filterCriteriaList)) {
+                if (!filterCriteriaList.get(0).getFieldName().equalsIgnoreCase("Bib Local Id From File")) {
+                    batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(totalCount));
+                    oleNGBatchExportResponse.setTotalNumberOfRecords((int) totalCount);
+                }
+            }else{
+                batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(totalCount));
+                oleNGBatchExportResponse.setTotalNumberOfRecords((int) totalCount);
+            }
             batchExportHandler.updateBatchJob(batchProcessTxObject.getBatchJobDetails());
 
             if(isIncremental) {
@@ -102,7 +110,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                         numOfRecordsInFile = 0;
                     }
                     start += chunkSize;
-                } while (start <= totalCount);
+                } while (start < totalCount);
             }
             prepareBatchExportResponse(futures, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse);
             executorService.shutdown();

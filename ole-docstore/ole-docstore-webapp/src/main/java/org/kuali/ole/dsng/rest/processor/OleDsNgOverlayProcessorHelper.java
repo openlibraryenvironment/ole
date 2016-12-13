@@ -5,6 +5,7 @@ import org.kuali.ole.dsng.rest.handler.bib.CreateBibHandler;
 import org.kuali.ole.dsng.rest.handler.bib.DiscardBibHandler;
 import org.kuali.ole.dsng.rest.handler.bib.UpdateBibHandler;
 import org.kuali.ole.dsng.rest.handler.eholdings.*;
+import org.kuali.ole.dsng.rest.handler.eholdings.PublicNoteHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.*;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberHandler;
 import org.kuali.ole.dsng.rest.handler.holdings.CallNumberPrefixHandler;

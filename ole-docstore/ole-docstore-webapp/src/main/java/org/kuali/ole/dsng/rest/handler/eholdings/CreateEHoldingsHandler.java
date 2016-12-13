@@ -148,6 +148,7 @@ public class CreateEHoldingsHandler extends Handler {
             metaDataHandlers.add(new MaterialsSpecified());
             metaDataHandlers.add(new FirstIndicator());
             metaDataHandlers.add(new SecondIndicator());
+            metaDataHandlers.add(new ShelvingOrderHandler());
         }
         return metaDataHandlers;
     }

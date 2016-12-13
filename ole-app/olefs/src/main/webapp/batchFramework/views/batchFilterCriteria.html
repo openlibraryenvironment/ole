@@ -12,7 +12,8 @@
         </div>
         <div class="panel-collapse" role="tabpanel" bs-collapse-target>
             <div class="panel-body">
-                <p style="color:red" ng-show="batchProfileForm['filterFieldName_'+filterCriteriaIndex].$dirty && batchProfileForm['filterFieldName_'+filterCriteriaIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Marc Field Name is required</p>
+                <p style="color:red" ng-show="batchProfileForm['filterFieldName_'+filterCriteriaIndex].$dirty && batchProfileForm['filterFieldName_'+filterCriteriaIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Marc Field Name or Text Field name is required</p>
+                <p style="color:red" ng-show="batchProfileForm['filterFieldNameText_'+filterCriteriaIndex].$dirty && batchProfileForm['filterFieldNameText_'+filterCriteriaIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Text Field name is not Valid</p>
                 <table class="table table-condensed table-bordered batchTable">
                     <thead>
                     <tr>
@@ -42,7 +43,7 @@
                                    name="filterFieldNameText_{{$index}}"
                                    type="text"
                                    ng-model="filterCriteria.filterFieldNameText" style="height: 30px; width: 250px;"
-                                   ng-hide="filterCriteria.isAddLine"/>
+                                   ng-hide="filterCriteria.isAddLine" ng-pattern ="regrex"/>
                             <span ng-show="filterCriteria.isAddLine" ng-bind="filterCriteria.filterFieldNameText"></span>
                         </td>
                         <td>

@@ -855,7 +855,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                     item.setItemOutstandingEncumberedAmount(itemEncumber);
                 }
-                else if(item.getItemOutstandingEncumberedQuantity() != null && item.getItemOutstandingEncumberedQuantity().isLessEqual(new KualiDecimal(0))) {
+                /*else if(item.getItemOutstandingEncumberedQuantity() != null && item.getItemOutstandingEncumberedQuantity().isLessEqual(new KualiDecimal(0))) {
                     KualiDecimal itemEncumber = new KualiDecimal(item.getItemQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
 
                     //add tax for encumbrance
@@ -864,7 +864,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                     item.setItemOutstandingEncumberedAmount(itemEncumber);
 
-                }
+                }*/
                 else
                 {
                     if (item.getItemUnitPrice() != null) {

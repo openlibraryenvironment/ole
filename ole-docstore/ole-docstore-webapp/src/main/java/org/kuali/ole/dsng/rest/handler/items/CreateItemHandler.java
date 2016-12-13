@@ -113,6 +113,8 @@ public class CreateItemHandler extends Handler {
             metaDataHandlers.add(new StatisticalSearchCodeHandler());
             metaDataHandlers.add(new VendorLineItemIdHandler());
             metaDataHandlers.add(new ItemStaffOnlyHandler());
+            metaDataHandlers.add(new ShelvingOrderHandler());
+            metaDataHandlers.add(new PublicNoteHandler());
         }
         return metaDataHandlers;
     }

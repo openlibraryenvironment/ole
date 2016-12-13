@@ -86,6 +86,7 @@ public class OleNGConstants {
         public static final String CALL_NUMBER = "Call Number";
         public static final String LOCAL_IDENTIFIER = "Local Identifier";
         public static final String CALL_NUMBER_PREFIX = "Call Number Prefix";
+        public static final String SHELVING_ORDER = "Shelving Order";
         public static final String CALL_NUMBER_TYPE = "Call Number Type";
         public static final String CHRONOLOGY = "Chronology";
         public static final String COPY_NUMBER = "Copy Number";
@@ -104,6 +105,7 @@ public class OleNGConstants {
         public static final String CREATE_REQ_PO = "Create Requisition and PO";
         public static final String CREATE_REQ_ONLY = "Create Requisition Only";
         public static final String CREATE_NEITHER_REQ_NOR_PO = "Create neither a Requisition nor a PO";
+        public static final String PUBLIC_NOTE="Public Note";
 
 
         public final static String LOCATION_LEVEL_1 = "Location Level1";

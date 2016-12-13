@@ -147,10 +147,22 @@ isValidDataTransformationRow = function (dataTransformationRow, index, $scope) {
 
 isValidFilterCriteriaRow = function(filterCriteriaRow, index, $scope) {
     var isValid = true;
-    if(isFieldEmpty(filterCriteriaRow.filterFieldName)) {
+
+    if(isFieldEmpty(filterCriteriaRow.filterFieldName) && isFieldEmpty(filterCriteriaRow.filterFieldNameText)) {
         $scope.batchProfileForm['filterFieldName_' + index].$dirty = true;
         $scope.batchProfileForm['filterFieldName_' + index].$invalid = true;
         isValid = false;
+    }
+
+    if(!(isFieldEmpty(filterCriteriaRow.filterFieldNameText))){
+        var fieldTextName = filterCriteriaRow.filterFieldNameText;
+        var regrex = /(^\d\d\d\s+([$][a-z])+$)|(^\d\d\d+([$][a-z])+$)/;
+        var match = fieldTextName.match(regrex);
+        if(!match){
+            $scope.batchProfileForm['filterFieldNameText_' + index].$dirty = true;
+            $scope.batchProfileForm['filterFieldNameText_' + index].$invalid = true;
+            isValid = false;
+        }
     }
     return isValid;
 };

@@ -96,10 +96,11 @@ public class BatchExportUtil extends BatchUtil {
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
         SimpleDateFormat format = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
         String fromDate = format.format(lastExportDate);
-        return "(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
+        return "(DocType:bibliographic)AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
     }
 
-    public String getFilterSolrQuery(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
+    public List<String> getFilterSolrQuery(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
+        List<String> queryList = new ArrayList<>();
         List<BatchProfileFilterCriteria> filterCriteriaList = batchProcessTxObject.getBatchProcessProfile().getBatchProfileFilterCriteriaList();
         if (CollectionUtils.isNotEmpty(filterCriteriaList)) {
             if (StringUtils.isNotBlank(batchProcessTxObject.getFileExtension()) && OleNGConstants.TXT.equalsIgnoreCase(batchProcessTxObject.getFileExtension())) {
@@ -107,7 +108,8 @@ public class BatchExportUtil extends BatchUtil {
                     return buildFilterQueryForInputFile(batchProcessTxObject, oleNGBatchExportResponse);
                 }
             } else {
-                return buildFilterQuery(filterCriteriaList);
+                queryList.add(buildFilterQuery(filterCriteriaList));
+                return queryList;
             }
         }
         return null;
@@ -154,21 +156,24 @@ public class BatchExportUtil extends BatchUtil {
                             break;
                         case "Updated By":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(updatedBy:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
-                        case "Staff Only":
+                        case "Staff Only(of Bib, Holdings or Item)":
                             if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldValue())) {
-                                queryBuilder.append("staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
+                                queryBuilder.append("(staffOnlyFlag:" + filterCriteriaList.get(i).getFieldValue() + ")");
                             }
                             break;
                     }
-                } else if (StringUtils.isNotBlank(filterCriteriaList.get(i).getDataField())) {
+                } else if (StringUtils.isNotBlank(filterCriteriaList.get(i).getFieldNameText())) {
                     addDocType = true;
-                    if (getMarcRecordUtil().isControlField(filterCriteriaList.get(i).getDataField())) {
-                        queryBuilder.append("(" + OleNGConstants.CONTROL_FIELD_ + filterCriteriaList.get(i).getDataField() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
-                    } else {
-                        queryBuilder.append("(" + OleNGConstants.MDF_ + filterCriteriaList.get(i).getDataField() + filterCriteriaList.get(i).getSubField() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                    String filterFieldList[]=filterCriteriaList.get(i).getFieldNameText().split("\\$");
+                    if(filterFieldList.length==2) {
+                        if (getMarcRecordUtil().isControlField(filterFieldList[0].trim())) {
+                            queryBuilder.append("(" + OleNGConstants.CONTROL_FIELD_ + filterFieldList[0].trim() + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                        } else {
+                            queryBuilder.append("(" + OleNGConstants.MDF_ + filterFieldList[0].trim() + filterFieldList[1] + ":" + filterCriteriaList.get(i).getFieldValue() + ")");
+                        }
                     }
                 }
                 if (i != filterCriteriaList.size() - 1) {
@@ -210,7 +215,7 @@ public class BatchExportUtil extends BatchUtil {
         return bibStatusBuilder.toString();
     }
 
-    public String buildFilterQueryForInputFile(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
+    public List<String> buildFilterQueryForInputFile(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
         String fileContent = null;
         try {
             fileContent = FileUtils.readFileToString(new File(batchProcessTxObject.getIncomingFileDirectoryPath() + File.separator + batchProcessTxObject.getBatchJobDetails().getFileName()));
@@ -226,19 +231,24 @@ public class BatchExportUtil extends BatchUtil {
         return null;
     }
 
-    public String getSolrQueryForLocalIds(List<String> bibLocalIds) {
+    public List<String> getSolrQueryForLocalIds(List<String> bibLocalIds) {
         StringBuilder stringBuilder = new StringBuilder();
+        List<String> queryList = new ArrayList<>();
         stringBuilder.append("(DocType:bibliographic)AND(");
         if (CollectionUtils.isNotEmpty(bibLocalIds)) {
             for (int i = 0; i < bibLocalIds.size(); i++) {
                 stringBuilder.append("(LocalId_search:" + bibLocalIds.get(i) + ")");
-                if (i != bibLocalIds.size() - 1) {
+                if( (i+1) % 10000==0  || i == bibLocalIds.size() - 1){
+                    stringBuilder.append(")");
+                    queryList.add(stringBuilder.toString());
+                    stringBuilder.setLength(0);
+                    stringBuilder.append("(DocType:bibliographic)AND(");
+                }else{
                     stringBuilder.append("OR");
                 }
             }
         }
-        stringBuilder.append(")");
-        return stringBuilder.toString();
+        return queryList;
     }
 
     public void removeDuplicates(List<String> bibLocalIds, OleNGBatchExportResponse oleNGBatchExportResponse) {
@@ -281,7 +291,9 @@ public class BatchExportUtil extends BatchUtil {
     }
 
     public void processDeletedAndStaffOnlyBibs(Date lastExportDate, BatchProcessTxObject batchProcessTxObject) {
-        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate));
+        String query = getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate);
+        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
+        solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query,0,((int)solrDocumentList.getNumFound()),null);
         SortedSet<String> deletedBibIds = new TreeSet<>();
         if (solrDocumentList.size() > 0) {
             for (SolrDocument solrDocument : solrDocumentList) {

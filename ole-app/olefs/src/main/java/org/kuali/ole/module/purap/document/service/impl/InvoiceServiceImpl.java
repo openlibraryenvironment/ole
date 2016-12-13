@@ -831,7 +831,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         distributeAccounting(invoice);
 
-        purapService.calculateTax(invoice);
+        calculateTax(invoice);
 
         // do proration for full order and trade in
         purapService.prorateForTradeInAndFullOrderDiscount(invoice);
@@ -842,6 +842,13 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         distributeAccounting(invoice);
+    }
+
+    public void calculateTax(InvoiceDocument purapDocument) {
+        PurchaseOrderDocument pDoc = purapDocument.getPurchaseOrderDocument();
+        String deliveryState = pDoc.getDeliveryStateCode();
+        String deliveryPostalCode = pDoc.getBillingPostalCode();
+        purapService.calculateTaxForPREQ(purapDocument,deliveryState,deliveryPostalCode);
     }
 
 
@@ -1772,7 +1779,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceDocument invoice = (InvoiceDocument) apDocument;
         //System.out.println(" generateGLEntriesCreateAccountsPayableDocument apDocument" + ((InvoiceDocument) apDocument).getDocumentType());
         // JHK: this is not being injected because it would cause a circular reference in the Spring definitions
-        SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateInvoice(invoice);
+     //   SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateInvoice(invoice);
     }
 
     /**

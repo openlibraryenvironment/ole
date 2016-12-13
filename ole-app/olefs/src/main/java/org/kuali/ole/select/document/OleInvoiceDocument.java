@@ -1013,10 +1013,15 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                     items.setExchangeRate(exchangeRate.toString());
                 }
                 if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null   && !this.getApplicationDocumentStatus().equals("Department-Approved")) {
-                    items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
-                    items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
-                    items.setItemListPrice(items.getItemUnitCostUSD());
-                    items.setExtendedPrice(items.calculateExtendedPrice());
+                    if(!items.getItemForeignUnitCost().equals(new KualiDecimal("0.00"))) {
+                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
+                        items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
+                        items.setItemListPrice(items.getItemUnitCostUSD());
+                        items.setExtendedPrice(items.calculateExtendedPrice());
+                    }
+                    else  {
+                        items.setExtendedPrice(items.calculateExtendedPrice());
+                    }
                 }
                 //this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
             }
@@ -1554,7 +1559,11 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
             return hasPaymentMethod();
         }
         if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
-            return isBudgetReviewRequired();
+            if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+                return isBudgetReviewRequired();
+            } else {
+                return Boolean.FALSE;
+            }
         }
         if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) {
             return requiresAccountsPayableReviewRouting();
@@ -1570,7 +1579,11 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
         }
 
         if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
-            return isNotificationRequired();
+            if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+                return isNotificationRequired();
+            } else {
+                return Boolean.FALSE;
+            }
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }

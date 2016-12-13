@@ -15,10 +15,14 @@ function displayDialogWindow(divID){
 
 function approve(){
     if(jq("#hdnduplicateFlag_control").val() == 'true' || jq('#hdnduplicateFlag span').text().trim() =='true') {
+        jq("#hdnBlanketApproveValidationFlag_control").val(false);
         displayDialogWindow("div#OLEInvoice-DuplicationPopUp");
     }
     else if (jq("#hdnAmountExceeds_control").val() == 'true' || jq('#hdnAmountExceeds span').text().trim() =='true'){
         displayDialogWindow("div#MessagePopupSectionForInvoiceAmountExceedsThreshold");
+    }
+    else if(jq("#hdnBlanketApproveValidationFlag_control").val() == 'true') {
+        displayDialogWindow("div#MessagePopupSectionForInvoiceAmountValidation");
     }
 }
 
@@ -28,6 +32,19 @@ function closeDuplicationMessage() {
     if (jq("#hdnAmountExceeds_control").val() == 'true' || jq('#hdnAmountExceeds span').text().trim() =='true'){
         displayDialogWindow("div#MessagePopupSectionForInvoiceAmountExceedsThreshold");
     }
+    if(jq("#hdnSfcFlag_control").val() == 'true') {
+        displayDialogWindow("div#MessagePopupSectionForInvoice");
+    }
+    else if(jq("#hdnBlanketApproveValidationFlag_control").val() == 'true') {
+        displayDialogWindow("div#MessagePopupSectionForInvoiceAmountValidation");
+    }
+    else  if (jq("#hdnsuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }
+    else {
+        validateInvoiceSubscriptionApprove();
+    }
+
     }
 
 function closeDuplicationApprovalMessage() {
@@ -135,9 +152,22 @@ function closeInvoiceVendorSavePopUp(){
 
 
 function route(){
-    if(jq("#hdnSfcFlag_control").val() == 'true') {
+    if((jq("#hdnduplicateRouteFlag_control").val() == 'true' || jq('#hdn span').text().trim() =='true')) {
+        jq("#unsaved_control").val(false);
+        jq("#hdnValidationFlag_control").val(false);
+        displayDialogWindow("div#OLEInvoice-DuplicationRoutePopUp");
+    }
+    else if(jq("#hdnSfcFlag_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForInvoice");
-    } 
+    }
+    else if(jq("#hdnValidationFlag_control").val() == 'true') {
+        jq("#unsaved_control").val(false);
+        displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");
+        jq('#mask').fadeOut(300);
+    }
+    else  if (jq("##hdnsuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }
     else{
         validateInvoiceSubscriptionApprove();
     }
@@ -210,6 +240,15 @@ function closeInvoiceSubscriptionDateValidationPopUp(){
 function closeInvoiceAmountExceedsApprovalPopUp(){
     jq("div#MessagePopupSectionForInvoiceAmountExceedsThreshold").fadeOut(300);
     jq("#mask").fadeOut(300);
+    if(jq("#hdnSfcFlag_control").val() == 'true') {
+        displayDialogWindow("div#MessagePopupSectionForInvoice");
+    }
+    else  if (jq("#hdnsuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }
+    else {
+        validateInvoiceSubscriptionApprove();
+    }
     }
 
 function closeInvoiceAmountExceedsBlankApprovalPopUp(){
@@ -246,7 +285,7 @@ function validateInvoiceAmount(){
         displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");
         /* jq('#mask').fadeOut(300);*/
     } else {
-        validateInvoiceNumber();
+        successConfirmation();
     }
 }
 
@@ -282,6 +321,20 @@ function closevalidateInvoiceNo(){
 function closeInvoiceVendorRoutePopUp(){
     jq("div#OLEInvoice-DuplicationRoutePopUp").fadeOut(300);
     jq("#mask").fadeOut(300);
+    if(jq("#hdnSfcFlag_control").val() == 'true') {
+        displayDialogWindow("div#MessagePopupSectionForInvoice");
+    }
+    else if(jq("#hdnValidationFlag_control").val() == 'true') {
+        jq("#unsaved_control").val(false);
+        displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");
+        jq('#mask').fadeOut(300);
+    }
+    else  if (jq("#hdnsuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }
+    else {
+        validateInvoiceSubscriptionApprove();
+    }
 }
 
 function unsaved(){

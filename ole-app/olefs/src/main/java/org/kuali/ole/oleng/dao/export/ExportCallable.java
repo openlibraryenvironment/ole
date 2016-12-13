@@ -149,11 +149,11 @@ public abstract class ExportCallable implements Callable {
         List<BatchProfileDataTransformer> dataTransformerList = batchProcessProfile.getBatchProfileDataTransformerList();
         for (BatchProfileDataTransformer dataTransformer : dataTransformerList) {
             try {
-                if (dataTransformer.getActionType().equalsIgnoreCase(OleNGConstants.DELETE_FIELD)) {
+                if (dataTransformer.getOperation().equalsIgnoreCase(OleNGConstants.DELETE_FIELD)) {
                     batchExportHandler.getMarcRecordUtil().removeFieldFromRecord(marcRecord, dataTransformer.getDataField());
-                } else if (dataTransformer.getActionType().equalsIgnoreCase(OleNGConstants.DELETE_SUBFIELD)) {
+                } else if (dataTransformer.getOperation().equalsIgnoreCase(OleNGConstants.DELETE_SUBFIELD)) {
                     batchExportHandler.getMarcRecordUtil().removeSubField(marcRecord, dataTransformer.getDataField(), dataTransformer.getInd1(), dataTransformer.getInd2(), dataTransformer.getSubField());
-                } else if (dataTransformer.getActionType().equalsIgnoreCase(OleNGConstants.CUT_PASTE)) {
+                } else if (dataTransformer.getOperation().equalsIgnoreCase(OleNGConstants.CUT_PASTE)) {
                     batchExportHandler.getMarcRecordUtil().renameDataField(marcRecord, dataTransformer.getDataField(), dataTransformer.getDestDataField());
                 }
             } catch (Exception e) {

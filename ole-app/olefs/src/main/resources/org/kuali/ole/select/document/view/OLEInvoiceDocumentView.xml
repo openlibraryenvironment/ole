@@ -185,6 +185,7 @@
                 <ref bean="MessagePopupSectionForBlanketApproveSubscriptionDateValidation"/>
                 <ref bean="hdnBlanketApproveSubscriptionDateValidationFlag"/>
                 <ref bean="MessagePopupSectionForSubscriptionDateValidation"/>
+                <ref bean="MessagePopupSectionForInvoiceAmountValidation"/>
                 <ref bean="hdnSubscriptionDateValidationFlag"/>
                 <bean id ="hiddenButtonForCurrentItems" parent="Uif-SecondaryActionButton" p:methodToCall="refreshCurrentItem" p:hidden="true"  p:refreshId="OLEInvoiceView-processItems-Wrapper"/>
                 <ref bean="updatePriceBtn"/>
@@ -448,6 +449,28 @@
     <bean id="hdnAmountExceedsForBlanketApprove" parent="Uif-InputField" p:propertyName="amountExceedsForBlanketApprove" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="MessagePopupSectionForInvoiceAmountValidation" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="invoice_amount_validation_message" parent="Uif-MessageField" p:messageText="@{validationMessage}" />
+                            <ref bean="InvoicePopupButtonForAmountValidation"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="InvoicePopupButtonForAmountValidation" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+        <property name="items">
+            <list>
+                <bean id="continue_invoice_approve" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueInvoiceApproval" p:actionLabel="Yes" p:ajaxSubmit="true"  p:successCallback="closeInvoiceAmountExceedsApprovalPopUp();" p:render="@{document.blanketApproveValidationFlag}"/>
+                <bean id="cancel_invoice_approve" parent="Uif-SecondaryActionButton-Small" p:methodToCall="cancelInvoiceApproval" p:actionLabel="No" p:ajaxSubmit="true"  p:successCallback="closeInvoiceAmountExceedsApprovalPopUp()" p:render="@{document.blanketApproveValidationFlag}"/>
+            </list>
         </property>
     </bean>
     <bean id="MessagePopupSectionForInvoiceAmountExceedsThreshold" parent="Uif-VerticalBoxSection">

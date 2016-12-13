@@ -887,3 +887,4 @@ OLE-SYS,Batch,FUND_ACCOUNTING_LINE_RECORD_CSV_NAME,151,1,CONFG,FundCodeAccountin
 "OLE-DESC","Describe","MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE","OLE7061","1","CONFG","10","This parameter value is used for holding the max number of thread for export process.","A","OLE"
 "OLE-DESC","Describe","PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM","OLE7062","1","CONFG","Y","This parameter value is used for holding value to decide whether need to do auditing for bib, holdings and item.","A","OLE"
 "OLE-DESC","Describe","SHOW_LOCAL_DATA_MAPPING_SECTION","OLE7063","1","CONFG","N","This parameter value is used for holding value to decide whether need to do show local data mapping section or not in batch process profile screen","A","OLE"
+"OLE-SELECT","Select","ALLOW_INVOICE_SUFF_FUND_CHECK","OLE7100","1","CONFG","N","The Parameter value set to decide whether Sufficient Fund Checking to be done in Invoice Screen","A","OLE"

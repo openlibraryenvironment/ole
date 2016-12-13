@@ -114,7 +114,7 @@ public class Sip2LookupUserServiceImpl extends LookupUserServiceImpl {
 
     @Override
     protected boolean loanedItemsDesired() {
-        return false;
+        return true;
     }
 
     @Override

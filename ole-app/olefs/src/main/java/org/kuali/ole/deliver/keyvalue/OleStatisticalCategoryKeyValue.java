@@ -22,7 +22,7 @@ public class OleStatisticalCategoryKeyValue extends KeyValuesBase {
     @Override
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        Collection<OleStatisticalCategoryBo> oleStatisticalCategoryBos = KRADServiceLocator.getBusinessObjectService().findAll(OleStatisticalCategoryBo.class);
+        Collection<OleStatisticalCategoryBo> oleStatisticalCategoryBos = KRADServiceLocator.getBusinessObjectService().findAllOrderBy(OleStatisticalCategoryBo.class,"oleStatisticalCategoryName",true);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (OleStatisticalCategoryBo oleStatisticalCategoryType : oleStatisticalCategoryBos) {
             if (oleStatisticalCategoryType.isActive()) {

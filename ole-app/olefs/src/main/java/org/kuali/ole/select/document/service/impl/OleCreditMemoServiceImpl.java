@@ -161,7 +161,7 @@ public class OleCreditMemoServiceImpl extends CreditMemoServiceImpl implements O
 
         //calculate tax if cm not based on vendor
         if (cmDocument.isSourceVendor() == false) {
-            purapService.calculateTax(cmDocument);
+            calculateTax(cmDocument);
         }
 
         // proration

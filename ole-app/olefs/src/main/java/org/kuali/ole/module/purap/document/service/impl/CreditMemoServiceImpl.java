@@ -351,7 +351,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         //calculate tax if cm not based on vendor
         if (cmDocument.isSourceVendor() == false) {
-            purapService.calculateTax(cmDocument);
+            calculateTax(cmDocument);
         }
 
         // proration
@@ -385,6 +385,13 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
         }
         // end proration
+    }
+
+    public void calculateTax(VendorCreditMemoDocument purapDocument) {
+        PurchaseOrderDocument pDoc = purapDocument.getPurchaseOrderDocument();
+        String deliveryState = pDoc.getDeliveryStateCode();
+        String deliveryPostalCode = pDoc.getBillingPostalCode();
+        SpringContext.getBean(PurapService.class).calculateTaxForPREQ(purapDocument,deliveryState,deliveryPostalCode);
     }
 
     /**
