@@ -807,10 +807,10 @@ public class BrowseServiceImpl implements BrowseService {
             callNumberBrowseParams.setTitle(oleSearchForm.getBrowseText());
         }
         else {
-            buildSchemaOrder(callNumberBrowseParams);
             callNumberBrowseParams.setClassificationScheme(oleSearchForm.getClassificationScheme());
             callNumberBrowseParams.setLocation(oleSearchForm.getLocation());
             callNumberBrowseParams.setCallNumberBrowseText(oleSearchForm.getCallNumberBrowseText());
+            buildSchemaOrder(callNumberBrowseParams);
         }
         callNumberBrowseParams.setNumRows(oleSearchForm.getPageSize());
         callNumberBrowseParams.setDocTye(oleSearchForm.getDocType());
