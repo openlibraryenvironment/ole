@@ -33,6 +33,10 @@ public class OleNgUtil extends JSONHelperUtil {
 
     public void addValidationErrorMessageToExchange(Exchange exchange, String validationErrorMessage) {
         ArrayList errorMessages = (ArrayList) exchange.get("validationErrorMessages");
+        if(null == errorMessages) {
+            errorMessages = new ArrayList<>();
+        }
         errorMessages.add(validationErrorMessage);
+        exchange.add("validationErrorMessages", errorMessages);
     }
 }
