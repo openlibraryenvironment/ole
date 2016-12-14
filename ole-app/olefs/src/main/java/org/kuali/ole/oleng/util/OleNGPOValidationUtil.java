@@ -282,7 +282,7 @@ public class OleNGPOValidationUtil {
     }
 
     private boolean validateAccountNumber(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
-        String accountNumber = oleTxRecord.getAccountNumber();
+        String accountNumber = oleTxRecord.getAccountNumber().trim();
         if (StringUtils.isNotBlank(accountNumber)) {
             Account account = getSelectDAO().getAccountByAccountNumber(accountNumber);
             if (null == account) {
