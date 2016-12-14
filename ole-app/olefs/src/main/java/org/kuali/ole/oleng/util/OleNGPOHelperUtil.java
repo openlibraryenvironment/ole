@@ -3,24 +3,18 @@ package org.kuali.ole.oleng.util;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.Exchange;
-import org.kuali.ole.OLEConstants;
-import org.kuali.ole.constants.OleNGConstants;
-import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
-import org.kuali.ole.module.purap.PurapConstants;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.handler.CreateReqAndPOBaseServiceHandler;
 import org.kuali.ole.oleng.service.OrderImportService;
 import org.kuali.ole.oleng.service.impl.OrderImportServiceImpl;
 import org.kuali.ole.pojo.OleBibRecord;
 import org.kuali.ole.pojo.OleOrderRecord;
-import org.kuali.ole.pojo.OleTxRecord;
-import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.spring.batch.BatchUtil;
 
 import java.util.*;
@@ -28,7 +22,7 @@ import java.util.*;
 /**
  * Created by SheikS on 3/10/2016.
  */
-public class OleNGPOHelperUtil {
+public class OleNGPOHelperUtil extends BusinessObjectServiceHelperUtil {
     private static final Logger LOG = Logger.getLogger(OleNGPOHelperUtil.class);
     private OrderImportService oleOrderImportService;
     private SolrRequestReponseHandler solrRequestReponseHandler;
@@ -101,28 +95,17 @@ public class OleNGPOHelperUtil {
 
 
     private Bib getBibDetails(String bibId) {
-        String query = "id:" + bibId;
-        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
-        if (solrDocumentList.size() > 0) {
+        BibInfoRecord bySinglePrimaryKey = getBusinessObjectService().findBySinglePrimaryKey(BibInfoRecord.class, bibId);
+        if(null != bySinglePrimaryKey) {
             Bib bib = new Bib();
-            SolrDocument solrDocument = solrDocumentList.get(0);
-
-            List<String> authors = (List<String>) solrDocument.getFieldValue(DocstoreConstants.TITLE_DISPLAY);
-            String author = (CollectionUtils.isNotEmpty(authors)) ? authors.get(0) : "";
-
-            List<String> titles = (List<String>) solrDocument.getFieldValue(DocstoreConstants.TITLE_DISPLAY);
-            String title = (CollectionUtils.isNotEmpty(titles)) ? titles.get(0) : "";
-
-            List<String> isbns = (List<String>) solrDocument.getFieldValue(DocstoreConstants.ISBN_DISPLAY);
-            String isbn = (CollectionUtils.isNotEmpty(isbns)) ? isbns.get(0) : "";
-
-            List<String> publishers = (List<String>) solrDocument.getFieldValue(DocstoreConstants.PUBLISHER_DISPLAY);
-            String publisher = (CollectionUtils.isNotEmpty(publishers)) ? publishers.get(0) : "";
-
-            bib.setTitle(title);
-            bib.setAuthor(author);
-            bib.setPublisher(publisher);
-            bib.setIsbn(isbn);
+            String author = bySinglePrimaryKey.getAuthor();
+            String title = bySinglePrimaryKey.getTitle();
+            String publisher = bySinglePrimaryKey.getPublisher();
+            String isbn = bySinglePrimaryKey.getIsxn();
+            bib.setTitle(StringUtils.isNotBlank(title)? title : "");
+            bib.setAuthor(StringUtils.isNotBlank(author) ? author : "");
+            bib.setPublisher(StringUtils.isNotBlank(publisher)? publisher : "");
+            bib.setIsbn(StringUtils.isNotBlank(isbn)? isbn : "");
             return bib;
         }
         return null;
