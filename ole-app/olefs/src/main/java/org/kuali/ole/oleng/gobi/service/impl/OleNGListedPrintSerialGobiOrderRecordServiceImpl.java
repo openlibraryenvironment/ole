@@ -1,6 +1,8 @@
 package org.kuali.ole.oleng.gobi.service.impl;
 
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 
 /**
  * Created by SheikS on 8/3/2016.
@@ -44,5 +46,10 @@ public class OleNGListedPrintSerialGobiOrderRecordServiceImpl  extends OleNgGobi
     @Override
     protected void preProcess() {
         orderDetail = getOrder().getOrder().getListedPrintSerial().getOrderDetail();
+    }
+
+    @Override
+    public String getLinkToOption(BatchProcessProfile batchProcessProfile) {
+        return OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
     }
 }

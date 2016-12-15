@@ -1,7 +1,9 @@
 package org.kuali.ole.oleng.gobi.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.gobi.datobjects.PurchaseOrder;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 
 /**
  * Created by SheikS on 8/3/2016.
@@ -49,6 +51,10 @@ public class OleNGUnListedPrintMonographGobiOrderRecordServiceImpl  extends OleN
         String vendorItemIdentifier = orderDetail.getYBPOrderKey().toString();
         setVendorItemIdentifier(vendorItemIdentifier);
         set980SubFielda(vendorItemIdentifier);
+    }
 
+    @Override
+    public String getLinkToOption(BatchProcessProfile batchProcessProfile) {
+        return OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT;
     }
 }
