@@ -698,7 +698,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                 }
             }*/
             extentOfOwnershipForUI.add(index, extentOfOwnership);
-            List<ExtentOfOwnership> basic = new ArrayList<>();
+            /*List<ExtentOfOwnership> basic = new ArrayList<>();
             List<ExtentOfOwnership> supplementary = new ArrayList<>();
             List<ExtentOfOwnership> indexes = new ArrayList<>();
             extentOfOwnership = new ExtentOfOwnership();
@@ -719,7 +719,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             extentOfOwnershipForUI.add(extentOfOwnership);
             extentOfOwnershipForUI.addAll(basic);
             extentOfOwnershipForUI.addAll(supplementary);
-            extentOfOwnershipForUI.addAll(indexes);
+            extentOfOwnershipForUI.addAll(indexes);*/
             editorForm.setDocumentForm(workInstanceOlemlForm);
         } else if (methodName.equalsIgnoreCase("removeExtentOfOwnership")) {
             WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
