@@ -112,7 +112,7 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
                     OleInstanceItemType itemType = iterator.next();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(OleNGConstants.ID,itemType.getInstanceItemTypeId());
-                    jsonObject.put(OleNGConstants.VALUE,itemType.getInstanceItemTypeName());
+                    jsonObject.put(OleNGConstants.VALUE,itemType.getInstanceItemTypeCode());
                     jsonArray.put(jsonObject);
                 }
             }
