@@ -129,5 +129,6 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
     public abstract List<OLEDeliverNotice> buildNoticesForDeletion();
     public abstract String generateMailContent(List<OleLoanDocument> oleLoanDocuments);
     public abstract void setOleNoticeContentConfigurationBo();
+    public abstract void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo);
 
 }

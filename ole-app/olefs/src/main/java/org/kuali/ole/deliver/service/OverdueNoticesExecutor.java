@@ -90,6 +90,10 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
         }
     }
 
+    @Override
+    public void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        this.oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo;
+    }
 
 
 
@@ -124,4 +128,5 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
     public void setNoticeMailContentFormatter(NoticeMailContentFormatter noticeMailContentFormatter) {
         this.noticeMailContentFormatter = noticeMailContentFormatter;
     }
+
 }

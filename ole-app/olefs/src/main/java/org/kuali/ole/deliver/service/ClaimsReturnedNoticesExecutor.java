@@ -108,6 +108,9 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
             super.sendMail(mailContent);
         }
     }
+    public void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        this.oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBo;
+    }
 
     @Override
     public void setOleNoticeContentConfigurationBo() {
