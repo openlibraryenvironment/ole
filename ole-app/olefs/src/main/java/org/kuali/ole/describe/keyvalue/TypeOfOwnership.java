@@ -29,7 +29,7 @@ public class TypeOfOwnership extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> options = new ArrayList<KeyValue>();
         Collection<OleTypeOfOwnership> typeOfOwnerships = KRADServiceLocator.getBusinessObjectService().findAll(OleTypeOfOwnership.class);
-         options.add(new ConcreteKeyValue("", ""));
+      //   options.add(new ConcreteKeyValue("", ""));
         for (OleTypeOfOwnership type : typeOfOwnerships) {
             options.add(new ConcreteKeyValue(type.getTypeOfOwnershipCode(), type.getTypeOfOwnershipName()));
         }
