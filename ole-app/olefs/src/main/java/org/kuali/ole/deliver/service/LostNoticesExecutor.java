@@ -219,6 +219,11 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    public void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        this.oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo;
+    }
+
+    @Override
     public String generateMailContent(List<OleLoanDocument> oleLoanDocuments) {
         String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,oleNoticeContentConfigurationBo);
         return mailContent;

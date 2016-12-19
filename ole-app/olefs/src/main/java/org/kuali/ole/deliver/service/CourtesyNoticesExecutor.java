@@ -82,7 +82,10 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
        }
     }
 
-
+    @Override
+    public void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        this.oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo;
+    }
 
     public String getTitle() {
         String title = getParameterResolverInstance().getParameter(OLEConstants.APPL_ID, OLEConstants
@@ -117,4 +120,5 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     public void setNoticeMailContentFormatter(NoticeMailContentFormatter noticeMailContentFormatter) {
         this.noticeMailContentFormatter = noticeMailContentFormatter;
     }
+
 }

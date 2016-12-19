@@ -590,6 +590,7 @@ public class CircUtilController extends RuleExecutor {
         claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocuments);
         LoanNoticesExecutor claimsReturnedNoticesExecutor = new ClaimsReturnedNoticesExecutor(claimMap);
         if (StringUtils.isNotBlank(mailContent)) {
+            claimsReturnedNoticesExecutor.setOleNoticeContentConfigurationBo(oleNoticeContentConfigurationBo);
             claimsReturnedNoticesExecutor.sendMail(mailContent);
             saveDeliverNoticeHistory(deliverNotice, mailContent, noticeType);
             claimsReturnedNoticesExecutor.getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
