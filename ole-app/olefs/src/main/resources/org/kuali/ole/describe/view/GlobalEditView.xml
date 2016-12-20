@@ -95,7 +95,7 @@
             <list>
                 <bean id="SelectedAll_SelectAndExportbutton" parent="Uif-SecondaryActionButton"
                       p:actionScript="selectAll('@{docType}');" p:actionLabel="Select All Records"
-                      p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
+                      p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse' or searchType eq 'import')}"/>
                 <bean id="OpenSelectedRecord_SelectAndExportbutton" parent="Uif-SecondaryActionButton"
                       p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records"
                       p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
