@@ -826,18 +826,18 @@ public class DocstoreServiceImpl implements DocstoreService {
                     }
                     if (oleHoldings.getCallNumber() != null) {
                         if (existingOleHoldings.getCallNumber() != null) {
-                            if (oleHoldings.getCallNumber().getPrefix() != null) {
+                            if (StringUtils.isNotBlank(oleHoldings.getCallNumber().getPrefix())) {
                                 existingOleHoldings.getCallNumber().setPrefix(oleHoldings.getCallNumber().getPrefix());
                             }
-                            if (oleHoldings.getCallNumber().getNumber() != null) {
+                            if (StringUtils.isNotBlank(oleHoldings.getCallNumber().getNumber())) {
                                 existingOleHoldings.getCallNumber().setNumber(oleHoldings.getCallNumber().getNumber());
                             }
                             if (oleHoldings.getCallNumber().getShelvingScheme() != null &&
-                                    oleHoldings.getCallNumber().getShelvingScheme().getCodeValue() != null) {
+                                    StringUtils.isNotBlank(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue())) {
                                 existingOleHoldings.getCallNumber().getShelvingScheme().setCodeValue(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue());
                             }
                             if (oleHoldings.getCallNumber().getShelvingOrder() != null &&
-                                    oleHoldings.getCallNumber().getShelvingOrder().getFullValue() != null) {
+                                    StringUtils.isNotBlank(oleHoldings.getCallNumber().getShelvingOrder().getFullValue())) {
                                 existingOleHoldings.getCallNumber().getShelvingOrder().setFullValue(oleHoldings.getCallNumber().getShelvingOrder().getFullValue());
                             }
                         } else {
@@ -1139,7 +1139,7 @@ public class DocstoreServiceImpl implements DocstoreService {
     }
 
     private void setPHoldingInformation(OleHoldings oleHoldings, OleHoldings existingOleHoldings) {
-        if (oleHoldings.getCopyNumber() != null) {
+        if ((oleHoldings.getCopyNumber()!=null) && (StringUtils.isNotBlank(oleHoldings.getCopyNumber()))) {
             existingOleHoldings.setCopyNumber(oleHoldings.getCopyNumber());
         }
         if (oleHoldings.getExtentOfOwnership() != null && oleHoldings.getExtentOfOwnership().size() > 0) {

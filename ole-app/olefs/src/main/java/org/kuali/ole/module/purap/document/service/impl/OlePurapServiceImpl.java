@@ -531,7 +531,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                             invoiceDocument = (OleInvoiceDocument)olePaidCopy.getInvoiceItem().getInvoiceDocument();
                             if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
                                 invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
-                                if ((invoiceItem.getPoItemIdentifier()!=null&&oleCopy.getPoItemId()!=null)&&(invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0)) {
+                                if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0) {
                                     invoiceItem.setRequisitionItemIdentifier(oleCopy.getReqItemId());
                                 }
                                 paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
@@ -622,7 +622,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                 for (OlePurchaseOrderDocument linkedOlePurchaseOrderDocument : olePurchaseOrderDocumentList) {
                     for (OlePurchaseOrderItem olePurchaseOrderItem : (List<OlePurchaseOrderItem>) linkedOlePurchaseOrderDocument.getItems()) {
                         if (StringUtils.isNotBlank(olePurchaseOrderItem.getItemTypeCode()) && olePurchaseOrderItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
-                            if (olePurchaseOrderItem.getLinkToOrderOption().equals(OLEConstants.ERESOURCE) || olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId())) {
+                            if ((StringUtils.isNotBlank(olePurchaseOrderItem.getLinkToOrderOption()) && olePurchaseOrderItem.getLinkToOrderOption().equals(OLEConstants.ERESOURCE)) || olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId())) {
                                 List<OleInvoiceItem> oleInvoiceItemList = getOleInvoiceItemList(purchaseOrderDocument, olePurchaseOrderItem);
                                 if (oleInvoiceItemList != null) {
                                     for (OleInvoiceItem oleInvoiceItem : oleInvoiceItemList) {

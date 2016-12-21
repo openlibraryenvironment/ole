@@ -91,6 +91,11 @@ public class MissingPieceNoticesExecutor extends LoanNoticesExecutor {
         }
     }
 
+    @Override
+    public void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        this.oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo;
+    }
+
     public String getTitle() {
         String title = OLEConstants.MISSING_PIECE_NOTICE_TITLE;
         return title;
@@ -101,9 +106,6 @@ public class MissingPieceNoticesExecutor extends LoanNoticesExecutor {
         String body = OLEConstants.MISSING_PIECE_NOTICE_BODY;
         return body;
     }
-
-
-
 
 
 }

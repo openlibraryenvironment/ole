@@ -4786,7 +4786,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         oleDeliverRequestBo.setRecallDueDate(new Timestamp(oleLoanDocument.getLoanDueDate().getTime()));
                         oleDeliverRequestBo.setNewDueDate(new java.sql.Date(oleLoanDocument.getLoanDueDate().getTime()));
                         oleDeliverRequestBo.setNoticeType(noticeInfo.getNoticeType());
-                        List<OLEDeliverNotice> deliverNotices = getDeliverNotices(oleDeliverRequestBo, oleLoanDocument,noticeInfo);
+                        List<OLEDeliverNotice> deliverNotices = getDeliverNotices(oleDeliverRequestBo, oleLoanDocument,(noticeInfo!=null)?noticeInfo:null);
 
                         oleLoanDocument.setDeliverNotices(deliverNotices);
                         persistDeliverNotices(deliverNotices,oleLoanDocument.getLoanId());
@@ -4864,7 +4864,7 @@ return oleLoanDocument;
     public List<OLEDeliverNotice> getDeliverNotices(OleDeliverRequestBo oleDeliverRequestBo,OleLoanDocument oleLoanDocument,NoticeInfo noticeInfo){
         ItemRecord itemRecord = getItemRecordByBarcode(oleDeliverRequestBo.getItemId());
         itemRecord.setDueDateTime(oleDeliverRequestBo.getRecallDueDate());
-        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord,null);
+        List<OLEDeliverNotice> oleDeliverNotices = new CircUtilController().processNotices(oleLoanDocument,itemRecord,noticeInfo);
         return oleDeliverNotices;
     }
 
