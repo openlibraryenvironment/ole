@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -86,6 +87,31 @@ public class BibMarcRecord {
             }
         }
         return "";
+    }
+
+    public String getDataFieldValue(String tag, String subfield) {
+        if (CollectionUtils.isNotEmpty(dataFields)) {
+            for (DataField marcDataField : dataFields) {
+                if (null != marcDataField && StringUtils.isNotBlank(marcDataField.getTag())
+                        && StringUtils.isNotBlank(tag)
+                        && StringUtils.isNotBlank(subfield)
+                        && marcDataField.getTag().equalsIgnoreCase(tag)) {
+                    List<SubField> subFields = marcDataField.getSubFields();
+                    if(CollectionUtils.isNotEmpty(subFields)) {
+                        for (Iterator<SubField> iterator = subFields.iterator(); iterator.hasNext(); ) {
+                            SubField subField = iterator.next();
+                            if(null != subfield) {
+                                if(subfield.equalsIgnoreCase(subField.getCode())) {
+                                    return subField.getValue();
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }
