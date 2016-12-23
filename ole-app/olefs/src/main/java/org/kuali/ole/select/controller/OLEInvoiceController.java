@@ -2562,11 +2562,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 return getUIFModelAndView(form);
             }
         }
-        else {
-            super.approve(oleInvoiceForm,result,request,response);
-            return closeDocument(oleInvoiceForm,result,request,response);
-        }
-        return getUIFModelAndView(form);
+        super.approve(oleInvoiceForm,result,request,response);
+        return closeDocument(oleInvoiceForm,result,request,response);
     }
 
     @RequestMapping(params = "methodToCall=continueInvoiceApproval")
