@@ -41,7 +41,7 @@
         <property name="items">
             <list>
                 <bean id="loan_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Loan" p:style="width:50px"
-                      p:methodToCall="validateOveridePermission" p:ajaxSubmit="true"
+                      p:methodToCall="handleOnholdRequestIfExists" p:ajaxSubmit="true"
                       p:onClickScript="jq.fancybox.close();"
                       p:successCallback="jq('#checkoutItem_control').focus();"/>
                 <bean id="donNotLoanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Loan"
