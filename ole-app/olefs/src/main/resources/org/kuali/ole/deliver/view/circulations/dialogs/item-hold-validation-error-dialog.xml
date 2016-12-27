@@ -41,7 +41,7 @@
         <property name="items">
             <list>
                 <bean id="proceed_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:style="width:150px"
-                      p:methodToCall="postRequestCheck" p:ajaxSubmit="true"
+                      p:methodToCall="validateOveridePermission" p:ajaxSubmit="true"
                       p:onClickScript="jq.fancybox.close();"
                       p:successCallback="jq('#checkoutItem_control').focus();"/>
                 <bean id="donNotProceedButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Procced"

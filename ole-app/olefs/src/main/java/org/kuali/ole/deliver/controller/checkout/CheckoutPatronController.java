@@ -15,6 +15,7 @@ import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.util.StringUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -120,8 +121,10 @@ public class CheckoutPatronController extends CheckoutItemController {
                 postPatronValidation(circForm, result, request, response);
             }
         }
-        if(circForm.isProxyCheckDone() && (searchHold(circForm))) {
-            showHoldErrorMessageDialog(circForm, request, response);
+        if(!StringUtils.isNotBlank(circForm.getErrorMessage().getErrorMessage())){
+            if(circForm.isProxyCheckDone() && (searchHold(circForm))) {
+                showHoldErrorMessageDialog(circForm, request, response);
+            }
         }
         if(StringUtils.isBlank(circForm.getLightboxScript())){
             circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
@@ -335,20 +338,6 @@ public class CheckoutPatronController extends CheckoutItemController {
         return false;
     }
 
-    @RequestMapping(params = "methodToCall=postRequestCheck")
-    public ModelAndView postRequestCheck(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CircForm circForm = (CircForm) form;
-        if (checkForPatronUserNotes(circForm.getDroolsExchange())) {
-            showDialog("patronUserNotesDialog", circForm, request, response);
-        }
-        if (circForm.isAutoCheckout()) {
-            return lookupItemAndSaveLoan(circForm, result, request, response);
-        }
-        circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
-        return getUIFModelAndView(circForm);
-    }
-
     public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
         if(oleLoanDocumentDaoOjb == null){
             oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
@@ -374,5 +363,26 @@ public class CheckoutPatronController extends CheckoutItemController {
             }
         }
         return false;
+    }
+
+    @RequestMapping(params = "methodToCall=handleOnholdRequestIfExists")
+    public ModelAndView handleOnholdRequestIfExists(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        circForm.setPageSize("10");
+        if((searchHold(circForm))) {
+            showHoldErrorMessageDialog(circForm, request, response);
+        }else{
+            CheckoutValidationController checkoutValidationController = new CheckoutValidationController();
+            checkoutValidationController.validateOveridePermission(form,result,request,response);
+        }
+        if(StringUtils.isBlank(circForm.getLightboxScript())){
+            circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+        } else {
+            String lightBoxScript = circForm.getLightboxScript();
+            String patronLightBoxScript = lightBoxScript + "jq('#barcodeFieldSection_control').blur();";
+            circForm.setLightboxScript(patronLightBoxScript);
+        }
+        return getUIFModelAndView(form);
     }
 }
