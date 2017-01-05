@@ -158,9 +158,10 @@ public class SerialsReceivingRecordSearchController extends UifControllerBase {
 
             this.totalRecCount = searchResponse.getTotalRecordCount();
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
-                oleSerialReceivingRecordList.add(serialReceivingSearchService.getSerialRecord(searchResult));
+                oleSerialReceivingRecordList.addAll(serialReceivingSearchService.getOleSerialReceivingListFromHoldings(searchResult));
             }
             serialsReceivingRecordForm.setPaginationFlag("true");
+            this.totalRecCount = oleSerialReceivingRecordList.size();
             serialsReceivingRecordForm.setPageResultDisplay(getPageShowEntries());
         } else if ((!poId.isEmpty() && !poId.contains("*") && serialRecordNo.isEmpty() && StringUtils.isNumeric(poId))) {
             Set<String> instanceIds = serialReceivingSearchService.getInstanceIdList(poId);

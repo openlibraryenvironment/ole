@@ -30,4 +30,6 @@ public interface SerialReceivingSearchService {
     public List<OLESerialReceivingRecord> getOleSerialReceivingList(List<OLESerialReceivingDocument> oleSerialReceivingDocuments);
 
     public List<OLESerialReceivingDocument> getOleSerialReceivingDocuments(SerialsReceivingRecordForm serialsReceivingRecordForm);
+
+    public List<OLESerialReceivingRecord> getOleSerialReceivingListFromHoldings(SearchResult searchResult);
 }
