@@ -45,6 +45,7 @@ import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -510,7 +511,8 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
                                 if (poCurrencyType != null && (poCurrencyType.equalsIgnoreCase(poaCurrencyType)) && !items.isLatestExchangeRate() && !purchaseDoc.getIsPODoc() && ((purchaseDoc instanceof PurchaseOrderAmendmentDocument) )) {
                                     items.setItemExchangeRate(tempCurrentExchangeRate.getItemExchangeRate());
                                 } else {
-                                    items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+
+                                    items.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                                 }
                             }
                             if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {

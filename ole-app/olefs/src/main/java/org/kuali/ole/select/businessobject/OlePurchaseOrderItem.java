@@ -30,6 +30,7 @@ import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.lookup.DocData;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -76,7 +77,7 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
     protected String itemForeignDiscountType;
     protected KualiDecimal itemForeignDiscountAmt;
     protected KualiDecimal itemForeignUnitCost;
-    protected KualiDecimal itemExchangeRate;
+    protected OLEKualiDecimal itemExchangeRate;
     protected KualiDecimal itemUnitCostUSD;
     protected boolean latestExchangeRate;
     protected Integer categoryId;
@@ -883,11 +884,11 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
         this.itemForeignUnitCost = itemForeignUnitCost;
     }
 
-    public KualiDecimal getItemExchangeRate() {
+    public OLEKualiDecimal getItemExchangeRate() {
         return itemExchangeRate;
     }
 
-    public void setItemExchangeRate(KualiDecimal itemExchangeRate) {
+    public void setItemExchangeRate(OLEKualiDecimal itemExchangeRate) {
         this.itemExchangeRate = itemExchangeRate;
     }
 

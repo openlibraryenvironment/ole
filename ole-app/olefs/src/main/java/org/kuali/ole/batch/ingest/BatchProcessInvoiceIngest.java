@@ -40,6 +40,7 @@ import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.service.impl.OleInvoiceServiceImpl;
 import org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.OleCurrencyType;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
@@ -725,7 +726,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
         else {
             oleInvoiceItem.setItemForeignUnitCost(new KualiDecimal(new BigDecimal(String.valueOf(foreignListPrice)).subtract(new BigDecimal(oleInvoiceItem.getForeignDiscount()))));
         }
-        oleInvoiceItem.setItemExchangeRate(new KualiDecimal(getInvoiceService().getExchangeRate(invoiceCurrencyType).getExchangeRate()));
+        oleInvoiceItem.setItemExchangeRate(new OLEKualiDecimal(getInvoiceService().getExchangeRate(invoiceCurrencyType).getExchangeRate()));
         if(StringUtils.isNotBlank(invoiceRecord.getInvoiceCurrencyExchangeRate())){
             oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(invoiceRecord.getInvoiceCurrencyExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
         }else{

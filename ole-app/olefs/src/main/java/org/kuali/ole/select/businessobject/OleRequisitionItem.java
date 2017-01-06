@@ -31,6 +31,7 @@ import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.select.lookup.DocData;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -44,6 +45,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,7 +112,7 @@ public class OleRequisitionItem extends RequisitionItem implements OlePurchasing
     protected String itemForeignDiscountType;
     protected KualiDecimal itemForeignDiscountAmt;
     protected KualiDecimal itemForeignUnitCost;
-    protected KualiDecimal itemExchangeRate;
+    protected OLEKualiDecimal itemExchangeRate;
     protected KualiDecimal itemUnitCostUSD;
     protected boolean itemRouteToRequestorIndicator;
     protected boolean itemPublicViewIndicator;
@@ -770,11 +772,11 @@ public class OleRequisitionItem extends RequisitionItem implements OlePurchasing
         this.itemForeignUnitCost = itemForeignUnitCost;
     }
 
-    public KualiDecimal getItemExchangeRate() {
+    public OLEKualiDecimal getItemExchangeRate() {
         return itemExchangeRate;
     }
 
-    public void setItemExchangeRate(KualiDecimal itemExchangeRate) {
+    public void setItemExchangeRate(OLEKualiDecimal itemExchangeRate) {
         this.itemExchangeRate = itemExchangeRate;
     }
 

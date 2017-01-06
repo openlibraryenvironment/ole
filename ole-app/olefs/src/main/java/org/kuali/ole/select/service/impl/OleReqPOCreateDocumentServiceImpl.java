@@ -53,6 +53,7 @@ import org.kuali.ole.sys.OLEConstants.FinancialDocumentTypeCodes;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.VendorConstants;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.VendorService;
@@ -805,7 +806,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
             Iterator iterator = exchangeRateList.iterator();
             if (iterator.hasNext()) {
                 OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                item.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                item.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
             }
             if (item.getItemExchangeRate() != null && item.getItemForeignUnitCost() != null) {
                 item.setItemUnitCostUSD(new KualiDecimal(item.getItemForeignUnitCost().bigDecimalValue().divide(item.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));

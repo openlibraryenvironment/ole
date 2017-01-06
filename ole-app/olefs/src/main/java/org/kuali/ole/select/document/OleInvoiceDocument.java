@@ -63,6 +63,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.BankService;
 import org.kuali.ole.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.ole.sys.service.UniversityDateService;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.VendorConstants;
 import org.kuali.ole.vnd.businessobject.OleCurrencyType;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
@@ -1002,14 +1003,14 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                 if (StringUtils.isNotBlank(this.getInvoiceCurrencyExchangeRate())) {
                     try {
                         //          Double.parseDouble(this.getInvoiceCurrencyExchangeRate());
-                        items.setItemExchangeRate(new KualiDecimal(this.getInvoiceCurrencyExchangeRate()));
+                        items.setItemExchangeRate(new OLEKualiDecimal(this.getInvoiceCurrencyExchangeRate()));
                         items.setExchangeRate(this.getInvoiceCurrencyExchangeRate());
                     }
                     catch (NumberFormatException nfe) {
                         throw new RuntimeException("Invalid Exchange Rate", nfe);
                     }
                 }   else {
-                    items.setItemExchangeRate(new KualiDecimal(exchangeRate));
+                    items.setItemExchangeRate(new OLEKualiDecimal(exchangeRate));
                     items.setExchangeRate(exchangeRate.toString());
                 }
                 if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null   && !this.getApplicationDocumentStatus().equals("Department-Approved")) {
@@ -1317,7 +1318,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                                 if (StringUtils.isNotBlank(this.getInvoiceCurrencyExchangeRate())) {
                                     try {
                                         Double.parseDouble(this.getInvoiceCurrencyExchangeRate());
-                                        singleItem.setItemExchangeRate(new KualiDecimal(this.getInvoiceCurrencyExchangeRate()));
+                                        singleItem.setItemExchangeRate(new OLEKualiDecimal(this.getInvoiceCurrencyExchangeRate()));
                                         singleItem.setExchangeRate(this.getInvoiceCurrencyExchangeRate());
                                     }
                                     catch (NumberFormatException nfe) {
@@ -1326,7 +1327,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                                 }   else {
                                     BigDecimal exchangeRate = SpringContext.getBean(OleInvoiceService.class).getExchangeRate(this.getInvoiceCurrencyType()).getExchangeRate();
                                     this.setInvoiceCurrencyExchangeRate(exchangeRate.toString());
-                                    singleItem.setItemExchangeRate(new KualiDecimal(exchangeRate));
+                                    singleItem.setItemExchangeRate(new OLEKualiDecimal(exchangeRate));
                                     singleItem.setExchangeRate(exchangeRate.toString());
                                 }
                                 this.setVendorInvoiceAmount(this.getForeignVendorInvoiceAmount() != null ?

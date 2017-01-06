@@ -40,6 +40,7 @@ import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.businessobject.UnitOfMeasure;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.rice.core.api.util.type.AbstractKualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -66,7 +67,7 @@ public class OleInvoiceItem extends InvoiceItem {
     protected String itemForeignDiscountType;
     protected KualiDecimal itemForeignDiscountAmt;
     protected KualiDecimal itemForeignUnitCost;
-    protected KualiDecimal itemExchangeRate;
+    protected OLEKualiDecimal itemExchangeRate;
     protected KualiDecimal itemUnitCostUSD;
     protected KualiDecimal foreignCurrencyExtendedPrice;
 
@@ -318,7 +319,7 @@ public class OleInvoiceItem extends InvoiceItem {
         this.setItemForeignDiscountAmt(olePoi.getItemForeignDiscountAmt());
         this.setItemCurrencyType(olePoi.getInvoiceForeignCurrency() != null ? olePoi.getInvoiceForeignCurrency() : olePoi.getItemCurrencyType());
         this.setInvoicedCurrency(olePoi.getInvoiceForeignCurrency() != null ? olePoi.getInvoiceForeignCurrency() : olePoi.getItemCurrencyType());
-        this.setItemExchangeRate(olePoi.getInvoiceExchangeRate() != null ? new KualiDecimal(olePoi.getInvoiceExchangeRate()) : new KualiDecimal(0.00));
+        this.setItemExchangeRate(olePoi.getInvoiceExchangeRate() != null ? new OLEKualiDecimal(olePoi.getInvoiceExchangeRate()) : new OLEKualiDecimal(0.00));
         this.setExchangeRate(olePoi.getInvoiceExchangeRate() != null ? olePoi.getInvoiceExchangeRate() : null);
         this.setItemUnitCostUSD(olePoi.getItemUnitCostUSD());
         this.setFormatTypeId(olePoi.getFormatTypeId());
@@ -401,7 +402,7 @@ public class OleInvoiceItem extends InvoiceItem {
         this.setItemTitleId(olePoi.getItemTitleId());
         this.setItemCurrencyType(olePoi.getInvoiceForeignCurrency()!=null ? olePoi.getInvoiceForeignCurrency() : olePoi.getItemCurrencyType());
         this.setInvoicedCurrency(olePoi.getInvoiceForeignCurrency()!=null? olePoi.getInvoiceForeignCurrency() : olePoi.getItemCurrencyType());
-        this.setItemExchangeRate(olePoi.getInvoiceExchangeRate()!= null ? new KualiDecimal(olePoi.getInvoiceExchangeRate()) : new KualiDecimal(0.00));
+        this.setItemExchangeRate(olePoi.getInvoiceExchangeRate()!= null ? new OLEKualiDecimal(olePoi.getInvoiceExchangeRate()) : new OLEKualiDecimal(0.00));
         this.setExchangeRate(olePoi.getInvoiceExchangeRate()!= null? olePoi.getInvoiceExchangeRate() : null);
         this.setItemUnitCostUSD(olePoi.getItemUnitCostUSD());
         this.setOleDonors(olePoi.getOleDonors());
@@ -610,11 +611,11 @@ public class OleInvoiceItem extends InvoiceItem {
         }
     }
 
-    public KualiDecimal getItemExchangeRate() {
+    public OLEKualiDecimal getItemExchangeRate() {
         return itemExchangeRate;
     }
 
-    public void setItemExchangeRate(KualiDecimal itemExchangeRate) {
+    public void setItemExchangeRate(OLEKualiDecimal itemExchangeRate) {
         this.itemExchangeRate = itemExchangeRate;
     }
 
