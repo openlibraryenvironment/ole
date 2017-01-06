@@ -41,6 +41,7 @@ import org.kuali.ole.select.service.FileProcessingService;
 import org.kuali.ole.select.service.impl.BibInfoServiceImpl;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.ole.vnd.businessobject.VendorAlias;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -279,7 +280,7 @@ public class OleVendorCreditMemoDocument extends VendorCreditMemoDocument {
                     iterator = exchangeRateList.iterator();
                     if (iterator.hasNext()) {
                         OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                        items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                        items.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                     }
                 }
 

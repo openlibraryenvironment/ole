@@ -54,6 +54,7 @@ import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.ole.vnd.businessobject.VendorAddress;
 import org.kuali.ole.vnd.businessobject.VendorAlias;
@@ -108,7 +109,7 @@ public class OleVendorCreditMemoAction extends VendorCreditMemoAction {
                 Iterator iterator = exchangeRateList.iterator();
                 if (iterator.hasNext()) {
                     OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                    items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                    items.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                     //creditDoc.setForeignVendorInvoiceAmount(creditDoc.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
                 }
                 if ((items.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
@@ -230,7 +231,7 @@ public class OleVendorCreditMemoAction extends VendorCreditMemoAction {
                         Iterator iterator = exchangeRateList.iterator();
                         if (iterator.hasNext()) {
                             OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                            item.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                            item.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                         }
                         if (item.getItemExchangeRate() != null && item.getItemForeignUnitCost() != null) {
                             item.setItemUnitCostUSD(new KualiDecimal(item.getItemForeignUnitCost().bigDecimalValue().divide(item.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
@@ -302,13 +303,13 @@ public class OleVendorCreditMemoAction extends VendorCreditMemoAction {
                 iterator = exchangeRateList.iterator();
                 if (iterator.hasNext()) {
                     OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                    item.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                    item.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                 }
             }
             iterator = exchangeRateList.iterator();
             if (iterator.hasNext()) {
                 OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                newLineItem.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                newLineItem.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
             }
         }
         rqForm.getAndResetNewPurchasingItemLine();

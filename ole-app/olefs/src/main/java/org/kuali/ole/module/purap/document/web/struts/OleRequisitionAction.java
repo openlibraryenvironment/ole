@@ -61,6 +61,7 @@ import org.kuali.ole.sys.businessobject.AccountingLineBase;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.VendorConstants;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.VendorService;
@@ -230,7 +231,7 @@ public class OleRequisitionAction extends RequisitionAction {
                         OleExchangeRate tempOleExchangeRate = null;
                         if (iterator.hasNext()) {
                             tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                            items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                            items.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                         }
                         if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
                             items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(tempOleExchangeRate.getExchangeRate(), 4, RoundingMode.HALF_UP)));
@@ -347,7 +348,7 @@ public class OleRequisitionAction extends RequisitionAction {
                 OleExchangeRate tempOleExchangeRate = null;
                 if (iterator.hasNext()) {
                     tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                    item.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                    item.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                 }
                 if (item.getItemExchangeRate() != null && item.getItemForeignUnitCost() != null) {
                     item.setItemUnitCostUSD(new KualiDecimal(item.getItemForeignUnitCost().bigDecimalValue().divide(tempOleExchangeRate.getExchangeRate(), 4, RoundingMode.HALF_UP)));
@@ -542,7 +543,7 @@ public class OleRequisitionAction extends RequisitionAction {
                         Iterator iterator = exchangeRateList.iterator();
                         if (iterator.hasNext()) {
                             OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                            item.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                            item.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                         }
                     }
                 }

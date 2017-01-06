@@ -55,6 +55,7 @@ import org.kuali.ole.sys.businessobject.*;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.ole.sys.service.UniversityDateService;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.VendorConstants;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.ole.vnd.businessobject.VendorAddress;
@@ -638,7 +639,7 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                         iterator = exchangeRateList.iterator();
                         if (iterator.hasNext()) {
                             OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                            items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                            items.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
                             this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
                         }
                     }

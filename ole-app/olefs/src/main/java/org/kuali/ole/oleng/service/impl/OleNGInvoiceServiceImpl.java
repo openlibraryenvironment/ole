@@ -32,6 +32,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.ole.sys.service.BankService;
 import org.kuali.ole.sys.service.UniversityDateService;
+import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.OleCurrencyType;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.ole.vnd.businessobject.VendorAddress;
@@ -543,7 +544,7 @@ public class OleNGInvoiceServiceImpl implements OleNGInvoiceService {
         else {
             oleInvoiceItem.setItemForeignUnitCost(new KualiDecimal(new BigDecimal(String.valueOf(foreignListPrice)).subtract(new BigDecimal(oleInvoiceItem.getForeignDiscount()))));
         }
-        oleInvoiceItem.setItemExchangeRate(new KualiDecimal(getInvoiceService().getExchangeRate(invoiceCurrencyType).getExchangeRate()));
+        oleInvoiceItem.setItemExchangeRate(new OLEKualiDecimal(getInvoiceService().getExchangeRate(invoiceCurrencyType).getExchangeRate()));
         if(!(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().equals(new BigDecimal("0.00")))) {
             if (StringUtils.isNotBlank(invoiceRecord.getInvoiceCurrencyExchangeRate())) {
                 oleInvoiceItem.setItemUnitCostUSD(new KualiDecimal(oleInvoiceItem.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(invoiceRecord.getInvoiceCurrencyExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
