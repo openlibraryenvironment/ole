@@ -63,7 +63,11 @@ public class BatchExportUtil extends BatchUtil {
                     calendar.setTime(batchProcessTxObject.getBatchJobDetails().getStartTime());
                 }
             }
-            return getUTCTime(calendar.getTime());
+            if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)) {
+                return getUTCTime(calendar.getTime());
+            }else {
+                return calendar.getTime();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
@@ -94,9 +98,9 @@ public class BatchExportUtil extends BatchUtil {
     }
 
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
-        SimpleDateFormat format = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fromDate = format.format(lastExportDate);
-        return "(DocType:bibliographic)AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])AND(staffOnlyFlag:false)";
+        return "SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) AND STAFF_ONLY='N'";
     }
 
     public List<String> getFilterSolrQuery(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
