@@ -51,10 +51,8 @@ import java.util.*;
 /**
  * Created by SheikS on 8/3/2016.
  */
-public abstract class OleNGGobiApiProcessor extends BusinessObjectServiceHelperUtil{
+public abstract class OleNGGobiApiProcessor extends BatchOrderImportProcessor{
 
-    @Autowired
-    private BatchOrderImportProcessor batchOrderImportProcessor;
 
     private OleNGPOHelperUtil oleNGPOHelperUtil;
 
@@ -69,7 +67,7 @@ public abstract class OleNGGobiApiProcessor extends BusinessObjectServiceHelperU
 
         OleNGPOHelperUtil oleNGPOHelperUtil = getOleNGPOHelperUtil();
         oleNGPOHelperUtil.setOleOrderImportService(oleNgGobiOrderImportService);
-        batchOrderImportProcessor.setOleNGPOHelperUtil(oleNGPOHelperUtil);
+        setOleNGPOHelperUtil(oleNGPOHelperUtil);
 
         BatchProcessProfile batchProcessProfile = fetchBatchProcessProfile(gobiRequest.getProfileIdForDefaultMapping());
 
@@ -82,7 +80,7 @@ public abstract class OleNGGobiApiProcessor extends BusinessObjectServiceHelperU
 
         String marcXMLContent = getMarcXMLContent(gobiRequest);
         String updatedMarcXMLContent = updateMarcXMLContentWithYBPKey(marcXMLContent, gobiRequest);
-        List<Record> records = batchOrderImportProcessor.getMarcRecordUtil().getMarcXMLConverter().convertMarcXmlToRecord(updatedMarcXMLContent);
+        List<Record> records = getMarcRecordUtil().getMarcXMLConverter().convertMarcXmlToRecord(updatedMarcXMLContent);
         Map<Integer, RecordDetails> recordDetailsMap = getRecordDetailsMap(records);
 
         BatchJobDetails batchJobDetails = new BatchJobDetails();
@@ -93,7 +91,7 @@ public abstract class OleNGGobiApiProcessor extends BusinessObjectServiceHelperU
         BatchProcessTxObject batchProcessTxObject = getBatchProcessTxObject(batchProcessProfile, reportDirectory, batchJobDetails);
         List<String> requisionIds = new ArrayList<>();
         try {
-            OleNgBatchResponse oleNgBatchResponse = batchOrderImportProcessor.processRecords(recordDetailsMap, batchProcessTxObject, batchProcessProfile);
+            OleNgBatchResponse oleNgBatchResponse = processRecords(recordDetailsMap, batchProcessTxObject, batchProcessProfile);
             String response = oleNgBatchResponse.getResponse();
             JSONObject responseObject = new JSONObject(response);
             requisionIds = getRequisionIds(responseObject);
@@ -134,7 +132,7 @@ public abstract class OleNGGobiApiProcessor extends BusinessObjectServiceHelperU
     private BatchProcessTxObject getBatchProcessTxObject(BatchProcessProfile batchProcessProfile, String reportDirectory, BatchJobDetails batchJobDetails) {
         BatchProcessTxObject batchProcessTxObject = new BatchProcessTxObject();
         batchProcessTxObject.setBatchProcessProfile(batchProcessProfile);
-        batchProcessTxObject.setBatchFileProcessor(batchOrderImportProcessor);
+        batchProcessTxObject.setBatchFileProcessor(this);
         batchProcessTxObject.setBatchJobDetails(batchJobDetails);
         batchProcessTxObject.setReportDirectoryName(reportDirectory);
         batchProcessTxObject.getOleStopWatch().start();
@@ -157,8 +155,8 @@ public abstract class OleNGGobiApiProcessor extends BusinessObjectServiceHelperU
         if(CollectionUtils.isNotEmpty(matching)){
             try {
                 batchProcessProfile = matching.get(0);
-                batchOrderImportProcessor.getObjectMapper().setVisibilityChecker(batchOrderImportProcessor.getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-                batchProcessProfile = batchOrderImportProcessor.getObjectMapper().readValue(IOUtils.toString(batchProcessProfile.getContent()), BatchProcessProfile.class);
+                getObjectMapper().setVisibilityChecker(getObjectMapper().getVisibilityChecker().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+                batchProcessProfile = getObjectMapper().readValue(IOUtils.toString(batchProcessProfile.getContent()), BatchProcessProfile.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
