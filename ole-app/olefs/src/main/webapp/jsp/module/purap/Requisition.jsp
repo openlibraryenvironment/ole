@@ -67,9 +67,11 @@
         itemAttributes="${DataDictionary.RequisitionItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
 
-    <purap:relatedDocuments
+    <purap:customRelatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
-    
+
+	<purap:customPaymentHistory
+			documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
    <%-- <purap:paymentHistory
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />--%>
 	            
