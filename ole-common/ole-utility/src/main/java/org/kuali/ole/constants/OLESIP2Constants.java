@@ -119,7 +119,7 @@ public class OLESIP2Constants {
     public static final String RENEW_SUCCESS="Item successFully renewed";
     public static final String CHECK_OUT_SUCCESS="Successfully loaned";
     public static final String CHECK_OUT_SUCCESSFULLY="Item Successfully loaned";
-    public static final String CHECK_OUT_FAILED="Item cannot be loaned : any query see help desk";
+    public static final String CHECK_OUT_FAILED="Item cannot be loaned : please consult circulation staff for more information.";
     public static final String PATRON_SESSION_END="Patron Session Ended Successfully";
     public static final String FEE_PAID="Successfully Paid the Amount";
     public static final String SERVICE_ERROR="Cannot Able to process this service";

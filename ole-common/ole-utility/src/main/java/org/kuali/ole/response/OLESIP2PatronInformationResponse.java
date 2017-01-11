@@ -150,12 +150,10 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
         }
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.EMAIL_ADDRESS_CODE);
-        builder.append(oleLookupUser.getPatronEmail() != null ? oleLookupUser.getPatronEmail().getEmailTypeCode()
-                + " " + oleLookupUser.getPatronEmail().getEmailAddress() : "");
+        builder.append(oleLookupUser.getPatronEmail() != null ? oleLookupUser.getPatronEmail().getEmailAddress() : "");
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.HOME_PHONE_NUM_CODE);
-        builder.append(oleLookupUser.getPatronPhone() != null ? oleLookupUser.getPatronPhone().getPhoneTypeCode()
-                + " " + oleLookupUser.getPatronPhone().getPhoneNumber() : "");
+        builder.append(oleLookupUser.getPatronPhone() != null ? oleLookupUser.getPatronPhone().getPhoneNumber() : "");
 
         if (StringUtils.isNotBlank(oleLookupUser.getMessage())) {
             builder.append(OLESIP2Constants.SPLIT+

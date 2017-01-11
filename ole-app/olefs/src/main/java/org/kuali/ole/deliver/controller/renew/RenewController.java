@@ -55,6 +55,8 @@ public class RenewController extends CircUtilController {
                     facts.add(noticeInfo);
                     fireRules(facts, null, "renewal validation");
 
+                    processDueDateBasedOnExpirationDate(olePatronDocument, oleLoanDocument);
+
                     Boolean fineCalcWhileRenew = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
                             .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_CALC_WHILE_RENEW);
                     if (fineCalcWhileRenew){
@@ -310,5 +312,23 @@ public class RenewController extends CircUtilController {
 
     public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
         this.parameterValueResolver = parameterValueResolver;
+    }
+
+    private void processDueDateBasedOnExpirationDate(OlePatronDocument olePatronDocument, OleLoanDocument
+            oleLoanDocument) {
+        if (olePatronDocument.getExpirationDate() != null && oleLoanDocument.getLoanDueDate() != null) {
+            Timestamp expirationDate = new Timestamp(olePatronDocument.getExpirationDate().getTime());
+            if (isPatronExpiringBeforeLoanDue(oleLoanDocument, expirationDate) && isPatronExpirationGreaterThanToday(expirationDate)) {
+                oleLoanDocument.setLoanDueDate(expirationDate);
+            }
+        }
+    }
+
+    private boolean isPatronExpirationGreaterThanToday(Timestamp expirationDate) {
+        return expirationDate.compareTo(new Date()) > 0;
+    }
+
+    private boolean isPatronExpiringBeforeLoanDue(OleLoanDocument oleLoanDocument, Timestamp expirationDate) {
+        return expirationDate.compareTo(oleLoanDocument.getLoanDueDate()) < 0;
     }
 }
