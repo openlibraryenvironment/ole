@@ -60,5 +60,9 @@ public interface OleCopies extends PersistableBusinessObject {
 
     public void setCaption(String caption);
 
+    public void setSingleCopyNumber(KualiInteger singleCopyNumber);
+
+    public KualiInteger getSingleCopyNumber();
+
 
 }

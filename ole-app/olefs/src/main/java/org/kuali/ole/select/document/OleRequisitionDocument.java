@@ -606,6 +606,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
                 oleRequisitionCopies.setVolumeNumber(singleItem.getOleOrderRecord().getOleTxRecord().getVolumeNumber());
             }
         }
+        oleRequisitionCopies.setSingleCopyNumber(singleItem.getSingleCopyNumber()!=null?new KualiInteger(singleItem.getSingleCopyNumber()):null);
         itemCopies.add(oleRequisitionCopies);
         List<OleCopy> oleCopyList = getOleCopyHelperService().setCopyValuesForList(itemCopies, singleItem.getItemTitleId(), singleItem.getBibTree(),singleItem.getOleERSIdentifier());
         if (oleCopyList != null && oleCopyList.size() > 0) {

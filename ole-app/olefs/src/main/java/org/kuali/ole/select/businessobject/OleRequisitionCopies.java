@@ -39,6 +39,7 @@ public class OleRequisitionCopies extends PersistableBusinessObjectBase implemen
     private String volumeNumber;
 
     private PurApItem purapItem;
+    private KualiInteger singleCopyNumber;
 
     /**
      * Constructs a OleRequisitionNotesBase.java.
@@ -159,6 +160,14 @@ public class OleRequisitionCopies extends PersistableBusinessObjectBase implemen
         this.startingCopyNumber = startingCopyNumber;
     }
 
+    @Override
+    public void setSingleCopyNumber(KualiInteger singleCopyNumber){
+        this.singleCopyNumber=singleCopyNumber;
+    }
+
+    public KualiInteger getSingleCopyNumber(){
+        return singleCopyNumber;
+    }
     /*@Override
     public String getInstanceId() {
         return instanceId;
