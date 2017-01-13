@@ -45,7 +45,6 @@ import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
-import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -512,11 +511,11 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
                                     items.setItemExchangeRate(tempCurrentExchangeRate.getItemExchangeRate());
                                 } else {
 
-                                    items.setItemExchangeRate(new OLEKualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                                    items.setItemExchangeRate(tempOleExchangeRate.getExchangeRate());
                                 }
                             }
                             if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
-                                items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(items.getItemExchangeRate().bigDecimalValue(), 4, RoundingMode.HALF_UP)));
+                                items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(items.getItemExchangeRate(), 4, RoundingMode.HALF_UP)));
                                 items.setItemUnitPrice(items.getItemUnitCostUSD().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP));
                                 items.setItemListPrice(items.getItemUnitCostUSD());
                             }

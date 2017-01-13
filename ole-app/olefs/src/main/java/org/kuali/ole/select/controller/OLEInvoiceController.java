@@ -38,7 +38,6 @@ import org.kuali.ole.sys.businessobject.AccountingLine;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent;
-import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.ole.vnd.businessobject.VendorAddress;
 import org.kuali.ole.vnd.businessobject.VendorAlias;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
@@ -575,12 +574,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     LOG.debug("###########Foreign Currency Field Calculation###########");
                     for (int i = 0; item.size() > i; i++) {
                         OleInvoiceItem items = (OleInvoiceItem) payDoc.getItem(i);
-                        OLEKualiDecimal exchangeRate = null;
+                        BigDecimal exchangeRate = null;
                         if (StringUtils.isNotBlank(payDoc.getInvoiceCurrencyExchangeRate())) {
                             try {
                                 Double.parseDouble(payDoc.getInvoiceCurrencyExchangeRate());
-                                exchangeRate = new OLEKualiDecimal(payDoc.getInvoiceCurrencyExchangeRate());
-                                if (exchangeRate.isZero() ) {
+                                exchangeRate = new BigDecimal(payDoc.getInvoiceCurrencyExchangeRate());
+                                if (new KualiDecimal(exchangeRate).isZero()) {
                                     GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
                                     return getUIFModelAndView(paymentForm);
                                 }
@@ -610,8 +609,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                 SpringContext.getBean(OlePurapService.class).calculateForeignCurrency(items);
                                 if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
                                     if(!items.getItemForeignUnitCost().equals(new KualiDecimal("0.00"))) {
-                                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate.bigDecimalValue(), 4, BigDecimal.ROUND_HALF_UP)));
-                                        items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate.bigDecimalValue(), 4, BigDecimal.ROUND_HALF_UP));
+                                        items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate, 4, BigDecimal.ROUND_HALF_UP)));
+                                        items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(exchangeRate, 4, BigDecimal.ROUND_HALF_UP));
                                         items.setItemListPrice(items.getItemUnitCostUSD());
                                     }
                                     if (!items.isDebitItem()) {
@@ -631,7 +630,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                 if (items.isAdditionalChargeUsd()) {
                                     items.setItemUnitPrice(items.getForeignCurrencyExtendedPrice().bigDecimalValue());
                                 } else {
-                                    items.setItemUnitPrice(items.getForeignCurrencyExtendedPrice().bigDecimalValue().divide(exchangeRate.bigDecimalValue(), 4, RoundingMode.HALF_UP));
+                                    items.setItemUnitPrice(items.getForeignCurrencyExtendedPrice().bigDecimalValue().divide(exchangeRate, 4, RoundingMode.HALF_UP));
                                 }
                             }
                         }
@@ -2936,7 +2935,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                     oleInvoiceItem.setItemCurrencyType(currencyType);
                                     oleInvoiceItem.setInvoicedCurrency(currencyType);
                                     oleInvoiceItem.setExchangeRate(exchangeRate.toString());
-                                    oleInvoiceItem.setItemExchangeRate(new OLEKualiDecimal(exchangeRate));
+                                    oleInvoiceItem.setItemExchangeRate(exchangeRate);
 
                                     if (StringUtils.isNotBlank(previousCurrencyType)) {
                                         if (!previousCurrencyType.equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)) {
@@ -3170,13 +3169,13 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                                HttpServletRequest request, HttpServletResponse response)  throws Exception{
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
-        OLEKualiDecimal exchangeRate = null;
+        BigDecimal exchangeRate = null;
       //  boolean invoicePriceFlag = false;
         oleInvoiceDocument.setDbRetrieval(false);
         if (StringUtils.isNotBlank(oleInvoiceDocument.getInvoiceCurrencyExchangeRate())) {
             try {
                 Double.parseDouble(oleInvoiceDocument.getInvoiceCurrencyExchangeRate());
-                exchangeRate = new OLEKualiDecimal(oleInvoiceDocument.getInvoiceCurrencyExchangeRate());
+                exchangeRate = new BigDecimal(oleInvoiceDocument.getInvoiceCurrencyExchangeRate());
             }
             catch (NumberFormatException nfe) {
                 GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
@@ -3192,7 +3191,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
 
         }
         if (exchangeRate != null ) {
-            if (exchangeRate.isZero()) {
+            if (new KualiDecimal(exchangeRate).isZero()) {
                 GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
                 return getUIFModelAndView(oleInvoiceForm);
             }
@@ -3203,14 +3202,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         }
         if (StringUtils.isNotBlank(oleInvoiceDocument.getForeignInvoiceAmount())) {
             oleInvoiceDocument.setForeignVendorInvoiceAmount(new BigDecimal(oleInvoiceDocument.getForeignInvoiceAmount()));
-            oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(new BigDecimal(oleInvoiceDocument.getForeignInvoiceAmount()).divide(exchangeRate.bigDecimalValue(), 4, RoundingMode.HALF_UP)));
+            oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(new BigDecimal(oleInvoiceDocument.getForeignInvoiceAmount()).divide(exchangeRate, 4, RoundingMode.HALF_UP)));
             oleInvoiceDocument.setInvoiceAmount(oleInvoiceDocument.getVendorInvoiceAmount().toString());
             oleInvoiceDocument.setVendorAmount(oleInvoiceDocument.getVendorInvoiceAmount().toString());
         }
         else {
             if (StringUtils.isNotBlank(oleInvoiceDocument.getInvoiceAmount())) {
                 oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(oleInvoiceDocument.getInvoiceAmount()));
-                oleInvoiceDocument.setForeignVendorInvoiceAmount(new KualiDecimal(new BigDecimal(oleInvoiceDocument.getInvoiceAmount()).multiply(exchangeRate.bigDecimalValue())).bigDecimalValue());
+                oleInvoiceDocument.setForeignVendorInvoiceAmount(new KualiDecimal(new BigDecimal(oleInvoiceDocument.getInvoiceAmount()).multiply(exchangeRate)).bigDecimalValue());
                 oleInvoiceDocument.setForeignInvoiceAmount(oleInvoiceDocument.getForeignVendorInvoiceAmount().toString());
                 oleInvoiceDocument.setForeignVendorAmount(oleInvoiceDocument.getForeignVendorInvoiceAmount().toString());
             }

@@ -41,7 +41,6 @@ import org.kuali.ole.sys.businessobject.AccountingLineBase;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.NonTransactional;
-import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -607,10 +606,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     protected List<SourceAccountingLine> generateAccountSummary(List<PurApItem> items, Set<String> itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals, Boolean useAlternateAmount, Boolean useTaxIncluded, Boolean taxableOnly) {
         List<PurApItem> itemsToProcess = getProcessablePurapItems(items, itemTypeCodes, itemTypeCodesAreIncluded, useZeroTotals);
         Map<PurApAccountingLine, KualiDecimal> accountMap = new HashMap<PurApAccountingLine, KualiDecimal>();
-        OLEKualiDecimal exchangeRate = OLEKualiDecimal.ZERO;
+        BigDecimal exchangeRate = BigDecimal.ZERO;
         BigDecimal totalForeignAmount = BigDecimal.ZERO;
         for (PurApItem currentItem : itemsToProcess) {
-            if(exchangeRate == OLEKualiDecimal.ZERO && currentItem instanceof  OleInvoiceItem && ((OleInvoiceItem)currentItem).getItemExchangeRate() != null) {
+            if(exchangeRate == BigDecimal.ZERO && currentItem instanceof  OleInvoiceItem && ((OleInvoiceItem)currentItem).getItemExchangeRate() != null) {
                 exchangeRate = ((OleInvoiceItem)currentItem).getItemExchangeRate();
             }
             if(currentItem instanceof OleInvoiceItem) {
@@ -740,7 +739,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     sourceAccounts.add(sourceLine);
                 } else {
                     KualiDecimal sourceLineTotal = accountMap.get(accountToConvert);
-                    BigDecimal foreignSourceLineTotal = accountMap.get(accountToConvert).bigDecimalValue().multiply(exchangeRate.bigDecimalValue()).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    BigDecimal foreignSourceLineTotal = accountMap.get(accountToConvert).bigDecimalValue().multiply(exchangeRate).setScale(2, BigDecimal.ROUND_HALF_UP);
                     SourceAccountingLine sourceLine = accountToConvert.generateSourceAccountingLine();
                     sourceLine.setAmount(sourceLineTotal);
                     totalForeignAmount = totalForeignAmount.subtract(foreignSourceLineTotal);

@@ -395,7 +395,7 @@
         <field-descriptor name="itemForeignDiscountType" column="OLE_FOR_DISCNT_TYP" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemForeignDiscountAmt" column="OLE_FOR_DISCNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="itemForeignUnitCost" column="OLE_FOR_UNT_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL" conversion="org.kuali.ole.conversion.OjbOLEKualiDecimalFieldConversion"/>
+        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL"/>
         <field-descriptor name="itemUnitCostUSD" column="OLE_CON_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="categoryId" column="OLE_CAT_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="formatTypeId" column="OLE_FRMT_ID" jdbc-type="INTEGER"/>
@@ -755,7 +755,7 @@
         <field-descriptor name="itemForeignDiscountType" column="OLE_FOR_DISCNT_TYP" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemForeignDiscountAmt" column="OLE_FOR_DISCNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="itemForeignUnitCost" column="OLE_FOR_UNT_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL" conversion="org.kuali.ole.conversion.OjbOLEKualiDecimalFieldConversion"/>
+        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL"/>
         <field-descriptor name="itemUnitCostUSD" column="OLE_CON_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="categoryId" column="OLE_CAT_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="formatTypeId" column="OLE_FRMT_ID" jdbc-type="INTEGER"/>
@@ -3343,7 +3343,7 @@
         <field-descriptor name="itemForeignDiscountType" column="OLE_FOR_DISCNT_TYP" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemForeignDiscountAmt" column="OLE_FOR_DISCNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="itemForeignUnitCost" column="OLE_FOR_UNT_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL" conversion="org.kuali.ole.conversion.OjbOLEKualiDecimalFieldConversion"/>
+        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL"/>
         <field-descriptor name="itemUnitCostUSD" column="OLE_CON_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 
         <field-descriptor name="formatTypeId" column="OLE_FRMT_ID" jdbc-type="INTEGER"/>
@@ -3560,7 +3560,7 @@
         <field-descriptor name="itemForeignDiscountType" column="OLE_FOR_DISCNT_TYP" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemForeignDiscountAmt" column="OLE_FOR_DISCNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="itemForeignUnitCost" column="OLE_FOR_UNT_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL" conversion="org.kuali.ole.conversion.OjbOLEKualiDecimalFieldConversion"/>
+        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL"/>
         <field-descriptor name="itemUnitCostUSD" column="OLE_CON_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 
         <field-descriptor name="formatTypeId" column="OLE_FRMT_ID" jdbc-type="INTEGER"/>
@@ -4212,7 +4212,7 @@
         <field-descriptor name="itemForeignDiscountType" column="OLE_FOR_DISCNT_TYP" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemForeignDiscountAmt" column="OLE_FOR_DISCNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="itemForeignUnitCost" column="OLE_FOR_UNT_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL" conversion="org.kuali.ole.conversion.OjbOLEKualiDecimalFieldConversion"/>
+        <field-descriptor name="itemExchangeRate" column="OLE_EXCHANGE_RT" jdbc-type="DECIMAL"/>
         <field-descriptor name="itemUnitCostUSD" column="OLE_CON_CST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="itemTitleId" column="OLE_DOCUMENT_UUID" jdbc-type="VARCHAR"/>
         <reference-descriptor name="itemType" class-ref="org.kuali.ole.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
