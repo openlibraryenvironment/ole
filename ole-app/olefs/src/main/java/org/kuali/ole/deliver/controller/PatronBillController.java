@@ -8,6 +8,7 @@ import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.PatronBillForm;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
@@ -909,7 +910,7 @@ public class PatronBillController extends UifControllerBase {
                         }
                         if (sendMail) {
                             OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(email), new EmailSubject(OLEConstants.OVERDUE_NOTICE), new EmailBody(buffer.toString()), true);
+                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(email), new EmailSubject(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(OLEConstants.OVERDUE_NOTICE)), new EmailBody(buffer.toString()), true);
                             if (LOG.isInfoEnabled()) {
                                 LOG.info("Mail send successfully to " + email);
                             }

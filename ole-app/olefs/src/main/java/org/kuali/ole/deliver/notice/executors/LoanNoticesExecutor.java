@@ -92,9 +92,9 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
                     getPatronHomeEmailId(entityTypeContactInfoBo) : "";
 
             if (loanDocuments.size() == 1) {
-                sendMailsToPatron(emailAddress, mailContent, loanDocuments.get(0).getItemLocation(),oleNoticeContentConfigurationBo.getNoticeTitle());
+                sendMailsToPatron(emailAddress, mailContent, loanDocuments.get(0).getItemLocation(),oleNoticeContentConfigurationBo.getNoticeSubjectLine());
             } else {
-                sendMailsToPatron(emailAddress, mailContent, null,oleNoticeContentConfigurationBo.getNoticeTitle());
+                sendMailsToPatron(emailAddress, mailContent, null,oleNoticeContentConfigurationBo.getNoticeSubjectLine());
             }
 
         } catch (Exception e) {

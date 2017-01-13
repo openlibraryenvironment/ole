@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.form.OlePatronLoanNoticesSentForm;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.OlePatronLoanNoticeService;
 import org.kuali.ole.deliver.service.impl.OlePatronLoanNoticeServiceImpl;
@@ -89,7 +90,7 @@ public OlePatronLoanNoticeService getOlePatronLoanNoticeService(){
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)getBusinessObjectService().findMatching(OlePatronDocument.class,patronMap);
         if(olePatronDocumentList.size()>0){
             String mailAddress = olePatronDocumentList.get(0).getOlePatronEntityViewBo().getEmailAddress();
-            getOlePatronLoanNoticeService().sendMail(mailAddress, new String(oleDeliverNoticeHistory.getNoticeContent()),oleDeliverNoticeHistory.getNoticeType());
+            getOlePatronLoanNoticeService().sendMail(mailAddress, new String(oleDeliverNoticeHistory.getNoticeContent()), new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(oleDeliverNoticeHistory.getNoticeType()));
             oleLoanSentNoticesForm.setMessage("Mail Send Successfully for the patron  " + olePatronDocumentList.get(0).getPatronName()+" to the mail id "+mailAddress );
             OLEDeliverNoticeHistory oleDeliverNoticeHistory1 = getOlePatronLoanNoticeService().cloneOleDeliverNoticeHistory(oleDeliverNoticeHistory);
             getBusinessObjectService().save(oleDeliverNoticeHistory1);

@@ -12,6 +12,8 @@ import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.batch.OleSms;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.notice.service.OleNoticeService;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
@@ -68,6 +70,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
     private LoanProcessor loanProcessor = new LoanProcessor();
     private DocstoreUtil docstoreUtil = new DocstoreUtil();
     private CircDeskLocationResolver circDeskLocationResolver;
+    private OleNoticeService noticeService=new OleNoticeServiceImpl();
 
     private CircDeskLocationResolver getCircDeskLocationResolver() {
         if (circDeskLocationResolver == null) {
@@ -1095,13 +1098,13 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RECALL_NOTICE_SUBJECT), new EmailBody(content), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(oleNoticeBo.getNoticeName())), new EmailBody(content), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RECALL_NOTICE_SUBJECT), new EmailBody(content), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(oleNoticeBo.getNoticeName())), new EmailBody(content), true);
                     }
                 } else {
                     for (OleNoticeBo oleNoticeBo1 : oleNoticeBos) {
@@ -1227,13 +1230,13 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                             if (!content.trim().equals("")) {
                                 OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                                 if (oleDeliverRequestBoList.get(i).getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBoList.get(i).getOlePickUpLocation().getReplyToEmail())) {
-                                    oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBoList.get(i).getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.ONHOLD_NOTICE_SUBJECT), new EmailBody(content), true);
+                                    oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBoList.get(i).getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(oleNoticeBo.getNoticeName())), new EmailBody(content), true);
                                 } else {
                                     String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                                     if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                         fromAddress = OLEConstants.KUALI_MAIL;
                                     }
-                                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.ONHOLD_NOTICE_SUBJECT), new EmailBody(content), true);
+                                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(oleNoticeBo.getNoticeName())), new EmailBody(content), true);
                                 }
                             } else {
                                 for (OleNoticeBo oleNoticeBo1 : noticesList) {
@@ -1709,13 +1712,13 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                                 OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                                 String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                                 if (replyToEmail != null) {
-                                    oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(notice), new EmailBody(noticeContent), true);
+                                    oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(notice)), new EmailBody(noticeContent), true);
                                 } else {
                                     String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                                     if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                         fromAddress = OLEConstants.KUALI_MAIL;
                                     }
-                                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(notice), new EmailBody(noticeContent), true);
+                                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(notice)), new EmailBody(noticeContent), true);
                                 }
                             } else {
                                 for (OleNoticeBo oleNoticeBo1 : oleNoticeBos) {
@@ -1820,13 +1823,13 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                         if (!noticeContent.trim().equals("")) {
                             OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                             if (oleDeliverRequestBo.getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail())) {
-                                oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(notice), new EmailBody(noticeContent), true);
+                                oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(notice)), new EmailBody(noticeContent), true);
                             } else {
                                 String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                                 if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                     fromAddress = OLEConstants.KUALI_MAIL;
                                 }
-                                oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(notice), new EmailBody(noticeContent), true);
+                                oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(noticeService.getNoticeSubjectForNoticeType(notice)), new EmailBody(noticeContent), true);
                             }
                         } else {
                             for (OleNoticeBo oleNoticeBo1 : oleNoticeBos) {

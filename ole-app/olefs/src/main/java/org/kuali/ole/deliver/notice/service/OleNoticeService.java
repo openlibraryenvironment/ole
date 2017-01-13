@@ -20,4 +20,6 @@ public interface OleNoticeService {
     public OleDeliverRequestBo processNoticeForRequest(OleDeliverRequestBo oleDeliverRequestBo);
 
     public void updateHoldNoticesDate(String itemBarcode);
+
+    public String getNoticeSubjectForNoticeType(String noticeName);
 }

@@ -5,6 +5,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.service.OleNoticeService;
 import org.kuali.ole.deliver.notice.util.NoticeUtil;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
@@ -136,7 +137,18 @@ public class OleNoticeServiceImpl implements OleNoticeService {
         getBusinessObjectService().save(oleDeliverNoticeList);
     }
 
-
+    @Override
+    public String getNoticeSubjectForNoticeType(String noticeName){
+        String noticeSubject=null;
+        Map<String,String> noticeMap=new HashMap<>();
+        noticeMap.put("noticeType",noticeName);
+        List<OleNoticeContentConfigurationBo> noticeContentConfigurationBoList=(List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeMap);
+        if(noticeContentConfigurationBoList.size()>0) {
+            OleNoticeContentConfigurationBo noticeContentConfigurationBo = noticeContentConfigurationBoList.get(0);
+            noticeSubject=(noticeContentConfigurationBo.getNoticeSubjectLine()!=null?noticeContentConfigurationBo.getNoticeSubjectLine():null);
+        }
+        return noticeSubject;
+    }
 
 }
 
