@@ -158,10 +158,10 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
             if (noticeContentConfigName!=null &&noticeContentConfigName.equals(OLEConstants.ON_HOLD_EXP_NOTICE)) {
                 if (getParameterValue(OLEConstants.HOLD_COUR_NOT_TYP).equals(OLEConstants.EMAIL_NOT_TYP)) {
-                    sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeTitle());
+                    sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeSubjectLine());
                 }
             } else {
-                sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeTitle());
+                sendMail(mailContent,oleNoticeContentConfigurationBo.getNoticeSubjectLine());
             }
 
 
