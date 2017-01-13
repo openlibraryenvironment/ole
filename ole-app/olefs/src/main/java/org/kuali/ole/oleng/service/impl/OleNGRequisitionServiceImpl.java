@@ -169,7 +169,7 @@ public class OleNGRequisitionServiceImpl extends BusinessObjectServiceHelperUtil
         setItemDescription(oleOrderRecord, item);
         item.setItemTypeCode(oleTxRecord.getItemType());
         item.setItemListPrice(new KualiDecimal(oleTxRecord.getListPrice()));
-
+        item.setSingleCopyNumber(oleTxRecord.getSingleCopyNumber());
         setDiscountAndItemUnitPrice(item, oleTxRecord);
 
         if (ObjectUtils.isNotNull(oleBibRecord.getBibUUID())) {

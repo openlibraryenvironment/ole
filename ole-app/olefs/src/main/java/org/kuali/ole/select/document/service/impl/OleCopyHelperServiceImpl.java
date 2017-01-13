@@ -287,7 +287,11 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
                     volNum = volChar.size()>enumCount ? volChar.get(enumCount):"";
                     oleCopy.setEnumeration(caption + " " + volNum);
                     oleCopy.setReceiptStatus(OLEConstants.OleLineItemReceiving.NOT_RECEIVED_STATUS);
-                    oleCopy.setCopyNumber(copyNum!=null?copyNum.toString():null);
+                    if(itemCopy.getSingleCopyNumber()!=null){
+                        oleCopy.setCopyNumber(itemCopy.getSingleCopyNumber().toString());
+                    }else {
+                        oleCopy.setCopyNumber(copyNum != null ? copyNum.toString() : null);
+                    }
                     oleCopy.setPartNumber(partNumCount + "");
                     oleCopy.setBibId(bibId);
                     if (oleERSIdentifier != null) {
