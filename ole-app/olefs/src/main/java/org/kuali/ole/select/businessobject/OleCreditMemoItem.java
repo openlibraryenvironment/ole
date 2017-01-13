@@ -29,7 +29,6 @@ import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.document.OleVendorCreditMemoDocument;
 import org.kuali.ole.select.lookup.DocData;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.util.OLEKualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -46,7 +45,7 @@ public class OleCreditMemoItem extends CreditMemoItem {
     protected String itemForeignDiscountType;
     protected KualiDecimal itemForeignDiscountAmt;
     protected KualiDecimal itemForeignUnitCost;
-    protected OLEKualiDecimal itemExchangeRate;
+    protected BigDecimal itemExchangeRate;
     protected KualiDecimal itemUnitCostUSD;
     //Bib details
     private BibInfoBean bibInfoBean;
@@ -336,11 +335,11 @@ public class OleCreditMemoItem extends CreditMemoItem {
         this.itemForeignUnitCost = itemForeignUnitCost;
     }
 
-    public OLEKualiDecimal getItemExchangeRate() {
+    public BigDecimal getItemExchangeRate() {
         return itemExchangeRate;
     }
 
-    public void setItemExchangeRate(OLEKualiDecimal itemExchangeRate) {
+    public void setItemExchangeRate(BigDecimal itemExchangeRate) {
         this.itemExchangeRate = itemExchangeRate;
     }
 
