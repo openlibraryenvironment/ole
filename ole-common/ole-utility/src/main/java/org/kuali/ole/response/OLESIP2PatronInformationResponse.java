@@ -158,11 +158,7 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
         if (StringUtils.isNotBlank(oleLookupUser.getMessage())) {
             builder.append(OLESIP2Constants.SPLIT+
                  OLESIP2Constants.SCREEN_MSG_CODE);
-            if(oleLookupUser.isValidPatron()==true){
-                builder.append(oleLookupUser.getMessage());
-            }else{
-                builder.append(OLESIP2Constants.SCREEN_FAILURE_MSG);
-            }
+            builder.append(oleLookupUser.getMessage());
         }
 
         if (StringUtils.isNotBlank(sip2PatronInformationRequestParser.getSequenceNum())) {
