@@ -191,6 +191,9 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         String patronBarcode = "";
         if(olePatron!=null){
             patronBarcode = olePatron.getBarcode();
+        }else{
+            patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
+            patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
         }
         parameterMap.put("patronBarcode", patronBarcode);
         Date dateSent = new Date();

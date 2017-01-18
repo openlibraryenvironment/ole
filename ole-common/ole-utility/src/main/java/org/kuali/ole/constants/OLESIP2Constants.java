@@ -131,6 +131,8 @@ public class OLESIP2Constants {
     public static final String PATRON_ENABLED="Patron Enabled successfully";
     public static final String YES="YES";
     public static final String ONHOLD="ONHOLD";
+    public static final String SCREEN_FAILURE_MSG="Checkout Privileges Denied";
+    public static final String SCREEN_SUCCESS_MSG="Checkout Privileges Permitted";
     public static final String REQUEST_PROCESSED="Requested process completed successfully.";
 
 
