@@ -159,7 +159,7 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
             builder.append(OLESIP2Constants.SPLIT+
                  OLESIP2Constants.SCREEN_MSG_CODE);
             if(oleLookupUser.isValidPatron()==true){
-                builder.append(oleLookupUser.getMessage());
+                builder.append(OLESIP2Constants.SCREEN_SUCCESS_MSG);
             }else{
                 builder.append(OLESIP2Constants.SCREEN_FAILURE_MSG);
             }
