@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.controller.notices;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.util.NoticeInfo;
 
 import java.util.*;
@@ -21,5 +22,11 @@ public class RecallCourtseyNoticeDueDateProcessor extends CourtseyNoticeDueDateP
     @Override
     protected Map<String, Object> getNoticeInfoForTypeMap(NoticeInfo noticeInfo) {
         return noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_COURTESY_NOTICE);
+    }
+
+    @Override
+    protected String getNumberOfCourtesyNoticeToSent(NoticeInfo noticeInfo){
+        return (String) noticeInfo.getNoticeInfoForTypeMap().get
+                (OLEConstants.RECALL_COURTESY_NOTICE).get(DroolsConstants.NUMBER_OF_COURTESY_NOTICES_TO_BE_SENT);
     }
 }
