@@ -27,23 +27,30 @@ public class CourtseyNoticeDueDateProcessor extends NoticeDueDateProcessor {
         List<OLEDeliverNotice> courtseyNotices = new ArrayList<>();
 
         Timestamp loanDueDate = oleLoanDocument.getLoanDueDate();
-
+        Integer numberOfCourtesyNoticeToBeSent = Integer.parseInt(getNumberOfCourtesyNoticeToSent(noticeInfo));
         if (null != loanDueDate) {
             String loanId = oleLoanDocument.getLoanId();
             Map<String, Object> courtesyMap = getNoticeInfoForTypeMap(noticeInfo);
 
             try {
-                int intervalToGenerateCourtseyNotice = Integer.parseInt((String) courtesyMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY));
+                String intervalToGenerateCourtseyNotice = (String) courtesyMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY);
+                StringTokenizer intervalTokenizer = new StringTokenizer(intervalToGenerateCourtseyNotice,",");
+                int tokenCounts = intervalTokenizer.countTokens();
                 String noticeContentConfigName = (String) courtesyMap.get(OLEConstants.COURTESY_NOTICE_CONTENT_CONFIG_NAME);
-                OLEDeliverNotice courtesyNotice = new OLEDeliverNotice();
-                courtesyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
-                courtesyNotice.setNoticeSendType(DroolsConstants.EMAIL);
-                Date dateToSent = calculateNoticeDueDate(loanDueDate, -intervalToGenerateCourtseyNotice, noticeInfo.getIntervalType());
-                courtesyNotice.setNoticeToBeSendDate(new Timestamp(dateToSent.getTime()));
-                courtesyNotice.setLoanId(loanId);
-                courtesyNotice.setPatronId(oleLoanDocument.getPatronId());
-                courtesyNotice.setNoticeContentConfigName(noticeContentConfigName);
-                courtseyNotices.add(courtesyNotice);
+                if((Integer.valueOf(numberOfCourtesyNoticeToBeSent))  == tokenCounts){
+                    for(int intervalCount = 1 ; intervalCount <= numberOfCourtesyNoticeToBeSent ; intervalCount++){
+                        Integer interval = Integer.valueOf((String) intervalTokenizer.nextElement());
+                        OLEDeliverNotice courtesyNotice = new OLEDeliverNotice();
+                        courtesyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
+                        courtesyNotice.setNoticeSendType(DroolsConstants.EMAIL);
+                        Date dateToSent = calculateNoticeDueDate(loanDueDate, -interval, noticeInfo.getIntervalType());
+                        courtesyNotice.setNoticeToBeSendDate(new Timestamp(dateToSent.getTime()));
+                        courtesyNotice.setLoanId(loanId);
+                        courtesyNotice.setPatronId(oleLoanDocument.getPatronId());
+                        courtesyNotice.setNoticeContentConfigName(noticeContentConfigName);
+                        courtseyNotices.add(courtesyNotice);
+                    }
+                }
             } catch (NumberFormatException numberFormatException) {
                 LOG.error("Invalid Interval given for courtsey notice.");
             } catch (Exception e) {
@@ -57,5 +64,10 @@ public class CourtseyNoticeDueDateProcessor extends NoticeDueDateProcessor {
     @Override
     protected Map<String, Object> getNoticeInfoForTypeMap(NoticeInfo noticeInfo) {
         return noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.COURTESY_NOTICE);
+    }
+
+    protected String getNumberOfCourtesyNoticeToSent(NoticeInfo noticeInfo){
+         return (String) noticeInfo.getNoticeInfoForTypeMap().get
+                        (OLEConstants.COURTESY_NOTICE).get(DroolsConstants.NUMBER_OF_COURTESY_NOTICES_TO_BE_SENT);
     }
 }

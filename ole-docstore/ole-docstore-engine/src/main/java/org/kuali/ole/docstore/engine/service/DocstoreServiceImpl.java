@@ -909,7 +909,7 @@ public class DocstoreServiceImpl implements DocstoreService {
                             itemContent.getLocation().getLocationLevel().getName() != null &&
                             !itemContent.getLocation().getLocationLevel().getName().isEmpty()) {
                         if (existingItemContent.getLocation() != null && existingItemContent.getLocation().getLocationLevel() != null) {
-                            existingItemContent.getLocation().getLocationLevel().setName(itemContent.getLocation().getLocationLevel().getName());
+                            existingItemContent.setLocation(itemContent.getLocation());
                         } else {
                             existingItemContent.setLocation(itemContent.getLocation());
                         }

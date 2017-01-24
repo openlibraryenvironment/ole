@@ -13,6 +13,7 @@ public class OleDroolsHoldResponseBo {
     private String recallLoanPeriod;
     private int courtesyNoticeInterval;
     private int numberOfOverdueToBeSent;
+    private int numberOfCourtesyToBeSent;
     private int intervalToGenerateOverdueNotice;
     private int replacementBill;
     private String recallNoticeContentConfigName;
@@ -114,5 +115,13 @@ public class OleDroolsHoldResponseBo {
 
     public void setOnHoldExpirationNoticeContentConfigName(String onHoldExpirationNoticeContentConfigName) {
         OnHoldExpirationNoticeContentConfigName = onHoldExpirationNoticeContentConfigName;
+    }
+
+    public int getNumberOfCourtesyToBeSent() {
+        return numberOfCourtesyToBeSent;
+    }
+
+    public void setNumberOfCourtesyToBeSent(int numberOfCourtesyToBeSent) {
+        this.numberOfCourtesyToBeSent = numberOfCourtesyToBeSent;
     }
 }

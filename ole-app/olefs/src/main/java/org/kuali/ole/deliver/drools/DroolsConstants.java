@@ -54,6 +54,7 @@ public class DroolsConstants {
     public static final String INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY = "intervalToGenerateNoticeForCourtesy";
 
     public static final String NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT = "numberOfOverdueToBeSent";
+    public static final String NUMBER_OF_COURTESY_NOTICES_TO_BE_SENT = "numberOfCourtesyToBeSent";
 
     public static final String INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE = "intervalToGenerateNotice";
     public static final String REPLACEMENT_BILL_AMT = "replacementBill";
