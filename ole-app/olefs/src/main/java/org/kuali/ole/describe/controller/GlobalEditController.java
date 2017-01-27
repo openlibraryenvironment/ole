@@ -422,6 +422,10 @@ public class GlobalEditController extends OLESearchController {
             for (SearchResultDisplayRow searchResultDisplayRow : globalEditForm.getGlobalEditRecords()) {
                 searchResultDisplayRow.setSelect(false);
             }
+            globalEditForm.setTotalRecordCount(globalEditForm.getGlobalEditRecords().size());
+            globalEditForm.setPageSize(globalEditForm.getGlobalEditRecords().size());
+            globalEditForm.setPageNumber("1");
+            globalEditForm.getSearchParams().setStartIndex(0);
         }
 
         return navigate(globalEditForm, result, request, response);
