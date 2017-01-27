@@ -193,7 +193,7 @@ public class RenewController extends CircUtilController {
                     Map<String, Object> individualResponseMap = individualDroolResponse.getDroolsExchange().getContext();
                     OleLoanDocument individualLoanDocument = (OleLoanDocument) individualResponseMap.get(key);
                     if (null != individualLoanDocument) {
-                        individualLoanDocument.setNonCirculatingItem(false);
+                        individualLoanDocument.setNonCirculatingItem(true);
                         if (null == circForm.getLoanDocumentsForRenew()) {
                             circForm.setLoanDocumentsForRenew(new ArrayList<OleLoanDocument>());
                         }
