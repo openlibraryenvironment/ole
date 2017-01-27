@@ -1,7 +1,12 @@
 <div class="container col-lg-12">
     <div>
         <div class="form-group">
-            <table id="jobExecutionTableId" datatable="ng" dt-options="dtOptions" class="table table-bordered row-border hover">
+
+
+            <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="batchJobs.length"
+                ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
+
+            <table id="jobExecutionTableId" class="table table-bordered row-border hover">
                 <thead style="height: 20px">
                 <tr>
                     <th>Job Detail Id</th>
@@ -23,7 +28,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="batchJob in batchJobs">
+                <tr ng-repeat="batchJob in batchJobs  | paginate:currentPage:pageSize">
                     <td><span ng-bind="batchJob.jobDetailId"></span></td>
                     <td><span ng-bind="batchJob.jobName"></span></td>
                     <td><span ng-bind="batchJob.jobId"></span></td>
@@ -53,6 +58,9 @@
                 </tr>
                 </tbody>
             </table>
+
+            <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="batchJobs.length"
+                ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
         </div>
     </div>
 

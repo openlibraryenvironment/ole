@@ -1,4 +1,8 @@
-var batchProcessJobsApp = angular.module('batchProcessJobs', ['datatables', 'customDirectives', 'ui.date']);
+var batchProcessJobsApp = angular.module('batchProcessJobs', [
+    'ui.bootstrap',
+    'datatables', 'customDirectives', 'ui.date',
+    'ole.app-filter'
+]);
 
 var jobTypes = [
     {id: 'adhoc', name: 'Adhoc'},
@@ -45,7 +49,8 @@ function enableDatePicker(){
 batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http', '$interval', 'DTOptionsBuilder', function ($scope, $http, $interval, DTOptionsBuilder) {
 
 
-
+    $scope.currentPage = 1;
+    $scope.pageSize = 10;
 
     for (var i = 1; i <= 31; i++) {
         monthDays.push({id: i,name: i});
