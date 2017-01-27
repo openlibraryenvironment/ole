@@ -77,9 +77,9 @@ public class OleNGBatchJobSchedulerTest {
     @Test
     public void testReschedule() {
         OleNGBatchJobScheduler oleNGBatchJobScheduler = new OleNGBatchJobScheduler();
-        oleNGBatchJobScheduler.scheduleOrRescheduleJob(1,2,"", "0/5 * * * * ?");
-        oleNGBatchJobScheduler.scheduleOrRescheduleJob(1,2,"", "1/5 * * * * ?");
-        oleNGBatchJobScheduler.scheduleOrRescheduleJob(1,2,"", "3/5 * * * * ?");
+        oleNGBatchJobScheduler.scheduleOrRescheduleJob(1,2,"", "0/5 * * * * ?","ole-quickstart");
+        oleNGBatchJobScheduler.scheduleOrRescheduleJob(1,2,"", "1/5 * * * * ?","ole-quickstart");
+        oleNGBatchJobScheduler.scheduleOrRescheduleJob(1,2,"", "3/5 * * * * ?","ole-quickstart");
     }
 
 }

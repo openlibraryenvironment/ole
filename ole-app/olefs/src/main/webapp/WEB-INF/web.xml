@@ -545,18 +545,5 @@ This file contains custom application specific web.xml content.
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <display-name>BatchSchedulerServlet</display-name>
-        <servlet-name>OleBatchJobScheduler</servlet-name>
-        <servlet-class>org.kuali.ole.oleng.servlet.BatchSchedulerServlet</servlet-class>
-        <!-- startup after the rest servlet defined above -->
-        <load-on-startup>8</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>OleBatchJobScheduler</servlet-name>
-        <url-pattern>/scheduleJobs/*</url-pattern>
-    </servlet-mapping>
-
 </web-app>
 
