@@ -147,7 +147,7 @@
 
                 <bean id="circ_renewNoofRenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
 
-                <bean id="circ_renewDateRenewal" parent="Uif-DataField" p:label="Message(s)" p:width="25%" p:propertyName="errorMessage"/>
+                <bean id="circ_renewErrorMessage" parent="Uif-DataField" p:label="Message(s)" p:width="25%" p:propertyName="errorMessage"/>
 
             </list>
         </property>
