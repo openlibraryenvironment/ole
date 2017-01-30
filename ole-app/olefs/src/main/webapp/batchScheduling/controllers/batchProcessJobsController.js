@@ -50,6 +50,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
 
     $scope.currentPage = 1;
+    $scope.rowsToShow = [10,25, 50, 75, 100];
     $scope.pageSize = 10;
 
     for (var i = 1; i <= 31; i++) {
@@ -67,6 +68,7 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
 
     $scope.quickLaunch = {
         outputFormats: BATCH_CONSTANTS.OUTPUT_FORMATS,
+
         outputFormat: 'Marc'
     };
 
