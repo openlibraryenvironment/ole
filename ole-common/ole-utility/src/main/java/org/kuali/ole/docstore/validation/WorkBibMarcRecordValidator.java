@@ -185,6 +185,10 @@ public class WorkBibMarcRecordValidator {
             return;
         }
 
+        if(leader.length()!=24){
+            add(errors, "marc.editor.required.control.leader.length", Integer.toString(leader.length()));
+        }
+
         String charset = StringUtils.substring(leader, 9, 10);
         if (charset.equals("")) {       // charset not specified
             return;
