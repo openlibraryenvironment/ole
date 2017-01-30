@@ -69,6 +69,7 @@ public class OleNGPOValidationUtil {
         valid = validateListPrice(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateFundingSource(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateDonorCode(oleTxRecord, exchange, recordIndex) && valid;
+        valid = validateSingleCopyNumber(oleTxRecord, exchange, recordIndex) && valid;
 
         valid = validateBibRecord(oleOrderRecord, exchange, recordIndex) && valid;
 
@@ -450,6 +451,19 @@ public class OleNGPOValidationUtil {
                             new ValidationException("Invalid donor Code : " + donorCode), recordIndex, exchange);
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+
+    private boolean validateSingleCopyNumber(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
+        String singleCopyNumber = oleTxRecord.getSingleCopyNumber();
+        if (StringUtils.isNotBlank(singleCopyNumber)) {
+            if(!NumberUtils.isDigits(singleCopyNumber)) {
+                getBatchUtil().addOrderFaiureResponseToExchange(
+                        new ValidationException("Invalid Single Copy Number Value : " + singleCopyNumber), recordIndex, exchange);
+                return false;
             }
         }
         return true;
