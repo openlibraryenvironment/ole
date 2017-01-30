@@ -133,7 +133,6 @@ public class OrderImportServiceImpl implements OrderImportService {
                         overlayDonor(oleTxRecord, dataMapping);
                         overlayItemType(oleTxRecord, dataMapping);
                         overlayItemStatus(oleTxRecord, dataMapping);
-                        overlayCopyNumber(oleTxRecord, dataMapping);
                         overlayEnumeration(oleTxRecord, dataMapping);
                     }
                 } else {
@@ -164,17 +163,6 @@ public class OrderImportServiceImpl implements OrderImportService {
             if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
                 String chronology = listFromJSONArray.get(0);
                 oleTxRecord.setCaption(chronology);
-            }
-        }
-    }
-
-    private void overlayCopyNumber(OleTxRecord oleTxRecord, JSONObject dataMapping) {
-        JSONArray jsonArrayeFromJsonObject = getBatchUtil().getJSONArrayeFromJsonObject(dataMapping, OleNGConstants.BatchProcess.COPY_NUMBER);
-        if (null != jsonArrayeFromJsonObject) {
-            List<String> listFromJSONArray = getBatchUtil().getListFromJSONArray(jsonArrayeFromJsonObject.toString());
-            if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
-                String copyNumber = listFromJSONArray.get(0);
-                oleTxRecord.setSingleCopyNumber(copyNumber);
             }
         }
     }

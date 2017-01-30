@@ -3,7 +3,9 @@ package org.kuali.ole.oleng.scheduler;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.dao.DescribeDAO;
 import org.kuali.ole.oleng.scheduler.job.BatchSchedulerJob;
@@ -11,15 +13,15 @@ import org.kuali.ole.oleng.util.OleNGSchedulerHelperUtil;
 import org.kuali.ole.spring.batch.processor.*;
 import org.kuali.ole.utility.OleHttpRestGet;
 import org.kuali.ole.utility.OleHttpRestGetImpl;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.quartz.*;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -56,6 +58,9 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
     
     public void initializeAllJobs() {
         LOG.info("-- initializing batch jobs --");
+
+        String defaultUserForRestCall = getDefaultUserForRestCall();
+
         List<BatchProcessJob> batchProcessJobs = getDescribeDAO().fetchAllBatchProcessJobs();
         if(CollectionUtils.isNotEmpty(batchProcessJobs)) {
             for (Iterator<BatchProcessJob> iterator = batchProcessJobs.iterator(); iterator.hasNext(); ) {
@@ -72,7 +77,7 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
                             batchProcessJob.setNextRunTime(new Timestamp(nextValidTimeAfter.getTime()));
                             batchProcessJob.setJobType(OleNGConstants.SCHEDULED);
                             getBusinessObjectService().save(batchProcessJob);
-                            scheduleOrRescheduleJob(id, profileId, type, cron);
+                            scheduleOrRescheduleJob(id, profileId, type, cron, defaultUserForRestCall);
                         }
                     }
                 } catch (Exception e) {
@@ -83,18 +88,13 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
         }
     }
 
-    public void scheduleOrRescheduleJob(long id, long profileId, String jobType, String cron) {
+    public void scheduleOrRescheduleJob(long id, long profileId, String jobType, String cron, String principalName) {
         try {
             String jobId = OleNGConstants.JOB_NAME_PFX + id;
             JobDetail jobDetail = getScheduler().getJobDetail(jobId, OleNGConstants.GROUP);
             String triggerName = jobId + OleNGConstants.TRIGGER_SFX;
             if(null != jobDetail) {
                 unScheduleJob(jobId, false);
-            }
-            String principalName = "";
-            UserSession userSession = GlobalVariables.getUserSession();
-            if(userSession != null) {
-                principalName = userSession.getPrincipalName();
             }
             getScheduler().start();
             JobDetail job =  getJobDetail(jobType, jobId, OleNGConstants.GROUP);
@@ -216,5 +216,10 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
 
     public void setDescribeDAO(DescribeDAO describeDAO) {
         this.describeDAO = describeDAO;
+    }
+
+    private String getDefaultUserForRestCall() {
+        return ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OleNGConstants.DEFAULT_USER_FOR_REST_CALLS);
     }
 }

@@ -54,7 +54,7 @@ public class OleNGConstants {
 
         public static final String REQUISITION_SOURCE = "requisitionSource";
         public static final String ITEM_PRICE_SOURCE = "itemPriceSource";
-        public static final String SINGLE_COPY_NUMBER = "singleCopyNumber";
+        public static final String SINGLE_COPY_NUMBER = "Single Copy Number";
 
 
         public static final String DESTINATION_FIELD_ITEM_HOLDINGS_CALL_NUMBER = "Holdings Call Number";

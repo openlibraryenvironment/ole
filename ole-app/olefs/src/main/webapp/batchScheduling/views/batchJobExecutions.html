@@ -1,7 +1,18 @@
 <div class="container col-lg-12">
     <div>
         <div class="form-group">
-            <table id="jobExecutionTableId" datatable="ng" dt-options="dtOptions" class="table table-bordered row-border hover">
+
+            <div class="form-group">
+                <label>Show
+                    <select ng-model="pageSize">
+                        <option ng-repeat="row in rowsToShow">{{row}}</option>
+                    </select> entries
+                </label>
+                <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="batchJobs.length"
+                    ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
+            </div>
+
+            <table id="jobExecutionTableId" class="table table-bordered row-border hover">
                 <thead style="height: 20px">
                 <tr>
                     <th>Job Detail Id</th>
@@ -23,7 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="batchJob in batchJobs">
+                <tr ng-repeat="batchJob in batchJobs  | orderBy:'-jobDetailId' | paginate:currentPage:pageSize">
                     <td><span ng-bind="batchJob.jobDetailId"></span></td>
                     <td><span ng-bind="batchJob.jobName"></span></td>
                     <td><span ng-bind="batchJob.jobId"></span></td>
@@ -53,6 +64,14 @@
                 </tr>
                 </tbody>
             </table>
+
+            <div class="form-group">
+                <div ng-show="batchJobs.length > 0">
+                    Showing {{((currentPage - 1)*pageSize) + 1}} to {{currentPage * pageSize > batchJobs.length ? batchJobs.length : currentPage * pageSize}} from {{batchJobs.length}}
+                    <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="batchJobs.length"
+                        ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
+                </div>
+            </div>
         </div>
     </div>
 

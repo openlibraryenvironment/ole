@@ -21,6 +21,7 @@ import org.kuali.ole.oleng.util.BatchExcelReportUtil;
 import org.kuali.ole.spring.batch.BatchUtil;
 import org.kuali.ole.spring.batch.processor.*;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -270,7 +271,12 @@ public class BatchRestController extends OleNgControllerBase {
                         matchedBatchJob.setNextRunTime(null != date ? new Timestamp(date.getTime()) : null);
                         matchedBatchJob.setJobType(OleNGConstants.SCHEDULED);
                         getBusinessObjectService().save(matchedBatchJob);
-                        oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression());
+                        String principalName = "";
+                        UserSession userSession = GlobalVariables.getUserSession();
+                        if(userSession != null) {
+                            principalName = userSession.getPrincipalName();
+                        }
+                        oleNGBatchJobScheduler.scheduleOrRescheduleJob(Long.valueOf(jobId), matchedBatchJob.getBatchProfileId(), matchedBatchJob.getProfileType(), matchedBatchJob.getCronExpression(), principalName);
                         jsonObject.put(OleNGConstants.JOB_ID, matchedBatchJob.getJobId());
                         jsonObject.put(OleNGConstants.JOB_TYPE, matchedBatchJob.getJobType());
                         jsonObject.put(OleNGConstants.CRON_EXPRESSION, matchedBatchJob.getCronExpression());
