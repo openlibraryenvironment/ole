@@ -670,6 +670,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
      */
     public Item setItemDetails(OleCopy oleCopy, String itemTypeDescription) {
         Item item = null;
+        boolean newItem = false;
         org.kuali.ole.docstore.common.document.Item itemDocument = (org.kuali.ole.docstore.common.document.Item) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":item");
         if(null != itemDocument) {
             String content = itemDocument.getContent();
@@ -677,9 +678,9 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
                 item = (Item) new ItemOleml().deserializeContent(content);
             }
         }
-
         if(item == null) {
             item = new Item();
+            newItem = true;
         }
         /*
          * Location itemLocation = new Location(); LocationLevel locationLevel = new LocationLevel(); String locationLevelCode =
@@ -693,7 +694,9 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         docstoreItemType.setFullValue(itemTypeDescription);
         item.setItemType(docstoreItemType);
         item.setEnumeration(oleCopy.getEnumeration());
-        item.setCopyNumber(oleCopy.getCopyNumber());
+        if(newItem) {
+            item.setCopyNumber(oleCopy.getCopyNumber());
+        }
         return item;
     }
 
