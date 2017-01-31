@@ -961,13 +961,13 @@ public class LoanController extends UifControllerBase {
                                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                                         String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                                         if (replyToEmail!=null){
-                                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                                         }else {
                                             String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                                             if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                                 fromAddress = OLEConstants.KUALI_MAIL;
                                             }
-                                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                                         }
                                         if (LOG.isInfoEnabled()) {
                                             LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -1071,13 +1071,13 @@ public class LoanController extends UifControllerBase {
                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                         String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                         if (replyToEmail != null) {
-                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                         } else {
                             String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                             if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                 fromAddress = OLEConstants.KUALI_MAIL;
                             }
-                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                         }
                         if (LOG.isInfoEnabled()) {
                             LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3042,13 +3042,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3185,13 +3185,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3260,13 +3260,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3557,13 +3557,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3777,13 +3777,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -3876,13 +3876,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
@@ -4039,13 +4039,13 @@ public class LoanController extends UifControllerBase {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE), new EmailBody(missingNoticeDetails), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE), new EmailBody(missingNoticeDetails), true);
                     }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());

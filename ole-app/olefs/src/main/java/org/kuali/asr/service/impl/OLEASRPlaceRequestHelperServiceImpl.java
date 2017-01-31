@@ -2225,13 +2225,13 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                     if (!content.trim().equals("")) {
                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                         if (oleDeliverRequestBo.getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail())) {
-                            oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE), new EmailBody(content), true);
+                            oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE_SUBJECT_LINE), new EmailBody(content), true);
                         } else {
                             String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                             if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                                 fromAddress = OLEConstants.KUALI_MAIL;
                             }
-                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE), new EmailBody(content), true);
+                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.PICKUP_NOTICE_SUBJECT_LINE), new EmailBody(content), true);
                         }
                         LOG.info("Mail send Successfully to " + oleNoticeBo.getPatronEmailAddress());
                         oleDeliverBatchService.getPdfPickUpNotice(oleNoticeBo);

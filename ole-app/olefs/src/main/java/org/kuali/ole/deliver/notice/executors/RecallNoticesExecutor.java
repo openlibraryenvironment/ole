@@ -7,6 +7,7 @@ import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,7 @@ public class RecallNoticesExecutor extends RequestNoticesExecutor {
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+            oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(getType()));
         }
     }
 

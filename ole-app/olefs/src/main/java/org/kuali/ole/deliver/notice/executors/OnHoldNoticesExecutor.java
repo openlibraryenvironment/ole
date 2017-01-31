@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.OnHoldRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -67,6 +68,7 @@ public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+            oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(getType()));
         }
     }
 

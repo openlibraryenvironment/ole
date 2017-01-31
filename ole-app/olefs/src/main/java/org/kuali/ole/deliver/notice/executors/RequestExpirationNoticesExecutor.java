@@ -54,6 +54,7 @@ public class RequestExpirationNoticesExecutor extends RequestNoticesExecutor{
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+            oleNoticeContentConfigurationBo.setNoticeSubjectLine(OLEConstants.REQUEST_EXPIRATION_NOTICE_SUBJECT_LINE);
         }
     }
 
