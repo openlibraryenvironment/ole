@@ -870,6 +870,17 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                 currencyTypeIndicator=false;
             }
         }
+        Map vendorDetailMap = new HashMap();
+        vendorDetailMap.put(OLEConstants.VENDOR_HEADER_IDENTIFIER, document.getVendorHeaderGeneratedIdentifier());
+        vendorDetailMap.put(OLEConstants.VENDOR_DETAIL_IDENTIFIER, document.getVendorDetailAssignedIdentifier());
+        List<VendorAlias> vendorDetailList = (List) getBusinessObjectService().findMatching(VendorAlias.class, vendorDetailMap);
+        if (vendorDetailList != null && vendorDetailList.size() > 0) {
+            document.setVendorAliasName(vendorDetailList.get(0).getVendorAliasName());
+        }
+        else {
+            document.setVendorAliasName("");
+        }
+
         // To set PurchaseOrderTransmissionMethod depend on vendor transmission format
         if (document.getVendorDetail() != null) {
             boolean activePreferredFound = false;
@@ -888,9 +899,9 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                     }
                 }
             }
-            if (!activePreferredFound){
+            /*if (!activePreferredFound){
                 document.setPurchaseOrderTransmissionMethodCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE));
-            }
+            }*/
             if ( (!currencyTypeIndicator) && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 Long currencyTypeId = document.getVendorDetail().getCurrencyType().getCurrencyTypeId();
                 Map documentNumberMap = new HashMap();
