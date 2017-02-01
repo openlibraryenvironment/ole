@@ -3914,6 +3914,8 @@ public class OLEConstants {
     public static final String ONHOLD_NOTICE_SUBJECT = "On Hold Notice";
     public static final String REQUEST_EXPIRATION_NOTICE_SUBJECT = "Request Expiration Notice";
     public static final String NOTICE_HOLD_COURTESY_SUBJECT = "Hold Courtesy Notice";
-
+    public static final String REQUEST_EXPIRATION_NOTICE_SUBJECT_LINE="Library Request Expired";
+    public static final String RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE=" Missing Piece Returned";
+    public static final String PICKUP_NOTICE_SUBJECT_LINE="Library Item Available for Pickup";
 
 }

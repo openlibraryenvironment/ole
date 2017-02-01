@@ -88,6 +88,7 @@ public class MissingPieceNoticesExecutor extends LoanNoticesExecutor {
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+            oleNoticeContentConfigurationBo.setNoticeSubjectLine(OLEConstants.RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE);
         }
     }
 
