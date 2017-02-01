@@ -113,7 +113,7 @@
 
 <#list oleNoticeBos as oleNoticeBo>
     <#if oleNoticeContentConfigurationBo??>
-        <#if oleNoticeBo.noticeTitle == "Lost">
+        <#if oleNoticeBo.noticeType == "Lost">
             <@bill.bill oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@bill.bill>
         </#if>
         <br/>
