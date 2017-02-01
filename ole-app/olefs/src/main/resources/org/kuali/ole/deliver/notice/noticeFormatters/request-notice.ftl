@@ -80,7 +80,9 @@
 
 
 <#list oleNoticeBos as oleNoticeBo>
-    <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
+    <#if oleNoticeContentConfigurationBo??>
+        <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
+    </#if>
 <#if oleNoticeBo_has_next>
 ********************************************************************
 </#if>
