@@ -255,12 +255,12 @@ public class OlePurchasingAddItemValidation extends PurchasingAccountsPayableAdd
 
     private boolean isValidCopiesAndPartsForEInstance(KualiDecimal noOfCopiesOrdered, KualiInteger noOfPartsOrdered, String linkToOrderOption) {
         boolean valid = true;
-        if (StringUtils.isNotBlank(linkToOrderOption) && (linkToOrderOption.equals(OLEConstants.NB_ELECTRONIC) || linkToOrderOption.equals(OLEConstants.EB_ELECTRONIC)) && noOfCopiesOrdered != null && noOfPartsOrdered != null && (noOfCopiesOrdered.isGreaterThan(new KualiDecimal(1))
+        /*if (StringUtils.isNotBlank(linkToOrderOption) && (linkToOrderOption.equals(OLEConstants.NB_ELECTRONIC) || linkToOrderOption.equals(OLEConstants.EB_ELECTRONIC)) && noOfCopiesOrdered != null && noOfPartsOrdered != null && (noOfCopiesOrdered.isGreaterThan(new KualiDecimal(1))
                 || noOfPartsOrdered.isGreaterThan(new KualiInteger(1)))) {
             GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,
                     OLEConstants.ITEM_COPIESANDPARTS_SHOULDNOT_BE_GREATERTHAN_ONE_EINSTANCE, new String[]{});
             valid = false;
-        }
+        }*/
         return valid;
     }
 

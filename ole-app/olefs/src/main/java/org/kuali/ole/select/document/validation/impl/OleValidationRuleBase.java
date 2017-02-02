@@ -764,10 +764,10 @@ public class OleValidationRuleBase extends AccountingRuleEngineRuleBase implemen
                             reqItem.setItemLocation(OLEConstants.MULTIPLE_ITEM_LOC);
                     }
                 }
-                else if (reqItem.getLinkToOrderOption().equals(OLEConstants.NB_ELECTRONIC) || reqItem.getLinkToOrderOption().equals(OLEConstants.EB_ELECTRONIC)){
+                /*else if (reqItem.getLinkToOrderOption().equals(OLEConstants.NB_ELECTRONIC) || reqItem.getLinkToOrderOption().equals(OLEConstants.EB_ELECTRONIC)){
                     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,
                             OLEConstants.ITEM_COPIESANDPARTS_SHOULDNOT_BE_GREATERTHAN_ONE_EINSTANCE, new String[]{});
-                }
+                }*/
             } else {
                 if (reqItem.getItemLocation() == null || reqItem.getItemLocation().isEmpty()) {
                     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,
@@ -800,10 +800,10 @@ public class OleValidationRuleBase extends AccountingRuleEngineRuleBase implemen
                             purItem.setItemLocation(OLEConstants.MULTIPLE_ITEM_LOC);
                     }
                 }
-                else if (purItem.getLinkToOrderOption().equals(OLEConstants.NB_ELECTRONIC) || purItem.getLinkToOrderOption().equals(OLEConstants.EB_ELECTRONIC)){
+                /*else if (purItem.getLinkToOrderOption().equals(OLEConstants.NB_ELECTRONIC) || purItem.getLinkToOrderOption().equals(OLEConstants.EB_ELECTRONIC)){
                     GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,
                             OLEConstants.ITEM_COPIESANDPARTS_SHOULDNOT_BE_GREATERTHAN_ONE_EINSTANCE, new String[]{});
-                }
+                }*/
                 else {
                     OleCopyHelperService oleCopyHelperService = SpringContext.getBean(OleCopyHelperService.class);
                     isValid = oleCopyHelperService.checkForTotalCopiesGreaterThanQuantityAtSubmit(purItem.getCopies(), purItem.getItemQuantity());
