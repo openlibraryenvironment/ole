@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.impl.OLEBatchProcess;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.instance.*;
@@ -63,28 +64,41 @@ public class ExportHoldingsMappingHelper {
                     }
                 }
             }
+            boolean isStaffOnly = false;
             if (!CollectionUtils.isEmpty(dataFieldsHoldingsMap)) {
-                generateSubFieldsForHolding(holdingsTree.getHoldings(), dataFieldsHoldingsMap);
-            }
-            if (!CollectionUtils.isEmpty(dataFieldsItemsMap) || !CollectionUtils.isEmpty(dataFieldsDonorMap) || !CollectionUtils.isEmpty(dataFieldsItemNoteMap)) {
-                for (org.kuali.ole.docstore.common.document.Item itemDoc : holdingsTree.getItems()) {
-                    if (itemDoc == null) continue;
-                    boolean isStaffOnly = false;
-                    if (profile.getExportScope().equalsIgnoreCase(OLEBatchProcess.INCREMENTAL_EXPORT_EX_STAFF)) {
-                        if (itemDoc.isStaffOnly()) {
-                            isStaffOnly = true;
-                        }
+                if(profile.getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
+                        profile.getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)) {
+                    if(holdingsTree.getHoldings()!=null && holdingsTree.getHoldings().isStaffOnly()) {
+                        isStaffOnly=true;
                     }
-                    if (!isStaffOnly) {
-                        if (itemDoc.getContent() != null && !itemDoc.getContent().isEmpty()) {
-                            item = itemOlemlRecordProcessor.fromXML(itemDoc.getContent());
-                        } else {
-                            item = (Item) itemDoc.getContentObject();
+                }
+
+                if(!isStaffOnly) {
+                    generateSubFieldsForHolding(holdingsTree.getHoldings(),dataFieldsHoldingsMap);
+                }
+            }
+            isStaffOnly=false;
+            if (!CollectionUtils.isEmpty(dataFieldsItemsMap) || !CollectionUtils.isEmpty(dataFieldsDonorMap) || !CollectionUtils.isEmpty(dataFieldsItemNoteMap)) {
+                if(holdingsTree.getHoldings()!=null && !holdingsTree.getHoldings().isStaffOnly()) {
+                    for (org.kuali.ole.docstore.common.document.Item itemDoc : holdingsTree.getItems()) {
+                        if (itemDoc == null) continue;
+                        if (profile.getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
+                                profile.getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)) {
+                            if (itemDoc.isStaffOnly()) {
+                                isStaffOnly = true;
+                            }
                         }
-                        List<DataField> dataFieldsItemList = generateSubFieldsForItem(holdingsTree.getHoldings(), item, dataFieldsItemsMap, dataFieldsDonorMap, new ArrayList<DataField>(),dataFieldsItemNoteMap);
-                        if (!CollectionUtils.isEmpty(dataFieldsItemList))
-                            dataFieldList.addAll(dataFieldsItemList);
-                        dataFieldsItemList.clear();
+                        if (!isStaffOnly) {
+                            if (itemDoc.getContent() != null && !itemDoc.getContent().isEmpty()) {
+                                item = itemOlemlRecordProcessor.fromXML(itemDoc.getContent());
+                            } else {
+                                item = (Item) itemDoc.getContentObject();
+                            }
+                            List<DataField> dataFieldsItemList = generateSubFieldsForItem(holdingsTree.getHoldings(), item, dataFieldsItemsMap, dataFieldsDonorMap, new ArrayList<DataField>(), dataFieldsItemNoteMap);
+                            if (!CollectionUtils.isEmpty(dataFieldsItemList))
+                                dataFieldList.addAll(dataFieldsItemList);
+                            dataFieldsItemList.clear();
+                        }
                     }
                 }
             }
