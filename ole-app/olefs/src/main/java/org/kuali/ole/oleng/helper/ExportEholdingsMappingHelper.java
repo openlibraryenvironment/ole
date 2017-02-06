@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.helper.InstanceMappingHelper;
+import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
@@ -64,7 +65,16 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                 }
             }
             if (!CollectionUtils.isEmpty(dataFieldEHoldingMap) || !CollectionUtils.isEmpty(dataFieldCoverageMap) || !CollectionUtils.isEmpty(dataFieldsDonorMap)) {
-                generateSubFieldsForEHolding(oleHoldings, dataFieldEHoldingMap, dataFieldCoverageMap, dataFieldsDonorMap);
+                boolean isStaffOnly = false;
+                if(profile.getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
+                        profile.getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)) {
+                    if(holdingsTree.getHoldings()!=null && holdingsTree.getHoldings().isStaffOnly()) {
+                        isStaffOnly=true;
+                    }
+                }
+                if(!isStaffOnly) {
+                    generateSubFieldsForEHolding(oleHoldings, dataFieldEHoldingMap, dataFieldCoverageMap, dataFieldsDonorMap);
+                }
             } else {
                 return Collections.EMPTY_LIST;
             }
