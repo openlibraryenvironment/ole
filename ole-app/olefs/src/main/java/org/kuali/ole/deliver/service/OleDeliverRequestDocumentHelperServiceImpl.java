@@ -2638,14 +2638,6 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
                 try {
                     requestId = ":" + OLEConstants.OleDeliverRequest.REQUEST_ID + ":" + oleDeliverRequestBo.getRequestId();
-                    Map<String,String> criteriaMap = new HashMap<>();
-                    criteriaMap.put("itemId",itemBarcode);
-                    List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
-                    OleCirculationHistory oleCirculationHistory = circulationHistoryRecords.get(circulationHistoryRecords.size()-1);
-                    if(!StringUtils.isNotBlank(oleCirculationHistory.getOleRequestId())){
-                        oleCirculationHistory.setOleRequestId(oleDeliverRequestBo.getRequestId());
-                        businessObjectService.save(oleCirculationHistory);
-                    }
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Request Raised Succesfully" + requestId);
                     }

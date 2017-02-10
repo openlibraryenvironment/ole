@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.rule;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ntp.TimeStamp;
 import org.kuali.asr.ASRConstants;
 import org.kuali.asr.service.ASRHelperServiceImpl;
@@ -7,6 +8,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.ASRTypeRequest;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.bo.OleCirculationHistory;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.service.OleNoticeService;
 import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
@@ -155,6 +157,14 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                 businessObjectService.save(asrTypeRequest);
             }
           getOleNoticeService().processNoticeForRequest(oleDeliverRequestBo);
+            Map<String,String> criteriaMap = new HashMap<>();
+            criteriaMap.put("itemId",oleDeliverRequestBo.getItemId());
+            List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
+            OleCirculationHistory oleCirculationHistory = circulationHistoryRecords.get(circulationHistoryRecords.size()-1);
+            if(!StringUtils.isNotBlank(oleCirculationHistory.getOleRequestId())){
+                oleCirculationHistory.setOleRequestId(oleDeliverRequestBo.getRequestId());
+                businessObjectService.save(oleCirculationHistory);
+            }
         }
 
         if((oleDeliverRequestBo.getHoldExpirationDate()!=null && oldDeliverRequestBo.getHoldExpirationDate() == null) ||
