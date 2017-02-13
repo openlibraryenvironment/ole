@@ -33,7 +33,7 @@
         <bean id="circAlterDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="openAlterDueDateDialog" p:actionLabel="Alter Due Date"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
               p:ajaxSubmit="true" />
         <bean id="circClaimsReturnButton" parent="Uif-SecondaryActionButton" p:actionLabel="Claims Return"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
-              p:actionScript="submitForm('openClaimsReturnDialog',null,null,true,function(){
+              p:actionScript="submitForm('checkForRequestExistsDialog',null,null,true,function(){
                             });"/>
         <bean id="circMissingPieceButton" parent="Uif-SecondaryActionButton" p:actionLabel="Missing Piece"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
               p:actionScript="submitForm('openMissingPieceItemDialog',null,null,true,function(){
