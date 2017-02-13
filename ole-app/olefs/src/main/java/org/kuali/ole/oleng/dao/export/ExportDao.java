@@ -66,7 +66,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             List<String> bibIds = new ArrayList<>();
 
             if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)){
-                bibIds=getBibIdFromSqlQuery(query);
+                bibIds=getBibIdFromSqlQuery(query,batchProcessTxObject.getBatchProcessProfile().getExportScope());
                 if(bibIds!=null){
                     totalCount=bibIds.size();
                 }
@@ -261,11 +261,24 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
         return maxNumberOfThread;
     }
 
-    private List<String> getBibIdFromSqlQuery(String query) throws SQLException {
+    private List<String> getBibIdFromSqlQuery(String query,String batchExportScope) throws SQLException {
         List<String> bibIdList=new ArrayList<>();
-        SqlRowSet bibIdResultSet = getJdbcTemplate().queryForRowSet(query);
-        while (bibIdResultSet.next()){
-            bibIdList.add(bibIdResultSet.getString(1));
+        Set<String> bibIdSet=new HashSet<>();
+        SqlRowSet bibIdResultSet=null;
+        if(batchExportScope.equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)){
+            String[] queryList=query.split("\\|");
+            for(int i=0;i<queryList.length;i++){
+                bibIdResultSet=getJdbcTemplate().queryForRowSet(queryList[i]);
+                while (bibIdResultSet.next()){
+                    bibIdSet.add(bibIdResultSet.getString(1));
+                }
+            }
+            bibIdList=new ArrayList<>(bibIdSet);
+        }else {
+            bibIdResultSet = getJdbcTemplate().queryForRowSet(query);
+            while (bibIdResultSet.next()) {
+                bibIdList.add(bibIdResultSet.getString(1));
+            }
         }
         return bibIdList;
     }
