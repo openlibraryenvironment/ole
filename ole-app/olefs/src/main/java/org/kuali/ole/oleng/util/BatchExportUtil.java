@@ -100,7 +100,12 @@ public class BatchExportUtil extends BatchUtil {
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fromDate = format.format(lastExportDate);
-        return "SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) AND STAFF_ONLY='N'";
+        StringBuilder queryString=new StringBuilder();
+        queryString.append("SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) AND STAFF_ONLY='N'");
+        queryString.append("|");
+        queryString.append("SELECT H.BIB_ID FROM OLE_DS_HOLDINGS_T H JOIN OLE_DS_ITEM_T I ON H.HOLDINGS_ID = I.HOLDINGS_ID WHERE (H.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW() ");
+        queryString.append("OR I.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) GROUP BY H.BIB_ID");
+        return queryString.toString();
     }
 
     public List<String> getFilterSolrQuery(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
