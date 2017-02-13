@@ -640,7 +640,7 @@ public abstract class CheckinBaseController extends CircUtilController {
         oleReturnHistoryRecord.setOperator(getOperatorId(oleForm));
         oleReturnHistoryRecord.setReturnedItemStatus(oleItemRecordForCirc.getItemStatusToBeUpdatedTo());
         try {
-            oleReturnHistoryRecord.setReturnedDateTime(processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm)));
+            oleReturnHistoryRecord.setReturnedDateTime(new Timestamp(System.currentTimeMillis()));
         } catch (Exception e) {
             e.printStackTrace();
         }
