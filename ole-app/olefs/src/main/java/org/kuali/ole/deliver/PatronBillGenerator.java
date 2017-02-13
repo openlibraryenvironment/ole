@@ -35,7 +35,7 @@ public class PatronBillGenerator {
     private CircDeskLocationResolver circDeskLocationResolver;
     private PatronBillHelperService patronBillHelperService;
 
-    public String generatePatronBillPayment(OleLoanDocument oleLoanDocument, String feeTypeName, Double fineAmount, Timestamp dueDate) throws  Exception {
+    public String generatePatronBillPayment(OleLoanDocument oleLoanDocument, String feeTypeName, Double fineAmount, Timestamp dueDate,boolean isRenew) throws  Exception {
         long begin = System.currentTimeMillis();
         StringBuffer contentForSendMail = new StringBuffer();
 
@@ -56,7 +56,12 @@ public class PatronBillGenerator {
         feeType.setPaymentStatus(olePaymentStatus.getPaymentStatusId());
         feeType.setBalFeeAmount(new KualiDecimal(fineAmount));
         feeType.setFeeSource(OLEConstants.SYSTEM);
-        feeType.setDueDate(dueDate);
+        if(isRenew){
+            feeType.setDueDate(oleLoanDocument.getPastDueDate()!=null ? new Timestamp(oleLoanDocument.getPastDueDate().getTime()):dueDate);
+            feeType.setRenewalDate(new Timestamp(System.currentTimeMillis()));
+        }else{
+            feeType.setDueDate(dueDate);
+        }
         if(oleLoanDocument.isOverrideCheckInTime()){
             feeType.setOverrideCheckInDate(oleLoanDocument.getCheckInDate());
             feeType.setCheckInDate(new Timestamp(System.currentTimeMillis()));

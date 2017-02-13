@@ -82,7 +82,7 @@ public class RenewController extends CircUtilController {
                                             droolsResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
                                             finalDroolResponse.getDroolsExchange().getContext().put(oleLoanDocument.getItemUuid(), droolsResponse);
 
-                                            generateBillPayment(oleLoanDocument.getCirculationLocationId(),oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                            generateBillPayment(oleLoanDocument.getCirculationLocationId(),oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()),true);
                                             if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())){
                                                 oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_CHECKEDOUT);
                                                 processLostItem(GlobalVariables.getUserSession().getPrincipalId(), oleLoanDocument, true);
@@ -267,7 +267,7 @@ public class RenewController extends CircUtilController {
                     String content = "Successfully renewed for item (" + oleLoanDocument.getItemId() + ")";
                     appendContentToStrinBuilder(stringBuilder, content);
 
-                    generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                    generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()),true);
                     if (StringUtils.isNotBlank(oleLoanDocument.getItemStatus()) && oleLoanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)) {
                         oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_CHECKEDOUT);
                         processLostItem(GlobalVariables.getUserSession().getPrincipalId(), oleLoanDocument, true);

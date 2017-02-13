@@ -509,39 +509,39 @@ public class CircUtilController extends RuleExecutor {
         return noticeProcessors;
     }
 
-    public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate) {
+    public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate,boolean isRenew) {
         String billPayment = null;
         ItemFineRate itemFineRate = loanDocument.getItemFineRate();
         if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
             LOG.error("No fine rule found");
         } else {
             if (null != loanDocument.getReplacementBill() && loanDocument.getReplacementBill().compareTo(BigDecimal.ZERO) > 0) {
-                billPayment = generateReplacementBill(loanDocument, dueDate);
+                billPayment = generateReplacementBill(loanDocument, dueDate,isRenew);
             } else {
                 Double overdueFine = new FineDateTimeUtil().calculateOverdueFine(selectedCirculationDesk, dueDate, customDueDateMap, itemFineRate);
                 overdueFine = overdueFine >= itemFineRate.getMaxFine() ? itemFineRate.getMaxFine() : overdueFine;
                 if (null != overdueFine && overdueFine > 0) {
-                    billPayment = generateOverdueBill(loanDocument, overdueFine, dueDate);
+                    billPayment = generateOverdueBill(loanDocument, overdueFine, dueDate,isRenew);
                 }
             }
         }
         return billPayment;
     }
 
-    private String generateOverdueBill(OleLoanDocument loanDocument, Double overdueFine, Timestamp dueDate) {
+    private String generateOverdueBill(OleLoanDocument loanDocument, Double overdueFine, Timestamp dueDate,boolean isRenew) {
         String billPayment = null;
         try {
-            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.OVERDUE_FINE, overdueFine, dueDate);
+            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.OVERDUE_FINE, overdueFine, dueDate,isRenew);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return billPayment;
     }
 
-    private String generateReplacementBill(OleLoanDocument loanDocument, Timestamp dueDate) {
+    private String generateReplacementBill(OleLoanDocument loanDocument, Timestamp dueDate,boolean isRenew) {
         String billPayment = null;
         try {
-            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.REPLACEMENT_FEE, loanDocument.getReplacementBill().doubleValue(), dueDate);
+            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.REPLACEMENT_FEE, loanDocument.getReplacementBill().doubleValue(), dueDate,isRenew);
         } catch (Exception e) {
             e.printStackTrace();
         }
