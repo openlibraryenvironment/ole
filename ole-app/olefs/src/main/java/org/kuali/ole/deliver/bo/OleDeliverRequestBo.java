@@ -125,6 +125,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String recallNoticeContentConfigName;
     private String requestExpirationNoticeContentConfigName;
     private String OnHoldNoticeContentConfigName;
+    private String OnHoldCourtesyNoticeContentConfigName;
     private String OnHoldExpirationNoticeContentConfigName;
 
     private String requestNote;
@@ -1184,5 +1185,13 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setInTransitDate(Timestamp inTransitDate) {
         this.inTransitDate = inTransitDate;
+    }
+
+    public String getOnHoldCourtesyNoticeContentConfigName() {
+        return OnHoldCourtesyNoticeContentConfigName;
+    }
+
+    public void setOnHoldCourtesyNoticeContentConfigName(String onHoldCourtesyNoticeContentConfigName) {
+        OnHoldCourtesyNoticeContentConfigName = onHoldCourtesyNoticeContentConfigName;
     }
 }

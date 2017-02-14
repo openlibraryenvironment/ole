@@ -42,4 +42,7 @@
     <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 5 15 * ?" JOB_ID="16"
                           JOB_TRG_NM="deleteReturnHistoryJob" OBJ_ID="16"
                           ROW_ACT_IND="N" VER_NBR="1"/>
+    <OLE_DLVR_BATCH_JOB_T JOB_CRON_EXPRSN="0 0 4 15 * ?" JOB_ID="17"
+                          JOB_TRG_NM="generateHoldExpirationNoticeJob" OBJ_ID="17"
+                          ROW_ACT_IND="N" VER_NBR="1"/>
 </dataset>

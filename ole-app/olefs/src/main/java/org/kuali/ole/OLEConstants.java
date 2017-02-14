@@ -2127,6 +2127,8 @@ public class OLEConstants {
         public static final String INTERVAL_WITH_NOTICE_COUNT = "intervalWithNoticeCount";
         public static final String IS_TEMPORARY_HISTORY_RECORD = "isTemporaryHistoryRecord";
         public static final String EXP_HOLD_NOTICE_CONTENT = "EXP_HOLD_NOTICE_CONTENT";
+        public static final String ONHOLD_COURTESY_NOTICE_CONTENT= "ONHOLD_COURTESY_NOTICE_CONTENT";
+        public static final String ONHOLD_COURTESY_NOTICE_INTERVAL= "ONHOLD_COURTESY_NOTICE_INTERVAL";
         public static final String COURTESY_NOTICE_CONTENT = "COURTESY_NOTICE_CONTENT";
         public static final String OVERDUE_NOTICE_CONTENT = "OVERDUE_NOTICE_CONTENT";
         public static final String CLAIMS_RETURNED_NOTICE_CONTENT = "CLAIMS_RETURNED_NOTICE_CONTENT";
@@ -2216,6 +2218,7 @@ public class OLEConstants {
     public static final String REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME = "Request Expiration Notice Content Config Name";
     public static final String ON_HOLD_NOTICE_CONTENT_CONFIG_NAME = "On Hold Notice Content Config Name";
     public static final String ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME = "On Hold Expiration Notice Content Config Name";
+    public static final String ON_HOLD_COURTESY_NOTICE_CONTENT_CONFIG_NAME = "On Hold Courtesy Notice Content Config Name";
 
     public static final int DEFAULT_NOTICE_THREAD_POOL_SIZE = 20;
 
@@ -3740,6 +3743,7 @@ public class OLEConstants {
     public static final String REGULAR_PRINTER_FONT_SIZE = "10";
     public static final String RECALL_NOTICE = "RecallNotice";
     public static final String ONHOLD_NOTICE = "OnHoldNotice";
+    public static final String ONHOLD_COURTESY_NOTICE = "OnHoldCourtesyNotice";
     public static final String REQUEST_EXPIRATION_NOTICE="RequestExpirationNotice";
     public static final String ONHOLD_EXPIRATION_NOTICE="OnHoldExpirationNotice";
     public static final String MISSING_PIECE_NOTICE ="Missing Piece Notice";

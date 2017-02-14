@@ -49,11 +49,23 @@ public class OleOverDueNotice {
 
     }
 
+    public void generateHoldExpirationNotice() {
+        LOG.debug("Start of scheduled job to execute generateHoldExpirationNotice.");
+        try {
+            oleDeliverRequestDocumentHelperService = getOleDeliverRequestDocumentHelperService();
+            oleDeliverRequestDocumentHelperService.generateHoldExpirationNotice();
+
+        } catch (Exception ex) {
+            LOG.error("Exception occurred while performing generateHoldExpirationNotice", ex);
+        }
+
+    }
+
     public void generateHoldCourtesyNotice() {
         LOG.debug("Start of scheduled job to execute generateHoldCourtesyNotice.");
         try {
             oleDeliverRequestDocumentHelperService = getOleDeliverRequestDocumentHelperService();
-            oleDeliverRequestDocumentHelperService.generateHoldCourtesyNotice();
+            oleDeliverRequestDocumentHelperService.generateOnHoldCourtesyNotice();
 
         } catch (Exception ex) {
             LOG.error("Exception occurred while performing generateHoldCourtesyNotice", ex);

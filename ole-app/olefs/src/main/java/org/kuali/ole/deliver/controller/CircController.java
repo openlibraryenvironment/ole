@@ -17,6 +17,7 @@ import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.controller.renew.RenewController;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.service.LostNoticesExecutor;
+import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.OleLoanDocumentPlatformAwareDao;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
@@ -58,6 +59,7 @@ public class CircController extends CheckoutValidationController {
     private BulkItemUpdateUtil bulkItemUpdateUtil;
     private RenewController renewController;
     private DateTimeService dateTimeService;
+    private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
     List<OleLoanDocument> selectedLoanDocumentList = new ArrayList<>();
 
     @Override
@@ -177,7 +179,35 @@ public class CircController extends CheckoutValidationController {
             circForm.setClaimsReturnNote((itemRecord != null) ? itemRecord.getClaimsReturnedNote() : "");
             circForm.setClaimsReturnFlag((itemRecord != null) ? (itemRecord.getClaimsReturnedFlag() != null) ?
                     itemRecord.getClaimsReturnedFlag().booleanValue() : false : false);
+            circForm.setCancelRequest(request.getParameter("cancelRequest"));
 
+        } else {
+            ErrorMessage errorMessage = new ErrorMessage();
+            errorMessage.setErrorMessage("Please select any one of loaned item to claim.");
+            circForm.setErrorMessage(errorMessage);
+            showDialog("generalInfoDialog", circForm, request, response);
+        }
+        return getUIFModelAndView(form);
+    }
+
+
+    @RequestMapping(params = "methodToCall=checkForRequestExistsDialog")
+    public ModelAndView checkForRequestExistsDialog(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        boolean isRequestExists =false;
+        List<OleLoanDocument> selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
+        if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
+            for(OleLoanDocument loanDocument : selectedLoanDocumentList){
+                if(getOleDeliverRequestDocumentHelperService().getRequestByItem(loanDocument.getItemId()).size()>0){
+                    isRequestExists = true;
+                }
+            }
+            if(isRequestExists){
+                showDialog("checkForRequestExistsDialog", circForm, request, response);
+            }else{
+                openClaimsReturnDialog(form,result,request,response);
+            }
         } else {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setErrorMessage("Please select any one of loaned item to claim.");
@@ -242,7 +272,7 @@ public class CircController extends CheckoutValidationController {
             oleLoanDocument.setClaimsReturnedDate(new Timestamp(new Date().getTime()));
             fireClaimsReturnedRules(oleLoanDocument);
         }
-        createClaimsReturnForItem(circForm, selectedLoanDocumentList, circForm.getPatronDocument());
+        createClaimsReturnForItem(circForm, selectedLoanDocumentList, circForm.getPatronDocument(),circForm.getCancelRequest());
         return getUIFModelAndView(form);
     }
 
@@ -1125,4 +1155,16 @@ public class CircController extends CheckoutValidationController {
                 .DLVR_CMPNT, parameterName);
         return parameter;
     }
+
+    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestDocumentHelperService() {
+        if (oleDeliverRequestDocumentHelperService == null) {
+            oleDeliverRequestDocumentHelperService = (OleDeliverRequestDocumentHelperServiceImpl) SpringContext.getService("oleDeliverRequestDocumentHelperService");
+        }
+        return oleDeliverRequestDocumentHelperService;
+    }
+
+    public void setOleDeliverRequestDocumentHelperService(OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService) {
+        this.oleDeliverRequestDocumentHelperService = oleDeliverRequestDocumentHelperService;
+    }
+
 }

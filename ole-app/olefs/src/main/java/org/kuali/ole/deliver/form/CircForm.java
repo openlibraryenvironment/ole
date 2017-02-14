@@ -39,6 +39,7 @@ public class CircForm extends OLEForm {
     private boolean itemValidationDone;
     private boolean itemOverride;
     private boolean requestExistOrLoanedCheck;
+    private String cancelRequest;
 
     /*
     patronBarcode: Current Borrower
@@ -605,5 +606,13 @@ public class CircForm extends OLEForm {
 
     public void setItemFoundInLibrary(boolean itemFoundInLibrary) {
         this.itemFoundInLibrary = itemFoundInLibrary;
+    }
+
+    public String getCancelRequest() {
+        return cancelRequest;
+    }
+
+    public void setCancelRequest(String cancelRequest) {
+        this.cancelRequest = cancelRequest;
     }
 }

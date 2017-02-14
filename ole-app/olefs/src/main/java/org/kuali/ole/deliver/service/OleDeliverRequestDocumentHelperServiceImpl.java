@@ -2035,7 +2035,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
 
-    public void generateHoldCourtesyNotice() throws Exception {
+    public void generateHoldExpirationNotice() throws Exception {
         OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService(OLEConstants.OLE_LOAN_DAO);
        Collection onHoldExpirationNotices = oleLoanDocumentDaoOjb.getOnHoldExpiredNotice();
 
@@ -2065,6 +2065,40 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 requestMap.put(OLEConstants.DELIVER_NOTICES, configMap.get(configName));
                 Runnable onHoldExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(requestMap);
                 onHoldExpirationNoticesExecutorService.execute(onHoldExpirationNoticesExecutor);
+            }
+        }
+    }
+
+    public void generateOnHoldCourtesyNotice() throws Exception {
+       OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService(OLEConstants.OLE_LOAN_DAO);
+       Collection onHoldCourtesyNotices = oleLoanDocumentDaoOjb.getOnHoldCourtesyNotice();
+
+        int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
+        String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
+        if (StringUtils.isNotBlank(threadPoolSizeValue)) {
+            try {
+                threadPoolSize = Integer.parseInt(threadPoolSizeValue);
+            } catch (Exception e) {
+                LOG.error("Invalid thread pool size from SystemParameter. So assigned default thread pool size" + threadPoolSize);
+                threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
+            }
+        }
+
+        Map<String, Map<String, List<OLEDeliverNotice>>> mapofNoticesForEachPatronAndConfigName = buildMapofNoticesForEachPatronAndConfigName((List<OLEDeliverNotice>) onHoldCourtesyNotices);
+
+        ExecutorService onHoldCourtesynNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+
+        for (Iterator<String> iterator = mapofNoticesForEachPatronAndConfigName.keySet().iterator(); iterator.hasNext(); ) {
+            String patronId = iterator.next();
+            Map<String, List<OLEDeliverNotice>> configMap = mapofNoticesForEachPatronAndConfigName.get(patronId);
+            for (Iterator<String> configIterator = configMap.keySet().iterator(); configIterator.hasNext(); ) {
+                String configName = configIterator.next();
+                Map requestMap = new HashMap();
+                requestMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, configName);
+                requestMap.put(OLEConstants.DELIVER_NOTICES, configMap.get(configName));
+                Runnable onHoldCourtesyNoticesExecutor = new HoldCourtesyNoticeExecutor(requestMap);
+                onHoldCourtesynNoticesExecutorService.execute(onHoldCourtesyNoticesExecutor);
             }
         }
     }
@@ -4637,6 +4671,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestBo.setRequestExpirationNoticeContentConfigName(oleDroolsHoldResponseBo.getRequestExpirationNoticeContentConfigName());
             oleDeliverRequestBo.setOnHoldNoticeContentConfigName(oleDroolsHoldResponseBo.getOnHoldNoticeContentConfigName());
             oleDeliverRequestBo.setOnHoldExpirationNoticeContentConfigName(oleDroolsHoldResponseBo.getOnHoldExpirationNoticeContentConfigName());
+            oleDeliverRequestBo.setOnHoldCourtesyNoticeContentConfigName(oleDroolsHoldResponseBo.getOnHoldCourtesyNoticeContentConfigName());
             oleDeliverRequestBo.setOleDroolsHoldResponseBo(null);
             oleDeliverRequestBo.setMessage(droolsResponse.getErrorMessage().getErrorMessage());
         }else{
@@ -4744,6 +4779,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         }
         if (droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME) != null) {
             oleDroolsHoldResponseBo.setOnHoldExpirationNoticeContentConfigName((String) droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME));
+        }
+        if (droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_COURTESY_NOTICE_CONTENT_CONFIG_NAME) != null) {
+            oleDroolsHoldResponseBo.setOnHoldCourtesyNoticeContentConfigName((String) droolsResponse.getDroolsExchange().getFromContext(OLEConstants.ON_HOLD_COURTESY_NOTICE_CONTENT_CONFIG_NAME));
         }
         return oleDroolsHoldResponseBo;
     }

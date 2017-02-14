@@ -55,6 +55,7 @@
                <bean id="generalMessageAndResetUIDialog" parent="generalOkMessageDialog"/>
                <bean id="fastAddDialog" parent="fastAddItemDialog"/>
                <bean id="claimsReturnDialog" parent="claimsReturnNoteDialog"/>
+               <bean id="checkForRequestExistsDialog" parent="checkingForRequestExistsDialog"/>
                <bean id="generalInfoDialog" parent="generalInfoMessageDialog"/>
                <bean id="generalInfoWithRefreshDialog" parent="generalInfoWithRefreshMessageDialog"/>
                <bean id="alterDueDateDialog" parent="alterDueDateSectionDialog"/>

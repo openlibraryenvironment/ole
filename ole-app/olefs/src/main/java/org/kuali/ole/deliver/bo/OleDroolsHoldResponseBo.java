@@ -20,6 +20,7 @@ public class OleDroolsHoldResponseBo {
     private String requestExpirationNoticeContentConfigName;
     private String OnHoldNoticeContentConfigName;
     private String OnHoldExpirationNoticeContentConfigName;
+    private String OnHoldCourtesyNoticeContentConfigName;
 
     public boolean isRuleMatched() {
         return ruleMatched;
@@ -124,4 +125,13 @@ public class OleDroolsHoldResponseBo {
     public void setNumberOfCourtesyToBeSent(int numberOfCourtesyToBeSent) {
         this.numberOfCourtesyToBeSent = numberOfCourtesyToBeSent;
     }
+
+    public String getOnHoldCourtesyNoticeContentConfigName() {
+        return OnHoldCourtesyNoticeContentConfigName;
+    }
+
+    public void setOnHoldCourtesyNoticeContentConfigName(String onHoldCourtesyNoticeContentConfigName) {
+        OnHoldCourtesyNoticeContentConfigName = onHoldCourtesyNoticeContentConfigName;
+    }
+
 }

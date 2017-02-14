@@ -99,7 +99,7 @@ public class RenewItemExecutor implements Callable {
                                             finalDroolResponse.setSucessMessage("Successfully Renewed");
                                             finalDroolResponse.getDroolsExchange().addToContext(oleLoanDocument.getItemUuid(), oleLoanDocument);
 
-                                            getCircUtilController().generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()));
+                                            getCircUtilController().generateBillPayment(oleLoanDocument.getCirculationLocationId(), oleLoanDocument, new Timestamp(new Date().getTime()), new Timestamp(oleLoanDocument.getPastDueDate().getTime()),true);
 
                                         }
                                     } else {
