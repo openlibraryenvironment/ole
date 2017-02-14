@@ -233,6 +233,16 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return null;
     }
 
+    public Collection<Object> getOnHoldCourtesyNotice() {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("noticeType",OLEConstants.ONHOLD_COURTESY_NOTICE);
+        criteria.addLessOrEqualThan("noticeToBeSendDate", new Timestamp(System.currentTimeMillis()));
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNotice.class, criteria);
+        query.addOrderBy("patronId");
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
     public OleDeliverRequestBo getHoldExpiredRequests(String itemId) {
         Criteria criteria = new Criteria();
         criteria.addIn("requestTypeId", Arrays.asList("2", "4", "6"));

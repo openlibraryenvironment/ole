@@ -701,6 +701,16 @@
         <property name="concurrent" value="false"/>
     </bean>
 
+    <bean id="generateHoldExpirationNoticeJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateHoldExpirationNotice"/>
+        <property name="name" value="generateHoldExpirationNotice"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+
 
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     </bean>

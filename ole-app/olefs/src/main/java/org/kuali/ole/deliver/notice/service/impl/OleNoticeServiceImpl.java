@@ -72,6 +72,9 @@ public class OleNoticeServiceImpl implements OleNoticeService {
         else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_NOTICE)){
             oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldNoticeContentConfigName());
         }
+        else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_COURTESY_NOTICE)){
+            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldNoticeContentConfigName());
+        }
         oleDeliverNotice.setItemBarcode(oleDeliverRequestBo.getItemId());
         oleDeliverNotice.setNoticeType(noticeType);
         return oleDeliverNotice;
@@ -99,8 +102,10 @@ public class OleNoticeServiceImpl implements OleNoticeService {
         if(requestTypeIds.contains(oleDeliverRequestBo.getRequestTypeId())){
         OLEDeliverNotice onHoldDeliverNotice = createNotice(oleDeliverRequestBo,OLEConstants.ONHOLD_NOTICE,null);
         OLEDeliverNotice onHoldExpiryDeliverNotice = createNotice(oleDeliverRequestBo,OLEConstants.ONHOLD_EXPIRATION_NOTICE,null);
+        OLEDeliverNotice onHoldCourtestDeliverNotice = createNotice(oleDeliverRequestBo,OLEConstants.ONHOLD_COURTESY_NOTICE,null);
         oleDeliverNotices.add(onHoldDeliverNotice);
         oleDeliverNotices.add(onHoldExpiryDeliverNotice);
+        oleDeliverNotices.add(onHoldCourtestDeliverNotice);
         }
         oleDeliverRequestBo.setDeliverNotices(oleDeliverNotices);
         }
@@ -127,6 +132,9 @@ public class OleNoticeServiceImpl implements OleNoticeService {
                                 }else{
                                     oleDeliverNotice1.setNoticeToBeSendDate(DateUtil.addDays(new Timestamp(System.currentTimeMillis()), Integer.parseInt(oleDeliverNotice.getOleDeliverRequestBo().getOlePickUpLocation().getOnHoldDays())));
                                 }
+                                oleDeliverNoticeList.add(oleDeliverNotice1);
+                            }else if(oleDeliverNotice1.getNoticeType().equals(OLEConstants.ONHOLD_COURTESY_NOTICE)){
+                                oleDeliverNotice1.setNoticeToBeSendDate(new Timestamp(System.currentTimeMillis()));
                                 oleDeliverNoticeList.add(oleDeliverNotice1);
                             }
                         }

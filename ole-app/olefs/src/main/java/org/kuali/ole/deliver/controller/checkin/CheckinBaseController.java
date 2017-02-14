@@ -676,8 +676,12 @@ public abstract class CheckinBaseController extends CircUtilController {
                 for(OLEDeliverNotice oleDeliverNotice : oleDeliverNotices) {
                     if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE) || (expirationDateToBeModified && oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.REQUEST_EXPIRATION_NOTICE))) {
                         oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(holdExpiryDate.getTime()));
-                    }if(!sendOnHoldNoticeWhileCheckinItem){
+                    }if(!sendOnHoldNoticeWhileCheckinItem && oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_NOTICE)){
                         oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(new Date().getTime()));
+                    }if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_COURTESY_NOTICE)){
+                        int noOfDaysBefore  = Integer.parseInt(getParameterValueResolver().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.OleDeliverRequest.ONHOLD_COURTESY_NOTICE_INTERVAL));
+                        oleDeliverNotice.setNoticeToBeSendDate(new Timestamp((holdExpiryDate.getTime() - (noOfDaysBefore* 24 * 3600 * 1000l))));
                     }
                 }
                 getBusinessObjectService().save(oleDeliverRequestBo);
