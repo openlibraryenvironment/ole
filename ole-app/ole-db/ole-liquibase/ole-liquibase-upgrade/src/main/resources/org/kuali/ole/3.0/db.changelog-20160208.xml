@@ -641,6 +641,7 @@
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 4 15 * ?','14','deleteRenewalHistoryJob','14','Y',1)</sql>
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 5 15 * ?','15','deleteRequestHistoryJob','15','Y',1)</sql>
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 6 15 * ?','16','deleteReturnHistoryJob','16','Y',1)</sql>
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 4 15 * ?','17','generateHoldExpirationNoticeJob','17','N',1)</sql>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Insert" dbms="oracle">
@@ -648,6 +649,7 @@
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 4 15 * ?','14','deleteRenewalHistoryJob','14','Y',1)</sql>
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 5 15 * ?','15','deleteRequestHistoryJob','15','Y',1)</sql>
         <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 6 15 * ?','16','deleteReturnHistoryJob','16','Y',1)</sql>
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 4 15 * ?','17','generateHoldExpirationNoticeJob','17','N',1)</sql>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Update_Mysql" dbms="mysql">
