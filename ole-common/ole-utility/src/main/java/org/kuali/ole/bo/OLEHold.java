@@ -16,8 +16,9 @@ public class OLEHold {
     private String requestId;
     private String availableStatus;
     private String recallStatus;
-    private String expiryDate;
+    private String requestExpiryDate;
     private String createDate;
+    private String holdExpiryDate;
     private String priority;
     private String type;
     private String pickupLocation;
@@ -86,12 +87,12 @@ public class OLEHold {
         this.catalogueId = catalogId;
     }
 
-    public String getExpiryDate() {
-        return expiryDate;
+    public String getRequestExpiryDate() {
+        return requestExpiryDate;
     }
 
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setRequestExpiryDate(String requestExpiryDate) {
+        this.requestExpiryDate = requestExpiryDate;
     }
 
     public String getCreateDate() {
@@ -196,5 +197,13 @@ public class OLEHold {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getHoldExpiryDate() {
+        return holdExpiryDate;
+    }
+
+    public void setHoldExpiryDate(String holdExpiryDate) {
+        this.holdExpiryDate = holdExpiryDate;
     }
 }
