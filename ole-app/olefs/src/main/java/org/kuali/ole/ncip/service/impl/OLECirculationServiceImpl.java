@@ -728,7 +728,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                 }
             }
             if (oleDeliverRequestBo.getRequestExpiryDate() != null) {
-                oleHold.setExpiryDate(oleDeliverRequestBo.getRequestExpiryDate().toString());
+                oleHold.setRequestExpiryDate(oleDeliverRequestBo.getRequestExpiryDate().toString());
             }
             if (oleDeliverRequestBo.getCreateDate() != null) {
                 oleHold.setCreateDate(oleDeliverRequestBo.getCreateDate().toString());
@@ -742,6 +742,9 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             }
             if (oleDeliverRequestBo.getRecallDueDate() != null) {
                 oleHold.setDateRecalled(oleDeliverRequestBo.getRecallDueDate().toString());
+            }
+            if (oleDeliverRequestBo.getHoldExpirationDate() != null) {
+                oleHold.setHoldExpiryDate(oleDeliverRequestBo.getHoldExpirationDate().toString());
             }
             if (oleDeliverRequestTypeMap!=null && oleDeliverRequestTypeMap.size() > 0) {
                 if(oleDeliverRequestTypeMap.get(oleDeliverRequestBo.getRequestTypeId())!=null){

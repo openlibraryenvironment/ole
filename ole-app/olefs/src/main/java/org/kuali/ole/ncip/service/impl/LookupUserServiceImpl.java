@@ -409,7 +409,10 @@ public abstract class LookupUserServiceImpl extends LookupUserServiceUtil implem
                     }
                 }
                 if (oleDeliverRequestBo.getRequestExpiryDate() != null) {
-                    oleHold.setExpiryDate(oleDeliverRequestBo.getRequestExpiryDate().toString());
+                    oleHold.setRequestExpiryDate(oleDeliverRequestBo.getRequestExpiryDate().toString());
+                }
+                if (oleDeliverRequestBo.getHoldExpirationDate() != null) {
+                    oleHold.setHoldExpiryDate(oleDeliverRequestBo.getHoldExpirationDate().toString());
                 }
                 if (oleDeliverRequestBo.getCreateDate() != null) {
                     oleHold.setCreateDate(oleDeliverRequestBo.getCreateDate().toString());
