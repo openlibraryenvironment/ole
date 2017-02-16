@@ -97,4 +97,6 @@ public interface DocstoreStorageService {
     public void unbindWithOneBib(List<String> holdingsIds, String bibId);
 
     public void unbindWithAllBibs(List<String> holdingsIds, String bibId);
+
+    public void saveDeletedBibs(List<String> bibIds) throws Exception;
 }

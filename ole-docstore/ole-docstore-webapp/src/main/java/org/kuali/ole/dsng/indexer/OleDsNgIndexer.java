@@ -2,18 +2,25 @@ package org.kuali.ole.dsng.indexer;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -24,6 +31,9 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
     private SolrRequestReponseHandler solrRequestReponseHandler;
     public static final String ID_FIELD_PREFIX = "id_disc_";
     private OleDsHelperUtil oleDsHelperUtil;
+    private BusinessObjectService businessObjectService;
+
+    private static final Logger LOG = Logger.getLogger(OleDsNgIndexer.class);
 
     public abstract void indexDocument(Object object);
 
@@ -357,5 +367,28 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
             }
         }
         return null;
+    }
+
+    public void saveDeletedBibInfo(String bibId) throws Exception{
+        bibId = DocumentUniqueIDPrefix.getDocumentId(bibId);
+        String query="(DocType:"+BIBLIOGRAPHIC_DELETE+")AND("+LOCALID_DISPLAY+":"+bibId+")";
+        SolrDocumentList solrDocuments = new SolrRequestReponseHandler().getSolrDocumentList(query);
+        if (solrDocuments.size() == 1) {
+            BibDeletionRecord bibDeletionRecord = new BibDeletionRecord();
+            SolrDocument solrDocument = solrDocuments.get(0);
+            bibDeletionRecord.setBibId(bibId);
+            String dateUpdatedStr = solrDocument.get(DATE_UPDATED).toString();
+            Date dateUpdated=new SimpleDateFormat(SOLR_DOC_DATE_FORMAT).parse(dateUpdatedStr);
+            Timestamp dateUpdatedTs =new Timestamp(dateUpdated.getTime());
+            bibDeletionRecord.setDateUpdated(dateUpdatedTs);
+            getBusinessObjectService().save(bibDeletionRecord);
+        }
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        if(null ==  businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
     }
 }

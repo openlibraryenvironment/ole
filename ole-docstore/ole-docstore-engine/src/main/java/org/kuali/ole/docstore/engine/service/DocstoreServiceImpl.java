@@ -613,6 +613,12 @@ public class DocstoreServiceImpl implements DocstoreService {
             LOG.error("Exception occurred while indexing bib records after deletion", e);
             docstoreStorageService.rollback();
         }
+
+        try {
+            getDocstoreStorageService().saveDeletedBibs(bibIds);
+        }catch (Exception e) {
+            LOG.error("Exception occurred while saving deleted bib records into DB", e);
+        }
     }
 
     @Override

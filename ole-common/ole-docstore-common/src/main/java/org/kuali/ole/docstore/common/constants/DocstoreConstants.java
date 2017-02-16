@@ -247,6 +247,7 @@ public interface DocstoreConstants {
     public static final String DAT_FORMAT_EFFECTIVE = "MM/dd/yyyy hh:mm:ssa";
     public static final String DATE_FORMAT_EFFECTIVE = "MM/dd/yyyy hh:mm:ss a";
     public static final String DAT_FORMAT_EFFECTIVE_NOTICE = "MM/dd/yyyy HH:mm:ss";
+    public static final String SOLR_DOC_DATE_FORMAT="E MMM dd HH:mm:ss Z yyyy";
     public static final String DESCRIBE_EFFECTIVE_DATE = "00:00:00";
     public static final String BIB_IDENTIFIER = "bibIdentifier";
     public static final String HOLDINGS_IDENTIFIER = "holdingsIdentifier";

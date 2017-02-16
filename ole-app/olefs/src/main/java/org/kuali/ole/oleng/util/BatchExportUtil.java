@@ -15,7 +15,9 @@ import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileFilterCriteria;
 import org.kuali.ole.oleng.batch.reports.BatchExportFileLogHandler;
+import org.kuali.ole.oleng.dao.export.ExportDao;
 import org.kuali.ole.spring.batch.BatchUtil;
+import org.kuali.ole.sys.context.SpringContext;
 import org.marc4j.marc.Record;
 
 import java.io.File;
@@ -29,6 +31,8 @@ import java.util.*;
  * Created by rajeshbabuk on 4/21/16.
  */
 public class BatchExportUtil extends BatchUtil {
+
+    private ExportDao exportDao=(ExportDao) SpringContext.getBean("exportDao");
 
     public Date getLastExportDateForProfile(BatchProcessTxObject batchProcessTxObject) {
         Calendar calendar = Calendar.getInstance();
@@ -95,6 +99,16 @@ public class BatchExportUtil extends BatchUtil {
         SimpleDateFormat format = new SimpleDateFormat(OleNGConstants.SOLR_DATE_FORMAT);
         String fromDate = format.format(lastExportDate);
         return "(DocType:bibliographic_delete OR (DocType:bibliographic AND staffOnlyFlag:true))AND(dateUpdated" + OleNGConstants.COLON + "[" + fromDate + " TO NOW])";
+    }
+
+    public String getDeletedAndStaffOnlyBibsSqlQuery(Date lastExportDate){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fromDate = format.format(lastExportDate);
+        StringBuilder queryString=new StringBuilder();
+        queryString.append("SELECT BIB_ID FROM OLE_DS_DELETED_BIB_T WHERE DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW()");
+        queryString.append("|");
+        queryString.append("SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW()) AND STAFF_ONLY='Y'");
+        return queryString.toString();
     }
 
     public String getIncrementalExceptStaffOnlySolrQuery(Date lastExportDate) {
@@ -300,13 +314,31 @@ public class BatchExportUtil extends BatchUtil {
     }
 
     public void processDeletedAndStaffOnlyBibs(Date lastExportDate, BatchProcessTxObject batchProcessTxObject) {
-        String query = getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate);
-        SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
-        solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query,0,((int)solrDocumentList.getNumFound()),null);
         SortedSet<String> deletedBibIds = new TreeSet<>();
-        if (solrDocumentList.size() > 0) {
-            for (SolrDocument solrDocument : solrDocumentList) {
-                deletedBibIds.add((String) solrDocument.getFieldValue(OleNGConstants.LOCAL_ID_DISPLAY));
+        String query=null;
+        if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)) {
+            try {
+                query = getDeletedAndStaffOnlyBibsSqlQuery(lastExportDate);
+              //  String[] queryList = query.split("\\|");
+                List<String> bibIdList = exportDao.getBibIdFromSqlQuery(query,batchProcessTxObject.getBatchProcessProfile().getExportScope());
+              //  bibIdList.addAll(exportDao.getBibIdFromSqlQuery(queryList[1],batchProcessTxObject.getBatchProcessProfile().getExportScope()));
+                if(bibIdList.size()>0){
+                    for(String bibId:bibIdList){
+                        deletedBibIds.add(bibId);
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
+            }
+        }else {
+            query = getDeletedAndStaffOnlyBibsSolrQuery(lastExportDate);
+            SolrDocumentList solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query);
+            solrDocumentList = getSolrRequestReponseHandler().getSolrDocumentList(query, 0, ((int) solrDocumentList.getNumFound()), null);
+            if (solrDocumentList.size() > 0) {
+                for (SolrDocument solrDocument : solrDocumentList) {
+                    deletedBibIds.add((String) solrDocument.getFieldValue(OleNGConstants.LOCAL_ID_DISPLAY));
+                }
             }
         }
         generateFileForBibIds(deletedBibIds, batchProcessTxObject);
