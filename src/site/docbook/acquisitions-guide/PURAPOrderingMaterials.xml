@@ -6150,8 +6150,8 @@
                     </inlinemediaobject>.</para>
                 <para role="Normal">FTP Site (to see transmitted orders):</para>
                 <para role="Normal"><link
-                        xlink:href="http://docstore.demo.ole.kuali.org/upload/Order_Records/Orders_To_Be_Processed_By_Vendor/"
-                        >http://docstore.demo.ole.kuali.org/upload/Order_Records/Orders_To_Be_Processed_By_Vendor/</link></para>
+                        xlink:href="http://docstore.demo.oleproject.org/upload/Order_Records/Orders_To_Be_Processed_By_Vendor/"
+                        >http://docstore.demo.oleproject.org/upload/Order_Records/Orders_To_Be_Processed_By_Vendor/</link></para>
                 <para role="TableHeading"><emphasis role="bold">Sample Purchase Order Statuses:</emphasis></para>
                 <para>
                     <informaltable frame="none">
@@ -6455,8 +6455,8 @@
                         <para> PDF_LOGO_IMAGE_EXTENSION</para>
                         <para>Therefore if: </para>
                         <para> PDF_IMAGE_LOCATION_URL = <link
-                                xlink:href="http://tst.ole.kuali.org/static/images/"
-                                >http://tst.ole.kuali.org/static/images/</link></para>
+                                xlink:href="http://tst.oleproject.org/static/images/"
+                                >http://tst.oleproject.org/static/images/</link></para>
                         <para> PDF_LOGO_IMAGE_PREFIX = logo</para>
                         <para> PDF_LOGO_IMAGE_EXTENSION = jpg</para>
                         <para> delivery campus code in po = bl</para>

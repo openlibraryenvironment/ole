@@ -42,8 +42,8 @@
 </td>
 <td class="content" valign="top">
 <a href="${environment}"> OLD PORTAL </a><br/>
-<!-- <a href="http://dev.ole.kuali.org/ole-dev/olePortal.jsp"> OLD PORTAL </a><br/>
-<a href="http://tst.ole.kuali.org/ole-tst/olePortal.jsp"> OLD PORTAL TEST</a><br/>
+<!-- <a href="http://dev.oleproject.org/ole-dev/olePortal.jsp"> OLD PORTAL </a><br/>
+<a href="http://tst.oleproject.org/ole-tst/olePortal.jsp"> OLD PORTAL TEST</a><br/>
 <a href="http://localhost:8080/ole-local/olePortal.jsp"> OLD PORTAL LOC</a><br/>-->
 </td>
 

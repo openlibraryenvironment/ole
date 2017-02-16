@@ -16,10 +16,10 @@ INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'ITEM_STATUS_FOR_RET_LOAN', 'OLE6516', '1', 'CONFG', 'LOANED|LOST', 'This is for retrieving all the item', 'A', 'OLE')
 /
 
-INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'MY_ACCOUNT_URL', 'OLE6517', '1', 'CONFG', 'http://dev.ole.kuali.org/olefs/portal.do?channelTitle=MyAccount&channelUrl=http://dev.ole.kuali.org/olefs/ole-kr-krad/myaccountcontroller?viewId=RenewalItemView&methodToCall=start', 'This is for retrieving all the item', 'A', 'OLE')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'MY_ACCOUNT_URL', 'OLE6517', '1', 'CONFG', 'http://dev.oleproject.org/olefs/portal.do?channelTitle=MyAccount&channelUrl=http://dev.oleproject.org/olefs/ole-kr-krad/myaccountcontroller?viewId=RenewalItemView&methodToCall=start', 'This is for retrieving all the item', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_oracle', 'ole', 'org/kuali/ole/1.5.2/db.changelog-20140728.xml', SYSTIMESTAMP, 2, '7:c74697d840e2b22c4207180a982f27ff', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_oracle', 'ole', 'org/kuali/ole/1.5.2/db.changelog-20140728.xml', SYSTIMESTAMP, 2, '7:0ae9b2a7b842cd20a66af2d894f0f839', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 -- Release Database Lock

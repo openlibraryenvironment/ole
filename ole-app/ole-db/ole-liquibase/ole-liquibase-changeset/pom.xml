@@ -78,7 +78,7 @@
             <id>oracle</id>
             <properties>
                 <db.vendor>oracle</db.vendor>
-                <jdbc.url>jdbc:oracle:thin:@oracle.ole.kuali.org:1521:OLE</jdbc.url>
+                <jdbc.url>jdbc:oracle:thin:@oracle.oleproject.org:1521:OLE</jdbc.url>
                 <jdbc.driver>oracle.jdbc.driver.OracleDriver</jdbc.driver>
                 <sql.init>
                     ${oracle.liquibase.drop}
@@ -91,7 +91,7 @@
             <id>mysql</id>
             <properties>
                 <db.vendor>mysql</db.vendor>
-                <jdbc.url>jdbc:mysql://mysql.ole.kuali.org:3306/${sql.database}</jdbc.url>
+                <jdbc.url>jdbc:mysql://mysql.oleproject.org:3306/${sql.database}</jdbc.url>
                 <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
                 <sql.init>
                     ${mysql.liquibase.drop}

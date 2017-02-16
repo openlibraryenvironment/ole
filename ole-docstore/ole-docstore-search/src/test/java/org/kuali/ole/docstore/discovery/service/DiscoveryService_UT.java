@@ -50,7 +50,7 @@ public class DiscoveryService_UT
     @Test
     public void testSearch() throws Exception {
         SearchParams searchParams = getSearchParams();
-        //System.setProperty("docSearchURL", "http://dev.docstore.ole.kuali.org/");
+        //System.setProperty("docSearchURL", "http://dev.docstore.oleproject.org/");
        // System.out.println("url:" + ConfigContext.getCurrentContextConfig().getProperty("docSearchURL"));
         String query = "";
 

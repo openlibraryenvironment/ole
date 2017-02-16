@@ -39,7 +39,7 @@ public class MultiPartBagRequestClientServlet_UT extends BaseTestCase {
     @Test
     public void testMultiPartBagItIngest() throws Exception {
         File inputDir = new File(this.getClass().getResource("license/ingest").toURI());
-        mockRequest.setParameter("restUrl","http://dev.docstore.ole.kuali.org/rest/documents" );
+        mockRequest.setParameter("restUrl","http://dev.docstore.oleproject.org/rest/documents" );
         mockRequest.setParameter("requestFolderPath", inputDir.getPath());
         bagRequestClientServlet.doGet(mockRequest, mockResponse);
 
