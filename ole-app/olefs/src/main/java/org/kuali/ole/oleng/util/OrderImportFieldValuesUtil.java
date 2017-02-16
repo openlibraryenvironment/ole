@@ -10,6 +10,7 @@ import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
+import org.kuali.ole.select.businessobject.OleFormatType;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
@@ -220,6 +221,13 @@ public class OrderImportFieldValuesUtil {
             if (CollectionUtils.isNotEmpty(currencyTypeList)) {
                 for (OleCurrencyType currencyType : currencyTypeList) {
                     fieldValues.put(currencyType.getCurrencyType(), currencyType.getCurrencyType());
+                }
+            }
+        } else if (fieldName.equalsIgnoreCase(OleNGConstants.BatchProcess.FORMAT)){
+            List<OleFormatType> formatTypeList=selectDAO.fetchAllFormatType();
+            if(CollectionUtils.isNotEmpty(formatTypeList)){
+                for(OleFormatType formatType:formatTypeList){
+                    fieldValues.put(formatType.getFormatTypeName(),formatType.getFormatTypeName());
                 }
             }
         }

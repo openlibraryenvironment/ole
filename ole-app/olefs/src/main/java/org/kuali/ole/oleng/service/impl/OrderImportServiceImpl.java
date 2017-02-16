@@ -307,6 +307,7 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new VendorInstructionsNoteValueResolver());
             valueResolvers.add(new DeliveryBuildingRoomNumberValueResolver());
             valueResolvers.add(new SpecialProcessingInstructionNoteValueResolver());
+            valueResolvers.add(new FormatTypeValueResolver());
         }
         return valueResolvers;
     }

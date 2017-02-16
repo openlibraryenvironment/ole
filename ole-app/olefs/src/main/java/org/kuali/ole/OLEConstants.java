@@ -877,6 +877,7 @@ public class OLEConstants {
         public static final String VOLUME_NUMBER = "volumeNumber";
         public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
         public static final String FORMAT_TYP_NM = "formatTypeName";
+        public static final String FORMAT="Format";
         public static final String RECURRING_PAYMENT_TYP = "RecurringPaymentType";
         public static final String RECURRING_PAYMENT_BEGIN_DT = "RecurringPaymentBeginDate";
         public static final String RECURRING_PAYMENT_END_DT = "RecurringPaymentEndDate";

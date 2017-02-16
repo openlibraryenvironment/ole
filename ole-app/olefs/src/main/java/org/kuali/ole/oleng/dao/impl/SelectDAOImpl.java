@@ -14,6 +14,7 @@ import org.kuali.ole.oleng.dao.SelectDAO;
 import org.kuali.ole.oleng.util.OrderImportFieldValuesUtil;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
+import org.kuali.ole.select.businessobject.OleFormatType;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.document.OLEPlatformRecordDocument;
@@ -171,6 +172,11 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
     @Override
     public List<OLEPlatformRecordDocument> fetchAllPlatformRecordDocuments() {
         return (List<OLEPlatformRecordDocument>) getBusinessObjectService().findAll(OLEPlatformRecordDocument.class);
+    }
+
+    @Override
+    public List<OleFormatType> fetchAllFormatType(){
+        return (List<OleFormatType>) getBusinessObjectService().findAll(OleFormatType.class);
     }
 
     @Override
@@ -500,6 +506,18 @@ public class SelectDAOImpl extends BusinessObjectServiceHelperUtil implements Se
         List<OleCurrencyType> oleCurrencyTypes = (List) getBusinessObjectService().findMatching(OleCurrencyType.class, parameterMap);
         if (CollectionUtils.isNotEmpty(oleCurrencyTypes)){
             return oleCurrencyTypes.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public OleFormatType getFormatTypeByName(String formatTypeName){
+
+        Map<String, String> parameterMap = new HashMap<>();
+        parameterMap.put("formatTypeName", formatTypeName);
+        List<OleFormatType> formatTypes = (List) getBusinessObjectService().findMatching(OleFormatType.class,parameterMap);
+        if(CollectionUtils.isNotEmpty(formatTypes)){
+            return  formatTypes.get(0);
         }
         return null;
     }
