@@ -57,7 +57,7 @@ public class DocstoreRestClient_UT extends BaseTestCase implements DocstoreConst
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        String url = "http://tst.docstore.ole.kuali.org/documentrest/";
+        String url = "http://tst.docstore.oleproject.org/documentrest/";
         DocstoreRestClient.setDocstoreUrl(url);
     }
 

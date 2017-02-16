@@ -32,7 +32,7 @@
 
 <td class="content" valign="top">
 <a href="${environment}"> NEW PORTAL </a><br/>
-<!--<a href="http://dev.ole.kuali.org/ole-dev/portal.jsp"> OLE PORTAL DEV</a><br/>
-<a href="http://tst.ole.kuali.org/ole-tst/portal.jsp"> OLE PORTAL TEST</a><br/>
+<!--<a href="http://dev.oleproject.org/ole-dev/portal.jsp"> OLE PORTAL DEV</a><br/>
+<a href="http://tst.oleproject.org/ole-tst/portal.jsp"> OLE PORTAL TEST</a><br/>
 <a href="http://localhost:8080/ole-local/portal.jsp"> OLE PORTAL LOC</a><br/>-->
 </td>

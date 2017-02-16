@@ -36,7 +36,7 @@ import java.net.URL;
 public class OLEPatronService_UT {
 
     private static final Logger LOG = Logger.getLogger(OLEPatronService_UT.class);
-    private static String APPLICATION_URL  = "http://dev.ole.kuali.org";
+    private static String APPLICATION_URL  = "http://dev.oleproject.org";
 
     @Test
     public void createPatronTest(){

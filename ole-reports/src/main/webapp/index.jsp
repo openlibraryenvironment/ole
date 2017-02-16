@@ -60,7 +60,7 @@
     <br/>
     <div class="center">
 
-        <%   if (request != null && request.getRequestURL() != null && request.getRequestURL().toString().contains("reports.staging.ole.kuali.org")) {%>
+        <%   if (request != null && request.getRequestURL() != null && request.getRequestURL().toString().contains("reports.staging.oleproject.org")) {%>
         <p>Note: The reports data source is pointing to the staging environment at the moment.</p>
         <% } %>
 

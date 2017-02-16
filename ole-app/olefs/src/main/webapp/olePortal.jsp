@@ -37,13 +37,13 @@
 		<c:set var="url" scope="request" value="http://localhost:8080/ole-local/portal.jsp" />
 	</c:when>
 	<c:when test="${ConfigProperties.environment == 'dev'}">
-		<c:set var="url" scope="request" value="http://dev.ole.kuali.org/ole-dev/portal.jsp" />
+		<c:set var="url" scope="request" value="http://dev.oleproject.org/ole-dev/portal.jsp" />
 	</c:when>
 	<c:when test="${ConfigProperties.environment == 'tst'}">
-		<c:set var="url" scope="request" value="http://tst.ole.kuali.org/ole-tst/portal.jsp" />
+		<c:set var="url" scope="request" value="http://tst.oleproject.org/ole-tst/portal.jsp" />
 	</c:when>
 	<c:when test="${ConfigProperties.environment == 'demo'}">
-		<c:set var="url" scope="request" value="http://demo.ole.kuali.org/ole-demo/portal.jsp" />
+		<c:set var="url" scope="request" value="http://demo.oleproject.org/ole-demo/portal.jsp" />
 	</c:when>
 	<c:otherwise>
 		<c:set var="url" scope="request" value="" />

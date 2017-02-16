@@ -47,8 +47,8 @@
                     records in Solr, go to <link
                         xlink:href="http://demo.docstore.ole.kuali.org/admin.jsp"
                         >http://demo.docstore.ole.kuali.org/admin.jsp</link> (or <link
-                        xlink:href="http://tst.docstore.ole.kuali.org/admin.jsp"
-                        >http://tst.docstore.ole.kuali.org/admin.jsp</link> if you are in the tst
+                        xlink:href="http://tst.docstore.oleproject.org/admin.jsp"
+                        >http://tst.docstore.oleproject.org/admin.jsp</link> if you are in the tst
                     environment).</para>
                 <para>Click the <emphasis role="bold">Start</emphasis> button. </para>
                 <para>Click <emphasis role="bold">Show Status</emphasis> button to see the status. </para>

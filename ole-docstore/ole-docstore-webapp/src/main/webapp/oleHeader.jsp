@@ -18,7 +18,7 @@
 
 <link href="./css/portal.css" rel="stylesheet" type="text/css"/>
 <!--
-<script language="JavaScript" type="text/javascript" src="http://dev.ole.kuali.org/ole-dev/kr/scripts/my_common.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://dev.oleproject.org/ole-dev/kr/scripts/my_common.js"></script>
 -->
 
 <script language="javascript">

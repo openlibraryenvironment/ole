@@ -10,25 +10,25 @@
     <param name="ole.reports.url.base">${ole.url.base}/olereports</param>
 
     <!-- General environments as known to external team members aka "dev, tst, demo" -->
-    <param name="dev.ole.docstore.url.base">http://dev.docstore.ole.kuali.org</param>
-    <param name="dev.ole.fs.url.base">http://dev.ole.kuali.org</param>
-    <param name="dev.ole.reports.url.base">http://reports.staging.ole.kuali.org</param>
+    <param name="dev.ole.docstore.url.base">http://dev.docstore.oleproject.org</param>
+    <param name="dev.ole.fs.url.base">http://dev.oleproject.org</param>
+    <param name="dev.ole.reports.url.base">http://reports.staging.oleproject.org</param>
 
-    <param name="staging.ole.docstore.url.base">http://docstore.staging.ole.kuali.org</param>
-    <param name="staging.ole.fs.url.base">http://staging.ole.kuali.org</param>
-    <param name="staging.ole.reports.url.base">http://reports.staging.ole.kuali.org</param>
+    <param name="staging.ole.docstore.url.base">http://docstore.stagin.oleproject.org</param>
+    <param name="staging.ole.fs.url.base">http://staging.oleproject.org</param>
+    <param name="staging.ole.reports.url.base">http://reports.staging.oleproject.org</param>
 
-    <param name="qa.ole.docstore.url.base">http://docstore.qa.ole.kuali.org</param>
-    <param name="qa.ole.fs.url.base">http://qa.ole.kuali.org</param>
-    <param name="qa.ole.reports.url.base">http://reports.staging.ole.kuali.org</param>
+    <param name="qa.ole.docstore.url.base">http://qa.docstore.oleproject.org</param>
+    <param name="qa.ole.fs.url.base">http://qa.oleproject.org</param>
+    <param name="qa.ole.reports.url.base">http://reports.staging.oleproject.org</param>
 
-    <param name="tst.ole.docstore.url.base">http://tst.docstore.ole.kuali.org</param>
-    <param name="tst.ole.fs.url.base">http://tst.ole.kuali.org</param>
-    <param name="tst.ole.reports.url.base">http://reports.staging.ole.kuali.org</param>
+    <param name="tst.ole.docstore.url.base">http://tst.docstore.oleproject.org</param>
+    <param name="tst.ole.fs.url.base">http://tst.oleproject.org</param>
+    <param name="tst.ole.reports.url.base">http://reports.staging.oleproject.org</param>
 
-    <param name="demo.ole.docstore.url.base">http://docstore.demo.ole.kuali.org</param>
-    <param name="demo.ole.fs.url.base">http://demo.ole.kuali.org</param>
-    <param name="demo.ole.reports.url.base">http://reports.staging.ole.kuali.org</param>
+    <param name="demo.ole.docstore.url.base">http://docstore.demo.oleproject.org</param>
+    <param name="demo.ole.fs.url.base">http://demo.oleproject.org</param>
+    <param name="demo.ole.reports.url.base">http://reports.staging.oleproject.org</param>
 
     <!-- Properties targeted at specific servers. Coordinate with devops staff before editing these -->
     <param name="env1.ole.fs.url.base">${dev.ole.fs.url.base}</param>
