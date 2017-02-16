@@ -6,10 +6,17 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.audit.BibAudit;
 import org.kuali.ole.audit.OleAuditManager;
 import org.kuali.ole.docstore.DocStoreConstants;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
+import org.kuali.ole.docstore.common.search.SearchParams;
+import org.kuali.ole.docstore.common.search.SearchResponse;
+import org.kuali.ole.docstore.common.search.SearchResult;
+import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.engine.service.search.DocstoreSearchService;
+import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibHoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -482,4 +489,41 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         checkUuidsToDelete(uuids, uuidCount);
     }
+
+    public void saveDeletedBibs(List<String> bibIds) throws Exception{
+
+        SearchParams searchParams =new SearchParams();
+        searchParams.setDocType(DocstoreConstants.BIBLIOGRAPHIC_DELETE);
+        for(int i=0;i<bibIds.size();i++){
+            searchParams.getSearchConditions().add(searchParams.buildSearchCondition("",searchParams.buildSearchField(DocstoreConstants.BIBLIOGRAPHIC_DELETE,DocstoreConstants.LOCALID_DISPLAY,DocumentUniqueIDPrefix.getDocumentId(bibIds.get(i))),"OR"));
+        }
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocstoreConstants.BIBLIOGRAPHIC_DELETE,DocstoreConstants.LOCALID_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocstoreConstants.BIBLIOGRAPHIC_DELETE,DocstoreConstants.DATE_UPDATED));
+
+        Thread.sleep(1000);
+
+        DocstoreSearchService docstoreSearchService=new DocstoreSolrSearchService();
+        SearchResponse searchResponse=docstoreSearchService.search(searchParams);
+
+        List<SearchResult> searchResults=searchResponse.getSearchResults();
+
+        if(searchResults.size()>0){
+            for(SearchResult searchResult:searchResults){
+                BibDeletionRecord bibDeletionRecord=new BibDeletionRecord();
+                for(SearchResultField resultField:searchResult.getSearchResultFields()){
+                    if(resultField.getFieldName().equalsIgnoreCase(DocstoreConstants.LOCALID_DISPLAY) && StringUtils.isNotBlank(resultField.getFieldValue())){
+                        bibDeletionRecord.setBibId(resultField.getFieldValue());
+                    }
+                    if(resultField.getFieldName().equalsIgnoreCase(DocstoreConstants.DATE_UPDATED) && StringUtils.isNotBlank(resultField.getFieldValue())){
+                        Date dateUpdated=new SimpleDateFormat(DocstoreConstants.SOLR_DOC_DATE_FORMAT).parse(resultField.getFieldValue());
+                        Timestamp dateUpdatedTs=new Timestamp(dateUpdated.getTime());
+                        bibDeletionRecord.setDateUpdated(dateUpdatedTs);
+                    }
+                }
+                getBusinessObjectService().save(bibDeletionRecord);
+            }
+        }
+
+    }
+
 }

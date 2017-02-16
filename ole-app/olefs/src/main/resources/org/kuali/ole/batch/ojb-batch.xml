@@ -1057,6 +1057,11 @@
         <field-descriptor name="missingPieceDate" column="MISSING_PIECE_DATE" jdbc-type="TIMESTAMP"/>
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord" table="OLE_DS_DELETED_BIB_T">
+        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+    </class-descriptor>
+
 </descriptor-repository>
 
 

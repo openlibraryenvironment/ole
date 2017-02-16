@@ -976,6 +976,36 @@ CREATE INDEX OLE_ITM_CLM_RTND_HSTRY_T_I
 
 
 -----------------------------------------------------------------------------
+-- OLE_DS_DELETED_BIB_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_DS_DELETED_BIB_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_DS_DELETED_BIB_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_DS_DELETED_BIB_T
+(
+      BIB_ID NUMBER(11,0)
+        , DATE_UPDATED TIMESTAMP
+    
+
+)
+/
+
+ALTER TABLE OLE_DS_DELETED_BIB_T
+    ADD CONSTRAINT OLE_DS_DELETED_BIB_TP1
+PRIMARY KEY (BIB_ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
 -- OLE_DS_DMGD_ITM_HSTRY_T
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;

@@ -54,7 +54,7 @@ public class BatchExportHandler extends BatchExportUtil {
     }
 
     private void processFullExceptStaffOnly(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        String query = "(DocType:bibliographic)AND(staffOnlyFlag:false)";
+        String query = "SELECT BIB_ID FROM OLE_DS_BIB_T WHERE STAFF_ONLY='N'";
         exportDao.export(this, query, batchProcessTxObject, oleNGBatchExportResponse, false);
     }
 

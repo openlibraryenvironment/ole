@@ -660,4 +660,40 @@
         <sql>UPDATE OLE_DLVR_BATCH_JOB_T SET ROW_ACT_IND = 'N' WHERE JOB_ID IN ('13','14','15','16')</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_MYSQL" dbms="mysql">
+        <createTable tableName="OLE_DS_DELETED_BIB_T">
+        <column name="BIB_ID"   type="INTEGER(11)">
+            <constraints nullable="false" primaryKey="true" />
+        </column>
+        <column name="DATE_UPDATED" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_ORACLE" dbms="oracle">
+        <createTable tableName="OLE_DS_DELETED_BIB_T">
+            <column name="BIB_ID"   type="NUMBER(11)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="DATE_UPDATED" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_MYSQL" dbms="mysql">
+        <createTable tableName="OLE_DS_DELETED_BIB_T">
+            <column name="BIB_ID"   type="INTEGER(11)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="DATE_UPDATED" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_ORACLE" dbms="oracle">
+        <createTable tableName="OLE_DS_DELETED_BIB_T">
+            <column name="BIB_ID"   type="NUMBER(11)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="DATE_UPDATED" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

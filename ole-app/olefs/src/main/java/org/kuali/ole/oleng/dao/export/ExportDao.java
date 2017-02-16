@@ -65,7 +65,8 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             int numOfRecordsInFile = 0;
             List<String> bibIds = new ArrayList<>();
 
-            if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)){
+            if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
+                    batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)){
                 bibIds=getBibIdFromSqlQuery(query,batchProcessTxObject.getBatchProcessProfile().getExportScope());
                 if(bibIds!=null){
                     totalCount=bibIds.size();
@@ -86,6 +87,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                     }
                 }
             }
+            LOG.info("Total Bibs for export >>> " + totalCount);
             List<BatchProfileFilterCriteria> filterCriteriaList = batchProcessTxObject.getBatchProcessProfile().getBatchProfileFilterCriteriaList();
             if (CollectionUtils.isNotEmpty(filterCriteriaList)) {
                 if (!filterCriteriaList.get(0).getFieldName().equalsIgnoreCase("Bib Local Id From File")) {
@@ -110,10 +112,10 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                         numOfRecordsInFile = 0;
                     }
                 }
-            } else {
+            } else if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)){
                 do {
                     futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
-                            start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject)));
+                            start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject,bibIds)));
                     numOfRecordsInFile += chunkSize;
                     if (numOfRecordsInFile == fileSize) {
                         fileCount++;
@@ -121,6 +123,25 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                     }
                     start += chunkSize;
                 } while (start < totalCount);
+            } else{
+                List<String> bibIdPartitionList=new ArrayList<>();
+               do {
+                   for(int i=start;i<(start+chunkSize);i++){
+                       if(i<totalCount){
+                           bibIdPartitionList.add(bibIds.get(i));
+                       }
+                   }
+                   futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
+                           start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject, bibIdPartitionList)));
+
+                   bibIdPartitionList.clear();
+                   numOfRecordsInFile += chunkSize;
+                   if (numOfRecordsInFile == fileSize) {
+                       fileCount++;
+                       numOfRecordsInFile = 0;
+                   }
+                   start+=chunkSize;
+               }while(start<totalCount);
             }
             prepareBatchExportResponse(futures, batchExportHandler, batchProcessTxObject, oleNGBatchExportResponse);
             executorService.shutdown();
@@ -261,7 +282,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
         return maxNumberOfThread;
     }
 
-    private List<String> getBibIdFromSqlQuery(String query,String batchExportScope) throws SQLException {
+    public List<String> getBibIdFromSqlQuery(String query,String batchExportScope) throws SQLException {
         List<String> bibIdList=new ArrayList<>();
         Set<String> bibIdSet=new HashSet<>();
         SqlRowSet bibIdResultSet=null;
