@@ -174,12 +174,18 @@ public class CircController extends CheckoutValidationController {
         CircForm circForm = (CircForm) form;
         List<OleLoanDocument> selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
         if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
+            Boolean claimsReturnCancelRequestPopup = ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants
+                    .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.WHILE_CLAIMS_RETURN_SHOW_CANCEL_REQUEST_POPUP);
             showDialog("claimsReturnDialog", circForm, request, response);
             ItemRecord itemRecord = getCheckoutUIController(circForm.getFormKey()).getItemRecordByBarcode(selectedLoanDocumentList.get(0).getItemId());
             circForm.setClaimsReturnNote((itemRecord != null) ? itemRecord.getClaimsReturnedNote() : "");
             circForm.setClaimsReturnFlag((itemRecord != null) ? (itemRecord.getClaimsReturnedFlag() != null) ?
                     itemRecord.getClaimsReturnedFlag().booleanValue() : false : false);
-            circForm.setCancelRequest(request.getParameter("cancelRequest"));
+            if(claimsReturnCancelRequestPopup){
+                circForm.setCancelRequest(request.getParameter("cancelRequest"));
+            }else{
+                circForm.setCancelRequest("true");
+            }
 
         } else {
             ErrorMessage errorMessage = new ErrorMessage();
@@ -198,14 +204,20 @@ public class CircController extends CheckoutValidationController {
         boolean isRequestExists =false;
         List<OleLoanDocument> selectedLoanDocumentList = getSelectedLoanDocumentList(circForm);
         if (CollectionUtils.isNotEmpty(selectedLoanDocumentList)) {
-            for(OleLoanDocument loanDocument : selectedLoanDocumentList){
-                if(getOleDeliverRequestDocumentHelperService().getRequestByItem(loanDocument.getItemId()).size()>0){
-                    isRequestExists = true;
+            Boolean claimsReturnCancelRequestPopup = ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants
+                    .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.WHILE_CLAIMS_RETURN_SHOW_CANCEL_REQUEST_POPUP);
+            if(claimsReturnCancelRequestPopup){
+                for(OleLoanDocument loanDocument : selectedLoanDocumentList){
+                    if(getOleDeliverRequestDocumentHelperService().getRequestByItem(loanDocument.getItemId()).size()>0){
+                        isRequestExists = true;
+                    }
                 }
-            }
-            if(isRequestExists){
-                showDialog("checkForRequestExistsDialog", circForm, request, response);
-            }else{
+                if(isRequestExists){
+                    showDialog("checkForRequestExistsDialog", circForm, request, response);
+                }else{
+                    openClaimsReturnDialog(form,result,request,response);
+                }
+            }else {
                 openClaimsReturnDialog(form,result,request,response);
             }
         } else {
