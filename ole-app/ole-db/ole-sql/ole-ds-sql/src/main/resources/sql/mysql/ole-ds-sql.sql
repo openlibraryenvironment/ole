@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------
 # OLE_DS_ACCESS_LOCATION_CODE_T
 # -----------------------------------------------------------------------
@@ -774,6 +773,28 @@ CREATE TABLE OLE_ITM_CLM_RTND_HSTRY_T
                                                                                                                                                                                                                                     
                                     
 , INDEX OLE_ITM_CLM_RTND_HSTRY_T_I (CLAIMS_RETURNED_PATRON_BARCODE , CLAIMS_RETURNED_PATRON_ID , CLAIMS_RETURNED_OPERATOR_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_DS_DELETED_BIB_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DS_DELETED_BIB_T
+/
+
+CREATE TABLE OLE_DS_DELETED_BIB_T
+(
+      BIB_ID INTEGER(11)
+        , DATE_UPDATED DATETIME
+    
+    , CONSTRAINT OLE_DS_DELETED_BIB_TP1 PRIMARY KEY(BIB_ID)
+
+
+
+
+
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /

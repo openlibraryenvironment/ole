@@ -249,6 +249,8 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
             try {
                 OleDsNgIndexer bibIndexer = new BibIndexer();
                 bibIndexer.deleteDocument(bibId);
+                getSolrRequestReponseHandler().commitToServer();
+                bibIndexer.saveDeletedBibInfo(bibId);
                 oleNGBatchDeleteResponse.addSuccessRecord(null, null, bibId, OleNGConstants.DELETED);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -256,7 +258,6 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
                 oleNGBatchDeleteResponse.getDeleteFailureResponseList().add(new DeleteFailureResponse(e.toString(), getDetailedMessage(e), null, bibId));
             }
         }
-        getSolrRequestReponseHandler().commitToServer();
         return objectMapper.writeValueAsString(oleNGBatchDeleteResponse);
     }
 }

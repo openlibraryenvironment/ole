@@ -399,6 +399,11 @@
         </index>
     </table>
 
+    <table name="OLE_DS_DELETED_BIB_T">
+            <column name="BIB_ID"   type="INTEGER" size="11" primaryKey="true" />
+            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+     </table>
+
     <table name="OLE_DS_DMGD_ITM_HSTRY_T">
         <column name="ITM_DMGD_ID" primaryKey="true" type="INTEGER"/>
         <column name="DMGD_ITM_DATE" type="TIMESTAMP"/>

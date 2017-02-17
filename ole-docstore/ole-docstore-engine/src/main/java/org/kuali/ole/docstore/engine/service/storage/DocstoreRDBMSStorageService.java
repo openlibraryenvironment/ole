@@ -627,5 +627,18 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
         rdbmsHoldingsDocumentManager.unbindWithAllBibs(holdingsIds, bibId);
     }
 
+    @Override
+    public void saveDeletedBibs(List<String> bibIds) throws Exception {
+        try{
+            RdbmsBibDocumentManager documentManager = RdbmsBibDocumentManager.getInstance();
+            LOG.info("Started to save deleted Bibs");
+            documentManager.saveDeletedBibs(bibIds);
+            LOG.info("Finished Saving deleted Bibs");
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 }
 
