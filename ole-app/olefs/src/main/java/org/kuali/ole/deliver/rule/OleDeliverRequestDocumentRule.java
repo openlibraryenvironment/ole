@@ -160,10 +160,12 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
             Map<String,String> criteriaMap = new HashMap<>();
             criteriaMap.put("itemId",oleDeliverRequestBo.getItemId());
             List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
-            OleCirculationHistory oleCirculationHistory = circulationHistoryRecords.get(circulationHistoryRecords.size()-1);
-            if(!StringUtils.isNotBlank(oleCirculationHistory.getOleRequestId())){
-                oleCirculationHistory.setOleRequestId(oleDeliverRequestBo.getRequestId());
-                businessObjectService.save(oleCirculationHistory);
+            if(circulationHistoryRecords.size()>0) {
+                OleCirculationHistory oleCirculationHistory = circulationHistoryRecords.get(circulationHistoryRecords.size() - 1);
+                if(StringUtils.isBlank(oleCirculationHistory.getOleRequestId())) {
+                    oleCirculationHistory.setOleRequestId(oleDeliverRequestBo.getRequestId());
+                    businessObjectService.save(oleCirculationHistory);
+                }
             }
         }
 
