@@ -18,6 +18,7 @@ import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
+import org.kuali.ole.select.businessobject.OleFormatType;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.document.service.OleDocstoreHelperService;
 import org.kuali.ole.spring.batch.BatchUtil;
@@ -70,6 +71,7 @@ public class OleNGPOValidationUtil {
         valid = validateFundingSource(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateDonorCode(oleTxRecord, exchange, recordIndex) && valid;
         valid = validateSingleCopyNumber(oleTxRecord, exchange, recordIndex) && valid;
+        valid = validateFormatType(oleTxRecord,exchange,recordIndex) && valid;
 
         valid = validateBibRecord(oleOrderRecord, exchange, recordIndex) && valid;
 
@@ -468,6 +470,23 @@ public class OleNGPOValidationUtil {
         }
         return true;
     }
+
+    private boolean validateFormatType(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex){
+        String formatTypeName = oleTxRecord.getFormatTypeId();
+        if(StringUtils.isNotBlank(formatTypeName)){
+            OleFormatType formatType = selectDAO.getFormatTypeByName(formatTypeName);
+            if(formatType == null){
+                getBatchUtil().addOrderFaiureResponseToExchange(
+                        new ValidationException("Invalid Format Type : " + formatTypeName), recordIndex, exchange);
+                oleTxRecord.setFormatTypeId(null);
+            }else{
+                oleTxRecord.setFormatTypeId(formatType.getFormatTypeId().toString());
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void validateVendorCustomerNumber(OleTxRecord oleTxRecord, Exchange exchange, Integer recordIndex) {
         String vendorInfoCustomer = oleTxRecord.getVendorInfoCustomer();

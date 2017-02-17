@@ -245,7 +245,8 @@
                                             || dataMapping.field == 'Purchase Order Confirmation Indicator'
                                             || dataMapping.field == 'Route To Requestor'
                                             || dataMapping.field == 'Fund Code'
-                                            || dataMapping.field == 'Currency Type') &&  !dataMapping.isAddLine">
+                                            || dataMapping.field == 'Currency Type'
+                                            || dataMapping.field == 'Format') &&  !dataMapping.isAddLine">
                                 <option ng-selected="{{option.value == dataMapping.constant}}"
                                         value="{{option.value}}">
                                     {{option.value}}
@@ -308,6 +309,7 @@
                                             || dataMapping.field == 'Route To Requestor'
                                             || dataMapping.field == 'Fund Code'
                                             || dataMapping.field == 'Currency Type'
+                                            || dataMapping.field == 'Format'
                                             || dataMapping.isAddLine"/>
                             <span ng-show="dataMapping.isAddLine" ng-bind="dataMapping.constant"></span>
                         </td>

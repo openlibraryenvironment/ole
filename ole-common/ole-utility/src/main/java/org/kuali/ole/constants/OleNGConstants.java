@@ -27,6 +27,7 @@ public class OleNGConstants {
         public static final String ITEM_STATUS = "Item Status";
         public static final String LIST_PRICE = "List Price";
         public static final String CURRENCY_TYPE = "Currency Type";
+        public static final String FORMAT="Format";
         public static final String METHOD_OF_PO_TRANSMISSION = "Method Of PO Transmission";
         public static final String ITEM_NO_OF_PARTS = "No Of Parts";
         public static final String OBJECT_CODE = "Object Code";

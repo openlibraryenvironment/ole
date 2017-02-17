@@ -6,6 +6,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
+import org.kuali.ole.select.businessobject.OleFormatType;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.document.OLEPlatformRecordDocument;
@@ -47,6 +48,7 @@ public interface SelectDAO {
     public List<OleCurrencyType> fetchAllCurrencyType();
     public List<OLEEResourceRecordDocument> fetchAllEResourceDocuments();
     public List<OLEPlatformRecordDocument> fetchAllPlatformRecordDocuments();
+    public List<OleFormatType> fetchAllFormatType();
     public Organization getOrganizationByChartCode(String chartCode);
     public Organization getOrganizationByOrgCode(String orgCode);
     public Organization getOrganizationByChartAndOrgCode(String chartCode, String orgCode);
@@ -75,5 +77,6 @@ public interface SelectDAO {
     public VendorCustomerNumber getVendorCustomerNumberByNumber(String vendorCustomerNumber);
     public OLEDonor getOLEDonorByCode(String donorCode);
     public OleCurrencyType getCurrencyType(String currencyType);
+    public OleFormatType getFormatTypeByName(String formatTypeName);
 
 }

@@ -503,6 +503,18 @@ getMaintenanceDataForFieldTypeForDropDown = function (dataObject, index, fieldTy
             $scope.constantValues = $scope.currencyTypeValues;
             populateOptions(dataObject, index, $scope.constantValues);
         }
+    } else if (fieldType == 'Format'){
+        if ($scope.formatTypeValues == undefined) {
+            doGetRequest($scope, $http, OLENG_CONSTANTS.PROFILE_GET_ORDER_FIELD_VALUES, {"fieldName": fieldType}, function (response) {
+                var data = response.data;
+                $scope.formatTypeValues = data;
+                $scope.constantValues = data;
+                populateOptions(dataObject, index, $scope.constantValues);
+            });
+        } else {
+            $scope.constantValues = $scope.formatTypeValues;
+            populateOptions(dataObject, index, $scope.constantValues);
+        }
     }
 };
 
