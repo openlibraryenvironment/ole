@@ -479,12 +479,13 @@ public class OleNGPOValidationUtil {
                 getBatchUtil().addOrderFaiureResponseToExchange(
                         new ValidationException("Invalid Format Type : " + formatTypeName), recordIndex, exchange);
                 oleTxRecord.setFormatTypeId(null);
+                return false;
             }else{
                 oleTxRecord.setFormatTypeId(formatType.getFormatTypeId().toString());
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
 
