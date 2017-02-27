@@ -17,6 +17,9 @@ jq(document).ready(function(){
 
 
     showBarcodeUpdateDialogBox();
+    showPatronUserNoteBlockDialogBox();
+    showPatronBlockDialogBox();
+    showPatronUserNoteDialogBox();
     if(jq("#showReinstateDialogBox_control").val()=='true'){
         reinstateDialog();
     }
@@ -214,6 +217,21 @@ function closeUpdateBarcodeDialog(){
     jq("#overviewId input#barcode_control").attr("disabled", "disabled");
 }
 
+function closePatronUserNoteBlockDialog(){
+    jq("div#OlePatronDocument-userBlock-note-Section").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+
+function closePatronBlockDialog(){
+    jq("div#OlePatronDocument-Block-Section").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+
+function closePatronUserNoteDialog(){
+    jq("div#OlePatronDocument-user-note-Section").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+
 function closeReinstateDialog(){
     jq("div#OlePatronDocument-reinstateBarcode-section").fadeOut(300);
     jq('#mask').fadeOut(300);
@@ -226,6 +244,24 @@ function showBarcodeUpdateDialogBox(){
     if(jq("#showUpdateBarcodeDialogBox_control").val()=='true'){
         jq("#OlePatronDocument-validation-Message-Section").hide();
         displayDialogWindow("div#OlePatronDocument-Barcode-Update-Section");
+    }
+}
+
+function showPatronUserNoteBlockDialogBox(){
+    if(jq("#showPatronUserNoteDialogBox_control").val()=='true' && jq("#showPatronBlockDialogBox_control").val()=='true' ){
+        displayDialogWindow("div#OlePatronDocument-userBlock-note-Section");
+    }
+}
+
+function showPatronBlockDialogBox(){
+    if(jq("#showPatronUserNoteDialogBox_control").val()!='true' && jq("#showPatronBlockDialogBox_control").val()=='true' ){
+        displayDialogWindow("div#OlePatronDocument-Block-Section");
+    }
+}
+
+function showPatronUserNoteDialogBox(){
+    if(jq("#showPatronUserNoteDialogBox_control").val()=='true' && jq("#showPatronBlockDialogBox_control").val()!='true' ){
+        displayDialogWindow("div#OlePatronDocument-user-note-Section");
     }
 }
 
