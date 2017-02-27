@@ -76,6 +76,7 @@
                         <bean parent="Uif-CheckboxControl" p:cssClasses="patronNotesCheckBoxClass" />
                     </property>
                 </bean>
+                <bean id="patronUserNoteType" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="olePatronNoteType.patronNoteTypeCode" p:label="Patron User Note Type"/>
                 <bean id="patronUserNoteText" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="patronNoteText" p:label="Patron User Notes">
                 </bean>
             </list>

@@ -47,6 +47,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String affiliationType;
     private boolean activeIndicator;
     private boolean generalBlock;
+    private boolean generalBlockPatrn;
     private String generalBlockNotes;
     private boolean pagingPrivilege;
     private boolean courtesyNotice;
@@ -82,6 +83,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String lostDescription;
     private String lostOperatorId;
     private boolean invalidateBarcode;
+    private boolean userNoteExists;
     private boolean reinstateBarcode;
     private boolean skipBarcodeValidation;
     private boolean barcodeChanged;
@@ -275,6 +277,22 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         this.setPagingPrivilege(true);
         this.setCourtesyNotice(true);
         this.setBarcodeEditable(true);
+    }
+
+    public boolean isUserNoteExists() {
+        return userNoteExists;
+    }
+
+    public void setUserNoteExists(boolean userNoteExists) {
+        this.userNoteExists = userNoteExists;
+    }
+
+    public boolean isGeneralBlockPatrn() {
+        return generalBlockPatrn;
+    }
+
+    public void setGeneralBlockPatrn(boolean generalBlockPatrn) {
+        this.generalBlockPatrn = generalBlockPatrn;
     }
 
     public boolean isUpload() {
@@ -2015,9 +2033,13 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     public List<OlePatronNotes> getOlePatronUserNotes() {
         List<OlePatronNotes> olePatronUserNoteList = new ArrayList<>();
         if(CollectionUtils.isNotEmpty(this.getNotes())) {
-            for(OlePatronNotes olePatronNotes : this.getNotes()) {
-                if(olePatronNotes.getOlePatronNoteType() != null && (OLEConstants.USER).equalsIgnoreCase(olePatronNotes.getOlePatronNoteType().getPatronNoteTypeCode())) {
-                    olePatronUserNoteList.add(olePatronNotes);
+            String ptrnNoteTypes = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                    .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.PATRON_NOTE_TYPES_TO_DISPLAY);
+            for(String note:ptrnNoteTypes.split(";")){
+                for(OlePatronNotes olePatronNotes : this.getNotes()) {
+                    if(olePatronNotes.getOlePatronNoteType() != null && note.equalsIgnoreCase(olePatronNotes.getOlePatronNoteType().getPatronNoteTypeCode())) {
+                        olePatronUserNoteList.add(olePatronNotes);
+                    }
                 }
             }
             this.olePatronUserNotes = olePatronUserNoteList;
