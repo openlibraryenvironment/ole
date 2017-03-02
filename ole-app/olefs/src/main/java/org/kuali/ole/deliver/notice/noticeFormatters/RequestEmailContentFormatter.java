@@ -63,33 +63,39 @@ public abstract class RequestEmailContentFormatter {
         if(oleDeliverRequestBos!=null && oleDeliverRequestBos.size()>0){
             OlePatronDocument olePatron = getOlePatron(oleDeliverRequestBos.get(0));
             for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
-                OleNoticeBo oleNoticeBo = new OleNoticeBo();
-                oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
-                oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
-                oleNoticeBo.setNoticeType(oleNoticeContentConfigurationBo.getNoticeType());
-                oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeTitle());
-                setPatronInfo(olePatron, oleNoticeBo);
-                setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(),
-                        oleNoticeContentConfigurationBo.getNoticeBody(), oleNoticeContentConfigurationBo.getNoticeFooterBody());
-                setItemInfo(oleNoticeBo, oleDeliverRequestBo);
-                setCirculationDeskInfo(oleNoticeBo, oleDeliverRequestBo);
-                setRequestInformation(oleDeliverRequestBo, oleNoticeBo);
-                processCustomNoticeInfo(oleDeliverRequestBo, oleNoticeBo);
-                oleNoticeBos.add(oleNoticeBo);
+                try{
+                    OleNoticeBo oleNoticeBo = new OleNoticeBo();
+                    oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
+                    oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
+                    oleNoticeBo.setNoticeType(oleNoticeContentConfigurationBo.getNoticeType());
+                    oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeTitle());
+                    setPatronInfo(olePatron, oleNoticeBo);
+                    setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(),
+                            oleNoticeContentConfigurationBo.getNoticeBody(), oleNoticeContentConfigurationBo.getNoticeFooterBody());
+                    setItemInfo(oleNoticeBo, oleDeliverRequestBo);
+                    setCirculationDeskInfo(oleNoticeBo, oleDeliverRequestBo);
+                    setRequestInformation(oleDeliverRequestBo, oleNoticeBo);
+                    processCustomNoticeInfo(oleDeliverRequestBo, oleNoticeBo);
+                    oleNoticeBos.add(oleNoticeBo);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return oleNoticeBos;
     }
 
     public OleNoticeBo setPatronInfo(OlePatronDocument olePatronDocument,OleNoticeBo oleNoticeBo){
-        String patronName = olePatronDocument.getPatronName();
-        oleNoticeBo.setPatronName(patronName != null ? patronName : "");
-        String preferredAddress = olePatronDocument.getPreferredAddress();
-        oleNoticeBo.setPatronAddress(preferredAddress != null ? preferredAddress : "");
-        String emailAddress = olePatronDocument.getEmail();
-        oleNoticeBo.setPatronEmailAddress(emailAddress !=null ? emailAddress : "");
-        String phoneNumber = olePatronDocument.getPhoneNumber();
-        oleNoticeBo.setPatronPhoneNumber(phoneNumber !=null ? phoneNumber : "");
+        if(olePatronDocument != null) {
+            String patronName = olePatronDocument.getPatronName();
+            oleNoticeBo.setPatronName(patronName != null ? patronName : "");
+            String preferredAddress = olePatronDocument.getPreferredAddress();
+            oleNoticeBo.setPatronAddress(preferredAddress != null ? preferredAddress : "");
+            String emailAddress = olePatronDocument.getEmail();
+            oleNoticeBo.setPatronEmailAddress(emailAddress != null ? emailAddress : "");
+            String phoneNumber = olePatronDocument.getPhoneNumber();
+            oleNoticeBo.setPatronPhoneNumber(phoneNumber != null ? phoneNumber : "");
+        }
         return oleNoticeBo;
     }
 

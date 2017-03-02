@@ -11,6 +11,7 @@ import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.service.NoticesExecutor;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
@@ -90,10 +91,12 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     private void preProcess() {
         if(deliverNotices !=null && deliverNotices.size()>0){
             for(OLEDeliverNotice oleDeliverNotice : deliverNotices){
-                setItemInformations(oleDeliverNotice.getOleDeliverRequestBo());
-                if(isValidRequestToSendNotice(oleDeliverNotice.getOleDeliverRequestBo())){
-                deliverRequestBos.add(oleDeliverNotice.getOleDeliverRequestBo());
-                filteredDeliverNotices.add(oleDeliverNotice);
+                if(oleDeliverNotice.getOleDeliverRequestBo()!=null) {
+                    setItemInformations(oleDeliverNotice.getOleDeliverRequestBo());
+                    if (isValidRequestToSendNotice(oleDeliverNotice.getOleDeliverRequestBo())) {
+                        deliverRequestBos.add(oleDeliverNotice.getOleDeliverRequestBo());
+                        filteredDeliverNotices.add(oleDeliverNotice);
+                    }
                 }
             }
         }
@@ -166,11 +169,11 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
 
             saveOLEDeliverNoticeHistory(filteredDeliverNotices, mailContent);
-
-            getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
-                    getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
-                            buildMapForIndexToSolr(getType(),mailContent, deliverRequestBos))));
-
+            if(CollectionUtils.isNotEmpty(deliverRequestBos) && deliverRequestBos.size()>0) {
+                getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
+                        getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                                buildMapForIndexToSolr(getType(), mailContent, deliverRequestBos))));
+            }
             postProcess();
         }
 
@@ -183,21 +186,25 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
         parameterMap.put("DocFormat", "Email");
         parameterMap.put("noticeType", noticeType);
         parameterMap.put("noticeContent", noticeContent);
-        String patronId = (new CircUtilController().getItemRecordByBarcode(oleDeliverRequestBos.get(0).getItemId())).getCurrentBorrower();
-        Map<String, String> parameterMap1 = new HashMap<>();
-        parameterMap1.put("olePatronId", patronId);
-        OlePatronDocument olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap1);
+        ItemRecord itemRecord = new CircUtilController().getItemRecordByBarcode(oleDeliverRequestBos.get(0).getItemId());
+        String patronId = (itemRecord != null ? itemRecord.getCurrentBorrower() : null  );
+        OlePatronDocument olePatron = null;
+        if(patronId != null) {
+            Map<String, String> parameterMap1 = new HashMap<>();
+            parameterMap1.put("olePatronId", patronId);
+            olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap1);
+        }
         String patronBarcode = "";
         if(olePatron!=null){
             patronBarcode = olePatron.getBarcode();
         }else{
-            patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
-            patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
+            patronBarcode = oleDeliverRequestBos.get(0).getOlePatron()!=null ? oleDeliverRequestBos.get(0).getOlePatron().getBarcode() : "";
+            patronId = oleDeliverRequestBos.get(0).getOlePatron()!=null ? oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId() : null;
         }
         parameterMap.put("patronBarcode", patronBarcode);
         Date dateSent = new Date();
         parameterMap.put("dateSent", dateSent);
-        parameterMap.put("uniqueId", patronId+ dateSent.getTime());
+        parameterMap.put("uniqueId", patronId!=null ? patronId+ dateSent.getTime() : dateSent.getTime());
         List<String> itemBarcodes = new ArrayList<>();
         for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
             OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
