@@ -792,7 +792,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
 
     private void generateHoldingsAccesssInformation(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
         try {
-            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getMaterialsSpecified() != null) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(oleHoldings.getHoldingsAccessInformation().getMaterialsSpecified());
