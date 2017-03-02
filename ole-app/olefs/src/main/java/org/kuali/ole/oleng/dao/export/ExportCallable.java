@@ -262,6 +262,7 @@ public abstract class ExportCallable implements Callable {
                     holdingsAccessInformation.setNumberOfSimultaneousUser(resultSet.getString("NUMBER_SIMULT_USERS"));
                     holdingsAccessInformation.setAccessLocation(resultSet.getString("CODE"));
                     holdingsAccessInformation.setAuthenticationType(resultSet.getString("AUTHENTICATION_TYPE_ID"));
+                    holdingsAccessInformation.setMaterialsSpecified(resultSet.getString("MATERIALS_SPECIFIED"));
                     oleHoldings.setHoldingsAccessInformation(holdingsAccessInformation);
                     String statisticalSearchId = resultSet.getString("STAT_SEARCH_CODE_ID");
                     if (StringUtils.isNotEmpty(statisticalSearchId)) {
