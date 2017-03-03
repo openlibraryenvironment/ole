@@ -337,11 +337,23 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                 oleSerialReceivingDocument.setChronologyCaptionLevel2(serialReceivingType.getChronologyCaptionLevel2());
                 oleSerialReceivingDocument.setChronologyCaptionLevel3(serialReceivingType.getChronologyCaptionLevel3());
                 oleSerialReceivingDocument.setChronologyCaptionLevel4(serialReceivingType.getChronologyCaptionLevel4());
-                oleSerialReceivingService.receiveRecord(oleSerialReceivingDocument, OLEConstants.RECEIVED);
-                save(oleSerialReceivingForm, result, request, response);
-                GlobalVariables.getMessageMap().getInfoMessages().clear();
-
+                //oleSerialReceivingService.receiveRecord(oleSerialReceivingDocument, OLEConstants.RECEIVED);
+                //save(oleSerialReceivingForm, result, request, response);
+            }else{
+                oleSerialReceivingDocument.setReceivingRecordType(OLEConstants.MAIN_REC_REC_TYP);
+                oleSerialReceivingDocument.setEnumerationCaptionLevel1("");
+                oleSerialReceivingDocument.setEnumerationCaptionLevel2("");
+                oleSerialReceivingDocument.setEnumerationCaptionLevel3("");
+                oleSerialReceivingDocument.setEnumerationCaptionLevel4("");
+                oleSerialReceivingDocument.setEnumerationCaptionLevel5("");
+                oleSerialReceivingDocument.setEnumerationCaptionLevel6("");
+                oleSerialReceivingDocument.setChronologyCaptionLevel1("");
+                oleSerialReceivingDocument.setChronologyCaptionLevel2("");
+                oleSerialReceivingDocument.setChronologyCaptionLevel3("");
+                oleSerialReceivingDocument.setChronologyCaptionLevel4("");
             }
+            oleSerialReceivingService.updateEnumCaptionValues(oleSerialReceivingDocument, null);
+            GlobalVariables.getMessageMap().getInfoMessages().clear();
         }
         return modelAndView;
     }
