@@ -169,10 +169,17 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                         generateCallNumberPrefix(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
-                    for (Link link : oleHoldings.getLink()) {
-                        DataField dataField1 = getDataField(entry);
-                        generateLink(oleHoldings, link, getCode(entry.getKey()), dataField1);
-                        if (!dataField1.getSubfields().isEmpty()) linkList.add(dataField1);
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                            if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                        }
+                    }else {
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                        }
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERSISTENTLINK)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
@@ -184,10 +191,17 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                         generatePersistentLink(oleHoldings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                    for (Link link : oleHoldings.getLink()) {
-                        DataField dataField1 = getDataField(entry);
-                        generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField1);
-                        if (!dataField1.getSubfields().isEmpty()) linkList.add(dataField1);
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField);
+                            if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                        }
+                    }else{
+                        for (Link link : oleHoldings.getLink()) {
+                            generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField);
+                        }
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_STATISTICAL_CODE)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
