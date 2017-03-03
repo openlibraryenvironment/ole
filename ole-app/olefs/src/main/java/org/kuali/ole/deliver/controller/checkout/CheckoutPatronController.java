@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronNotes;
 import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
 import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
+import org.kuali.ole.deliver.controller.PermissionsValidatorUtil;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
@@ -373,8 +374,28 @@ public class CheckoutPatronController extends CheckoutItemController {
         if((searchHold(circForm))) {
             showHoldErrorMessageDialog(circForm, request, response);
         }else{
-            CheckoutValidationController checkoutValidationController = new CheckoutValidationController();
-            checkoutValidationController.validateOveridePermission(form,result,request,response);
+            boolean hasValidOverridePermissions = new PermissionsValidatorUtil().hasValidOverridePermissions(circForm);
+            if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions())){
+                return postPatronValidation(circForm, result, request, response);
+            } else {
+                if ((hasValidOverridePermissions)) {
+                    if (circForm.isProxyCheckDone() && circForm.isItemValidationDone() && !circForm.isItemOverride() && !circForm.isRequestExistOrLoanedCheck()) {
+                        circForm.getErrorMessage().clearErrorMessage();
+                        return proceedToSaveLoan(circForm, result, request, response);
+                    } else if (circForm.isItemOverride()) {
+                        circForm.setItemOverride(false);
+                        circForm.getErrorMessage().clearErrorMessage();
+                        return proceedToSaveLoan(circForm, result, request, response);
+                    }else if(circForm.isRequestExistOrLoanedCheck()){
+                        circForm.setRequestExistOrLoanedCheck(false);
+                        return proceedToValidateItemAndSaveLoan(circForm, result, request, response);
+                    }
+                    return postPatronValidation(circForm, result, request, response);
+                } else {
+                    circForm.setOverridingPrincipalName(null);
+                    return showDialog("overrideMessageDialog", circForm, request, response);
+                }
+            }
         }
         if(StringUtils.isBlank(circForm.getLightboxScript())){
             circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
@@ -385,4 +406,5 @@ public class CheckoutPatronController extends CheckoutItemController {
         }
         return getUIFModelAndView(form);
     }
+
 }
