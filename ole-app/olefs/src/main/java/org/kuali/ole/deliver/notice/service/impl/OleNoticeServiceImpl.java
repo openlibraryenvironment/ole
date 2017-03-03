@@ -67,6 +67,7 @@ public class OleNoticeServiceImpl implements OleNoticeService {
             oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getRequestExpirationNoticeContentConfigName());
         }
         else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
+            oleDeliverNotice.setNoticeSendType(getNoticeUtil().getParameter(OLEConstants.HOLD_COUR_NOT_TYP));
             oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldExpirationNoticeContentConfigName());
         }
         else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_NOTICE)){
