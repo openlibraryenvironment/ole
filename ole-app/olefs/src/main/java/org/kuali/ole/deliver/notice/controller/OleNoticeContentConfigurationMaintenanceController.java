@@ -5,6 +5,7 @@ import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -63,6 +64,18 @@ public class OleNoticeContentConfigurationMaintenanceController extends Maintena
         return super.refresh(form,result,request,response);
     }
 
+    @Override
+    @RequestMapping(params = "methodToCall=maintenanceEdit")
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        MaintenanceDocumentForm maintenanceForm = form;
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+        MaintenanceDocument document =  maintenanceForm.getDocument();
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = (OleNoticeContentConfigurationBo) document.getNewMaintainableObject().getDataObject();
+        String noticeType = oleNoticeContentConfigurationBo.getNoticeType();
+        GlobalVariables.getUserSession().addObject("noticeType",noticeType);
+        return getUIFModelAndView(form);
+    }
 
 }

@@ -117,7 +117,7 @@
                 <#if oleNoticeBo.originalDueDate ??>
                     <TD>${(oleNoticeBo.originalDueDate)?date}</TD>
                 <#else>
-                    <TD</TD>
+                    <TD></TD>
                 </#if>
 
             </TR>
