@@ -49,7 +49,7 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
     public void setOleNoticeContentConfigurationBo() {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
-        noticeConfigurationMap.put("noticeType",OLEConstants.NOTICE_HOLD_COURTESY);
+        noticeConfigurationMap.put("noticeType",OLEConstants.ONHOLD_EXPIRATION_NOTICE);
         noticeConfigurationMap.put("noticeName", noticeContentConfigName);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBoList)){
@@ -82,6 +82,6 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
 
     @Override
     public String getType() {
-        return OLEConstants.NOTICE_HOLD_COURTESY;
+        return OLEConstants.ONHOLD_EXPIRATION_NOTICE;
     }
 }

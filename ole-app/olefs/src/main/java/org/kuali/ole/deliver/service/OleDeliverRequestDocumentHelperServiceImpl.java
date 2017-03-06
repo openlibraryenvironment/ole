@@ -2177,7 +2177,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         oleNoticeBo.setPatronAddress(getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "");
         oleNoticeBo.setPatronEmailAddress(getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "");
         oleNoticeBo.setPatronPhoneNumber(getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
-        oleNoticeBo.setNoticeName(OLEConstants.NOTICE_HOLD_COURTESY);
+        oleNoticeBo.setNoticeName(OLEConstants.ONHOLD_EXPIRATION_NOTICE);
         oleNoticeBo.setNoticeSpecificContent(getLoanProcessor().getParameter(OLEConstants.OleDeliverRequest.EXP_HOLD_NOTICE_CONTENT));
         oleNoticeBo.setTitle(item.getHolding().getBib().getTitle());
         oleNoticeBo.setAuthor(item.getHolding().getBib().getAuthor());

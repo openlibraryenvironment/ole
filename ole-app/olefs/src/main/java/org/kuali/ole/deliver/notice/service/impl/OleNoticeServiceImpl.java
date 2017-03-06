@@ -74,7 +74,7 @@ public class OleNoticeServiceImpl implements OleNoticeService {
             oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldNoticeContentConfigName());
         }
         else if (noticeType.equalsIgnoreCase(OLEConstants.ONHOLD_COURTESY_NOTICE)){
-            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldNoticeContentConfigName());
+            oleDeliverNotice.setNoticeContentConfigName(oleDeliverRequestBo.getOnHoldCourtesyNoticeContentConfigName());
         }
         oleDeliverNotice.setItemBarcode(oleDeliverRequestBo.getItemId());
         oleDeliverNotice.setNoticeType(noticeType);
