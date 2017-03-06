@@ -10,9 +10,13 @@ import org.kuali.ole.describe.bo.TransferRightToLeft;
 import org.kuali.ole.describe.form.BoundwithForm;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.HoldingsTree;
+import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.ole.select.service.DocumentUUIDUpdateService;
 import org.kuali.ole.select.util.TransferUtil;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -41,6 +45,15 @@ import java.util.List;
 public class TransferController
         extends BoundwithController {
     private static final Logger LOG = Logger.getLogger(TransferController.class);
+    private DocumentUUIDUpdateService documentUUIDUpdateService;
+    private String itemFailed = null;
+
+    public DocumentUUIDUpdateService getDocumentUUIDUpdateService() {
+        if (null == documentUUIDUpdateService) {
+            documentUUIDUpdateService = SpringContext.getBean(DocumentUUIDUpdateService.class);
+        }
+        return documentUUIDUpdateService;
+    }
 
     @Override
     @RequestMapping(params = "methodToCall=start")
@@ -73,6 +86,7 @@ public class TransferController
         List<String> instanceIdentifiersToDelete = new ArrayList<String>();
         boolean transferInstance = true;
         boolean transferItem = true;
+        boolean success = Boolean.FALSE;
         //  StringBuffer stringBufferLeftTree=new StringBuffer();
         //StringBuffer stringBufferRightTree=new StringBuffer();
 
@@ -196,11 +210,25 @@ public class TransferController
                     }
                     return getUIFModelAndView(transferForm);
                 }
-                TransferUtil.getInstance().transferInstances(bibInstanceListForTree1, destBibIdentifier);
-                TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree1, OLEConstants.LEFT_TREE);
-                TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree2, OLEConstants.RIGHT_TREE);
-                //transferForm.setMessage("Instances transferred successfully");
-                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Instances");
+                for(String holding:bibInstanceListForTree1) {
+                       success = getDocumentUUIDUpdateService().updateCopyRecord(holding, destBibIdentifier);
+                    if(!success) {
+                        itemFailed=holding;
+                        break;
+                    }
+                }
+                if(success) {
+                    TransferUtil.getInstance().transferInstances(bibInstanceListForTree1, destBibIdentifier);
+
+                    TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree1, OLEConstants.LEFT_TREE);
+                    TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree2, OLEConstants.RIGHT_TREE);
+                    //transferForm.setMessage("Instances transferred successfully");
+                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Instances");
+                }
+                else {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                }
+                success = Boolean.FALSE;
             }
         } else if (bibItemListForTree1.size() > 0) {
             //If Transfer of items happen between same left holding and right holding.
@@ -233,16 +261,28 @@ public class TransferController
                     return getUIFModelAndView(transferForm);
                     //return deleteVerify(transferForm, deleteResponseFromDocStore);
                 }
-                TransferUtil.getInstance().transferItems(bibItemListForTree1, destInstanceIdentifier);
-                if (transferForm.getDocType().equalsIgnoreCase((DocType.BIB.getDescription()))) {
-                    TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree1, OLEConstants.LEFT_TREE);
-                    TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree2, OLEConstants.RIGHT_TREE);
-                } else if (transferForm.getDocType().equalsIgnoreCase((DocType.HOLDINGS.getCode()))) {
-                    TransferUtil.getInstance().copyToTree(transferForm, bibInstanceListAllForTree1, OLEConstants.LEFT_TREE);
-                    TransferUtil.getInstance().copyToTree(transferForm, bibInstanceListForTree2, OLEConstants.RIGHT_TREE);
+                for(String item:bibItemListForTree1) {
+                    success = getDocumentUUIDUpdateService().updateCopyRecord(item,destInstanceIdentifier);
+                    if(!success) {
+                        break;
+                    }
                 }
-                //transferForm.setMessage("Items transferred successfully");
-                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Items");
+                if(success) {
+                    TransferUtil.getInstance().transferItems(bibItemListForTree1, destInstanceIdentifier);
+                    if (transferForm.getDocType().equalsIgnoreCase((DocType.BIB.getDescription()))) {
+                        TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree1, OLEConstants.LEFT_TREE);
+                        TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForTree2, OLEConstants.RIGHT_TREE);
+                    } else if (transferForm.getDocType().equalsIgnoreCase((DocType.HOLDINGS.getCode()))) {
+                        TransferUtil.getInstance().copyToTree(transferForm, bibInstanceListAllForTree1, OLEConstants.LEFT_TREE);
+                        TransferUtil.getInstance().copyToTree(transferForm, bibInstanceListForTree2, OLEConstants.RIGHT_TREE);
+                    }
+                    //transferForm.setMessage("Items transferred successfully");
+                    success = Boolean.FALSE;
+                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Items");
+                }
+                else {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "Update of PO Tables Failed for Item Id >>>  " + itemFailed);
+                }
             }
         } else {
             //transferForm.setMessage("Nothing selected or Selection is wrong");
@@ -488,6 +528,7 @@ public class TransferController
                                HttpServletRequest request, HttpServletResponse httpResponse) throws Exception {
         StringBuilder uuidList = new StringBuilder();
         BoundwithForm transferForm = (BoundwithForm) form;
+        boolean success = Boolean.FALSE;
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
         //        uuidList.append(boundwithForm.getDocId());
         //boundwithForm.setInDelete("false");
@@ -508,85 +549,111 @@ public class TransferController
             String treeId = transferForm.getActionParamaterValue("treeId");
             if (transferForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
                 if (transferForm.getDestBibIdentifier() != null && transferForm.getDestBibIdentifier().length() > 0) {
-                    TransferUtil.getInstance().transferInstances(transferForm.getBibInstanceListForTree1(),
-                            transferForm.getDestBibIdentifier());
-                    //transferForm.setMessage("Instance transferred successfully. Bib is deleted.");
-                    for (String id : transferForm.getDeleteIds()) {
-                        try {
-                            getDocstoreClientLocator().getDocstoreClient().deleteBib(id);
-                            if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                                HashMap leftList = (HashMap) request.getSession().getAttribute(OLEConstants.LEFT_LIST);
-                                if (leftList.size() == 1) {
-                                    clearTree(transferForm, result, request, httpResponse);
-                                }
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.instance.success");
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.instance.success.bib.delete");
-                            } else {
-                                HashMap rightList = (HashMap) request.getSession().getAttribute(OLEConstants.RIGHT_LIST);
-                                if (rightList.size() == 1) {
-                                    clearTree(transferForm, result, request, httpResponse);
-                                }
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.instance.success");
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.instance.success.bib.delete");
-                            }
-                        } catch (Exception e) {
-                            DocstoreException docstoreException = (DocstoreException) e;
-                            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                                GlobalVariables.getMessageMap().getInfoMessages().clear();
-
-                                if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.instance.success");
-                                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, docstoreException.getErrorCode());
-                                } else {
-                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.instance.success");
-                                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, docstoreException.getErrorCode());
-                                }
-                            } else {
-                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
-                            }
+                    for(String holding:transferForm.getBibInstanceListForTree1()) {
+                        success = getDocumentUUIDUpdateService().updateCopyRecord(holding, transferForm.getDestBibIdentifier());
+                        if(!success) {
+                            itemFailed=holding;
+                            break;
                         }
                     }
-                    transferForm.setDestBibIdentifier(null);
+                    if(success) {
+                        TransferUtil.getInstance().transferInstances(transferForm.getBibInstanceListForTree1(),
+                                transferForm.getDestBibIdentifier());
+                        //transferForm.setMessage("Instance transferred successfully. Bib is deleted.");
+                        for (String id : transferForm.getDeleteIds()) {
+                            try {
+                                getDocstoreClientLocator().getDocstoreClient().deleteBib(id);
+                                if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                                    HashMap leftList = (HashMap) request.getSession().getAttribute(OLEConstants.LEFT_LIST);
+                                    if (leftList.size() == 1) {
+                                        clearTree(transferForm, result, request, httpResponse);
+                                    }
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.instance.success");
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.instance.success.bib.delete");
+                                } else {
+                                    HashMap rightList = (HashMap) request.getSession().getAttribute(OLEConstants.RIGHT_LIST);
+                                    if (rightList.size() == 1) {
+                                        clearTree(transferForm, result, request, httpResponse);
+                                    }
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.instance.success");
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.instance.success.bib.delete");
+                                }
+                            } catch (Exception e) {
+                                DocstoreException docstoreException = (DocstoreException) e;
+                                if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                                    GlobalVariables.getMessageMap().getInfoMessages().clear();
+
+                                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.instance.success");
+                                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, docstoreException.getErrorCode());
+                                    } else {
+                                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.instance.success");
+                                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, docstoreException.getErrorCode());
+                                    }
+                                } else {
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                                }
+                            }
+                        }
+                        transferForm.setDestBibIdentifier(null);
+                        success = Boolean.FALSE;
+                    }
+                    else {
+                        if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                        } else {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                        }
+                    }
+
                 } else {
-                    TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(),
-                            transferForm.getDestInstanceIdentifier());
-                    //transferForm.setMessage("Item transferred successfully. Bib and Instance are deleted.");
-                    Holdings holdings = null;
-                    for (String id : transferForm.getDeleteIds()) {
-                        try {
-                            holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(id);
-                        } catch (Exception e) {
-                            DocstoreException docstoreException = (DocstoreException) e;
-                            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
-                            } else {
-                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
-                            }
+                    for (String item : transferForm.getBibItemListForTree1()) {
+                        success = getDocumentUUIDUpdateService().updateCopyRecord(item, transferForm.getDestInstanceIdentifier());
+                        if(!success) {
+                            itemFailed=item;
+                            break;
                         }
-                        BibTree bibTree = null;
-                        try {
-                            bibTree = getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(holdings.getBib().getId());
-                        } catch (Exception e) {
-                            DocstoreException docstoreException = (DocstoreException) e;
-                            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
-                            } else {
-                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                    }
+                    if (success) {
+                        TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(),
+                                transferForm.getDestInstanceIdentifier());
+                        //transferForm.setMessage("Item transferred successfully. Bib and Instance are deleted.");
+                        Holdings holdings = null;
+                        for (String id : transferForm.getDeleteIds()) {
+                            try {
+                                holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(id);
+                            } catch (Exception e) {
+                                DocstoreException docstoreException = (DocstoreException) e;
+                                if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
+                                } else {
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                                }
                             }
-                        }
-                        if (bibTree.getHoldingsTrees() != null && bibTree.getHoldingsTrees().size() > 1) {
-                            if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                                HashMap leftList = (HashMap) request.getSession().getAttribute(OLEConstants.LEFT_LIST);
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
-                            } else {
-                                HashMap rightList = (HashMap) request.getSession().getAttribute(OLEConstants.RIGHT_LIST);
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
+                            BibTree bibTree = null;
+                            try {
+                                bibTree = getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(holdings.getBib().getId());
+                            } catch (Exception e) {
+                                DocstoreException docstoreException = (DocstoreException) e;
+                                if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
+                                } else {
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                                }
                             }
-                            for (String holdingId : transferForm.getDeleteIds()) {
-                                try {
-                                    getDocstoreClientLocator().getDocstoreClient().deleteHoldings(holdingId);
+                            if (bibTree.getHoldingsTrees() != null && bibTree.getHoldingsTrees().size() > 1) {
+                                if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                                    HashMap leftList = (HashMap) request.getSession().getAttribute(OLEConstants.LEFT_LIST);
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
+                                } else {
+                                    HashMap rightList = (HashMap) request.getSession().getAttribute(OLEConstants.RIGHT_LIST);
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
+                                }
+                                for (String holdingId : transferForm.getDeleteIds()) {
+                                    try {
+                                        getDocstoreClientLocator().getDocstoreClient().deleteHoldings(holdingId);
 
                                 } catch (Exception e) {
                                     DocstoreException docstoreException = (DocstoreException) e;
@@ -623,71 +690,98 @@ public class TransferController
                             try {
                                 getDocstoreClientLocator().getDocstoreClient().deleteBib(holdings.getBib().getId());
 
-                            } catch (Exception e) {
-                                DocstoreException docstoreException = (DocstoreException) e;
-                                if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                                    GlobalVariables.getMessageMap().getInfoMessages().clear();
-                                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
-                                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, docstoreException.getErrorCode());
+                                } catch (Exception e) {
+                                    DocstoreException docstoreException = (DocstoreException) e;
+                                    if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                                        GlobalVariables.getMessageMap().getInfoMessages().clear();
+                                        if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                                            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
+                                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, docstoreException.getErrorCode());
+                                        } else {
+                                            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
+                                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, docstoreException.getErrorCode());
+                                        }
                                     } else {
-                                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
-                                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, docstoreException.getErrorCode());
+                                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
                                     }
-                                } else {
-                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
                                 }
                             }
                         }
+                        success = Boolean.FALSE;
                     }
+                    else {
+                        if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "Update of PO Tables Failed for Item Id >>>  " + itemFailed);
+                        } else {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for Item Id >>>  " + itemFailed);
+                        }
+                    }
+
                 }
             } else if (transferForm.getDocType().equalsIgnoreCase(OLEConstants.HOLDING_DOC_TYPE)) {
-                TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(), transferForm.getDestInstanceIdentifier());
-
-                for (String id : transferForm.getDeleteIds()) {
-
-                    try {
-                        getDocstoreClientLocator().getDocstoreClient().deleteHoldings(id);
-                        if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                            HashMap leftList = (HashMap) request.getSession().getAttribute(OLEConstants.LEFT_LIST);
-                            if (leftList.size() == 1) {
-                                clearTree(transferForm, result, request, httpResponse);
-                            }
-                            leftList.remove(DocumentUniqueIDPrefix.getDocumentId(id));
-                            request.getSession().setAttribute(OLEConstants.LEFT_LIST, leftList);
-                            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
-                            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
-                        } else {
-                            HashMap rightList = (HashMap) request.getSession().getAttribute(OLEConstants.RIGHT_LIST);
-                            if (rightList.size() == 1) {
-                                clearTree(transferForm, result, request, httpResponse);
-                            }
-                            rightList.remove(DocumentUniqueIDPrefix.getDocumentId(id));
-                            request.getSession().setAttribute(OLEConstants.RIGHT_LIST, rightList);
-                            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
-                            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
-                        }
-                    } catch (Exception e) {
-                        DocstoreException docstoreException = (DocstoreException) e;
-                        if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                            GlobalVariables.getMessageMap().getInfoMessages().clear();
-
-                            if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION,  "info.transfer.item.success");
-                                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, docstoreException.getErrorCode());
-                            } else {
-                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
-                                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, docstoreException.getErrorCode());
-                            }
-                        } else {
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
-                        }
+                for (String item : transferForm.getBibItemListForTree1()) {
+                    success = getDocumentUUIDUpdateService().updateCopyRecord(item, transferForm.getDestInstanceIdentifier());
+                    if(!success) {
+                        itemFailed=item;
+                        break;
                     }
                 }
-            }
+                if (success) {
+                    TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(), transferForm.getDestInstanceIdentifier());
+
+                    for (String id : transferForm.getDeleteIds()) {
+
+                        try {
+                            getDocstoreClientLocator().getDocstoreClient().deleteHoldings(id);
+                            if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                                HashMap leftList = (HashMap) request.getSession().getAttribute(OLEConstants.LEFT_LIST);
+                                if (leftList.size() == 1) {
+                                    clearTree(transferForm, result, request, httpResponse);
+                                }
+                                leftList.remove(DocumentUniqueIDPrefix.getDocumentId(id));
+                                request.getSession().setAttribute(OLEConstants.LEFT_LIST, leftList);
+                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
+                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
+                            } else {
+                                HashMap rightList = (HashMap) request.getSession().getAttribute(OLEConstants.RIGHT_LIST);
+                                if (rightList.size() == 1) {
+                                    clearTree(transferForm, result, request, httpResponse);
+                                }
+                                rightList.remove(DocumentUniqueIDPrefix.getDocumentId(id));
+                                request.getSession().setAttribute(OLEConstants.RIGHT_LIST, rightList);
+                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
+                                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success.holdings.delete");
+                            }
+                        } catch (Exception e) {
+                            DocstoreException docstoreException = (DocstoreException) e;
+                            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                                GlobalVariables.getMessageMap().getInfoMessages().clear();
+
+                                if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer.item.success");
+                                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, docstoreException.getErrorCode());
+                                } else {
+                                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer.item.success");
+                                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, docstoreException.getErrorCode());
+                                }
+                            } else {
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                            }
+                        }
+                    }
+                    success = Boolean.FALSE;
+                }
+                else {
+                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "Update of PO Tables Failed for Item Id >>>  " + itemFailed);
+                    } else {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for Item Id >>>  " + itemFailed);
+                    }
+                }
 //            String deleteResponseFromDocStore = TransferUtil.getInstance().getDeleteResponseFromDocStore("delete", uuidList.toString(),
 //                    transferForm);
-            transferForm.setShowBoundwithTree(false);
+                transferForm.setShowBoundwithTree(false);
+            }
         }
         return getUIFModelAndView(transferForm);
     }
@@ -696,33 +790,83 @@ public class TransferController
     public ModelAndView OnlyTransfer(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse httpResponse) throws Exception {
         BoundwithForm transferForm = (BoundwithForm) form;
+        boolean success = false;
         String treeId = transferForm.getActionParamaterValue("treeId");
         if (transferForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             if (transferForm.getDestBibIdentifier() != null && transferForm.getDestBibIdentifier().length() > 0) {
-                TransferUtil.getInstance().transferInstances(transferForm.getBibInstanceListForTree1(),
-                        transferForm.getDestBibIdentifier());
-                //transferForm.setMessage("Instance transferred successfully.");
-                if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Instance");
-                } else {
-                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Instance");
+                for(String holding:transferForm.getBibInstanceListForTree1()) {
+                    success =  getDocumentUUIDUpdateService().updateCopyRecord(holding, transferForm.getDestBibIdentifier());
+                    if(!success) {
+                        itemFailed=holding;
+                        break;
+                    }
                 }
-                transferForm.setDestBibIdentifier(null);
+                if(success) {
+                    TransferUtil.getInstance().transferInstances(transferForm.getBibInstanceListForTree1(),
+                            transferForm.getDestBibIdentifier());
+                    //transferForm.setMessage("Instance transferred successfully.");
+                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Instance");
+                    } else {
+                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Instance");
+                    }
+                    transferForm.setDestBibIdentifier(null);
+                    success = Boolean.FALSE;
+                }
+                else {
+                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                    } else {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                    }
+                }
             } else {
-                TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(),
-                        transferForm.getDestInstanceIdentifier());
-                //transferForm.setMessage("Item transferred successfully.");
-                if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
-                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Item");
-                } else {
-                    GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Item");
+                for (String item : transferForm.getBibItemListForTree1()) {
+                    success = getDocumentUUIDUpdateService().updateCopyRecord(item, transferForm.getDestInstanceIdentifier());
+                    if(!success) {
+                        itemFailed=item;
+                        break;
+                    }
+                }
+                if (success) {
+                    TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(),
+                            transferForm.getDestInstanceIdentifier());
+
+                    //transferForm.setMessage("Item transferred successfully.");
+                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "info.transfer", "Item");
+                    } else {
+                        GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Item");
+                    }
+                    success = Boolean.FALSE;
+                }
+                else {
+                    if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                    }
+                    else {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for Holding Id >>>  " + itemFailed);
+                    }
                 }
             }
         } else if (transferForm.getDocType().equalsIgnoreCase(OLEConstants.HOLDING_DOC_TYPE)) {
-            TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(),
-                    transferForm.getDestInstanceIdentifier());
-            //transferForm.setMessage("Item transferred successfully.");
-            GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Item");
+            for(String item:transferForm.getBibItemListForTree1()) {
+                success =  getDocumentUUIDUpdateService().updateCopyRecord(item,transferForm.getDestInstanceIdentifier());
+                if(!success) {
+                    itemFailed=item;
+                    break;
+                }
+            }
+            if(success) {
+                TransferUtil.getInstance().transferItems(transferForm.getBibItemListForTree1(),
+                        transferForm.getDestInstanceIdentifier());
+                //transferForm.setMessage("Item transferred successfully.");
+                success = Boolean.FALSE;
+                GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Item");
+            }
+            else {
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "Update of PO Tables Failed for item Id >>>  " + itemFailed);
+            }
         }
         //boundwithForm.setInDelete("false");
         transferForm.setInDeleteLeftTree("false");
@@ -743,5 +887,4 @@ public class TransferController
         boundwithForm.setNextFlag(getWorkbenchNextFlag());
         boundwithForm.setPageShowEntries(getWorkbenchPageShowEntries());
     }
-
 }

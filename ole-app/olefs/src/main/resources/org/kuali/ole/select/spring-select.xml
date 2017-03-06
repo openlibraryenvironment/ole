@@ -778,6 +778,10 @@
     <bean id="receivingQueueDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.ReceivingQueueDAOServiceimpl" />
     <bean id="donorEncumberReportDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.DonorEncumberReportDAOServiceImpl" />
 
+    <bean id="documentUUIDUpdateService" parent="documentUUIDUpdateService-parentBean" />
+    <bean id="documentUUIDUpdateService-parentBean" class="org.kuali.ole.select.service.impl.DocumentUUIDUpdateServiceImpl">
+    </bean>
+
 
     <bean id="exportDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.oleng.dao.export.ExportDao" />
 
