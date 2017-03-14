@@ -160,13 +160,34 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
             Map<String,String> criteriaMap = new HashMap<>();
             criteriaMap.put("itemId",oleDeliverRequestBo.getItemId());
             List<OleCirculationHistory> circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class,criteriaMap);
-            if(circulationHistoryRecords.size()>0) {
-                OleCirculationHistory oleCirculationHistory = circulationHistoryRecords.get(circulationHistoryRecords.size() - 1);
-                if(StringUtils.isBlank(oleCirculationHistory.getOleRequestId())) {
-                    oleCirculationHistory.setOleRequestId(oleDeliverRequestBo.getRequestId());
-                    businessObjectService.save(oleCirculationHistory);
+            if(circulationHistoryRecords.size()>0 && oleDeliverRequestBo.getRequestId() != null) {
+                for(OleCirculationHistory oleCirculationHistory : circulationHistoryRecords) {
+                    if (StringUtils.isBlank(oleCirculationHistory.getOleRequestId())) {
+                        oleCirculationHistory.setOleRequestId(oleDeliverRequestBo.getRequestId());
+                        businessObjectService.save(oleCirculationHistory);
+                    }
                 }
             }
+           /* else if (oleDeliverRequestBo.getRequestId() == null || circulationHistoryRecords.size()==0){
+                List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, criteriaMap);
+                if (oleLoanDocuments.size() > 0) {
+                    for (OleLoanDocument oleLoanDocument : oleLoanDocuments) {
+                        Map<String,String> loanCriteriaMap = new HashMap<>();
+                        loanCriteriaMap.put("loanId", oleLoanDocument.getLoanId());
+                        circulationHistoryRecords = (List<OleCirculationHistory>) getBusinessObjectService().findMatching(OleCirculationHistory.class, loanCriteriaMap);
+                        if(circulationHistoryRecords.size()>0) {
+                            for(OleCirculationHistory oleCirculationHistory : circulationHistoryRecords) {
+                                if (StringUtils.isBlank(oleCirculationHistory.getOleRequestId())) {
+                                    oleCirculationHistory.setOleRequestId(oleLoanDocument.getOleRequestId());
+                                    businessObjectService.save(oleCirculationHistory);
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }*/
         }
 
         if((oleDeliverRequestBo.getHoldExpirationDate()!=null && oldDeliverRequestBo.getHoldExpirationDate() == null) ||
