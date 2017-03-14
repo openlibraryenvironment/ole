@@ -8,6 +8,7 @@
                         <option ng-repeat="row in rowsToShow">{{row}}</option>
                     </select> entries
                 </label>
+                <ul class="pull-right"><label>Search: <input ng-model="searchText"></label></ul>
                 <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="batchJobs.length"
                     ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
             </div>
@@ -34,7 +35,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="batchJob in batchJobs  | orderBy:'-jobDetailId' | paginate:currentPage:pageSize">
+                <tr ng-repeat="batchJob in batchJobs |filter: searchText | orderBy:'-jobDetailId' | paginate:currentPage:pageSize">
                     <td><span ng-bind="batchJob.jobDetailId"></span></td>
                     <td><span ng-bind="batchJob.jobName"></span></td>
                     <td><span ng-bind="batchJob.jobId"></span></td>
