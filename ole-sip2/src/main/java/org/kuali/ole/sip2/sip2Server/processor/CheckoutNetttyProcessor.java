@@ -11,6 +11,7 @@ import org.kuali.ole.converter.OLERenewItemConverter;
 import org.kuali.ole.request.OLESIP2CheckOutRequestParser;
 import org.kuali.ole.response.OLESIP2CheckOutResponse;
 import org.kuali.ole.sip2.response.OLESIP2CheckOutTurnedOffResponse;
+import org.kuali.ole.sip2.sip2Server.MessageUtil;
 
 import java.util.Properties;
 
@@ -36,9 +37,19 @@ public class CheckoutNetttyProcessor extends NettyProcessor {
     public String process(String requestData) {
         String response = "";
         OLESIP2CheckOutRequestParser sip2CheckOutRequestParser = new OLESIP2CheckOutRequestParser(requestData);
-        requestData = createJSONForCheckoutItemRequest(sip2CheckOutRequestParser.getPatronIdentifier(), sip2CheckOutRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID");
+        if(requestData.contains("|AA") && requestData.contains("|AB") && requestData.contains("|AY")) {
 
-        response = postRequest(requestData, "/checkoutItemSIP2", serverURL);
+            requestData = createJSONForCheckoutItemRequest(sip2CheckOutRequestParser.getPatronIdentifier(), sip2CheckOutRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID");
+            response = postRequest(requestData, "/checkoutItemSIP2", serverURL);
+        }else{
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("96AZ");
+            builder.append(MessageUtil.computeChecksum(builder.toString()));
+            response = builder.toString() + '\r';
+        }
+
+
 
         if (StringUtils.isNotBlank(response)) {
             if (response.contains("<renewItemList>")) {
