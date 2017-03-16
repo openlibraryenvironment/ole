@@ -1714,6 +1714,12 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) {
                             deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
                         }
+                        else if(oleDeliverRequestBoList.get(i).getHoldExpirationDate()  != null && oleDeliverRequestBoList.get(i).getRequestExpiryDate() != null) {
+                            if((fmt.format(oleDeliverRequestBoList.get(i).getRequestExpiryDate()).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0) ||
+                            (fmt.format(oleDeliverRequestBoList.get(i).getHoldExpirationDate()).compareTo(fmt.format(new Date(System.currentTimeMillis()))) < 0)) {
+                                deleteRequest(oleDeliverRequestBoList.get(i).getRequestId(), oleDeliverRequestBoList.get(i).getItemUuid(), oleDeliverRequestBoList.get(i).getOperatorCreateId(), oleDeliverRequestBoList.get(i).getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_EXPIRED));
+                            }
+                        }
                     }
 
                 } catch (Exception e) {
