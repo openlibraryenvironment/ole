@@ -55,6 +55,7 @@ public abstract class BatchFileProcessor extends BatchUtil {
 
     public JSONObject processBatch(File inputFileDirectoryPath, String fileType, String profileId, String reportDirectoryName,
                                    BatchJobDetails batchJobDetails) throws Exception {
+        LOG.info("Inside Batch processBatch() in BatchFileProcessor >>>");
         JSONObject response = new JSONObject();
 
         BatchProcessProfile batchProcessProfile = new BatchProcessProfile();
@@ -62,14 +63,20 @@ public abstract class BatchFileProcessor extends BatchUtil {
         try {
             BATCH_JOB_EXECUTION_DETAILS_MAP.put(batchJobDetails.getJobId() + "_" + batchJobDetails.getJobDetailId(), batchJobDetails);
             batchProcessProfile = fetchBatchProcessProfile(profileId);
+            LOG.info("batchProcessProfile >>>>" + batchProcessProfile);
             BatchProcessTxObject batchProcessTxObject = new BatchProcessTxObject();
             batchProcessTxObject.setBatchProcessProfile(batchProcessProfile);
             batchProcessTxObject.setBatchFileProcessor(this);
             batchProcessTxObject.setBatchJobDetails(batchJobDetails);
+            LOG.info("batchJobDetails >>>>" + batchJobDetails);
             batchProcessTxObject.setFileExtension(fileType);
             batchProcessTxObject.setReportDirectoryName(reportDirectoryName);
             batchProcessTxObject.getOleStopWatch().start();
             batchProcessTxObject.setIncomingFileDirectoryPath(inputFileDirectoryPath.getAbsolutePath());
+            LOG.info("ProfileID >>>>>>" + batchJobDetails.getProfileId());
+            LOG.info("ProfileName >>>>>>" +batchJobDetails.getProfileName());
+            LOG.info("FileName >>>>>>>" + batchJobDetails.getFileName());
+
 
             if (fileType.equalsIgnoreCase(OleNGConstants.MARC)) {
                 OleCamelContext oleCamelContext = OleCamelContext.getInstance();
