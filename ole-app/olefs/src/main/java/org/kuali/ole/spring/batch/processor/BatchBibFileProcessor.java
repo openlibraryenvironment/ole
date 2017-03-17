@@ -43,6 +43,7 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
     @Override
     public OleNgBatchResponse processRecords(Map<Integer, RecordDetails> recordsMap, BatchProcessTxObject batchProcessTxObject,
                                              BatchProcessProfile batchProcessProfile) throws JSONException {
+        LOG.info("Inside processRecords() in BatchBibFileProcessor >>>");
         BatchJobDetails batchJobDetails = batchProcessTxObject.getBatchJobDetails();
         String reportDirectoryName = batchProcessTxObject.getReportDirectoryName();
         JSONArray jsonArray = new JSONArray();
