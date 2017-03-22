@@ -2141,7 +2141,6 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             }
         }
         for (OleInvoiceItem subscriptionInvItem : subscriptionInvItems) {
-
             if (subscriptionInvItem.getPoItemIdentifier() != null) {
                 Map matchPOItem = new HashMap();
                 matchPOItem.put("poItemIdentifier", subscriptionInvItem.getPoItemIdentifier());
@@ -2154,18 +2153,20 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }
 
                 for (OleInvoiceItem oleInvoiceItem : subscriptionInvoicedItems) {
+                    if(!oleInvoiceItem.getItemIdentifier().equals(subscriptionInvItem.getItemIdentifier())) {
 
-                    if (oleInvoiceItem.getPoItemIdentifier().equals(subscriptionInvItem.getPoItemIdentifier())) {
+                        if (oleInvoiceItem.getPoItemIdentifier().equals(subscriptionInvItem.getPoItemIdentifier())) {
 
-                        if (subscriptionInvItem.getSubscriptionFromDate().compareTo(oleInvoiceItem.getSubscriptionFromDate()) >= 0 && subscriptionInvItem.getSubscriptionFromDate().compareTo(oleInvoiceItem.getSubscriptionToDate()) <= 0) {
-                            isOverlap = true;
-                            overlapInvDocumentList.add((OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument());
-                        } else if (subscriptionInvItem.getSubscriptionToDate().compareTo(oleInvoiceItem.getSubscriptionFromDate()) >= 0 && subscriptionInvItem.getSubscriptionToDate().compareTo(oleInvoiceItem.getSubscriptionToDate()) <= 0) {
-                            isOverlap = true;
-                            overlapInvDocumentList.add((OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument());
-                        } else if ((subscriptionInvItem.getSubscriptionFromDate().compareTo(oleInvoiceItem.getSubscriptionFromDate()) < 0) && (subscriptionInvItem.getSubscriptionToDate().compareTo(oleInvoiceItem.getSubscriptionToDate()) > 0)) {
-                            isOverlap = true;
-                            overlapInvDocumentList.add((OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument());
+                            if (subscriptionInvItem.getSubscriptionFromDate().compareTo(oleInvoiceItem.getSubscriptionFromDate()) >= 0 && subscriptionInvItem.getSubscriptionFromDate().compareTo(oleInvoiceItem.getSubscriptionToDate()) <= 0) {
+                                isOverlap = true;
+                                overlapInvDocumentList.add((OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument());
+                            } else if (subscriptionInvItem.getSubscriptionToDate().compareTo(oleInvoiceItem.getSubscriptionFromDate()) >= 0 && subscriptionInvItem.getSubscriptionToDate().compareTo(oleInvoiceItem.getSubscriptionToDate()) <= 0) {
+                                isOverlap = true;
+                                overlapInvDocumentList.add((OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument());
+                            } else if ((subscriptionInvItem.getSubscriptionFromDate().compareTo(oleInvoiceItem.getSubscriptionFromDate()) < 0) && (subscriptionInvItem.getSubscriptionToDate().compareTo(oleInvoiceItem.getSubscriptionToDate()) > 0)) {
+                                isOverlap = true;
+                                overlapInvDocumentList.add((OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument());
+                            }
                         }
                     }
                 }

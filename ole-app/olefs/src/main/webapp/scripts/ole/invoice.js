@@ -165,7 +165,7 @@ function route(){
         displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");
         jq('#mask').fadeOut(300);
     }
-    else  if (jq("##hdnsuccessFlag_control").val() == 'true') {
+    else  if (jq("#hdnsuccessFlag_control").val() == 'true') {
         displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
     }
     else{
