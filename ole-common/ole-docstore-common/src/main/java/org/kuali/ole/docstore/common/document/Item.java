@@ -993,11 +993,15 @@ public class Item
         if (StringUtils.isNotBlank(incomingItemContent.getResourceIdentifier())) {
             existingItemContent.setResourceIdentifier(incomingItemContent.getResourceIdentifier());
         }
-        if (incomingItemContent.isStaffOnlyFlag() != existingItemContent.isStaffOnlyFlag()) {
+        if(itemIncoming.getContent() != null &&  itemIncoming.getContent().contains("<staffOnlyFlag>")){
+            existingItemContent.setStaffOnlyFlag(incomingItemContent.isStaffOnlyFlag());
+            this.setStaffOnly(incomingItemContent.isStaffOnlyFlag());
+        }
+        /*if (incomingItemContent.isStaffOnlyFlag() != existingItemContent.isStaffOnlyFlag()) {
             existingItemContent.setStaffOnlyFlag(incomingItemContent.isStaffOnlyFlag());
             this.setStaffOnly(incomingItemContent.isStaffOnlyFlag());
 
-        }
+        }*/
         this.setContent(itemOlemlRecordProcessor.toXML(existingItemContent));
     }
 
