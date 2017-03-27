@@ -114,8 +114,8 @@ public class CheckinItemController extends OLEUifControllerBase {
 
         if (null != droolsResponse && StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
             postCheckinProcess(checkinForm, result, request, response);
-        } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_LOST)) {
-            handleLostItemProcess(request, response, checkinForm, droolsResponse);
+        } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_LOST_REPLACEMENT_BILL)) {
+            handleLostItemWithBillProcess(request, response, checkinForm, droolsResponse);
         } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_DAMAGED)) {
             handleDamagedItemProcess(request, response, checkinForm, droolsResponse);
         } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
@@ -578,10 +578,10 @@ public class CheckinItemController extends OLEUifControllerBase {
         showDialog("checkinDamagedItemDialog", checkinForm, request, response);
     }
 
-    private void handleLostItemProcess(HttpServletRequest request, HttpServletResponse response, CheckinForm checkinForm, DroolsResponse droolsResponse) {
+   /* private void handleLostItemProcess(HttpServletRequest request, HttpServletResponse response, CheckinForm checkinForm, DroolsResponse droolsResponse) {
         checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
         showDialog("checkinLostItemDialogMsg", checkinForm, request, response);
-    }
+    }*/
 
     private void processItemInformationIfAvailable(HttpServletRequest request, CheckinForm checkinForm) {
         claimsCheck(request, checkinForm);
