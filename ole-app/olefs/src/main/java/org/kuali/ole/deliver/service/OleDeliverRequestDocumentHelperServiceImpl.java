@@ -4198,6 +4198,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             item.setCategory(OLEConstants.WORK_CATEGORY);
             item.setType(DocType.ITEM.getCode());
             item.setFormat(OLEConstants.OLEML_FORMAT);
+            item.setStaffOnly(oleItem.isStaffOnlyFlag());
             getDocstoreClientLocator().getDocstoreClient().updateItem(item);
         } catch (Exception e) {
             LOG.error(OLEConstants.ITM_STS_TO_DOC_FAIL + e, e);
