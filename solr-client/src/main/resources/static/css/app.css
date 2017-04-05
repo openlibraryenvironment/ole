@@ -1,0 +1,43 @@
+@import url("//fonts.googleapis.com/css?family=Lobster");
+
+.app-title {
+	font-family: 'Lobster', cursive;
+	font-weight: bold;
+	line-height: 1.1;
+	font-size: 26px;
+	margin-top: 0px;
+}
+
+.full button span {
+	background-color: limegreen;
+	border-radius: 32px;
+	color: black;
+}
+.partially button span {
+	background-color: orange;
+	border-radius: 32px;
+	color: black;
+}
+
+.datetime-picker-dropdown {
+
+}
+
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
+	border: 0;
+}
+
+.datetime-picker-dropdown > li.time-picker-menu div > table {
+
+}
+
+.font-size-14 {
+	font-size:14px;
+}
+
+.reportStatus {
+	font-family: 'Lobster', cursive;
+	font-size: 15px;
+	margin-top: 0px;
+	color: green;
+}

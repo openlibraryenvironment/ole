@@ -21,6 +21,7 @@
         <module>ole-common</module>
         <module>ole-sip2</module>
         <module>ole-reports</module>
+        <module>solr-client</module>
     </modules>
     <scm>
         <connection>scm:git:https://github.com/openlibraryenvironment/ole.git</connection>

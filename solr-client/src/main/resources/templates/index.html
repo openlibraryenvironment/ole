@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      ng-app="oleSolrClient" ng-controller="loginCtrl">
+<head>
+    <meta charset="utf-8"/>
+    <title>Ole Solr Client</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="http://origin.jsdelivr.net/webjars/jquery-ui/1.12.0/jquery-ui.js"></script>
+
+    <link ng-href="http://origin.jsdelivr.net/webjars/jquery-ui/1.12.0/jquery-ui.css"
+          rel="stylesheet" media="screen"/>
+
+
+    <link ng-href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/css/bootstrap.css"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/js/bootstrap.js"
+            media="screen"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container col-md-12">
+    <div ng-cloak="">
+        <div class="row" ng-show="authenticated">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                aria-expanded="false">
+                            <span class="sr-only">Ole Solr Client Navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand logo">
+                            <img class="logo-img" src="img/ole-logo.png"/>
+                            <span>Ole Solr Client</span>
+                        </a>
+                        <a class="navbar-brand" ng-show="authenticated" href="#/fullIndex">Full Index</a>
+                        <a class="navbar-brand" ng-show="authenticated" href="#/partialIndex">Partial Index</a>
+                        <a class="navbar-brand" ng-show="authenticated" href="#/report">Generate Report</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li ng-show="authenticated"><a>Welcome, {{loggedInName}}</a></li>
+                            <li ng-show="authenticated"><a ng-click="logout(); reset();" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div ng-show="!authenticated">
+                    <div class="col-sm-6 col-md-4 col-md-offset-4">
+                        <h1 class="text-center login-title">ID</h1>
+                        <div class="account-wall">
+                            <img class="profile-img" src="img/loginLogo.png"
+                                 alt=""/>
+                            <form role="form" class="form-signin" ng-submit="login()">
+                                <input type="text" class="form-control" id="username" ng-model="credentials.username"
+                                       placeholder="Username" required="true" autofocus="autofocus"/>
+                                <input type="password" class="form-control" id="password"
+                                       ng-model="credentials.password"
+                                       placeholder="Password" required="true"/>
+                                <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div>
+                        <modal id="messagePopUpId" title="Message" visible="error">
+                            <div>
+                                <span id="message">Login failed. Please check your credentials</span>
+                            </div>
+                        </modal>
+                    </div>
+                </div>
+                <ng-view></ng-view>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="framework/angular.js"></script>
+<script src="framework/angular-locale_es-ar.js"></script>
+<script src="framework/ui-bootstrap-tpls.js"></script>
+<script src="framework/angular-route.js"></script>
+<script src="framework/angular-bootstrap-multiselect.js"></script>
+<script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
+<script src="framework/datetime-picker.js"></script>
+<script src="js/app.js"></script>
+<script src="js/login.js"></script>
+<script src="js/fullIndex.js"></script>
+<script src="js/partialIndex.js"></script>
+<script src="js/report.js"></script>
+<script src="js/app-service.js"></script>
+<script src="js/app-filter.js"></script>
+<script src="js/customDirectives.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<div class="panel-group" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true">
+    <div class="panel panel-primary">
+        <div class="panel-heading" role="tab">
+            <h1 class="panel-title">
+                Generate Report
+            </h1>
+        </div>
+        <div id="fullIndexPanel" role="tabpanel">
+            <div class="panel-body">
+                <form id="reports-form" name="reports-form" class="form-horizontal" action="#" method="post"
+                      enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label for="reportType" class="col-sm-4">Report Type</label>
+                        <div class="col-sm-4">
+                            <select id="reportType"
+                                    class="form-control"
+                                    ng-model="reportRequest.reportType">
+                                <option value="SolrIndexException">SolrIndexException</option>
+                                <option value="Summary">Summary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="createdDate" class="col-sm-4">Date</label>
+
+                        <div class="col-sm-4">
+
+                            <p class="input-group">
+                                <input id="createdDate" name="createdDate" type="text" class="form-control"
+                                       uib-datepicker-popup="{{format}}" ng-model="reportRequest.createdDate"
+                                       is-open="createdDateFromPopup.opened" datepicker-options="dateOptions"/>
+                                <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openCreatedDateFrom()">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4"></label>
+                        <div class="col-sm-4">
+
+                            <button id="report" name="report" class="btn btn-primary"
+                                    type="button" ng-click="generateReport();" ng-disabled="running">Generate Report
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <modal id="messageDialogId" title="{{title}}" visible="showDialog">
+            <div>
+                <span id="message">{{message}}</span>
+            </div>
+        </modal>
+    </div>
+</div>
+
+
+<div id="reportListDivId" class="bs-component">
+    <div class="alert alert-info" ng-show="fileList.length === 0">
+        <strong>No files found to download</strong>
+    </div>
+
+    <div ng-show="fileList.length > 0">
+            Showing {{((currentPage - 1)*pageSize) + 1}} to {{currentPage * pageSize}} from {{fileList.length}} files
+    </div>
+
+    <div>
+        <div class="form-group">
+            <table class="table table-bordered row-border hover">
+                <thead style="height: 20px">
+                <tr>
+                    <th>S. No</th>
+                    <th>File Name</th>
+                    <th style="width: 280px">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in fileList | paginate:currentPage:pageSize">
+                    <td><span ng-bind="$index"></span></td>
+                    <td><span ng-bind="file.name"></span></td>
+
+                    <td>
+                        <a ng-click="downloadReport(file)" href="">Download</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <ul uib-pagination total-items="fileList.length"
+        ng-model="currentPage" items-per-page="pageSize"></ul>
+</div>
+

@@ -1,0 +1,233 @@
+<div class="panel-group" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true">
+    <div class="panel panel-primary">
+        <div class="panel-heading" role="tab">
+            <h1 class="panel-title">
+            <span style="cursor:pointer" data-toggle="collapse" data-target="#partialIndexPanel" ng-click="collapsed = !collapsed">
+                <span class="glyphicon" ng-class="{'glyphicon-chevron-right': !collapsed, 'glyphicon-chevron-down': collapsed}"></span>
+                    Partial Index
+            </span>
+            </h1>
+        </div>
+        <div id="partialIndexPanel" class="panel-collapse collapse" role="tabpanel">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <div class="form-group col-sm-12">
+                            <div class='col-md-4'>
+                                <label>DB Thread</label>
+                            </div>
+                            <div class='col-md-8'>
+                                <input class="form-control" id="dbThread" name="dbThread" type="number"
+                                       ng-model="partialIndexRequest.noOfDbThreads" ng-readonly="partialIndexStatus.running"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <div class='col-md-4'>
+                                <label>Doc Per Thread</label>
+                            </div>
+                            <div class='col-md-8'>
+                                <input class="form-control" id="docPerThread" name="docPerThread" type="number"
+                                       ng-model="partialIndexRequest.docsPerThread" ng-readonly="partialIndexStatus.running"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="btn active btn-default">
+                                            <input name="indexByRange" id="indexByRange" value="indexByRange" class="active"
+                                                   data-ng-model="partialIndexRequest.type" type="radio">Index By Range
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="btn btn-default">
+                                            <input name="indexByFile" id="indexByFile" value="indexByFile"
+                                                   data-ng-model="partialIndexRequest.type" type="radio">Index By File
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="btn btn-default">
+                                            <input name="indexByDate" id="indexByDate" value="indexByDate"
+                                                   data-ng-model="partialIndexRequest.type" type="radio">Index By Date
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br/>
+
+                            <div class="row" ng-show="partialIndexRequest.type === 'indexByRange'">
+                                <div class="col-sm-8">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label" for="fromDate">From</label>
+                                                <div class="input-group">
+                                                    <input id="fromBibId" type="number" class="form-control" name="fromBibId" ng-model="partialIndexRequest.fromBibId" required/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label class="control-label" for="toDate">To</label>
+                                                <div class="input-group ">
+                                                    <input id="toBibId" type="number" class="form-control" name="toBibId" ng-model="partialIndexRequest.toBibId" required/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="partialIndexRequest.type === 'indexByFile'">
+                                <div class="col-sm-8">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label" for="fromDate">File to index</label>
+                                                <div class="input-group">
+                                                    <input id="fileToProcess" type="file" class="form-control" name="fileToProcess" file-model="partialIndexRequest.fileToProcess" required/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="partialIndexRequest.type === 'indexByDate'">
+                                <div class="col-sm-8">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label" for="fromDate">From</label>
+                                                <div class="input-group">
+                                                    <input id="fromDate" type="text" class="form-control" name="fromDate"
+                                                           uib-datepicker-popup="{{dateformat}}" ng-model="partialIndexRequest.fromDate"
+                                                           is-open="datePickerOpenStatus.fromDate"
+                                                           required/>
+                                                    <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openCalendar('fromDate')"><i
+                    class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label class="control-label" for="toDate">To</label>
+                                                <div class="input-group ">
+                                                    <input id="toDate" type="text" class="form-control" name="toDate"
+                                                           uib-datepicker-popup="{{dateformat}}" ng-model="partialIndexRequest.toDate"
+                                                           is-open="datePickerOpenStatus.toDate"
+                                                           required/>
+                                                    <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openCalendar('toDate')"><i
+                    class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <div class='col-md-2'>
+                                &nbsp;
+                            </div>
+                            <div class='col-md-8'>
+                                <button id="partialIndex_button" name="partialIndex" class="btn btn-primary"
+                                        type="button" ng-click="partialIndex();" ng-disabled="partialIndexStatus.running">Partial
+                                    Index
+                                </button>
+                                <button id="clear_button" name="clear_button" class="btn btn-primary"
+                                        type="button" ng-click="clear();" ng-disabled="partialIndexStatus.running">Clear
+                                </button>
+                                <button id="refreshStatus_button" name="refreshStatus_button" class="btn btn-primary"
+                                        type="button" ng-click="getPartialIndexStatus();">Refresh Status
+                                </button>
+                            </div>
+                            <div class='col-md-2'>
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="jh-table table table-striped">
+                                <tr>
+                                    <td class="col-md-2">
+                                        <dt><span>Info</span></dt>
+                                    </td>
+                                    <td class="col-md-2">Status</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.status}}</span></td>
+                                    <td class="col-md-2">Docs/Threads</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.docsPerThread}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-2">
+                                        <dt><span>Threads</span></dt>
+                                    </td>
+                                    <td class="col-md-2">DB Threads</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.noOfDbThreads}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-2">
+                                        <dt><span>Time</span></dt>
+                                    </td>
+                                    <td class="col-md-2">Start</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.startTime | date:'yyyy-MM-dd hh:mm:ss a'}}</span>
+                                    </td>
+                                    <td class="col-md-2">End</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.endTime | date:'yyyy-MM-dd hh:mm:ss a'}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-2">
+                                        <dt><span>Bib</span></dt>
+                                    </td>
+                                    <td class="col-md-2">Fetched</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.numberOfBibFetched == 0 ? "" : partialIndexStatus.numberOfBibFetched}}</span>
+                                    </td>
+                                    <td class="col-md-2">Processed</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.numberOfBibProcessed == 0 ? "" : partialIndexStatus.numberOfBibProcessed}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-2">
+                                        <dt><span>Holdings</span></dt>
+                                    </td>
+                                    <td class="col-md-2">Fetched</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.numberOfHoldingsFetched == 0 ? "" : partialIndexStatus.numberOfHoldingsFetched}}</span>
+                                    </td>
+                                    <td class="col-md-2">Processed</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.numberOfHoldingsProcessed == 0 ? "" : partialIndexStatus.numberOfHoldingsProcessed}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-2">
+                                        <dt><span>Item</span></dt>
+                                    </td>
+                                    <td class="col-md-2">Fetched</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.numberOfItemsFetched == 0 ? "" : partialIndexStatus.numberOfItemsFetched}}</span>
+                                    </td>
+                                    <td class="col-md-2">Processed</td>
+                                    <td class="col-md-3"><span class="reportStatus">{{partialIndexStatus.numberOfItemsProcessed == 0 ? "" : partialIndexStatus.numberOfItemsProcessed}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <modal id="messageDialogId" title="{{title}}" visible="showDialog">
+            <div>
+                <span id="message">{{message}}</span>
+            </div>
+        </modal>
+    </div>
+</div>

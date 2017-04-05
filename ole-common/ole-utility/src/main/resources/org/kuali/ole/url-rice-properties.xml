@@ -8,6 +8,7 @@
     <param name="ole.docstore.url.base">${ole.url.base}/oledocstore</param>
     <param name="ole.fs.url.base">${ole.url.base}/olefs</param>
     <param name="ole.reports.url.base">${ole.url.base}/olereports</param>
+    <param name="ole.solr.url.base">http://localhost:8983/solr</param>
 
     <!-- General environments as known to external team members aka "dev, tst, demo" -->
     <param name="dev.ole.docstore.url.base">http://dev.docstore.oleproject.org</param>

@@ -2101,7 +2101,7 @@ public class QueryServiceImpl
         HttpSolrServer server = null;
         ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
         try {
-            String serverUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.docstore.url.base") + "/bib";
+            String serverUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.solr.url.base") + "/bib";
             server = new HttpSolrServer(serverUrl);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -2313,7 +2313,7 @@ public class QueryServiceImpl
         HttpSolrServer server = null;
         ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
         try {
-            String serverUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.docstore.url.base") + "/bib";
+            String serverUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.solr.url.base") + "/bib";
             server = new HttpSolrServer(serverUrl);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

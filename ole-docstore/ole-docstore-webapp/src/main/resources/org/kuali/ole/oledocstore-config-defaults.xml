@@ -2,7 +2,7 @@
   <param name="ole-docstore.mode">LOCAL</param>
 
   <param name="docstore.document.url">${ole.docstore.url.base}</param>
-  <param name="docSearchURL">${ole.docstore.url.base}</param>
+  <param name="docSearchURL">${ole.solr.url.base}</param>
   <param name="uuidCheckServiceURL">${ole.fs.url.base}/remoting/oleUuidCheckWebService</param>
   <param name="oleLoanWebService.url">${ole.fs.url.base}/remoting/oleLoanWebService</param>
 
