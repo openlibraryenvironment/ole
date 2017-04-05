@@ -29,10 +29,10 @@ public class SolrAdmin {
 
     Logger logger = LoggerFactory.getLogger(SolrAdmin.class);
 
-    @Value("${solr.configsets.dir}")
+    @Value("${ole.solr.configsets.dir}")
     String configSetsDir;
 
-    @Value("${solr.solr.home}")
+    @Value("${ole.solr.solr.home}")
     String solrHome;
 
     @Value("${solr.parent.core}")
