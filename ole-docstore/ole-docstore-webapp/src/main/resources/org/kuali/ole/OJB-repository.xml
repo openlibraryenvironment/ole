@@ -747,7 +747,14 @@
 
 
     <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord" table="OLE_DS_DELETED_BIB_T">
-        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_DELETED_BIB_S"/>
+        <field-descriptor name="bibId" column="DELETED_BIB_ID" jdbc-type="VARCHAR" primarykey="false"/>
+        <field-descriptor name="bibIdIndicator" column="IS_BIB_DELETED" jdbc-type="VARCHAR" primarykey="false"/>
+        <field-descriptor name="holdingId" column="DELETED_HOLDINGS_ID" jdbc-type="VARCHAR" primarykey="false"/>
+        <field-descriptor name="holdingIdIndicator" column="IS_HOLDINGS_DELETED" jdbc-type="VARCHAR" primarykey="false"/>
+        <field-descriptor name="itemId" column="DELETED_ITEM_ID" jdbc-type="VARCHAR" primarykey="false"/>
+        <field-descriptor name="itemIdIndicator" column="IS_ITEM_DELETED" jdbc-type="VARCHAR" primarykey="false"/>
+        <field-descriptor name="content" column="CONTENT" jdbc-type="CLOB" primarykey="false"/>
         <field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
     </class-descriptor>
 

@@ -8,6 +8,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.response.OleNGBatchExportResponse;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileFilterCriteria;
 import org.kuali.ole.oleng.handler.BatchExportHandler;
@@ -299,6 +300,35 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             bibIdResultSet = getJdbcTemplate().queryForRowSet(query);
             while (bibIdResultSet.next()) {
                 bibIdList.add(bibIdResultSet.getString(1));
+            }
+        }
+        return bibIdList;
+    }
+
+    public List<String> getBibIdsFromSqlQuery(String query,String batchExportScope) throws SQLException {
+        List<String> bibIdList=new ArrayList<>();
+        SqlRowSet bibIdResultSet=null;
+        BibDeletionRecord bibIdSet=new BibDeletionRecord();
+        if(batchExportScope.equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)){
+            String[] queryList=query.split("\\|");
+            for(int i=0;i<queryList.length;i++){
+                bibIdResultSet=getJdbcTemplate().queryForRowSet(queryList[i]);
+                if(queryList[i].contains("OLE_DS_DELETED_BIB_T")){
+                    while (bibIdResultSet.next()){
+                        bibIdSet.setBibId(bibIdResultSet.getString("DELETED_BIB_ID"));
+                        bibIdSet.setBibIdIndicator(bibIdResultSet.getString("IS_BIB_DELETED"));
+                        bibIdSet.setHoldingId(bibIdResultSet.getString("DELETED_HOLDINGS_ID"));
+                        bibIdSet.setHoldingIdIndicator(bibIdResultSet.getString("IS_HOLDINGS_DELETED"));
+                        bibIdSet.setItemId(bibIdResultSet.getString("DELETED_ITEM_ID"));
+                        bibIdSet.setItemIdIndicator(bibIdResultSet.getString("IS_ITEM_DELETED"));
+                        bibIdList.add(bibIdSet.toString());
+                    }
+                }else{
+                    while (bibIdResultSet.next()){
+                        bibIdSet.setBibId(bibIdResultSet.getString(1));
+                        bibIdList.add(bibIdSet.toString());
+                    }
+                }
             }
         }
         return bibIdList;

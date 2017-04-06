@@ -1,6 +1,8 @@
 package org.kuali.ole.docstore.engine.service.storage;
 
 import org.kuali.ole.docstore.common.document.*;
+import org.kuali.ole.docstore.common.document.HoldingsTree;
+import org.kuali.ole.docstore.common.document.Item;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,5 +100,9 @@ public interface DocstoreStorageService {
 
     public void unbindWithAllBibs(List<String> holdingsIds, String bibId);
 
-    public void saveDeletedBibs(List<String> bibIds) throws Exception;
+    public void saveDeletedBibs(List<Bib> bibs) throws Exception;
+
+    public void saveDeletedHolding(Holdings holdings);
+
+    public void saveDeletedItem(Item item);
 }

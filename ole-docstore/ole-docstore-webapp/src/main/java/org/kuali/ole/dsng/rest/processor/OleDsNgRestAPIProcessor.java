@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.common.response.DeleteFailureResponse;
 import org.kuali.ole.docstore.common.response.OleNGBatchDeleteResponse;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsBibDocumentManager;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsHoldingsDocumentManager;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsItemDocumentManager;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -235,9 +236,12 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
         ObjectMapper objectMapper = new ObjectMapper();
         OleNGBatchDeleteResponse oleNGBatchDeleteResponse = new OleNGBatchDeleteResponse();
         JSONArray jsonArray = new JSONArray(jsonBody);
+        RdbmsBibDocumentManager rdbmsBibDocumentManager = new RdbmsBibDocumentManager();
+        Bib bib =new Bib();
         for (int index = 0; index < jsonArray.length(); index++) {
             JSONObject jsonObject = jsonArray.getJSONObject(index);
             String bibId = (String) jsonObject.get(OleNGConstants.ID);
+            bib = (Bib) rdbmsBibDocumentManager.retrieve(bibId);
             try {
                 oleDsNGMemorizeService.getBibDAO().deleteBibTreeRecord(bibId);
             } catch (Exception e) {
@@ -250,7 +254,7 @@ public class OleDsNgRestAPIProcessor extends OleDsNgOverlayProcessor {
                 OleDsNgIndexer bibIndexer = new BibIndexer();
                 bibIndexer.deleteDocument(bibId);
                 getSolrRequestReponseHandler().commitToServer();
-                bibIndexer.saveDeletedBibInfo(bibId);
+                bibIndexer.saveDeletedBibInfo(bib);
                 oleNGBatchDeleteResponse.addSuccessRecord(null, null, bibId, OleNGConstants.DELETED);
             } catch (Exception e) {
                 e.printStackTrace();

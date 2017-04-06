@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------
 # OLE_DS_ACCESS_LOCATION_CODE_T
 # -----------------------------------------------------------------------
@@ -786,10 +787,16 @@ drop table if exists OLE_DS_DELETED_BIB_T
 
 CREATE TABLE OLE_DS_DELETED_BIB_T
 (
-      BIB_ID INTEGER(11)
+      ID BIGINT(19)
+        , DELETED_BIB_ID VARCHAR(11)
+        , IS_BIB_DELETED VARCHAR(1)
+        , IS_HOLDINGS_DELETED VARCHAR(1)
+        , DELETED_ITEM_ID VARCHAR(11)
+        , IS_ITEM_DELETED VARCHAR(1)
         , DATE_UPDATED DATETIME
+        , CONTENT LONGTEXT
     
-    , CONSTRAINT OLE_DS_DELETED_BIB_TP1 PRIMARY KEY(BIB_ID)
+    , CONSTRAINT OLE_DS_DELETED_BIB_TP1 PRIMARY KEY(ID)
 
 
 
@@ -939,6 +946,20 @@ CREATE TABLE OLE_DS_BIB_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_DS_BIB_S auto_increment = 10000001
+/
+
+# -----------------------------------------------------------------------
+# OLE_DS_DELETED_BIB_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DS_DELETED_BIB_S
+/
+
+CREATE TABLE OLE_DS_DELETED_BIB_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DS_DELETED_BIB_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
