@@ -381,6 +381,7 @@ public class OleNGConstants {
     public static final String QUICK_LAUNCH = "QuickLaunch-";
     public static final String DATE_FORMAT_STRING = "yyyy-MMM-dd";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_STRING + "-hh-mm-ss-a");
+    public static final SimpleDateFormat DATE_FORMAT_MILLISECONDS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     public static final SimpleDateFormat DATE_FORMAT_WITHOUT_TIME = new SimpleDateFormat(DATE_FORMAT_STRING);
     public static final String UTF_8 = "UTF-8";
     public static final String UTF_8_XML_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
