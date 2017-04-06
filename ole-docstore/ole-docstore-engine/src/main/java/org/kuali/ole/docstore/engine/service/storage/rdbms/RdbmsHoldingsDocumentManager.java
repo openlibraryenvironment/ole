@@ -196,7 +196,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 //            }
         }
         if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() >= 0) {
-            saveDonorList(oleHoldings.getDonorInfo(), holdingsRecord.getHoldingsId());
+            holdingsRecord = saveDonorList(oleHoldings.getDonorInfo(), holdingsRecord);
         }
         getBusinessObjectService().save(holdingsRecord);
     }
@@ -299,12 +299,17 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
     }
 
-    protected void saveDonorList(List<DonorInfo> donorslist, String holdingsId) {
+    protected HoldingsRecord saveDonorList(List<DonorInfo> donorslist, HoldingsRecord holdingsRecord) {
         Map map = new HashMap();
-        map.put("holdingsId", holdingsId);
+        map.put("holdingsId", holdingsRecord.getHoldingsId());
         List<OLEHoldingsDonorRecord> holdingsDonorRecordList = (List<OLEHoldingsDonorRecord>) getBusinessObjectService().findMatching(OLEHoldingsDonorRecord.class, map);
+        List<OLEHoldingsDonorRecord> holdingsDonorRecordListRemoved = (List<OLEHoldingsDonorRecord>) getBusinessObjectService().findMatching(OLEHoldingsDonorRecord.class, map);
         if (holdingsDonorRecordList != null && holdingsDonorRecordList.size() >= 0) {
-            getBusinessObjectService().delete(holdingsDonorRecordList);
+            for(OLEHoldingsDonorRecord oleHoldingDonorRecord : holdingsDonorRecordList) {
+                holdingsDonorRecordListRemoved.remove(oleHoldingDonorRecord);
+            }
+            holdingsRecord.setDonorList(holdingsDonorRecordListRemoved);
+            getBusinessObjectService().save(holdingsRecord);
         }
         if (donorslist.size() > 0) {
             List<OLEHoldingsDonorRecord> oleHoldingsDonorRecords = new ArrayList<>();
@@ -315,14 +320,16 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                     oleHoldingsDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleHoldingsDonorRecord.setDonorCode(donorinfo.getDonorCode());
                     oleHoldingsDonorRecord.setDonorNote(donorinfo.getDonorNote());
-                    oleHoldingsDonorRecord.setHoldingsId(holdingsId);
+                    oleHoldingsDonorRecord.setHoldingsId(holdingsRecord.getHoldingsId());
                     oleHoldingsDonorRecords.add(oleHoldingsDonorRecord);
                 }
+                holdingsRecord.setDonorList(oleHoldingsDonorRecords);
             }
             if (oleHoldingsDonorRecords.size() > 0) {
                 getBusinessObjectService().save(oleHoldingsDonorRecords);
             }
         }
+        return holdingsRecord;
     }
 
     private void saveCoverageRecord(Coverages coverages, String eHoldingsIdentifier) {
