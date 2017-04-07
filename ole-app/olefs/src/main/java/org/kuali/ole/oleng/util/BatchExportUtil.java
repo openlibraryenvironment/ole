@@ -105,7 +105,7 @@ public class BatchExportUtil extends BatchUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fromDate = format.format(lastExportDate);
         StringBuilder queryString=new StringBuilder();
-        queryString.append("SELECT BIB_ID FROM OLE_DS_DELETED_BIB_T WHERE DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW()");
+        queryString.append("SELECT DELETED_BIB_ID,IS_BIB_DELETED,DELETED_HOLDINGS_ID,IS_HOLDINGS_DELETED,DELETED_ITEM_ID,IS_ITEM_DELETED FROM OLE_DS_DELETED_BIB_T WHERE DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW()");
         queryString.append("|");
         queryString.append("SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW()) AND STAFF_ONLY='Y'");
         return queryString.toString();
@@ -320,7 +320,7 @@ public class BatchExportUtil extends BatchUtil {
             try {
                 query = getDeletedAndStaffOnlyBibsSqlQuery(lastExportDate);
               //  String[] queryList = query.split("\\|");
-                List<String> bibIdList = exportDao.getBibIdFromSqlQuery(query,batchProcessTxObject.getBatchProcessProfile().getExportScope());
+                List<String> bibIdList = exportDao.getBibIdsFromSqlQuery(query, batchProcessTxObject.getBatchProcessProfile().getExportScope());
               //  bibIdList.addAll(exportDao.getBibIdFromSqlQuery(queryList[1],batchProcessTxObject.getBatchProcessProfile().getExportScope()));
                 if(bibIdList.size()>0){
                     for(String bibId:bibIdList){

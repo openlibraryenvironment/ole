@@ -300,7 +300,9 @@ public class DocstoreServiceImpl implements DocstoreService {
             holdingsId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, holdingsId);
         }
         try {
+            Holdings holding = retrieveHoldings(holdingsId);
             getDocstoreStorageService().deleteHoldings(holdingsId);
+            getDocstoreStorageService().saveDeletedHolding(holding);
         } catch (Exception e) {
             LOG.error("Exception occurred while deleting Holdings ", e);
             throw e;
@@ -320,7 +322,9 @@ public class DocstoreServiceImpl implements DocstoreService {
             itemId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML, itemId);
         }
         try {
+            Item item = retrieveItem(itemId);
             getDocstoreStorageService().deleteItem(itemId);
+            getDocstoreStorageService().saveDeletedItem(item);
         } catch (Exception e) {
             LOG.error("Exception occurred while deleting item ", e);
             throw e;
@@ -603,7 +607,13 @@ public class DocstoreServiceImpl implements DocstoreService {
     @Override
     public void deleteBibs(List<String> bibIds) {
         try {
+            List<Bib> bibs = new ArrayList<>();
+            for(String bibId:bibIds){
+                Bib bib = retrieveBib(bibId);
+                bibs.add(bib);
+            }
             getDocstoreStorageService().deleteBibs(bibIds);
+            getDocstoreStorageService().saveDeletedBibs(bibs);
         } catch (Exception e) {
             LOG.error("Exception occurred while deleting bib records ", e);
         }
@@ -612,12 +622,6 @@ public class DocstoreServiceImpl implements DocstoreService {
         } catch (Exception e) {
             LOG.error("Exception occurred while indexing bib records after deletion", e);
             docstoreStorageService.rollback();
-        }
-
-        try {
-            getDocstoreStorageService().saveDeletedBibs(bibIds);
-        }catch (Exception e) {
-            LOG.error("Exception occurred while saving deleted bib records into DB", e);
         }
     }
 
