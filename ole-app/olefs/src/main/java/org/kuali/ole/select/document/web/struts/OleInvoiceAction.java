@@ -439,7 +439,7 @@ public class OleInvoiceAction extends InvoiceAction {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 }
                 line = (PurApAccountingLine) ObjectUtils.deepCopy(lineItem);

@@ -1655,14 +1655,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isNonZero() && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isZero() && lineItem.getAccountLinePercent() == null) {
                     lineItem.setAccountLinePercent(new BigDecimal(0));
                 }
                 else if(lineItem.getAmount()!=null&& lineItem.getAccountLinePercent().intValue()== 100){
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),0,RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),2,RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 }
                 else if(lineItem.getAmount()!=null&&lineItem.getAccountLinePercent() != null){
@@ -1737,13 +1737,13 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isNonZero() && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isZero() && lineItem.getAccountLinePercent() == null) {
                     lineItem.setAccountLinePercent(new BigDecimal(0));
                 } else if (lineItem.getAmount() != null && lineItem.getAccountLinePercent().intValue() == 100) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAccountLinePercent() != null) {
                     BigDecimal percent = lineItem.getAccountLinePercent().divide(new BigDecimal(100));
@@ -2496,14 +2496,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isNonZero() && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isZero() && lineItem.getAccountLinePercent() == null) {
                     lineItem.setAccountLinePercent(new BigDecimal(0));
                 }
                 else if(lineItem.getAmount()!=null&& lineItem.getAccountLinePercent().intValue()== 100){
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),0,RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),2,RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 }
                 else if(lineItem.getAmount()!=null&&lineItem.getAccountLinePercent() != null){
