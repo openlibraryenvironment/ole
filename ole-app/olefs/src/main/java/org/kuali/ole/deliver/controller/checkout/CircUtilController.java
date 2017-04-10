@@ -11,6 +11,7 @@ import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.service.*;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -617,6 +618,7 @@ public class CircUtilController extends RuleExecutor {
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, noticeTitle));
             oleNoticeContentConfigurationBo.setNoticeBody(getParameterValueResolver().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, noticeContent));
+            oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(noticeType));
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
         }
         return oleNoticeContentConfigurationBo;
