@@ -7,6 +7,7 @@ import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 
 import java.util.*;
 
@@ -125,6 +126,7 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
             oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
+         oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(getNoticeType()));
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
             oleNoticeContentConfigurationBo.setNoticeType(getNoticeType());
         }
