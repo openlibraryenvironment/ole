@@ -41,7 +41,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                 oleHoldings = workEHoldingOlemlRecordProcessor.fromXML(holdingsTree.getHoldings().getContent());
                 oleHoldings.setHoldingsIdentifier(holdingsTree.getHoldings().getId());
             }
-            Map<String, String> dataFieldEHoldingMap = new HashMap<>();
+            Map<String, String> dataFieldEHoldingMap = new LinkedHashMap<>();
             Map<String, String> dataFieldCoverageMap = new HashMap<>();
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
             List<BatchProfileDataMapping> mappingOptionsBoList = profile.getBatchProfileDataMappingList();
@@ -85,8 +85,46 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
     protected void generateSubFieldsForEHolding(OleHoldings oleHoldings, Map<String, String> dataFieldEHoldingMap, Map<String, String> dataFieldCoverageMap, Map<String, String> dataFieldsDonorMap) throws Exception {
         List<DataField> linkList = new ArrayList<>();
         try {
+            DataField dataField;
             for (Map.Entry<String, String> entry : dataFieldEHoldingMap.entrySet()) {
-                DataField dataField;
+                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
+                    for (Link link : oleHoldings.getLink()) {
+                        if (StringUtils.isNotEmpty(link.getUrl())) {
+                            dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                            if (dataField == null) {
+                                dataField = getDataField(entry);
+                                generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                                if (dataFieldEHoldingMap.containsValue(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                    for (Map.Entry<String, String> dataMapEntry : dataFieldEHoldingMap.entrySet()) {
+                                        if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                            if (StringUtils.isNotEmpty(link.getText())) {
+                                                generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                            } else {
+                                generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                                if (dataFieldEHoldingMap.containsValue(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                    for (Map.Entry<String, String> dataMapEntry : dataFieldEHoldingMap.entrySet()) {
+                                        if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                            if (StringUtils.isNotEmpty(link.getText())) {
+                                                generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            for (Map.Entry<String, String> entry : dataFieldEHoldingMap.entrySet()) {
+
                 if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
@@ -168,20 +206,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                     } else {
                         generateCallNumberPrefix(oleHoldings, getCode(entry.getKey()), dataField);
                     }
-                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
-                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
-                    if (dataField == null) {
-                        dataField = getDataField(entry);
-                        for (Link link : oleHoldings.getLink()) {
-                            generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
-                            if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
-                        }
-                    }else {
-                        for (Link link : oleHoldings.getLink()) {
-                            generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
-                        }
-                    }
-                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERSISTENTLINK)) {
+                }  else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERSISTENTLINK)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
                         dataField = getDataField(entry);
@@ -189,19 +214,6 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                         if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                     } else {
                         generatePersistentLink(oleHoldings, getCode(entry.getKey()), dataField);
-                    }
-                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
-                    if (dataField == null) {
-                        dataField = getDataField(entry);
-                        for (Link link : oleHoldings.getLink()) {
-                            generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField);
-                            if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
-                        }
-                    }else{
-                        for (Link link : oleHoldings.getLink()) {
-                            generateLinkText(oleHoldings, link, getCode(entry.getKey()), dataField);
-                        }
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_STATISTICAL_CODE)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
@@ -311,56 +323,56 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                             for (Map.Entry<String, String> entry : dataFieldCoverageMap.entrySet()) {
                                 DataField dataField;
                                 if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_START_DATE)) {
-                                    dataField = checkDataField(coverageFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                                     if (dataField == null) {
                                         dataField = getDataField(entry);
                                         generateCoverageStartDate(oleHoldings, coverage, getCode(entry.getKey()), dataField);
-                                        if (!dataField.getSubfields().isEmpty()) coverageFieldList.add(dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                                     } else {
                                         generateCoverageStartDate(oleHoldings, coverage, getCode(entry.getKey()), dataField);
                                     }
                                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_DATE)) {
-                                    dataField = checkDataField(coverageFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                                     if (dataField == null) {
                                         dataField = getDataField(entry);
                                         generateCoverageEndDate(oleHoldings, coverage, getCode(entry.getKey()), dataField);
-                                        if (!dataField.getSubfields().isEmpty()) coverageFieldList.add(dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                                     } else {
                                         generateCoverageEndDate(oleHoldings, coverage, getCode(entry.getKey()), dataField);
                                     }
                                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_START_ISSUE)) {
-                                    dataField = checkDataField(coverageFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                                     if (dataField == null) {
                                         dataField = getDataField(entry);
                                         generateCoverageStartIssue(oleHoldings, coverage, getCode(entry.getKey()), dataField);
-                                        if (!dataField.getSubfields().isEmpty()) coverageFieldList.add(dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                                     } else {
                                         generateCoverageStartIssue(oleHoldings, coverage, getCode(entry.getKey()), dataField);
                                     }
                                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_ISSUE)) {
-                                    dataField = checkDataField(coverageFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                                     if (dataField == null) {
                                         dataField = getDataField(entry);
                                         generateCoverageEndIssue(oleHoldings, coverage, getCode(entry.getKey()), dataField);
-                                        if (!dataField.getSubfields().isEmpty()) coverageFieldList.add(dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                                     } else {
                                         generateCoverageEndIssue(oleHoldings, coverage, getCode(entry.getKey()), dataField);
                                     }
                                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_START_VOLUME)) {
-                                    dataField = checkDataField(coverageFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                                     if (dataField == null) {
                                         dataField = getDataField(entry);
                                         generateCoverageStartVolume(oleHoldings, coverage, getCode(entry.getKey()), dataField);
-                                        if (!dataField.getSubfields().isEmpty()) coverageFieldList.add(dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                                     } else {
                                         generateCoverageStartVolume(oleHoldings, coverage, getCode(entry.getKey()), dataField);
                                     }
                                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_VOLUME)) {
-                                    dataField = checkDataField(coverageFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                                     if (dataField == null) {
                                         dataField = getDataField(entry);
                                         generateCoverageEndVolume(oleHoldings, coverage, getCode(entry.getKey()), dataField);
-                                        if (!dataField.getSubfields().isEmpty()) coverageFieldList.add(dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                                     } else {
                                         generateCoverageEndVolume(oleHoldings, coverage, getCode(entry.getKey()), dataField);
                                     }
@@ -388,29 +400,29 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                     for (Map.Entry<String, String> entry : dataFieldsDonorMap.entrySet()) {
                         DataField dataField;
                         if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY)) {
-                            dataField = checkDataField(donorFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                            dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                             if (dataField == null) {
                                 dataField = getDataField(entry);
                                 generateDonorPublicDisplay(oleHoldings, donorInfo, getCode(entry.getKey()), dataField);
-                                if (!dataField.getSubfields().isEmpty()) donorFieldList.add(dataField);
+                                if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                             } else {
                                 generateDonorPublicDisplay(oleHoldings, donorInfo, getCode(entry.getKey()), dataField);
                             }
                         } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DONOR_NOTE)) {
-                            dataField = checkDataField(donorFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                            dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                             if (dataField == null) {
                                 dataField = getDataField(entry);
                                 generateDonorNote(oleHoldings, donorInfo, getCode(entry.getKey()), dataField);
-                                if (!dataField.getSubfields().isEmpty()) donorFieldList.add(dataField);
+                                if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                             } else {
                                 generateDonorNote(oleHoldings, donorInfo, getCode(entry.getKey()), dataField);
                             }
                         } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DONOR_CODE)) {
-                            dataField = checkDataField(donorFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                            dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                             if (dataField == null) {
                                 dataField = getDataField(entry);
                                 generateDonorCode(oleHoldings, donorInfo, getCode(entry.getKey()), dataField);
-                                if (!dataField.getSubfields().isEmpty()) donorFieldList.add(dataField);
+                                if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                             } else {
                                 generateDonorCode(oleHoldings, donorInfo, getCode(entry.getKey()), dataField);
                             }
