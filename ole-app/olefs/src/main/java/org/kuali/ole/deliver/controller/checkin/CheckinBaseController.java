@@ -152,7 +152,10 @@ public abstract class CheckinBaseController extends CircUtilController {
     public DroolsResponse checkin(OLEForm oleForm) {
         String itemBarcode = getItemBarcode(oleForm);
 
-        ItemRecord itemRecord = getItemRecordByBarcode(itemBarcode);
+        ItemRecord itemRecord = null;
+        if(!itemBarcode.contains("*")){
+            itemRecord = getItemRecordByBarcode(itemBarcode);
+        }
 
         DroolsResponse droolsResponse = null;
         if (null != itemRecord) {
