@@ -3028,6 +3028,7 @@ public class LoanProcessor extends PatronBillResolver {
             item.setContent(itemXmlContent);
             item.setCategory(OLEConstants.WORK_CATEGORY);
             item.setType(DocType.ITEM.getCode());
+            item.setStaffOnly(oleItem.isStaffOnlyFlag());
             item.setFormat(OLEConstants.OLEML_FORMAT);
             getDocstoreClientLocator().getDocstoreClient().updateItem(item);
         } catch (Exception e) {
