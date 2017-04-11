@@ -200,7 +200,7 @@
         </property>
     </bean>
 
-    <bean id="DetailBillSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="DetailBillSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="true">
         <property name="headerText" value="Open Bills in Detail" />
         <property name="items">
             <list>
@@ -210,7 +210,7 @@
         </property>
     </bean>
 
-    <bean id="ClosedBillSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="ClosedBillSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Closed Bills in Detail" />
         <property name="items">
             <list>
@@ -229,6 +229,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="bFilter" value="true"/>
+                <entry key="iDisplayLength" value="50"/>
             </map>
         </property>
         <property name="layoutManager.rowDetailsGroup">
@@ -280,6 +281,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="bFilter" value="true"/>
+                <entry key="iDisplayLength" value="50"/>
             </map>
         </property>
         <property name="layoutManager.rowDetailsGroup">
