@@ -260,7 +260,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     String newStatus = null;
                     if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                         newStatus = PurchaseOrderStatuses.APPDOC_AMENDMENT;
-                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(po, documentType, newStatus);
                         returnActionForward = mapping.findForward(OLEConstants.MAPPING_BASIC);
                     } else {
                         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
@@ -276,7 +276,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         } else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
                             newStatus = PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT;
                         }
-                        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
                     }
                     if (!GlobalVariables.getMessageMap().hasNoErrors()) {
                         throw new ValidationException("errors occurred during new PO creation");
@@ -1101,7 +1101,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             success = false;
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         } else {
-            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);
+            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po, PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);
             po.setPurchaseOrderRetransmissionMethodCode(po.getPurchaseOrderTransmissionMethodCode());
             ((PurchaseOrderRetransmitDocument) po).setShouldDisplayRetransmitTab(true);
         }
@@ -1388,7 +1388,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) poForm.getDocument();
-
+        po.processAfterRetrieve();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);

@@ -236,17 +236,19 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     private Collection<VendorCreditMemoDocument> filterCreditMemoByAppDocStatus(Collection<VendorCreditMemoDocument> creditMemoDocuments, String... appDocStatus) {
         List<String> creditMemoDocNumbers = new ArrayList<String>();
+        Collection<VendorCreditMemoDocument> filteredCreditMemoDocuments = new ArrayList<VendorCreditMemoDocument>();
         for (VendorCreditMemoDocument creditMemo : creditMemoDocuments) {
             creditMemoDocNumbers.add(creditMemo.getDocumentNumber());
         }
+        if(creditMemoDocNumbers.size() > 0) {
+            List<String> filteredCreditMemoDocNumbers = filterCreditMemoByAppDocStatus(creditMemoDocNumbers, appDocStatus);
 
-        List<String> filteredCreditMemoDocNumbers = filterCreditMemoByAppDocStatus(creditMemoDocNumbers, appDocStatus);
 
-        Collection<VendorCreditMemoDocument> filteredCreditMemoDocuments = new ArrayList<VendorCreditMemoDocument>();
-        //add to filtered collection if it is in the filtered payment request doc number list
-        for (VendorCreditMemoDocument creditMemo : creditMemoDocuments) {
-            if (filteredCreditMemoDocNumbers.contains(creditMemo.getDocumentNumber())) {
-                filteredCreditMemoDocuments.add(creditMemo);
+            //add to filtered collection if it is in the filtered payment request doc number list
+            for (VendorCreditMemoDocument creditMemo : creditMemoDocuments) {
+                if (filteredCreditMemoDocNumbers.contains(creditMemo.getDocumentNumber())) {
+                    filteredCreditMemoDocuments.add(creditMemo);
+                }
             }
         }
         return filteredCreditMemoDocuments;
@@ -683,7 +685,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) apDoc;
         if (cmDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-            purchaseOrderService.createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE);
         }
     }
 

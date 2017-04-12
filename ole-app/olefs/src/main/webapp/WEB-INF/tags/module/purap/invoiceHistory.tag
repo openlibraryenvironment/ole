@@ -33,7 +33,7 @@
 	</c:otherwise>
 </c:choose>
 
-<kul:tab tabTitle="View Payment History" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_HISTORY_TAB_ERRORS}">
+<%--<kul:tab tabTitle="View Payment History" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_HISTORY_TAB_ERRORS}">
     <div class="tab-container" align=center>
             <h3>Payment History	- invoices</h3>
 		<br />
@@ -114,7 +114,7 @@
 		</logic:notEmpty>
         <logic:empty name="KualiForm" property="document.relatedViews.paymentHistoryInvoiceViews">
 	        <h4>No invoices</h4>
-        </logic:empty>
+        </logic:empty>--%>
 
             <h3>Payment History	- Credit Memos</h3>
 		<br />

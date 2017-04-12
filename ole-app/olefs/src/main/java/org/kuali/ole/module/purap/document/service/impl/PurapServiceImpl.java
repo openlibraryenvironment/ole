@@ -678,7 +678,7 @@ public class PurapServiceImpl implements PurapService {
         if (!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), docType)) {
             // we are skipping the validation above because it would be too late to correct any errors (i.e. because in
             // post-processing)
-            purchaseOrderService.createAndRoutePotentialChangeDocument(purchaseOrderDocument.getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(purchaseOrderDocument, docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
         }
 
         /*

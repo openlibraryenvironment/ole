@@ -249,6 +249,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     protected void spawnPoAmendmentForUnorderedItems(OleInvoiceDocument invoice, PurchaseOrderDocument po) {
 
         LOG.debug("Inside spawnPoAmendmentForUnorderedItems");
+        final PurchaseOrderDocument currentPO = po;
         if (invoice != null && invoice instanceof OleInvoiceDocument) {
             OleInvoiceDocument rlDoc = invoice;
 
@@ -264,7 +265,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                             String poDocNumber = (String) objects[1];
 
                             //create a PO amendment
-                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(currentPO, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
 
                             //add new lines to amendement
                             addUnorderedItemsToAmendment(amendmentPo, rlDoc);
@@ -1696,7 +1697,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
 
     @Override
     public OleInvoiceDocument getInvoiceDocumentById(Integer invoiceIdentifier) {
-        OleInvoiceDocument invoiceDocument = getInvoiceByDocumentNumber(invoiceDao.getDocumentNumberByInvoiceId(invoiceIdentifier));
+        OleInvoiceDocument invoiceDocument = invoiceDao.getDocumentByInvoiceId(invoiceIdentifier);
         return invoiceDocument;
     }
 

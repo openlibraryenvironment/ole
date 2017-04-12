@@ -38,7 +38,7 @@ public class SimpleBooleanSplitNode implements SplitNode {
     public SplitResult process(RouteContext context, RouteHelper helper) throws Exception {
         SplitResult result = null;
         String documentID = context.getDocument().getDocumentId();
-        Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentID);
+        Document document = SpringContext.getBean(DocumentService.class).getBySimpleDocumentHeaderId(documentID,context.getDocument().getDocumentTypeName());
         if (document instanceof FinancialSystemDocument) {
         String nodeName = context.getNodeInstance().getRouteNode().getRouteNodeName();
             boolean ret = ((FinancialSystemDocument)document).answerSplitNodeQuestion(nodeName);

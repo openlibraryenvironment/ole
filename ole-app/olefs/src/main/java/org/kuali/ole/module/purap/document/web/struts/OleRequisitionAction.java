@@ -270,14 +270,14 @@ public class OleRequisitionAction extends RequisitionAction {
             if (account != null) {
                 notificationOption = account.getNotificationOption();
             }
-            if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.BLOCK_USE)) {
+            /*if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.BLOCK_USE)) {
                 sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine);
                 if (sufficientFundCheck) {
                     GlobalVariables.getMessageMap().putError(
                             OLEConstants.SufficientFundCheck.ERROR_MSG_FOR_INSUFF_FUND, RiceKeyConstants.ERROR_CUSTOM,
                             OLEConstants.SufficientFundCheck.INSUFF_FUND_REQ + accLine.getAccountNumber());
                 }
-            }
+            }*/
         }
         // End
         if (LOG.isDebugEnabled()) {

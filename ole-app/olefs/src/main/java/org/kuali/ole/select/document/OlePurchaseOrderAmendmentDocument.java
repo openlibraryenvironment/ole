@@ -213,7 +213,9 @@ public class OlePurchaseOrderAmendmentDocument extends PurchaseOrderAmendmentDoc
                 Object object = iterator.next();
                 if (object instanceof OlePurchaseOrderItem) {
                     OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) object;
-                    setItemDetailWhileProcessAfterRetrive(singleItem);
+                    if(singleItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                        setItemDetailWhileProcessAfterRetrive(singleItem);
+                    }
                 }
             }
         } catch (Exception e) {

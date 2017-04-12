@@ -684,6 +684,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         //if receiving line document
         if (receivingDocument instanceof LineItemReceivingDocument) {
             LineItemReceivingDocument rlDoc = (LineItemReceivingDocument) receivingDocument;
+            final PurchaseOrderDocument currentDocument = po;
 
             //if a new item has been added spawn a purchase order amendment
             if (hasNewUnorderedItem((LineItemReceivingDocument) receivingDocument)) {
@@ -697,7 +698,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                             String poDocNumber = (String) objects[1];
 
                             //create a PO amendment
-                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(currentDocument, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
 
                             //add new lines to amendement
                             addUnorderedItemsToAmendment(amendmentPo, rlDoc);
