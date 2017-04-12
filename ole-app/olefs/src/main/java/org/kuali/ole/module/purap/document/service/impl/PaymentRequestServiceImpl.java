@@ -213,32 +213,37 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
 
         List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
-        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE);
-        if (LOG.isInfoEnabled()) {
-            LOG.info(" -- Initial filtering complete, returned " + new Integer(docNumbers.size()).toString() + " docs.");
-        }
-
-        List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
-        for (String docNumber : docNumbers) {
-            PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
-            if (ObjectUtils.isNotNull(preq)) {
-                docs.add(preq);
-            }
-        }
-        if (LOG.isInfoEnabled()) {
-            LOG.info(" -- Initial filtering complete, returned " + new Integer((docs == null ? 0 : docs.size())).toString() + " docs.");
-        }
-        if (docs != null) {
-            String samt = parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
-            KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
+        if(docNumbers.size() > 0) {
+            docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE);
             if (LOG.isInfoEnabled()) {
-                LOG.info(" -- Using default limit value of " + defaultMinimumLimit.toString() + ".");
+                LOG.info(" -- Initial filtering complete, returned " + new Integer(docNumbers.size()).toString() + " docs.");
             }
-            for (PaymentRequestDocument paymentRequestDocument : docs) {
-                hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
+
+            List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
+            for (String docNumber : docNumbers) {
+                PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
+                if (ObjectUtils.isNotNull(preq)) {
+                    docs.add(preq);
+                }
             }
+            if (LOG.isInfoEnabled()) {
+                LOG.info(" -- Initial filtering complete, returned " + new Integer((docs == null ? 0 : docs.size())).toString() + " docs.");
+            }
+            if (docs != null) {
+                String samt = parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
+                KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
+                if (LOG.isInfoEnabled()) {
+                    LOG.info(" -- Using default limit value of " + defaultMinimumLimit.toString() + ".");
+                }
+                for (PaymentRequestDocument paymentRequestDocument : docs) {
+                    hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
+                }
+            }
+            return hadErrorAtLeastOneError;
         }
-        return hadErrorAtLeastOneError;
+        else {
+            return hadErrorAtLeastOneError;
+        }
     }
 
     /**
@@ -546,15 +551,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedIdentifier();
 
             List<PaymentRequestDocument> preqs = new ArrayList();
-
-            List<PaymentRequestDocument> preqsDuplicates = getPaymentRequestsByVendorNumber(vendorHeaderGeneratedId, vendorDetailAssignedId);
-            for (PaymentRequestDocument duplicatePREQ : preqsDuplicates) {
-                if (duplicatePREQ!=null && duplicatePREQ.getInvoiceNumber()!=null &&
-                        document!=null && document.getInvoiceNumber()!=null &&
-                        duplicatePREQ.getInvoiceNumber().toUpperCase().equals(document.getInvoiceNumber().toUpperCase())) {
-                    // found the duplicate row... so add to the preqs list...
-                    preqs.add(duplicatePREQ);
-                }
+            if(document!=null && document.getInvoiceNumber()!=null) {
+                preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
+               /* for (PaymentRequestDocument duplicatePREQ : preqsDuplicates) {
+                    if (duplicatePREQ != null && duplicatePREQ.getInvoiceNumber() != null &&
+                            document != null && document.getInvoiceNumber() != null &&
+                            duplicatePREQ.getInvoiceNumber().toUpperCase().equals(document.getInvoiceNumber().toUpperCase())) {
+                        // found the duplicate row... so add to the preqs list...
+                        preqs.add(duplicatePREQ);
+                    }
+                }*/
             }
 
             if (preqs.size() > 0) {
@@ -647,7 +653,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId) {
-        return getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(poDocId));
+        return paymentRequestDao.getDocumentByPaymentRequestId(poDocId);
     }
 
     /**
@@ -655,14 +661,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
-        List<PaymentRequestDocument> preqs = new ArrayList<PaymentRequestDocument>();
-        List<String> docNumbers = paymentRequestDao.getDocumentNumbersByPurchaseOrderId(poDocId);
-        for (String docNumber : docNumbers) {
+        List<PaymentRequestDocument> preqs =paymentRequestDao.getDocumentByPurchaseOrderId(poDocId);
+      //  List<String> docNumbers = paymentRequestDao.getDocumentByPurchaseOrderId(poDocId);
+        /*for (String docNumber : docNumbers) {
             PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
             if (ObjectUtils.isNotNull(preq)) {
                 preqs.add(preq);
             }
-        }
+        }*/
         return preqs;
     }
 
@@ -1495,7 +1501,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            purchaseOrderService.createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
         }
     }
 
@@ -1744,27 +1750,36 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier) {
-
         boolean hasActivePreqs = false;
-        List<String> docNumbers = null;
+        List<String> docNumbers = new ArrayList<String>();
         WorkflowDocument workflowDocument = null;
 
-        docNumbers = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
-        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE);
-
-        for (String docNumber : docNumbers) {
-            try {
-                workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
-            } catch (WorkflowException we) {
-                throw new RuntimeException(we);
-            }
-            // if the document is not in a non-active status then return true and stop evaluation
-            if (!(workflowDocument.isCanceled() || workflowDocument.isException())) {
-                hasActivePreqs = true;
-                break;
+        List<PaymentRequestDocument> paymentRequestDocumentList = paymentRequestDao.getActivePaymentRequestDocuments(purchaseOrderIdentifier);
+        for(PaymentRequestDocument paymentRequestDocument : paymentRequestDocumentList) {
+            if (Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE).contains(paymentRequestDocument.getApplicationDocumentStatus())) {
+                //found the matching status, retrieve the routeHeaderId and add to the list
+                docNumbers.add(paymentRequestDocument.getDocumentNumber());
             }
         }
-        return hasActivePreqs;
+        if (docNumbers.size() > 0) {
+           // docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE);
+            for (String docNumber : docNumbers) {
+                try {
+                    workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
+                } catch (WorkflowException we) {
+                    throw new RuntimeException(we);
+                }
+                // if the document is not in a non-active status then return true and stop evaluation
+                if (!(workflowDocument.isCanceled() || workflowDocument.isException())) {
+                    hasActivePreqs = true;
+                    break;
+                }
+            }
+            return hasActivePreqs;
+        }
+        else {
+            return hasActivePreqs;
+        }
     }
 
     /**
@@ -1868,24 +1883,32 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public void processPaymentRequestInReceivingStatus() {
-        List<String> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
-        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
-
+        List<PaymentRequestDocument> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
         List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
-        for (String docNumber : docNumbers) {
-            PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
-            if (ObjectUtils.isNotNull(preq)) {
-                preqsAwaitingReceiving.add(preq);
+        if(docNumbers.size() > 0) {
+            for(PaymentRequestDocument preq : docNumbers) {
+                if(preq.getApplicationDocumentStatus().contains(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW)) {
+                    preqsAwaitingReceiving.add(preq);
+                }
             }
-        }
-        if (ObjectUtils.isNotNull(preqsAwaitingReceiving)) {
-            for (PaymentRequestDocument preqDoc : preqsAwaitingReceiving) {
-                if (preqDoc.isReceivingRequirementMet()) {
-                    try {
-                        documentService.approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
-                    } catch (WorkflowException e) {
-                        LOG.error("processPaymentRequestInReceivingStatus() Error approving payment request document from awaiting receiving", e);
-                        throw new RuntimeException("Error approving payment request document from awaiting receiving", e);
+          //  docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+
+           /*
+            for (String docNumber : docNumbers) {
+                PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
+                if (ObjectUtils.isNotNull(preq)) {
+                    preqsAwaitingReceiving.add(preq);
+                }
+            }*/
+            if (ObjectUtils.isNotNull(preqsAwaitingReceiving)) {
+                for (PaymentRequestDocument preqDoc : preqsAwaitingReceiving) {
+                    if (preqDoc.isReceivingRequirementMet()) {
+                        try {
+                            documentService.approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
+                        } catch (WorkflowException e) {
+                            LOG.error("processPaymentRequestInReceivingStatus() Error approving payment request document from awaiting receiving", e);
+                            throw new RuntimeException("Error approving payment request document from awaiting receiving", e);
+                        }
                     }
                 }
             }

@@ -220,20 +220,35 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * @see org.kuali.ole.module.purap.document.dataaccess.PaymentRequestDao#getDocumentNumberByPaymentRequestId(java.lang.Integer)
      */
-    public String getDocumentNumberByPaymentRequestId(Integer id) {
+  /*  public String getDocumentNumberByPaymentRequestId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         return getDocumentNumberOfPaymentRequestByCriteria(criteria);
     }
+*/
+    public PaymentRequestDocument getDocumentByPaymentRequestId(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        return getPaymentRequestByCriteria(criteria);
+    }
 
     /**
      * @see org.kuali.ole.module.purap.document.dataaccess.PaymentRequestDao#getDocumentNumbersByPurchaseOrderId(java.lang.Integer)
-     */
+     *//*
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer poPurApId) {
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poPurApId);
         returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+
+        return returnList;
+    }*/
+
+    public List<PaymentRequestDocument> getDocumentByPurchaseOrderId(Integer poPurApId) {
+       // List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poPurApId);
+        List<PaymentRequestDocument> returnList = getPaymentRequestDocumentByCriteria(criteria, false);
 
         return returnList;
     }
@@ -244,7 +259,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param criteria - list of criteria to use in the retrieve
      * @return - document number
      */
-    protected String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
+   /* protected String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         List<String> returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
 
@@ -260,6 +275,25 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
         } else {
             return (returnList.get(0));
+        }
+    }*/
+
+    protected PaymentRequestDocument getPaymentRequestByCriteria(Criteria criteria) {
+        LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
+        List<PaymentRequestDocument> returnList = getPaymentRequestDocumentByCriteria(criteria, false);
+
+        if (returnList.isEmpty()) {
+            return null;
+        }
+
+        if (returnList.size() > 1) {
+            // the list should have held only a single doc id of data but it holds 2 or more
+            String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+            LOG.error(errorMsg);
+            throw new RuntimeException();
+
+        } else {
+            return returnList.get(0);
         }
     }
 
@@ -289,6 +323,30 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
         return returnList;
     }
+
+
+
+
+    protected List<PaymentRequestDocument> getPaymentRequestDocumentByCriteria(Criteria criteria, boolean orderByAscending) {
+        LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
+            rqbc.addOrderByDescending(OLEPropertyConstants.DOCUMENT_NUMBER);
+
+        List<PaymentRequestDocument> prDocs = (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        return prDocs;
+    }
+
+
+    protected List<PaymentRequestDocument> getPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
+        LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
+            rqbc.addOrderByDescending(OLEPropertyConstants.DOCUMENT_NUMBER);
+
+        List<PaymentRequestDocument> prDocs = (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+
+        return prDocs;
+    }
+
 
     /**
      * Retrieves a list of payment requests by user defined criteria.
@@ -351,7 +409,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
 
-    public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId) {
+   /* public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
 
         List<String> returnList = new ArrayList<String>();
@@ -361,15 +419,28 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
 
         return returnList;
+    }*/
+
+    public List<PaymentRequestDocument> getActivePaymentRequestDocuments(Integer purchaseOrderId) {
+        LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
+
+        Criteria criteria = new Criteria();
+
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
+        List<PaymentRequestDocument>  returnList = getPaymentRequestByCriteria(criteria, false);
+
+        return returnList;
     }
 
-    public List<String> getPaymentRequestInReceivingStatus() {
+
+
+    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
 
-        List<String> returnList = new ArrayList<String>();
-        returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+       // List<String> returnList = new ArrayList<String>();
+        List<PaymentRequestDocument> returnList = getPaymentRequestDocumentByCriteria(criteria, false);
 
         return returnList;
 

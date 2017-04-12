@@ -160,9 +160,9 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                             OleInvoiceDocument paidInvDoc =  SpringContext.getBean(
                                     BusinessObjectService.class).findBySinglePrimaryKey(OleInvoiceDocument.class, oleInvoiceItem.getPurapDocumentIdentifier());
 
-                            if (paidInvDoc.getDocumentHeader().getDocumentNumber() == null) {
+                           /* if (paidInvDoc.getDocumentHeader().getDocumentNumber() == null) {
                                 paidInvDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(paidInvDoc.getDocumentNumber()));
-                            }
+                            }*/
                             WorkflowDocument workflowDocument = null;
                             //GlobalVariables.setUserSession(new UserSession("ole-khuntley"));
                             String user = null;
@@ -272,9 +272,9 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                                 OleInvoiceDocument paidInvDoc =  SpringContext.getBean(
                                         BusinessObjectService.class).findBySinglePrimaryKey(OleInvoiceDocument.class, oleInvoiceItem.getPurapDocumentIdentifier());
 
-                            if (paidInvDoc.getDocumentHeader().getDocumentNumber() == null) {
+                           /* if (paidInvDoc.getDocumentHeader().getDocumentNumber() == null) {
                                 paidInvDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(paidInvDoc.getDocumentNumber()));
-                            }
+                            }*/
                                 WorkflowDocument workflowDocument = null;
                                 //lobalVariables.setUserSession(new UserSession("ole-khuntley"));
                             String user = null;
@@ -325,9 +325,9 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                                 OlePaymentRequestDocument paidPaymentDoc =  SpringContext.getBean(
                                         BusinessObjectService.class).findBySinglePrimaryKey(OlePaymentRequestDocument.class, olePaymentRequestItem.getPurapDocumentIdentifier());
 
-                                if (paidPaymentDoc.getDocumentHeader().getDocumentNumber() == null) {
+                             /*   if (paidPaymentDoc.getDocumentHeader().getDocumentNumber() == null) {
                                     paidPaymentDoc.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(paidPaymentDoc.getDocumentNumber()));
-                                }
+                                }*/
                                 WorkflowDocument workflowDocument = null;
                                 //GlobalVariables.setUserSession(new UserSession("ole-khuntley"));
                                 String user = null;

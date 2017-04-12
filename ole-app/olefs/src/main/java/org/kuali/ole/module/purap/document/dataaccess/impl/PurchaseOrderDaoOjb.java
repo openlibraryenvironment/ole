@@ -61,6 +61,31 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return null;
     }
 
+    public List<PurchaseOrderDocument> getPurchaseOrderIdByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
+
+        List<PurchaseOrderDocument> poList = (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderDocument.class, criteria));
+       if(poList.size() > 0) {
+           return poList;
+       }
+
+        return null;
+    }
+
+
+    public List<PurchaseOrderDocument> getCurrentPurchaseOrderListByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+
+        List<PurchaseOrderDocument> poList = (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderDocument.class, criteria));
+        if(poList.size() > 0) {
+            return poList;
+        }
+        return null;
+    }
+
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);

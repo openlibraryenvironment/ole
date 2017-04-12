@@ -563,11 +563,13 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
             }
             if (item.getItemIdentifier() != null && item.getItemQuantity() != null && item.getItemNoOfParts() != null && !item.getItemQuantity().isGreaterThan(OLEConstants.ONE.kualiDecimalValue())
                     && !item.getItemNoOfParts().isGreaterThan(OLEConstants.ONE)) {
-                Map<String, String> map = new HashMap<>();
-                map.put(OLEConstants.PO_ID, item.getItemIdentifier().toString());
-                List<OleCopy> oleCopyList = (List<OleCopy>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleCopy.class, map);
-                if (oleCopyList.size() == 1) {
-                    item.getCopyList().get(0).setCopyNumber(item.getSingleCopyNumber() != null && !item.getSingleCopyNumber().isEmpty() ? item.getSingleCopyNumber() : null);
+                if(item.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put(OLEConstants.PO_ID, item.getItemIdentifier().toString());
+                    List<OleCopy> oleCopyList = (List<OleCopy>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleCopy.class, map);
+                    if (oleCopyList.size() == 1) {
+                        item.getCopyList().get(0).setCopyNumber(item.getSingleCopyNumber() != null && !item.getSingleCopyNumber().isEmpty() ? item.getSingleCopyNumber() : null);
+                    }
                 }
             }
             if (item.getItemIdentifier() != null) {
@@ -775,11 +777,11 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                     if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
 
                         newStatus = PurchaseOrderStatuses.APPDOC_AMENDMENT;
-                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(po, documentType, newStatus);
                         returnActionForward = mapping.findForward(OLEConstants.MAPPING_BASIC);
                     } else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT)) {
                         newStatus = PurchaseOrderStatuses.APPDOC_PENDING_REOPEN;
-                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(po, documentType, newStatus);
                     } else {
                         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
                             newStatus = PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
@@ -796,7 +798,7 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                         } else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
                             newStatus = PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT;
                         }
-                        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
                     }
                     if (!GlobalVariables.getMessageMap().hasNoErrors()) {
                         throw new ValidationException("errors occurred during new PO creation");
@@ -1469,11 +1471,13 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                 }
                 if(tempItem.getItemIdentifier()!=null && tempItem.getItemQuantity() != null && tempItem.getItemNoOfParts() != null && !tempItem.getItemQuantity().isGreaterThan(OLEConstants.ONE.kualiDecimalValue())
                         && !tempItem.getItemNoOfParts().isGreaterThan(OLEConstants.ONE)){
-                    Map<String,String> map=new HashMap<>();
-                    map.put(OLEConstants.PO_ID,tempItem.getItemIdentifier().toString());
-                    List<OleCopy> oleCopyList =(List<OleCopy>)SpringContext.getBean(BusinessObjectService.class).findMatching(OleCopy.class, map);
-                    if(oleCopyList.size()==1){
-                        tempItem.getCopyList().get(0).setCopyNumber(tempItem.getSingleCopyNumber()!=null && !tempItem.getSingleCopyNumber().isEmpty()?tempItem.getSingleCopyNumber():null);
+                    if(tempItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                        Map<String, String> map = new HashMap<>();
+                        map.put(OLEConstants.PO_ID, tempItem.getItemIdentifier().toString());
+                        List<OleCopy> oleCopyList = (List<OleCopy>) SpringContext.getBean(BusinessObjectService.class).findMatching(OleCopy.class, map);
+                        if (oleCopyList.size() == 1) {
+                            tempItem.getCopyList().get(0).setCopyNumber(tempItem.getSingleCopyNumber() != null && !tempItem.getSingleCopyNumber().isEmpty() ? tempItem.getSingleCopyNumber() : null);
+                        }
                     }
                 }
                 List<PurApAccountingLine> accountingLineBase = tempItem.getSourceAccountingLines();
