@@ -228,7 +228,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
     private void updateBibOperation(BibResponse bibResponse, BibRecord bibRecord) {
         bibResponse.setOperation(OleNGConstants.DISCARDED);
         if(StringUtils.isNotBlank(bibRecord.getBibId())) {
-            bibResponse.setBibId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" +bibRecord.getBibId());
+            bibResponse.setBibId(bibRecord.getBibId());
         } else {
             bibResponse.setBibId(" ");
         }
@@ -250,7 +250,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                 if (null != holdingsRecord && StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
                     HoldingsResponse holdingsResponse = new HoldingsResponse();
-                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
+                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(OleNGConstants.CREATED);
                     holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
                     holdingsResponses.add(holdingsResponse);
@@ -267,7 +267,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                         status = OleNGConstants.UPDATED;
                     }
                     HoldingsResponse holdingsResponse = new HoldingsResponse();
-                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
+                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(status);
                     holdingsResponse.setHoldingsType(EHoldings.ELECTRONIC);
                     holdingsResponses.add(holdingsResponse);
@@ -292,7 +292,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 HoldingsRecord holdingsRecord = holdingsRecordAndDataMapping.getHoldingsRecord();
                 if (null != holdingsRecord && StringUtils.isNotBlank(holdingsRecord.getHoldingsId())) {
                     HoldingsResponse holdingsResponse = new HoldingsResponse();
-                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
+                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(OleNGConstants.CREATED);
                     holdingsResponse.setHoldingsType(PHoldings.PRINT);
                     buildItemResponse(holdingsResponse, exchange, holdingsRecord, options);
@@ -311,7 +311,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                         status = OleNGConstants.UPDATED;
                     }
                     HoldingsResponse holdingsResponse = new HoldingsResponse();
-                    holdingsResponse.setHoldingsId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML + "-" + holdingsRecord.getHoldingsId());
+                    holdingsResponse.setHoldingsId(holdingsRecord.getHoldingsId());
                     holdingsResponse.setOperation(status);
                     holdingsResponse.setHoldingsType(PHoldings.PRINT);
                     buildItemResponse(holdingsResponse, exchange, holdingsRecord, options);
@@ -337,7 +337,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                 ItemRecord itemRecord = itemRecordAndDataMapping.getItemRecord();
                 if (null != itemRecord && StringUtils.isNotBlank(itemRecord.getItemId()) && holdingsRecord.getHoldingsId().equals(itemRecord.getHoldingsId())) {
                     ItemResponse itemResponse = new ItemResponse();
-                    itemResponse.setItemId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML+ "-" + itemRecord.getItemId());
+                    itemResponse.setItemId(itemRecord.getItemId());
                     itemResponse.setOperation(OleNGConstants.CREATED);
                     itemResponses.add(itemResponse);
                 }
@@ -354,7 +354,7 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
                             status = OleNGConstants.UPDATED;
                         }
                         ItemResponse itemResponse = new ItemResponse();
-                        itemResponse.setItemId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML+ "-" + itemRecord.getItemId());
+                        itemResponse.setItemId(itemRecord.getItemId());
                         itemResponse.setOperation(status);
                         itemResponses.add(itemResponse);
                     }

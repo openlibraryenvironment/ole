@@ -375,7 +375,7 @@ function getExportSuccessSectionContent(fileContent) {
 
 function getExportMessageFromResponse(exportMessage) {
     var exportMessage = {
-        "bibId" : exportMessage["bibId"],
+        "bibLocalId" : exportMessage["bibLocalId"],
         "message" : exportMessage["message"]
     };
     return exportMessage;
