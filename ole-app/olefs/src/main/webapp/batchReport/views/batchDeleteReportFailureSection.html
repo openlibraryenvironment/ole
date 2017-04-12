@@ -24,7 +24,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="batchDeleteFailureReport in batchDeleteReportFailureSectionPanel">
+                        <tr ng-repeat="batchDeleteFailureReport in batchDeleteReportFailureSectionPanel | orderBy: 'matchPointValue'">
                             <td><span ng-bind="batchDeleteFailureReport.matchPoint"></span></td>
                             <td><span ng-bind="batchDeleteFailureReport.matchPointValue"></span></td>
                             <td><span ng-bind="batchDeleteFailureReport.bibId"></span></td>

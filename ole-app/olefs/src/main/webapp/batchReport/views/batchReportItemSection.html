@@ -26,7 +26,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="reportItem in reportItemSectionPanel">
+                        <tr ng-repeat="reportItem in reportItemSectionPanel | orderBy: 'itemId'">
                             <td><span ng-bind="reportItem.itemId"></span></td>
                             <td><span ng-bind="reportItem.holdingsId"></span></td>
                             <td><span ng-bind="reportItem.bibId"></span></td>
