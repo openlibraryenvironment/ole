@@ -102,6 +102,7 @@ public class CheckinItemController extends OLEUifControllerBase {
 
     private void initCheckinForm(CheckinForm checkinForm) {
         checkinForm.setCustomDueDateMap(new Date());
+        checkinForm.setCustomDueDateTime("");
     }
 
     @Override
