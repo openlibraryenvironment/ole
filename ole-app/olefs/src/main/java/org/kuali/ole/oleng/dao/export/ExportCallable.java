@@ -80,17 +80,26 @@ public abstract class ExportCallable implements Callable {
                     List<Record> marcRecord = null;
                     int numberOfSuccesssRecord = 0;
                     int numberOfFailureRecord = 0;
+                    boolean isStaffOnly = false;
                     while (bibResultSet.next()) {
                         try {
                             bibIds.remove(bibResultSet.getString(1));
                             bib = fetchBibRecord(bibResultSet);
                             holdingsTreeList = fetchHoldingsTreeForBib(Integer.parseInt(bib.getLocalId()));
-                            marcRecord = batchExportHandler.getMarcRecordUtil().convertMarcXmlContentToMarcRecord(bib.getContent());
-                            processDataMappings(bib.getId(), marcRecord.get(0), holdingsTreeList, batchProcessTxObject.getBatchProcessProfile());
-                            processDataTransformations(bib.getId(), marcRecord.get(0), batchProcessTxObject.getBatchProcessProfile(), batchExportHandler);
-                            numberOfSuccesssRecord++;
-                            oleNGBatchExportResponse.addSuccessRecord(bib.getLocalId(), bib.getId(), OleNGConstants.SUCCESS);
-                            marcRecords.addAll(marcRecord);
+                            if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
+                                    batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY) ){
+                                if(bib !=null && bib.isStaffOnly()){
+                                    isStaffOnly = true;
+                                }
+                            }
+                            if(!isStaffOnly) {
+                                marcRecord = batchExportHandler.getMarcRecordUtil().convertMarcXmlContentToMarcRecord(bib.getContent());
+                                processDataMappings(bib.getId(), marcRecord.get(0), holdingsTreeList, batchProcessTxObject.getBatchProcessProfile());
+                                processDataTransformations(bib.getId(), marcRecord.get(0), batchProcessTxObject.getBatchProcessProfile(), batchExportHandler);
+                                numberOfSuccesssRecord++;
+                                oleNGBatchExportResponse.addSuccessRecord(bib.getLocalId(), bib.getId(), OleNGConstants.SUCCESS);
+                                marcRecords.addAll(marcRecord);
+                            }
 
                             if (bib.isStaffOnly()) {
                                 // For Incremental Except Staff Only
