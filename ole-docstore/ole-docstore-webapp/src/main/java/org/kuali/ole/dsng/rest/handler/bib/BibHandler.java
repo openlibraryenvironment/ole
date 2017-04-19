@@ -49,6 +49,21 @@ public abstract class BibHandler extends Handler {
             leader = record.getLeader().marshal();
             char unicode = leader.charAt(9);
             if (unicode != 'a') {
+                return null;
+            }
+            return record;
+        }
+        return null;
+    }
+
+
+    public Record isValidLeaderCheck(String marcContent) throws Exception {
+        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(marcContent);
+        String leader = null;
+        for (Record record : records) {
+            leader = record.getLeader().marshal();
+            char unicode = leader.charAt(9);
+            if (unicode != 'a') {
                 throw new Exception(OleNGConstants.INVALID_LEADER + leader);
             }
             return record;
