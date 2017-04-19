@@ -32,7 +32,7 @@ public class OleNoticeTypeKeyValuesFinder  extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE,OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE,OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE,OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE));
-        keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE,OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE,"Claims Returned Not Found Fines Owed Notice"));
         return keyValues;
     }
 }
