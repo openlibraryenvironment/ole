@@ -662,30 +662,110 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_MYSQL" dbms="mysql">
         <createTable tableName="OLE_DS_DELETED_BIB_T">
-        <column name="BIB_ID"   type="INTEGER(11)">
+        <column name="ID"   type="BIGINT(19)">
             <constraints nullable="false" primaryKey="true" />
         </column>
-        <column name="DATE_UPDATED" type="datetime"/>
+        <column name="BIB_ID" type="VARCHAR(11)"/>
+        <column name="IS_BIB_DELETED" type="VARCHAR(1)"/>
+        <column name="DELETED_HOLDINGS_ID" type="VARCHAR(11)"/>
+        <column name="IS_HOLDINGS_DELETED" type="VARCHAR(1)"/>
+        <column name="DELETED_ITEM_ID" type="VARCHAR(11)"/>
+        <column name="IS_ITEM_DELETED" type="VARCHAR(1)"/>
+        <column name="DATE_UPDATED" type="DATETIME"/>
+        <column name="CONTENT" type="LONGTEXT"/>
         </createTable>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_ORACLE" dbms="oracle">
         <createTable tableName="OLE_DS_DELETED_BIB_T">
-            <column name="BIB_ID"   type="NUMBER(11)">
+            <column name="ID"   type="BIGINT(19)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="DATE_UPDATED" type="timestamp"/>
+            <column name="BIB_ID" type="VARCHAR(11)"/>
+            <column name="IS_BIB_DELETED" type="VARCHAR(1)"/>
+            <column name="DELETED_HOLDINGS_ID" type="VARCHAR(11)"/>
+            <column name="IS_HOLDINGS_DELETED" type="VARCHAR(1)"/>
+            <column name="DELETED_ITEM_ID" type="VARCHAR(11)"/>
+            <column name="IS_ITEM_DELETED" type="VARCHAR(1)"/>
+            <column name="DATE_UPDATED" type="DATETIME"/>
+            <column name="CONTENT" type="LONGTEXT"/>
         </createTable>
     </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_UPDATE_MYSQL" dbms="mysql">
-        <sql>ALTER TABLE `ole_ds_deleted_bib_t` ADD COLUMN `DELETED_HOLDINGS_ID` VARCHAR(11) NULL  AFTER `IS_BIB_DELETED`,ADD COLUMN `IS_HOLDINGS_DELETED` VARCHAR(1) NULL  AFTER `DELETED_HOLDINGS_ID`,ADD COLUMN `DELETED_ITEM_ID` VARCHAR(11) NULL  AFTER `IS_HOLDINGS_DELETED`,ADD COLUMN `IS_ITEM_DELETED` VARCHAR(1) NULL  AFTER `DELETED_ITEM_ID`,ADD COLUMN `CONTENT` LONGTEXT NULL  AFTER `IS_ITEM_DELETED`,ADD COLUMN `ID` BigInt(19) NOT NULL  AFTER `CONTENT`,CHANGE COLUMN `BIB_ID` `DELETED_BIB_ID` VARCHAR(11) NOT NULL,CHANGE COLUMN `DATE_UPDATED` `IS_BIB_DELETED` VARCHAR(1) NULL,DROP PRIMARY KEY,ADD PRIMARY KEY (`ID`), ADD COLUMN `DATE_UPDATED` TIMESTAMP NULL</sql>
-        <sql>CREATE TABLE ole_ds_deleted_bib_s(ID BigInt(19) Primary Key AUTO_INCREMENT)</sql>
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_S_ORACLE" dbms="oracle">
+        <createSequence
+                incrementBy="1"
+                ordered="true"
+                sequenceName="OLE_DS_DELETED_BIB_S"
+                startValue="1"/>
     </changeSet>
 
-    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_T_UPDATE_ORACLE" dbms="oracle">
-        <sql>ALTER TABLE `ole_ds_deleted_bib_t` ADD COLUMN `DELETED_HOLDINGS_ID` VARCHAR(11) NULL  AFTER `IS_BIB_DELETED`,ADD COLUMN `IS_HOLDINGS_DELETED` VARCHAR(1) NULL  AFTER `DELETED_HOLDINGS_ID`,ADD COLUMN `DELETED_ITEM_ID` VARCHAR(11) NULL  AFTER `IS_HOLDINGS_DELETED`,ADD COLUMN `IS_ITEM_DELETED` VARCHAR(1) NULL  AFTER `DELETED_ITEM_ID`,ADD COLUMN `CONTENT` LONGTEXT NULL  AFTER `IS_ITEM_DELETED`,ADD COLUMN `ID` BigInt(19) NOT NULL  AFTER `CONTENT`,CHANGE COLUMN `BIB_ID` `DELETED_BIB_ID` VARCHAR(11) NOT NULL,CHANGE COLUMN `DATE_UPDATED` `IS_BIB_DELETED` VARCHAR(1) NULL,DROP PRIMARY KEY,ADD PRIMARY KEY (`ID`), ADD COLUMN `DATE_UPDATED` TIMESTAMP NULL</sql>
-        <sql>CREATE TABLE ole_ds_deleted_bib_s(ID BigInt(19) Primary Key AUTO_INCREMENT)</sql>
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DELETED_BIB_S_MYSQL" dbms="mysql">
+        <createTable tableName="OLE_DS_DELETED_BIB_S">
+            <column name="ID"   type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <addAutoIncrement
+                columnDataType="BIGINT(19)"
+                columnName="ID"
+                incrementBy="1"
+                startWith="1"
+                tableName="OLE_DS_DELETED_BIB_S"/>
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_MBR_T_oracle" dbms="oracle">
+        <loadData tableName="KRIM_ROLE_MBR_T" file="org/kuali/ole/3.0/data/ole_krim_role_mbr_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_MBR_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_T_Insert" dbms="mysql">
+        <sql>INSERT INTO krim_entity_t (entity_id, obj_id, actv_ind) VALUES ('gobiapi', 'gobiapi', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_T_Insert" dbms="oracle">
+        <sql>INSERT INTO krim_entity_t (entity_id, obj_id, actv_ind) VALUES ('gobiapi', 'gobiapi', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_PRNCPL_T_Insert" dbms="mysql">
+        <sql>INSERT INTO krim_prncpl_t (PRNCPL_ID, OBJ_ID, PRNCPL_NM, ENTITY_ID, ACTV_IND) VALUES ('gobiapi', 'gobiapi', 'gobi-api', 'gobiapi', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_PRNCPL_T_Insert" dbms="oracle">
+        <sql>INSERT INTO krim_prncpl_t (PRNCPL_ID, OBJ_ID, PRNCPL_NM, ENTITY_ID, ACTV_IND) VALUES ('gobiapi', 'gobiapi', 'gobi-api', 'gobiapi', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_NM_T_Insert" dbms="mysql">
+        <sql>INSERT INTO krim_entity_nm_t (ENTITY_NM_ID, OBJ_ID, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND) VALUES ('gobiapi', 'gobiapi', 'gobiapi', 'PRFR', 'gobi', '', 'api', '', '', 'Y', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_NM_T_Insert" dbms="oracle">
+        <sql>INSERT INTO krim_entity_nm_t (ENTITY_NM_ID, OBJ_ID, ENTITY_ID, NM_TYP_CD, FIRST_NM, MIDDLE_NM, LAST_NM, SUFFIX_NM, TITLE_NM, DFLT_IND, ACTV_IND) VALUES ('gobiapi', 'gobiapi', 'gobiapi', 'PRFR', 'gobi', '', 'api', '', '', 'Y', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_ENT_TYP_T_Insert" dbms="mysql">
+        <sql>INSERT INTO krim_entity_ent_typ_t (ent_typ_cd, entity_id, obj_id, actv_ind) VALUES ('PERSON', 'gobiapi', 'gobiapi', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_ENT_TYP_T_Insert" dbms="oracle">
+        <sql>INSERT INTO krim_entity_ent_typ_t (ent_typ_cd, entity_id, obj_id, actv_ind) VALUES ('PERSON', 'gobiapi', 'gobiapi', 'Y')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_MBR_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_ROLE_MBR_T" file="org/kuali/ole/3.0/data/ole_krim_role_mbr_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_MBR_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
 
 </databaseChangeLog>

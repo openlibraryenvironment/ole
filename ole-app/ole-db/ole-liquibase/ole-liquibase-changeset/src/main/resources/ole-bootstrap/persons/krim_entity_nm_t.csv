@@ -1,1 +1,2 @@
 entity_nm_id,obj_id,entity_id,nm_typ_cd,first_nm,middle_nm,last_nm,suffix_nm,title_nm,dflt_ind,actv_ind
+gobiapi,gobiapi,gobiapi,PRFR,gobi,,api,,,Y,Y
