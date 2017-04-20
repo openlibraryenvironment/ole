@@ -58,11 +58,11 @@ public interface OlePurapService {
 
     public void setInvoiceDocumentsForRequisition(PurApItem purApItem);
 
-    public void setInvoiceDocumentsForPO(PurApItem purApItem);
+    public void setInvoiceDocumentsForPO(OlePurchaseOrderItem singleItem);
 
     public void setInvoiceDocumentsForEResourcePO(PurApItem purApItem);
 
-    public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,PurApItem purApItem);
+    public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,OlePurchaseOrderItem singleItem);
 
     public Integer getRequestorTypeId(String requestorType);
 

@@ -792,20 +792,20 @@ public class OLEAddTitlesToInvoiceService {
         oleInvoiceDocument.refreshNonUpdateableReferences();
     }
 
-    public boolean receivePO(OleLineItemReceivingDocument oleLineItemReceivingDocument, Integer purchaseOrderIdentifier, boolean isCreateRCV, List<OlePurchaseOrderItem> purchaseOrderItems) {
+    public boolean receivePO(OleLineItemReceivingDocument oleLineItemReceivingDocument, OlePurchaseOrderDocument olePurchaseOrderDocument, boolean isCreateRCV, List<OlePurchaseOrderItem> purchaseOrderItems) {
         boolean receivePOSuccess = false;
 
         // Setting defaults
-        oleLineItemReceivingDocument.setPurchaseOrderIdentifier(purchaseOrderIdentifier);
+        oleLineItemReceivingDocument.setPurchaseOrderIdentifier(olePurchaseOrderDocument.getPurapDocumentIdentifier());
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         oleLineItemReceivingDocument.setShipmentReceivedDate(dateTimeService.getCurrentSqlDate());
         // Validations Start
         boolean isValid = true;
 
-        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderIdentifier);
+      //  PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderIdentifier);
 
-        if (ObjectUtils.isNotNull(po)) {
-            oleLineItemReceivingDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
+        if (ObjectUtils.isNotNull(olePurchaseOrderDocument)) {
+            oleLineItemReceivingDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(olePurchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
             if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(oleLineItemReceivingDocument).isAuthorizedByTemplate(oleLineItemReceivingDocument, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw new DocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "initiate document", oleLineItemReceivingDocument.getDocumentNumber());
             }
@@ -922,7 +922,7 @@ public class OLEAddTitlesToInvoiceService {
         HashMap<Integer, Boolean> receivePOStatus = new HashMap<Integer, Boolean>();
         boolean isInfoMsg = false;
         for (Map.Entry<Integer, OlePurchaseOrderItem> entry : selectedPOs.entrySet()) {
-            boolean receivePOSuccess = this.receivePO(oleLineItemReceivingDocument, entry.getKey(), false, purchaseOrderItems);
+            boolean receivePOSuccess = this.receivePO(oleLineItemReceivingDocument, olePurchaseOrderDocument, false, purchaseOrderItems);
             if (receivePOSuccess) {
                 receivingDocumentsList.add(oleLineItemReceivingDocument.getDocumentNumber());
                 isInfoMsg = true;

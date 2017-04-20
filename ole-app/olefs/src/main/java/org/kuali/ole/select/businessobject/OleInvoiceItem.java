@@ -30,7 +30,6 @@ import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.module.purap.document.service.PurapService;
 import org.kuali.ole.module.purap.exception.PurError;
 import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.ole.module.purap.util.PurApRelatedViews;
 import org.kuali.ole.pojo.OleOrderRecord;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
@@ -91,8 +90,8 @@ public class OleInvoiceItem extends InvoiceItem {
     protected List<OleInvoiceNote> notes;
     protected Integer poItemIdentifier;
 
-    private Boolean relatedViewExist;
-    private transient PurApRelatedViews relatedViews;
+   // private Boolean relatedViewExist;
+   // private transient PurApRelatedViews relatedViews;
     private UnitOfMeasure itemUnitOfMeasure;
 
     private String vendorItemIdentifier;
@@ -870,7 +869,7 @@ public class OleInvoiceItem extends InvoiceItem {
         this.formatType = formatType;
     }
 
-    public PurApRelatedViews getRelatedViews() {
+   /* public PurApRelatedViews getRelatedViews() {
         if (relatedViews == null) {
             relatedViews = new PurApRelatedViews(
                     this.getInvoiceDocument() != null ? this.getInvoiceDocument().getDocumentNumber()
@@ -879,24 +878,24 @@ public class OleInvoiceItem extends InvoiceItem {
                             this.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
         }
         return relatedViews;
-    }
+    }*/
 
-    public void setRelatedViews(PurApRelatedViews relatedViews) {
+   /* public void setRelatedViews(PurApRelatedViews relatedViews) {
         this.relatedViews = relatedViews;
-    }
+    }*/
 
-    public Boolean getRelatedViewExist() {
+   /* public Boolean getRelatedViewExist() {
         if (this.relatedViews != null) {
             this.relatedViewExist = Boolean.TRUE;
         } else {
             this.relatedViewExist = Boolean.FALSE;
         }
         return relatedViewExist;
-    }
+    }*/
 
-    public void setRelatedViewExist(Boolean relatedViewExist) {
+    /*public void setRelatedViewExist(Boolean relatedViewExist) {
         this.relatedViewExist = relatedViewExist;
-    }
+    }*/
 
     public boolean isDebitItem() {
         return debitItem;

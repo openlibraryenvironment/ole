@@ -41,12 +41,15 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -530,7 +533,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                             OleInvoiceItem invoiceItem = olePaidCopy.getInvoiceItem();
                             invoiceDocument = (OleInvoiceDocument)olePaidCopy.getInvoiceItem().getInvoiceDocument();
                             if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
-                                invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                            //    invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
                                 if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0) {
                                     invoiceItem.setRequisitionItemIdentifier(oleCopy.getReqItemId());
                                 }
@@ -549,7 +552,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                         }
                     }
                     if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
-                        invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                    //    invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
                         paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
                                 invoiceDocument);
                     }
@@ -565,8 +568,8 @@ public class OlePurapServiceImpl implements OlePurapService {
      * This method is to retrieve the Invoice Documents related to PO
      * @param purApItem
      */
-    public void setInvoiceDocumentsForPO(PurApItem purApItem) {
-        OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) purApItem;
+    public void setInvoiceDocumentsForPO(OlePurchaseOrderItem singleItem) {
+     //   OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) purApItem;
         Map<String, OleInvoiceDocument> paidDocuments = new HashMap<String, OleInvoiceDocument>();
         Map<String, OlePaymentRequestDocument> paymentRequests = new HashMap<String, OlePaymentRequestDocument>();
         for (OleCopy oleCopy : singleItem.getCopyList()) {
@@ -585,7 +588,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                         if (olePaidCopy.getInvoiceItem() != null) {
                             invoiceDocument = (OleInvoiceDocument)olePaidCopy.getInvoiceItem().getInvoiceDocument();
                             if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
-                                invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                            //    invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
                                 paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
                                         invoiceDocument);
                                 invoiceDocument.setPaymentRequestDocuments(new ArrayList<OlePaymentRequestDocument>());
@@ -601,7 +604,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                         }
                     }
                     if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
-                        invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                     //   invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
                         paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
                                 invoiceDocument);
                     }
@@ -613,32 +616,37 @@ public class OlePurapServiceImpl implements OlePurapService {
         singleItem.setInvoiceDocuments(list);
     }
 
-    public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,PurApItem purApItem) {
-        OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) purApItem;
-        if (singleItem.getInvoiceDocuments().size() == 0) {
-            Map<String, OleInvoiceDocument> invoiceDocMap = new HashMap<>();
-            List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = getRelatedPurchaseOrderList(purchaseOrderDocument);
-            if (olePurchaseOrderDocumentList.size() > 0 ) {
-                for (OlePurchaseOrderDocument linkedOlePurchaseOrderDocument : olePurchaseOrderDocumentList) {
-                    for (OlePurchaseOrderItem olePurchaseOrderItem : (List<OlePurchaseOrderItem>) linkedOlePurchaseOrderDocument.getItems()) {
-                        if (StringUtils.isNotBlank(olePurchaseOrderItem.getItemTypeCode()) && olePurchaseOrderItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
-                            if ((StringUtils.isNotBlank(olePurchaseOrderItem.getLinkToOrderOption()) && olePurchaseOrderItem.getLinkToOrderOption().equals(OLEConstants.ERESOURCE)) || olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId())) {
-                                List<OleInvoiceItem> oleInvoiceItemList = getOleInvoiceItemList(purchaseOrderDocument, olePurchaseOrderItem);
-                                if (oleInvoiceItemList != null) {
-                                    for (OleInvoiceItem oleInvoiceItem : oleInvoiceItemList) {
-                                        if (oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier().equals(linkedOlePurchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier())) {
-                                            if (!invoiceDocMap.containsKey(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString())) {
-                                                OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument();
-                                                oleInvoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(oleInvoiceDocument.getDocumentNumber()));
-                                                if (oleInvoiceDocument.getPaymentRequestDocuments() != null) {
-                                                    List<OlePaymentRequestDocument> olePaymentRequestDocumentList = getOlePaymentRequestDocumentList(oleInvoiceDocument, linkedOlePurchaseOrderDocument.getPurapDocumentIdentifier());
-                                                    oleInvoiceDocument.setPaymentRequestDocuments(olePaymentRequestDocumentList);
+    public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,OlePurchaseOrderItem singleItem) {
+            if (singleItem.getInvoiceDocuments().size() == 0) {
+                Map<String, OleInvoiceDocument> invoiceDocMap = new HashMap<>();
+                List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = getRelatedPurchaseOrderList(purchaseOrderDocument);
+                if (olePurchaseOrderDocumentList.size() > 0) {
+                    for (OlePurchaseOrderDocument linkedOlePurchaseOrderDocument : olePurchaseOrderDocumentList) {
+                        for (OlePurchaseOrderItem olePurchaseOrderItem : (List<OlePurchaseOrderItem>) linkedOlePurchaseOrderDocument.getItems()) {
+                            if (StringUtils.isNotBlank(olePurchaseOrderItem.getItemTypeCode()) && olePurchaseOrderItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                                if ((StringUtils.isNotBlank(olePurchaseOrderItem.getLinkToOrderOption()) && olePurchaseOrderItem.getLinkToOrderOption().equals(OLEConstants.ERESOURCE)) || olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId())) {
+                                    List<OleInvoiceItem> oleInvoiceItemList = getOleInvoiceItemList(purchaseOrderDocument, olePurchaseOrderItem);
+                                    if (oleInvoiceItemList.size() > 0) {
+                                        for (OleInvoiceItem oleInvoiceItem : oleInvoiceItemList) {
+                                            if (oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier().equals(linkedOlePurchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier())) {
+                                                if (!invoiceDocMap.containsKey(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString())) {
+                                                    OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceItem.getInvoiceDocument();
+                                                    try {
+                                                        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(oleInvoiceDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+                                                        oleInvoiceDocument.getDocumentHeader().setWorkflowDocument(document);
+                                                    } catch (WorkflowException we) {
+                                                        throw new RuntimeException(we);
+                                                    }
+                                                    if (oleInvoiceDocument.getPaymentRequestDocuments() != null) {
+                                                        List<OlePaymentRequestDocument> olePaymentRequestDocumentList = getOlePaymentRequestDocumentList(oleInvoiceDocument, linkedOlePurchaseOrderDocument.getPurapDocumentIdentifier());
+                                                        oleInvoiceDocument.setPaymentRequestDocuments(olePaymentRequestDocumentList);
+                                                    }
+                                                   if (oleInvoiceDocument.getCreditMemoDocuments() != null) {
+                                                        List<OleVendorCreditMemoDocument> oleVendorCreditMemoDocumentList = getOleVendorCreditMemoDocumentList(oleInvoiceDocument, linkedOlePurchaseOrderDocument.getPurapDocumentIdentifier());
+                                                        oleInvoiceDocument.setCreditMemoDocuments(oleVendorCreditMemoDocumentList);
+                                                    }
+                                                    invoiceDocMap.put(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString(), oleInvoiceDocument);
                                                 }
-                                                if (oleInvoiceDocument.getCreditMemoDocuments() != null) {
-                                                    List<OleVendorCreditMemoDocument> oleVendorCreditMemoDocumentList = getOleVendorCreditMemoDocumentList(oleInvoiceDocument, linkedOlePurchaseOrderDocument.getPurapDocumentIdentifier());
-                                                    oleInvoiceDocument.setCreditMemoDocuments(oleVendorCreditMemoDocumentList);
-                                                }
-                                                invoiceDocMap.put(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString(), oleInvoiceDocument);
                                             }
                                         }
                                     }
@@ -647,12 +655,11 @@ public class OlePurapServiceImpl implements OlePurapService {
                         }
                     }
                 }
+                Collection collection = (Collection) (invoiceDocMap.values());
+                List list = new ArrayList(collection);
+                singleItem.setInvoiceDocuments(list);
             }
-            Collection collection = (Collection) (invoiceDocMap.values());
-            List list = new ArrayList(collection);
-            singleItem.setInvoiceDocuments(list);
         }
-    }
 
     public void setInvoiceDocumentsForEResourcePO(PurApItem purApItem) {
         OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) purApItem;
@@ -683,7 +690,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                             OleInvoiceItem invoiceItem = olePaidCopy.getInvoiceItem();
                             invoiceDocument = (OleInvoiceDocument)olePaidCopy.getInvoiceItem().getInvoiceDocument();
                             if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
-                                invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                           //     invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
                                 if (invoiceItem.getPoItemIdentifier().compareTo(oleCopy.getPoItemId()) == 0) {
                                     invoiceItem.setRequisitionItemIdentifier(oleCopy.getReqItemId());
                                 }
@@ -702,7 +709,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                         }
                     }
                     if (invoiceDocument != null && SpringContext.getBean(DocumentHeaderService.class) != null) {
-                        invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
+                    //    invoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(invoiceDocument.getDocumentNumber()));
                         paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
                                 invoiceDocument);
                     }

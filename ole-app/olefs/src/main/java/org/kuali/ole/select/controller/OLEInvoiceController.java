@@ -3300,7 +3300,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=relatedViewBtn")
+   /* @RequestMapping(params = "methodToCall=relatedViewBtn")
     public ModelAndView relatedViewBtn(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response)  throws Exception{
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
@@ -3310,21 +3310,21 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         int unlinkDocument = Integer.parseInt(s);
         List<OleInvoiceItem> oleInvoiceItems = oleInvoiceDocument.getItems();
         OleInvoiceItem oleInvoiceItem = oleInvoiceItems.get(unlinkDocument);
-        PurApRelatedViews relatedViews = new PurApRelatedViews(oleInvoiceDocument != null
+        *//*PurApRelatedViews relatedViews = new PurApRelatedViews(oleInvoiceDocument != null
                 ? oleInvoiceDocument.getDocumentNumber() : null,
                 oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier() != null
-                        ? oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
-        oleInvoiceItem.setRelatedViews(relatedViews);
-        oleInvoiceItem.getRelatedViews().getRelatedRequisitionViews();
+                        ? oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);*//*
+        //oleInvoiceItem.setRelatedViews(relatedViews);
+       *//* oleInvoiceItem.getRelatedViews().getRelatedRequisitionViews();
         oleInvoiceItem.getRelatedViews().getRelatedLineItemReceivingViews();
         oleInvoiceItem.getRelatedViews().getRelatedCorrectionReceivingViews();
         oleInvoiceItem.getRelatedViews().getRelatedPaymentRequestViews();
         oleInvoiceItem.getRelatedViews().getRelatedCreditMemoViews();
         oleInvoiceItem.getRelatedViews().getPaymentHistoryPaymentRequestViews();
-        oleInvoiceItem.getRelatedViews().getPaymentHistoryCreditMemoViews();
+        oleInvoiceItem.getRelatedViews().getPaymentHistoryCreditMemoViews();*//*
         oleInvoiceItem.setEnableDetailsSection(true);
         return getUIFModelAndView(form);
-    }
+    }*/
 
    /* @RequestMapping(params = "methodToCall=currentItemsBtn")
     public ModelAndView currentItemsBtn(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,

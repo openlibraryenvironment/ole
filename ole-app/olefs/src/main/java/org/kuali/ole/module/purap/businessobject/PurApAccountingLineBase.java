@@ -207,7 +207,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 
     }
 
-    @Override
+   /* @Override
     public void refreshNonUpdateableReferences() {
         //hold onto item reference if there without itemId
         PurApItem item = null;
@@ -220,7 +220,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         if (ObjectUtils.isNotNull(item)) {
             this.setPurapItem(item);
         }
-    }
+    }*/
 
     @Override
     public <T extends PurApItem> T getPurapItem() {

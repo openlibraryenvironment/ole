@@ -34,6 +34,7 @@ import org.kuali.ole.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.ole.module.purap.util.PurApItemUtils;
 import org.kuali.ole.module.purap.util.VendorGroupingHelper;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.AccountingLine;
@@ -194,6 +195,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     /**
      * @see org.kuali.ole.module.purap.document.service.InvoiceService#autoApproveInvoices()
      */
+/*
     @Override
     public boolean autoApproveInvoices() {
         if (LOG.isInfoEnabled()) {
@@ -231,6 +233,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         return hadErrorAtLeastOneError;
     }
+*/
 
     /**
      * NOTE: in the event of auto-approval failure, this method may throw a RuntimeException, indicating to Spring transactional
@@ -239,7 +242,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @see org.kuali.ole.module.purap.document.service.InvoiceService#autoApproveInvoice(String,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
-    @Override
+   /* @Override
     public boolean autoApproveInvoice(String docNumber, KualiDecimal defaultMinimumLimit) {
         InvoiceDocument invoiceDocument = null;
         try {
@@ -271,7 +274,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             // throw a runtime exception up so that we can force a rollback
             throw new RuntimeException("Exception encountered when retrieving document number " + docNumber + ".", we);
         }
-    }
+    }*/
 
     /**
      * NOTE: in the event of auto-approval failure, this method may throw a RuntimeException, indicating to Spring transactional
@@ -692,7 +695,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     /**
      * @see org.kuali.ole.module.purap.document.service.InvoiceService#getInvoicesByPurchaseOrderId(Integer)
      */
-    @Override
+    /*@Override
     public List<InvoiceDocument> getInvoicesByPurchaseOrderId(Integer poDocId) {
         List<InvoiceDocument> prqss = new ArrayList<InvoiceDocument>();
         List<String> docNumbers = invoiceDao.getDocumentNumbersByPurchaseOrderId(poDocId);
@@ -703,7 +706,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
         return prqss;
-    }
+    }*/
 
     /**
      * @see org.kuali.ole.module.purap.document.service.InvoiceService#getInvoicesByPOIdInvoiceAmountInvoiceDate(Integer,
@@ -1536,7 +1539,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceDocument prqsDocument = (InvoiceDocument) apDoc;
         if (prqsDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            purchaseOrderService.createAndRoutePotentialChangeDocument(prqsDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(prqsDocument.getPurchaseOrderDocument(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
         }
     }
 
@@ -1903,16 +1906,24 @@ public class InvoiceServiceImpl implements InvoiceService {
      */
     @Override
     public void processInvoiceInReceivingStatus() {
-        List<String> docNumbers = invoiceDao.getInvoiceInReceivingStatus();
-        docNumbers = filterInvoiceByAppDocStatus(docNumbers, InvoiceStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
-
+        List<OleInvoiceDocument> docNumbers = invoiceDao.getInvoiceInReceivingStatus();
         List<InvoiceDocument> prqssAwaitingReceiving = new ArrayList<InvoiceDocument>();
-        for (String docNumber : docNumbers) {
+        for(OleInvoiceDocument invDocument : docNumbers) {
+            if (Arrays.asList(InvoiceStatuses.APPDOC_AWAITING_RECEIVING_REVIEW).contains(invDocument.getApplicationDocumentStatus())) {
+                prqssAwaitingReceiving.add(invDocument);
+            }
+        }
+
+
+      //  docNumbers = filterInvoiceByAppDocStatus(docNumbers, InvoiceStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+
+
+        /*for (String docNumber : docNumbers) {
             InvoiceDocument prqs = getInvoiceByDocumentNumber(docNumber);
             if (ObjectUtils.isNotNull(prqs)) {
                 prqssAwaitingReceiving.add(prqs);
             }
-        }
+        }*/
         if (ObjectUtils.isNotNull(prqssAwaitingReceiving)) {
             for (InvoiceDocument prqsDoc : prqssAwaitingReceiving) {
                 if (prqsDoc.isReceivingRequirementMet()) {

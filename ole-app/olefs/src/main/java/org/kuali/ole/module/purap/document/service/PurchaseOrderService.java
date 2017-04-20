@@ -38,7 +38,7 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
 
     public boolean isCommodityCodeRequiredOnPurchaseOrder();
 
-    public boolean isPurchaseOrderOpenForProcessing(Integer poId);
+  //  public boolean isPurchaseOrderOpenForProcessing(Integer poId);
 
     public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument);
 
@@ -391,7 +391,7 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @param poId Purchase Order ID used to retrieve the asset information for the current PO
      * @return List of PurchasingCapitalAssetItems (each of which contain a CapitalAssetSystem)
      */
-    public List<PurchasingCapitalAssetItem> retrieveCapitalAssetItemsForIndividual(Integer poId);
+  //  public List<PurchasingCapitalAssetItem> retrieveCapitalAssetItemsForIndividual(Integer poId);
 
 
     /**
@@ -400,7 +400,7 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @param poId Purchase Order ID used to retrieve the asset information for the current PO
      * @return CapitalAssetSystem
      */
-    public CapitalAssetSystem retrieveCapitalAssetSystemForOneSystem(Integer poId);
+//    public CapitalAssetSystem retrieveCapitalAssetSystemForOneSystem(Integer poId);
 
 
     /**
@@ -409,7 +409,7 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @param poId Purchase Order ID used to retrieve the asset information for the current PO
      * @return List of CapitalAssetSystems
      */
-    public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId);
+ //   public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId);
 
 
     /**
@@ -439,4 +439,11 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public boolean processFTPTransmission(VendorTransmissionFormatDetail vendorTransmissionFormatDetail, String file, String ediFileName);
 
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(OlePurchaseOrderDocument olePurchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode);
+
+    public PurchaseOrderDocument createAndSavePotentialChangeDocument(PurchaseOrderDocument po, String docType, String newDocumentStatusCode);
+
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(PurchaseOrderDocument purchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode);
+
+
+
 }

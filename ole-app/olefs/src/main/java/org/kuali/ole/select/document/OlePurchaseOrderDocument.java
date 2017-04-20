@@ -483,7 +483,9 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
                     OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) iterator.next();
                     // Added for jira OLE-2811 starts
                     //Modified for jiar OLE-6032
-                    setItemDetailWhileProcessAfterRetrive(singleItem);
+                    if(singleItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                        setItemDetailWhileProcessAfterRetrive(singleItem);
+                    }
                 }catch(Exception e){
                     LOG.error("Exception in OlePurchaseOrderDocument:processAfterRetrieve --Exception while processing receiving purchasing record--->"+e);
                     e.printStackTrace();
@@ -524,7 +526,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
         if(olePurchaseOrderItem.getClaimDate()==null){
             getOlePurapService().setClaimDateForPO(olePurchaseOrderItem,this.vendorDetail);
         }
-        if(olePurchaseOrderItem.getCopyList().size() > 0 && olePurchaseOrderItem.getItemTitleId()!=null) {
+        if(olePurchaseOrderItem.getCopyList().size() > 0 && olePurchaseOrderItem.getItemTitleId()!=null && olePurchaseOrderItem.getInvoiceDocuments().size()==0) {
             //getOlePurapService().setInvoiceDocumentsForPO(olePurchaseOrderItem);
             getOlePurapService().setInvoiceDocumentsForPO(this,olePurchaseOrderItem);
         }

@@ -119,17 +119,17 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-poDoc-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto" p:render="@{#line.relatedViews ne null}">
+    <!--<bean id="OLEInvoiceView-poDoc-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto" p:render="@{#line.relatedViews ne null}">
         <property name="items">
             <list>
                 <ref bean="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper"/>
                 <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper"/>
-                <!--<ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>-->
+                &lt;!&ndash;<ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>&ndash;&gt;
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="OLEInvoiceView-processItems-poDetails" parent="Uif-VerticalBoxGroup">
         <property name="items">
@@ -944,7 +944,7 @@
         </property>
     </bean>-->
 
-    <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper" parent="Uif-VerticalBoxGroup"
+   <!-- <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
     	<property name="items">
     		<list>
@@ -995,16 +995,16 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <!--<bean parent="Uif-VerticalBoxGroup">
+			    &lt;!&ndash;<bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-RequisitionView" />
 			    		</list>
 			    	</property>
-			    </bean>-->
+			    </bean>&ndash;&gt;
     		</list>
     	</property>
-    </bean>
+    </bean>-->
     
     <!--<bean id="OLEInvoiceView-PurchaseOrder-RequisitionView" parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterRequisition"
@@ -1029,7 +1029,7 @@
         </property>
     </bean>-->
 
-    <bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper" parent="Uif-VerticalBoxGroup"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedLineItemReceivingViews ne null and #line.relatedViews.relatedLineItemReceivingViews.size()>0}">
     	<property name="items">
     		<list>
@@ -1080,16 +1080,16 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			  <!--  <bean parent="Uif-VerticalBoxGroup">
+			  &lt;!&ndash;  <bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView" />
 			    		</list>
 			    	</property>
-			    </bean>-->
+			    </bean>&ndash;&gt;
     		</list>
     	</property>
-    </bean>
+    </bean>-->
     
     <!--<bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterLineItemReceiving"
@@ -1115,7 +1115,7 @@
         </property>
     </bean>-->
 
-    <bean id="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper" parent="Uif-VerticalBoxGroup"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-CorrectionView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedCorrectionReceivingViews ne null and #line.relatedViews.relatedCorrectionReceivingViews.size()>0}">
     	<property name="items">
     		<list>
@@ -1166,16 +1166,16 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <!--<bean parent="Uif-VerticalBoxGroup">
+			    &lt;!&ndash;<bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView" />
 			    		</list>
 			    	</property>
-			    </bean>-->
+			    </bean>&ndash;&gt;
     		</list>
     	</property>
-    </bean>
+    </bean>-->
     
     <!--<bean id="OLEInvoiceView-PurchaseOrder-CorrectionView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterCorrection"
@@ -1200,7 +1200,7 @@
         </property>
     </bean>-->
 
-    <bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper" parent="Uif-VerticalBoxGroup"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedPaymentRequestViews ne null and #line.relatedViews.relatedPaymentRequestViews.size()>0}">
     	<property name="items">
     		<list>
@@ -1251,16 +1251,16 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			   <!-- <bean parent="Uif-VerticalBoxGroup">
+			   &lt;!&ndash; <bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView" />
 			    		</list>
 			    	</property>
-			    </bean>-->
+			    </bean>&ndash;&gt;
     		</list>
     	</property>
-    </bean>
+    </bean>-->
     
     <!--<bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterPaymentRequest"
@@ -1285,7 +1285,7 @@
         </property>
     </bean>-->
 
-    <bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper" parent="Uif-VerticalBoxGroup"
+    <!--<bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView-Wrapper" parent="Uif-VerticalBoxGroup"
           p:render="@{#line.relatedViews.relatedCreditMemoViews ne null and #line.relatedViews.relatedCreditMemoViews.size()>0}">
     	<property name="items">
     		<list>
@@ -1336,16 +1336,16 @@
 		      	</property>
 		      	<property name="headerText" value="[0][2] [1][3]" />
 		      </bean>
-			    <!--<bean parent="Uif-VerticalBoxGroup">
+			    &lt;!&ndash;<bean parent="Uif-VerticalBoxGroup">
 			    	<property name="items">
 			    		<list>
 			              <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView" />
 			    		</list>
 			    	</property>
-			    </bean>-->
+			    </bean>&ndash;&gt;
     		</list>
     	</property>
-    </bean>
+    </bean>-->
     
     <!--<bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView"  parent="Uif-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:filterModelProperty="filterCreditMemo"
