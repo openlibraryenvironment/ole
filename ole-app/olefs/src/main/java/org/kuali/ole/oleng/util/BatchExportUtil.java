@@ -117,8 +117,8 @@ public class BatchExportUtil extends BatchUtil {
         StringBuilder queryString=new StringBuilder();
         queryString.append("SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) AND STAFF_ONLY='N'");
         queryString.append("|");
-        queryString.append("SELECT H.BIB_ID FROM OLE_DS_HOLDINGS_T H JOIN OLE_DS_ITEM_T I ON H.HOLDINGS_ID = I.HOLDINGS_ID WHERE (H.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW() ");
-        queryString.append("OR I.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) GROUP BY H.BIB_ID");
+        queryString.append("SELECT DISTINCT H.BIB_ID FROM OLE_DS_HOLDINGS_T H LEFT OUTER JOIN OLE_DS_ITEM_T I ON H.HOLDINGS_ID = I.HOLDINGS_ID WHERE (H.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW() AND H.STAFF_ONLY = 'N') ");
+        queryString.append("OR (I.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW() AND I.STAFF_ONLY = 'N')");
         return queryString.toString();
     }
 
