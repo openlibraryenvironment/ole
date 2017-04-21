@@ -6,7 +6,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -47,8 +46,6 @@ public class BatchUtil extends OleNgUtil {
     private MarcRecordUtil marcRecordUtil;
     public static Map<String, BatchJobDetails> BATCH_JOB_EXECUTION_DETAILS_MAP = new HashMap<>();
     private MarcXMLConverter marcXMLConverter;
-    private static final Logger LOG = Logger
-            .getLogger(BatchUtil.class);
 
     public OleDsNgRestClient getOleDsNgRestClient() {
         if(null == oleDsNgRestClient) {
@@ -466,7 +463,6 @@ public class BatchUtil extends OleNgUtil {
     }
 
     public BatchJobDetails createBatchJobDetailsEntry(BatchProcessJob batchProcessJob, String fileName) {
-        LOG.info("Inside createBatchJobDetailsEntry");
         BatchJobDetails batchJobDetails = new BatchJobDetails();
         batchJobDetails.setJobId(batchProcessJob.getJobId());
         batchJobDetails.setJobName(batchProcessJob.getJobName());
@@ -507,7 +503,7 @@ public class BatchUtil extends OleNgUtil {
                 return solrDtFormat.format(cal.getTime());
             }
         } catch (ParseException e) {
-            LOG.error("Error while parsing user entered date::" + dateStr, e);
+            //LOG.error("Error while parsing user entered date::" + dateStr, e);
             throw e;
         }
     }

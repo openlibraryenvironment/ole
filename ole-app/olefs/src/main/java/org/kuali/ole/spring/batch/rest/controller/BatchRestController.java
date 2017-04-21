@@ -4,7 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -70,9 +69,6 @@ public class BatchRestController extends OleNgControllerBase {
     @Autowired
     private DescribeDAO describeDAO;
 
-    private static final Logger LOG = Logger
-            .getLogger(BatchRestController.class);
-
     public DescribeDAO getDescribeDAO() {
         return describeDAO;
     }
@@ -113,10 +109,6 @@ public class BatchRestController extends OleNgControllerBase {
 
     private JSONObject processBatch(File uploadDirectory, String batchType, String profileId, String fileExtension, BatchJobDetails batchJobDetails) throws Exception {
         BatchFileProcessor batchProcessor = getBatchProcessor(batchType);
-        LOG.info("batchJobDetails in processBatch() method >>>>" + batchJobDetails);
-        LOG.info("ProfileID >>>>>>" + batchJobDetails.getProfileId());
-        LOG.info("ProfileName >>>>>>" +batchJobDetails.getProfileName());
-        LOG.info("FileName >>>>>>>" + batchJobDetails.getFileName());
 
         long jobDetailsId = batchJobDetails.getJobDetailId();
         String reportDirectory = (jobDetailsId != 0) ? String.valueOf(jobDetailsId) : OleNGConstants.QUICK_LAUNCH + OleNGConstants.DATE_FORMAT.format(new Date());
@@ -185,9 +177,7 @@ public class BatchRestController extends OleNgControllerBase {
     public String quickLaunchJob(@RequestParam("jobId") String jobId, @RequestParam("numOfRecordsInFile") String numOfRecordsInFile, @RequestParam("extension") String extension, @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
         BatchJobDetails batchJobDetails = null;
         try {
-            LOG.info("Starting QuickLauch Job");
             BatchProcessJob matchedBatchJob = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
-            LOG.info("matchedBatchJob job Id>>>" + matchedBatchJob.getJobId());
             matchedBatchJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
             matchedBatchJob.setOutputFileFormat(extension);
             String originalFilename = null;
