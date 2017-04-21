@@ -126,7 +126,7 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
 
     //For Displaying the Invoice List
     private List<OleInvoiceDocument> invoiceDocuments = new ArrayList<OleInvoiceDocument>();
-  //  private List<InvoiceView> paymentHistoryInvoiceViews = null;
+    private List<InvoiceView> paymentHistoryInvoiceViews = null;
     //For Invoice
     private String invoiceItemListPrice;
     private String invoiceForeignItemListPrice;
@@ -1605,7 +1605,7 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
      * This method returns the Invoice History for the given Item
      * @return paymentHistoryInvoiceViews
      */
-    /*public List<InvoiceView> getPaymentHistoryInvoiceViews() {
+    public List<InvoiceView> getPaymentHistoryInvoiceViews() {
         if (this.getPurapDocument() != null && ((OlePurchaseOrderDocument)this.getPurapDocument()).getRelatedViews() != null) {
             paymentHistoryInvoiceViews = ((OlePurchaseOrderDocument)this.getPurapDocument()).getRelatedViews().updateRelatedView
                     (InvoiceView.class, paymentHistoryInvoiceViews, false);
@@ -1613,14 +1613,14 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
 
         return paymentHistoryInvoiceViews;
     }
-*/
+
     /**
      * This method sets the Invoice History for the Given Items
      * @param paymentHistoryInvoiceViews
      */
-   /* public void setPaymentHistoryInvoiceViews(List<InvoiceView> paymentHistoryInvoiceViews) {
+    public void setPaymentHistoryInvoiceViews(List<InvoiceView> paymentHistoryInvoiceViews) {
         this.paymentHistoryInvoiceViews = paymentHistoryInvoiceViews;
-    }*/
+    }
 
     public List<OleInvoiceDocument> getInvoiceDocuments() {
         return invoiceDocuments;

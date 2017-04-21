@@ -91,9 +91,7 @@ public interface PaymentRequestDao {
      * @param id - PaymentRequest Id
      * @return - PaymentRequest or null if not found
      */
-   // public String getDocumentNumberByPaymentRequestId(Integer id);
-
-    public PaymentRequestDocument getDocumentByPaymentRequestId(Integer id);
+    public String getDocumentNumberByPaymentRequestId(Integer id);
 
     /**
      * Retrieves a list of document numbers by purchase order id.
@@ -101,9 +99,7 @@ public interface PaymentRequestDao {
      * @param id - purchase order id
      * @return - list of document numbers
      */
-  //  public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
-
-    public List<PaymentRequestDocument> getDocumentByPurchaseOrderId(Integer id);
+    public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
 
 
     /**
@@ -143,15 +139,13 @@ public interface PaymentRequestDao {
      * @param purchaseOrderId
      * @return
      */
-  //  public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId);
-
-    public List<PaymentRequestDocument> getActivePaymentRequestDocuments(Integer purchaseOrderId);
+    public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId);
 
     /**
      * Get all payment request which are waiting in receiving status queue
      *
      * @return
      */
-    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus();
+    public List<String> getPaymentRequestInReceivingStatus();
 
 }

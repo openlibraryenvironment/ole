@@ -17,7 +17,6 @@ package org.kuali.ole.module.purap.document.dataaccess;
 
 import org.kuali.ole.module.purap.document.InvoiceDocument;
 import org.kuali.ole.module.purap.util.VendorGroupingHelper;
-import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.sql.Date;
@@ -91,9 +90,6 @@ public interface InvoiceDao {
      */
     public String getDocumentNumberByInvoiceId(Integer id);
 
-    public OleInvoiceDocument getDocumentByInvoiceId(Integer id);
-
-
     /**
      * Retrieves a list of document numbers by purchase order id.
      *
@@ -147,6 +143,6 @@ public interface InvoiceDao {
      *
      * @return
      */
-    public List<OleInvoiceDocument> getInvoiceInReceivingStatus();
+    public List<String> getInvoiceInReceivingStatus();
 
 }

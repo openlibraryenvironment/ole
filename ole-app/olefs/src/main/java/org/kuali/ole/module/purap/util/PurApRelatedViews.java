@@ -53,7 +53,7 @@ public class PurApRelatedViews {
     private transient List<CreditMemoView> relatedCreditMemoViews;
     private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
     private transient List<InvoiceView> relatedInvoiceViews;
-    //private transient List<InvoiceView> paymentHistoryInvoiceViews;
+    private transient List<InvoiceView> paymentHistoryInvoiceViews;
     private transient List<LineItemReceivingView> relatedLineItemReceivingViews;
     private transient List<CorrectionReceivingView> relatedCorrectionReceivingViews;
     private transient List<BulkReceivingView> relatedBulkReceivingViews;
@@ -76,7 +76,7 @@ public class PurApRelatedViews {
         relatedPaymentRequestViews = null;
         paymentHistoryPaymentRequestViews = null;
         relatedInvoiceViews = null;
-      //  paymentHistoryInvoiceViews = null;
+        paymentHistoryInvoiceViews = null;
         relatedCreditMemoViews = null;
         paymentHistoryCreditMemoViews = null;
         relatedLineItemReceivingViews = null;
@@ -106,11 +106,7 @@ public class PurApRelatedViews {
                     if (removeCurrentDocument) {
                         for (AbstractRelatedView view : relatedList) {
                             //KFSMI-4576 Mask/Unmask purapDocumentIdentifier field value
-                            if(clazz.getName().equals("org.kuali.ole.module.purap.businessobject.PurchaseOrderView")) {
-                                if (view.getDocumentTypeName().equals(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT)) {
-                                    maskPONumberIfUnapproved(view);
-                                }
-                            }
+                            maskPONumberIfUnapproved(view);
                             if (documentNumber.equals(view.getDocumentNumber())) {
                                 relatedList.remove(view);
                                 break;
@@ -222,7 +218,7 @@ public class PurApRelatedViews {
         relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
 
         // Sort the list.
-        /*Collections.sort(relatedPurchaseOrderViews,
+        Collections.sort(relatedPurchaseOrderViews,
                 new Comparator<PurchaseOrderView>() {
                     @Override
                     public int compare(PurchaseOrderView v1, PurchaseOrderView v2) {
@@ -242,7 +238,7 @@ public class PurApRelatedViews {
                         return 0;
                     }
                 }
-        );*/
+        );
 
         return relatedPurchaseOrderViews;
     }
@@ -349,11 +345,11 @@ public class PurApRelatedViews {
      *
      * @return the list of Payment History Invoice Views.
      */
-    /*public List<InvoiceView> getPaymentHistoryInvoiceViews() {
+    public List<InvoiceView> getPaymentHistoryInvoiceViews() {
         paymentHistoryInvoiceViews = updateRelatedView(InvoiceView.class, paymentHistoryInvoiceViews, false);
         return paymentHistoryInvoiceViews;
     }
-*/
+
     /**
      * @see org.kuali.ole.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */

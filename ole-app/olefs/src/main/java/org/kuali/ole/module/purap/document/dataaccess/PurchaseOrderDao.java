@@ -29,12 +29,6 @@ public interface PurchaseOrderDao {
 
     public Integer getPurchaseOrderIdForCurrentPurchaseOrderByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier);
 
-    public List<PurchaseOrderDocument> getPurchaseOrderIdByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier);
-
-    public List<PurchaseOrderDocument> getCurrentPurchaseOrderListByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier);
-
-
-
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
 
     /**

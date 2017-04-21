@@ -1379,8 +1379,8 @@ public class PurapConstants {
         returnMap.put("relatedCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryPaymentRequestViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("paymentHistoryCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
-        //returnMap.put("paymentHistoryInvoiceViews", PurchasingAccountsPayableDocumentBase.class);
-        //returnMap.put("paymentHistoryInvoiceViews", null);
+        returnMap.put("paymentHistoryInvoiceViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("paymentHistoryInvoiceViews", null);
         returnMap.put("invoiceDocuments", OlePurchaseOrderItem.class);
         return returnMap;
     }

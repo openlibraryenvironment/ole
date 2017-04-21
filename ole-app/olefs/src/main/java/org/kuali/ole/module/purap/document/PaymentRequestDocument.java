@@ -737,15 +737,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         updateAndSaveAppDocStatus(PaymentRequestStatuses.APPDOC_DO_NOT_EXTRACT);
                     }
 
-                    /*PurchaseOrderDocument purchaseOrderDocument = this.getPurchaseOrderDocument();
-                    if(purchaseOrderDocument.getOrderType() == null) {
-
-                    }
+                    PurchaseOrderDocument purchaseOrderDocument = this.getPurchaseOrderDocument();
                     if (purchaseOrderDocument.getOrderType().getPurchaseOrderType().equals(OLEConstants.ORD_TYPE_FIRM_FIX) || purchaseOrderDocument.getOrderType().getPurchaseOrderType().equals(OLEConstants.APPROVAL) || purchaseOrderDocument.getOrderType().getPurchaseOrderType().equals(OLEConstants.FIRM_MUL_PART)) {
                         DocumentHeader paymentRequestDocumentHeader = this.getDocumentHeader();
                         closePurchaseOrder();
                         this.setDocumentHeader(paymentRequestDocumentHeader);
-                    }*/
+                    }
                 }
             }
             // DOCUMENT DISAPPROVED

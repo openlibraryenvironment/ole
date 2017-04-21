@@ -715,27 +715,7 @@ public class DocumentServiceImpl implements DocumentService {
             // retrieve the Document
             Document document = getDocumentDao().findByDocumentHeaderId(documentClass, documentHeaderId);
 
-            if(workflowDocument != null) {
-                document.getDocumentHeader().setWorkflowDocument(workflowDocument);
-            }
-            else {
-
-                Person person = GlobalVariables.getUserSession().getPerson();
-                if (ObjectUtils.isNull(person)) {
-                    person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(KRADConstants.SYSTEM_USER);
-                }
-                workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), person);
-                UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(), workflowDocument);
-                document.getDocumentHeader().setWorkflowDocument(workflowDocument);
-
-            }
-            if (document != null && document instanceof MaintenanceDocumentBase) {
-                return postProcessDocument(documentHeaderId, workflowDocument, document);
-            }
-            else {
-                return document;
-            }
-        //    return postProcessDocument(documentHeaderId, workflowDocument, document);
+            return postProcessDocument(documentHeaderId, workflowDocument, document);
         } finally {
             // if a user session was established for this call, clear it out
             if (internalUserSession) {
@@ -744,18 +724,6 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
     }
-
-
-    public Document getBySimpleDocumentHeaderId(String documentHeaderId,String documentTypeName) throws WorkflowException {
-        if (documentHeaderId == null) {
-            throw new IllegalArgumentException("invalid (null) documentHeaderId");
-        }
-            Class<? extends Document> documentClass = getDocumentClassByTypeName(documentTypeName);
-            // retrieve the Document
-            Document document = getDocumentDao().findByDocumentHeaderId(documentClass, documentHeaderId);
-          return document;
-    }
-
 
     /**
      * @see org.kuali.rice.krad.service.DocumentService#getByDocumentHeaderIdSessionless(String)
@@ -779,24 +747,8 @@ public class DocumentServiceImpl implements DocumentService {
 
         // retrieve the Document
         Document document = getDocumentDao().findByDocumentHeaderId(documentClass, documentHeaderId);
-        if(workflowDocument != null) {
-            document.getDocumentHeader().setWorkflowDocument(workflowDocument);
-        }
-        else {
-        if (ObjectUtils.isNull(person)) {
-                person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(KRADConstants.SYSTEM_USER);
-            }
-            workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), person);
-            UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(), workflowDocument);
-            document.getDocumentHeader().setWorkflowDocument(workflowDocument);
-        }
-        if (document != null && document instanceof MaintenanceDocumentBase) {
-            return postProcessDocument(documentHeaderId, workflowDocument, document);
-        }
-        else {
-            return document;
-        }
-       // return postProcessDocument(documentHeaderId, workflowDocument, document);
+
+        return postProcessDocument(documentHeaderId, workflowDocument, document);
     }
 
     private Class<? extends Document> getDocumentClassByTypeName(String documentTypeName) {

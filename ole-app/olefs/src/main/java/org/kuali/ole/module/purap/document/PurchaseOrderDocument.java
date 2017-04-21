@@ -17,7 +17,6 @@
 package org.kuali.ole.module.purap.document;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.gl.service.SufficientFundsService;
 import org.kuali.ole.integration.purap.CapitalAssetSystem;
@@ -51,7 +50,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -76,7 +74,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
-import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -599,12 +596,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
-        List<PurchaseOrderDocument> poList = SpringContext.getBean(PurchaseOrderDao.class).getPurchaseOrderIdByRelatedDocId(accountsPayablePurchasingDocumentLinkIdentifier);
         String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        for (PurchaseOrderDocument po : poList) {
+
+        List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderView poView : relatedPoViews) {
             //don't lock related PO's if this is a split PO that's in process
             if (!(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(this.getApplicationDocumentStatus()) && PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName))) {
-                docIdStrings.add(po.getDocumentNumber());
+                docIdStrings.add(poView.getDocumentNumber());
             }
         }
 

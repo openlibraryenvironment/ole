@@ -23,7 +23,6 @@ import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.document.InvoiceDocument;
 import org.kuali.ole.module.purap.document.dataaccess.InvoiceDao;
 import org.kuali.ole.module.purap.util.VendorGroupingHelper;
-import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -205,12 +204,6 @@ public class InvoiceDaoOjb extends PlatformAwareDaoBaseOjb implements InvoiceDao
         return getDocumentNumberOfInvoiceByCriteria(criteria);
     }
 
-    public OleInvoiceDocument getDocumentByInvoiceId(Integer id) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-        return getInvoiceDocumentByCriteria(criteria);
-    }
-
     /**
      * @see org.kuali.ole.module.purap.document.dataaccess.InvoiceDao#getDocumentNumbersByPurchaseOrderId(Integer)
      */
@@ -246,35 +239,6 @@ public class InvoiceDaoOjb extends PlatformAwareDaoBaseOjb implements InvoiceDao
         } else {
             return (returnList.get(0));
         }
-    }
-
-    protected OleInvoiceDocument getInvoiceDocumentByCriteria(Criteria criteria) {
-        LOG.debug("getDocumentNumberOfInvoiceByCriteria() started");
-        List<OleInvoiceDocument> returnList = getInvoiceDocumentByCriteria(criteria, false);
-
-        if (returnList.isEmpty()) {
-            return null;
-        }
-
-        if (returnList.size() > 1) {
-            // the list should have held only a single doc id of data but it holds 2 or more
-            String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
-            LOG.error(errorMsg);
-            throw new RuntimeException();
-
-        } else {
-            return (returnList.get(0));
-        }
-    }
-
-    protected List<OleInvoiceDocument> getInvoiceDocumentByCriteria(Criteria criteria, boolean orderByAscending) {
-        LOG.debug("getDocumentNumberOfInvoiceByCriteria() started");
-        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(OleInvoiceDocument.class, criteria);
-            rqbc.addOrderByDescending(OLEPropertyConstants.DOCUMENT_NUMBER);
-
-        List<OleInvoiceDocument> prDocs = (List<OleInvoiceDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
-
-        return prDocs;
     }
 
     /**
@@ -376,13 +340,13 @@ public class InvoiceDaoOjb extends PlatformAwareDaoBaseOjb implements InvoiceDao
         return returnList;
     }
 
-    public List<OleInvoiceDocument> getInvoiceInReceivingStatus() {
+    public List<String> getInvoiceInReceivingStatus() {
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("invoiceCancelIndicator", "Y");
 
-     //   List<OleInvoiceDocument> returnList = new ArrayList<String>();
-        List<OleInvoiceDocument> returnList = getInvoiceDocumentByCriteria(criteria, false);
+        List<String> returnList = new ArrayList<String>();
+        returnList = getDocumentNumbersOfInvoiceByCriteria(criteria, false);
 
         return returnList;
 

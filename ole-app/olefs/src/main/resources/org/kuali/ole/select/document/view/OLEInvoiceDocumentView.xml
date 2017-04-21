@@ -854,7 +854,7 @@
 
     <bean id="OLEInvoice-ProcessTitle-relatedDocumentDetails"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false" >
-        <!--<property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />-->
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
         <property name="propertyName" value="relatedRequisitionViews" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.templateOptions" value="false"/>

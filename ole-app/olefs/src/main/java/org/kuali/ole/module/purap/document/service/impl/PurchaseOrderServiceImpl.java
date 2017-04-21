@@ -146,10 +146,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return olePurapService;
     }
 
-  /*  @Override
+    @Override
     public boolean isPurchaseOrderOpenForProcessing(Integer poId) {
         return isPurchaseOrderOpenForProcessing(getCurrentPurchaseOrder(poId));
-    }*/
+    }
 
     @Override
     public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument) {
@@ -673,54 +673,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createAndSavePotentialChangeDocument(java.lang.String,
-     * java.lang.String, java.lang.String)
-     */
-    @Override
-    public PurchaseOrderDocument createAndSavePotentialChangeDocument(PurchaseOrderDocument currentDocument, String docType, String currentDocumentStatusCode) {
-       // PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
-
-        try {
-            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
-
-            if (ObjectUtils.isNotNull(newDocument)) {
-                newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-
-                // set status if needed
-                if (StringUtils.isNotBlank(currentDocumentStatusCode)) {
-                    currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
-                }
-                try {
-                    documentService.saveDocument(newDocument, DocumentSystemSaveEvent.class);
-                }
-                // if we catch a ValidationException it means the new PO doc found errors
-                catch (ValidationException ve) {
-                    throw ve;
-                }
-                // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
-                currentDocument.setPendingActionIndicator(true);
-                Note note = new Note();
-                List<Note> noteList = new ArrayList<Note>();
-                currentDocument.setNotes(noteList);
-                saveDocumentNoValidationUsingClearMessageMap(currentDocument);
-                // savePurchaseOrderData(currentDocument);
-
-                return newDocument;
-            } else {
-                String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc id "
-                        + documentNumber + " returned null for new document";
-                LOG.error(errorMsg);
-                throw new RuntimeException(errorMsg);
-            }
-        } catch (WorkflowException we) {
-            String errorMsg = "Workflow Exception caught trying to create and save PO document of type '" + docType
-                    + "' using source document with doc id '" + documentNumber + "'";
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-    }
-
-    /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createAndRoutePotentialChangeDocument(java.lang.String,
      * java.lang.String, java.lang.String, java.util.List, java.lang.String)
      */
@@ -769,47 +721,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(OlePurchaseOrderDocument  olePurchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = olePurchaseOrderDocument;
-
-        try {
-            currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Error saving routing data while saving document with id " + currentDocument.getDocumentNumber(), e);
-        }
-
-        try {
-            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
-            // newDocument.setStatusCode(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-            newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-            if (ObjectUtils.isNotNull(newDocument)) {
-                try {
-                    // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator
-                    // won't be set again after route finishes and cause inconsistency
-                    currentDocument.setPendingActionIndicator(true);
-                    documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
-                }
-                // if we catch a ValidationException it means the new PO doc found errors
-                catch (ValidationException ve) {
-                    // clear the pending indictor if an exception occurs, to leave the existing PO intact
-                    currentDocument.setPendingActionIndicator(false);
-                    //savePurchaseOrderData(currentDocument);
-                    saveDocumentNoValidationUsingClearMessageMap(currentDocument);
-                    throw ve;
-                }
-                return newDocument;
-            } else {
-                String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc id " + documentNumber + " returned null for new document";
-                LOG.error(errorMsg);
-                throw new RuntimeException(errorMsg);
-            }
-        } catch (WorkflowException we) {
-            String errorMsg = "Workflow Exception caught trying to create and route PO document of type '" + docType + "' using source document with doc id '" + documentNumber + "'";
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-    }
-
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(PurchaseOrderDocument  purchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
-        PurchaseOrderDocument currentDocument = purchaseOrderDocument;
 
         try {
             currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
@@ -1440,48 +1351,40 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // return;
 
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
-        if(newPO.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) {
+        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
+
+        if (oldPO == null) {
             return;
         }
-        else {
-            PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
 
-            if (oldPO == null) {
-                return;
+        // If the document numbers between the oldPO and the newPO are different, then this is a PO change document.
+        if (!oldPO.getDocumentNumber().equals(newPO.getDocumentNumber())) {
+            // First, we set the indicators for the oldPO to : Current = N and Pending = N
+            oldPO.setPurchaseOrderCurrentIndicator(false);
+            oldPO.setPendingActionIndicator(false);
+
+            // set the status and status history of the oldPO to retired version
+            try {
+                oldPO.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
+            } catch (WorkflowException e) {
+                throw new RuntimeException("Error saving routing data while saving document with id " + oldPO.getDocumentNumber(), e);
             }
 
-            // If the document numbers between the oldPO and the newPO are different, then this is a PO change document.
-            else {
-                if (!oldPO.getDocumentNumber().equals(newPO.getDocumentNumber())) {
-                    // First, we set the indicators for the oldPO to : Current = N and Pending = N
-                    oldPO.setPurchaseOrderCurrentIndicator(false);
-                    oldPO.setPendingActionIndicator(false);
-
-                    // set the status and status history of the oldPO to retired version
-                    try {
-                        oldPO.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
-                    } catch (WorkflowException e) {
-                        throw new RuntimeException("Error saving routing data while saving document with id " + oldPO.getDocumentNumber(), e);
-                    }
-
-                    saveDocumentNoValidationUsingClearMessageMap(oldPO);
-                }
-                if (!oldPO.getVendorDetail().getVendorHeaderGeneratedIdentifier().equals(newPO.getVendorDetail().getVendorHeaderGeneratedIdentifier())) {
-                    List<PurApItem> items = oldPO.getItems();
-                    for (PurApItem item : items) {
-                        initiateTransmission(oldPO, item);
-                    }
-                    // initiateTransmission(oldPO);
-                }
-                // Now, we set the "new PO" indicators so that Current = Y and Pending = N
-                newPO.setPurchaseOrderCurrentIndicator(true);
-                newPO.setPendingActionIndicator(false);
-
-                // this was never being saved. Should call the method to save the newPO.
-                // saveDocumentNoValidationUsingClearMessageMap(newPO);
-            }
+            saveDocumentNoValidationUsingClearMessageMap(oldPO);
         }
+        if (!oldPO.getVendorDetail().getVendorHeaderGeneratedIdentifier().equals(newPO.getVendorDetail().getVendorHeaderGeneratedIdentifier())) {
+            List<PurApItem> items = oldPO.getItems();
+            for (PurApItem item : items) {
+                initiateTransmission(oldPO, item);
+            }
+            // initiateTransmission(oldPO);
+        }
+        // Now, we set the "new PO" indicators so that Current = Y and Pending = N
+        newPO.setPurchaseOrderCurrentIndicator(true);
+        newPO.setPendingActionIndicator(false);
 
+        // this was never being saved. Should call the method to save the newPO.
+        // saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
     /**
@@ -2148,11 +2051,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<AutoClosePurchaseOrderView> filteredAutoClosePOView = new ArrayList<AutoClosePurchaseOrderView>();
 
         for (AutoClosePurchaseOrderView autoClosePurchaseOrderView : autoClosePurchaseOrderViews) {
-           // Document document = findDocument(autoClosePurchaseOrderView.getDocumentNumber());
-           // autoClosePurchaseOrderView.getApplicationDocumentStatus();
-            if (autoClosePurchaseOrderView != null) {
+            Document document = findDocument(autoClosePurchaseOrderView.getDocumentNumber());
+
+            if (document != null) {
                 if (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equalsIgnoreCase(
-                        autoClosePurchaseOrderView.getApplicationDocumentStatus())) {
+                        document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())) {
                     //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
                     filteredAutoClosePOView.add(autoClosePurchaseOrderView);
                 }
@@ -2168,7 +2071,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param documentHeaderId
      * @return document The document in the workflow that matches the document header id.
      */
-    /*protected Document findDocument(String documentHeaderId) {
+    protected Document findDocument(String documentHeaderId) {
         Document document = null;
 
         try {
@@ -2181,7 +2084,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
         return document;
-    }*/
+    }
 
 
     /**
@@ -2307,7 +2210,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#retrieveCapitalAssetItemsForIndividual(java.lang.Integer)
-     *//*
+     */
     @Override
     public List<PurchasingCapitalAssetItem> retrieveCapitalAssetItemsForIndividual(Integer poId) {
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
@@ -2317,9 +2220,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return null;
     }
 
-    *//**
+    /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#retrieveCapitalAssetSystemForOneSystem(java.lang.Integer)
-     *//*
+     */
     @Override
     public CapitalAssetSystem retrieveCapitalAssetSystemForOneSystem(Integer poId) {
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
@@ -2331,12 +2234,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
         }
         return null;
-    }*/
+    }
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#retrieveCapitalAssetSystemsForMultipleSystem(java.lang.Integer)
      */
-  /*  @Override
+    @Override
     public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId) {
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
         if (ObjectUtils.isNotNull(po)) {
@@ -2344,7 +2247,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return null;
     }
-*/
+
     /**
      * This method fixes the item references in this document
      */
