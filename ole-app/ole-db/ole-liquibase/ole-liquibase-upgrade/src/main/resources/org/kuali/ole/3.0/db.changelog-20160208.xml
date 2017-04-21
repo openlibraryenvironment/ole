@@ -665,7 +665,7 @@
         <column name="ID"   type="BIGINT(19)">
             <constraints nullable="false" primaryKey="true" />
         </column>
-        <column name="BIB_ID" type="VARCHAR(11)"/>
+        <column name="DELETED_BIB_ID" type="VARCHAR(11)"/>
         <column name="IS_BIB_DELETED" type="VARCHAR(1)"/>
         <column name="DELETED_HOLDINGS_ID" type="VARCHAR(11)"/>
         <column name="IS_HOLDINGS_DELETED" type="VARCHAR(1)"/>
@@ -681,7 +681,7 @@
             <column name="ID"   type="BIGINT(19)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="BIB_ID" type="VARCHAR(11)"/>
+            <column name="DELETED_BIB_ID" type="VARCHAR(11)"/>
             <column name="IS_BIB_DELETED" type="VARCHAR(1)"/>
             <column name="DELETED_HOLDINGS_ID" type="VARCHAR(11)"/>
             <column name="IS_HOLDINGS_DELETED" type="VARCHAR(1)"/>
