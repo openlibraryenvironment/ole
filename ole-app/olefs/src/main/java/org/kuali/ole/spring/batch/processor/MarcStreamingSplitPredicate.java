@@ -21,7 +21,7 @@ public class MarcStreamingSplitPredicate implements Predicate {
         Object camelSplitComplete = exchange.getProperty("CamelSplitComplete");
         if (camelSplitComplete != null && Boolean.TRUE
                 .equals(camelSplitComplete)) {
-            System.out.println("Processing End Of File: " + exchange.getProperty("CamelFileExchangeFile"));
+            logger.info("Processing End Of File: " + exchange.getProperty("CamelFileExchangeFile"));
             return true;
         }
         if (exchange.getProperty("CamelAggregatedSize").equals(batchSize)) {
