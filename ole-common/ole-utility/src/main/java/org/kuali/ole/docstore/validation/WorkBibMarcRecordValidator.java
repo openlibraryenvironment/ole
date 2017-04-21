@@ -283,8 +283,8 @@ public class WorkBibMarcRecordValidator {
      */
     private void validateInd(final DataField dataField,
                              final List<DocStoreValidationError> errors) {
-        validateInd(dataField.getInd1(), dataField.getTag(), errors);
-        validateInd(dataField.getInd2(), dataField.getTag(), errors);
+        validateInd(dataField.getInd1().equals("\\")?"/":dataField.getInd1(), dataField.getTag(), errors);
+        validateInd(dataField.getInd2().equals("\\")?"/":dataField.getInd2(), dataField.getTag(), errors);
     }
 
     /**

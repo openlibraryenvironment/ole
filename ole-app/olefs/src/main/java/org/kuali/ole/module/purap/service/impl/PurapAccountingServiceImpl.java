@@ -636,17 +636,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     // them to be based on the non tax amount
                     if(currentItem instanceof OleInvoiceItem) {
                         OleInvoiceItem invoiceItem = (OleInvoiceItem) currentItem;
-                    if(invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() &&  invoiceItem.getRelatedViews() != null) {
+                   // if(invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() &&  invoiceItem.getRelatedViews() != null) {
                        // invoiceItem.setRelatedViews(null);
                         PurApItem cloneItem = (PurApItem) ObjectUtils.deepCopy(invoiceItem);
                         sourceAccountingLines = cloneItem.getSourceAccountingLines();
                         updateAccountAmountsWithTotal(sourceAccountingLines, invoiceItem.getTotalRemitAmount());
-                    }
-                    else {
+                   // }
+                  /*  else {
                         PurApItem cloneItem = (PurApItem) ObjectUtils.deepCopy(currentItem);
                         sourceAccountingLines = cloneItem.getSourceAccountingLines();
                         updateAccountAmountsWithTotal(sourceAccountingLines, currentItem.getTotalRemitAmount());
-                    }
+                    }*/
                     }
                     else {
                     PurApItem cloneItem = (PurApItem) ObjectUtils.deepCopy(currentItem);

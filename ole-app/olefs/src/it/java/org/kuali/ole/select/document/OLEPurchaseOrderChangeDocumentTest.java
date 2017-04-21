@@ -110,7 +110,7 @@ public class OLEPurchaseOrderChangeDocumentTest extends KualiTestBase {
     private void createAndSavePOChangeDocument(String documentType, String documentStatus) throws Exception {
         try {
             poChange = poService.createAndSavePotentialChangeDocument(
-                    poDocument.getDocumentNumber(), documentType, documentStatus);
+                    poDocument, documentType, documentStatus);
             poChange = (PurchaseOrderDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(poChange.getDocumentNumber());
             poDocument = poService.getPurchaseOrderByDocumentNumber(poDocument.getDocumentNumber());
         }
@@ -134,7 +134,7 @@ public class OLEPurchaseOrderChangeDocumentTest extends KualiTestBase {
     private void createAndRoutePOChangeDocument(String documentType, String documentStatus) throws Exception {
         try {
             poChange = poService.createAndRoutePotentialChangeDocument(
-                    poDocument.getDocumentNumber(), documentType, "unit test", new ArrayList(), documentStatus);
+                    poDocument, documentType, "unit test", new ArrayList(), documentStatus);
             poDocument = poService.getPurchaseOrderByDocumentNumber(poDocument.getDocumentNumber());
         }
         catch (ValidationException ve) {

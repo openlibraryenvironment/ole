@@ -12,6 +12,7 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
+import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.dsng.util.OleDsHelperUtil;
@@ -369,20 +370,13 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
         return null;
     }
 
-    public void saveDeletedBibInfo(String bibId) throws Exception{
-        bibId = DocumentUniqueIDPrefix.getDocumentId(bibId);
-        String query="(DocType:"+BIBLIOGRAPHIC_DELETE+")AND("+LOCALID_DISPLAY+":"+bibId+")";
-        SolrDocumentList solrDocuments = new SolrRequestReponseHandler().getSolrDocumentList(query);
-        if (solrDocuments.size() == 1) {
-            BibDeletionRecord bibDeletionRecord = new BibDeletionRecord();
-            SolrDocument solrDocument = solrDocuments.get(0);
-            bibDeletionRecord.setBibId(bibId);
-            String dateUpdatedStr = solrDocument.get(DATE_UPDATED).toString();
-            Date dateUpdated=new SimpleDateFormat(SOLR_DOC_DATE_FORMAT).parse(dateUpdatedStr);
-            Timestamp dateUpdatedTs =new Timestamp(dateUpdated.getTime());
-            bibDeletionRecord.setDateUpdated(dateUpdatedTs);
-            getBusinessObjectService().save(bibDeletionRecord);
-        }
+    public void saveDeletedBibInfo(Bib bib) throws Exception{
+        BibDeletionRecord bibDeletionRecord = new BibDeletionRecord();
+        bibDeletionRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+        bibDeletionRecord.setDateUpdated(new Timestamp(new Date().getTime()));
+        bibDeletionRecord.setContent(bib.getContent());
+        bibDeletionRecord.setBibIdIndicator("Y");
+        getBusinessObjectService().save(bibDeletionRecord);
     }
 
     private BusinessObjectService getBusinessObjectService() {

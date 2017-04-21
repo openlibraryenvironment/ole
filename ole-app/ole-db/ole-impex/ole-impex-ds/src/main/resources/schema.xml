@@ -400,8 +400,15 @@
     </table>
 
     <table name="OLE_DS_DELETED_BIB_T">
-            <column name="BIB_ID"   type="INTEGER" size="11" primaryKey="true" />
-            <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        <column name="ID"   type="BIGINT" size="19" primaryKey="true" />
+        <column name="DELETED_BIB_ID"   type="VARCHAR" size="11"/>
+        <column name="IS_BIB_DELETED"   type="VARCHAR" size="1"/>
+        <column name="DELETED_HOLDINGS_ID"   type="VARCHAR" size="11"/>
+        <column default="" name="IS_HOLDINGS_DELETED"   type="VARCHAR" size="1"/>
+        <column default="" name="DELETED_ITEM_ID"   type="VARCHAR" size="11"/>
+        <column default="" name="IS_ITEM_DELETED"   type="VARCHAR" size="1"/>
+        <column name="DATE_UPDATED" type="TIMESTAMP"/>
+        <column default="" name="CONTENT" type="CLOB"/>
      </table>
 
     <table name="OLE_DS_DMGD_ITM_HSTRY_T">
@@ -446,6 +453,7 @@
     <sequence name="OLE_DS_AUTHENTICATION_TYPE_S" nextval="1"/>
     <sequence name="OLE_DS_BIB_HOLDINGS_S" nextval="1"/>
     <sequence name="OLE_DS_BIB_S" nextval="10000001"/>
+    <sequence name="OLE_DS_DELETED_BIB_S" nextval="1"/>
     <sequence name="OLE_DS_EXT_OWNERSHIP_NOTE_S" nextval="1"/>
     <sequence name="OLE_DS_EXT_OWNERSHIP_S" nextval="1"/>
     <sequence name="OLE_DS_ITM_FORMER_IDENTIFIER_S" nextval="1"/>

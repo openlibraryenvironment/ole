@@ -25,11 +25,11 @@ jq(document).ready(function(){
 
     jq("input#billView_transactionNumber_control").live('keydown',function(event) {
 
-        if (event.shiftKey || event.ctrlKey || event.altKey) {
+        if (event.altKey) {
             event.preventDefault();
         } else {
             var key = event.keyCode;
-            if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+            if (!((key == 8) || (key == 9) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
                 event.preventDefault();
             }
         }

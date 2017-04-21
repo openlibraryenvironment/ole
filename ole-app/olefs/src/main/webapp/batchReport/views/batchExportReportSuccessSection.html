@@ -22,8 +22,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="batchExportSuccessReport in batchExportReportSuccessSectionPanel">
-                            <td><span ng-bind="batchExportSuccessReport.bibId"></span></td>
+                        <tr ng-repeat="batchExportSuccessReport in batchExportReportSuccessSectionPanel | orderBy: 'bibLocalId'">
+                            <td><span ng-bind="batchExportSuccessReport.bibLocalId"></span></td>
                             <td><span ng-bind="batchExportSuccessReport.message"></span></td>
                         </tr>
                         </tbody>

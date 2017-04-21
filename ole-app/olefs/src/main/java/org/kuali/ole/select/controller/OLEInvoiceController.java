@@ -1655,14 +1655,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isNonZero() && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isZero() && lineItem.getAccountLinePercent() == null) {
                     lineItem.setAccountLinePercent(new BigDecimal(0));
                 }
                 else if(lineItem.getAmount()!=null&& lineItem.getAccountLinePercent().intValue()== 100){
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),0,RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),2,RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 }
                 else if(lineItem.getAmount()!=null&&lineItem.getAccountLinePercent() != null){
@@ -1737,13 +1737,13 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isNonZero() && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isZero() && lineItem.getAccountLinePercent() == null) {
                     lineItem.setAccountLinePercent(new BigDecimal(0));
                 } else if (lineItem.getAmount() != null && lineItem.getAccountLinePercent().intValue() == 100) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAccountLinePercent() != null) {
                     BigDecimal percent = lineItem.getAccountLinePercent().divide(new BigDecimal(100));
@@ -2496,14 +2496,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     lineItem.setAmount((item.getTotalAmount().multiply(new KualiDecimal(percent))));
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isNonZero() && lineItem.getAccountLinePercent() == null) {
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 } else if (lineItem.getAmount() != null && lineItem.getAmount().isZero() && lineItem.getAccountLinePercent() == null) {
                     lineItem.setAccountLinePercent(new BigDecimal(0));
                 }
                 else if(lineItem.getAmount()!=null&& lineItem.getAccountLinePercent().intValue()== 100){
                     KualiDecimal dollar = lineItem.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),0,RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((item.getTotalAmount().bigDecimalValue()),2,RoundingMode.FLOOR);
                     lineItem.setAccountLinePercent(dollarToPercent);
                 }
                 else if(lineItem.getAmount()!=null&&lineItem.getAccountLinePercent() != null){
@@ -3300,7 +3300,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=relatedViewBtn")
+   /* @RequestMapping(params = "methodToCall=relatedViewBtn")
     public ModelAndView relatedViewBtn(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response)  throws Exception{
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
@@ -3310,21 +3310,21 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         int unlinkDocument = Integer.parseInt(s);
         List<OleInvoiceItem> oleInvoiceItems = oleInvoiceDocument.getItems();
         OleInvoiceItem oleInvoiceItem = oleInvoiceItems.get(unlinkDocument);
-        PurApRelatedViews relatedViews = new PurApRelatedViews(oleInvoiceDocument != null
+        *//*PurApRelatedViews relatedViews = new PurApRelatedViews(oleInvoiceDocument != null
                 ? oleInvoiceDocument.getDocumentNumber() : null,
                 oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier() != null
-                        ? oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
-        oleInvoiceItem.setRelatedViews(relatedViews);
-        oleInvoiceItem.getRelatedViews().getRelatedRequisitionViews();
+                        ? oleInvoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);*//*
+        //oleInvoiceItem.setRelatedViews(relatedViews);
+       *//* oleInvoiceItem.getRelatedViews().getRelatedRequisitionViews();
         oleInvoiceItem.getRelatedViews().getRelatedLineItemReceivingViews();
         oleInvoiceItem.getRelatedViews().getRelatedCorrectionReceivingViews();
         oleInvoiceItem.getRelatedViews().getRelatedPaymentRequestViews();
         oleInvoiceItem.getRelatedViews().getRelatedCreditMemoViews();
         oleInvoiceItem.getRelatedViews().getPaymentHistoryPaymentRequestViews();
-        oleInvoiceItem.getRelatedViews().getPaymentHistoryCreditMemoViews();
+        oleInvoiceItem.getRelatedViews().getPaymentHistoryCreditMemoViews();*//*
         oleInvoiceItem.setEnableDetailsSection(true);
         return getUIFModelAndView(form);
-    }
+    }*/
 
    /* @RequestMapping(params = "methodToCall=currentItemsBtn")
     public ModelAndView currentItemsBtn(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,

@@ -39,7 +39,7 @@ public interface InvoiceService extends AccountsPayableDocumentSpecificService {
      * @param poDocId The purchase order id to be used to obtain a list of invoice documents.
      * @return The List of invoice documents given the purchase order id.
      */
-    public List<InvoiceDocument> getInvoicesByPurchaseOrderId(Integer poDocId);
+  //  public List<InvoiceDocument> getInvoicesByPurchaseOrderId(Integer poDocId);
 
     /**
      * Obtains a list of invoice documents given the purchase order id, the invoice amount
@@ -274,7 +274,7 @@ public interface InvoiceService extends AccountsPayableDocumentSpecificService {
      *
      * @return boolean true if the auto approval of invoices has at least one error.
      */
-    public boolean autoApproveInvoices();
+    // public boolean autoApproveInvoices();
 
     /**
      * Checks whether the invoice document is eligible for auto approval. If so, then updates
@@ -287,7 +287,7 @@ public interface InvoiceService extends AccountsPayableDocumentSpecificService {
      * @return boolean true if the invoice document is not eligible for auto approval.
      * @throws RuntimeException To indicate to Spring transactional management that the transaction for this document should be rolled back
      */
-    public boolean autoApproveInvoice(String docNumber, KualiDecimal defaultMinimumLimit);
+   // public boolean autoApproveInvoice(String docNumber, KualiDecimal defaultMinimumLimit);
 
     /**
      * Checks whether the invoice document is eligible for auto approval. If so, then updates

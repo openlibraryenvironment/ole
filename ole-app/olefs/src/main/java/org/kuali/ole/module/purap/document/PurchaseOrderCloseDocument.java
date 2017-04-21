@@ -20,6 +20,7 @@ import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderView;
+import org.kuali.ole.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
 import org.kuali.ole.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.ole.sys.OLEConstants;
@@ -140,11 +141,14 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         String currentDocumentTypeName = this.getFinancialSystemDocumentHeader().getWorkflowDocument()
                 .getDocumentTypeName();
 
-        List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
-        for (PurchaseOrderView poView : relatedPoViews) {
-            if (poView.isPurchaseOrderCurrentIndicator()) {
-                docIdStrings.add(poView.getDocumentNumber());
-            }
+        List<PurchaseOrderDocument> poList = SpringContext.getBean(PurchaseOrderDao.class).getCurrentPurchaseOrderListByRelatedDocId(accountsPayablePurchasingDocumentLinkIdentifier);
+
+
+       // List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderDocument po : poList) {
+           // if (poView.isPurchaseOrderCurrentIndicator()) {
+                docIdStrings.add(po.getDocumentNumber());
+          //  }
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + docIdStrings + "'");

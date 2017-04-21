@@ -249,6 +249,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     protected void spawnPoAmendmentForUnorderedItems(OleInvoiceDocument invoice, PurchaseOrderDocument po) {
 
         LOG.debug("Inside spawnPoAmendmentForUnorderedItems");
+        final PurchaseOrderDocument currentPO = po;
         if (invoice != null && invoice instanceof OleInvoiceDocument) {
             OleInvoiceDocument rlDoc = invoice;
 
@@ -264,7 +265,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                             String poDocNumber = (String) objects[1];
 
                             //create a PO amendment
-                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(currentPO, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
 
                             //add new lines to amendement
                             addUnorderedItemsToAmendment(amendmentPo, rlDoc);
@@ -1696,7 +1697,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
 
     @Override
     public OleInvoiceDocument getInvoiceDocumentById(Integer invoiceIdentifier) {
-        OleInvoiceDocument invoiceDocument = getInvoiceByDocumentNumber(invoiceDao.getDocumentNumberByInvoiceId(invoiceIdentifier));
+        OleInvoiceDocument invoiceDocument = invoiceDao.getDocumentByInvoiceId(invoiceIdentifier);
         return invoiceDocument;
     }
 
@@ -1977,14 +1978,15 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         BigDecimal sumPercentage = BigDecimal.ZERO;
         int counter = 0;
         int accLineSize = purApAccountingLines.size();
+        PurApAccountingLine lastAccount = null;
         for (PurApAccountingLine account : purApAccountingLines) {
             if (purapItem.getTotalAmount() != null && !purapItem.getTotalAmount().equals(KualiDecimal.ZERO)) {
                 if (account.getAccountLinePercent() != null && (account.getAmount() == null || account.getAmount().equals(KualiDecimal.ZERO))) {
                     BigDecimal percent = account.getAccountLinePercent().divide(new BigDecimal(100));
-                    account.setAmount((purapItem.getTotalAmount().multiply(new KualiDecimal(percent))));
+                    account.setAmount(new KualiDecimal(purapItem.getTotalAmount().bigDecimalValue().multiply(percent)));
                 } else if (account.getAmount() != null && account.getAmount().isNonZero() && account.getAccountLinePercent() == null) {
                     KualiDecimal dollar = account.getAmount().multiply(new KualiDecimal(100));
-                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((purapItem.getTotalAmount().bigDecimalValue()), 0, RoundingMode.FLOOR);
+                    BigDecimal dollarToPercent = dollar.bigDecimalValue().divide((purapItem.getTotalAmount().bigDecimalValue()), 2, RoundingMode.FLOOR);
                     account.setAccountLinePercent(dollarToPercent);
                 } else if (account.getAmount() != null && account.getAmount().isZero() && account.getAccountLinePercent() == null) {
                     account.setAccountLinePercent(new BigDecimal(0));
@@ -2001,6 +2003,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }
                 totalPercent = totalPercent.add(account.getAccountLinePercent());
                 totalAmt = totalAmt.add(account.getAmount().bigDecimalValue());
+                lastAccount = account;
             } else {
                 account.setAmount(KualiDecimal.ZERO);
             }
@@ -2011,14 +2014,20 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         // If Total Percent or Total Amount mis matches,percentage is divided across accounting lines.
         if(totalPercent.intValue() != 100 ||
                 (purapItem.getTotalAmount()!=null && totalAmt.compareTo(purapItem.getTotalAmount().bigDecimalValue())!=0)){
-            for (PurApAccountingLine account : purApAccountingLines) {
-                if (purapItem.getTotalAmount() != null && !purapItem.getTotalAmount().equals(KualiDecimal.ZERO)) {
-                    BigDecimal percent = BigDecimal.ONE.divide(new BigDecimal(purApAccountingLines.size()), BigDecimal.ROUND_CEILING, BigDecimal.ROUND_HALF_UP);
-                    account.setAmount((purapItem.getTotalAmount().multiply(new KualiDecimal(percent))));
-                } else {
-                    account.setAmount(KualiDecimal.ZERO);
-                }
+
+           // for (PurApAccountingLine account : purApAccountingLines) {
+              //  if (purapItem.getTotalAmount() != null && !purapItem.getTotalAmount().equals(KualiDecimal.ZERO)) {
+                   // BigDecimal percent = BigDecimal.ONE.divide(new BigDecimal(purApAccountingLines.size()), BigDecimal.ROUND_CEILING, BigDecimal.ROUND_HALF_UP);
+                   // account.setAmount((purapItem.getTotalAmount().multiply(new KualiDecimal(percent))));
+
+            if(lastAccount != null) {
+                lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(new BigDecimal(100).subtract(totalPercent)));
+                lastAccount.setAmount(lastAccount.getAmount().add(new KualiDecimal(purapItem.getTotalAmount().bigDecimalValue().subtract(totalAmt))));
             }
+              //  } else {
+              //      lastAccount.setAmount(KualiDecimal.ZERO);
+              //  }
+          //  }
         }
 
     }

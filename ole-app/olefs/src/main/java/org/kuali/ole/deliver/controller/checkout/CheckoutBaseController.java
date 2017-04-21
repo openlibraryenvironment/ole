@@ -103,8 +103,10 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
         String itemBarcode = getItemBarcode(oleForm);
 
-        ItemRecord itemRecord = getItemRecordByBarcode(itemBarcode);
-
+        ItemRecord itemRecord = null;
+        if(!itemBarcode.contains("*")){
+            itemRecord = getItemRecordByBarcode(itemBarcode);
+        }
         if (StringUtils.isNotBlank(itemBarcode) && null != itemRecord) {
             setItemRecord(oleForm, itemRecord);
             OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, getSelectedCirculationDesk(oleForm));

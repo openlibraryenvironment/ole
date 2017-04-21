@@ -14,10 +14,7 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.util.BibMarcUtil;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.dsng.rest.handler.Handler;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.marc4j.marc.DataField;
@@ -25,6 +22,7 @@ import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -45,6 +43,21 @@ public abstract class BibHandler extends Handler {
 
 
     public Record isValidLeader(String marcContent) throws Exception {
+        List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(marcContent);
+        String leader = null;
+        for (Record record : records) {
+            leader = record.getLeader().marshal();
+            char unicode = leader.charAt(9);
+            if (unicode != 'a') {
+                return null;
+            }
+            return record;
+        }
+        return null;
+    }
+
+
+    public Record isValidLeaderCheck(String marcContent) throws Exception {
         List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(marcContent);
         String leader = null;
         for (Record record : records) {
@@ -312,6 +325,7 @@ public abstract class BibHandler extends Handler {
 
             /*Delete from db*/
             getBusinessObjectService().delete(finalHoldingsRecordsToDelete);
+            saveDeletedHolding(finalHoldingsRecordsToDelete);
 
             /*Delete from Solr*/
             List<String> idsToDeleteFromSolr = new ArrayList<String>();
@@ -373,6 +387,24 @@ public abstract class BibHandler extends Handler {
     private String getAddedOpsValue(JSONObject jsonObject, String docType) {
         JSONObject addedOps = getJSONObjectFromJSONObject(jsonObject, OleNGConstants.ADDED_OPS);
         return getStringValueFromJsonObject(addedOps,docType);
+    }
+
+    private void saveDeletedHolding(List<HoldingsRecord> holdingsRecords) {
+        List<BibDeletionRecord> bibDeletionRecords= new ArrayList<BibDeletionRecord>();
+        for(HoldingsRecord holdingsRecord : holdingsRecords){
+            BibDeletionRecord bibDeletionRecord= new BibDeletionRecord();
+            if(holdingsRecord.getBibId() != null){
+                bibDeletionRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(holdingsRecord.getBibId()));
+            }
+            if(org.apache.commons.lang.StringUtils.isNotBlank(holdingsRecord.getHoldingsId())){
+                bibDeletionRecord.setHoldingId(DocumentUniqueIDPrefix.getDocumentId(holdingsRecord.getHoldingsId()));
+            }
+            bibDeletionRecord.setBibIdIndicator("N");
+            bibDeletionRecord.setHoldingIdIndicator("Y");
+            bibDeletionRecord.setDateUpdated(new Timestamp(new Date().getTime()));
+            bibDeletionRecords.add(bibDeletionRecord);
+        }
+        getBusinessObjectService().save(bibDeletionRecords);
     }
 
 }

@@ -558,7 +558,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     po.addNote(cancelNote);
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
-                    return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
+                    return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po, PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
                 }
             };
             return (PurchaseOrderDocument) SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER), logicToRun, new Object[]{po, annotation});

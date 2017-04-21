@@ -6,11 +6,14 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.dsng.dao.BibValidationDao;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,6 +52,7 @@ public class HoldingsUtil extends OleDsHelperUtil{
 
 
             getBusinessObjectService().delete(finalListToDelete);
+            saveDeletedItem(finalListToDelete);
 
             List<String> itemIdsToDeleteFromSolr = new ArrayList<String>();
             for (Iterator<ItemRecord> iterator = finalListToDelete.iterator(); iterator.hasNext(); ) {
@@ -96,5 +100,25 @@ public class HoldingsUtil extends OleDsHelperUtil{
 
     public void setBibValidationDao(BibValidationDao bibValidationDao) {
         this.bibValidationDao = bibValidationDao;
+    }
+
+    public void saveDeletedItem(List<ItemRecord> itemRecords) {
+        List<BibDeletionRecord> bibDeletionRecords= new ArrayList<BibDeletionRecord>();
+        for(ItemRecord itemRecord : itemRecords){
+            BibDeletionRecord bibDeletionRecord= new BibDeletionRecord();
+            if(itemRecord.getHoldingsRecord() != null){
+                bibDeletionRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(itemRecord.getHoldingsRecord().getBibId()));
+            }
+            if(StringUtils.isNotBlank(itemRecord.getHoldingsId())){
+                bibDeletionRecord.setHoldingId(DocumentUniqueIDPrefix.getDocumentId(itemRecord.getHoldingsId()));
+            }
+            bibDeletionRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(itemRecord.getItemId()));
+            bibDeletionRecord.setBibIdIndicator("N");
+            bibDeletionRecord.setHoldingIdIndicator("N");
+            bibDeletionRecord.setItemIdIndicator("Y");
+            bibDeletionRecord.setDateUpdated(new Timestamp(new Date().getTime()));
+            bibDeletionRecords.add(bibDeletionRecord);
+        }
+        getBusinessObjectService().save(bibDeletionRecords);
     }
 }

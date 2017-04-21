@@ -2485,7 +2485,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
         this.setNotesAndAttachmentFlag(getOleInvoiceService().canCollapse(OLEConstants.NOTES_AND_ATTACH_SECTION, collapseSections));
         // Clear related views
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
-        this.setRelatedViews(null);
+       // this.setRelatedViews(null);
         this.setInvoiceNumber("");
         this.setNoteLine1Text("");
 

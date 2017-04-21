@@ -490,40 +490,46 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         checkUuidsToDelete(uuids, uuidCount);
     }
 
-    public void saveDeletedBibs(List<String> bibIds) throws Exception{
-
-        SearchParams searchParams =new SearchParams();
-        searchParams.setDocType(DocstoreConstants.BIBLIOGRAPHIC_DELETE);
-        for(int i=0;i<bibIds.size();i++){
-            searchParams.getSearchConditions().add(searchParams.buildSearchCondition("",searchParams.buildSearchField(DocstoreConstants.BIBLIOGRAPHIC_DELETE,DocstoreConstants.LOCALID_DISPLAY,DocumentUniqueIDPrefix.getDocumentId(bibIds.get(i))),"OR"));
-        }
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocstoreConstants.BIBLIOGRAPHIC_DELETE,DocstoreConstants.LOCALID_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocstoreConstants.BIBLIOGRAPHIC_DELETE,DocstoreConstants.DATE_UPDATED));
-
-        Thread.sleep(1000);
-
-        DocstoreSearchService docstoreSearchService=new DocstoreSolrSearchService();
-        SearchResponse searchResponse=docstoreSearchService.search(searchParams);
-
-        List<SearchResult> searchResults=searchResponse.getSearchResults();
-
-        if(searchResults.size()>0){
-            for(SearchResult searchResult:searchResults){
-                BibDeletionRecord bibDeletionRecord=new BibDeletionRecord();
-                for(SearchResultField resultField:searchResult.getSearchResultFields()){
-                    if(resultField.getFieldName().equalsIgnoreCase(DocstoreConstants.LOCALID_DISPLAY) && StringUtils.isNotBlank(resultField.getFieldValue())){
-                        bibDeletionRecord.setBibId(resultField.getFieldValue());
-                    }
-                    if(resultField.getFieldName().equalsIgnoreCase(DocstoreConstants.DATE_UPDATED) && StringUtils.isNotBlank(resultField.getFieldValue())){
-                        Date dateUpdated=new SimpleDateFormat(DocstoreConstants.SOLR_DOC_DATE_FORMAT).parse(resultField.getFieldValue());
-                        Timestamp dateUpdatedTs=new Timestamp(dateUpdated.getTime());
-                        bibDeletionRecord.setDateUpdated(dateUpdatedTs);
-                    }
-                }
-                getBusinessObjectService().save(bibDeletionRecord);
-            }
+    public void saveDeletedBibs(List<Bib> bibs) throws Exception{
+        for(Bib bib:bibs){
+            BibDeletionRecord bibDeletionRecord= new BibDeletionRecord();
+            bibDeletionRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+            bibDeletionRecord.setBibIdIndicator("Y");
+            bibDeletionRecord.setContent(bib.getContent());
+            bibDeletionRecord.setDateUpdated(new Timestamp(new Date().getTime()));
+            getBusinessObjectService().save(bibDeletionRecord);
         }
 
+    }
+
+    public void saveDeletedHolding(Holdings holding) {
+        BibDeletionRecord bibDeletionRecord= new BibDeletionRecord();
+        if(holding.getBib() != null){
+            bibDeletionRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(holding.getBib().getId()));
+        }
+        if(StringUtils.isNotBlank(holding.getId())){
+            bibDeletionRecord.setHoldingId(DocumentUniqueIDPrefix.getDocumentId(holding.getId()));
+        }
+        bibDeletionRecord.setBibIdIndicator("N");
+        bibDeletionRecord.setHoldingIdIndicator("Y");
+        bibDeletionRecord.setDateUpdated(new Timestamp(new Date().getTime()));
+        getBusinessObjectService().save(bibDeletionRecord);
+    }
+
+    public void saveDeletedItem(Item item) {
+        BibDeletionRecord bibDeletionRecord= new BibDeletionRecord();
+        if(item.getHolding().getBib() != null){
+            bibDeletionRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(item.getHolding().getBib().getId()));
+        }
+        if(StringUtils.isNotBlank(item.getHolding().getId())){
+            bibDeletionRecord.setHoldingId(DocumentUniqueIDPrefix.getDocumentId(item.getHolding().getId()));
+        }
+        bibDeletionRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(item.getId()));
+        bibDeletionRecord.setBibIdIndicator("N");
+        bibDeletionRecord.setHoldingIdIndicator("N");
+        bibDeletionRecord.setItemIdIndicator("Y");
+        bibDeletionRecord.setDateUpdated(new Timestamp(new Date().getTime()));
+        getBusinessObjectService().save(bibDeletionRecord);
     }
 
 }

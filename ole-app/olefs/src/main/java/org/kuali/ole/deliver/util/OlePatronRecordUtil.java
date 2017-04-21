@@ -30,26 +30,31 @@ public class OlePatronRecordUtil extends CircUtilController {
         StringBuffer values_StringBuffer = new StringBuffer();
 
         try {
-            Map barMap = new HashMap();
-            barMap.put(OLEConstants.OlePatron.BARCODE, barcode);
-            List<OlePatronDocument> matching = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barMap);
+            if (barcode.contains("*")){
+                LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT);
+                throw new Exception(OLEConstants.PTRN_BARCD_NOT_EXT);
+            }else{
+                Map barMap = new HashMap();
+                barMap.put(OLEConstants.OlePatron.BARCODE, barcode);
+                List<OlePatronDocument> matching = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barMap);
 
-            if (matching != null && matching.size() > 0) {
-                OlePatronDocument olePatronDocument = matching.get(0);
-                if (GlobalVariables.getUserSession() != null) {
-                    olePatronDocument.setPatronRecordURL(patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocument.getOlePatronId()));
-                }
-                return olePatronDocument;
-            }else {
-                Map<String,String> lostBarCodeMap=new HashMap<>();
-                lostBarCodeMap.put(OLEConstants.OlePatron.PATRON_LOST_BARCODE_FLD, barcode);
-                List<OlePatronLostBarcode> lostBarcode = (List<OlePatronLostBarcode>) getBusinessObjectService().findMatching(OlePatronLostBarcode.class, lostBarCodeMap);
-                if(lostBarcode != null && lostBarcode.size() > 0){
-                    LOG.error(OLEConstants.PTRN_LOST_BARCODE);
-                    throw new Exception(OLEConstants.PTRN_LOST_BARCODE);
-                }else{
-                    LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT);
-                    throw new Exception(OLEConstants.PTRN_BARCD_NOT_EXT);
+                if (matching != null && matching.size() > 0) {
+                    OlePatronDocument olePatronDocument = matching.get(0);
+                    if (GlobalVariables.getUserSession() != null) {
+                        olePatronDocument.setPatronRecordURL(patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocument.getOlePatronId()));
+                    }
+                    return olePatronDocument;
+                }else {
+                    Map<String,String> lostBarCodeMap=new HashMap<>();
+                    lostBarCodeMap.put(OLEConstants.OlePatron.PATRON_LOST_BARCODE_FLD, barcode);
+                    List<OlePatronLostBarcode> lostBarcode = (List<OlePatronLostBarcode>) getBusinessObjectService().findMatching(OlePatronLostBarcode.class, lostBarCodeMap);
+                    if(lostBarcode != null && lostBarcode.size() > 0){
+                        LOG.error(OLEConstants.PTRN_LOST_BARCODE);
+                        throw new Exception(OLEConstants.PTRN_LOST_BARCODE);
+                    }else{
+                        LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT);
+                        throw new Exception(OLEConstants.PTRN_BARCD_NOT_EXT);
+                    }
                 }
             }
         } catch (Exception e) {
