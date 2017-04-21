@@ -27,7 +27,8 @@ public class ExportDaoCallableImpl extends ExportCallable{
         this.start = start;
         this.chunkSize = chunkSize;
 
-        if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)){
+        if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY) ||
+                batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXPORT)){
             this.bibIds=new ArrayList<>(bibIdList);
             this.bibIdsString=StringUtils.join(bibIdList,',');
         }
@@ -37,7 +38,8 @@ public class ExportDaoCallableImpl extends ExportCallable{
     @Override
     public Object call() throws Exception {
 
-        if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)) {
+        if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)
+                && !batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXPORT)) {
             Set<String> bibIdentifiers = getBatchExportUtil().getBibIdentifiersForQuery(query, start, chunkSize);
             this.bibIdsString = StringUtils.join(bibIdentifiers, ',');
             bibIds = new ArrayList<>(bibIdentifiers);

@@ -49,7 +49,7 @@ public class BatchExportHandler extends BatchExportUtil {
     }
 
     private void processFullExport(BatchProcessTxObject batchProcessTxObject, OleNGBatchExportResponse oleNGBatchExportResponse) {
-        String query = "(DocType:bibliographic)";
+        String query = "SELECT BIB_ID FROM OLE_DS_BIB_T";
         exportDao.export(this, query, batchProcessTxObject, oleNGBatchExportResponse, false);
     }
 
