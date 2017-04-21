@@ -403,6 +403,7 @@
         <column name="ID"   type="BIGINT" size="19" primaryKey="true" />
         <column name="DELETED_BIB_ID"   type="VARCHAR" size="11"/>
         <column name="IS_BIB_DELETED"   type="VARCHAR" size="1"/>
+        <column name="DELETED_HOLDINGS_ID"   type="VARCHAR" size="11"/>
         <column default="" name="IS_HOLDINGS_DELETED"   type="VARCHAR" size="1"/>
         <column default="" name="DELETED_ITEM_ID"   type="VARCHAR" size="11"/>
         <column default="" name="IS_ITEM_DELETED"   type="VARCHAR" size="1"/>
