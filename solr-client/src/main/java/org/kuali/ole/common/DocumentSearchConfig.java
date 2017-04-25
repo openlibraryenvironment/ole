@@ -99,11 +99,15 @@ public class DocumentSearchConfig extends HelperUtil{
 
     public static void buildIncludeAndExcludeMapping() {
         for (DocTypeConfig docTypeConfig : documentSearchConfig.getDocTypeConfigs()) {
-            for (DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigs()) {
-                if (DocType.BIB.isEqualTo(docTypeConfig.getName()) && DocFormat.MARC.isEqualTo(docFormatConfig.getName())) {
-                    for (DocFieldConfig docFieldConfig : docFormatConfig.getDocFieldConfigs()) {
-                        FIELDS_TO_TAGS_2_INCLUDE_MAP.put(docFieldConfig.getName(), docFieldConfig.getIncludePath());
-                        FIELDS_TO_TAGS_2_EXCLUDE_MAP.put(docFieldConfig.getName(), docFieldConfig.getExcludePath());
+            if (DocType.BIB.isEqualTo(docTypeConfig.getName())) {
+                for (DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigs()) {
+                    if (DocFormat.MARC.isEqualTo(docFormatConfig.getName())) {
+                        for (DocFieldConfig docFieldConfig : docFormatConfig.getDocFieldConfigs()) {
+                            if (docFieldConfig.getDocFormatConfig().getName().equals("marc") && docFieldConfig.getDocTypeConfig().getDisplayLabel().equalsIgnoreCase("Bibliographic")) {
+                                FIELDS_TO_TAGS_2_INCLUDE_MAP.put(docFieldConfig.getName(), docFieldConfig.getIncludePath());
+                                FIELDS_TO_TAGS_2_EXCLUDE_MAP.put(docFieldConfig.getName(), docFieldConfig.getExcludePath());
+                            }
+                        }
                     }
                 }
             }

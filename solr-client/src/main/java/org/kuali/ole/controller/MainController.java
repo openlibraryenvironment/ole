@@ -138,7 +138,7 @@ public class MainController {
     private List<Integer> getBibIdsFromRange(Integer from, Integer to) {
         List<Integer> bibIds= new ArrayList<>();
         for(int index=from; index <= to; index++) {
-            bibIds.add(from);
+            bibIds.add(index);
         }
         return bibIds;
     }
@@ -147,6 +147,9 @@ public class MainController {
         try {
             byte[] bytes = file.getBytes();
             String data = new String(bytes);
+            data = "["+ data.replaceAll("\n",",");
+            data = data.replaceAll(",,",",");
+            data = data.endsWith(",")? data.substring(0,data.length()-1)+"]":data+"]";
             List<Integer> bibIds = HelperUtil.getListFromJSONArray(data);
             return bibIds;
         } catch (IOException e) {
