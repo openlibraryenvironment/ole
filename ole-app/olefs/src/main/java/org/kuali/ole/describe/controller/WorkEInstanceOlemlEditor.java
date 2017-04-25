@@ -380,19 +380,28 @@ public class WorkEInstanceOlemlEditor
                 if(donorInfos.size() > 0) {
                     for (DonorInfo donorInformation : donorInfos) {
                         if(donorInformation.getDonorPublicDisplay() != null || donorInformation.getDonorNote() != null) {
-                            String modifiedDonorNoteValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
-                            String modifiedDonorDisplayValue = donorInformation.getDonorPublicDisplay().replaceAll("\"","&quot;");
-                            donorInformation.setDonorNote(modifiedDonorNoteValue);
-                            donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                            if(donorInformation.getDonorNote() != null) {
+                                String modifiedDonorNoteValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
+                                donorInformation.setDonorNote(modifiedDonorNoteValue);
+
+                            }
+                            if(donorInformation.getDonorPublicDisplay() != null) {
+                                String modifiedDonorDisplayValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                                donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                            }
                         }
                         else {
                             Map donorMap = new HashMap();
                             donorMap.put("donorCode", donorInformation.getDonorCode());
                             OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, donorMap);
-                            String modifiedDonorNoteValue = oleDonor.getDonorNote().replaceAll("\"","&quot;");
-                            String modifiedDonorDisplayValue = oleDonor.getDonorPublicDisplay().replaceAll("\"","&quot;");
-                            donorInformation.setDonorNote(modifiedDonorNoteValue);
-                            donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                            if(oleDonor.getDonorNote() != null) {
+                                String modifiedDonorNoteValue = oleDonor.getDonorNote().replaceAll("\"","&quot;");
+                                donorInformation.setDonorNote(modifiedDonorNoteValue);
+                            }
+                            if(oleDonor.getDonorPublicDisplay() != null) {
+                                String modifiedDonorDisplayValue = oleDonor.getDonorPublicDisplay().replaceAll("\"","&quot;");
+                                donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                            }
                         }
                     }
                     eHoldings.setDonorInfo(donorInfos);
