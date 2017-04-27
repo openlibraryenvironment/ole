@@ -57,7 +57,7 @@ public class SolrAdmin {
 
         for (Iterator<String> iterator = coreNames.iterator(); iterator.hasNext(); ) {
             String coreName = iterator.next();
-            String dataDir = solrHome + coreName + File.separator + "data";
+            String dataDir = solrHome + File.separator + coreName + File.separator + "data";
 
             coreAdminRequest.setCoreName(coreName);
             coreAdminRequest.setConfigSet("ole_config");
