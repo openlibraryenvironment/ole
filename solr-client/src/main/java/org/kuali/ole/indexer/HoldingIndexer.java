@@ -79,8 +79,8 @@ public class HoldingIndexer extends OleDsNgIndexer {
                     itemUUIds.add(itemIdentifierWithPrefix);
                     processed++;
                 }
-                recordCountAndSolrDocumentMap.setNumberOfItemsFetched(itemRecords.size());
-                recordCountAndSolrDocumentMap.setNumberOfItemsProcessed(processed);
+                recordCountAndSolrDocumentMap.setNumberOfItemsFetched(recordCountAndSolrDocumentMap.getNumberOfItemsFetched() + itemRecords.size());
+                recordCountAndSolrDocumentMap.setNumberOfItemsProcessed(recordCountAndSolrDocumentMap.getNumberOfItemsProcessed() + processed);
             }
         } catch (Exception e) {
             e.printStackTrace();
