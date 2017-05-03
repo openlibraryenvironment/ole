@@ -1678,28 +1678,29 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
             return false;
         }
         // if document's fiscal year is less than or equal to the current fiscal year
-        if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
-            List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
-            for (SourceAccountingLine accLine : sourceAccountingLineList) {
-                String chart = accLine.getAccount().getChartOfAccountsCode();
-                String account = accLine.getAccount().getAccountNumber();
-                String sfCode = accLine.getAccount().getAccountSufficientFundsCode();
-                Map<String, Object> key = new HashMap<String, Object>();
-                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
-                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, account);
-                OleSufficientFundCheck oleSufficientFundCheck = businessObjectService.findByPrimaryKey(
-                        OleSufficientFundCheck.class, key);
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
+                List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
+                for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                    String chart = accLine.getAccount().getChartOfAccountsCode();
+                    String account = accLine.getAccount().getAccountNumber();
+                    String sfCode = accLine.getAccount().getAccountSufficientFundsCode();
+                    Map<String, Object> key = new HashMap<String, Object>();
+                    key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
+                    key.put(OLEPropertyConstants.ACCOUNT_NUMBER, account);
+                    OleSufficientFundCheck oleSufficientFundCheck = businessObjectService.findByPrimaryKey(
+                            OleSufficientFundCheck.class, key);
                /* List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
                 for (GeneralLedgerPendingEntry glpe : pendingEntries) {
                     glpe.getChartOfAccountsCode();
                 }*/
-                SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
+               /* SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
                 SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
-
-                if (oleSufficientFundCheck != null) {
-                    String option = oleSufficientFundCheck.getNotificationOption() != null ? oleSufficientFundCheck
-                            .getNotificationOption() : "";
-                    if (option.equals(OLEPropertyConstants.BUD_REVIEW)) {
+*/
+                    if (oleSufficientFundCheck != null) {
+                        String option = oleSufficientFundCheck.getNotificationOption() != null ? oleSufficientFundCheck
+                                .getNotificationOption() : "";
+                        if (option.equals(OLEPropertyConstants.BUD_REVIEW)) {
                         /*List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
                         for (GeneralLedgerPendingEntry glpe : pendingEntries) {
                             glpe.getChartOfAccountsCode();
@@ -1707,15 +1708,16 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                         SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
                         SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());*/
 
-                        required = oleInvoiceFundCheckServiceImpl.hasSufficientFundCheckRequired(accLine);
-                        SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
+                            required = oleInvoiceFundCheckServiceImpl.hasSufficientFundCheckRequired(accLine);
+                      /*  SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());*/
 /*                        SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());*/
-                        return required;
+                            return required;
+                        }
                     }
                 }
             }
         }
-        SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
+      //  SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
         /*SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());*/
         return required;
         // get list of sufficientfundItems
@@ -1746,28 +1748,33 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
         if ((SpringContext.getBean(OleInvoiceService.class).getPaymentMethodType(this.getPaymentMethodIdentifier())).equals(OLEConstants.DEPOSIT)) {
             return false;
         }
-        List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
-        boolean sufficientFundCheck = false;
-        for (SourceAccountingLine accLine : sourceAccountingLineList) {
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
             Map searchMap = new HashMap();
             String notificationOption = null;
             Map<String, Object> key = new HashMap<String, Object>();
-            String chartCode = accLine.getChartOfAccountsCode();
-            String accNo = accLine.getAccountNumber();
-            String objectCd = accLine.getFinancialObjectCode();
-            key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-            key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-            OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
-                    OleSufficientFundCheck.class, key);
-            if (account != null) {
-                notificationOption = account.getNotificationOption();
+            List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
+            boolean sufficientFundCheck = false;
+            for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                String chartCode = accLine.getChartOfAccountsCode();
+                String accNo = accLine.getAccountNumber();
+                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                        OleSufficientFundCheck.class, key);
+                if (account != null) {
+                    notificationOption = account.getNotificationOption();
+                }
+                if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
+                    sufficientFundCheck = oleInvoiceFundCheckServiceImpl.hasSufficientFundCheckRequired(accLine);
+                    return sufficientFundCheck;
+                }
+                searchMap.clear();
             }
-            if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
-                sufficientFundCheck = oleInvoiceFundCheckServiceImpl.hasSufficientFundCheckRequired(accLine);
-                return sufficientFundCheck;
-            }
+            return sufficientFundCheck;
         }
-        return sufficientFundCheck;
+        else {
+            return false;
+        }
     }
 
     @Override

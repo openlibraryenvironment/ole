@@ -41,6 +41,7 @@ import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.*;
+import org.kuali.ole.select.document.service.OleInvoiceService;
 import org.kuali.ole.select.document.service.OlePaymentRequestService;
 import org.kuali.ole.select.document.service.OlePurchaseOrderDocumentHelperService;
 import org.kuali.ole.select.document.service.OleRequisitionDocumentService;
@@ -1217,23 +1218,25 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
             return false;
         }
         // if document's fiscal year is less than or equal to the current fiscal year
-        if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
-            List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
-            for (SourceAccountingLine accLine : sourceAccountingLineList) {
-                String chart = accLine.getAccount().getChartOfAccountsCode();
-                String account = accLine.getAccount().getAccountNumber();
-                String sfCode = accLine.getAccount().getAccountSufficientFundsCode();
-                Map<String, Object> key = new HashMap<String, Object>();
-                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
-                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, account);
-                OleSufficientFundCheck oleSufficientFundCheck = businessObjectService.findByPrimaryKey(
-                        OleSufficientFundCheck.class, key);
-                if (oleSufficientFundCheck != null) {
-                    String option = oleSufficientFundCheck.getNotificationOption() != null ? oleSufficientFundCheck
-                            .getNotificationOption() : "";
-                    if (option.equals(OLEPropertyConstants.BUD_REVIEW)) {
-                        required = olePaymentRequestFundCheckServiceImpl.hasSufficientFundCheckRequired(accLine);
-                        return required;
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
+                List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
+                for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                    String chart = accLine.getAccount().getChartOfAccountsCode();
+                    String account = accLine.getAccount().getAccountNumber();
+                    String sfCode = accLine.getAccount().getAccountSufficientFundsCode();
+                    Map<String, Object> key = new HashMap<String, Object>();
+                    key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
+                    key.put(OLEPropertyConstants.ACCOUNT_NUMBER, account);
+                    OleSufficientFundCheck oleSufficientFundCheck = businessObjectService.findByPrimaryKey(
+                            OleSufficientFundCheck.class, key);
+                    if (oleSufficientFundCheck != null) {
+                        String option = oleSufficientFundCheck.getNotificationOption() != null ? oleSufficientFundCheck
+                                .getNotificationOption() : "";
+                        if (option.equals(OLEPropertyConstants.BUD_REVIEW)) {
+                            required = olePaymentRequestFundCheckServiceImpl.hasSufficientFundCheckRequired(accLine);
+                            return required;
+                        }
                     }
                 }
             }
@@ -1268,22 +1271,24 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                 .getBean("oleRequisitionDocumentService");
         List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
         boolean sufficientFundCheck = false;
-        for (SourceAccountingLine accLine : sourceAccountingLineList) {
-            Map searchMap = new HashMap();
-            String notificationOption = null;
-            Map<String, Object> key = new HashMap<String, Object>();
-            String chartCode = accLine.getChartOfAccountsCode();
-            String accNo = accLine.getAccountNumber();
-            String objectCd = accLine.getFinancialObjectCode();
-            key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-            key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-            OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
-                    OleSufficientFundCheck.class, key);
-            if (account != null) {
-                notificationOption = account.getNotificationOption();
-            }
-            if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
-                sufficientFundCheck = true;
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                Map searchMap = new HashMap();
+                String notificationOption = null;
+                Map<String, Object> key = new HashMap<String, Object>();
+                String chartCode = accLine.getChartOfAccountsCode();
+                String accNo = accLine.getAccountNumber();
+                String objectCd = accLine.getFinancialObjectCode();
+                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                        OleSufficientFundCheck.class, key);
+                if (account != null) {
+                    notificationOption = account.getNotificationOption();
+                }
+                if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
+                    sufficientFundCheck = true;
+                }
             }
         }
         return sufficientFundCheck;

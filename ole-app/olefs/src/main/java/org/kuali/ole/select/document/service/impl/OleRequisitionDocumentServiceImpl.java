@@ -17,6 +17,8 @@ package org.kuali.ole.select.document.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.coa.businessobject.Account;
+import org.kuali.ole.coa.businessobject.ObjectCode;
+import org.kuali.ole.gl.businessobject.AccountBalance;
 import org.kuali.ole.gl.businessobject.Balance;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
@@ -62,10 +64,13 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         boolean hasSufficientFundRequired = false;
         String chartCode = accLine.getChartOfAccountsCode();
         String accNo = accLine.getAccountNumber();
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        int currentFiscalYear = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
         String objectCd = accLine.getFinancialObjectCode();
         String fundCodeType = getFundCode(chartCode, accNo);
-        KualiDecimal budgetAllocation = KualiDecimal.ZERO;
-        KualiDecimal encumbranceAmt = KualiDecimal.ZERO;
+     //   KualiDecimal budgetAllocation = KualiDecimal.ZERO;
+        KualiDecimal fundBalanceAmt = KualiDecimal.ZERO;
+        KualiDecimal glPendingAmt = KualiDecimal.ZERO;
         Map<String, Object> fundKey = new HashMap<String, Object>();
         String notificationOption = null;
         fundKey.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
@@ -80,40 +85,58 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
 
             if (notificationOption.equals(OLEPropertyConstants.BLOCK_USE)
                     || notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
-                budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
-                encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
-                budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+              //  budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
+            //    encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForAccount(chartCode, accNo, currentFiscalYear);
+           //     budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
             } else if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)
                     || notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
-                budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
-                encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
-                encumbranceAmt = encumbranceAmt.subtract(accLine.getAmount());
-                budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+              //  budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
+              //  encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForAccount(chartCode, accNo, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(accLine.getAmount());
+              //  budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
             }
 
-            if (accLine.getAmount().isGreaterThan(budgetAllocation)) {
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
                 hasSufficientFundRequired = true;
             } else {
-                hasSufficientFundRequired = false;
+                glPendingAmt = getGLPendingAmtForAccount(chartCode, accNo, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
             }
 
         } else if (fundCodeType != null && fundCodeType.equals(OLEConstants.OBJECT_FUND_CODE)) {
             if (notificationOption.equals(OLEPropertyConstants.BLOCK_USE)
                     || notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
-                budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
-                encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
-                budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+              //  budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
+                //    encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForObject(chartCode, accNo, objectCd, currentFiscalYear);
+            //    budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
             } else if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)
                     || notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
-                budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
-                encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
-                encumbranceAmt = encumbranceAmt.subtract(accLine.getAmount());
-                budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+              //  budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
+                // encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForObject(chartCode, accNo, objectCd, currentFiscalYear);
+              //  budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+               // encumbranceAmt = encumbranceAmt.subtract(accLine.getAmount());
             }
-            if (accLine.getAmount().isGreaterThan(budgetAllocation)) {
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
                 hasSufficientFundRequired = true;
             } else {
-                hasSufficientFundRequired = false;
+                glPendingAmt = getGLPendingAmtForObject(chartCode, accNo, objectCd, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
             }
         }
         return hasSufficientFundRequired;
@@ -137,7 +160,173 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         return null;
     }
 
-    private KualiDecimal getBudgetAllocationForObject(String chartCode, String accountNumber, String objectCode) {
+    private KualiDecimal getFundBalanceForAccount(String chartCode, String accountNumber, int currentFiscalYear) {
+        KualiDecimal budgetAmt = KualiDecimal.ZERO;
+        KualiDecimal fundBalanceAmt = KualiDecimal.ZERO;
+        KualiDecimal amount = KualiDecimal.ZERO;
+        Map objCodeMap = new HashMap();
+        objCodeMap.put(OLEConstants.FINANCIAL_OBJECT_TYPE_CODE, OLEConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
+        objCodeMap.put(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        List<ObjectCode> objCodeList = (List<ObjectCode>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(ObjectCode.class, objCodeMap);
+        if (objCodeList.size() > 0) {
+            for (ObjectCode objectCode : objCodeList) {
+                Map encMap = new HashMap();
+                encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                encMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+                encMap.put(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+                encMap.put(OLEConstants.OBJECT_CODE, objectCode.getFinancialObjectCode());
+                List<AccountBalance> encumList = (List<AccountBalance>) SpringContext.getBean(
+                        BusinessObjectService.class).findMatching(AccountBalance.class, encMap);
+                if (encumList.size() > 0) {
+                    for (AccountBalance acctBalance : encumList) {
+                        budgetAmt = budgetAmt.add(acctBalance.getCurrentBudgetLineBalanceAmount());
+                        Map fundCheckMap = new HashMap();
+                        fundCheckMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                        fundCheckMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+                        OleSufficientFundCheck oleSufficientFundCheck = SpringContext.getBean(BusinessObjectService.class)
+                                .findByPrimaryKey(OleSufficientFundCheck.class, fundCheckMap);
+                        if (oleSufficientFundCheck != null) {
+                            if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_PERCENTAGE.equals(oleSufficientFundCheck
+                                    .getEncumbExpenseConstraintType())) {
+                                amount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
+                                if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
+                                        .getEncumbExpenseMethod())) {
+                                    budgetAmt = budgetAmt.add((budgetAmt.multiply(amount))
+                                            .divide(new KualiDecimal(100)));
+                                } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_UNDER.equals(oleSufficientFundCheck
+                                        .getEncumbExpenseMethod())) {
+                                    budgetAmt = budgetAmt.subtract((budgetAmt.multiply(amount))
+                                            .divide(new KualiDecimal(100)));
+
+                                }
+                            } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
+                                    .getEncumbExpenseConstraintType())) {
+                                amount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
+                                if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
+                                        .getEncumbExpenseMethod())) {
+                                    budgetAmt = budgetAmt.add(amount);
+                                } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_UNDER.equals(oleSufficientFundCheck
+                                        .getEncumbExpenseMethod())) {
+                                    budgetAmt = budgetAmt.subtract(amount);
+                                }
+                            }
+                        }
+                        fundBalanceAmt = fundBalanceAmt.add(acctBalance.getAccountLineEncumbranceBalanceAmount().add(acctBalance.getAccountLineActualsBalanceAmount()));
+                        fundBalanceAmt = budgetAmt.subtract(fundBalanceAmt);
+                    }
+                }
+            }
+        }
+        return fundBalanceAmt;
+    }
+
+    private KualiDecimal getGLPendingAmtForObject(String chartCode, String accountNumber, String objectCode,int currentFiscalYear) {
+        Map encMap = new HashMap();
+        Map itemMap = new HashMap();
+        encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        encMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        encMap.put(OLEPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        encMap.put(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+
+        KualiDecimal glPendingAmt = KualiDecimal.ZERO;
+        List<GeneralLedgerPendingEntry> encumList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, encMap);
+        if (encumList.size() > 0) {
+            for (GeneralLedgerPendingEntry glEntry : encumList) {
+                if(glEntry.getTransactionDebitCreditCode().equals("D")) {
+                    glPendingAmt = glPendingAmt.add(glEntry.getTransactionLedgerEntryAmount());
+                }
+                else {
+                    glPendingAmt = glPendingAmt.subtract(glEntry.getTransactionLedgerEntryAmount());
+                }
+
+            }
+        }
+        return glPendingAmt;
+    }
+
+    private KualiDecimal getGLPendingAmtForAccount(String chartCode, String accountNumber, int currentFiscalYear) {
+        Map encMap = new HashMap();
+        Map itemMap = new HashMap();
+        encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        encMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        encMap.put(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        encMap.put(OLEPropertyConstants.TRANSACTION_ENTRY_OFFSET_INDICATOR, Boolean.FALSE);
+
+
+        KualiDecimal glPendingAmt = KualiDecimal.ZERO;
+        List<GeneralLedgerPendingEntry> encumList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, encMap);
+        if (encumList.size() > 0) {
+            for (GeneralLedgerPendingEntry glEntry : encumList) {
+                if(glEntry.getTransactionDebitCreditCode().equals("D")) {
+                    glPendingAmt = glPendingAmt.add(glEntry.getTransactionLedgerEntryAmount());
+                }
+                else {
+                    glPendingAmt = glPendingAmt.subtract(glEntry.getTransactionLedgerEntryAmount());
+                }
+
+            }
+        }
+        return glPendingAmt;
+    }
+
+    private KualiDecimal getFundBalanceForObject(String chartCode, String accountNumber, String objectCode,int currentFiscalYear) {
+        Map encMap = new HashMap();
+        encMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        encMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        encMap.put(OLEPropertyConstants.OBJECT_CODE, objectCode);
+        encMap.put(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+
+        KualiDecimal fundBalanceAmt = KualiDecimal.ZERO;
+        KualiDecimal budgetAmt = KualiDecimal.ZERO;
+        KualiDecimal amount = KualiDecimal.ZERO;
+        List<AccountBalance> encumList = (List<AccountBalance>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(AccountBalance.class, encMap);
+        if (encumList.size() > 0) {
+            for (AccountBalance acctBalance : encumList) {
+                budgetAmt = budgetAmt.add(acctBalance.getCurrentBudgetLineBalanceAmount());
+                Map fundCheckMap = new HashMap();
+                fundCheckMap.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                fundCheckMap.put(OLEPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+                OleSufficientFundCheck oleSufficientFundCheck = SpringContext.getBean(BusinessObjectService.class)
+                        .findByPrimaryKey(OleSufficientFundCheck.class, fundCheckMap);
+                if (oleSufficientFundCheck != null) {
+                    if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_PERCENTAGE.equals(oleSufficientFundCheck
+                            .getEncumbExpenseConstraintType())) {
+                        amount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
+                        if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
+                                .getEncumbExpenseMethod())) {
+                            budgetAmt = budgetAmt.add((budgetAmt.multiply(amount))
+                                    .divide(new KualiDecimal(100)));
+                        } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_UNDER.equals(oleSufficientFundCheck
+                                .getEncumbExpenseMethod())) {
+                            budgetAmt = budgetAmt.subtract((budgetAmt.multiply(amount))
+                                    .divide(new KualiDecimal(100)));
+
+                        }
+                    } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_TYP_CASH.equals(oleSufficientFundCheck
+                            .getEncumbExpenseConstraintType())) {
+                        amount = new KualiDecimal(oleSufficientFundCheck.getEncumbranceAmount());
+                        if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_OVER.equals(oleSufficientFundCheck
+                                .getEncumbExpenseMethod())) {
+                            budgetAmt = budgetAmt.add(amount);
+                        } else if (OLEPropertyConstants.SUFFICIENT_FUND_ENC_UNDER.equals(oleSufficientFundCheck
+                                .getEncumbExpenseMethod())) {
+                            budgetAmt = budgetAmt.subtract(amount);
+                        }
+                    }
+                }
+                fundBalanceAmt = fundBalanceAmt.add(acctBalance.getAccountLineEncumbranceBalanceAmount().add(acctBalance.getAccountLineActualsBalanceAmount()));
+                fundBalanceAmt = budgetAmt.subtract(fundBalanceAmt);
+            }
+        }
+        return fundBalanceAmt;
+    }
+
+
+    /*private KualiDecimal getBudgetAllocationForObject(String chartCode, String accountNumber, String objectCode) {
         Map budgetMap = new HashMap();
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         budgetMap.put(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR,
@@ -235,6 +424,8 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         return encumAmount;
     }
 
+
+
     private KualiDecimal getBudgetAllocationForAccount(String chartCode, String accountNumber, String objectCode) {
         Map budgetMap = new HashMap();
         KualiDecimal initialBudgetAmount = KualiDecimal.ZERO;
@@ -290,6 +481,9 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         return initialBudgetAmount;
     }
 
+
+
+
     private KualiDecimal getEncumbranceForObject(String chartCode, String accountNumber, String objectCode) {
         Map encMap = new HashMap();
         Map itemMap = new HashMap();
@@ -331,6 +525,8 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         }
         return encumAmount;
     }
+*/
+
 
 
     public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine) {
@@ -339,14 +535,17 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         String accNo = accLine.getAccountNumber();
         String objectCd = accLine.getFinancialObjectCode();
         String fundCodeType = getFundCode(chartCode, accNo);
-        KualiDecimal budgetAllocation = KualiDecimal.ZERO;
-        KualiDecimal encumbranceAmt = KualiDecimal.ZERO;
+      //  KualiDecimal budgetAllocation = KualiDecimal.ZERO;
+        KualiDecimal fundBalanceAmt = KualiDecimal.ZERO;
+        KualiDecimal glPendingAmt = KualiDecimal.ZERO;
         Map<String, Object> fundKey = new HashMap<String, Object>();
         String notificationOption = null;
         fundKey.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
         fundKey.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
         OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
                 OleSufficientFundCheck.class, fundKey);
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        int currentFiscalYear =  universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
         if (account != null) {
             notificationOption = account.getNotificationOption();
         }
@@ -354,34 +553,50 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         if (fundCodeType != null && fundCodeType.equals(OLEConstants.ACCOUNT_FUND_CODE)) {
 
             if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)) {
-                budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
-                encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
-                budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+              //  budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
+             //   encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForAccount(chartCode, accNo, currentFiscalYear);
+        //        budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
             }
 
-            if (accLine.getAmount().isGreaterThan(budgetAllocation)) {
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
                 hasSufficientFundRequired = true;
             } else {
-                hasSufficientFundRequired = false;
+                glPendingAmt = getGLPendingAmtForAccount(chartCode, accNo, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
             }
 
         } else if (fundCodeType != null && fundCodeType.equals(OLEConstants.OBJECT_FUND_CODE)) {
            if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)) {
-                budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
-                encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
-                budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+            //    budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
+              //  encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
+               fundBalanceAmt = getFundBalanceForObject(chartCode, accNo, objectCd,currentFiscalYear);
+           //     budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
             }
-            if (accLine.getAmount().isGreaterThan(budgetAllocation)) {
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
                 hasSufficientFundRequired = true;
-            } else {
-                hasSufficientFundRequired = false;
+            }   else {
+                    glPendingAmt = getGLPendingAmtForObject(chartCode, accNo, objectCd, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                    if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                        hasSufficientFundRequired = true;
+                    } else {
+                        hasSufficientFundRequired = false;
+
+                    }
+                }
             }
-        }
         return hasSufficientFundRequired;
     }
 
 
-    public KualiDecimal getBudgetAdjustmentIncreaseForObject(String chartCode, String accountNo,
+   /* public KualiDecimal getBudgetAdjustmentIncreaseForObject(String chartCode, String accountNo,
                                           String objectCode) {
         Map searchMap = new HashMap();
         searchMap.put("chartOfAccountsCode", chartCode);
@@ -471,7 +686,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
 
         return budgetDecrease.negated();
     }
-
+*/
     public OleSelectDocumentService getOleSelectDocumentService() {
         if(oleSelectDocumentService == null){
             oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
