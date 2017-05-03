@@ -751,10 +751,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 throw new RuntimeException(e);
             }
         }
-        if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
-            fundCheckFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
-            if (fundCheckFlag) {
-                return getUIFModelAndView(form);
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+                fundCheckFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
+                if (fundCheckFlag) {
+                    return getUIFModelAndView(form);
+                }
             }
         }
         List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = oleInvoiceDocument.getPurchaseOrderDocuments();
@@ -857,10 +859,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
            /* Added for Grand total*/
             oleInvoiceDocument.setGrandTotal(oleInvoiceDocument.getGrandTotal());
         }
-        if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
-            fundCheckFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
-            if (fundCheckFlag) {
-                return getUIFModelAndView(form);
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+                fundCheckFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
+                if (fundCheckFlag) {
+                    return getUIFModelAndView(form);
+                }
             }
         }
             String subscriptionValidationMessage = getInvoiceService().createSubscriptionDateOverlapQuestionText(oleInvoiceDocument);
@@ -1089,10 +1093,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             return getUIFModelAndView(form);
         }
         boolean fundCheckFlag = false;
-        if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
-            fundCheckFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
-            if (fundCheckFlag || oleInvoiceDocument.isBlanketApproveValidationFlag() || oleInvoiceDocument.isBlanketApproveSubscriptionDateValidationFlag()) {
-                return getUIFModelAndView(form);
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+                fundCheckFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
+                if (fundCheckFlag || oleInvoiceDocument.isBlanketApproveValidationFlag() || oleInvoiceDocument.isBlanketApproveSubscriptionDateValidationFlag()) {
+                    return getUIFModelAndView(form);
+                }
             }
         }
             String subscriptionValidationMessage = getInvoiceService().createSubscriptionDateOverlapQuestionText(oleInvoiceDocument);
@@ -2375,10 +2381,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             return getUIFModelAndView(form);
         }
         boolean sfcFlag = false;
-        if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
-            sfcFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
-            if (sfcFlag || oleInvoiceDocument.isBlanketApproveValidationFlag() || oleInvoiceDocument.isBlanketApproveSubscriptionDateValidationFlag()) {
-                return getUIFModelAndView(form);
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            if (oleInvoiceDocument.getSourceAccountingLines().size() > 0) {
+                sfcFlag = oleInvoiceFundCheckService.isBudgetReviewRequired(oleInvoiceDocument);
+                if (sfcFlag || oleInvoiceDocument.isBlanketApproveValidationFlag() || oleInvoiceDocument.isBlanketApproveSubscriptionDateValidationFlag()) {
+                    return getUIFModelAndView(form);
+                }
             }
         }
         if(isAmountExceeds){
