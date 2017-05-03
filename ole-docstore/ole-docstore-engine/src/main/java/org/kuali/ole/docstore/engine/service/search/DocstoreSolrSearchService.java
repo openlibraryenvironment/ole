@@ -1104,7 +1104,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
     private String getModifiedText(String searchText) {
         StringBuffer modifiedText = new StringBuffer();
         boolean isHashReplaced=true;
-        if(searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC) || searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML) || searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML) ){
+        if(searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC) || searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML) || searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML)  || searchText.equalsIgnoreCase("RECENTLY-RETURNED")){
             isHashReplaced=false;
         }
         StringCharacterIterator stringCharacterIterator = new StringCharacterIterator(searchText);
