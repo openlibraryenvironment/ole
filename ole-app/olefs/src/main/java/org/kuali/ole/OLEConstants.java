@@ -2194,6 +2194,7 @@ public class OLEConstants {
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
     public static final String CLAIMS_RETURNED_NOTICE = "Claims Returned Notice";
+    public static final String CHECKOUT_RECEIPT_NOTICE = "Checkout Receipt";
     public static final String CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE = "Claims Returned Found No Fees Notice";
     public static final String CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE = "Claims Returned Found Fines Owed Notice";
     public static final String CLAIMS_RETURNED_NOT_FOUND_NOTICE = "Claims Returned Not Found Notice";
@@ -3845,6 +3846,7 @@ public class OLEConstants {
 
     public static final String LOAN_DOCUMENTS = "loanDocuments";
     public static final String DELIVER_NOTICES = "deliverNotices";
+    public static final String SEND_CHECKOUT_RECEIPT_NOTICE = "SEND_CHECKOUT_RECEIPT_NOTICE";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
     public static final String FINE_CALC_WHILE_RENEW = "FINE_CALC_WHILE_RENEW";
 

@@ -5,6 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.PatronBillPayment;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.controller.checkout.CircUtilController;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.deliver.service.impl.CheckoutReceiptNoticeExecutor;
+import org.kuali.ole.deliver.util.ItemInfoUtil;
+import org.kuali.ole.deliver.util.OleItemRecordForCirc;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
@@ -37,6 +43,7 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     protected static final String ENTITY_NAME_PROPERTY_PREFIX = "entity.names.";
     protected static final String BILL_ENTITY_NAME_PROPERTY_PREFIX = "olePatron.entity.names.";
     private BusinessObjectService businessObjectService;
+    private ParameterValueResolver parameterValueResolver;
     protected Map<String, String> criteriaConversion = new HashMap<String, String>();
 
     {
@@ -873,5 +880,65 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
         return emailId;
     }
 
+    public void generateCheckoutReceiptNotice(List<OleLoanDocument> oleLoanDocument) throws Exception {
+        Map claimMap = new HashMap();
+        claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocument);
+        Runnable checkoutReceiptNoticeExecutor = new CheckoutReceiptNoticeExecutor(claimMap);
+        checkoutReceiptNoticeExecutor.run();
+
+    }
+
+    public void sendMailToPatron(List<OleLoanDocument> oleLoanDocumentList) throws Exception {
+        Boolean isSendCheckoutReceipt = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE, OLEConstants
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.SEND_CHECKOUT_RECEIPT_NOTICE);
+        if(isSendCheckoutReceipt) {
+            for (Iterator<OleLoanDocument> iterator = oleLoanDocumentList.iterator(); iterator.hasNext(); ) {
+                OleLoanDocument oleLoanDocument = iterator.next();
+                generateContentforCheckoutReceipt(oleLoanDocument);
+            }
+            generateCheckoutReceiptNotice(oleLoanDocumentList);
+        }
+    }
+
+    private void generateContentforCheckoutReceipt(OleLoanDocument oleLoanDocument) {
+        CircUtilController circUtilController = new CircUtilController();
+        ItemRecord itemRecord = circUtilController.getItemRecordByBarcode(oleLoanDocument.getItemId());
+        if (itemRecord != null && !itemRecord.getClaimsReturnedFlag()) {
+            OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
+            if (StringUtils.isBlank(oleLoanDocument.getItemFullLocation())) {
+                oleLoanDocument.setItemFullLocation(oleItemRecordForCirc.getItemFullPathLocation());
+            }
+            if (oleItemRecordForCirc != null) {
+                List<OLEDeliverNotice> oleDeliverNoticeList = createNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemId());
+                if (CollectionUtils.isNotEmpty(oleDeliverNoticeList)) {
+                    oleLoanDocument.getDeliverNotices().addAll(oleDeliverNoticeList);
+                }
+            }
+        }
+    }
+
+    private List<OLEDeliverNotice> createNotices(String patronId, String itemId) {
+        List<OLEDeliverNotice> oleDeliverNoticeList = new ArrayList<>();
+        String noticeContentConfigName = OLEConstants.CHECKOUT_RECEIPT_NOTICE;
+        OLEDeliverNotice oleDeliverNotice = new OLEDeliverNotice();
+        oleDeliverNotice.setNoticeSendType(OLEConstants.EMAIL);
+        oleDeliverNotice.setPatronId(patronId);
+        oleDeliverNotice.setItemBarcode(itemId);
+        oleDeliverNotice.setNoticeType(OLEConstants.CHECKOUT_RECEIPT_NOTICE);
+        oleDeliverNotice.setNoticeContentConfigName(noticeContentConfigName);
+        oleDeliverNoticeList.add(oleDeliverNotice);
+        return oleDeliverNoticeList;
+    }
+
+    public ParameterValueResolver getParameterValueResolver() {
+        if (null == parameterValueResolver) {
+            parameterValueResolver = ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
+    }
 
 }
