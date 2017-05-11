@@ -1311,6 +1311,8 @@ public class OLEConstants {
     public static final String ITEM_STATUS_LOANED_ANOTHER_PATRON_PERMISSION = "Item currently loaned to another patron";
     public static final String ITEM_STATUS_RETURNED_DAMAGED = "RETURNED-DAMAGED";
     public static final String ITEM_STATUS_RETURNED_MISSING = "RETURNED-WITH-MISSING-ITEMS";
+    public static final String ITEM_STATUS_LOST_AND_PAID = "LOST-AND-PAID";
+    public static final String REPLACED = "PAY_REPLACED";
     public static final String CHANGE_LOC_MESS = "Are you sure you want to change the Circulation Location?You will lose your information.";
     public static final String CIR_LOC_NULL = "Please select your circulation location.";
     public static final String OVERDUE_FINE = "Overdue Fine";
