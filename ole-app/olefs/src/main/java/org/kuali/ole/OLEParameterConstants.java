@@ -24,6 +24,7 @@ public class OLEParameterConstants {
     public static final String EXP_REQ_TITLE = "EXP_REQ_TITLE";
     public static final String EXPIRED_TITLE = "EXPIRED_TITLE";
     public static final String ONHOLD_COURTESY_TITLE= "ONHOLD_COURTESY_TITLE";
+    public static final String LOST_PROCESSING_FEE= "LOST_PROCESSING_FEE";
     public static final String ITEM_DIGIT_ROUTINE = "ITEM_DIGIT_ROUTINE";
     public static final String ITEM_DIGIT_ROUTINE_PATTERN = "ITEM_DIGIT_ROUTINE_PATTERN";
     public static final String ITEM_STATUS_READONLY = "ITEM_STATUS_READONLY";

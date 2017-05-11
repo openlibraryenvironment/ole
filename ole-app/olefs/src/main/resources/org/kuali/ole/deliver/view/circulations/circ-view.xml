@@ -56,6 +56,8 @@
                <bean id="fastAddDialog" parent="fastAddItemDialog"/>
                <bean id="claimsReturnDialog" parent="claimsReturnNoteDialog"/>
                <bean id="checkForRequestExistsDialog" parent="checkingForRequestExistsDialog"/>
+               <bean id="checkForRequestExistsLostItemDialog" parent="checkingForRequestExistsLostItemDialog"/>
+               <bean id="checkForRequestExistsLostItemReplaceCopyDialog" parent="checkingForRequestExistsLostItemReplaceCopyDialog"/>
                <bean id="generalInfoDialog" parent="generalInfoMessageDialog"/>
                <bean id="generalInfoWithRefreshDialog" parent="generalInfoWithRefreshMessageDialog"/>
                <bean id="alterDueDateDialog" parent="alterDueDateSectionDialog"/>
