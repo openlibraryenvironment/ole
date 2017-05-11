@@ -164,17 +164,23 @@
     <changeSet context="bootstrap" author="ole" id="OLE_PTRN_PAY_STA_T_MYSQL" dbms="mysql">
         <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
         <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_SUSPENDED', 'Suspended', '9j889f30-96nw-5d7j-8d89-7j17cf97520', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_S values ()</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'PAY_REPLACED', 'Replaced', '9j889f30-1234-5d7j-8d89-7j17cf97520', '1')</sql>
     </changeSet>
     <changeSet context="bootstrap" author="ole" id="OLE_PTRN_PAY_STA_T_ORACLE" dbms="oracle">
         <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_SUSPENDED', 'Suspended', '9j889f30-96nw-5d7j-8d89-7j17cf97520', '1')</sql>
+        <sql>INSERT INTO OLE_PTRN_PAY_STA_T (PAY_STA_ID, PAY_STA_CODE, PAY_STA_NAME, OBJ_ID, VER_NBR) VALUES (OLE_PTRN_PAY_STA_S.NEXTVAL, 'PAY_REPLACED', 'Replaced', '9j889f30-1234-5d7j-8d89-7j17cf97520', '1')</sql>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_ITEM_AVAIL_STAT_T_MYSQL" dbms="mysql">
         <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_S values ()</sql>
         <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_T (ITEM_AVAIL_STAT_ID, ITEM_AVAIL_STAT_CD, ITEM_AVAIL_STAT_NM, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'MISSING', 'MISSING', '1abf3de3-2221-4249-a829-2c386ee9f515', '1')</sql>
+        <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_S values ()</sql>
+        <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_T (ITEM_AVAIL_STAT_ID, ITEM_AVAIL_STAT_CD, ITEM_AVAIL_STAT_NM, OBJ_ID, VER_NBR) VALUES (last_insert_id(), 'LOST-AND-PAID', 'Lost and Paid', '1abf3de3-2222-4249-a829-2c386ee9f515', '1')</sql>
     </changeSet>
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_ITEM_AVAIL_STAT_T_ORACLE" dbms="oracle">
         <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_T (ITEM_AVAIL_STAT_ID, ITEM_AVAIL_STAT_CD, ITEM_AVAIL_STAT_NM, OBJ_ID, VER_NBR) VALUES (OLE_DLVR_ITEM_AVAIL_STAT_S.NEXTVAL, 'MISSING', 'MISSING', '1abf3de3-2221-4249-a829-2c386ee9f515', '1')</sql>
+        <sql>INSERT INTO OLE_DLVR_ITEM_AVAIL_STAT_T (ITEM_AVAIL_STAT_ID, ITEM_AVAIL_STAT_CD, ITEM_AVAIL_STAT_NM, OBJ_ID, VER_NBR) VALUES (OLE_DLVR_ITEM_AVAIL_STAT_S.NEXTVAL, 'LOST-AND-PAID', 'Lost and Paid', '1abf3de3-2222-4249-a829-2c386ee9f515', '1')</sql>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_T_ADD">
