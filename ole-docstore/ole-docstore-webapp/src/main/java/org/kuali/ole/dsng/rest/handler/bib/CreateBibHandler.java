@@ -65,13 +65,14 @@ public class CreateBibHandler extends BibHandler {
 
                     saveBibInfoRecord(bibRecord, true);
                 }
-            }else{
-                try{
-                    isValidLeaderCheck(newBibContent);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                    addFailureReportToExchange(requestJsonObject, exchange, "bib", e, null);
+                else{
+                    try{
+                        isValidLeaderCheck(newBibContent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                        addFailureReportToExchange(requestJsonObject, exchange, "bib", e, null);
+                    }
                 }
             }
 
