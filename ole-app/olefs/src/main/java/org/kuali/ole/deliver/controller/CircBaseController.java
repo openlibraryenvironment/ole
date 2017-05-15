@@ -1,8 +1,10 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.controller.checkout.CheckoutUIController;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.CircForm;
@@ -10,6 +12,8 @@ import org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.ErrorMessage;
+import org.kuali.ole.service.OlePatronHelperService;
+import org.kuali.ole.service.OlePatronHelperServiceImpl;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
@@ -27,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 
@@ -38,6 +43,7 @@ public class CircBaseController extends OLEUifControllerBase{
     private static final Logger LOG = Logger.getLogger(CircBaseController.class);
 
     private CircDeskLocationResolver circDeskLocationResolver;
+    private OlePatronHelperService olePatronHelperService;
     public volatile static String fastAddBarcode = "";
     //TODO: Clean up the map once session timeout is implemented.
     private Map<String, CheckoutUIController> controllerMap = new HashMap<>();
@@ -194,6 +200,24 @@ public class CircBaseController extends OLEUifControllerBase{
     @RequestMapping(params = "methodToCall=redirectHomePage")
     public ModelAndView redirect(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
+        }
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
+        }
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
+        }
+        if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
+            try {
+                getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
         String url = baseUrl + "/portal.do";
         Properties props = new Properties();
@@ -209,6 +233,12 @@ public class CircBaseController extends OLEUifControllerBase{
             controllerMap.put(formKey, checkoutUIController);
         }
         return controllerMap.get(formKey);
+    }
+
+    public OlePatronHelperService getOlePatronHelperService(){
+        if(olePatronHelperService==null)
+            olePatronHelperService=new OlePatronHelperServiceImpl();
+        return olePatronHelperService;
     }
 }
 

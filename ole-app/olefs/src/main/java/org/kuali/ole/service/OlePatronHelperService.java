@@ -52,4 +52,6 @@ public interface OlePatronHelperService {
 
     public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception;
 
+    public void sendMailToPatron(List<OleLoanDocument> oleLoanDocumentList) throws Exception;
+
 }
