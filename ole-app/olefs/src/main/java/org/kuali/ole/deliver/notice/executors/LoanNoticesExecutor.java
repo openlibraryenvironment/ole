@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.notice.executors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.common.util.CollectionUtils;
 import org.kuali.incubator.SolrRequestReponseHandler;
@@ -38,29 +39,36 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         LOG.info("NoticesExecutor thread id---->"+Thread.currentThread().getId()+"current thread---->"+Thread.currentThread());
 
         //1. Pre process
-        preProcess(loanDocuments);
+        if((this instanceof ClaimsReturnedNoticesExecutor)){
+            preProcess(loanDocuments);
+        }
         //2. Determine the correct NoticeConfigurationBo
         setOleNoticeContentConfigurationBo();
         //3. generate email content
         String mailContent = generateMailContent(loanDocuments);
-        //4. Generate notices
-        List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
-        //5. Save loan document
-        if(!(this instanceof ClaimsReturnedNoticesExecutor)){
-            saveLoanDocument();
+        if(StringUtils.isNotBlank(mailContent)) {
+            if(!(this instanceof ClaimsReturnedNoticesExecutor)){
+                preProcess(loanDocuments);
+            }
+            //4. Generate notices
+            List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
+            //5. Save loan document
+            if(!(this instanceof ClaimsReturnedNoticesExecutor)){
+                saveLoanDocument();
+            }
+            //6. Delete notices
+            deleteNotices(oleDeliverNotices);
+            //7. update notice history
+            saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
+            //8. send mail
+            sendMail(mailContent);
+            //9. Index the mail content for solr search
+            getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(
+                    getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                            buildMapForIndexToSolr(getNoticeType(), mailContent, loanDocuments))));
+            //10. Post process
+            postProcess(loanDocuments);
         }
-        //6. Delete notices
-        deleteNotices(oleDeliverNotices);
-        //7. update notice history
-        saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
-        //8. send mail
-        sendMail(mailContent);
-        //9. Index the mail content for solr search
-        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(
-                getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
-                        buildMapForIndexToSolr(getNoticeType(), mailContent, loanDocuments))));
-        //10. Post process
-        postProcess(loanDocuments);
     }
 
     public void saveLoanDocument() {
