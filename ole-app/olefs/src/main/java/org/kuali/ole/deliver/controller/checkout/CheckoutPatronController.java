@@ -63,7 +63,7 @@ public class CheckoutPatronController extends CheckoutItemController {
     public ModelAndView searchPatron(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
-
+        sendCheckoutRecipet(circForm);
         if (circForm.isAutoCheckout()) {
             resetUIForAutoCheckout(circForm, result, request, response);
         }else{
@@ -261,23 +261,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                                     HttpServletRequest request, HttpServletResponse response) {
         fastAddBarcode = "";
         CircForm circForm = (CircForm) form;
-        List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
-        }
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
-        }
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
-        }
-        if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
-            try {
-                getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        sendCheckoutRecipet(circForm);
         clearUI(circForm, result, request, response);
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String circDesk = getCircDesk(principalId);
@@ -293,23 +277,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                                     HttpServletRequest request, HttpServletResponse response) {
         fastAddBarcode = "";
         CircForm circForm = (CircForm) form;
-        List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
-        }
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
-        }
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
-        }
-        if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
-            try {
-                getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        sendCheckoutRecipet(circForm);
         clearUI(circForm, result, request, response);
         return getUIFModelAndView(circForm, circForm.getPageId());
     }
@@ -449,6 +417,27 @@ public class CheckoutPatronController extends CheckoutItemController {
             circForm.setLightboxScript(patronLightBoxScript);
         }
         return getUIFModelAndView(form);
+    }
+
+    private void sendCheckoutRecipet(CircForm circForm) {
+        List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
+        }
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
+        }
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
+        }
+        if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
+            try {
+                getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

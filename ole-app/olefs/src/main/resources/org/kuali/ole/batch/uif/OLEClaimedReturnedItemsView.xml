@@ -13,6 +13,7 @@
                     <property name="items">
                         <list>
                             <ref bean="ClaimedReturnedSearchPanel"/>
+                            <ref bean="ClaimedReturnedItemsButtons"/>
                             <ref bean="ClaimedReturnedItemButtons"/>
                             <ref bean="ClaimedReturnedItemResultSection"/>
                         </list>
@@ -87,6 +88,25 @@
                       p:methodToCall="search" p:actionLabel="Search"/>
                 <bean parent="Uif-SecondaryActionButton"
                       p:methodToCall="searchedNotFound" p:actionLabel="Searched Not Found"
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimedReturnedItemsButtons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:style="margin-left:40%;"
+                      p:actionLabel="Claims Item as Lost"
+                      p:actionScript="submitForm('processBillForItem',{isBillForItem:true},null,true,function(){});"
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:actionLabel="Claims Item as Missing"
+                      p:actionScript="submitForm('processBillForItem',{isBillForItem:false},null,true,function(){});"
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:actionLabel="Cancel Claims Return"
+                      p:methodToCall="cancelClaimsReturn"
                       p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
             </list>
         </property>

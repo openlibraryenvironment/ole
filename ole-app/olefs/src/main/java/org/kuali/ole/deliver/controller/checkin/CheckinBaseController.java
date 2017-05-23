@@ -327,7 +327,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                     processClaimsReturnedAndLostItem(oleForm, loanDocument, checkinDate);
                 } else if (claimsReturnedFlag) {
                     processClaimsReturnedItem(oleForm, loanDocument, billNumber);
-                } else if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+                } else if (oleItemRecordForCirc.getItemStatusRecord() != null && (OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode()) || (OLEConstants.ITEM_STATUS_LOST_AND_PAID.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())))) {
                     processLostItem(getOperatorId(oleForm), loanDocument, false);
                 }
             } catch (Exception e) {

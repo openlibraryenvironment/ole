@@ -132,6 +132,19 @@
         </TR>
     </#if>
 
+    <#if (oleNoticeBo.noticeType == "Claims Rtrnd Not Found Fines Owed Notice") || (oleNoticeBo.noticeType == "Claims Returned Not Found Notice") ||
+         (oleNoticeBo.noticeType == "Claims Returned Not Found No Fees Notice") || (oleNoticeBo.noticeType == "Claims Returned Found No Fees Notice") ||
+         (oleNoticeBo.noticeType == "Claims Returned Found Fines Owed Notice")>
+        <TR>
+            <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Claims Search Count")} :</TD>
+            <#if oleNoticeBo.claimsSearchCount ??>
+                <TD>${oleNoticeBo.claimsSearchCount}</TD>
+            <#else>
+                <TD>0</TD>
+            </#if>
+        </TR>
+    </#if>
+
 </table>
 
 </#macro>
