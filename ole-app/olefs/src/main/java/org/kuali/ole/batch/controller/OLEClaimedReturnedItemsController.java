@@ -223,6 +223,35 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         return getUIFModelAndView(oleClaimedReturnedItemsForm, "OLEClaimedReturnedItemsViewPage");
     }
 
+    @RequestMapping(params = "methodToCall=cancelClaimsReturn")
+    public ModelAndView cancelClaimsReturn(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response){
+
+        OLEClaimedReturnedItemsForm oleClaimedReturnedItemsForm =(OLEClaimedReturnedItemsForm)form;
+        oleClaimedReturnedItemsForm.setBillForItem(false);
+        List<OLEClaimedReturnedItemResult> selectedClaimedReturnedItemResults = getSelectedClaimedReturnedItemResults(oleClaimedReturnedItemsForm);
+        if (CollectionUtils.isEmpty(selectedClaimedReturnedItemResults)) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_ANY_ITEM);
+        } else {
+            CircUtilController circUtilController = new CircUtilController();
+            for(OLEClaimedReturnedItemResult oleClaimedReturnedItemResult : selectedClaimedReturnedItemResults){
+                OleLoanDocument oleLoanDocument = oleClaimedReturnedItemResult.getOleLoanDocument();
+                oleLoanDocument.setLastClaimsReturnedSearchedDate(null);
+                oleLoanDocument.setClaimsSearchCount(0);
+                oleLoanDocument.setNoOfClaimsReturnedNoticesSent(0);
+                Map parameterMap = new HashMap();
+                parameterMap.put("deleteClaimsReturn", null);
+                circUtilController.deleteItemInfoInSolr(parameterMap, oleLoanDocument.getItemUuid());
+                getBusinessObjectService().save(oleLoanDocument);
+                oleClaimedReturnedItemsForm.getClaimedReturnedItemResults().remove(oleClaimedReturnedItemResult);
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, OLEConstants.RECORD_UPDATED_SUCCESSFULLY);
+            }
+        }
+
+        return getUIFModelAndView(oleClaimedReturnedItemsForm, "OLEClaimedReturnedItemsViewPage");
+    }
+
+
     private void createOrUpdateBillForItem(boolean isNotifyClaimsReturnedToPatron, OleLoanDocument oleLoanDocument) {
         CircUtilController circUtilController = new CircUtilController();
         oleLoanDocument.setLastClaimsReturnedSearchedDate(null);
