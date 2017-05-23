@@ -136,18 +136,17 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
         noticeHtmlContent.append("<HTML>\n<TITLE>");
         noticeHtmlContent.append(oleNoticeContentConfigurationBo.getNoticeTitle() + "</TITLE>\n \n <HEAD></HEAD>\n <BODY>");
         noticeHtmlContent.append("<CENTER><font size=50><b>" +oleNoticeContentConfigurationBo.getNoticeTitle() + "</b></font></CENTER><br/>");
-        noticeHtmlContent.append("<CENTER><font size=40><b>" +oleLoanDocuments.get(0).getOlePatron().getPatronName() + "</b></font></CENTER><br/>");
+        noticeHtmlContent.append("<CENTER>" +oleLoanDocuments.get(0).getOlePatron().getPatronName() + "</CENTER><br/>");
         noticeHtmlContent.append("<CENTER>" +oleLoanDocuments.get(0).getOlePatron().getBarcode() + "</CENTER><br/>");
         noticeHtmlContent.append("<p>" +oleNoticeContentConfigurationBo.getNoticeBody() + "</p><br/>");
         noticeHtmlContent.append("<table>");
         for(OleLoanDocument oleLoanDocument : oleLoanDocuments) {
-            noticeHtmlContent.append("<tr>");
-            noticeHtmlContent.append("<td>" + count + "</td>");
-            noticeHtmlContent.append("<td>" + oleLoanDocument.getTitle() + "</td>");
-            noticeHtmlContent.append("<td>" + oleLoanDocument.getItemId() + "</td>");
-            noticeHtmlContent.append("<td> <b> Due : </b>" + df.format(oleLoanDocument.getLoanDueDate()) + "</td>");
-            noticeHtmlContent.append("</tr><br/>");
-            count++;
+            noticeHtmlContent.append("<tr><td>" + oleLoanDocument.getTitle() + "</td></tr>");
+            noticeHtmlContent.append("<tr><td>" + oleLoanDocument.getItemId() + "</td></tr>");
+            if(oleLoanDocument.getLoanDueDate()!=null) {
+                noticeHtmlContent.append("<tr><td> <b> Due : </b>" + df.format(oleLoanDocument.getLoanDueDate()) + "</td></tr>");
+            }
+            noticeHtmlContent.append("<tr><td>*************************************************<br/></td></tr>");
         }
         noticeHtmlContent.append("</table><br/>");
         SimpleDateFormat df1 = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
