@@ -322,6 +322,9 @@ public class RenewController extends CircUtilController {
                 oleLoanDocument.setLoanDueDate(expirationDate);
             }
         }
+        if (oleLoanDocument.getLoanDueDate() != null) {
+            oleLoanDocument.setRenewalDateMap(oleLoanDocument.getLoanDueDate());
+        }
     }
 
     private boolean isPatronExpirationGreaterThanToday(Timestamp expirationDate) {
