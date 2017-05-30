@@ -13,6 +13,7 @@ import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.common.service.DocstoreService;
 import org.kuali.ole.docstore.engine.service.index.DocstoreIndexService;
 import org.kuali.ole.docstore.engine.service.index.DocstoreIndexServiceImpl;
+import org.kuali.ole.docstore.engine.service.index.solr.BibMarcIndexer;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSearchService;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.DocstoreRDBMSStorageService;
@@ -815,6 +816,7 @@ public class DocstoreServiceImpl implements DocstoreService {
     public void bulkUpdateHoldings(Holdings holdings, List<String> holdingIds, String canUpdateStaffOnlyFlag) {
         HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
         OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
+        List<String> bibIds = new ArrayList<>();
         try {
             for (String holdingId : holdingIds) {
                 Holdings existingHoldings = (Holdings) getDocstoreStorageService().retrieveHoldings(holdingId);
@@ -891,13 +893,24 @@ public class DocstoreServiceImpl implements DocstoreService {
                     existingHoldings.setType(holdings.getType());
                     existingHoldings.setFormat(holdings.getFormat());
                     existingHoldings.setContent(holdingOlemlRecordProcessor.toXML(existingOleHoldings));
-                    updateHoldings(existingHoldings);
+                    try {
+                        updateHoldings(existingHoldings);
+                    } catch (Exception e){
+                        bibIds.add(existingOleHoldings.getBibIdentifier());
+                    }
                 } else {
                     DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.HOLDING_ID_NOT_FOUND, DocstoreResources.HOLDING_ID_NOT_FOUND);
                     docstoreException.addErrorParams("holdingsId", holdingId);
                     throw docstoreException;
                 }
 
+            }
+            if(bibIds.size()>0){
+                BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+                DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+                for(String bibId : bibIds) {
+                    bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(bibId));
+                }
             }
         } catch (Exception e) {
             LOG.error("Exception occurred while doing bulk update of Holdings  ", e);

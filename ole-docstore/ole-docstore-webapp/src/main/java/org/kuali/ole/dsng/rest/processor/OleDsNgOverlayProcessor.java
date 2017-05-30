@@ -168,17 +168,17 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                         Integer multipleMatchedHoldings = (Integer) exchange.get("multipleMatchedHoldings");
                         if (null != multipleMatchedHoldings) {
-                            oleNGBibImportResponse.setMultipleMatchedHoldingsCount(oleNGBibImportResponse.getMultipleMatchedHoldingsCount() + multipleMatchedHoldings);
+                            oleNGBibImportResponse.setMultipleMatchedHoldingsCount(multipleMatchedHoldings);
                         }
 
                         Integer multipleMatchedEHoldings = (Integer) exchange.get("multipleMatchedEHoldings");
                         if (null != multipleMatchedEHoldings) {
-                            oleNGBibImportResponse.setMultipleMatchedEHoldingsCount(oleNGBibImportResponse.getMultipleMatchedEHoldingsCount() + multipleMatchedEHoldings);
+                            oleNGBibImportResponse.setMultipleMatchedEHoldingsCount(multipleMatchedEHoldings);
                         }
 
                         Integer multipleMatchedItems = (Integer) exchange.get("multipleMatchedItems");
                         if (null != multipleMatchedItems) {
-                            oleNGBibImportResponse.setMultipleMatchedItemsCount(oleNGBibImportResponse.getMultipleMatchedItemsCount() + multipleMatchedItems);
+                            oleNGBibImportResponse.setMultipleMatchedItemsCount(multipleMatchedItems);
                         }
                     }
                     ArrayList validationErrorMessages = (ArrayList) exchange.get("validationErrorMessages");
