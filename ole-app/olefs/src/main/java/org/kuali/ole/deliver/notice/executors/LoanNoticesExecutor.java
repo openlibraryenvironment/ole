@@ -46,7 +46,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         setOleNoticeContentConfigurationBo();
         //3. generate email content
         String mailContent = generateMailContent(loanDocuments);
-        if(StringUtils.isNotBlank(mailContent)) {
+        if(StringUtils.isNotBlank(mailContent) && !mailContent.contains("FreeMarker template error")) {
             if(!(this instanceof ClaimsReturnedNoticesExecutor)){
                 preProcess(loanDocuments);
             }
