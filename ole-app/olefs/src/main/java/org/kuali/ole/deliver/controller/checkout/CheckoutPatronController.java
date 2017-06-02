@@ -417,16 +417,19 @@ public class CheckoutPatronController extends CheckoutItemController {
         return getUIFModelAndView(form);
     }
 
-    private void sendCheckoutRecipet(CircForm circForm) {
+    public void sendCheckoutRecipet(CircForm circForm) {
         List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
             oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
+            circForm.getLoanDocumentListForCurrentSession().clear();
         }
         if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
             oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
+            circForm.getLoanDocumentsForAlterDueDate().clear();
         }
         if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
             oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
+            circForm.getLoanDocumentsForRenew().clear();
         }
         if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
             try {
