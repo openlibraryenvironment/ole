@@ -72,6 +72,7 @@ public class CircController extends CheckoutValidationController {
         CircForm circForm = (CircForm) form;
 
         if (!circForm.getPatronBarcode().equals(circForm.getPatronDocument().getBarcode())) {
+            sendCheckoutRecipet(circForm);
             resetUI(circForm, result, request, response);
         }
 
