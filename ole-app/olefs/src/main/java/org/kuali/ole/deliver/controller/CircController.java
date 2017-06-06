@@ -1163,7 +1163,7 @@ public class CircController extends CheckoutValidationController {
                     break;
                 }  else {
                     for(FeeType feeType : feeTypes){
-                        if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAY_OUTSTANDING) && feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase("Replacement Fee") && feeType.getItemBarcode().equalsIgnoreCase(loanDocument.getItemId())){
+                        if(feeType.getPaymentStatusCode().equalsIgnoreCase(OLEConstants.PAY_OUTSTANDING) && feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) && feeType.getItemBarcode().equalsIgnoreCase(loanDocument.getItemId())){
                             isBillValid = true;
                             break;
                         }

@@ -624,7 +624,7 @@ public class PatronBillHelperService {
                             feeType.setActiveItem(false);
                             patronBillPayment.setPaymentAmount(payAmt.subtract(paymentAmount));
                             payAmt = paymentAmount;
-                            if(patronFeeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase("Replacement Fee")){
+                            if(patronFeeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE)){
                                 changeToLostReplace(patronFeeType);
                             }
                         } else {
@@ -1001,7 +1001,7 @@ public class PatronBillHelperService {
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
                         feeType.setCreditNote(creditNote);
                         remainingPaymentAmount = paymentAmount;
-                        if(feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase("Replacement Fee")) {
+                        if(feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE)) {
                             changeToLostReplace(feeType);
                         }
                     } else if (remainingPaymentAmount.isGreaterThan(KualiDecimal.ZERO)) {

@@ -647,7 +647,7 @@ public class NoticeMailContentFormatterTest {
         protected void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo) {
             oleNoticeBo.setNoticeTitle("Lost");
             oleNoticeBo.setBillNumber(oleLoanDocument.getRepaymentFeePatronBillId());
-            oleNoticeBo.setFeeType("Replacement Bill");
+            oleNoticeBo.setFeeType(OLEConstants.REPLACEMENT_FEE);
             oleNoticeBo.setFeeAmount(oleLoanDocument.getReplacementBill());
         }
 

@@ -6,7 +6,7 @@
         FEE_TYP_NM="Overdue Fine"
         OBJ_ID="0cc1a894-d34e-4ec2-8479-9adf974fd72e" VER_NBR="1"/>
     <OLE_DLVR_PTRN_FEE_TYPE_T FEE_TYP_CD="REPL_FEE" FEE_TYP_ID="2"
-        FEE_TYP_NM="Replacement Fee"
+        FEE_TYP_NM="Lost Item Fee"
         OBJ_ID="ae468414-4b93-4d09-a683-3e2b61e8aab0" VER_NBR="1"/>
     <OLE_DLVR_PTRN_FEE_TYPE_T FEE_TYP_CD="SER_FEE" FEE_TYP_ID="3"
         FEE_TYP_NM="Service Fee"
