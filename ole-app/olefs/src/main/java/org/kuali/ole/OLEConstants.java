@@ -1316,7 +1316,7 @@ public class OLEConstants {
     public static final String CHANGE_LOC_MESS = "Are you sure you want to change the Circulation Location?You will lose your information.";
     public static final String CIR_LOC_NULL = "Please select your circulation location.";
     public static final String OVERDUE_FINE = "Overdue Fine";
-    public static final String REPLACEMENT_FEE = "Replacement Fee";
+    public static final String REPLACEMENT_FEE = getParameter("LOST_ITEM_FEE");
     public static final String LOST_ITEM_PROCESSING_FEE = "Lost Item Processing Fee";
     public static final String SERVICE_FEE = "Service Fee";
     public static final String ADMIN_USER = "admin";

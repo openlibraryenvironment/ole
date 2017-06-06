@@ -7180,23 +7180,23 @@ SELECT g.NMSPC_CD
 , mg.GRP_NM AS mbr_grp_nm
 , mg.GRP_ID AS mbr_grp_id
 FROM KRIM_GRP_MBR_T gm
-LEFT JOIN krim_grp_t g
+LEFT JOIN KRIM_GRP_T g
 ON g.GRP_ID = gm.GRP_ID
-LEFT OUTER JOIN krim_grp_t mg
+LEFT OUTER JOIN KRIM_GRP_T mg
 ON mg.GRP_ID = gm.MBR_ID
 AND gm.MBR_TYP_CD = 'G'
-LEFT OUTER JOIN krim_prncpl_t p
+LEFT OUTER JOIN KRIM_PRNCPL_T p
 ON p.PRNCPL_ID = gm.MBR_ID
 AND gm.MBR_TYP_CD = 'P'
-LEFT OUTER JOIN krim_entity_nm_t en
+LEFT OUTER JOIN KRIM_ENTITY_NM_T en
 ON en.ENTITY_ID = p.ENTITY_ID
 AND en.DFLT_IND = 'Y'
 AND en.ACTV_IND = 'Y'
 ORDER BY nmspc_cd, grp_nm, prncpl_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7206,14 +7206,14 @@ ORDER BY nmspc_cd, grp_nm, prncpl_nm
 # -----------------------------------------------------------------------
 drop view if exists KRIM_GRP_V
 /
-CREATE VIEW KRIM_GRP_V AS 
+CREATE VIEW KRIM_GRP_V AS
 SELECT g.NMSPC_CD
 , g.grp_nm
 , g.GRP_ID
 , t.NM AS grp_typ_nm
 , a.NM AS attr_nm
 , d.ATTR_VAL AS attr_val
-FROM krim_grp_t g
+FROM KRIM_GRP_T g
 LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d
 ON d.grp_id = g.GRP_ID
 LEFT OUTER JOIN KRIM_ATTR_DEFN_T a
@@ -7222,8 +7222,8 @@ LEFT OUTER JOIN KRIM_TYP_T t
 ON g.KIM_TYP_ID = t.KIM_TYP_ID
 
 
- 
- 
+
+
 
 /
 
@@ -7233,7 +7233,7 @@ ON g.KIM_TYP_ID = t.KIM_TYP_ID
 # -----------------------------------------------------------------------
 drop view if exists KRIM_PERM_ATTR_V
 /
-CREATE VIEW KRIM_PERM_ATTR_V AS 
+CREATE VIEW KRIM_PERM_ATTR_V AS
 SELECT
 t.nmspc_cd AS tmpl_nmspc_cd
 , t.NM AS tmpl_nm
@@ -7253,8 +7253,8 @@ ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID
 ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7264,7 +7264,7 @@ ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm
 # -----------------------------------------------------------------------
 drop view if exists KRIM_PERM_V
 /
-CREATE VIEW KRIM_PERM_V AS 
+CREATE VIEW KRIM_PERM_V AS
 SELECT
 t.nmspc_cd AS tmpl_nmspc_cd
 , t.NM AS tmpl_nm
@@ -7281,8 +7281,8 @@ LEFT OUTER JOIN KRIM_TYP_T typ
 ON t.KIM_TYP_ID = typ.KIM_TYP_ID
 
 
- 
- 
+
+
 
 /
 
@@ -7292,7 +7292,7 @@ ON t.KIM_TYP_ID = typ.KIM_TYP_ID
 # -----------------------------------------------------------------------
 drop view if exists KRIM_PRNCPL_V
 /
-CREATE VIEW KRIM_PRNCPL_V AS 
+CREATE VIEW KRIM_PRNCPL_V AS
 SELECT
 p.PRNCPL_ID
 ,p.PRNCPL_NM
@@ -7302,18 +7302,18 @@ p.PRNCPL_ID
 ,ea.CAMPUS_CD
 ,eei.EMP_STAT_CD
 ,eei.EMP_TYP_CD
-FROM krim_prncpl_t p
-LEFT OUTER JOIN krim_entity_emp_info_t eei
+FROM KRIM_PRNCPL_T p
+LEFT OUTER JOIN KRIM_ENTITY_EMP_INFO_T eei
 ON eei.ENTITY_ID = p.ENTITY_ID
-LEFT OUTER JOIN krim_entity_afltn_t ea
+LEFT OUTER JOIN KRIM_ENTITY_AFLTN_T ea
 ON ea.ENTITY_ID = p.ENTITY_ID
-LEFT OUTER JOIN krim_entity_nm_t en
+LEFT OUTER JOIN KRIM_ENTITY_NM_T en
 ON p.ENTITY_ID = en.ENTITY_ID
 AND 'Y' = en.DFLT_IND
 
 
- 
- 
+
+
 
 /
 
@@ -7323,7 +7323,7 @@ AND 'Y' = en.DFLT_IND
 # -----------------------------------------------------------------------
 drop view if exists KRIM_ROLE_GRP_V
 /
-CREATE VIEW KRIM_ROLE_GRP_V AS 
+CREATE VIEW KRIM_ROLE_GRP_V AS
 SELECT r.NMSPC_CD
 , r.ROLE_NM
 , r.role_id
@@ -7345,8 +7345,8 @@ WHERE rm.MBR_TYP_CD = 'G'
 ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7356,7 +7356,7 @@ ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm
 # -----------------------------------------------------------------------
 drop view if exists KRIM_ROLE_PERM_V
 /
-CREATE VIEW KRIM_ROLE_PERM_V AS 
+CREATE VIEW KRIM_ROLE_PERM_V AS
 SELECT r.NMSPC_CD
 , r.ROLE_NM
 , r.role_id
@@ -7382,8 +7382,8 @@ ON rp.ROLE_ID = r.ROLE_ID
 ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7393,7 +7393,7 @@ ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm
 # -----------------------------------------------------------------------
 drop view if exists KRIM_ROLE_PRNCPL_V
 /
-CREATE VIEW KRIM_ROLE_PRNCPL_V AS 
+CREATE VIEW KRIM_ROLE_PRNCPL_V AS
 SELECT r.NMSPC_CD
 , r.ROLE_NM
 , r.ROLE_ID
@@ -7420,8 +7420,8 @@ WHERE (en.DFLT_IND = 'Y')
 ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7431,7 +7431,7 @@ ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm
 # -----------------------------------------------------------------------
 drop view if exists KRIM_ROLE_ROLE_V
 /
-CREATE VIEW KRIM_ROLE_ROLE_V AS 
+CREATE VIEW KRIM_ROLE_ROLE_V AS
 SELECT r.NMSPC_CD
 , r.ROLE_NM
 , r.role_id
@@ -7444,7 +7444,7 @@ SELECT r.NMSPC_CD
 FROM KRIM_ROLE_MBR_T rm
 LEFT JOIN KRIM_ROLE_T r
 ON r.ROLE_ID = rm.ROLE_ID
-LEFT JOIN KRIM_role_T mr
+LEFT JOIN KRIM_ROLE_T mr
 ON mr.role_ID = rm.MBR_ID
 LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d
 ON d.role_mbr_id = rm.ROLE_MBR_ID
@@ -7454,8 +7454,8 @@ WHERE rm.MBR_TYP_CD = 'R'
 ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7465,7 +7465,7 @@ ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm
 # -----------------------------------------------------------------------
 drop view if exists KRIM_ROLE_V
 /
-CREATE VIEW KRIM_ROLE_V AS 
+CREATE VIEW KRIM_ROLE_V AS
 SELECT r.NMSPC_CD
 , r.ROLE_NM
 , r.ROLE_ID
@@ -7480,8 +7480,8 @@ ORDER BY nmspc_cd
 , role_nm
 
 
- 
- 
+
+
 
 /
 
@@ -7491,29 +7491,29 @@ ORDER BY nmspc_cd
 # -----------------------------------------------------------------------
 drop view if exists KRIM_RSP_ATTR_V
 /
-CREATE VIEW KRIM_RSP_ATTR_V AS 
+CREATE VIEW KRIM_RSP_ATTR_V AS
 SELECT
-krim_typ_t.NM AS responsibility_type_name
-, KRIM_rsp_TMPL_T.NM AS rsp_TEMPLATE_NAME
-, KRIM_rsp_T.nmspc_cd AS rsp_namespace_code
-, KRIM_rsp_T.NM AS rsp_NAME
-, krim_rsp_t.RSP_ID AS rsp_id
+KRIM_TYP_T.NM AS responsibility_type_name
+, KRIM_RSP_TMPL_T.NM AS rsp_TEMPLATE_NAME
+, KRIM_RSP_T.NMSPC_CD AS rsp_namespace_code
+, KRIM_RSP_T.NM AS rsp_NAME
+, KRIM_RSP_T.RSP_ID AS rsp_id
 , KRIM_ATTR_DEFN_T.NM AS attribute_name
-, KRIM_rsp_ATTR_DATA_T.ATTR_VAL AS attribute_value
-FROM KRIM_rsp_T KRIM_rsp_T
-INNER JOIN KRIM_rsp_ATTR_DATA_T KRIM_rsp_ATTR_DATA_T
-ON KRIM_rsp_T.rsp_ID = KRIM_rsp_ATTR_DATA_T.rsp_id
+, KRIM_RSP_ATTR_DATA_T.ATTR_VAL AS attribute_value
+FROM KRIM_RSP_T KRIM_RSP_T
+INNER JOIN KRIM_RSP_ATTR_DATA_T KRIM_RSP_ATTR_DATA_T
+ON KRIM_RSP_T.rsp_ID = KRIM_RSP_ATTR_DATA_T.rsp_id
 INNER JOIN KRIM_ATTR_DEFN_T KRIM_ATTR_DEFN_T
-ON KRIM_rsp_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID
-INNER JOIN KRIM_rsp_TMPL_T KRIM_rsp_TMPL_T
-ON KRIM_rsp_T.rsp_TMPL_ID = KRIM_rsp_TMPL_T.rsp_TMPL_ID
+ON KRIM_RSP_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID
+INNER JOIN KRIM_RSP_TMPL_T KRIM_RSP_TMPL_T
+ON KRIM_RSP_T.rsp_TMPL_ID = KRIM_RSP_TMPL_T.rsp_TMPL_ID
 INNER JOIN KRIM_TYP_T KRIM_TYP_T
-ON KRIM_rsp_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID
+ON KRIM_RSP_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID
 ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name
 
 
- 
- 
+
+
 
 /
 
@@ -7523,7 +7523,7 @@ ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name
 # -----------------------------------------------------------------------
 drop view if exists KRIM_RSP_ROLE_ACTN_V
 /
-CREATE VIEW KRIM_RSP_ROLE_ACTN_V AS 
+CREATE VIEW KRIM_RSP_ROLE_ACTN_V AS
 select
 rsp.nmspc_cd as rsp_nmspc_cd
 , rsp.rsp_id
@@ -7537,17 +7537,17 @@ rsp.nmspc_cd as rsp_nmspc_cd
 , actn.ACTN_PLCY_CD
 , actn.FRC_ACTN
 , actn.PRIORITY_NBR
-from krim_rsp_t rsp
-left join krim_rsp_tmpl_t rspt
+from KRIM_RSP_T rsp
+left join KRIM_RSP_TMPL_T rspt
 on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id
-left outer join krim_role_rsp_t rr
+left outer join KRIM_ROLE_RSP_T rr
 on rr.rsp_id = rsp.rsp_id
 left outer join KRIM_ROLE_MBR_T rm
 ON rm.ROLE_ID = rr.ROLE_ID
 left outer join KRIM_ROLE_RSP_ACTN_T actn
 ON actn.ROLE_RSP_ID = rr.ROLE_RSP_ID
 AND (actn.ROLE_MBR_ID = rm.ROLE_MBR_ID OR actn.ROLE_MBR_ID = '*')
-left outer join krim_role_t r
+left outer join KRIM_ROLE_T r
 on rr.role_id = r.role_id
 order by rsp_nmspc_cd
 , rsp_id
@@ -7555,8 +7555,8 @@ order by rsp_nmspc_cd
 , role_mbr_id
 
 
- 
- 
+
+
 
 /
 
@@ -7566,7 +7566,7 @@ order by rsp_nmspc_cd
 # -----------------------------------------------------------------------
 drop view if exists KRIM_RSP_ROLE_V
 /
-CREATE VIEW KRIM_RSP_ROLE_V AS 
+CREATE VIEW KRIM_RSP_ROLE_V AS
 select
 rspt.nmspc_cd as rsp_tmpl_nmspc_cd
 , rspt.nm as rsp_tmpl_nm
@@ -7578,16 +7578,16 @@ rspt.nmspc_cd as rsp_tmpl_nmspc_cd
 , r.NMSPC_CD
 , r.ROLE_NM
 , rr.ROLE_ID
-from krim_rsp_t rsp
-left join krim_rsp_tmpl_t rspt
+from KRIM_RSP_T rsp
+left join KRIM_RSP_TMPL_T rspt
 on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id
-left outer join krim_rsp_attr_data_t d
+left outer join KRIM_RSP_ATTR_DATA_T d
 on rsp.rsp_id = d.rsp_id
-left outer join krim_attr_defn_t a
+left outer join KRIM_ATTR_DEFN_T a
 on d.kim_attr_defn_id = a.kim_attr_defn_id
-left outer join krim_role_rsp_t rr
+left outer join KRIM_ROLE_RSP_T rr
 on rr.rsp_id = rsp.rsp_id
-left outer join krim_role_t r
+left outer join KRIM_ROLE_T r
 on rr.role_id = r.role_id
 order by rsp_tmpl_nmspc_cd, rsp_tmpl_nm, rsp_nmspc_cd, rsp_nm, rsp_id, attr_nm, attr_val
 
