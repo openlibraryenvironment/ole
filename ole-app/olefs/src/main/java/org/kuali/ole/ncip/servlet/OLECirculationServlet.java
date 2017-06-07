@@ -1,15 +1,19 @@
 package org.kuali.ole.ncip.servlet;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.converter.OLECheckInItemConverter;
 import org.kuali.ole.converter.OLELookupUserConverter;
 import org.kuali.ole.converter.OLERenewItemConverter;
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.ncip.bo.OLECirculationErrorMessage;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.bo.OLENCIPErrorResponse;
 import org.kuali.ole.ncip.converter.*;
 import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.impl.*;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +32,7 @@ import java.util.*;
  */
 public class OLECirculationServlet extends HttpServlet {
     final Logger LOG = Logger.getLogger(OLECirculationServlet.class);
+    private BusinessObjectService businessObjectService;
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -299,6 +304,26 @@ public class OLECirculationServlet extends HttpServlet {
             }else{
                 responseString=getCirculationErrorMessage(service,OLENCIPConstants.INVALID_FORMAT,"504",null,outputFormat);
             }
+            Map<String, String> requestMap = new HashMap<String, String>();
+            try {
+                Thread.sleep(3000);
+                requestMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
+                List<OleDeliverRequestBo> requestList = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatchingOrderBy(OleDeliverRequestBo.class, requestMap, OLEConstants.OleDeliverRequest.REQUEST_TYPE_ID, true);
+                for (int i = 0; i < requestList.size(); i++) {
+                    for (int j = i + 1; j < requestList.size(); j++) {
+                        if (requestList.get(i).getBorrowerQueuePosition().equals(requestList.get(j).getBorrowerQueuePosition()) && requestList.get(i).getRequestTypeId().equals(requestList.get(j).getRequestTypeId())) {
+                            requestList.get(j).setBorrowerQueuePosition(requestList.get(j).getBorrowerQueuePosition() + 1);
+                            responseString = responseString.replaceAll(responseString.substring(responseString.indexOf("<queuePosition>") +15,responseString.indexOf("</queuePosition>")),requestList.get(j).getBorrowerQueuePosition().toString());
+                            getBusinessObjectService().save(requestList.get(j));
+                            break;
+
+                        }
+                    }
+                }
+            }
+            catch(Exception e) {
+                LOG.info("Request Failed" + e);
+            }
         }
         else{
             responseString=OLENCIPConstants.NULL_SERVICE;
@@ -324,6 +349,13 @@ public class OLECirculationServlet extends HttpServlet {
             response.setStatus(200);
         }
         out.write(responseString);
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
