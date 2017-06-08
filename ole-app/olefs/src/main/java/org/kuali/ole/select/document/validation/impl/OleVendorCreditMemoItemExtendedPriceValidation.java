@@ -45,7 +45,7 @@ public class OleVendorCreditMemoItemExtendedPriceValidation extends GenericValid
                 GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
-            if (!cmDocument.isSourceVendor()) {
+           /* if (!cmDocument.isSourceVendor()) {
                 // check cm extended price is not greater than total invoiced amount
                 KualiDecimal invoicedAmount = null;
                 if (cmDocument.isSourceDocumentPurchaseOrder()) {
@@ -62,7 +62,7 @@ public class OleVendorCreditMemoItemExtendedPriceValidation extends GenericValid
                     GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH);
                     valid = false;
                 }
-            }
+            }*/
 
         }
 

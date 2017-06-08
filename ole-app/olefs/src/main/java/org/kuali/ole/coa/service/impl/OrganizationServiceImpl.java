@@ -229,20 +229,22 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public String[] getRootOrganizationCode() {
-        String rootChart = chartService.getUniversityChart().getChartOfAccountsCode();
-        String selfReportsOrgType = parameterService.getParameterValueAsString(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-        String[] returnValues = { null, null };
-        
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, rootChart);
-        criteria.put(OLEPropertyConstants.ORGANIZATION_TYPE_CODE, selfReportsOrgType);
-        criteria.put(OLEPropertyConstants.ACTIVE, Boolean.TRUE);
-        
-        Collection<Organization> results = boService.findMatching(Organization.class, criteria);
-        if (results != null && !results.isEmpty()) {
-            Organization org = results.iterator().next();
-            returnValues[0] = org.getChartOfAccountsCode();
-            returnValues[1] = org.getOrganizationCode();       
+        String[] returnValues = {null, null};
+        if(chartService.getUniversityChart() != null) {
+            String rootChart = chartService.getUniversityChart().getChartOfAccountsCode();
+            String selfReportsOrgType = parameterService.getParameterValueAsString(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, rootChart);
+            criteria.put(OLEPropertyConstants.ORGANIZATION_TYPE_CODE, selfReportsOrgType);
+            criteria.put(OLEPropertyConstants.ACTIVE, Boolean.TRUE);
+
+            Collection<Organization> results = boService.findMatching(Organization.class, criteria);
+            if (results != null && !results.isEmpty()) {
+                Organization org = results.iterator().next();
+                returnValues[0] = org.getChartOfAccountsCode();
+                returnValues[1] = org.getOrganizationCode();
+            }
         }
         
         return returnValues;

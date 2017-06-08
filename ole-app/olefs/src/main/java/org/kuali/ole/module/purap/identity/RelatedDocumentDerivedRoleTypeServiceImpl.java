@@ -74,13 +74,19 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
                     throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole", e);
                 }
             } else if (SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
-                for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
-                    Map<String, String> tempQualification = new HashMap<String, String>(1);
-                    tempQualification.put(OLEPropertyConstants.DOCUMENT_NUMBER, documentId);
-                    for (String principalId : getRoleService().getRoleMemberPrincipalIds(KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification)) {
-                        Builder roleMember = RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, tempQualification);
-                        members.add(roleMember.build());
+                String link = qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER);
+                if(link != null) {
+                    List<String> relatedDocumentIds = getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)));
+                    if (relatedDocumentIds.size() > 0) {
+                        for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
+                            Map<String, String> tempQualification = new HashMap<String, String>(1);
+                            tempQualification.put(OLEPropertyConstants.DOCUMENT_NUMBER, documentId);
+                            for (String principalId : getRoleService().getRoleMemberPrincipalIds(KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification)) {
+                                Builder roleMember = RoleMembership.Builder.create(null, null, principalId, MemberType.PRINCIPAL, tempQualification);
+                                members.add(roleMember.build());
 
+                            }
+                        }
                     }
                 }
             }
