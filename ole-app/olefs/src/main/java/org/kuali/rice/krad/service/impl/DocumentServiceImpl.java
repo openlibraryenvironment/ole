@@ -729,9 +729,12 @@ public class DocumentServiceImpl implements DocumentService {
                 document.getDocumentHeader().setWorkflowDocument(workflowDocument);
 
             }
-            document.processAfterRetrieve();
-            loadNotes(document);
-            return document;
+            if (document != null && document instanceof MaintenanceDocumentBase) {
+                return postProcessDocument(documentHeaderId, workflowDocument, document);
+            }
+            else {
+                return document;
+            }
         //    return postProcessDocument(documentHeaderId, workflowDocument, document);
         } finally {
             // if a user session was established for this call, clear it out
@@ -787,9 +790,12 @@ public class DocumentServiceImpl implements DocumentService {
             UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(), workflowDocument);
             document.getDocumentHeader().setWorkflowDocument(workflowDocument);
         }
-        document.processAfterRetrieve();
-        loadNotes(document);
-        return document;
+        if (document != null && document instanceof MaintenanceDocumentBase) {
+            return postProcessDocument(documentHeaderId, workflowDocument, document);
+        }
+        else {
+            return document;
+        }
        // return postProcessDocument(documentHeaderId, workflowDocument, document);
     }
 
