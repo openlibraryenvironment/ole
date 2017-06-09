@@ -1302,7 +1302,15 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 finalList.remove(finalList.get(i));
             }
         }
-        getBusinessObjectService().save(finalList);
+        try {
+            Thread.sleep(1000);
+            getBusinessObjectService().save(finalList);
+            Thread.sleep(1000);
+        }
+        catch (Exception e) {
+            LOG.error("Error while saving Request " + e.getMessage());
+        }
+
         this.queuePosition = 0;
         oleDeliverRequestBo.setRequestId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_RQST_S").toString());
         return oleDeliverRequestBo;
@@ -2413,6 +2421,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
         MaintenanceDocument newDocument = null;
         try {
+            Thread.sleep(1000);
             try {
                 if (null == GlobalVariables.getUserSession()) {
                     Person person = personService.getPerson(operatorId);
@@ -2509,7 +2518,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 oleDeliverRequestBo.setItemType(itemType);
                 oleDeliverRequestBo.setItemLocation(itemLocation);
                 if (itemIdentifier == null || itemLocation == null || itemType == null) {
-                    Thread.sleep(500);
+                Thread.sleep(1000);
                     String itemUUID = null;
                     String holdingsId = null;
                     if (itemIdentifier == null) {
@@ -2812,6 +2821,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
         MaintenanceDocument newDocument = null;
         try {
+            Thread.sleep(1000);
             try {
                 if (null == GlobalVariables.getUserSession()) {
                     Person person = personService.getPerson(operatorId);
@@ -2883,7 +2893,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 oleDeliverRequestBo.setItemType(itemType);
                 oleDeliverRequestBo.setItemLocation(itemLocation);
                 if (itemIdentifier == null || itemLocation == null || itemType == null) {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                     String itemUUID = null;
                     String holdingsId = null;
                     if (itemIdentifier == null) {

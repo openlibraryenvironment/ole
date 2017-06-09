@@ -773,5 +773,13 @@
         </rollback>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_FEE_TYPE_T_Update_Mysql" dbms="mysql">
+        <sql>UPDATE  OLE_DLVR_PTRN_FEE_TYPE_T SET FEE_TYP_NM = 'Lost Item Fee' WHERE FEE_TYP_ID = '2'</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_FEE_TYPE_T_Update_Oracle" dbms="oracle">
+        <sql>UPDATE  OLE_DLVR_PTRN_FEE_TYPE_T SET FEE_TYP_NM = 'Lost Item Fee' WHERE FEE_TYP_ID = '2'</sql>
+    </changeSet>
+
 
 </databaseChangeLog>

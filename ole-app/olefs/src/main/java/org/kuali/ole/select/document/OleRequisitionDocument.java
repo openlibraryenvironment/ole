@@ -654,7 +654,9 @@ public class OleRequisitionDocument extends RequisitionDocument {
             while (iterator.hasNext()) {
                 LOG.debug("###Inside while loop of processAfterRetrive()###");
                 OleRequisitionItem singleItem = (OleRequisitionItem) iterator.next();
-                setItemDetailWhileProcessAfterRetrive(singleItem);
+                if(singleItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                    setItemDetailWhileProcessAfterRetrive(singleItem);
+                }
             }
         } catch (Exception e) {
             LOG.error("Exception in during processAfterRetrieve for OleRequisitionDocument " + e);

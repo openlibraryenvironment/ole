@@ -161,7 +161,11 @@ public class GlobalEditController extends OLESearchController {
                 }
 
             }
-            searchDocstoreData(globalEditForm, request);
+            if(globalEditForm.getSearchConditions().size()>0){
+                searchDocstoreData(globalEditForm, request);
+            }else{
+                loadPageSearch(globalEditForm,start);
+            }
         } catch (NumberFormatException e) {
             LOG.warn("Invalid page number " + globalEditForm.getPageNumber(), e);
         }
@@ -193,7 +197,11 @@ public class GlobalEditController extends OLESearchController {
             if(searchResultDisplayRows!=null){
                 globalEditForm.setSearchResultDisplayRowList(searchResultDisplayRows.subList(start, searchResultDisplayRows.size()));
             }
-            searchDocstoreData(globalEditForm, request);
+            if(globalEditForm.getSearchConditions().size()>0) {
+                searchDocstoreData(globalEditForm, request);
+            }else {
+                loadPageSearch(globalEditForm,start);
+            }
 
         } catch (NumberFormatException e) {
             LOG.warn("Invalid page number " + globalEditForm.getPageNumber(), e);
@@ -213,8 +221,28 @@ public class GlobalEditController extends OLESearchController {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
             return super.navigate(globalEditForm, result, request, response);
         }
-        searchDocstoreData(globalEditForm, request);
+        if(globalEditForm.getSearchConditions().size()>0){
+            searchDocstoreData(globalEditForm, request);
+        } else {
+            loadSearch(globalEditForm);
+        }
         return super.navigate(globalEditForm, result, request, response);
+    }
+
+    private void loadSearch(GlobalEditForm globalEditForm){
+        if(globalEditForm.getPageSize() <= globalEditForm.getOriginalSearchResultDisplayRowList().size()) {
+            globalEditForm.setSearchResultDisplayRowList(globalEditForm.getOriginalSearchResultDisplayRowList().subList(0, globalEditForm.getPageSize()));
+        }
+        globalEditForm.setPageNumber("1");
+        globalEditForm.getSearchParams().setStartIndex(0);
+    }
+
+    private void loadPageSearch(GlobalEditForm globalEditForm,int start){
+        int end = start+globalEditForm.getPageSize();
+        if(end>globalEditForm.getOriginalSearchResultDisplayRowList().size()){
+            end =globalEditForm.getOriginalSearchResultDisplayRowList().size();
+        }
+        globalEditForm.setSearchResultDisplayRowList(globalEditForm.getOriginalSearchResultDisplayRowList().subList(start,end));
     }
 
     @RequestMapping(params = "methodToCall=load")

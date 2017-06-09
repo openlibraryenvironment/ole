@@ -135,11 +135,11 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
         SimpleDateFormat df = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
         noticeHtmlContent.append("<HTML>\n<TITLE>");
         noticeHtmlContent.append(oleNoticeContentConfigurationBo.getNoticeTitle() + "</TITLE>\n \n <HEAD></HEAD>\n <BODY>");
-        noticeHtmlContent.append("<CENTER><font size=50><b>" +oleNoticeContentConfigurationBo.getNoticeTitle() + "</b></font></CENTER><br/>");
-        noticeHtmlContent.append("<CENTER>" +oleLoanDocuments.get(0).getOlePatron().getPatronName() + "</CENTER><br/>");
-        noticeHtmlContent.append("<CENTER>" +oleLoanDocuments.get(0).getOlePatron().getBarcode() + "</CENTER><br/>");
-        noticeHtmlContent.append("<p>" +oleNoticeContentConfigurationBo.getNoticeBody() + "</p><br/>");
         noticeHtmlContent.append("<table>");
+        noticeHtmlContent.append("<tr><td>" +oleNoticeContentConfigurationBo.getNoticeTitle() + "<tr><td>");
+        noticeHtmlContent.append("<tr><td>" +oleLoanDocuments.get(0).getOlePatron().getPatronName() + "<tr><td>");
+        noticeHtmlContent.append("<tr><td>" +oleLoanDocuments.get(0).getOlePatron().getBarcode() + "<tr><td>");
+        noticeHtmlContent.append("<tr><td><p>" +oleNoticeContentConfigurationBo.getNoticeBody() + "</p><tr><td>");
         for(OleLoanDocument oleLoanDocument : oleLoanDocuments) {
             noticeHtmlContent.append("<tr><td>" + oleLoanDocument.getTitle() + "</td></tr>");
             noticeHtmlContent.append("<tr><td>" + oleLoanDocument.getItemId() + "</td></tr>");

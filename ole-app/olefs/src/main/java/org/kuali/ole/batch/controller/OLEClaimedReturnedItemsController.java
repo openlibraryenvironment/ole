@@ -242,6 +242,7 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                 Map parameterMap = new HashMap();
                 parameterMap.put("deleteClaimsReturn", null);
                 circUtilController.deleteItemInfoInSolr(parameterMap, oleLoanDocument.getItemUuid());
+                circUtilController.updatePaymentStatusToOutstanding(oleLoanDocument);
                 getBusinessObjectService().save(oleLoanDocument);
                 oleClaimedReturnedItemsForm.getClaimedReturnedItemResults().remove(oleClaimedReturnedItemResult);
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, OLEConstants.RECORD_UPDATED_SUCCESSFULLY);

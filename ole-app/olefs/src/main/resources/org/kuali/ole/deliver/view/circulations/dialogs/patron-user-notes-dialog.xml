@@ -92,7 +92,7 @@
                         submitForm('deletePatronUserNotes',null,null,true,function(){
                         jq.fancybox.close();
                         jq('#checkoutItem_control').focus();
-                        submitForm('postPatronUserNotes',null,null,true,null);
+                        submitForm('handleProxyPatronsIfExists',null,null,true,null);
                     });
                       } else {
                          jq('#errorMessage_patronUserNote').attr('style','display:inline');
@@ -101,7 +101,7 @@
 
                 <bean id="patronUserNoteCloseBtn" parent="Uif-SecondaryActionButton-Small"
                       p:actionScript="jq.fancybox.close();
-                      submitForm('postPatronUserNotes',null,null,true,function(){
+                      submitForm('handleProxyPatronsIfExists',null,null,true,function(){
                       jq('#checkoutItem_control').focus();
                       });"
                       p:actionLabel="Close"/>
