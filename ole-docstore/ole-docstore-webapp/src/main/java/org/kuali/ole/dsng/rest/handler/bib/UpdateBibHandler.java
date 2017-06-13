@@ -38,54 +38,63 @@ public class UpdateBibHandler extends BibHandler {
         try {
             String newBibContent = requestJsonObject.getString(OleNGConstants.MODIFIED_CONTENT);
             Record record = isValidLeader(newBibContent);
-            String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
-            String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
+            if(record!=null) {
+                String updatedBy = requestJsonObject.getString(OleNGConstants.UPDATED_BY);
+                String updatedDateString = (String) requestJsonObject.get(OleNGConstants.UPDATED_DATE);
 
-            if (requestJsonObject.has(OleNGConstants.ID)) {
-                String bibId = requestJsonObject.getString(OleNGConstants.ID);
-                BibRecord bibRecord = getOleDsNGMemorizeService().getBibDAO().retrieveBibById(bibId);
+                if (requestJsonObject.has(OleNGConstants.ID)) {
+                    String bibId = requestJsonObject.getString(OleNGConstants.ID);
+                    BibRecord bibRecord = getOleDsNGMemorizeService().getBibDAO().retrieveBibById(bibId);
 
-                boolean validForOverlay = isValidForOverlay(bibRecord, requestJsonObject);
+                    boolean validForOverlay = isValidForOverlay(bibRecord, requestJsonObject);
 
-                if (validForOverlay) {
-                    bibRecord.setUpdatedBy(updatedBy);
-                    bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
+                    if (validForOverlay) {
+                        bibRecord.setUpdatedBy(updatedBy);
+                        bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
-                    Timestamp updatedDate = getDateTimeStamp(updatedDateString);
+                        Timestamp updatedDate = getDateTimeStamp(updatedDateString);
 
-                    bibRecord.setDateEntered(updatedDate);
-                    if(bibRecord.getStaffOnlyFlag()==null){
-                        bibRecord.setStaffOnlyFlag(false);
+                        bibRecord.setDateEntered(updatedDate);
+                        if (bibRecord.getStaffOnlyFlag() == null) {
+                            bibRecord.setStaffOnlyFlag(false);
+                        }
+                        String newContent = process001And003(record, bibId);
+
+                        newContent = processFieldOptions(bibRecord.getContent(), newContent, requestJsonObject);
+
+                        bibRecord.setContent(newContent);
+                        exchange.add(OleNGConstants.BIB, bibRecord);
+                        bibRecord = setDataMappingValues(bibRecord, requestJsonObject, exchange);
+
+                        Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
+                        if (null != statusUpdated && statusUpdated == Boolean.TRUE) {
+                            bibRecord.setStatusUpdatedBy(updatedBy);
+                            bibRecord.setStatusUpdatedDate(updatedDate);
+                        }
+
+                        processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject, exchange);
+
+                        getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
+                        bibRecord.setOperationType(OleNGConstants.UPDATED);
+
+                        saveBibInfoRecord(bibRecord, false);
+                    }else {
+                        Set<String> discardedBibIdsForAdditionalOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS);
+                        if (null == discardedBibIdsForAdditionalOps) {
+                            discardedBibIdsForAdditionalOps = new HashSet<String>();
+                        }
+                        discardedBibIdsForAdditionalOps.add(bibRecord.getBibId());
+                        exchange.add(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS, discardedBibIdsForAdditionalOps);
                     }
-                    String newContent = process001And003(record, bibId);
-
-                    newContent = processFieldOptions(bibRecord.getContent(), newContent, requestJsonObject);
-
-                    bibRecord.setContent(newContent);
-                    exchange.add(OleNGConstants.BIB, bibRecord);
-                    bibRecord = setDataMappingValues(bibRecord, requestJsonObject, exchange);
-
-                    Boolean statusUpdated = (Boolean) exchange.get(OleNGConstants.BIB_STATUS_UPDATED);
-                    if (null != statusUpdated && statusUpdated == Boolean.TRUE) {
-                        bibRecord.setStatusUpdatedBy(updatedBy);
-                        bibRecord.setStatusUpdatedDate(updatedDate);
-                    }
-
-                    processIfDeleteAllExistOpsFound(bibRecord, requestJsonObject,exchange);
-
-                    getOleDsNGMemorizeService().getBibDAO().save(bibRecord);
-                    bibRecord.setOperationType(OleNGConstants.UPDATED);
-
-                    saveBibInfoRecord(bibRecord,false);
-                } else {
-                    Set<String> discardedBibIdsForAdditionalOps = (Set<String>) exchange.get(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS);
-                    if(null == discardedBibIdsForAdditionalOps) {
-                        discardedBibIdsForAdditionalOps = new HashSet<String>();
-                    }
-                    discardedBibIdsForAdditionalOps.add(bibRecord.getBibId());
-                    exchange.add(OleNGConstants.DISCARDED_BIB_FOR_ADDITIONAL_OVERLAY_OPS, discardedBibIdsForAdditionalOps);
                 }
-
+            }else{
+                try{
+                    isValidLeaderCheck(newBibContent);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                    addFailureReportToExchange(requestJsonObject, exchange, "bib", e, null);
+                }
             }
 
         } catch (Exception e) {

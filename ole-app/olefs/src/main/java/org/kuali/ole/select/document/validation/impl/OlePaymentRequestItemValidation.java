@@ -17,11 +17,13 @@ package org.kuali.ole.select.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.module.purap.PurapConstants;
+import org.kuali.ole.module.purap.PurapParameterConstants;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.OlePaymentRequestItem;
 import org.kuali.ole.select.businessobject.OleSufficientFundCheck;
 import org.kuali.ole.select.constants.OleSelectPropertyConstants;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
+import org.kuali.ole.select.document.service.OleInvoiceService;
 import org.kuali.ole.select.document.service.OlePaymentRequestFundCheckService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
@@ -99,38 +101,39 @@ public class OlePaymentRequestItemValidation extends GenericValidation {
             valid = false;
         }
 
-
-        List<SourceAccountingLine> sourceAccountingLineList = document.getSourceAccountingLines();
-        for (SourceAccountingLine accLine : sourceAccountingLineList) {
-            Map searchMap = new HashMap();
-            Map<String, Object> key = new HashMap<String, Object>();
-            String chartCode = accLine.getChartOfAccountsCode();
-            String accNo = accLine.getAccountNumber();
-            String objectCd = accLine.getFinancialObjectCode();
-            key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
-            key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
-            String option = null;
-            OleSufficientFundCheck account = getBusinessObjectService().findByPrimaryKey(OleSufficientFundCheck.class,
-                    key);
-            if (account != null) {
-                option = account.getNotificationOption();
-                if (option != null) {
-                    if (option.equals(OLEPropertyConstants.BLOCK_USE)) {
-                        boolean fundCheck = SpringContext.getBean(OlePaymentRequestFundCheckService.class)
-                                .hasSufficientFundCheckRequired(accLine);
-                        if (fundCheck) {
-                            GlobalVariables.getMessageMap().putError(OLEConstants.ERROR_MSG_FOR_INSUFF_FUND,
-                                    RiceKeyConstants.ERROR_CUSTOM,
-                                    OLEConstants.INSUFF_FUND + accLine.getAccountNumber());
-                            valid = false;
-                        }
-                    } else if (option.equals(OLEPropertyConstants.WARNING_MSG)) {
-                        boolean fundcheckRequired = SpringContext.getBean(OlePaymentRequestFundCheckService.class)
-                                .hasSufficientFundCheckRequired(accLine);
-                        if (fundcheckRequired) {
-                            GlobalVariables.getMessageMap().putWarning(PurapConstants.DETAIL_TAB_ERRORS,
-                                    OleSelectPropertyConstants.INSUFF_FUND,
-                                    new String[]{accLine.getAccountNumber()});
+        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+            List<SourceAccountingLine> sourceAccountingLineList = document.getSourceAccountingLines();
+            for (SourceAccountingLine accLine : sourceAccountingLineList) {
+                Map searchMap = new HashMap();
+                Map<String, Object> key = new HashMap<String, Object>();
+                String chartCode = accLine.getChartOfAccountsCode();
+                String accNo = accLine.getAccountNumber();
+                String objectCd = accLine.getFinancialObjectCode();
+                key.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+                key.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+                String option = null;
+                OleSufficientFundCheck account = getBusinessObjectService().findByPrimaryKey(OleSufficientFundCheck.class,
+                        key);
+                if (account != null) {
+                    option = account.getNotificationOption();
+                    if (option != null) {
+                        if (option.equals(OLEPropertyConstants.BLOCK_USE)) {
+                            boolean fundCheck = SpringContext.getBean(OlePaymentRequestFundCheckService.class)
+                                    .hasSufficientFundCheckRequired(accLine);
+                            if (fundCheck) {
+                                GlobalVariables.getMessageMap().putError(OLEConstants.ERROR_MSG_FOR_INSUFF_FUND,
+                                        RiceKeyConstants.ERROR_CUSTOM,
+                                        OLEConstants.INSUFF_FUND + accLine.getAccountNumber());
+                                valid = false;
+                            }
+                        } else if (option.equals(OLEPropertyConstants.WARNING_MSG)) {
+                            boolean fundcheckRequired = SpringContext.getBean(OlePaymentRequestFundCheckService.class)
+                                    .hasSufficientFundCheckRequired(accLine);
+                            if (fundcheckRequired) {
+                                GlobalVariables.getMessageMap().putWarning(PurapConstants.DETAIL_TAB_ERRORS,
+                                        OleSelectPropertyConstants.INSUFF_FUND,
+                                        new String[]{accLine.getAccountNumber()});
+                            }
                         }
                     }
                 }

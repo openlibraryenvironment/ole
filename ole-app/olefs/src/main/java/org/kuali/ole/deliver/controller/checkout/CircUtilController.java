@@ -10,6 +10,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.service.*;
@@ -539,6 +540,16 @@ public class CircUtilController extends RuleExecutor {
         return billPayment;
     }
 
+    public String generateProcessingBill(OleLoanDocument loanDocument, Double serviceFine, Timestamp dueDate, boolean isRenew) {
+        String billPayment = null;
+        try {
+            billPayment = getPatronBillGenerator().generatePatronBillPayment(loanDocument, OLEConstants.LOST_ITEM_PROCESSING_FEE, serviceFine, dueDate,isRenew);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return billPayment;
+    }
+
     private String generateReplacementBill(OleLoanDocument loanDocument, Timestamp dueDate,boolean isRenew) {
         String billPayment = null;
         try {
@@ -620,6 +631,13 @@ public class CircUtilController extends RuleExecutor {
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, noticeContent));
             oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(noticeType));
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
+            OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping =new OleNoticeFieldLabelMapping();
+            oleNoticeFieldLabelMapping.setFieldName("Claims Search Count");
+            oleNoticeFieldLabelMapping.setFieldLabel("Claims Search Count");
+            oleNoticeFieldLabelMapping.setBelongsTo("ITEM");
+            oleNoticeFieldLabelMapping.setOleNoticeContentConfigurationBo(oleNoticeContentConfigurationBo);
+            oleNoticeContentConfigurationBo.getOleNoticeItemFieldLabelMappings().add(oleNoticeFieldLabelMapping);
+
         }
         return oleNoticeContentConfigurationBo;
     }
@@ -640,10 +658,24 @@ public class CircUtilController extends RuleExecutor {
     public void updateFees(OleLoanDocument oleLoanDocument, String operatorId, List<String> forgiveFeeTypeCodes, String note, boolean isRenew) {
         List<FeeType> feeTypes = getFeeTypes(oleLoanDocument, Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE));
         if (CollectionUtils.isNotEmpty(feeTypes)) {
+            OlePaymentStatus paymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.REPLACED);
             OlePaymentStatus forgivePaymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.FORGIVEN);
             OlePaymentStatus outstandingPaymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
             for (FeeType feeType : feeTypes) {
-                if (forgiveFeeTypeCodes.contains(feeType.getOleFeeType().getFeeTypeCode()) && forgivePaymentStatus != null) {
+                if (forgiveFeeTypeCodes.contains(feeType.getOleFeeType().getFeeTypeCode()) && paymentStatus != null && (oleLoanDocument.getItemStatus() !=null && oleLoanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID))) {
+                    if(!feeType.getBalFeeAmount().isZero()) {
+                        OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                        oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                        oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
+                        oleItemLevelBillPayment.setCreatedUser(operatorId);
+                        oleItemLevelBillPayment.setPaymentMode("Replacement");
+                        List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                        oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                        feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
+                        feeType.setPaymentStatus(paymentStatus.getPaymentStatusId());
+                        feeType.setBalFeeAmount(new KualiDecimal(0));
+                    }
+                } else if(forgiveFeeTypeCodes.contains(feeType.getOleFeeType().getFeeTypeCode()) && paymentStatus != null){
                     if(!feeType.getBalFeeAmount().isZero()) {
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));

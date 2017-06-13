@@ -98,6 +98,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         super.loadDocument(kualiDocumentFormBase);
         PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) kualiDocumentFormBase;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
+        document.processAfterRetrieve();
 
         // refresh the account summary (note this also updates the account amounts)
         purapForm.refreshAccountSummmary();

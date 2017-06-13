@@ -69,10 +69,13 @@ public class OleNGPOHelperUtil extends BusinessObjectServiceHelperUtil {
             }
 
         }
+
         try {
-            if(CollectionUtils.isNotEmpty(oleOrderRecords)) {
-                purapId = createReqAndPOServiceHandler.processOrder(oleOrderRecords,exchange);
-                addPOIdToMap(purapId, oleOrderRecords, poIdsMap);
+            synchronized (this) {
+                if (CollectionUtils.isNotEmpty(oleOrderRecords)) {
+                    purapId = createReqAndPOServiceHandler.processOrder(oleOrderRecords, exchange);
+                    addPOIdToMap(purapId, oleOrderRecords, poIdsMap);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

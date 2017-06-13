@@ -74,6 +74,15 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String itemLocation;
     private String missingPieceNote;
     private String itemCallNumberPrefix;
+    private int claimsSearchCount;
+
+    public int getClaimsSearchCount() {
+        return claimsSearchCount;
+    }
+
+    public void setClaimsSearchCount(int claimsSearchCount) {
+        this.claimsSearchCount = claimsSearchCount;
+    }
 
     public String getNoticeType() {
         return noticeType;

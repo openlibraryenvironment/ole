@@ -275,7 +275,7 @@
                 <!--<bean id="searchResult_olePatronId" parent="Uif-LinkField" p:href="inquiry?olePatronId=@{#line.olePatronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=true" p:target="_blank" p:linkText="@{#line.olePatronId}" p:label="Patron Id"/>-->
                 <bean id="searchResult_olePatronId" parent="Uif-DataField" p:propertyName="olePatronId" p:label="Patron Id" />
                 <bean id="searchResult_namePrefix" parent="Uif-MessageField" p:messageText="@{#line.namePrefix}" p:width="1%" p:label="Name Prefix" />
-                <bean id="searchResult_firstName" parent="Uif-MessageField" p:messageText="@{#line.firstName}" p:label="First Name" />
+                <bean id="searchResult_firstName" parent="Uif-DataField" p:propertyName="firstName" p:label="First Name" />
                 <bean id="searchResult_middleName" parent="Uif-MessageField" p:messageText="@{#line.middleName}" p:label="Middle Name" />
                 <bean id="searchResult_lastName" parent="Uif-DataField" p:propertyName="lastName" p:label="Last Name" p:enableAutoInquiry="false" />
                 <bean id="searchResult_nameSuffix" parent="Uif-MessageField" p:messageText="@{#line.nameSuffix}" p:width="1%" p:label="Name Suffix" />

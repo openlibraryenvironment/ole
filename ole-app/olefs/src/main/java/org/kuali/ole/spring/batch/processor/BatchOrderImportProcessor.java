@@ -8,6 +8,7 @@ import org.apache.solr.common.SolrDocument;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.Exchange;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
@@ -272,7 +273,7 @@ public class BatchOrderImportProcessor extends BatchFileProcessor {
                     if (recordDetailsMap.containsKey(recordIndex)) {
                         RecordDetails recordDetails = recordDetailsMap.get(recordIndex);
                         if(null != recordDetails) {
-                            recordDetails.setBibUUID(bibResponse.getBibId());
+                            recordDetails.setBibUUID(bibResponse.getBibId().startsWith(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC)? bibResponse.getBibId() : DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, bibResponse.getBibId()));
                             recordDetailsList.add(recordDetails);
                         }
                     }

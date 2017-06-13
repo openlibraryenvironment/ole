@@ -291,12 +291,20 @@ public abstract class CheckinBaseController extends CircUtilController {
             ItemFineRate itemFineRate = fireFineRules(loanDocument, oleItemRecordForCirc, olePatronDocument);
             loanDocument.setItemFineRate(itemFineRate);
 
+            String lostProcessingFeeParameter = getParameterValueResolver().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEParameterConstants.LOST_PROCESSING_FEE);
+            Double lostProcessingFee = new Double(0) ;
+            if (StringUtils.isNotBlank(lostProcessingFeeParameter)) {
+                lostProcessingFee = Double.valueOf(lostProcessingFeeParameter);
+            }
             try {
                 Timestamp checkinDate = processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm));
                 loanDocument.setCheckInDate(checkinDate);
                 long currentTime = System.currentTimeMillis();
                     if(checkinDate.getTime()+(60*1000)<currentTime){
                     loanDocument.setOverrideCheckInTime(true);
+                }
+                if(loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
+                    oleItemRecordForCirc.setItemStatusToBeUpdatedTo(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
                 }
                 updateLoanDocument(loanDocument, oleItemSearch, itemRecord);
                 saveMissingPieceNote(oleForm);
@@ -306,14 +314,20 @@ public abstract class CheckinBaseController extends CircUtilController {
                 updateItemStatusAndCircCount(oleItemRecordForCirc);
                 emailToPatronForOnHoldStatus();
                 String billNumber = null;
-                if (!(claimsReturnedFlag && isItemFoundInLibrary(oleForm))){
+                if (!(claimsReturnedFlag && isItemFoundInLibrary(oleForm)) && !(loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID))){
                     billNumber = generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, checkinDate, loanDocument.getLoanDueDate(),false);
+                } else if(loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
+                    if(lostProcessingFee.equals(new Double(0))){
+                        billNumber = generateBillPayment(getSelectedCirculationDesk(oleForm), loanDocument, checkinDate, loanDocument.getLoanDueDate(),false);
+                    }else{
+                        generateProcessingBill(loanDocument, lostProcessingFee, loanDocument.getLoanDueDate(),false);
+                    }
                 }
                 if (claimsReturnedFlag && oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
                     processClaimsReturnedAndLostItem(oleForm, loanDocument, checkinDate);
                 } else if (claimsReturnedFlag) {
                     processClaimsReturnedItem(oleForm, loanDocument, billNumber);
-                } else if (oleItemRecordForCirc.getItemStatusRecord() != null && OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+                } else if (oleItemRecordForCirc.getItemStatusRecord() != null && (OLEConstants.ITEM_STATUS_LOST.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode()) || (OLEConstants.ITEM_STATUS_LOST_AND_PAID.equalsIgnoreCase(oleItemRecordForCirc.getItemStatusRecord().getCode())))) {
                     processLostItem(getOperatorId(oleForm), loanDocument, false);
                 }
             } catch (Exception e) {
@@ -902,7 +916,7 @@ public abstract class CheckinBaseController extends CircUtilController {
         getBusinessObjectService().delete(loanDocument);
     }
 
-    private void updateItemStatusAndCircCount(OleItemRecordForCirc oleItemRecordForCirc) {
+    public void updateItemStatusAndCircCount(OleItemRecordForCirc oleItemRecordForCirc) {
         HashMap parameterValues = new HashMap();
         parameterValues.put("patronId", null);
         parameterValues.put("proxyPatronId", null);

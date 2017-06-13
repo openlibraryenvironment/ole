@@ -67,7 +67,9 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             List<String> bibIds = new ArrayList<>();
 
             if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
-                    batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)){
+                    batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY) ||
+                    batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL) ||
+                    batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXPORT)){
                 bibIds=getBibIdFromSqlQuery(query,batchProcessTxObject.getBatchProcessProfile().getExportScope());
                 if(bibIds!=null){
                     totalCount=bibIds.size();
@@ -80,7 +82,8 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
 
 
             if(isIncremental) {
-                if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)){
+                if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) &&
+                        !batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL)){
                     bibIds = getBibIds(query, totalCount, chunkSize, batchExportHandler, batchProcessTxObject);
                     totalCount = bibIds.size();
                     if (fileSize < chunkSize) {
@@ -113,7 +116,8 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                         numOfRecordsInFile = 0;
                     }
                 }
-            } else if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY)){
+            } else if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY) &&
+                    !batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXPORT)){
                 do {
                     futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
                             start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject,bibIds)));
@@ -287,7 +291,8 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
         List<String> bibIdList=new ArrayList<>();
         Set<String> bibIdSet=new HashSet<>();
         SqlRowSet bibIdResultSet=null;
-        if(batchExportScope.equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY)){
+        if(batchExportScope.equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
+                batchExportScope.equalsIgnoreCase(OleNGConstants.INCREMENTAL)){
             String[] queryList=query.split("\\|");
             for(int i=0;i<queryList.length;i++){
                 bibIdResultSet=getJdbcTemplate().queryForRowSet(queryList[i]);

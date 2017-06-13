@@ -203,7 +203,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private DroolsResponse checkForClaimsReturnedNote(ItemRecord itemRecord) {
-        if (itemRecord.getClaimsReturnedFlag()) {
+        if (itemRecord.getClaimsReturnedFlag() != null && itemRecord.getClaimsReturnedFlag()) {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_CLAIMS_RETURNED);
             droolsResponse.addErrorMessage("Claims Returned item has been found!" + OLEConstants.BREAK + "Claims Returned Note: " + itemRecord.getClaimsReturnedNote());

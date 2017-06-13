@@ -9,6 +9,8 @@ import org.apache.camel.model.RoutesDefinition;
 import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by SheikS on 4/4/2016.
@@ -21,7 +23,7 @@ public class DynamicMarcStreamRouteBuilder extends RouteBuilder {
     private MarcStreamingProcesssor marcStreamingProcesssor;
     private BatchProcessTxObject batchProcessTxObject;
     private RoutesDefinition routeCollection = new OleNGBatchCamelRoutesDefinition();
-
+    private static Logger log = LoggerFactory.getLogger(DynamicMarcStreamRouteBuilder.class);
     public DynamicMarcStreamRouteBuilder(CamelContext context, String from, int chunkSize, BatchProcessTxObject batchProcessTxObject) {
         super(context);
         this.from = from;
@@ -31,7 +33,7 @@ public class DynamicMarcStreamRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        System.out.println("Loading Bulk Ingest Process: @" + from);
+        log.info("Loading Bulk Ingest Process: @" + from);
         fEPoint = endpoint(
                 "file:" + from + "?delete=true&idempotent=true&delay=" + BULK_INGEST_POLL_INTERVAL,
                 FileEndpoint.class);

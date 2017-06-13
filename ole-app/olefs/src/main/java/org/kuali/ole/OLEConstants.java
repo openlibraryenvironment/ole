@@ -1311,10 +1311,12 @@ public class OLEConstants {
     public static final String ITEM_STATUS_LOANED_ANOTHER_PATRON_PERMISSION = "Item currently loaned to another patron";
     public static final String ITEM_STATUS_RETURNED_DAMAGED = "RETURNED-DAMAGED";
     public static final String ITEM_STATUS_RETURNED_MISSING = "RETURNED-WITH-MISSING-ITEMS";
+    public static final String ITEM_STATUS_LOST_AND_PAID = "LOST-AND-PAID";
+    public static final String REPLACED = "PAY_REPLACED";
     public static final String CHANGE_LOC_MESS = "Are you sure you want to change the Circulation Location?You will lose your information.";
     public static final String CIR_LOC_NULL = "Please select your circulation location.";
     public static final String OVERDUE_FINE = "Overdue Fine";
-    public static final String REPLACEMENT_FEE = "Replacement Fee";
+    public static final String REPLACEMENT_FEE = getParameter("LOST_ITEM_FEE");
     public static final String LOST_ITEM_PROCESSING_FEE = "Lost Item Processing Fee";
     public static final String SERVICE_FEE = "Service Fee";
     public static final String ADMIN_USER = "admin";
@@ -2194,11 +2196,12 @@ public class OLEConstants {
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
     public static final String CLAIMS_RETURNED_NOTICE = "Claims Returned Notice";
+    public static final String CHECKOUT_RECEIPT_NOTICE = "Checkout Receipt";
     public static final String CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE = "Claims Returned Found No Fees Notice";
     public static final String CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE = "Claims Returned Found Fines Owed Notice";
     public static final String CLAIMS_RETURNED_NOT_FOUND_NOTICE = "Claims Returned Not Found Notice";
     public static final String CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE = "Claims Returned Not Found No Fees Notice";
-    public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE = "Claims Returned Not Found Fines Owed Notice";
+    public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE = "Claims Rtrnd Not Found Fines Owed Notice";
     public static final String RETURN_MISSING_PIECE_NOTICE = "Return With Missing Piece Notice";
     public static final String LOST_NOTICE = "Lost Notice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
@@ -3845,6 +3848,7 @@ public class OLEConstants {
 
     public static final String LOAN_DOCUMENTS = "loanDocuments";
     public static final String DELIVER_NOTICES = "deliverNotices";
+    public static final String SEND_CHECKOUT_RECEIPT_NOTICE = "SEND_CHECKOUT_RECEIPT_NOTICE";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
     public static final String FINE_CALC_WHILE_RENEW = "FINE_CALC_WHILE_RENEW";
 

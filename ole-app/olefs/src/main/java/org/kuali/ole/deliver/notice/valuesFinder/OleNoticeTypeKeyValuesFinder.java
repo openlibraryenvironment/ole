@@ -26,13 +26,14 @@ public class OleNoticeTypeKeyValuesFinder  extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue(OLEConstants.OVERDUE_NOTICE,"Overdue Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_PIECE_NOTICE,"Missing Piece Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_LOST,"Lost Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.CHECKOUT_RECEIPT_NOTICE,OLEConstants.CHECKOUT_RECEIPT_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CANCELLATION_NOTICE,OLEConstants.CANCELLATION_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOTICE,OLEConstants.CLAIMS_RETURNED_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE,OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE,OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE,OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE,OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE));
-        keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE,OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE,"Claims Returned Not Found Fines Owed Notice"));
         return keyValues;
     }
 }

@@ -166,7 +166,10 @@ public abstract class OleNGGobiApiProcessor extends BatchOrderImportProcessor{
 
     private void prepareUserSession() {
         //TODO: Need user info from System Parameter.
-        Person person = KimApiServiceLocator.getPersonService().getPerson("olequickstart");
+        Person person = KimApiServiceLocator.getPersonService().getPerson(ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.SELECT_NMSPC, OLEConstants.SELECT_CMPNT, "GOBI_API_USER"));
+        if(person==null){
+            person = KimApiServiceLocator.getPersonService().getPerson("gobiapi");
+        }
         String principalName = person.getPrincipalName();
         UserSession userSession = new UserSession(principalName);
         GlobalVariables.setUserSession(userSession);

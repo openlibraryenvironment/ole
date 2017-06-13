@@ -7,20 +7,29 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleMailer;
+import org.kuali.ole.deliver.controller.checkin.CheckinBaseController;
+import org.kuali.ole.deliver.controller.checkin.CheckinItemController;
+import org.kuali.ole.deliver.controller.checkin.CheckinUIController;
+import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.PatronBillForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.deliver.util.ItemInfoUtil;
+import org.kuali.ole.deliver.util.OleItemRecordForCirc;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.template.PatronBillContentFormatter;
 import org.kuali.ole.template.PatronBillItemView;
 import org.kuali.ole.template.PatronBillViewBo;
+import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
@@ -39,6 +48,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,6 +69,10 @@ public class PatronBillHelperService {
     private CircDeskLocationResolver circDeskLocationResolver;
     private static String billNumbers="";
     private Map billMap;
+    private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
+
+    private Map<String, CheckinUIController> checkinUIControllerMap = new HashMap<>();
+
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -610,6 +624,9 @@ public class PatronBillHelperService {
                             feeType.setActiveItem(false);
                             patronBillPayment.setPaymentAmount(payAmt.subtract(paymentAmount));
                             payAmt = paymentAmount;
+                            if(patronFeeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE)){
+                                changeToLostReplace(patronFeeType);
+                            }
                         } else {
                             unPaidAmount = patronBillPayment.getUnPaidBalance().subtract(paymentAmount);
                             KualiDecimal updatedFeeAmount = patronFeeType.getBalFeeAmount().subtract(paymentAmount);
@@ -984,6 +1001,9 @@ public class PatronBillHelperService {
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
                         feeType.setCreditNote(creditNote);
                         remainingPaymentAmount = paymentAmount;
+                        if(feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE)) {
+                            changeToLostReplace(feeType);
+                        }
                     } else if (remainingPaymentAmount.isGreaterThan(KualiDecimal.ZERO)) {
                         OlePaymentStatus olePaymentStatus = getPaymentStatus(OLEConstants.PAY_PAR_CRDT_ISSUED);
                         feeType.setOlePaymentStatus(olePaymentStatus);
@@ -1876,5 +1896,64 @@ public class PatronBillHelperService {
         return false;
     }
 
+    public Map<String, CheckinUIController> getCheckinUIControllerMap() {
+        return checkinUIControllerMap;
+    }
+
+    public void setCheckinUIControllerMap(Map<String, CheckinUIController> checkinUIControllerMap) {
+        this.checkinUIControllerMap = checkinUIControllerMap;
+    }
+
+    public CheckinBaseController getCheckinUIController(CheckinForm checkinForm) {
+        if (!getCheckinUIControllerMap().containsKey(checkinForm.getFormKey())) {
+            CheckinUIController checkinUIController = new CheckinUIController();
+            getCheckinUIControllerMap().put(checkinForm.getFormKey(), checkinUIController);
+            return checkinUIController;
+        } else {
+            return getCheckinUIControllerMap().get(checkinForm.getFormKey());
+        }
+    }
+
+    public void changeToLostReplace(FeeType feeType){
+        CheckinItemController checkinItemController = new CheckinItemController();
+        boolean isRequestExists = false;
+        CheckinForm checkinForm = new CheckinForm();
+        checkinForm.setItemBarcode(feeType.getItemBarcode());
+        checkinForm.setCustomDueDateMap(new Date());
+        checkinForm.setSelectedCirculationDesk("1");
+        checkinItemController.getCheckinUIController(checkinForm).checkin(checkinForm);
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(checkinForm.getSelectedCirculationDesk());
+        OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc((ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"), oleCirculationDesk);
+        OleItemSearch oleItemSearch = new DocstoreUtil().getOleItemSearchList(oleItemRecordForCirc.getItemUUID());
+        try {
+            OleLoanDocument loanDocument = (OleLoanDocument) checkinForm.getDroolsExchange().getContext().get("oleLoanDocument");
+            if (loanDocument!=null){
+                if (getOleDeliverRequestDocumentHelperService().getRequestByItem(loanDocument.getItemId()).size() > 0) {
+                    isRequestExists = true;
+                }
+                if(isRequestExists){
+                    new OleDeliverRequestDocumentHelperServiceImpl().cancelPendingRequestForClaimsReturnedItem(loanDocument.getItemUuid());
+                    loanDocument.setDeliverNotices(null);
+                }
+                loanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
+                oleItemRecordForCirc.setItemStatusToBeUpdatedTo(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
+                checkinItemController.getCheckinUIController(checkinForm).updateLoanDocument(loanDocument, oleItemSearch, (ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"));
+                checkinItemController.getCheckinUIController(checkinForm).updateItemStatusAndCircCount(oleItemRecordForCirc);
+            }
+        }catch (Exception e){
+
+        }
+    }
+
+    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestDocumentHelperService() {
+        if (oleDeliverRequestDocumentHelperService == null) {
+            oleDeliverRequestDocumentHelperService = (OleDeliverRequestDocumentHelperServiceImpl) SpringContext.getService("oleDeliverRequestDocumentHelperService");
+        }
+        return oleDeliverRequestDocumentHelperService;
+    }
+
+    public void setOleDeliverRequestDocumentHelperService(OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService) {
+        this.oleDeliverRequestDocumentHelperService = oleDeliverRequestDocumentHelperService;
+    }
 
 }

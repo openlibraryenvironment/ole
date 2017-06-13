@@ -8,6 +8,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronNotes;
 import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
 import org.kuali.ole.deliver.controller.PermissionsValidatorUtil;
 import org.kuali.ole.deliver.drools.DroolsConstants;
@@ -16,6 +17,8 @@ import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.service.OlePatronHelperService;
+import org.kuali.ole.service.OlePatronHelperServiceImpl;
 import org.kuali.ole.util.StringUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -52,6 +55,7 @@ public class CheckoutPatronController extends CheckoutItemController {
     private static final Logger LOG = Logger.getLogger(CheckoutPatronController.class);
     private PatronLookupCircUIController patronLookupCircUIController;
     private OlePatronRecordUtil olePatronRecordUtil;
+    private OlePatronHelperService olePatronHelperService;
     private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private ErrorMessage errorMessage;
 
@@ -59,7 +63,7 @@ public class CheckoutPatronController extends CheckoutItemController {
     public ModelAndView searchPatron(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
-
+        sendCheckoutRecipet(circForm);
         if (circForm.isAutoCheckout()) {
             resetUIForAutoCheckout(circForm, result, request, response);
         }else{
@@ -84,7 +88,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                 showDialog("patronInvalidOrLostDialog", circForm, request, response);
             }
         } else {
-            return handleProxyPatronsIfExists(circForm, result, request, response);
+            return postPatronValidation(circForm, result, request, response);
         }
 
         if(StringUtils.isBlank(circForm.getLightboxScript())){
@@ -118,8 +122,6 @@ public class CheckoutPatronController extends CheckoutItemController {
             if (null != droolsResponse && StringUtils.isNotBlank(droolsResponse.retrieveErrorMessage())) {
                 circForm.setErrorMessage(droolsResponse.getErrorMessage());
                 showErrorMessageDialog(circForm, request, response);
-            } else {
-                postPatronValidation(circForm, result, request, response);
             }
         }
         if(!StringUtils.isNotBlank(circForm.getErrorMessage().getErrorMessage())){
@@ -139,13 +141,13 @@ public class CheckoutPatronController extends CheckoutItemController {
 
     @RequestMapping(params = "methodToCall=postPatronValidation")
     public ModelAndView postPatronValidation(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) {
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
         setProceedWithCheckoutFlag(circForm);
         if(checkForPatronUserNotes(circForm.getDroolsExchange())) {
             showDialog("patronUserNotesDialog", circForm, request, response);
-        } else if(circForm.isAutoCheckout()) {
-            return lookupItemAndSaveLoan(circForm, result, request, response);
+        } else {
+            return handleProxyPatronsIfExists(circForm, result, request, response);
         }
         return getUIFModelAndView(circForm);
     }
@@ -257,6 +259,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                                     HttpServletRequest request, HttpServletResponse response) {
         fastAddBarcode = "";
         CircForm circForm = (CircForm) form;
+        sendCheckoutRecipet(circForm);
         clearUI(circForm, result, request, response);
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String circDesk = getCircDesk(principalId);
@@ -272,6 +275,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                                     HttpServletRequest request, HttpServletResponse response) {
         fastAddBarcode = "";
         CircForm circForm = (CircForm) form;
+        sendCheckoutRecipet(circForm);
         clearUI(circForm, result, request, response);
         return getUIFModelAndView(circForm, circForm.getPageId());
     }
@@ -288,6 +292,12 @@ public class CheckoutPatronController extends CheckoutItemController {
             olePatronRecordUtil = new OlePatronRecordUtil();
         }
         return olePatronRecordUtil;
+    }
+
+    public OlePatronHelperService getOlePatronHelperService(){
+        if(olePatronHelperService==null)
+            olePatronHelperService=new OlePatronHelperServiceImpl();
+        return olePatronHelperService;
     }
 
     public void setOlePatronRecordUtil(OlePatronRecordUtil olePatronRecordUtil) {
@@ -376,7 +386,7 @@ public class CheckoutPatronController extends CheckoutItemController {
         }else{
             boolean hasValidOverridePermissions = new PermissionsValidatorUtil().hasValidOverridePermissions(circForm);
             if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions())){
-                return postPatronValidation(circForm, result, request, response);
+                return postPatronUserNotes(circForm, result, request, response);
             } else {
                 if ((hasValidOverridePermissions)) {
                     if (circForm.isProxyCheckDone() && circForm.isItemValidationDone() && !circForm.isItemOverride() && !circForm.isRequestExistOrLoanedCheck()) {
@@ -390,7 +400,7 @@ public class CheckoutPatronController extends CheckoutItemController {
                         circForm.setRequestExistOrLoanedCheck(false);
                         return proceedToValidateItemAndSaveLoan(circForm, result, request, response);
                     }
-                    return postPatronValidation(circForm, result, request, response);
+                    return postPatronUserNotes(circForm, result, request, response);
                 } else {
                     circForm.setOverridingPrincipalName(null);
                     return showDialog("overrideMessageDialog", circForm, request, response);
@@ -405,6 +415,30 @@ public class CheckoutPatronController extends CheckoutItemController {
             circForm.setLightboxScript(patronLightBoxScript);
         }
         return getUIFModelAndView(form);
+    }
+
+    public void sendCheckoutRecipet(CircForm circForm) {
+        List<OleLoanDocument> oleLoanDocumentList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
+            circForm.getLoanDocumentListForCurrentSession().clear();
+        }
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
+            circForm.getLoanDocumentsForAlterDueDate().clear();
+        }
+        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
+            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
+            circForm.getLoanDocumentsForRenew().clear();
+        }
+        if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
+            try {
+                getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

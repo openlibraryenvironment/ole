@@ -12,6 +12,7 @@ import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.PHoldings;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
+import org.kuali.ole.gobi.resolvers.MiscellaneousNoteValueResolver;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.oleng.batch.process.model.ValueByPriority;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -278,6 +279,7 @@ public class OrderImportServiceImpl implements OrderImportService {
             valueResolvers.add(new ItemPriceSourceValueResolver());
             valueResolvers.add(new ItemListPriceValueResolver());
             valueResolvers.add(new ItemStatusValueResolver());
+            valueResolvers.add(new MiscellaneousNoteValueResolver());
             valueResolvers.add(new MethodOfPOTransmissionValueResolver());
             valueResolvers.add(new ObjectCodeValueResolver());
             valueResolvers.add(new OrderTypeValueResolver());
