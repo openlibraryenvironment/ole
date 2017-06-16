@@ -76,6 +76,7 @@ public abstract class OleNGGobiApiProcessor extends BatchOrderImportProcessor{
             gobiResponse.setError(responseError);
             return gobiResponse;
         }
+        UserSession actualUserSession = GlobalVariables.getUserSession();
         prepareUserSession();
 
         String marcXMLContent = getMarcXMLContent(gobiRequest);
@@ -111,6 +112,9 @@ public abstract class OleNGGobiApiProcessor extends BatchOrderImportProcessor{
             responseError.setMessage("PO Creation failed. Please consult the institution for any errors on their side.");
             responseError.setCode("FAILED");
             gobiResponse.setError(responseError);
+        }
+        if(actualUserSession != null) {
+            GlobalVariables.setUserSession(actualUserSession);
         }
         return gobiResponse;
     }

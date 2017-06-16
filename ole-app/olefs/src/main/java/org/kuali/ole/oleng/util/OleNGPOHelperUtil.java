@@ -43,9 +43,9 @@ public class OleNGPOHelperUtil extends BusinessObjectServiceHelperUtil {
             String bibUUID = recordDetails.getBibUUID();
             if (StringUtils.isNotBlank(bibUUID)) {
                 try {
-
-                    OleOrderRecord oleOrderRecord = getOleOrderImportService().prepareOleOrderRecord(recordDetails,
-                            batchProcessProfile, exchange);
+                    synchronized (this) {
+                        OleOrderRecord oleOrderRecord = getOleOrderImportService().prepareOleOrderRecord(recordDetails,
+                                batchProcessProfile, exchange);
 
                     OleBibRecord oleBibRecord = new OleBibRecord();
                     Bib bib = getBibDetails(bibUUID);
@@ -54,17 +54,18 @@ public class OleNGPOHelperUtil extends BusinessObjectServiceHelperUtil {
                     oleOrderRecord.setOleBibRecord(oleBibRecord);
 
 
-                    String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
-                    oleOrderRecord.setBibImportProfileName(bibProfileName);
-                    oleOrderRecord.setRecordIndex(recordIndex);
-                    getOleNGPOValidationUtil().setOleNGMemorizeService(createReqAndPOServiceHandler.getOleNGMemorizeService());
-                    boolean valid = getOleNGPOValidationUtil().validateOleOrderRecord(oleOrderRecord, exchange, recordIndex);
-                    if(valid) {
-                        oleOrderRecords.add(oleOrderRecord);
+                        String bibProfileName = batchProcessProfile.getBibImportProfileForOrderImport();
+                        oleOrderRecord.setBibImportProfileName(bibProfileName);
+                        oleOrderRecord.setRecordIndex(recordIndex);
+                        getOleNGPOValidationUtil().setOleNGMemorizeService(createReqAndPOServiceHandler.getOleNGMemorizeService());
+                        boolean valid = getOleNGPOValidationUtil().validateOleOrderRecord(oleOrderRecord, exchange, recordIndex);
+                        if (valid) {
+                            oleOrderRecords.add(oleOrderRecord);
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    getBatchUtil().addOrderFaiureResponseToExchange(e, recordIndex, exchange);
+                }catch(Exception e){
+                        e.printStackTrace();
+                        getBatchUtil().addOrderFaiureResponseToExchange(e, recordIndex, exchange);
                 }
             }
 
