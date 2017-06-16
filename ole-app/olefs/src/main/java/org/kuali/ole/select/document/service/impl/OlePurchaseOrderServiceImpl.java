@@ -252,9 +252,9 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
             }
             po.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             // no need to save here because calling class should handle the save if needed
-        } else {
+        } /*else {
             LOG.error("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.APPDOC_OPEN + "' status for PO#" + po.getPurapDocumentIdentifier() + "; will not change or update");
-        }
+        }*/
     }
 
     //setting print button for PO amendment document

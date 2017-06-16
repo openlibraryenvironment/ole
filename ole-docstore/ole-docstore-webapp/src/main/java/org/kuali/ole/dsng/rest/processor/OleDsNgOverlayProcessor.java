@@ -98,15 +98,16 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                         List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
                         List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
+                        synchronized (this) {
+                            processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
 
-                        processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
+                            processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
 
-                        processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
+                            processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
-                        processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
+                            processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
 
-                        processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
-
+                        }
                         bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
                         buildBibResponses(bibResponse, bibRecord, exchange, operationsList);
 
