@@ -523,20 +523,20 @@ public class OlePurchaseOrderAmendmentDocument extends PurchaseOrderAmendmentDoc
         if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) {
             return isNewUnorderedItem();
         }
-        if (nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_REVIEW_REQUIRED)) {
+        else if (nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_REVIEW_REQUIRED)) {
             return isContractManagementReviewRequired();
         }
-        if (nodeName.equals(PurapWorkflowConstants.AWARD_REVIEW_REQUIRED)) {
+        else if (nodeName.equals(PurapWorkflowConstants.AWARD_REVIEW_REQUIRED)) {
             return isAwardReviewRequired();
         }
-        if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
+        else if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
             return isBudgetReviewRequired();
         }
-        if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) {
+        else if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) {
             return isVendorEmployeeOrNonResidentAlien();
         }
 
-        if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
+        else if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
             return isNotificationRequired();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
@@ -636,25 +636,25 @@ public class OlePurchaseOrderAmendmentDocument extends PurchaseOrderAmendmentDoc
                     .equalsIgnoreCase(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED))) {
                 if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
                         .compareTo(getPostingYear()) >= 0) {
-                    List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
-                    for (GeneralLedgerPendingEntry glpe : pendingEntries) {
+                   // List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
+                    /*for (GeneralLedgerPendingEntry glpe : pendingEntries) {
                         glpe.getChartOfAccountsCode();
-                    }
-                    SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
+                    }*/
+                    /*SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
                     fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(
-                            pendingEntries);
-                    SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(
-                            this);
-                    SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
+                            pendingEntries);*/
+                 //   SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(
+                  //          this);
+                 //   SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
                 SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
                 accountsForRouting = (SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-                String documentFiscalYearString = this.getPostingYear().toString();
+                /*String documentFiscalYearString = this.getPostingYear().toString();
                 List<String> fundsItemList = new ArrayList<String>();
                 List<String> accountsList = new ArrayList<String>();
                 for (SufficientFundsItem fundsItem : fundsItems) {
                     fundsItemList.add(fundsItem.getAccount().getChartOfAccountsCode());
-                }
+                }*/
                 setAccountsForRouting(accountsForRouting);
                 refreshNonUpdateableReferences();
                 for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
@@ -692,7 +692,7 @@ public class OlePurchaseOrderAmendmentDocument extends PurchaseOrderAmendmentDoc
             }
             if (notificationOption != null
                     && (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW))) {
-                sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine);
+                sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine, notificationOption, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
                 if (sufficientFundCheck) {
                     return true;
                 }
@@ -721,7 +721,7 @@ public class OlePurchaseOrderAmendmentDocument extends PurchaseOrderAmendmentDoc
                 notificationOption = account.getNotificationOption();
             }
             if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
-                sufficientFundCheck =  oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine);
+                sufficientFundCheck =  oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine, notificationOption, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
                 if (sufficientFundCheck) {
                     return true;
                 }

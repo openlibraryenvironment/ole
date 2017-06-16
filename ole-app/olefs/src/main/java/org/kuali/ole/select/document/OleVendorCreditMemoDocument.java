@@ -390,10 +390,10 @@ public class OleVendorCreditMemoDocument extends VendorCreditMemoDocument {
         if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_INVOICE_TYPE)) {
             return hasInvoiceType();
         }
-        if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_PREPAID_INVOICE_TYPE)) {
+        else if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_PREPAID_INVOICE_TYPE)) {
             return hasPrepaidInvoiceType();
         }
-        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) {
+        else if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) {
             return requiresAccountsPayableReviewRouting();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");

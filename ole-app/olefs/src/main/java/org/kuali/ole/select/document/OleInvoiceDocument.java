@@ -1790,7 +1790,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
             if (nodeName != null
                     && (nodeName.equalsIgnoreCase(PurapWorkflowConstants.BUDGET_NODE) || nodeName
                     .equalsIgnoreCase(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED))) {
-                if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
+                /*if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
                         .compareTo(getPostingYear()) >= 0) {
 
                     SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(
@@ -1804,32 +1804,32 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
                     fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFundsForInvoice(pendingEntries);
 
-/*
+*//*
                     SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(
                             this);
                     SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
 
                     fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFundsForInvoice(
                             pendingEntries);
-*/
+*//*
 
-                }
+                }*/
                 SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
                 if (accountsForRouting == null) {
                     accountsForRouting = (SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
                 }
-                String documentFiscalYearString = this.getPostingYear().toString();
+                /*String documentFiscalYearString = this.getPostingYear().toString();
                 List<String> fundsItemList = new ArrayList<String>();
                 for (SufficientFundsItem fundsItem : fundsItems) {
                     fundsItemList.add(fundsItem.getAccount().getChartOfAccountsCode());
-                }
+                }*/
                 if (accountsForRouting != null) {
-                    for (Iterator accountsForRoutingIter = accountsForRouting.iterator(); accountsForRoutingIter.hasNext(); ) {
+                    /*for (Iterator accountsForRoutingIter = accountsForRouting.iterator(); accountsForRoutingIter.hasNext(); ) {
                         if (!(fundsItemList.contains(((SourceAccountingLine) accountsForRoutingIter.next())
                                 .getChartOfAccountsCode()))) {
                             accountsForRoutingIter.remove();
                         }
-                    }
+                    }*/
 
 /*                SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());*/
                     setAccountsForRouting(accountsForRouting);
