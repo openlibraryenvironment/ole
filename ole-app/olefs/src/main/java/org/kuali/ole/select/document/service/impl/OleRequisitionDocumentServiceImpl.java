@@ -59,7 +59,8 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
     protected ConfigurationService kualiConfigurationService;
     private OleSelectDocumentService oleSelectDocumentService;
     private BusinessObjectService businessObjectService;
-    @Override
+
+    /*@Override
     public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine) {
         boolean hasSufficientFundRequired = false;
         String chartCode = accLine.getChartOfAccountsCode();
@@ -141,6 +142,89 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
         }
         return hasSufficientFundRequired;
     }
+*/
+    public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine, String notificationOption,int currentFiscalYear) {
+        boolean hasSufficientFundRequired = false;
+        String chartCode = accLine.getChartOfAccountsCode();
+        String accNo = accLine.getAccountNumber();
+        //UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        //int currentFiscalYear = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
+        String objectCd = accLine.getFinancialObjectCode();
+        String fundCodeType = getFundCode(chartCode, accNo);
+        //   KualiDecimal budgetAllocation = KualiDecimal.ZERO;
+        KualiDecimal fundBalanceAmt = KualiDecimal.ZERO;
+        KualiDecimal glPendingAmt = KualiDecimal.ZERO;
+        /*Map<String, Object> fundKey = new HashMap<String, Object>();
+        String notificationOption = null;
+        fundKey.put(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        fundKey.put(OLEPropertyConstants.ACCOUNT_NUMBER, accNo);
+        OleSufficientFundCheck account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(
+                OleSufficientFundCheck.class, fundKey);
+        if (account != null) {
+            notificationOption = account.getNotificationOption();
+        }*/
+
+        if (fundCodeType != null && fundCodeType.equals(OLEConstants.ACCOUNT_FUND_CODE)) {
+
+            if (notificationOption.equals(OLEPropertyConstants.BLOCK_USE)
+                    || notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
+                //  budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
+                //    encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForAccount(chartCode, accNo, currentFiscalYear);
+                //     budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+            } else if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)
+                    || notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
+                //  budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
+                //  encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForAccount(chartCode, accNo, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(accLine.getAmount());
+                //  budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+            }
+
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                hasSufficientFundRequired = true;
+            } else {
+                glPendingAmt = getGLPendingAmtForAccount(chartCode, accNo, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
+            }
+
+        } else if (fundCodeType != null && fundCodeType.equals(OLEConstants.OBJECT_FUND_CODE)) {
+            if (notificationOption.equals(OLEPropertyConstants.BLOCK_USE)
+                    || notificationOption.equals(OLEPropertyConstants.WARNING_MSG)) {
+                //  budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
+                //    encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForObject(chartCode, accNo, objectCd, currentFiscalYear);
+                //    budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+            } else if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)
+                    || notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
+                //  budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
+                // encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForObject(chartCode, accNo, objectCd, currentFiscalYear);
+                //  budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+                // encumbranceAmt = encumbranceAmt.subtract(accLine.getAmount());
+            }
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                hasSufficientFundRequired = true;
+            } else {
+                glPendingAmt = getGLPendingAmtForObject(chartCode, accNo, objectCd, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
+            }
+        }
+        return hasSufficientFundRequired;
+    }
+
 
     private String getFundCode(String chartCode, String accountNumber) {
         Map accountMap = new HashMap();
@@ -528,8 +612,65 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
 */
 
 
+    public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine, String notificationOption,int currentFiscalYear) {
 
-    public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine) {
+        boolean hasSufficientFundRequired = false;
+        String chartCode = accLine.getChartOfAccountsCode();
+        String accNo = accLine.getAccountNumber();
+        String objectCd = accLine.getFinancialObjectCode();
+        String fundCodeType = getFundCode(chartCode, accNo);
+        //  KualiDecimal budgetAllocation = KualiDecimal.ZERO;
+        KualiDecimal fundBalanceAmt = KualiDecimal.ZERO;
+        KualiDecimal glPendingAmt = KualiDecimal.ZERO;
+
+        if (fundCodeType != null && fundCodeType.equals(OLEConstants.ACCOUNT_FUND_CODE)) {
+
+            if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)) {
+                //  budgetAllocation = getBudgetAllocationForAccount(chartCode, accNo, objectCd);
+                //   encumbranceAmt = getEncumbranceForAccount(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForAccount(chartCode, accNo, currentFiscalYear);
+                //        budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+            }
+
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                hasSufficientFundRequired = true;
+            } else {
+                glPendingAmt = getGLPendingAmtForAccount(chartCode, accNo, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
+            }
+
+        } else if (fundCodeType != null && fundCodeType.equals(OLEConstants.OBJECT_FUND_CODE)) {
+            if (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW)) {
+                //    budgetAllocation = getBudgetAllocationForObject(chartCode, accNo, objectCd);
+                //  encumbranceAmt = getEncumbranceForObject(chartCode, accNo, objectCd);
+                fundBalanceAmt = getFundBalanceForObject(chartCode, accNo, objectCd,currentFiscalYear);
+                //     budgetAllocation = budgetAllocation.subtract(encumbranceAmt);
+            }
+            if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                hasSufficientFundRequired = true;
+            }   else {
+                glPendingAmt = getGLPendingAmtForObject(chartCode, accNo, objectCd, currentFiscalYear);
+                fundBalanceAmt = fundBalanceAmt.subtract(glPendingAmt);
+                if (accLine.getAmount().isGreaterThan(fundBalanceAmt)) {
+                    hasSufficientFundRequired = true;
+                } else {
+                    hasSufficientFundRequired = false;
+
+                }
+            }
+        }
+        return hasSufficientFundRequired;
+    }
+
+
+
+    /*public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine) {
         boolean hasSufficientFundRequired = false;
         String chartCode = accLine.getChartOfAccountsCode();
         String accNo = accLine.getAccountNumber();
@@ -593,7 +734,7 @@ public class OleRequisitionDocumentServiceImpl implements OleRequisitionDocument
                 }
             }
         return hasSufficientFundRequired;
-    }
+    }*/
 
 
    /* public KualiDecimal getBudgetAdjustmentIncreaseForObject(String chartCode, String accountNo,

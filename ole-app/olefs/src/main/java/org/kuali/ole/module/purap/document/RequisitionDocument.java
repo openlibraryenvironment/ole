@@ -115,7 +115,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         if (nodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES)) {
             return !isMissingAccountingLines();
         }
-        if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
+        else if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
             return isSeparationOfDutiesReviewRequired();
         }
         return super.answerSplitNodeQuestion(nodeName);

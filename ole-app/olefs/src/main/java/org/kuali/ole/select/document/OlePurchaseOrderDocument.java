@@ -740,19 +740,19 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
             if (nodeName != null
                     && (nodeName.equalsIgnoreCase(PurapWorkflowConstants.BUDGET_NODE) || nodeName
                     .equalsIgnoreCase(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED))) {
-                if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
+                /*if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
                     List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
-                    for (GeneralLedgerPendingEntry glpe : pendingEntries) {
+                    *//*for (GeneralLedgerPendingEntry glpe : pendingEntries) {
                         glpe.getChartOfAccountsCode();
-                    }
+                    }*//*
                     SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
                     fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(pendingEntries);
-                    SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
-                    SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
-                }
+                 //   SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
+                 //   SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
+                }*/
                 SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
                 accountsForRouting = (SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-                List<String> fundsItemList = new ArrayList<String>();
+                /*List<String> fundsItemList = new ArrayList<String>();
                 for (SufficientFundsItem fundsItem : fundsItems) {
                     fundsItemList.add(fundsItem.getAccount().getChartOfAccountsCode());
                 }
@@ -760,7 +760,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
                     if (!(fundsItemList.contains(((SourceAccountingLine) accountsForRoutingIter.next()).getChartOfAccountsCode()))) {
                         accountsForRoutingIter.remove();
                     }
-                }
+                }*/
                 setAccountsForRouting(accountsForRouting);
                 // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
                 // objects) -hjs
