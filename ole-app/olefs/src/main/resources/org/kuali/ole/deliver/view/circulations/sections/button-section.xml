@@ -28,6 +28,8 @@
     <list>
 
         <!--<ref bean="circHideExistingLoans"/>-->
+        <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and !autoCheckout}"
+              p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
         <bean id="circRenewItemButton" parent="Uif-SecondaryActionButton" p:methodToCall="renew" p:actionLabel="Renew"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
               p:ajaxSubmit="true"  p:successCallback="jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');"/>
         <bean id="circAlterDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="openAlterDueDateDialog" p:actionLabel="Alter Due Date"  p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
@@ -47,8 +49,7 @@
                  parent.jq.fancybox.close();
               }
               "/>-->
-        <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron"  p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and !autoCheckout}"
-              p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
+
         <bean id="circGoToHome" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="close" p:ajaxSubmit="true"
               p:successCallback="submitForm('returnToHub',null,null,true,function(){
                             });
