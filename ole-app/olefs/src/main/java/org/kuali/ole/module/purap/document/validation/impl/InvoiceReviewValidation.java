@@ -56,10 +56,10 @@ public class InvoiceReviewValidation extends GenericValidation {
             if (itemForValidation.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                 String error = "Payment Request " + invoice.getPurapDocumentIdentifier() + ", " + identifier + " has total amount '" + itemForValidation.getTotalAmount() + "' but outstanding encumbered amount " + itemForValidation.getPoOutstandingAmount();
                 LOG.error("validateInvoiceReview() " + error);
-            } else {
+            } /*else {
                 String error = "Payment Request " + invoice.getPurapDocumentIdentifier() + ", " + identifier + " has quantity '" + itemForValidation.getItemQuantity() + "' but outstanding encumbered quantity " + itemForValidation.getPoOutstandingQuantity();
                 LOG.error("validateInvoiceReview() " + error);
-            }
+            }*/
         } else {
             // not validating but ok
             String error = "Payment Request " + invoice.getPurapDocumentIdentifier() + ", " + identifier + " has total amount '" + itemForValidation.getTotalAmount() + "'";

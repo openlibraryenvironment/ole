@@ -1097,32 +1097,32 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
         if (nodeName.equals(OLEConstants.HAS_VENDOR_DEPOSIT_ACCOUNT)) {
             return hasVendorDepositAccount();
         }
-        if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_INVOICE_TYPE)) {
+        else if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_INVOICE_TYPE)) {
             return hasInvoiceType();
         }
-        if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_PREPAID_INVOICE_TYPE)) {
+        else if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_PREPAID_INVOICE_TYPE)) {
             return hasPrepaidInvoiceType();
         }
-        if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_PAYMENT_METHOD)) {
+        else if (nodeName.equals(OLEConstants.OlePaymentRequest.HAS_PAYMENT_METHOD)) {
             return hasPaymentMethod();
         }
-        if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
+        else if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
             return isBudgetReviewRequired();
         }
-        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) {
+        else if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) {
             return requiresAccountsPayableReviewRouting();
         }
-        if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED)) {
+        else if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED)) {
             return shouldWaitForReceiving();
         }
-        if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) {
+        else if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) {
             return isVendorEmployeeOrNonResidentAlien();
         }
-        if (nodeName.equals(OLEConstants.REQUIRES_SEPARATION_OF_DUTIES)) {
+        else if (nodeName.equals(OLEConstants.REQUIRES_SEPARATION_OF_DUTIES)) {
             return isSeparationOfDutiesReviewRequired();
         }
 
-        if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
+        else if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
             return isNotificationRequired();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
@@ -1218,7 +1218,7 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
             return false;
         }
         // if document's fiscal year is less than or equal to the current fiscal year
-        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+        else if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
             if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
                 List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
                 for (SourceAccountingLine accLine : sourceAccountingLineList) {
@@ -1271,7 +1271,10 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                 .getBean("oleRequisitionDocumentService");
         List<SourceAccountingLine> sourceAccountingLineList = this.getSourceAccountingLines();
         boolean sufficientFundCheck = false;
-        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
+        if((SpringContext.getBean(OlePaymentRequestService.class).getPaymentMethod(this.getPaymentMethodId())).equals(OLEConstants.DEPOSIT)) {
+            return false;
+        }
+        else if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
             for (SourceAccountingLine accLine : sourceAccountingLineList) {
                 Map searchMap = new HashMap();
                 String notificationOption = null;
@@ -1315,7 +1318,7 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
             if (nodeName != null
                     && (nodeName.equalsIgnoreCase(PurapWorkflowConstants.BUDGET_NODE) || nodeName
                     .equalsIgnoreCase(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED))) {
-                if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
+                /*if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
                         .compareTo(getPostingYear()) >= 0) {
                     List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
                     for (GeneralLedgerPendingEntry glpe : pendingEntries) {
@@ -1327,10 +1330,10 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                     // SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(
                     // this);
                     // SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
-                }
+                }*/
                 SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
                 accountsForRouting = (SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-                String documentFiscalYearString = this.getPostingYear().toString();
+                /*String documentFiscalYearString = this.getPostingYear().toString();
                 List<String> fundsItemList = new ArrayList<String>();
                 List<String> accountsList = new ArrayList<String>();
                 for (SufficientFundsItem fundsItem : fundsItems) {
@@ -1341,7 +1344,7 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                             .getChartOfAccountsCode()))) {
                         accountsForRoutingIter.remove();
                     }
-                }
+                }*/
                 setAccountsForRouting(accountsForRouting);
                 // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie
                 // account

@@ -2429,6 +2429,14 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     UserSession userSession = new UserSession(principalName);
                     GlobalVariables.setUserSession(userSession);
                 }
+                else {
+                    String userName = GlobalVariables.getUserSession().getPrincipalName();
+                    Person person = personService.getPerson(operatorId);
+                    String principalName = person.getPrincipalName();
+                    if(!principalName.equals(userName)) {
+                        GlobalVariables.setUserSession(new UserSession(principalName));
+                    }
+                }
                 newDocument = (MaintenanceDocument) getDocumentService().getNewDocument(OLEConstants.REQUEST_DOC_TYPE);
             } catch (WorkflowException e) {
                 e.printStackTrace();
@@ -2691,6 +2699,19 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     }
                     newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.NEW_REQUEST_DOC);
                     newDocument.getNewMaintainableObject().setDataObject(oleDeliverRequestBo1);
+                        if (null == GlobalVariables.getUserSession()) {
+                            Person person = personService.getPerson(operatorId);
+                            String principalName = person.getPrincipalName();
+                            UserSession userSession = new UserSession(principalName);
+                            GlobalVariables.setUserSession(userSession);
+                        } else {
+                            String userName = GlobalVariables.getUserSession().getPrincipalName();
+                            Person person = personService.getPerson(operatorId);
+                            String principalName = person.getPrincipalName();
+                            if (!principalName.equals(userName)) {
+                                GlobalVariables.setUserSession(new UserSession(principalName));
+                            }
+                        }
 
                     newDocument = (MaintenanceDocument) getDocumentService().routeDocument(newDocument, null, null);
                     oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();

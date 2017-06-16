@@ -85,7 +85,9 @@ public abstract class OleNgGobiOrderImportServiceImpl extends OrderImportService
                     LocalDataMappingValueResolver localDataMappingValueResolver = localDataMappingValueResolverIterator.next();
                     if (localDataMappingValueResolver.isInterested(source)) {
                         localDataMappingValueResolver.setPurchaseOrder(order);
-                        localDataMappingValueResolver.setDestFieldName(destination);
+                        if(destination != null) {
+                            localDataMappingValueResolver.setDestFieldName(destination);
+                        }
                         localDataMappingValueResolver.setAttributeValue(oleTxRecord, null);
                     }
                 }

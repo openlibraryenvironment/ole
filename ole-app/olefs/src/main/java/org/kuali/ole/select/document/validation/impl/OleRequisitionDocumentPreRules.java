@@ -25,6 +25,7 @@ import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -73,7 +74,7 @@ public class OleRequisitionDocumentPreRules extends RequisitionDocumentPreRules 
                     notificationOption = account.getNotificationOption();
                 }
                 if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.WARNING_MSG)
-                        && oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine)) {
+                        && oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine, notificationOption, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear())) {
                     accountNumbers.append(accLine.getAccountNumber());
                 }
             }

@@ -19,9 +19,13 @@ import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 
 public interface OleRequisitionDocumentService {
 
-    public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine);
+  //  public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine);
 
-    public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine);
+    public boolean hasSufficientFundsOnRequisition(SourceAccountingLine accLine, String notificationOption,int currentFiscalYear);
+
+   // public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine);
+
+    public boolean hasSufficientFundsOnBlanketApproveRequisition(SourceAccountingLine accLine, String notificationOption,int currentFiscalYear);
 
     public String getParameter(String key);
 

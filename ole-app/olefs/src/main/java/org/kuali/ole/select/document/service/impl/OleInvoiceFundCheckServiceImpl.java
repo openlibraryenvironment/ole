@@ -63,7 +63,6 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
     @Override
     public boolean hasSufficientFundCheckRequired(SourceAccountingLine accLine) {
         boolean hasSufficientFundRequired = false;
-        if (SpringContext.getBean(OleInvoiceService.class).getParameterBoolean(OLEConstants.CoreModuleNamespaces.SELECT, OLEConstants.OperationType.SELECT, PurapParameterConstants.ALLOW_INVOICE_SUFF_FUND_CHECK)) {
             Map searchMap = new HashMap();
             Map<String, Object> key = new HashMap<String, Object>();
             String chartCode = accLine.getChartOfAccountsCode();
@@ -149,9 +148,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                     }
                 }
             }
-        }
         return hasSufficientFundRequired;
-
     }
 
     private String getFundCode(String chartCode, String accountNumber) {

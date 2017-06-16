@@ -60,11 +60,13 @@ public class StatisticalSearchCodeHandler extends ItemHandler {
                     StatisticalSearchRecord statisticalSearchRecord = getOleDsNGMemorizeService().fetchStatisticalSearchRecordByCode(statisticalSearchCode);
                     for (Iterator<ItemStatisticalSearchRecord> itemStatisticalSearchRecordIterator = itemStatisticalSearchRecords.iterator(); itemStatisticalSearchRecordIterator.hasNext(); ) {
                         ItemStatisticalSearchRecord itemStatisticalSearchRecord = itemStatisticalSearchRecordIterator.next();
+                        itemStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
                         itemStatisticalSearchRecord.setStatisticalSearchRecord(statisticalSearchRecord);
-
+                        itemStatisticalSearchRecord.setItemId(itemRecord.getItemId());
+                        itemStatisticalSearchRecord.setItemRecord(itemRecord);
                     }
-
                 }
+                itemRecord.setItemStatisticalSearchRecords(itemStatisticalSearchRecords);
             } else {
                 itemStatisticalSearchRecords = new ArrayList<ItemStatisticalSearchRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {

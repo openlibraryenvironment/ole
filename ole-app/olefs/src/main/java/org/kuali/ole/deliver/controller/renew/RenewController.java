@@ -5,10 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.calendar.bo.OleCalendar;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarWeek;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.form.CircForm;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.document.Item;
@@ -324,6 +328,34 @@ public class RenewController extends CircUtilController {
         }
         if (oleLoanDocument.getLoanDueDate() != null) {
             oleLoanDocument.setRenewalDateMap(oleLoanDocument.getLoanDueDate());
+           String dueTime = getParameterValueResolver().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+            if(dueTime!=null){
+                oleLoanDocument.setRenewalDateTime(dueTime);
+            }else{
+                OleCirculationDesk circulationDesk = (oleLoanDocument.getCirculationLocationId() != null ? new CircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()):null);
+                if(circulationDesk != null){
+                    LoanDateTimeUtil loanDateTimeUtil =new LoanDateTimeUtil();
+                    OleCalendar oleCalendar = loanDateTimeUtil.getActiveCalendar(oleLoanDocument.getLoanDueDate(),circulationDesk.getCalendarGroupId());
+                    if(oleCalendar != null){
+                        int day = oleLoanDocument.getLoanDueDate().getDay();
+                        List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekList();
+                        if(CollectionUtils.isNotEmpty(oleCalendarWeekList)){
+                            for(Iterator<OleCalendarWeek> iterator = oleCalendarWeekList.iterator(); iterator.hasNext();){
+                                OleCalendarWeek oleCalendarWeek =  iterator.next();
+                                System.out.println("Close Time: "+oleCalendarWeek.getCloseTime());
+                                if(oleCalendarWeek.getStartDay().equalsIgnoreCase(String.valueOf(day))){
+                                    oleLoanDocument.setRenewalDateTime(oleCalendarWeek.getCloseTime());
+                                    break;
+                                }else if ((day >= Integer.valueOf(oleCalendarWeek.getStartDay())) && day <= Integer.valueOf(oleCalendarWeek.getEndDay())){
+                                    oleLoanDocument.setRenewalDateTime(oleCalendarWeek.getCloseTime());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
         }
     }
 

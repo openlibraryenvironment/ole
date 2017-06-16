@@ -152,7 +152,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
         /*if (nodeName.equals(PurapWorkflowConstants.HAS_LICENSE_REQUEST)) {
             return isLicenseRequested();
         }*/
-        if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
+        else if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
             return isSeparationOfDutiesReviewRequired();
             /*
          * Modified as per review comments for OLE-24 Methods are commented as Notification is not implemented currently To revisit
@@ -165,28 +165,33 @@ public class OleRequisitionDocument extends RequisitionDocument {
          * (nodeName.equals(PurapWorkflowConstants.DUPLICATE_RECORD_CHECK)) return isDuplicateRecord(); if
          * (nodeName.equals(PurapWorkflowConstants.NEW_VENDOR_CHECK)) return isNewVendor();
         */
-        if (nodeName.equals(PurapWorkflowConstants.YBP_ORDERS)) {
-            return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_FIRM);
+        else if (nodeName.equals(PurapWorkflowConstants.YBP_ORDERS)) {
+            return true;
+            //return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_FIRM);
         }
-        if (nodeName.equals(PurapWorkflowConstants.STANDING_ORDERS)) {
-            return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_STANDING);
+        else if (nodeName.equals(PurapWorkflowConstants.STANDING_ORDERS)) {
+            return true;
+            //return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_STANDING);
         }
-        if (nodeName.equals(PurapWorkflowConstants.SUBSCRIPTION_ORDERS)) {
-            return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_SUBSCRIPTION);
+        else if (nodeName.equals(PurapWorkflowConstants.SUBSCRIPTION_ORDERS)) {
+            return true;
+            //return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_SUBSCRIPTION);
         }
-        if (nodeName.equals(PurapWorkflowConstants.APPROVAL_ORDERS)) {
-            return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_APPROVAL);
+        else if (nodeName.equals(PurapWorkflowConstants.APPROVAL_ORDERS)) {
+            return true;
+            //return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_APPROVAL);
         }
-        if (nodeName.equals(PurapWorkflowConstants.HAS_VENDOR)) {
+        else if (nodeName.equals(PurapWorkflowConstants.HAS_VENDOR)) {
             return isMissingVendor();
         }
-        if (nodeName.equals(PurapWorkflowConstants.HAS_FIRMFIXED_WITH_LR)) {
-            return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_FIRM);
+        else if (nodeName.equals(PurapWorkflowConstants.HAS_FIRMFIXED_WITH_LR)) {
+            return true;
+            //return isRequiredOrderType(this.getPurchaseOrderTypeId(), PurapConstants.ORDER_TYPE_FIRM);
         }
-        if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
+        else if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) {
             return isBudgetReviewRequired();
         }
-        if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
+        else if (nodeName.equals(PurapWorkflowConstants.NOTIFY_BUDGET_REVIEW)) {
             return isNotificationRequired();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
@@ -453,12 +458,14 @@ public class OleRequisitionDocument extends RequisitionDocument {
             while (iterator.hasNext()) {
                 LOG.debug("###########inside prepareForSave ole requisition item###########");
                 OleRequisitionItem singleItem = (OleRequisitionItem) iterator.next();
-                KRADServiceLocator.getBusinessObjectService().delete(singleItem.getDeletedCopiesList());
-                setItemDetailWhilePrepareForSave(singleItem);
-                setDocumentHeaderDescription(singleItem);
-                //Creatbib method is executed when the order is through Preorderservice
-                if (this.getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_WEBFORM)) {
-                    createBib(singleItem);
+                if(singleItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)) {
+                    KRADServiceLocator.getBusinessObjectService().delete(singleItem.getDeletedCopiesList());
+                    setItemDetailWhilePrepareForSave(singleItem);
+                    setDocumentHeaderDescription(singleItem);
+                    //Creatbib method is executed when the order is through Preorderservice
+                    if (this.getRequisitionSourceCode().equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_WEBFORM)) {
+                        createBib(singleItem);
+                    }
                 }
             }
         } catch (DocStoreConnectionException dsce) {
@@ -1071,7 +1078,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
             }
             if (notificationOption != null
                     && (notificationOption.equals(OLEPropertyConstants.BUD_REVIEW))) {
-                sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine);
+                sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine, notificationOption, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
                 if (sufficientFundCheck) {
                     return sufficientFundCheck;
                 }
@@ -1099,7 +1106,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
                 notificationOption = account.getNotificationOption();
             }
             if (notificationOption != null && notificationOption.equals(OLEPropertyConstants.NOTIFICATION)) {
-                sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine);
+                sufficientFundCheck = oleRequisitionDocumentService.hasSufficientFundsOnRequisition(accLine, notificationOption, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
                 if (sufficientFundCheck) {
                     return sufficientFundCheck;
                 }
@@ -1118,7 +1125,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
             if (nodeName != null
                     && (nodeName.equalsIgnoreCase(PurapWorkflowConstants.BUDGET_NODE) || nodeName
                     .equalsIgnoreCase(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED))) {
-                if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
+               /* if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()
                         .compareTo(getPostingYear()) >= 0) {
                     List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
                     for (GeneralLedgerPendingEntry glpe : pendingEntries) {
@@ -1130,13 +1137,13 @@ public class OleRequisitionDocument extends RequisitionDocument {
                     SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(
                             this);
                     SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
-                }
+                }*/
                 SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
                 accountsForRouting = (SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-                List<String> fundsItemList = new ArrayList<String>();
+               /* List<String> fundsItemList = new ArrayList<String>();
                 for (SufficientFundsItem fundsItem : fundsItems) {
                     fundsItemList.add(fundsItem.getAccount().getChartOfAccountsCode());
-                }
+                }*/
                 setAccountsForRouting(accountsForRouting);
                 refreshNonUpdateableReferences();
                 for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
