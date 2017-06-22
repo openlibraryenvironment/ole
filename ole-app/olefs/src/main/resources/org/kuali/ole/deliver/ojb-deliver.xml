@@ -1090,6 +1090,8 @@
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="deliveryPrivilege" column="DELIVERY_PRIVILEGE" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="checkoutReceiptOptOut" column="CHECKOUT_RECEIPT_OPT_OUT" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE"/>
         <field-descriptor name="activationDate" column="ACTIVATION_DATE" jdbc-type="DATE"/>
         <field-descriptor name="generalBlockNotes" column="GENERAL_BLOCK_NT" jdbc-type="VARCHAR"/>

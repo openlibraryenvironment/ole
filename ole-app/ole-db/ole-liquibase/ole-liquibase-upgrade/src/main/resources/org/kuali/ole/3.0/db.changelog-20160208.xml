@@ -86,6 +86,14 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_PTRN_T ADD COLUMN CHECKOUT_RECEIPT_OPT_OUT VARCHAR(1) NULL AFTER DELIVERY_PRIVILEGE</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_PTRN_T ADD COLUMN CHECKOUT_RECEIPT_OPT_OUT VARCHAR(1)</sql>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="ADD_LOCN_POPUP">
         <addColumn tableName="OLE_CRCL_DSK_LOCN_T">
             <column name="LOCN_POPUP" type="VARCHAR(1)"/>
