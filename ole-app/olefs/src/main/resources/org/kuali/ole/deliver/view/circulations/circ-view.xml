@@ -76,6 +76,7 @@
                 <bean id="itemAlreadyLoaned" parent="itemAlreadyLoanedDialog"/>
                 <bean id="blockCheckinProcessDialog" parent="blockCheckinDialog"/>
                 <bean id="itemLostDialog" parent="itemLostNoteDialog"/>
+                <bean id="itemReplaceDialog" parent="itemReplaceNoteDialog"/>
                 <bean id="patronInvalidOrLostDialog" parent="patronInvalidOrLostMsgDialog"/>
             </list>
         </property>
