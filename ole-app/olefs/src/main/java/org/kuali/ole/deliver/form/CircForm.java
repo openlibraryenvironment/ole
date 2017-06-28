@@ -112,6 +112,7 @@ public class CircForm extends OLEForm {
     private String loanTimeToAllEntries;
 
     private String itemLostNote;
+    private String itemReplaceNote;
 
     private String createNewPatronLink;
 
@@ -578,6 +579,14 @@ public class CircForm extends OLEForm {
 
     public String getItemLostNote() {
         return itemLostNote;
+    }
+
+    public String getItemReplaceNote() {
+        return itemReplaceNote;
+    }
+
+    public void setItemReplaceNote(String itemReplaceNote) {
+        this.itemReplaceNote = itemReplaceNote;
     }
 
     public void setItemLostNote(String itemLostNote) {

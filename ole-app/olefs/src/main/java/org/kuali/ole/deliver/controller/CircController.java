@@ -1087,6 +1087,7 @@ public class CircController extends CheckoutValidationController {
     public ModelAndView applyItemLostReplace(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
+        String itemReplaceDescription = request.getParameter("itemReplaceDescription");
         List<OleLoanDocument> loanDocumentList = getSelectedLoanDocumentList(circForm);
         CheckinItemController checkinItemController = new CheckinItemController();
         if(StringUtils.isNotBlank(request.getParameter("cancelRequest"))) {
@@ -1102,6 +1103,7 @@ public class CircController extends CheckoutValidationController {
                     new OleDeliverRequestDocumentHelperServiceImpl().cancelPendingRequestForClaimsReturnedItem(oleLoanDocument.getItemUuid());
                     oleLoanDocument.setDeliverNotices(null);
                 }
+                oleLoanDocument.setItemReplaceNote(itemReplaceDescription);
                 loanDocuments.add(oleLoanDocument);
                 CheckinForm checkinForm = new CheckinForm();
                 checkinForm.setItemBarcode(oleLoanDocument.getItemId());
@@ -1187,7 +1189,7 @@ public class CircController extends CheckoutValidationController {
             else if (isRequestExists) {
                 showDialog("checkForRequestExistsLostItemReplaceCopyDialog", circForm, request, response);
             } else {
-                applyItemLostReplace(form,result,request,response);
+                showDialog("itemReplaceDialog", circForm, request, response);
             }
         }else {
             ErrorMessage errorMessage = new ErrorMessage();

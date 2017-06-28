@@ -669,6 +669,7 @@ public class CircUtilController extends RuleExecutor {
                         oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
                         oleItemLevelBillPayment.setCreatedUser(operatorId);
                         oleItemLevelBillPayment.setPaymentMode("Replacement");
+                        oleItemLevelBillPayment.setTransactionNote(note);
                         List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -758,7 +759,11 @@ public class CircUtilController extends RuleExecutor {
         if (org.apache.commons.lang3.StringUtils.isNotBlank(forgiveLostFees)) {
             feeTypeCodes = Arrays.asList(forgiveLostFees.split(","));
         }
-        updateFees(loanDocument, operatorId, feeTypeCodes, "Item Returned on ", isRenew);
+        if(StringUtils.isNotBlank(loanDocument.getItemStatus())&&loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)) {
+            updateFees(loanDocument, operatorId, feeTypeCodes, loanDocument.getItemReplaceNote(), isRenew);
+        } else{
+            updateFees(loanDocument, operatorId, feeTypeCodes, "Item Returned on ", isRenew);
+        }
     }
 
     public ParameterValueResolver getParameterValueResolver() {
