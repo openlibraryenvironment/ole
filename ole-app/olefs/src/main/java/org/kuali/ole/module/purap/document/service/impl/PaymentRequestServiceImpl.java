@@ -60,10 +60,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -1883,14 +1885,36 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public void processPaymentRequestInReceivingStatus() {
-        List<PaymentRequestDocument> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        Map docTypeMap = new HashMap();
+        docTypeMap.put("name", "OLE_PREQ");
+        docTypeMap.put("active", Boolean.TRUE);
+        docTypeMap.put("currentInd", Boolean.TRUE);
+        List<DocumentType>  documentTypeList = (List<DocumentType>) SpringContext.getBean(
+                BusinessObjectService.class).findMatching(DocumentType.class,docTypeMap);
         List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
-        if(docNumbers.size() > 0) {
-            for(PaymentRequestDocument preq : docNumbers) {
-                if(preq.getApplicationDocumentStatus().contains(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW)) {
-                    preqsAwaitingReceiving.add(preq);
+
+        for(DocumentType documentType : documentTypeList) {
+            Map docHdrMap = new HashMap();
+            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentTypeId());
+            docHdrMap.put("docRouteStatus", "R");
+            List<DocumentRouteHeaderValue> documentHeaderList = (List<DocumentRouteHeaderValue>) SpringContext.getBean(
+                    BusinessObjectService.class).findMatching(DocumentRouteHeaderValue.class, docHdrMap);
+            for (DocumentRouteHeaderValue documentHeader : documentHeaderList) {
+                Map invMap = new HashMap();
+                invMap.put(OLEConstants.DOC_NUMBER, documentHeader.getDocumentId());
+                List<OlePaymentRequestDocument> payDocList = (List<OlePaymentRequestDocument>) SpringContext.getBean(
+                        BusinessObjectService.class).findMatching(OlePaymentRequestDocument.class, invMap);
+                if (payDocList.size() > 0) {
+                    for (PaymentRequestDocument preq : payDocList) {
+                        if (preq.getApplicationDocumentStatus().contains(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW)) {
+                            if (!preq.isHoldIndicator() && !preq.isPaymentRequestedCancelIndicator()) {
+                                preqsAwaitingReceiving.add(preq);
+                            }
+                        }
+                    }
                 }
             }
+        }
           //  docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
 
            /*
@@ -1912,7 +1936,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     }
                 }
             }
-        }
     }
 
     /**
