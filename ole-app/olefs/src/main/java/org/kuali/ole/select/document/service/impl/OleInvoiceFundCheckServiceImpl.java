@@ -181,7 +181,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                 BusinessObjectService.class).findMatching(DocumentType.class,docTypeMap);
         for(DocumentType documentType : documentTypeList) {
             Map docHdrMap = new HashMap();
-            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentId());
+            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentTypeId());
             docHdrMap.put("docRouteStatus", "S");
             List<DocumentRouteHeaderValue> documentHeaderList = (List<DocumentRouteHeaderValue>) SpringContext.getBean(
                     BusinessObjectService.class).findMatching(DocumentRouteHeaderValue.class, docHdrMap);
@@ -220,7 +220,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
         }
         for(DocumentType documentType : documentTypeList) {
             Map docHdrMap = new HashMap();
-            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentId());
+            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentTypeId());
             docHdrMap.put("docRouteStatus", "R");
             List<DocumentRouteHeaderValue> documentHeaderList = (List<DocumentRouteHeaderValue>) SpringContext.getBean(
                     BusinessObjectService.class).findMatching(DocumentRouteHeaderValue.class, docHdrMap);
@@ -270,7 +270,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                 BusinessObjectService.class).findMatching(DocumentType.class,docTypeMap);
         for(DocumentType documentType : documentTypeList) {
             Map docHdrMap = new HashMap();
-            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentId());
+            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentTypeId());
             docHdrMap.put("docRouteStatus", "S");
             List<DocumentRouteHeaderValue> documentHeaderList = (List<DocumentRouteHeaderValue>) SpringContext.getBean(
                     BusinessObjectService.class).findMatching(DocumentRouteHeaderValue.class, docHdrMap);
@@ -309,7 +309,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
         }
         for(DocumentType documentType : documentTypeList) {
             Map docHdrMap = new HashMap();
-            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentId());
+            docHdrMap.put(OLEPropertyConstants.DOCUMENT_TYPE_ID, documentType.getDocumentTypeId());
             docHdrMap.put("docRouteStatus", "R");
             List<DocumentRouteHeaderValue> documentHeaderList = (List<DocumentRouteHeaderValue>) SpringContext.getBean(
                     BusinessObjectService.class).findMatching(DocumentRouteHeaderValue.class, docHdrMap);
