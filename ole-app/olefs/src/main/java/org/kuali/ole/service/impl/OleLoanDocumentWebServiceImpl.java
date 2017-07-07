@@ -1,6 +1,7 @@
 package org.kuali.ole.service.impl;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
@@ -215,10 +216,10 @@ public class OleLoanDocumentWebServiceImpl implements OleLoanDocumentWebService 
         OLESruItem oleSruItem = new OLESruItem();
        // oleSruItem.setItemDueDate(getItemDueDate(itemUUID));
       //  oleSruItem.setRenewable(getItemRenewable(itemUUID,itemType,itemShelvingLocation));
-        if(shelvingLocation!=null){
+        if(StringUtils.isNotBlank(shelvingLocation)){
             oleSruItem.setShelvingLocation(getLocationName(shelvingLocation));
         }
-        if(localLocation !=null){
+        if(StringUtils.isNotBlank(localLocation)){
             oleSruItem.setLocalLocation(getLocationName(localLocation));
         }
         return getOleSruItemHandler().generateXmlFromObject(oleSruItem);  //To change body of implemented methods use File | Settings | File Templates.

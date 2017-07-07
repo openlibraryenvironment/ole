@@ -414,10 +414,10 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
 
     public OleSRUInstanceDocument processInstanceCollectionXml(String instanceXml) {
         LOG.info("Inside processInstanceCollectionXml method");
-        String sruTrueValue = getParameter(OleSRUConstants.BOOLEAN_FIELD_TRUE_FORMAT);
-        String sruFalseValue = getParameter(OleSRUConstants.BOOLEAN_FIELD_FALSE_FORMAT);
-        String availableItemStatus = getParameter(OleSRUConstants.SRU_AVAILABLE_STATUSES);
-        String holdItemStatus = getParameter(OleSRUConstants.SRU_ON_HOLD_STATUSES);
+        String sruTrueValue = OleSRUConstants.BOOLEAN_FIELD_TRUE_FORMAT;
+        String sruFalseValue = OleSRUConstants.BOOLEAN_FIELD_FALSE_FORMAT;
+        String availableItemStatus = OleSRUConstants.SRU_AVAILABLE_STATUSES;
+        String holdItemStatus = OleSRUConstants.SRU_ON_HOLD_STATUSES;
         List<String> availableItemStatuses = new ArrayList<String>();
         List<String> holdItemStatuses = new ArrayList<String>();
 
@@ -580,18 +580,16 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
     }
     private String getLocations(Location location,String paramName) {
         String locationName = "";
-        String level =getParameter(paramName);
-        int i = 0;
         LocationLevel locationLevel = location.getLocationLevel();
-        if (locationLevel != null && level!=null) {
-            while (locationLevel!=null) {
-                if (locationLevel.getLevel()!=null && locationLevel.getLevel().equalsIgnoreCase(level)) {
+        if(locationLevel != null) {
+            if (StringUtils.isNotBlank(paramName)) {
+                if (locationLevel.getLevel() != null && locationLevel.getLevel().equalsIgnoreCase(paramName)) {
                     locationName = locationLevel.getName();
-                    break;
-                } else {
-                    locationLevel = locationLevel.getLocationLevel();
+                } else if (locationLevel.getLocationLevel() != null && locationLevel.getLocationLevel().getLevel() != null && locationLevel.getLocationLevel().getLevel().equalsIgnoreCase(paramName)) {
+                    locationName = locationLevel.getLocationLevel().getName();
+                } else if (locationLevel.getLocationLevel().getLocationLevel() != null && locationLevel.getLocationLevel().getLocationLevel().getLevel() != null && locationLevel.getLocationLevel().getLocationLevel().getLevel().equalsIgnoreCase(paramName)) {
+                    locationName = locationLevel.getLocationLevel().getLocationLevel().getName();
                 }
-
             }
         }
         return locationName;
