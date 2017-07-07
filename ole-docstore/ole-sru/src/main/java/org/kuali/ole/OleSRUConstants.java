@@ -1,5 +1,12 @@
 package org.kuali.ole;
 
+import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ?
@@ -127,15 +134,29 @@ public class OleSRUConstants {
     public static final String CS_SUBJECT ="dc.subject";
     public static final String CS_CHOICE = "cql.serverChoice";
     public static final String ALL_TEXT="all_text";
-    public static final String LOCAL_LOCATION="SRU_LOCAL_LOCATION_LEVEL";
-    public static final String SHELVING_LOCATION="SRU_SHELVING_LOCATION_LEVEL";
-    public static final String BOOLEAN_FIELD_TRUE_FORMAT = "BOOLEAN_FIELD_TRUE_FORMAT";
-    public static final String BOOLEAN_FIELD_FALSE_FORMAT = "BOOLEAN_FIELD_FALSE_FORMAT";
+    public static final String LOCAL_LOCATION= getParameter("SRU_LOCAL_LOCATION_LEVEL");
+    public static final String SHELVING_LOCATION= getParameter("SRU_SHELVING_LOCATION_LEVEL");
+    public static final String BOOLEAN_FIELD_TRUE_FORMAT = getParameter("BOOLEAN_FIELD_TRUE_FORMAT");
+    public static final String BOOLEAN_FIELD_FALSE_FORMAT = getParameter("BOOLEAN_FIELD_FALSE_FORMAT");
 
 
 
-    public static final String SRU_AVAILABLE_STATUSES = "SRU_AVAILABLE_STATUSES";
-    public static final String SRU_ON_HOLD_STATUSES = "SRU_ON_HOLD_STATUSES";
+    public static final String SRU_AVAILABLE_STATUSES = getParameter("SRU_AVAILABLE_STATUSES");
+    public static final String SRU_ON_HOLD_STATUSES = getParameter("SRU_ON_HOLD_STATUSES");
 
-
+    public static String getParameter(String name) {
+        String parameter = "";
+        try {
+            Map<String, String> criteriaMap = new HashMap<String, String>();
+            criteriaMap.put("namespaceCode", "OLE-DESC");
+            criteriaMap.put("componentCode", "Describe");
+            criteriaMap.put("name", name);
+            List<ParameterBo> parametersList = (List<ParameterBo>) KRADServiceLocator.getBusinessObjectService().findMatching(ParameterBo.class, criteriaMap);
+            for (ParameterBo parameterBo : parametersList) {
+                parameter = parameterBo.getValue();
+            }
+        } catch (Exception e) {
+        }
+        return parameter;
+    }
 }
