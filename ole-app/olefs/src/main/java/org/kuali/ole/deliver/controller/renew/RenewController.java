@@ -332,29 +332,7 @@ public class RenewController extends CircUtilController {
             if(dueTime!=null){
                 oleLoanDocument.setRenewalDateTime(dueTime);
             }else{
-                OleCirculationDesk circulationDesk = (oleLoanDocument.getCirculationLocationId() != null ? new CircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()):null);
-                if(circulationDesk != null){
-                    LoanDateTimeUtil loanDateTimeUtil =new LoanDateTimeUtil();
-                    OleCalendar oleCalendar = loanDateTimeUtil.getActiveCalendar(oleLoanDocument.getLoanDueDate(),circulationDesk.getCalendarGroupId());
-                    if(oleCalendar != null){
-                        int day = oleLoanDocument.getLoanDueDate().getDay();
-                        List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekList();
-                        if(CollectionUtils.isNotEmpty(oleCalendarWeekList)){
-                            for(Iterator<OleCalendarWeek> iterator = oleCalendarWeekList.iterator(); iterator.hasNext();){
-                                OleCalendarWeek oleCalendarWeek =  iterator.next();
-                                System.out.println("Close Time: "+oleCalendarWeek.getCloseTime());
-                                if(oleCalendarWeek.getStartDay().equalsIgnoreCase(String.valueOf(day))){
-                                    oleLoanDocument.setRenewalDateTime(oleCalendarWeek.getCloseTime());
-                                    break;
-                                }else if ((day >= Integer.valueOf(oleCalendarWeek.getStartDay())) && day <= Integer.valueOf(oleCalendarWeek.getEndDay())){
-                                    oleLoanDocument.setRenewalDateTime(oleCalendarWeek.getCloseTime());
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                }
+                oleLoanDocument.setRenewalDateTime(getDefaultClosingTime(oleLoanDocument,oleLoanDocument.getLoanDueDate()));
             }
         }
     }

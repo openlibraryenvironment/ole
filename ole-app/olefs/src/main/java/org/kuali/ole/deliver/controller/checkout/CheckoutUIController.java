@@ -122,7 +122,12 @@ public class CheckoutUIController extends CheckoutBaseController {
         } else if (fmt.format(customDueDateMap).compareTo(fmt.format(new Date())) == 0) {
             timestamp = new Timestamp(new Date().getTime());
         } else {
-            timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(customDueDateMap).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+            String closingTime = getDefaultClosingTime(oleLoanDocument,customDueDateMap);
+            if(StringUtils.isNotBlank(closingTime)) {
+                timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(customDueDateMap).concat(" ").concat(closingTime).concat(":00"));
+            }else{
+                timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(customDueDateMap).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+            }
         }
         oleLoanDocument.setLoanDueDate(timestamp);
         oleLoanDocument.setCirculationPolicyId(OLEConstants.NO_CIRC_POLICY_FOUND);
