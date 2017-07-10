@@ -520,6 +520,9 @@ public class CircController extends CheckoutValidationController {
                         if(StringUtils.isBlank(dueDateAndTime[1])) {
                             dueDateAndTime[1] =ParameterValueResolver.getInstance().getParameter(OLEConstants
                                     .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+                            if(StringUtils.isBlank(dueDateAndTime[1])){
+                                dueDateAndTime[1] = new CircUtilController().getDefaultClosingTime(loanDocument,getDateFromString(dateString));
+                            }
                         }
                         newDueDate = getCheckoutUIController(circForm.getFormKey()).processDateAndTimeForAlterDueDate(getDateFromString(dateString), dueDateAndTime[1]);
                     }
@@ -577,6 +580,9 @@ public class CircController extends CheckoutValidationController {
                 if(StringUtils.isBlank(dueDateAndTime[1])) {
                     dueDateAndTime[1] = ParameterValueResolver.getInstance().getParameter(OLEConstants
                             .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+                    if(StringUtils.isBlank(dueDateAndTime[1])){
+                        dueDateAndTime[1] = new CircUtilController().getDefaultClosingTime(oleLoanDocument, getDateFromString(dateString));
+                    }
                 }
                 newDueDate = getCheckoutUIController(circForm.getFormKey()).processDateAndTimeForAlterDueDate(getDateFromString(dateString), dueDateAndTime[1]);
             }
