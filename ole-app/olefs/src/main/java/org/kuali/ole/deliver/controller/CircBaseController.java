@@ -205,9 +205,6 @@ public class CircBaseController extends OLEUifControllerBase{
         if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentListForCurrentSession())) {
             oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
         }
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
-        }
         if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
             oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
         }
@@ -215,7 +212,7 @@ public class CircBaseController extends OLEUifControllerBase{
             try {
                 getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("Error while sending sendout Receipt"+e.getLocalizedMessage());
             }
         }
         String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
