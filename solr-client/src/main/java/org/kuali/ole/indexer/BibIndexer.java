@@ -166,7 +166,7 @@ public class BibIndexer extends OleDsNgIndexer {
             solrInputDocument.setField(STATUS_UPDATED_ON, bibRecord.getStatusUpdatedDate().toString());
         }
 
-        solrInputDocument.setField(STAFF_ONLY_FLAG, bibRecord.getStaffOnly());
+        solrInputDocument.setField(STAFF_ONLY_FLAG, getBooleanValueYorN(bibRecord.getStaffOnly()));
 
         String createdBy = bibRecord.getCreatedBy();
         solrInputDocument.setField(CREATED_BY, createdBy);
