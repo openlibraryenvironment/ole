@@ -3,6 +3,7 @@ package org.kuali.ole.dsng.rest.processor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -37,6 +38,7 @@ import java.util.*;
  * Created by SheikS on 12/8/2015.
  */
 public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper implements DocstoreConstants {
+    private static final Logger LOG = Logger.getLogger(OleDsNgOverlayProcessor.class);
 
     @Autowired
     OleDsNGMemorizeService oleDsNGMemorizeService;
@@ -98,16 +100,19 @@ public class OleDsNgOverlayProcessor extends OleDsNgOverlayProcessorHelper imple
 
                         List<ItemRecordAndDataMapping> createItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_CREATE);
                         List<ItemRecordAndDataMapping> updateItemRecordAndDataMappings = (List<ItemRecordAndDataMapping>) exchange.get(OleNGConstants.ITEMS_FOR_UPDATE);
-                        synchronized (this) {
-                            processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
+                        LOG.info("processBib started");
+                        processBib(solrInputDocumentMap, exchange, bibJSONDataObject, ops, bibRecord);
+                        LOG.info("processBib completed");
+                        LOG.info("processHoldings started");
+                        processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
+                        LOG.info("processHoldings completed");
+                        LOG.info("processEHoldings started");
+                        processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
+                        LOG.info("processEHoldings completed");
+                        LOG.info("processItems started");
+                        processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
+                        LOG.info("processItems completed");
 
-                            processHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops, holdingsForUpdateOrCreate);
-
-                            processEHoldings(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
-
-                            processItems(solrInputDocumentMap, exchange, bibJSONDataObject, ops);
-
-                        }
                         bibRecord = (BibRecord) exchange.get(OleNGConstants.BIB);
                         buildBibResponses(bibResponse, bibRecord, exchange, operationsList);
 
