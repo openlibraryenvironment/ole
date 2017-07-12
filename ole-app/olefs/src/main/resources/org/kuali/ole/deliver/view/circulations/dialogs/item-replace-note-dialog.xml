@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--Lost Item-->
+    <bean id="itemReplaceNoteDialog" parent="Uif-DialogGroup">
+        <property name="header.rightGroup">
+            <ref bean="headerBtnAndInstructionalTextMsgReplaceItm"/>
+        </property>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="itemReplace-note"/>
+                <ref bean="itemReplaceNote-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="headerBtnAndInstructionalTextMsgReplaceItm" p:style="width:95%;position:relative;float:right" parent="Uif-HeaderRightGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree"  p:headerText="Replace Item"/>
+                <bean parent="Uif-Message" p:style="margin-top:15px;float:right" p:messageText="*indicates required field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemReplace-note" parent="itemReplace-note-parentBean" />
+    <bean id="itemReplace-note-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="itemReplaceNote" parent="Loan-Uif-InputField" p:label="Note" p:required="true" p:propertyName="itemReplaceNote">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" p:maxLength="400" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="itemReplaceNote-buttons" p:style="position: relative;float:left;top:1%;left: 50%;margin-right: -50%;transform: translate(-50%, 0%);justify-content: center;align-items: center;" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="itemReplaceNoteButton" parent="Uif-SecondaryActionButton" p:actionLabel="Submit"
+                      p:actionScript="if(jq('#kualiLightboxForm').valid()){
+                          var itemReplaceDescription = jq('#itemReplaceNote_control').val();
+                          submitForm('applyItemLostReplace', {itemReplaceDescription:itemReplaceDescription}, null, true,
+                          function () {
+                              jq.fancybox.close();
+                              jq('#checkoutItem_control').focus();
+                              jq('.loanedItemCBClass').removeAttr('checked');
+                              jq('.loaningItemCBClass').removeAttr('checked');
+                          });
+                      }"/>
+                <bean id="itemReplaceCloseButton" parent="Uif-SecondaryActionButton" p:actionScript="
+                jq.fancybox.close();
+                jq('#checkoutItem_control').focus();
+                jq('.loanedItemCBClass').removeAttr('checked');
+                jq('.loaningItemCBClass').removeAttr('checked');"  p:actionLabel="Cancel" />
+
+
+            </list>
+        </property>
+    </bean>
+</beans>
+

@@ -51,6 +51,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String generalBlockNotes;
     private boolean pagingPrivilege;
     private boolean courtesyNotice;
+    private boolean checkoutReceiptOptOut;
     private boolean deliveryPrivilege;
     private boolean realPatronCheck;
     private boolean selfCheckOut = false;
@@ -242,6 +243,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
             borrowerTypeCode =  getOleBorrowerType().getBorrowerTypeCode();
         }
         return borrowerTypeCode;
+    }
+
+    public boolean isCheckoutReceiptOptOut() {
+        return checkoutReceiptOptOut;
+    }
+
+    public void setCheckoutReceiptOptOut(boolean checkoutReceiptOptOut) {
+        this.checkoutReceiptOptOut = checkoutReceiptOptOut;
     }
 
     public void setBorrowerTypeCode(String borrowerTypeCode) {

@@ -106,9 +106,9 @@ public class PatronBillGenerator {
         OleMailer oleMail = GlobalResourceLoader.getService("oleMailer");
         String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleLoanDocument.getItemLocation());
         if (replyToEmail != null) {
-            oleMail.sendEmail(new EmailFrom(replyToEmail), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+            oleMail.sendEmail(new EmailFrom(replyToEmail), new EmailTo(patronMail), new EmailSubject(getParameter("PATRON_RECEIPT")), new EmailBody(contentForSendMail.toString()), true);
         } else {
-            oleMail.sendEmail(new EmailFrom(getParameter(OLEParameterConstants.NOTICE_FROM_MAIL)), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+            oleMail.sendEmail(new EmailFrom(getParameter(OLEParameterConstants.NOTICE_FROM_MAIL)), new EmailTo(patronMail), new EmailSubject("PATRON_RECEIPT"), new EmailBody(contentForSendMail.toString()), true);
         }
         if (LOG.isInfoEnabled()){
             LOG.info("Mail send successfully to " + patronMail);

@@ -81,6 +81,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private List<LocationsCheckinCountRecord> locationsCheckinCountRecords;
     private String damagedItemNote;
     private String itemLostNote;
+    private String itemReplaceNote;
     private boolean itemDamagedStatus;
     private boolean missingPieceFlag;
     private String missingPiecesCount;
@@ -640,6 +641,14 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setItemLostNote(String itemLostNote) {
         this.itemLostNote = itemLostNote;
+    }
+
+    public String getItemReplaceNote() {
+        return itemReplaceNote;
+    }
+
+    public void setItemReplaceNote(String itemReplaceNote) {
+        this.itemReplaceNote = itemReplaceNote;
     }
 
     public HoldingsRecord getHoldingsRecord() {

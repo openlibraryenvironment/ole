@@ -897,3 +897,4 @@ OLE-SYS,Batch,FUND_ACCOUNTING_LINE_RECORD_CSV_NAME,151,1,CONFG,FundCodeAccountin
 "OLE-DLVR","Deliver","SEND_CHECKOUT_RECEIPT_NOTICE","OLE100125","1","CONFG","true","This parameter value is used for configuring the system to send checkout receipt notice at end of session.","A","KUALI"
 "OLE-DLVR","Deliver","LOST_PROCESSING_FEE","OLE23659874","1","CONFG","150","This Paramater is used to configure processing fee for Lost Replcement copy","A","OLE"
 "OLE-DLVR","Deliver","LOST_ITEM_FEE","OLE-9200","1","CONFG","Lost Item Fee","This Parameter is used to get the name of Replacement Fee Type","A","KUALI"
+"OLE-DLVR","Deliver","PATRON_RECEIPT","OLE-9214","1","CONFG","Patron Receipt","This Parameter is used to configure the subject line of patron bill notice","A","KUALI"

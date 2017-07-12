@@ -425,19 +425,19 @@ public class CheckoutPatronController extends CheckoutItemController {
             oleLoanDocumentList.addAll(circForm.getLoanDocumentListForCurrentSession());
             circForm.getLoanDocumentListForCurrentSession().clear();
         }
-        if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForAlterDueDate())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForAlterDueDate());
-            circForm.getLoanDocumentsForAlterDueDate().clear();
-        }
         if (CollectionUtils.isNotEmpty(circForm.getLoanDocumentsForRenew())) {
-            oleLoanDocumentList.addAll(circForm.getLoanDocumentsForRenew());
+            for(OleLoanDocument oleLoanDocument :circForm.getLoanDocumentsForRenew()) {
+                if(!oleLoanDocumentList.contains(oleLoanDocument)) {
+                    oleLoanDocumentList.add(oleLoanDocument);
+                }
+            }
             circForm.getLoanDocumentsForRenew().clear();
         }
         if(CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
             try {
                 getOlePatronHelperService().sendMailToPatron(oleLoanDocumentList);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("Error while sending sendout Receipt"+e.getLocalizedMessage());
             }
         }
 
