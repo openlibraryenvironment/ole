@@ -205,7 +205,7 @@ public class HoldingIndexer extends OleDsNgIndexer {
         solrDocForHolding.addField(ID, holdingsIdentifierWithPrefix);
         solrDocForHolding.addField(HOLDINGS_IDENTIFIER, holdingsIdentifierWithPrefix);
         solrDocForHolding.addField(UNIQUE_ID, holdingsIdentifierWithPrefix);
-        solrDocForHolding.addField(STAFF_ONLY_FLAG, holdingsRecord.getStaffOnly());
+        solrDocForHolding.addField(STAFF_ONLY_FLAG, getBooleanValueYorN(holdingsRecord.getStaffOnly()));
 
     }
 
