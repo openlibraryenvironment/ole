@@ -218,8 +218,18 @@ function validateCheckInTime() {
             e = end.split(':');
             min = e[1] - s[1];
             hour = e[0] - s[0];
-            if (min != 0 || hour != 0) {
+            if(hour < 0){
+                jq('#checkinCustomDueDateTime_control').val('');
                 jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+            }else if(hour > 0){
+                jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+            }else{
+                if(min < 0) {
+                    jq('#checkinCustomDueDateTime_control').val('');
+                    jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+                }else if(min > 0){
+                    jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+                }
             }
         }
     }
