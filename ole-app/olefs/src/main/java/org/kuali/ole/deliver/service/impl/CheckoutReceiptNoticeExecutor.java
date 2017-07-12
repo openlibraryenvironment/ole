@@ -132,7 +132,8 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
     public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         StringBuilder noticeHtmlContent = new StringBuilder();
         int count = 1;
-        SimpleDateFormat df = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
+        SimpleDateFormat df = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
+        SimpleDateFormat df2 = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
         noticeHtmlContent.append("<HTML>\n<TITLE>");
         noticeHtmlContent.append(oleNoticeContentConfigurationBo.getNoticeTitle() + "</TITLE>\n \n <HEAD></HEAD>\n <BODY>");
         noticeHtmlContent.append("<table>");
@@ -151,7 +152,7 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
         noticeHtmlContent.append("</table><br/>");
         SimpleDateFormat df1 = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         noticeHtmlContent.append("<b>Total Items</b> :" + oleLoanDocuments.size()+ "\n<br/>");
-        noticeHtmlContent.append("<b>Date</b> :" + df.format(System.currentTimeMillis())+ "\n<br/>");
+        noticeHtmlContent.append("<b>Date</b> :" + df2.format(System.currentTimeMillis())+ "\n<br/>");
         noticeHtmlContent.append("<b>Time</b> :" + df1.format(System.currentTimeMillis())+ "\n<br/>");
         noticeHtmlContent.append("</BODY>");
         noticeHtmlContent.append("</HTML>");

@@ -502,6 +502,22 @@ public class CircController extends CheckoutValidationController {
         HashMap<String, String[]> invalidItemIdsMap = new HashMap();
 
         List<OleLoanDocument> selectedLoanDocumentList = filterListForInvalidDueDateItems(itemBarcodeMap, getSelectedLoanDocumentList(circForm));
+        if(selectedLoanDocumentList.size()>0){
+            List<OleLoanDocument> selectedLoanDocumentListForCurrentSession = circForm.getLoanDocumentListForCurrentSession();
+            for(OleLoanDocument loanDocument : selectedLoanDocumentList){
+                if(selectedLoanDocumentListForCurrentSession.contains(loanDocument)) {
+                    int i = 0;
+                    for(OleLoanDocument loanDocument1 : selectedLoanDocumentListForCurrentSession){
+                        if(loanDocument1.equals(loanDocument)){
+                            circForm.getLoanDocumentListForCurrentSession().set(i,loanDocument);
+                        }
+                        i++;
+                    }
+                }else{
+                    circForm.getLoanDocumentListForCurrentSession().add(loanDocument);
+                }
+            }
+        }
         List<OleLoanDocument> loanDocumentsToBeUpdatedInDb = filterListForInvalidDueDateItems(itemBarcodeMap, getSelectedLoanDocumentList(circForm));
         CircUtilController circUtilController = new CircUtilController();
 
