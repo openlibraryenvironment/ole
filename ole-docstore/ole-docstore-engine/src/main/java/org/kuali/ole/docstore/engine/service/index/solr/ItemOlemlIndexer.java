@@ -20,6 +20,7 @@ import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.discovery.solr.work.bib.marc.WorkBibMarcDocBuilder;
+import org.kuali.ole.docstore.engine.service.storage.DocstoreRDBMSStorageService;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.utility.XMLUtility;
@@ -1096,7 +1097,15 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
     private void addItemDetailsToBib(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, Object bibs, List<String> bibIds) {
         if (bibs != null && bibs instanceof List) {
             for (String bibId : bibIds) {
-                SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
+                SolrDocument solrBibDocument;
+                try {
+                    solrBibDocument = getSolrDocumentByUUID(bibId);
+                } catch (Exception e){
+                    BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+                    DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+                    bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(bibId));
+                    solrBibDocument = getSolrDocumentByUUID(bibId);
+                }
                 SolrInputDocument existingInputDocumnet = getExistingSolrDoc(solrInputDocuments, bibId);
                 if(existingInputDocumnet != null){
                     existingInputDocumnet.setField(ITEM_IDENTIFIER,solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
@@ -1109,7 +1118,15 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
             }
         } else {
             String bibId = (String) bibs;
-            SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
+            SolrDocument solrBibDocument;
+            try {
+                solrBibDocument = getSolrDocumentByUUID(bibId);
+            } catch (Exception e){
+                BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+                DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+                bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(bibId));
+                solrBibDocument = getSolrDocumentByUUID(bibId);
+            }
             SolrInputDocument existingInputDocumnet = getExistingSolrDoc(solrInputDocuments, bibId);
             if(existingInputDocumnet != null){
                 existingInputDocumnet.addField(ITEM_IDENTIFIER,solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
