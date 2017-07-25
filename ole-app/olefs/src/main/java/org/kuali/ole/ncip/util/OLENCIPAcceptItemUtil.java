@@ -219,7 +219,7 @@ public class OLENCIPAcceptItemUtil {
         getBusinessObjectService().save(oleDeliverNoticeHistory);
     }
 
-    public Map placeRequest(String operatorId, OlePatronDocument olePatronDocument, String itemBarcode, String itemUUID, OleCirculationDesk olePickUpLocation, String requestTypeId, String bibId, String title, String author, String callNumber, String requestExpirationDay, String location) {
+    public Map placeRequest(String operatorId, OlePatronDocument olePatronDocument, String itemBarcode, String itemUUID, OleCirculationDesk olePickUpLocation, String requestTypeId, String bibId, String title, String author, String callNumber, String requestExpirationDay, String location, String requestExpirationConfigName, String onHoldConfigName, String onHoldCourtesyConfigName,String onHoldExpirationConfigName) {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
         Map responseMap = new HashMap();
@@ -266,6 +266,11 @@ public class OLENCIPAcceptItemUtil {
             oleDeliverRequestBo.setOperatorCreateId(operatorId);
 
             oleDeliverRequestBo.setItemLocation(location);
+
+            oleDeliverRequestBo.setRequestExpirationNoticeContentConfigName(requestExpirationConfigName);
+            oleDeliverRequestBo.setOnHoldNoticeContentConfigName(onHoldConfigName);
+            oleDeliverRequestBo.setOnHoldCourtesyNoticeContentConfigName(onHoldCourtesyConfigName);
+            oleDeliverRequestBo.setOnHoldExpirationNoticeContentConfigName(onHoldExpirationConfigName);
 
             if (StringUtils.isNotBlank(requestExpirationDay)) {
                 Timestamp requestExpirationDate = getOleDeliverRequestDocumentHelperService().calculateXDatesBasedOnCalendar(getOleDeliverRequestDocumentHelperService().getCalendarGroup(oleDeliverRequestBo.getItemLocation()), requestExpirationDay, null, true);
