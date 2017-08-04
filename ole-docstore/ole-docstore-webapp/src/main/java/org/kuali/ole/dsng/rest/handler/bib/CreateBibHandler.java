@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.marc4j.marc.Record;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class CreateBibHandler extends BibHandler {
                     bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
                     Timestamp createdDate = getDateTimeStamp(createdDateString);
-
+                    if(createdDate.after(new Date())){
+                        createdDate = new Timestamp(new Date().getTime());
+                    }
                     bibRecord.setDateCreated(createdDate);
                     bibRecord.setDateEntered(createdDate);
                     bibRecord.setFassAddFlag(false);

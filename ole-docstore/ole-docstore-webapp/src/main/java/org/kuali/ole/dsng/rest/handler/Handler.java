@@ -2,6 +2,7 @@ package org.kuali.ole.dsng.rest.handler;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jettison.json.JSONException;
@@ -20,13 +21,16 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by pvsubrah on 12/23/15.
  */
 public abstract class Handler extends OleDsHelperUtil {
 
-    protected List<Handler> metaDataHandlers;
+    protected static final Logger LOG = Logger.getLogger(Handler.class);
+
+    protected CopyOnWriteArrayList<Handler> metaDataHandlers;
 
     OleDsNGMemorizeService oleDsNGMemorizeService;
 
@@ -47,8 +51,12 @@ public abstract class Handler extends OleDsHelperUtil {
                 if (null != parse) {
                     timeStamp = new Timestamp(parse.getTime());
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                try {
+                    return new Timestamp(DocstoreConstants.DOCSTORE_DATE_FORMAT.parse(updatedDateString).getTime());
+                }catch (Exception ex){
+                    LOG.error(ex.getMessage());
+                }
             }
         }
         return timeStamp;
@@ -94,8 +102,8 @@ public abstract class Handler extends OleDsHelperUtil {
         }
     }
 
-    public List<Handler> getMetaDataHandlers() {
-        return new ArrayList<Handler>();
+    public CopyOnWriteArrayList<Handler> getMetaDataHandlers() {
+        return new CopyOnWriteArrayList<Handler>();
     }
 
     public List<String> parseCommaSeperatedValues(String value){

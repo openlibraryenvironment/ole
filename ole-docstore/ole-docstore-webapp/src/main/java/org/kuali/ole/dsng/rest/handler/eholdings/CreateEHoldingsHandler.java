@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Date;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by SheikS on 1/22/2016.
@@ -86,6 +88,9 @@ public class CreateEHoldingsHandler extends Handler {
         Timestamp createdDate = getDateTimeStamp(createdDateString);
         String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
         holdingsRecord.setCreatedBy(createdBy);
+        if(createdDate.after(new Date())){
+            createdDate = new Timestamp(new Date().getTime());
+        }
         holdingsRecord.setCreatedDate(createdDate);
         holdingsRecord.setUpdatedDate(createdDate);
         if(holdingsRecord.getStaffOnlyFlag()==null){
@@ -95,9 +100,9 @@ public class CreateEHoldingsHandler extends Handler {
     }
 
     @Override
-    public List<Handler> getMetaDataHandlers() {
+    public CopyOnWriteArrayList<Handler> getMetaDataHandlers() {
         if (null == metaDataHandlers) {
-            metaDataHandlers = new ArrayList<Handler>();
+            metaDataHandlers = new CopyOnWriteArrayList<Handler>();
             metaDataHandlers.add(new HoldingsLocationHandler());
             metaDataHandlers.add(new CallNumberHandler());
             metaDataHandlers.add(new CallNumberTypeHandler());
