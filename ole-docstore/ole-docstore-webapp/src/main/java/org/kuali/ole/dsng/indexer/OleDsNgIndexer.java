@@ -159,7 +159,8 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
     }
 
     public void deleteBibDocumentFromSolr(String bibId) {
-        String query = BIB_ID + bibId;
+        String query = "bibIdentifier:" + bibId + " OR " + "id:" + bibId;
+        // String query = BIB_ID + bibId;
         getSolrRequestReponseHandler().deleteFromSolr(query);
     }
 
