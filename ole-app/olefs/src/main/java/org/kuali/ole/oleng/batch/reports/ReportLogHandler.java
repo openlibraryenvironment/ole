@@ -5,13 +5,14 @@ import org.kuali.ole.oleng.batch.reports.processors.OleNGReportProcessor;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by SheikS on 2/18/2016.
  */
 public class ReportLogHandler {
 
-    protected List<OleNGReportProcessor> processors;
+    protected CopyOnWriteArrayList<OleNGReportProcessor> processors;
 
     public void logMessage(Object response, String directoryToWrite) {
         if(CollectionUtils.isNotEmpty(getProcessors())) {
@@ -31,7 +32,7 @@ public class ReportLogHandler {
         return processors;
     }
 
-    public void setProcessors(List<OleNGReportProcessor> processors) {
+    public void setProcessors(CopyOnWriteArrayList<OleNGReportProcessor> processors) {
         this.processors = processors;
     }
 }

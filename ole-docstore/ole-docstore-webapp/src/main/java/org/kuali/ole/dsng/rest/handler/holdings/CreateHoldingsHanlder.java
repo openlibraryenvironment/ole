@@ -13,6 +13,7 @@ import org.kuali.ole.dsng.rest.handler.Handler;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by pvsubrah on 1/22/16.
@@ -97,9 +98,9 @@ public class CreateHoldingsHanlder extends Handler {
 
 
     @Override
-    public List<Handler> getMetaDataHandlers() {
+    public CopyOnWriteArrayList<Handler> getMetaDataHandlers() {
         if (null == metaDataHandlers) {
-            metaDataHandlers = new ArrayList<Handler>();
+            metaDataHandlers = new CopyOnWriteArrayList<Handler>();
             metaDataHandlers.add(new HoldingsLocationHandler());
             metaDataHandlers.add(new CallNumberHandler());
             metaDataHandlers.add(new CallNumberTypeHandler());

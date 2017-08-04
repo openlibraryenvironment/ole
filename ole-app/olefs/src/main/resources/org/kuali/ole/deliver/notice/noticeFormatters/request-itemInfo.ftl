@@ -100,7 +100,7 @@
 
 
     <#if oleNoticeBo.noticeType??>
-        <#if oleNoticeBo.noticeType == "OnHoldNotice">
+        <#if oleNoticeBo.noticeType == "OnHoldNotice" || oleNoticeBo.noticeType == "OnHoldCourtesyNotice" || oleNoticeBo.noticeType == "OnHoldExpirationNotice">
             <TR>
                 <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Hold Expiration Date")} :</TD>
                 <#if oleNoticeBo.expiredOnHoldDate ??>

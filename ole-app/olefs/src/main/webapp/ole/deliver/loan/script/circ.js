@@ -212,23 +212,26 @@ function validateCheckInTime() {
     if (!jq.trim(checkInTime) == "") {
         if (jq("#checkinCustomDueDateTime_control").valid()) {
             var currentDate = new Date();
-            var end = currentDate.getHours() + ":" + currentDate.getMinutes();
-            var start = checkInTime;
-            s = start.split(':');
-            e = end.split(':');
-            min = e[1] - s[1];
-            hour = e[0] - s[0];
-            if(hour < 0){
-                jq('#checkinCustomDueDateTime_control').val('');
-                jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
-            }else if(hour > 0){
-                jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
-            }else{
-                if(min < 0) {
-                    jq('#checkinCustomDueDateTime_control').val('');
-                    jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
-                }else if(min > 0){
-                    jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+            var checkInDate = new Date(jq("#checkinCustomDueDate_control").val());
+            if(!jq.trim(checkInDate) ==""){
+                if(checkInDate.getDate() == currentDate.getDate()){
+                    var end = currentDate.getHours() + ":" + currentDate.getMinutes();
+                    var start = checkInTime;
+                    s = start.split(':');
+                    e = end.split(':');
+                    min = e[1] - s[1];
+                    hour = e[0] - s[0];
+                    if(hour < 0){
+                        jq('#checkinCustomDueDateTime_control').val('');
+                    }else if(hour > 0){
+                        jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+                    }else{
+                        if(min < 0) {
+                            jq('#checkinCustomDueDateTime_control').val('');
+                        }else if(min > 0){
+                            jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+                        }
+                    }
                 }
             }
         }

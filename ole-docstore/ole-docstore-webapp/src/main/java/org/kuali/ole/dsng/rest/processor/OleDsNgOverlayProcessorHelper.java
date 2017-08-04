@@ -18,6 +18,7 @@ import org.kuali.ole.dsng.util.OleDsHelperUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by pvsubrah on 1/30/16.
@@ -25,19 +26,19 @@ import java.util.List;
 public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
 
 
-    private List<Handler> bibHandlers;
-    private List<Handler> holdingHandlers;
-    private List<Handler> eholdingHandlers;
-    private List<Handler> itemHandlers;
-    private List<HoldingsHandler> holdingMetaDataHandlers;
-    private List<HoldingsHandler> eholdingMetaDataHandlers;
-    private List<ItemHandler> itemMetaDataHandlers;
+    private CopyOnWriteArrayList<Handler> bibHandlers;
+    private CopyOnWriteArrayList<Handler> holdingHandlers;
+    private CopyOnWriteArrayList<Handler> eholdingHandlers;
+    private CopyOnWriteArrayList<Handler> itemHandlers;
+    private CopyOnWriteArrayList<HoldingsHandler> holdingMetaDataHandlers;
+    private CopyOnWriteArrayList<HoldingsHandler> eholdingMetaDataHandlers;
+    private CopyOnWriteArrayList<ItemHandler> itemMetaDataHandlers;
 
 
 
-    public List<Handler> getBibHandlers() {
+    public CopyOnWriteArrayList<Handler> getBibHandlers() {
         if (null == bibHandlers) {
-            bibHandlers = new ArrayList<Handler>();
+            bibHandlers = new CopyOnWriteArrayList<Handler>();
             bibHandlers.add(new CreateBibHandler());
             bibHandlers.add(new UpdateBibHandler());
             bibHandlers.add(new DiscardBibHandler());
@@ -45,9 +46,9 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
         return bibHandlers;
     }
 
-    public List<HoldingsHandler> getHoldingMetaDataHandlers() {
+    public CopyOnWriteArrayList<HoldingsHandler> getHoldingMetaDataHandlers() {
         if (null == holdingMetaDataHandlers) {
-            holdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
+            holdingMetaDataHandlers = new CopyOnWriteArrayList<HoldingsHandler>();
             holdingMetaDataHandlers.add(new HoldingsIdHandler());
             holdingMetaDataHandlers.add(new HoldingsLocationHandler());
             holdingMetaDataHandlers.add(new CallNumberHandler());
@@ -58,9 +59,9 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
         return holdingMetaDataHandlers;
     }
 
-    public List<ItemHandler> getItemMetaDataHandlers() {
+    public CopyOnWriteArrayList<ItemHandler> getItemMetaDataHandlers() {
         if (null == itemMetaDataHandlers) {
-            itemMetaDataHandlers = new ArrayList<ItemHandler>();
+            itemMetaDataHandlers = new CopyOnWriteArrayList<ItemHandler>();
             itemMetaDataHandlers.add(new ItemIdHandler());
             itemMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberHandler());
             itemMetaDataHandlers.add(new org.kuali.ole.dsng.rest.handler.items.CallNumberPrefixHandler());
@@ -81,10 +82,10 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
         return itemMetaDataHandlers;
     }
 
-    public List<HoldingsHandler> getEholdingMetaDataHandlers() {
+    public CopyOnWriteArrayList<HoldingsHandler> getEholdingMetaDataHandlers() {
 
         if (null == eholdingMetaDataHandlers) {
-            eholdingMetaDataHandlers = new ArrayList<HoldingsHandler>();
+            eholdingMetaDataHandlers = new CopyOnWriteArrayList<HoldingsHandler>();
             eholdingMetaDataHandlers.add(new HoldingsIdHandler());
             eholdingMetaDataHandlers.add(new HoldingsLocationHandler());
             eholdingMetaDataHandlers.add(new CallNumberHandler());
@@ -136,13 +137,13 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
         return eholdingMetaDataHandlers;
     }
 
-    public void setBibHandlers(List<Handler> bibHandlers) {
+    public void setBibHandlers(CopyOnWriteArrayList<Handler> bibHandlers) {
         this.bibHandlers = bibHandlers;
     }
 
-    public List<Handler> getHoldingHandlers() {
+    public CopyOnWriteArrayList<Handler> getHoldingHandlers() {
         if (null == holdingHandlers) {
-            holdingHandlers = new ArrayList<Handler>();
+            holdingHandlers = new CopyOnWriteArrayList<Handler>();
             holdingHandlers.add(new CreateHoldingsHanlder());
             holdingHandlers.add(new UpdateHoldingsHandler());
             holdingHandlers.add(new DiscardHoldingsHandler());
@@ -150,29 +151,29 @@ public class OleDsNgOverlayProcessorHelper extends OleDsHelperUtil {
         return holdingHandlers;
     }
 
-    public List<Handler> getEHoldingHandlers() {
+    public CopyOnWriteArrayList<Handler> getEHoldingHandlers() {
         if (null == eholdingHandlers) {
-            eholdingHandlers = new ArrayList<Handler>();
+            eholdingHandlers = new CopyOnWriteArrayList<Handler>();
             eholdingHandlers.add(new CreateEHoldingsHandler());
             eholdingHandlers.add(new UpdateEholdingsHandler());
         }
         return eholdingHandlers;
     }
 
-    public void setHoldingHandlers(List<Handler> holdingHandlers) {
+    public void setHoldingHandlers(CopyOnWriteArrayList<Handler> holdingHandlers) {
         this.holdingHandlers = holdingHandlers;
     }
 
-    public List<Handler> getItemHandlers() {
+    public CopyOnWriteArrayList<Handler> getItemHandlers() {
         if (null == itemHandlers) {
-            itemHandlers = new ArrayList<Handler>();
+            itemHandlers = new CopyOnWriteArrayList<Handler>();
             itemHandlers.add(new CreateItemHandler());
             itemHandlers.add(new UpdateItemHandler());
         }
         return itemHandlers;
     }
 
-    public void setItemHandlers(List<Handler> itemHandlers) {
+    public void setItemHandlers(CopyOnWriteArrayList<Handler> itemHandlers) {
         this.itemHandlers = itemHandlers;
     }
 
