@@ -177,14 +177,14 @@ public class EditorFormDataHandler {
         String itemLabel = "";
         StringBuffer itemLabelBuffer = new StringBuffer();
         StringBuffer itemLabelBufferForStaffOnly = new StringBuffer();
-        StringBuffer holdingsCallNumberInformation = new StringBuffer();
+        /*StringBuffer holdingsCallNumberInformation = new StringBuffer();
         OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(holdings.getContent());
         org.kuali.ole.docstore.common.document.content.instance.Item oleItem = new ItemOlemlRecordProcessor().fromXML(item.getContent());
         //prefix+callNumber for holdings
         if (oleHoldings != null && oleHoldings.getCallNumber() != null) {
             getCallNumberInformation(holdingsCallNumberInformation, oleHoldings.getCallNumber().getPrefix(),
                     oleHoldings.getCallNumber().getNumber());
-        }
+        }*/
 
 //        //prefix+callNumber for item
 //        if (oleItem.getLocation() != null) {
