@@ -3784,6 +3784,7 @@ public class OLEConstants {
     public static final String LIBRARY_LOCATION="Library Location";
     public static final String MISSING_ITEM_CHECK_IN_DATE = "Check In Date";
     public static final String MISSING_ITEM_NOTE ="Missing Piece Note";
+    public static final String CLAIMS_SEARCH_COUNT = "Claims Search Count";
 
     public static final String SIMPLE_DATE_FORMAT_FOR_TIME_24H = "HH:mm";
     public static final String DEFAULT_DATE_FORMAT_24H = RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE +" "+ SIMPLE_DATE_FORMAT_FOR_TIME_24H;

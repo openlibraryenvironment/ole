@@ -43,7 +43,7 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
         keyValues.add(new ConcreteKeyValue(OLEConstants.ORIGINAL_DUE_DATE,OLEConstants.ORIGINAL_DUE_DATE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NEW_DUE_DATE,OLEConstants.NEW_DUE_DATE));
         }
-        if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.ONHOLD_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_EXPIRATION_NOTICE))){
+        if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.ONHOLD_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_EXPIRATION_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_COURTESY_NOTICE))){
             keyValues.add(new ConcreteKeyValue(OLEConstants.ITEM_WILL_BE_HELD_UNTIL,OLEConstants.ITEM_WILL_BE_HELD_UNTIL));
         }
 
@@ -59,6 +59,16 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
         }
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.NOTICE_LOST)){
             keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_SHELVING_LOCATION,OLEConstants.LIBRARY_SHELVING_LOCATION));
+            keyValues.add(new ConcreteKeyValue("Bill Number","Bill Number"));
+            keyValues.add(new ConcreteKeyValue(OLEConstants.FEE_TYPE,OLEConstants.FEE_TYPE));
+            keyValues.add(new ConcreteKeyValue(OLEConstants.FEE_AMT,OLEConstants.FEE_AMT));
+        }
+        if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE)
+                                              || noticeType.equals(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE)
+                                              || noticeType.equals(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE)
+                                              || noticeType.equals(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE)
+                                              || noticeType.equals("Claims Returned Not Found Fines Owed Notice"))){
+            keyValues.add(new ConcreteKeyValue(OLEConstants.CLAIMS_SEARCH_COUNT,OLEConstants.CLAIMS_SEARCH_COUNT));
         }
         return keyValues;
     }
