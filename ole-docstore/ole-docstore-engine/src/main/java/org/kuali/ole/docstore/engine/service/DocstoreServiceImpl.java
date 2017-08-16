@@ -1306,9 +1306,7 @@ public class DocstoreServiceImpl implements DocstoreService {
             }
 
         }
-        if (oleHoldings.getLink() != null) {
-            existingOleHoldings.setLink(oleHoldings.getLink());
-        }
+
         if (oleHoldings.getHoldingsAccessInformation() != null &&
                 ((oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser() != null && !oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser().isEmpty()) ||
                         (oleHoldings.getHoldingsAccessInformation().getAccessUsername() != null && !oleHoldings.getHoldingsAccessInformation().getAccessUsername().isEmpty()) ||
@@ -1324,7 +1322,7 @@ public class DocstoreServiceImpl implements DocstoreService {
         if (oleHoldings.getLocalPersistentLink() != null && !oleHoldings.getLocalPersistentLink().isEmpty()) {
             existingOleHoldings.setLocalPersistentLink(oleHoldings.getLocalPersistentLink());
         }
-        if (oleHoldings.getLink() != null) {
+        if (oleHoldings.getLink() != null  && oleHoldings.getLink().size()>0) {
             existingOleHoldings.setLink(oleHoldings.getLink());
         }
         if (oleHoldings.isInterLibraryLoanAllowed()) {
