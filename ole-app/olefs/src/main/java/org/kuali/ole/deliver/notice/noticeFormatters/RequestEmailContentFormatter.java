@@ -122,7 +122,7 @@ public abstract class RequestEmailContentFormatter {
 
     private void setCirculationDeskInfo(OleNoticeBo oleNoticeBo, OleDeliverRequestBo oleDeliverRequestBo) {
         OleCirculationDesk olePickUpLocation = oleDeliverRequestBo.getOlePickUpLocation();
-        oleNoticeBo.setCirculationDeskName(olePickUpLocation != null ? olePickUpLocation.getCirculationDeskCode()!=null ?olePickUpLocation.getCirculationDeskCode():""  : "");
+        oleNoticeBo.setCirculationDeskName(olePickUpLocation != null ? olePickUpLocation.getCirculationDeskPublicName() != null ?olePickUpLocation.getCirculationDeskPublicName():""  : "");
         oleNoticeBo.setCirculationDeskReplyToEmail(olePickUpLocation != null ? olePickUpLocation.getReplyToEmail()!=null ?olePickUpLocation.getReplyToEmail():"" : "");
     }
 

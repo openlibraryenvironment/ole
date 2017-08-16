@@ -11,38 +11,52 @@
 
 <table>
     </BR></BR>
-    <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} :</TD>
-    <#if oleNoticeBo.patronName??>
-        <TD>${oleNoticeBo.patronName}</TD>
-    <#else>
-        <TD></TD>
-    </#if>
-    </TR>
-    <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Address")} :</TD>
-    <#if oleNoticeBo.patronAddress??>
-        <TD>${oleNoticeBo.patronAddress}</TD>
-    <#else>
-        <TD</TD>
-    </#if>
-    </TR>
-    <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Email")} :</TD>
-    <#if oleNoticeBo.patronEmailAddress??>
-        <TD>${oleNoticeBo.patronEmailAddress}</TD>
-    <#else>
-        <TD</TD>
-    </#if>
-    </TR>
-    <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone #")} :</TD>
-    <#if oleNoticeBo.patronPhoneNumber??>
-        <TD>${oleNoticeBo.patronPhoneNumber}</TD>
-    <#else>
-        <TD</TD>
-    </#if>
-    </TR>
+<#if oleNoticeContentConfigurationBo.oleNoticeFieldLabelMappings ??>
+    <#list oleNoticeContentConfigurationBo.oleNoticeFieldLabelMappings as oleNoticeFieldLabelMapping>
+        <#switch oleNoticeFieldLabelMapping.fieldName>
+            <#case "Patron Name">
+                <TR>
+                    <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} :</TD>
+                    <#if oleNoticeBo.patronName ??  >
+                        <TD>${oleNoticeBo.patronName}</TD>
+                    <#else>
+                        <TD></TD>
+                    </#if>
+                </TR>
+                <#break>
+            <#case "Address">
+                <TR>
+                    <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Address")} :</TD>
+                    <#if oleNoticeBo.patronAddress ??  >
+                        <TD>${oleNoticeBo.patronAddress}</TD>
+                    <#else>
+                        <TD></TD>
+                    </#if>
+                </TR>
+                <#break>
+            <#case "Email">
+                <TR>
+                    <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Email")} :</TD>
+                    <#if oleNoticeBo.patronEmailAddress ??  >
+                        <TD>${oleNoticeBo.patronEmailAddress}</TD>
+                    <#else>
+                        <TD></TD>
+                    </#if>
+                </TR>
+                <#break>
+            <#case "Phone #">
+                <TR>
+                    <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone #")} :</TD>
+                    <#if oleNoticeBo.patronPhoneNumber ??  >
+                        <TD>${oleNoticeBo.patronPhoneNumber}</TD>
+                    <#else>
+                        <TD></TD>
+                    </#if>
+                </TR>
+                <#break>
+        </#switch>
+    </#list>
+</#if>
 </table>
 
 <br/>
