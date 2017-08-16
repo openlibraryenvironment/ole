@@ -116,7 +116,7 @@ public class HoldingsRestController extends AbstractRestService {
             LOG.error("Exception occurred in deleteHoldings() :", e);
             return DocstoreExceptionProcessor.toXml(e);
         }
-        return "Suceess";
+        return "Success";
     }
 
     @Override

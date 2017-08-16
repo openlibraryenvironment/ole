@@ -247,7 +247,7 @@ public class HoldingsRestServlet extends HttpServlet {
             LOG.error("Exception occurred in deleteHoldings() :", e);
             return DocstoreExceptionProcessor.toXml(e);
         }
-        return "Suceess";
+        return "Success";
     }
 
 
