@@ -1,0 +1,2 @@
+NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
+"OLE-DLVR","Deliver","PATRON_RECEIPT","OLE-9214","1","CONFG","Patron Receipt","This Parameter is used to configure the subject line of patron bill notice","A","KUALI"

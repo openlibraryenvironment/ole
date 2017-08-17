@@ -2182,6 +2182,7 @@
         <column name="PAGING_PRIVILEGE" size="1" type="VARCHAR"/>
         <column name="COURTESY_NOTICE" size="1" type="VARCHAR"/>
         <column name="DELIVERY_PRIVILEGE" size="1" type="VARCHAR"/>
+        <column name="CHECKOUT_RECEIPT_OPT_OUT" size="1" type="VARCHAR"/>
         <column name="EXPIRATION_DATE" type="DATE"/>
         <column name="ACTIVATION_DATE" type="DATE"/>
         <column name="GENERAL_BLOCK_NT" size="250" type="VARCHAR"/>

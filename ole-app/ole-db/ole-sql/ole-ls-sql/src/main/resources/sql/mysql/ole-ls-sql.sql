@@ -4080,6 +4080,7 @@ CREATE TABLE OLE_PTRN_T
         , PAGING_PRIVILEGE VARCHAR(1)
         , COURTESY_NOTICE VARCHAR(1)
         , DELIVERY_PRIVILEGE VARCHAR(1)
+        , CHECKOUT_RECEIPT_OPT_OUT VARCHAR(1)
         , EXPIRATION_DATE DATETIME
         , ACTIVATION_DATE DATETIME
         , GENERAL_BLOCK_NT VARCHAR(250)
@@ -4096,19 +4097,19 @@ CREATE TABLE OLE_PTRN_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
                                     
 , INDEX OLE_DLVR_BORR_FK2 (BORR_TYP )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
                                     
 , INDEX OLE_DLVR_SRC_FK3 (OLE_SRC )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
                                     
 , INDEX OLE_DLVR_STAT_CAT_FK4 (OLE_STAT_CAT )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
                                     
 , INDEX OLE_DLVR_PTRN_BRCD_FK6 (BARCODE )
 

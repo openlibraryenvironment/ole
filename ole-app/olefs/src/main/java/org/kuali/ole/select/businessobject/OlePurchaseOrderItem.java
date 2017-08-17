@@ -672,6 +672,13 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
             }
             this.setNotes(notes);
         }
+        if(ri.getRequisition()!=null) {
+            if (ri.getRequisition().getPurapDocumentIdentifier() != null) {
+                for (OleCopy olecopy : ri.getCopyList()) {
+                    olecopy.setReqDocNum(ri.getRequisition().getPurapDocumentIdentifier());
+                }
+            }
+        }
         this.setCopyList(ri.getCopyList());
         // By default, set the item active indicator to true.
         // In amendment, the user can set it to false when they click on

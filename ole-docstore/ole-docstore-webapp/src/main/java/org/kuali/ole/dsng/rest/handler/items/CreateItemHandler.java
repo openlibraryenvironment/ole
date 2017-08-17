@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by SheikS on 12/26/2015.
@@ -94,9 +95,9 @@ public class CreateItemHandler extends Handler {
     }
 
     @Override
-    public List<Handler> getMetaDataHandlers() {
+    public CopyOnWriteArrayList<Handler> getMetaDataHandlers() {
         if (null == metaDataHandlers) {
-            metaDataHandlers = new ArrayList<Handler>();
+            metaDataHandlers = new CopyOnWriteArrayList<Handler>();
             metaDataHandlers.add(new CallNumberHandler());
             metaDataHandlers.add(new CallNumberPrefixHandler());
             metaDataHandlers.add(new CallNumberTypeHandler());

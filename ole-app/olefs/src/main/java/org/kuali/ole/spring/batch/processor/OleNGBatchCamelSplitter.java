@@ -5,6 +5,7 @@ import org.apache.camel.processor.ProcessorExchangePair;
 import org.apache.camel.processor.Splitter;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.response.BatchProcessFailureResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
@@ -37,6 +38,9 @@ public class OleNGBatchCamelSplitter extends Splitter {
     public boolean process(Exchange exchange, AsyncCallback callback) {
         boolean process = super.process(exchange, callback);
         doCustomProcessAfterSplit(exchange);
+        if(exchange.getException()!=null){
+            process = false;
+        }
         return process;
     }
 
@@ -75,6 +79,14 @@ public class OleNGBatchCamelSplitter extends Splitter {
                     batchJobDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
                     batchJobDetails.setTotalRecords(String.valueOf(batchProcessTxObject.getTotalNumberOfRecords()));
                     batchJobDetails.setTotalFailureRecords(String.valueOf(batchProcessTxObject.getNumberOfFailurRecords()));
+                    if(exchange.getException()!=null){
+                        BatchProcessFailureResponse batchProcessFailureResponse = new BatchProcessFailureResponse();
+                        batchProcessFailureResponse.setBatchProcessProfileName(batchProcessTxObject.getBatchProcessProfile().getBatchProcessProfileName());
+                        batchProcessFailureResponse.setFailureReason("Unable to parse the marc Record. Allowed format is UTF-8."+exchange.getException().getLocalizedMessage());
+                        batchProcessFailureResponse.setDetailedMessage(getBatchUtil().getDetailedMessage(exchange.getException()));
+                        batchProcessTxObject.getBatchProcessFailureResponses().add(batchProcessFailureResponse);
+                        batchProcessTxObject.setExceptionCaught(true);
+                    }
                     if(batchProcessTxObject.isExceptionCaught()) {
                         batchJobDetails.setStatus(OleNGConstants.FAILED);
                         try {

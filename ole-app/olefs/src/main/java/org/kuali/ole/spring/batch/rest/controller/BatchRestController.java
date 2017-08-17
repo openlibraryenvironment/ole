@@ -210,7 +210,7 @@ public class BatchRestController extends OleNgControllerBase {
         String batchUploadLocation = getBatchUploadLocation();
         if(StringUtils.isNotBlank(batchUploadLocation)) {
             if (null != jobId && jobId != 0 ) {
-                batchUploadLocation = batchUploadLocation + File.separator + jobId + "_" + OleNGConstants.DATE_FORMAT.format(new Date());
+                batchUploadLocation = batchUploadLocation + File.separator + jobId + "_" + OleNGConstants.DATE_FORMAT.format(new Date()) + System.currentTimeMillis();
             } else {
                 batchUploadLocation = batchUploadLocation + File.separator+ OleNGConstants.DATE_FORMAT_MILLISECONDS.format(new Date());
             }

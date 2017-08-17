@@ -7,6 +7,8 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.PatronBillGenerator;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.calendar.bo.OleCalendar;
+import org.kuali.ole.deliver.calendar.bo.OleCalendarWeek;
 import org.kuali.ole.deliver.controller.drools.RuleExecutor;
 import org.kuali.ole.deliver.controller.notices.*;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
@@ -669,6 +671,7 @@ public class CircUtilController extends RuleExecutor {
                         oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
                         oleItemLevelBillPayment.setCreatedUser(operatorId);
                         oleItemLevelBillPayment.setPaymentMode("Replacement");
+                        oleItemLevelBillPayment.setTransactionNote(note);
                         List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                         oleItemLevelBillPayments.add(oleItemLevelBillPayment);
                         feeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
@@ -758,7 +761,11 @@ public class CircUtilController extends RuleExecutor {
         if (org.apache.commons.lang3.StringUtils.isNotBlank(forgiveLostFees)) {
             feeTypeCodes = Arrays.asList(forgiveLostFees.split(","));
         }
-        updateFees(loanDocument, operatorId, feeTypeCodes, "Item Returned on ", isRenew);
+        if(StringUtils.isNotBlank(loanDocument.getItemStatus())&&loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)) {
+            updateFees(loanDocument, operatorId, feeTypeCodes, loanDocument.getItemReplaceNote(), isRenew);
+        } else{
+            updateFees(loanDocument, operatorId, feeTypeCodes, "Item Returned on ", isRenew);
+        }
     }
 
     public ParameterValueResolver getParameterValueResolver() {
@@ -770,6 +777,34 @@ public class CircUtilController extends RuleExecutor {
 
     public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
         this.parameterValueResolver = parameterValueResolver;
+    }
+
+    public String getDefaultClosingTime(OleLoanDocument oleLoanDocument,Date dueDate){
+        String closingTime = null;
+
+        OleCirculationDesk circulationDesk = (oleLoanDocument.getCirculationLocationId() != null ? new CircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()):null);
+        if(circulationDesk != null){
+            LoanDateTimeUtil loanDateTimeUtil =new LoanDateTimeUtil();
+            OleCalendar oleCalendar = loanDateTimeUtil.getActiveCalendar(dueDate,circulationDesk.getCalendarGroupId());
+            if(oleCalendar != null){
+                int day = dueDate.getDay();
+                List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekList();
+                if(CollectionUtils.isNotEmpty(oleCalendarWeekList)){
+                    for(Iterator<OleCalendarWeek> iterator = oleCalendarWeekList.iterator(); iterator.hasNext();){
+                        OleCalendarWeek oleCalendarWeek =  iterator.next();
+                        if(oleCalendarWeek.getStartDay().equalsIgnoreCase(String.valueOf(day))){
+                            closingTime = oleCalendarWeek.getCloseTime();
+                            break;
+                        }else if ((day >= Integer.valueOf(oleCalendarWeek.getStartDay())) && day <= Integer.valueOf(oleCalendarWeek.getEndDay())){
+                            closingTime = oleCalendarWeek.getCloseTime();
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+        return closingTime;
     }
 
 }

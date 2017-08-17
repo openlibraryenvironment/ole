@@ -502,6 +502,22 @@ public class CircController extends CheckoutValidationController {
         HashMap<String, String[]> invalidItemIdsMap = new HashMap();
 
         List<OleLoanDocument> selectedLoanDocumentList = filterListForInvalidDueDateItems(itemBarcodeMap, getSelectedLoanDocumentList(circForm));
+        if(selectedLoanDocumentList.size()>0){
+            List<OleLoanDocument> selectedLoanDocumentListForCurrentSession = circForm.getLoanDocumentListForCurrentSession();
+            for(OleLoanDocument loanDocument : selectedLoanDocumentList){
+                if(selectedLoanDocumentListForCurrentSession.contains(loanDocument)) {
+                    int i = 0;
+                    for(OleLoanDocument loanDocument1 : selectedLoanDocumentListForCurrentSession){
+                        if(loanDocument1.equals(loanDocument)){
+                            circForm.getLoanDocumentListForCurrentSession().set(i,loanDocument);
+                        }
+                        i++;
+                    }
+                }else{
+                    circForm.getLoanDocumentListForCurrentSession().add(loanDocument);
+                }
+            }
+        }
         List<OleLoanDocument> loanDocumentsToBeUpdatedInDb = filterListForInvalidDueDateItems(itemBarcodeMap, getSelectedLoanDocumentList(circForm));
         CircUtilController circUtilController = new CircUtilController();
 
@@ -520,6 +536,9 @@ public class CircController extends CheckoutValidationController {
                         if(StringUtils.isBlank(dueDateAndTime[1])) {
                             dueDateAndTime[1] =ParameterValueResolver.getInstance().getParameter(OLEConstants
                                     .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+                            if(StringUtils.isBlank(dueDateAndTime[1])){
+                                dueDateAndTime[1] = new CircUtilController().getDefaultClosingTime(loanDocument,getDateFromString(dateString));
+                            }
                         }
                         newDueDate = getCheckoutUIController(circForm.getFormKey()).processDateAndTimeForAlterDueDate(getDateFromString(dateString), dueDateAndTime[1]);
                     }
@@ -577,6 +596,9 @@ public class CircController extends CheckoutValidationController {
                 if(StringUtils.isBlank(dueDateAndTime[1])) {
                     dueDateAndTime[1] = ParameterValueResolver.getInstance().getParameter(OLEConstants
                             .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE);
+                    if(StringUtils.isBlank(dueDateAndTime[1])){
+                        dueDateAndTime[1] = new CircUtilController().getDefaultClosingTime(oleLoanDocument, getDateFromString(dateString));
+                    }
                 }
                 newDueDate = getCheckoutUIController(circForm.getFormKey()).processDateAndTimeForAlterDueDate(getDateFromString(dateString), dueDateAndTime[1]);
             }
@@ -1087,6 +1109,7 @@ public class CircController extends CheckoutValidationController {
     public ModelAndView applyItemLostReplace(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
+        String itemReplaceDescription = request.getParameter("itemReplaceDescription");
         List<OleLoanDocument> loanDocumentList = getSelectedLoanDocumentList(circForm);
         CheckinItemController checkinItemController = new CheckinItemController();
         if(StringUtils.isNotBlank(request.getParameter("cancelRequest"))) {
@@ -1097,19 +1120,22 @@ public class CircController extends CheckoutValidationController {
         if (loanDocumentList.size() > 0) {
             List<OleLoanDocument> loanDocuments = new ArrayList<>();
             for (OleLoanDocument oleLoanDocument : loanDocumentList) {
+                OleLoanDocument loanDocument = getLoanDocument(oleLoanDocument.getItemId());
                 oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
                 if(circForm.getCancelRequest()!=null && circForm.getCancelRequest().equalsIgnoreCase("true")){
-                    new OleDeliverRequestDocumentHelperServiceImpl().cancelPendingRequestForClaimsReturnedItem(oleLoanDocument.getItemUuid());
-                    oleLoanDocument.setDeliverNotices(null);
+                    new OleDeliverRequestDocumentHelperServiceImpl().cancelPendingRequestForClaimsReturnedItem(loanDocument.getItemUuid());
+                    loanDocument.setDeliverNotices(null);
                 }
-                loanDocuments.add(oleLoanDocument);
+                loanDocument.setItemReplaceNote(itemReplaceDescription);
+                loanDocuments.add(loanDocument);
                 CheckinForm checkinForm = new CheckinForm();
-                checkinForm.setItemBarcode(oleLoanDocument.getItemId());
+                checkinForm.setItemBarcode(loanDocument.getItemId());
                 checkinForm.setSelectedCirculationDesk(circForm.getSelectedCirculationDesk());
                 checkinForm.setCustomDueDateMap(new Date());
                 checkinItemController.getCheckinUIController(checkinForm).checkin(checkinForm);
+                loanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
                 checkinItemController.getCheckinUIController(checkinForm).
-                        processCheckinAfterPreValidation((ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"), checkinForm,oleLoanDocument);
+                        processCheckinAfterPreValidation((ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"), checkinForm,loanDocument);
             }
             for(OleLoanDocument loanDocument : loanDocumentList) {
                         Map map = new HashMap();
@@ -1187,7 +1213,7 @@ public class CircController extends CheckoutValidationController {
             else if (isRequestExists) {
                 showDialog("checkForRequestExistsLostItemReplaceCopyDialog", circForm, request, response);
             } else {
-                applyItemLostReplace(form,result,request,response);
+                showDialog("itemReplaceDialog", circForm, request, response);
             }
         }else {
             ErrorMessage errorMessage = new ErrorMessage();
@@ -1306,4 +1332,13 @@ public class CircController extends CheckoutValidationController {
         this.oleDeliverRequestDocumentHelperService = oleDeliverRequestDocumentHelperService;
     }
 
+    public OleLoanDocument getLoanDocument(String itemBarcode) {
+        HashMap<String, Object> criteriaMap = new HashMap<>();
+        criteriaMap.put("itemId", itemBarcode);
+        List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, criteriaMap);
+        if (!CollectionUtils.isEmpty(oleLoanDocuments)) {
+            return oleLoanDocuments.get(0);
+        }
+        return null;
+    }
 }

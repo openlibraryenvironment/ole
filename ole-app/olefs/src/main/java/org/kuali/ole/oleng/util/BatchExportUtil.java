@@ -125,8 +125,9 @@ public class BatchExportUtil extends BatchUtil {
         StringBuilder queryString=new StringBuilder();
         queryString.append("SELECT BIB_ID FROM OLE_DS_BIB_T WHERE (DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW()) AND STAFF_ONLY='N'");
         queryString.append("|");
-        queryString.append("SELECT DISTINCT H.BIB_ID FROM OLE_DS_HOLDINGS_T H LEFT OUTER JOIN OLE_DS_ITEM_T I ON H.HOLDINGS_ID = I.HOLDINGS_ID WHERE (H.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW() AND H.STAFF_ONLY = 'N') ");
-        queryString.append("OR (I.DATE_UPDATED BETWEEN '"+ fromDate +"' AND NOW() AND I.STAFF_ONLY = 'N')");
+        queryString.append("SELECT DISTINCT BIB_ID FROM OLE_DS_BIB_T WHERE BIB_ID IN (SELECT DISTINCT BIB_ID FROM OLE_DS_HOLDINGS_T WHERE DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW() AND STAFF_ONLY = 'N') and STAFF_ONLY='N' OR " +
+                "BIB_ID IN (SELECT DISTINCT BIB_ID FROM OLE_DS_HOLDINGS_T WHERE HOLDINGS_ID IN (SELECT DISTINCT HOLDINGS_ID FROM OLE_DS_ITEM_T WHERE DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW() AND STAFF_ONLY = 'N') " +
+                "AND STAFF_ONLY='N') AND STAFF_ONLY ='N'");
         queryString.append("|");
         queryString.append("SELECT DISTINCT DELETED_BIB_ID FROM OLE_DS_DELETED_BIB_T WHERE IS_BIB_DELETED = 'N' AND (DATE_UPDATED BETWEEN '"+fromDate+"' AND NOW())");
         return queryString.toString();

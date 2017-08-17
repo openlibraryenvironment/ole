@@ -33,6 +33,7 @@ import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.LoanDateTimeUtil;
 import org.kuali.ole.deliver.util.NoticeInfo;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
+import org.kuali.ole.deliver.util.ItemInfoUtil;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
@@ -47,6 +48,9 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOl
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
+import org.kuali.ole.docstore.engine.service.index.solr.BibMarcIndexer;
+import org.kuali.ole.docstore.engine.service.storage.DocstoreRDBMSStorageService;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.ingest.pojo.MatchBo;
 import org.kuali.ole.module.purap.util.PurApDateFormatUtils;
@@ -5102,6 +5106,18 @@ return oleLoanDocument;
                 searchParams.getSearchConditions().addAll(searchConditions);
                 try {
                     searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                    if(searchResponse.getSearchResults().size()==0){
+                        ItemRecord itemRecord = ItemInfoUtil.getInstance().getItemRecordByBarcode(oleLoanDocument.getItemId());
+                        Map<String, String> criteriaMap = new HashMap();
+                        criteriaMap.put("holdingsId", itemRecord.getHoldingsId());
+                        List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord
+                                        .class,
+                                criteriaMap);
+                        BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+                        DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+                        bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(holdingsRecords.get(0).getBibId()));
+                        searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                    }
                 } catch (Exception e) {
                     LOG.error(e, e);
                     throw new Exception("Exception occured while fetching data from solr");

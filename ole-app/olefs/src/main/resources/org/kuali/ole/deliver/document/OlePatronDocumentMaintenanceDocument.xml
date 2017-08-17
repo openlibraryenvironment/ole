@@ -1098,6 +1098,11 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
+                <bean id="checkoutReceiptOptOut" parent="Uif-InputField" p:propertyName="checkoutReceiptOptOut" p:label="CheckOut Receipts Opt Out">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

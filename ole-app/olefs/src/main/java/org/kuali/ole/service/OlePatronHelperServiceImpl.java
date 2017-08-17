@@ -881,10 +881,12 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     }
 
     public void generateCheckoutReceiptNotice(List<OleLoanDocument> oleLoanDocument) throws Exception {
-        Map claimMap = new HashMap();
-        claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocument);
-        Runnable checkoutReceiptNoticeExecutor = new CheckoutReceiptNoticeExecutor(claimMap);
-        checkoutReceiptNoticeExecutor.run();
+        if(!oleLoanDocument.get(0).getOlePatron().isCheckoutReceiptOptOut()) {
+            Map claimMap = new HashMap();
+            claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocument);
+            Runnable checkoutReceiptNoticeExecutor = new CheckoutReceiptNoticeExecutor(claimMap);
+            checkoutReceiptNoticeExecutor.run();
+        }
 
     }
 
