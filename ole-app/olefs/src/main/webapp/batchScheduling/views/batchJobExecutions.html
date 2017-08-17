@@ -52,7 +52,7 @@
                     <td><span ng-bind="batchJob.status"></span></td>
                     <td><a href="reportViewer.html?jobDetailsId={{batchJob.jobDetailId}}"class="btn btn-info btn-xs"><i class="fa fa-search"></i></a></td>
                     <td>
-                        <button id="batchJobStop" name="batchJobStop" class="btn btn-info btn-xs" ng-click="stopJobExecution($index,batchJob.jobDetailId)"
+                        <button id="batchJobStop" name="batchJobStop" type="button" class="btn btn-info btn-xs" ng-click="stopJobExecution($index,batchJob.jobDetailId)"
                                 ng-show="batchJob.status == 'RUNNING'"
                                 data-toggle="tooltip"
                                 uib-tooltip="Stop"

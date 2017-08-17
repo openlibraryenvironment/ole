@@ -25,7 +25,7 @@ public class ShelvingScheme extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> options = new ArrayList<KeyValue>();
         Collection<OleShelvingScheme> oleShelvingSchemes = KRADServiceLocator.getBusinessObjectService().findAll(OleShelvingScheme.class);
-        // options.add(new ConcreteKeyValue("", ""));
+         options.add(new ConcreteKeyValue("", ""));
         for (OleShelvingScheme type : oleShelvingSchemes) {
             if (type.isActive()) {
                 options.add(new ConcreteKeyValue(type.getShelvingSchemeCode(), type.getShelvingSchemeName()));
