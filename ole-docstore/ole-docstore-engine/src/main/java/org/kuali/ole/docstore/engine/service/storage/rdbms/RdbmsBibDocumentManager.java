@@ -360,9 +360,6 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         if (bibRecord.getFassAddFlag() != null) {
             bibMarc.setFastAdd(bibRecord.getFassAddFlag());
         }
-        if (bibRecord.getDateEntered() != null && !"".equals(bibRecord.getDateEntered())) {
-            bibMarc.setCreatedBy(bibRecord.getDateEntered().toString());
-        }
         if (bibRecord.getStatus() != null) {
             bibMarc.setStatus(bibRecord.getStatus());
         }
