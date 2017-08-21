@@ -99,7 +99,7 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
                 }
             }
         }
-        return key;
+        return null;
     }
 
     public String getNoticeFooterBody() {
