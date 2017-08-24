@@ -281,6 +281,9 @@ public class EditorController extends UifControllerBase {
                 if (eHoldings.getDonorInfo() != null && eHoldings.getDonorInfo().size() == 0) {
                     eHoldings.getDonorInfo().add(new DonorInfo());
                 }
+                if(eHoldings.getLink().size() == 0){
+                    eHoldings.getLink().add(new Link());
+                }
                 ((WorkEInstanceOlemlForm)editorForm.getDocumentForm()).setSelectedEHoldings(eHoldings);
             }
             modelAndView = getUIFModelAndView(form, OLEConstants.WORK_EINSTANCE_VIEW_PAGE);
