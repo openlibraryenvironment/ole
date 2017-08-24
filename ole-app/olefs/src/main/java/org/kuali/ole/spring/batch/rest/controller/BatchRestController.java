@@ -512,7 +512,17 @@ public class BatchRestController extends OleNgControllerBase {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForOrderImport(fileContent);
                 extension = "xlsx";
             } else if(fileName.contains("InvoiceImport")) {
-                fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent);
+                String fileContent1 ="";
+                String fileContent2 ="";
+                if(fileContent.contains(",\n  \"recordsMap\"")) {
+                    fileContent1 = fileContent.substring(0, fileContent.indexOf(",\n  \"recordsMap\""));
+                    fileContent2 = fileContent.substring(fileContent.indexOf(",\n  \"unmatchedCount\""));
+                }
+                if(StringUtils.isNotBlank(fileContent1)&&StringUtils.isNotBlank(fileContent2)){
+                    fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent1+fileContent2);
+                } else{
+                    fileContentBytes = getBatchExcelReportUtil().getExcelSheetForInvoiceImport(fileContent);
+                }
                 extension = "xlsx";
             } else if(fileName.contains("BatchExport")) {
                 fileContentBytes = getBatchExcelReportUtil().getExcelSheetForBatchExport(fileContent);
