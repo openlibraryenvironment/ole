@@ -176,8 +176,11 @@ public class AnalyticsController extends BoundwithController {
             seriesBibNode = seriesTreeRootElement.getChildren();
             if (null != seriesBibNode.get(0) && !CollectionUtils.isEmpty(seriesBibNode.get(0).getChildren())) {
                 seriesHoldingsNode = seriesBibNode.get(0).getChildren();
-                if (null != seriesHoldingsNode.get(0) && null != seriesHoldingsNode.get(0).getNodeType()) {
-                    seriesHoldingsId = seriesTreeRootElement.getChildren().get(0).getChildren().get(0).getNodeType();
+                for(int i=0;seriesHoldingsNode.size()>i;i++){
+                    if (null != seriesHoldingsNode.get(i) && null != seriesHoldingsNode.get(i).getNodeType()&&seriesHoldingsNode.get(i).getNodeLabel().contains(">SH<")) {
+                        seriesHoldingsId = seriesHoldingsNode.get(i).getNodeType();
+                        break;
+                    }
                 }
             }
         }
