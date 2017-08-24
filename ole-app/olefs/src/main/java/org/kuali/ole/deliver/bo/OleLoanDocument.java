@@ -52,6 +52,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String itemLocation;
     private String itemType;
     private String itemTypeName;
+    private String itemTypeDesc;
     private String itemLoanStatus;
     private String errorMessage;
     private String successMessage;
@@ -981,6 +982,24 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
      */
     public void setItemTypeName(String itemTypeName) {
         this.itemTypeName = itemTypeName;
+    }
+
+    /**
+     * Gets the itemTypeDesc attribute.
+     *
+     * @return Returns the itemTypeDesc
+     */
+    public String getItemTypeDesc() {
+        return itemTypeDesc;
+    }
+
+    /**
+     * Sets the itemTypeDesc attribute value.
+     *
+     * @param itemTypeDesc The itemTypeName to set.
+     */
+    public void setItemTypeDesc(String itemTypeDesc) {
+        this.itemTypeDesc = itemTypeDesc;
     }
 
     /**

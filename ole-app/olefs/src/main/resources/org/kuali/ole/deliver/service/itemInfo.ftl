@@ -14,16 +14,6 @@
                           <TD</TD>
                       </#if>
                   </TR>
-                <#break>
-              <#case "Title/Item Information">
-                  <TR>
-                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Title/Item Information")} :</TD>
-                      <#if oleNoticeBo.title ??>
-                          <TD>${oleNoticeBo.title}</TD>
-                      <#else>
-                          <TD</TD>
-                      </#if>
-                  </TR>
                   <#break>
               <#case "Author">
                   <TR>
@@ -150,6 +140,15 @@
                       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Claims Search Count")} :</TD>
                       <#if oleNoticeBo.claimsSearchCount ??>
                           <TD>${oleNoticeBo.claimsSearchCount}</TD>
+                      <#else>
+                          <TD</TD>
+                      </#if>
+                  </TR>
+              <#case "Item Type">
+                  <TR>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Type")} :</TD>
+                      <#if oleNoticeBo.itemTypeDesc ??>
+                          <TD>${oleNoticeBo.itemTypeDesc}</TD>
                       <#else>
                           <TD</TD>
                       </#if>

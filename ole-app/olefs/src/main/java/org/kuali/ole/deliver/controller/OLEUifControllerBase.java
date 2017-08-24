@@ -77,6 +77,7 @@ public abstract class OLEUifControllerBase extends UifControllerBase {
 
     protected ModelAndView showHtmlContentToDialog(String content, UifFormBase form, String customScript, String dialogTitle) {
         content = content.replaceAll(System.lineSeparator(),"");
+        content = content.replaceAll("'","&#39;");
         String script = "" +
                 "var content = '" + content + "';var iframeDialog = jq('<div></div>')\n" +
                 "               .html(content)\n" +

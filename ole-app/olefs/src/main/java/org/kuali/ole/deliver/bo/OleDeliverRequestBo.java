@@ -101,6 +101,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String itemLibrary;
     private String itemCollection;
     private String itemLocation;
+    private String itemTypeDesc;
     private String noticeType;
     private Date newDueDate;
     private Date originalDueDate;
@@ -174,6 +175,14 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public String getItemLocation() {
         return itemLocation;
+    }
+
+    public String getItemTypeDesc() {
+        return itemTypeDesc;
+    }
+
+    public void setItemTypeDesc(String itemTypeDesc) {
+        this.itemTypeDesc = itemTypeDesc;
     }
 
     public boolean isClaimsReturnedFlag() {
