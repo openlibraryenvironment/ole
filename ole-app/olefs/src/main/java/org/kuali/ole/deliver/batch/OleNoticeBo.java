@@ -72,6 +72,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String itemCollection;
     private String itemLibrary;
     private String itemLocation;
+    private String itemTypeDesc;
     private String missingPieceNote;
     private String itemCallNumberPrefix;
     private int claimsSearchCount;
@@ -447,6 +448,14 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
 
     public void setItemLocation(String itemLocation) {
         this.itemLocation = itemLocation;
+    }
+
+    public String getItemTypeDesc() {
+        return itemTypeDesc;
+    }
+
+    public void setItemTypeDesc(String itemTypeDesc) {
+        this.itemTypeDesc = itemTypeDesc;
     }
 
     public String getMissingPieceNote() {

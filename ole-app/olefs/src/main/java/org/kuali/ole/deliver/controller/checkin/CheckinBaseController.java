@@ -386,7 +386,7 @@ public abstract class CheckinBaseController extends CircUtilController {
             boolean isNotifyClaimsReturnedToPatron = getParameterValueResolver().getParameterAsBoolean(OLEConstants.APPL_ID_OLE,
                     OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.NOTIFY_CLAIMS_RETURNED_TO_PATRON);
             if (isNotifyClaimsReturnedToPatron) {
-                sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT);
+                sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT,false);
             }
         } else {
             processLostItem(getOperatorId(oleForm), loanDocument, false);
@@ -433,17 +433,17 @@ public abstract class CheckinBaseController extends CircUtilController {
         if (isItemFoundInLibrary(oleForm)) {
             updateFees(loanDocument, getOperatorId(oleForm), Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE), "Claimed item was found by staff on ", false);
             if (isNotifyClaimsReturnedToPatron) {
-                sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE,                        OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT);
+                sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT,false);
             }
         } else {
             updatePaymentStatusToOutstanding(loanDocument);
             if (isNotifyClaimsReturnedToPatron) {
                 if (StringUtils.isBlank(billNumber)) {
                     sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_TITLE,
-                            OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT);
+                            OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE_CONTENT,false);
                 } else {
                     sendClaimReturnedNotice(loanDocument, OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_TITLE,
-                            OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_CONTENT);
+                            OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE_CONTENT,false);
                 }
             }
         }

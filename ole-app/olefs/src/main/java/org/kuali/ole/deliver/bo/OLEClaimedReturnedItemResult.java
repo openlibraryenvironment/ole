@@ -19,6 +19,7 @@ public class OLEClaimedReturnedItemResult {
     private String location;
     private String dateOfClaim;
     private String claimReturnNote;
+    private String itemType;
     private OleLoanDocument oleLoanDocument;
 
     public boolean isSelect() {
@@ -123,6 +124,14 @@ public class OLEClaimedReturnedItemResult {
 
     public void setClaimReturnNote(String claimReturnNote) {
         this.claimReturnNote = claimReturnNote;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public OleLoanDocument getOleLoanDocument() {

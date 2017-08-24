@@ -34,16 +34,6 @@
                         </#if>
                     </TR>
                     <#break>
-                <#case "Title/Item Information">
-                    <TR>
-                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Title/Item Information")} :</TD>
-                        <#if oleNoticeBo.title ??>
-                            <TD>${oleNoticeBo.title}</TD>
-                        <#else>
-                            <TD</TD>
-                        </#if>
-                    </TR>
-                    <#break>
                 <#case "Author">
                     <TR>
                         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Author")} :</TD>
@@ -149,6 +139,16 @@
                         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Recall Due Date")} :</TD>
                         <#if oleNoticeBo.newDueDate ??>
                             <TD>${(oleNoticeBo.newDueDate)?date}</TD>
+                        <#else>
+                            <TD</TD>
+                        </#if>
+                    </TR>
+                    <#break>
+                <#case "Item Type">
+                    <TR>
+                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Type")} :</TD>
+                        <#if oleNoticeBo.itemTypeDesc ??>
+                            <TD>${oleNoticeBo.itemTypeDesc}</TD>
                         <#else>
                             <TD</TD>
                         </#if>

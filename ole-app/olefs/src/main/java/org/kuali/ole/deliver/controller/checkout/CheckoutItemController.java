@@ -23,6 +23,7 @@ import org.kuali.ole.deliver.util.OleItemRecordForCirc;
 import org.kuali.ole.docstore.common.document.content.instance.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord;
 import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -432,7 +433,17 @@ public class CheckoutItemController extends CircFastAddItemController {
 
     public void sendClaimsReturnedNotice(OleLoanDocument oleLoanDocument) {
         Map claimMap = new HashMap();
-        claimMap.put(OLEConstants.LOAN_DOCUMENTS, Arrays.asList(oleLoanDocument));
+        List<OleLoanDocument> oleLoanDocuments = Arrays.asList(oleLoanDocument);
+        List<OleLoanDocument> oleLoanDocumentWithItemInfo = new ArrayList<>();
+        try{
+            OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = SpringContext.getBean(OleDeliverRequestDocumentHelperServiceImpl.class);
+            oleLoanDocumentWithItemInfo = oleDeliverRequestDocumentHelperService.getLoanDocumentWithItemInfo(oleLoanDocuments,"false");
+        }catch (Exception e){
+            LOG.info("Exception occured while setting the item info " + e.getMessage());
+            LOG.error(e,e);
+        }
+
+        claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocumentWithItemInfo);
         for (OLEDeliverNotice oleDeliverNotice : oleLoanDocument.getDeliverNotices()) {
             if (oleDeliverNotice != null && oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.CLAIMS_RETURNED_NOTICE)) {
                 claimMap.put(OLEConstants.NOTICE_CONTENT_CONFIG_NAME, oleDeliverNotice.getNoticeContentConfigName());
