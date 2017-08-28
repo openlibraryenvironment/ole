@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.collections.CollectionUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by maheswarang on 10/6/15.
@@ -34,6 +36,11 @@ public class OleNoticeContentConfigurationMaintenanceController extends Maintena
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) maintenanceForm.getDocument();
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = (OleNoticeContentConfigurationBo) document.getNewMaintainableObject().getDataObject();
+        if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBo.getOleNoticeFieldLabelMappings()) && oleNoticeContentConfigurationBo.getOleNoticeFieldLabelMappings().size() > 0){
+            Map<String,String> oleNoticeConfigBoMap = new HashMap<>();
+            oleNoticeConfigBoMap.put("oleNoticeContentConfigurationId",oleNoticeContentConfigurationBo.getOleNoticeContentConfigurationId());
+            getBusinessObjectService().deleteMatching(OleNoticeFieldLabelMapping.class,oleNoticeConfigBoMap);
+        }
         oleNoticeContentConfigurationBo.getOleNoticeFieldLabelMappings().clear();
         if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBo.getOleNoticePatronFieldLabelMappings())){
             for(OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping :oleNoticeContentConfigurationBo.getOleNoticePatronFieldLabelMappings() ){

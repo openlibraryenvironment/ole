@@ -144,6 +144,16 @@
                         </#if>
                     </TR>
                     <#break>
+                <#case "New Due Date">
+                    <TR>
+                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("New Due Date")} :</TD>
+                        <#if oleNoticeBo.newDueDate ??>
+                            <TD>${(oleNoticeBo.newDueDate)?date}</TD>
+                        <#else>
+                            <TD</TD>
+                        </#if>
+                    </TR>
+                    <#break>
                 <#case "Item Type">
                     <TR>
                         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Type")} :</TD>
