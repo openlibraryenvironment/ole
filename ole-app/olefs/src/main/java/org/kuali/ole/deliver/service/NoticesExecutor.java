@@ -26,6 +26,9 @@ import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
 import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -127,22 +130,59 @@ public abstract class NoticesExecutor implements Runnable {
         getBusinessObjectService().delete(oleDeliverNotices);
     }
 
-    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    public void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
         List<OLEDeliverNoticeHistory> oleDeliverNoticeHistoryList = new ArrayList<OLEDeliverNoticeHistory>();
-        for (OLEDeliverNotice oleDeliverNotice : oleDeliverNotices) {
-            OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
-            oleDeliverNoticeHistory.setLoanId(oleDeliverNotice.getLoanId());
-            oleDeliverNoticeHistory.setNoticeType(oleDeliverNotice.getNoticeType());
-            oleDeliverNoticeHistory.setNoticeSentDate(new Timestamp(new Date().getTime()));
-            oleDeliverNoticeHistory.setPatronId(oleDeliverNotice.getPatronId());
-            oleDeliverNoticeHistory.setNoticeSendType(oleDeliverNotice.getNoticeSendType());
-            oleDeliverNoticeHistory.setNoticeContent(mailContent.getBytes());
-            oleDeliverNoticeHistory.setRequestId(oleDeliverNotice.getRequestId());
-            oleDeliverNoticeHistoryList.add(oleDeliverNoticeHistory);
-        }
-        getBusinessObjectService().save(oleDeliverNoticeHistoryList);
+        String numberOfRecords = getParameter(OLEConstants.NUMBER_OF_ITEM_INFO);
+        List<List<OLEDeliverNotice>> slicedList = (List<List<OLEDeliverNotice>>) splitListToSubList(oleDeliverNotices, Integer.valueOf(numberOfRecords).intValue());
+        for (List<OLEDeliverNotice> oleDeliverNoticeList : slicedList) {
+            for (OLEDeliverNotice oleDeliverNotice : oleDeliverNoticeList) {
+                OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
+                oleDeliverNoticeHistory.setLoanId(oleDeliverNotice.getLoanId());
+                oleDeliverNoticeHistory.setNoticeType(oleDeliverNotice.getNoticeType());
+                oleDeliverNoticeHistory.setNoticeSentDate(new Timestamp(new Date().getTime()));
+                oleDeliverNoticeHistory.setPatronId(oleDeliverNotice.getPatronId());
+                oleDeliverNoticeHistory.setNoticeSendType(oleDeliverNotice.getNoticeSendType());
+                oleDeliverNoticeHistory.setNoticeContent(mailContent.getBytes());
+                oleDeliverNoticeHistory.setRequestId(oleDeliverNotice.getRequestId());
+                oleDeliverNoticeHistoryList.add(oleDeliverNoticeHistory);
+            }
+            getBusinessObjectService().save(oleDeliverNoticeHistoryList);
+            oleDeliverNoticeHistoryList.clear();
+      }
+    }
 
-        return oleDeliverNoticeHistoryList;
+    public String getParameter(String name) {
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        if(parameter==null){
+            parameterKey = ParameterKey.create(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+            parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        }
+        return parameter!=null?parameter.getValue():"50";
+    }
+
+
+    public List splitListToSubList(List<OLEDeliverNotice> parentList, int childListSize) {
+        List<List<OLEDeliverNotice>> childList = new ArrayList<List<OLEDeliverNotice>>();
+        List<OLEDeliverNotice> tempList = new ArrayList<OLEDeliverNotice>();
+        int count = 0;
+        if (parentList != null) {
+            for (OLEDeliverNotice obj : parentList) {
+                if (count < childListSize) {
+                    count = count + 1;
+                    tempList.add(obj);
+                } else {
+                    childList.add(tempList);
+                    tempList = new ArrayList<OLEDeliverNotice>();
+                    tempList.add(obj);
+                    count = 1;
+                }
+            }
+            if (tempList.size() <= childListSize) {
+                childList.add(tempList);
+            }
+        }
+        return childList;
     }
 
     public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
