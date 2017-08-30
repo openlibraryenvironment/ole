@@ -70,8 +70,8 @@ public class MissingPieceNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
-        return null;
+    public void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    //    return null;
     }
 
     @Override

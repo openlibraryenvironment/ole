@@ -87,11 +87,10 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    public void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
         if (isNotifyClaimsReturnedToPatron() && StringUtils.isNotBlank(mailContent)) {
-            return super.saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
+            super.saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
         }
-        return null;
     }
 
     @Override
