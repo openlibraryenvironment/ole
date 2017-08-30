@@ -48,13 +48,13 @@
             <list>
                 <bean id="circ-lost-replaceRequest-yes" parent="Uif-SecondaryActionButton" p:actionLabel="yes"
                       p:actionScript="if(jq('#kualiLightboxForm').valid()){
-                          submitForm('applyItemLostReplace', {cancelRequest:true}, null, true,
+                          submitForm('showItemLostReplace', {cancelRequest:true}, null, true,
                           null);
                           jq.fancybox.close();
                       }"/>
                 <bean id="circ-lost-replaceRequest-no" parent="Uif-SecondaryActionButton" p:actionLabel="no"
                       p:actionScript="if(jq('#kualiLightboxForm').valid()){
-                          submitForm('applyItemLostReplace', {cancelRequest:false}, null, true,
+                          submitForm('showItemLostReplace', {cancelRequest:false}, null, true,
                           null);
                           jq.fancybox.close();
                       }"/>
