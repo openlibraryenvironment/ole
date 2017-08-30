@@ -153,7 +153,8 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
         SimpleDateFormat df1 = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         noticeHtmlContent.append("<b>Total Items</b> :" + oleLoanDocuments.size()+ "\n<br/>");
         noticeHtmlContent.append("<b>Date</b> :" + df2.format(System.currentTimeMillis())+ "\n<br/>");
-        noticeHtmlContent.append("<b>Time</b> :" + df1.format(System.currentTimeMillis())+ "\n<br/>");
+        noticeHtmlContent.append("<b>Time</b> :" + df1.format(System.currentTimeMillis())+ "\n<br/><br/>");
+        noticeHtmlContent.append("<p>" +oleNoticeContentConfigurationBo.getNoticeFooterBody() + "</p>");
         noticeHtmlContent.append("</BODY>");
         noticeHtmlContent.append("</HTML>");
         return noticeHtmlContent.toString();

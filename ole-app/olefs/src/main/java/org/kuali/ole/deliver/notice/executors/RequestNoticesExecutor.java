@@ -90,6 +90,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
     private void preProcess() {
         if(deliverNotices !=null && deliverNotices.size()>0){
+            getItemTypeNameAndDesc();
             for(OLEDeliverNotice oleDeliverNotice : deliverNotices){
                 if(oleDeliverNotice.getOleDeliverRequestBo()!=null) {
                     setItemInformations(oleDeliverNotice.getOleDeliverRequestBo());

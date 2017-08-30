@@ -587,7 +587,7 @@ public class CircUtilController extends RuleExecutor {
         return null;
     }
 
-    public void sendClaimReturnedNotice(OleLoanDocument loanDocument, String noticeType, String noticeTitle, String noticeContent) {
+    public void sendClaimReturnedNotice(OleLoanDocument loanDocument, String noticeType, String noticeTitle, String noticeContent,boolean isClaimsReturned) {
         NoticeMailContentFormatter noticeMailContentFormatter = new ClaimsReturnedNoticeEmailContentFormatter();
         OLEDeliverNotice deliverNotice = null;
         for (OLEDeliverNotice oleDeliverNotice : loanDocument.getDeliverNotices()) {
@@ -598,10 +598,25 @@ public class CircUtilController extends RuleExecutor {
         }
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = getOleNoticeContentConfigurationBo(deliverNotice, noticeType, noticeTitle, noticeContent);
         List<OleLoanDocument> oleLoanDocuments = Arrays.asList(loanDocument);
-        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments, oleNoticeContentConfigurationBo);
+        List<OleLoanDocument> oleLoanDocumentsWithItemInfo = new ArrayList<>();
+        if(!isClaimsReturned){
+            try {
+                OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = SpringContext.getBean(OleDeliverRequestDocumentHelperServiceImpl.class);
+                oleLoanDocumentsWithItemInfo = oleDeliverRequestDocumentHelperService.getLoanDocumentWithItemInfo(oleLoanDocuments, String.valueOf(isClaimsReturned));
+            }catch (Exception e){
+                LOG.info("Exception occured while setting the item info " + e.getMessage());
+                LOG.error(e,e);
+            }
+        }
+
+        if(oleLoanDocumentsWithItemInfo.size() == 0){
+            oleLoanDocumentsWithItemInfo.addAll(oleLoanDocuments);
+        }
+
+        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocumentsWithItemInfo, oleNoticeContentConfigurationBo);
 
         Map claimMap = new HashMap();
-        claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocuments);
+        claimMap.put(OLEConstants.LOAN_DOCUMENTS, oleLoanDocumentsWithItemInfo);
         LoanNoticesExecutor claimsReturnedNoticesExecutor = new ClaimsReturnedNoticesExecutor(claimMap);
         if (StringUtils.isNotBlank(mailContent)) {
             claimsReturnedNoticesExecutor.setOleNoticeContentConfigurationBo(oleNoticeContentConfigurationBo);
@@ -609,19 +624,21 @@ public class CircUtilController extends RuleExecutor {
             saveDeliverNoticeHistory(deliverNotice, mailContent, noticeType);
             claimsReturnedNoticesExecutor.getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
                     claimsReturnedNoticesExecutor.getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
-                            claimsReturnedNoticesExecutor.buildMapForIndexToSolr(noticeType, mailContent, oleLoanDocuments))));
+                            claimsReturnedNoticesExecutor.buildMapForIndexToSolr(noticeType, mailContent, oleLoanDocumentsWithItemInfo))));
         }
     }
 
     private OleNoticeContentConfigurationBo getOleNoticeContentConfigurationBo(OLEDeliverNotice oleDeliverNotice, String noticeType, String noticeTitle, String noticeContent) {
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
+        Map<String, String> noticeConfigurationMap = new HashMap<>();
         if (oleDeliverNotice != null && StringUtils.isNotBlank(oleDeliverNotice.getNoticeContentConfigName())) {
-            Map<String, String> noticeConfigurationMap = new HashMap<>();
             noticeConfigurationMap.put("noticeType", noticeType);
             noticeConfigurationMap.put("noticeName", oleDeliverNotice.getNoticeContentConfigName());
-            oleNoticeContentConfigurationBoList = (List<OleNoticeContentConfigurationBo>) getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class, noticeConfigurationMap);
+        }else {
+            noticeConfigurationMap.put("noticeType", noticeType);
         }
+        oleNoticeContentConfigurationBoList = (List<OleNoticeContentConfigurationBo>) getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class, noticeConfigurationMap);
         if (CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBoList)) {
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
         } else {
