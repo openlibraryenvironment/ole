@@ -58,6 +58,7 @@ public class EditorForm extends UifFormBase {
     private boolean fromDublin;
     private String recStatus;
     private boolean select;
+    private String recordOpenedTime;
     private boolean showLeftTree = false;
     private String locationValue;
     private Tree<DocumentTreeNode, String> DocTree = new Tree<DocumentTreeNode, String>();
@@ -484,6 +485,14 @@ public class EditorForm extends UifFormBase {
 
     public void setStaffOnlyFlagForItem(boolean staffOnlyFlagForItem) {
         this.staffOnlyFlagForItem = staffOnlyFlagForItem;
+    }
+
+    public String getRecordOpenedTime() {
+        return recordOpenedTime;
+    }
+
+    public void setRecordOpenedTime(String recordOpenedTime) {
+        this.recordOpenedTime = recordOpenedTime;
     }
 
     public List<WorkDublinEditorField> getExistingDublinFieldList() {
