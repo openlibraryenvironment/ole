@@ -42,6 +42,7 @@ import org.kuali.ole.docstore.common.search.SearchField;
 import org.kuali.ole.docstore.common.search.SearchParams;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.common.util.DataSource;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.select.bo.OLEDonor;
@@ -53,6 +54,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -63,7 +65,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -320,6 +330,7 @@ public class EditorController extends UifControllerBase {
             super.start(form, result, request, response);
             isFormInitialized = true;
         }
+        editorForm.setRecordOpenedTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
         editorForm.setMainSerialReceivingHistoryList(null);
         editorForm.setSupplementSerialReceivingHistoryList(null);
         editorForm.setIndexSerialReceivingHistoryList(null);
@@ -770,6 +781,38 @@ public class EditorController extends UifControllerBase {
             }*/
 
             List<BibTree> bibTreeList = (List) ((EditorForm) form).getDocumentForm().getBibTreeList();
+            Connection holdingsConnection = null;
+            String dateUpdated = null;
+            if(StringUtils.isNotBlank(instanceId)) {
+                try {
+                    holdingsConnection = getConnection();
+                    ResultSet holdingsDateUpdated = holdingsConnection.prepareStatement("SELECT DATE_UPDATED FROM OLE_DS_HOLDINGS_T where HOLDINGS_ID =" + instanceId.substring(4)).executeQuery();
+                    while (holdingsDateUpdated.next()) {
+                        dateUpdated = holdingsDateUpdated.getString("DATE_UPDATED");
+                        LOG.info(dateUpdated);
+                    }
+                    holdingsConnection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(StringUtils.isNotBlank(dateUpdated) && StringUtils.isNotBlank(((EditorForm) form).getRecordOpenedTime())) {
+                try {
+                    DateFormat recordOpendateFrmat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date recordOpenedDate = recordOpendateFrmat.parse(((EditorForm) form).getRecordOpenedTime());
+                    Date holdingsUpdatedDate = dbDateFormat.parse(dateUpdated);
+                    if ("holdings".equals(((EditorForm) form).getDocType())|| "item".equals(((EditorForm) form).getDocType())) {
+                        if(recordOpenedDate.before(holdingsUpdatedDate)){
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, OLEConstants.ERROR_EDIT_INSTANCE_HOLDINGS_UPDATED);
+                            ModelAndView modelAndView = getUIFModelAndView(form, ((EditorForm) form).getDocumentForm().getViewId());
+                            return modelAndView;
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             if (null != bibTreeList) {
                 ((EditorForm) form).getDocumentForm().setBibTreeList(bibTreeList);
                 ((EditorForm) form).setBibTreeList(bibTreeList);
@@ -822,6 +865,7 @@ public class EditorController extends UifControllerBase {
         if (StringUtils.isBlank(((EditorForm) form).getDocId()) && GlobalVariables.getMessageMap().getErrorCount() > 0) {
             ((EditorForm) form).setNewDocument(true);
         } else {
+            ((EditorForm) form).setRecordOpenedTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
             ((EditorForm) form).setNewDocument(false);
         }
 
@@ -2968,5 +3012,18 @@ public class EditorController extends UifControllerBase {
         }
     }
 
+    private Connection getConnection() throws SQLException {
+        DataSource dataSource = null;
+        try {
+            dataSource = DataSource.getInstance();
+        } catch (IOException e) {
+            LOG.error("IOException : " + e);
+        } catch (SQLException e) {
+            LOG.error("SQLException : " + e);
+        } catch (PropertyVetoException e) {
+            LOG.error("PropertyVetoException : " + e);
+        }
+        return dataSource.getConnection();
+    }
 
 }

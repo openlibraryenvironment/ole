@@ -2755,6 +2755,7 @@ public class OLEConstants {
     public static final String INSTANCE_EDITOR_EDIT_INSTANCE = "INSTANCE_EDITOR_EDIT_INSTANCE";
     public static final String INSTANCE_EDITOR_EDIT_ITEM = "INSTANCE_EDITOR_EDIT_ITEM";
     public static final String ERROR_EDIT_INSTANCE = "error.edit.instance";
+    public static final String ERROR_EDIT_INSTANCE_HOLDINGS_UPDATED = "error.edit.update.holdingsitem";
     public static final String ERROR_EDIT_ITEM = "error.edit.item";
     public static final String BATCH_PROCESS_DELETE = "BATCH_PROCESS_DELETE";
     public static final String DESCRIBE_SEARCH_MESSAGE = "error.results.not.found";
