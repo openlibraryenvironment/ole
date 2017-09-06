@@ -18,7 +18,7 @@ public interface OLECirculationService {
     public String lookupUser(String patronBarcode, String operator, String agencyId, boolean isSIP2Request);
     public String lookupUserForNCIP(String patronBarcode, String operator,String agencyId);
     public String getCheckedOutItems(String patronBarcode, String operator) throws Exception;
-    public String placeRequest(String patronBarcode, String operator, String itemBarcode, String requestType, String pickUpLocation, String itemLocation, String bibId, String requestLevel, Date requestExpiryDate, String requestNote);
+    public String placeRequest(String patronBarcode, String operator, String itemBarcode, String itemIdentifier, String requestType, String pickUpLocation, String itemLocation, String bibId, String requestLevel, Date requestExpiryDate, String requestNote);
     public String overridePlaceRequest(String patronBarcode, String operator, String itemBarcode, String requestType, String pickUpLocation, String itemLocation, String bibId, String requestLevel, Date requestExpiryDate, String requestNote);
 
     public String cancelRequest(String operator, String patronBarcode, String itemBarcode);
