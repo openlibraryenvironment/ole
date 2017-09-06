@@ -742,13 +742,13 @@ public class OLECirculationHelperServiceImpl {
         }
     }
 
-    public String acceptItem(String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation) throws Exception {
+    public String acceptItem(String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation,String operatorId) throws Exception {
         LOG.info("Inside Accept Item . Item barcode :" + itemBarcode + " Call Number : "+callNumber + "Title : "+title + " Author : " +author + "Item Type : "+ itemType + "Item Location : "+itemLocation);
         String itemIdentifier = null;
         if (docstoreUtil.isItemAvailableInDocStore(itemBarcode)) {
             return itemIdentifier;
         }
-        BibTrees bibTrees = createItem(itemBarcode, callNumber, title, author, itemType, itemLocation);
+        BibTrees bibTrees = createItem(itemBarcode, callNumber, title, author, itemType, itemLocation, operatorId);
         if(bibTrees!=null &&  bibTrees.getBibTrees()!=null && bibTrees.getBibTrees().size()>0  &&bibTrees.getBibTrees().get(0).getHoldingsTrees()!=null  && bibTrees.getBibTrees().get(0).getHoldingsTrees().size()>0
                 && bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems() != null && bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems().size()>0 ){
             itemIdentifier= bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems().get(0).getId();
@@ -759,7 +759,7 @@ public class OLECirculationHelperServiceImpl {
         return itemIdentifier;
     }
 
-    public BibTrees createItem(String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation) throws Exception {
+    public BibTrees createItem(String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation,String operatorId) throws Exception {
         BibMarcRecord bibMarcRecord = getLoanProcessor().getBibMarcRecord(title, author);
 
         List<BibMarcRecord> bibMarcRecordList = new ArrayList<>();
@@ -775,6 +775,7 @@ public class OLECirculationHelperServiceImpl {
         bib.setCategory(org.kuali.ole.docstore.common.document.content.enums.DocCategory.WORK.getCode());
         bib.setType(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode());
         bib.setFormat(org.kuali.ole.docstore.common.document.content.enums.DocFormat.MARC.getCode());
+        bib.setCreatedBy(operatorId);
         bib.setContent(bibMarcRecordProcessor.toXml(bibMarcRecords));
         bib.setOperation(DocstoreDocument.OperationType.CREATE);
 
@@ -812,9 +813,11 @@ public class OLECirculationHelperServiceImpl {
         org.kuali.ole.docstore.common.document.Item documentItem = new ItemOleml();
         documentItem.setContent(itemOlemlRecordProcessor.toXML(item));
         documentItem.setStaffOnly(true);
+        documentItem.setCreatedBy(operatorId);
         documentItem.setOperation(DocstoreDocument.OperationType.CREATE);
         Holdings holdings = new PHoldings();
         holdings.setStaffOnly(true);
+        holdings.setCreatedBy(operatorId);
         HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
         holdings.setContent(holdingOlemlRecordProcessor.toXML(oleHoldings));
         holdings.setOperation(DocstoreDocument.OperationType.CREATE);

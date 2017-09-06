@@ -172,7 +172,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
 
     public String createItem(String patronBarcode, String operatorId, String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation, String dateExpires, String requestType, String pickUpLocation) throws Exception{
         OLECirculationHelperServiceImpl oleCirculationHelperServiceImpl = new OLECirculationHelperServiceImpl();
-        String itemIdentifier = oleCirculationHelperServiceImpl.acceptItem(itemBarcode,callNumber,title,author,itemType,itemLocation);
+        String itemIdentifier = oleCirculationHelperServiceImpl.acceptItem(itemBarcode,callNumber,title,author,itemType,itemLocation,operatorId);
         LOG.info("item--------->"+itemIdentifier);
         return itemIdentifier;
     }

@@ -421,7 +421,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             }
         }
         try {
-            itemIdentifier = oleCirculationHelperService.acceptItem(itemBarcode, callNumber, title, author, itemType, itemLocation);
+            itemIdentifier = oleCirculationHelperService.acceptItem(itemBarcode, callNumber, title, author, itemType, itemLocation, operator);
             if (null == itemIdentifier) {
                 oleAcceptItem.setCode("031");
                 oleAcceptItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_EXIST));
