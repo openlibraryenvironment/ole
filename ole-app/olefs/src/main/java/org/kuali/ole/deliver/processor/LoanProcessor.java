@@ -2150,6 +2150,7 @@ public class LoanProcessor extends PatronBillResolver {
         LOG.debug("Inside the getBibliographicRecord method");
 
         BibMarcRecord bibMarcRecord = new BibMarcRecord();
+        bibMarcRecord.setLeader("#####na##a22#####uu#4500");
         List<org.kuali.ole.docstore.common.document.content.bib.marc.DataField> dataFieldList = new ArrayList<org.kuali.ole.docstore.common.document.content.bib.marc.DataField>();
         org.kuali.ole.docstore.common.document.content.bib.marc.DataField titleDataField = new org.kuali.ole.docstore.common.document.content.bib.marc.DataField();
         titleDataField.setTag(OLEConstants.MARC_EDITOR_TITLE_245);
