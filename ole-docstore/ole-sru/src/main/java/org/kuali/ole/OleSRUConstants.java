@@ -123,6 +123,9 @@ public class OleSRUConstants {
     public static final String LOCALID="id";
     public static final String SUBJECT ="subject";
     public static final String CHOICE = "keyword";
+    public static final String OCLC = "oclc";
+    public static final String CS_OCLC = "dc.oclc";
+    public static final String OCLC_SEARCH = "mdf_035a";
     public static final String CS_TITLE="dc.title";
     public static final String CS_AUTHOR="dc.creator";
     public static final String CS_PUBLISHER="dc.publisher";
