@@ -1,0 +1,120 @@
+package org.kuali.ole.deliver.rules.general
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.bo.OleAddressBo
+import org.kuali.ole.deliver.drools.DroolsExchange
+import java.util.Date
+import java.text.SimpleDateFormat
+import org.kuali.ole.service.OleCirculationPolicyServiceImpl
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "Is Patron Active"
+agenda-group "general-checks"
+when
+$p : OlePatronDocument(!isActiveIndicator())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Patron is Inactive");
+ end
+
+ rule "Is Patron with General Block"
+agenda-group "general-checks"
+when
+$p : OlePatronDocument(isGeneralBlock())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Patron is blocked");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+ end
+
+rule "Is Patron's address verified"
+agenda-group "general-checks"
+when
+$p : OlePatronDocument(!isAddressVerified())
+$d : DroolsResponse()
+then
+$d.addErrorMessage("Address is not verified");
+ end
+
+ rule "Is Patron Expired"
+ agenda-group "general-checks"
+ when
+ $p : OlePatronDocument(getExpirationDate() != null, getExpirationDate() < today())
+ $d : DroolsResponse()
+ then
+$d.addErrorMessage("Patron has expired");
+$d.addOverridePermissions("Patron record expired");
+  end
+
+  rule "Activation Date for Patron"
+   agenda-group "general-checks"
+   when
+   $p : OlePatronDocument(getActivationDate()!= null,getActivationDate() > today())
+   $d : DroolsResponse()
+   then
+$d.addErrorMessage("Patron has an invalid activation date");
+    end
+
+
+ rule "Check All Charges"
+  agenda-group "general-checks"
+  when
+   $p: OlePatronDocument(getAllCharges() >= 50, getBorrowerTypeCode() not in ("BORDIR") )
+  $d: DroolsResponse()
+  then
+  $d.addErrorMessage("Patron's overall charges are $50 or more");
+ $d.addOverridePermissions(DroolsConstants.MAX_CHARGES_PERMISSION);
+  end
+
+ rule "Check Overdue fine"
+  agenda-group "general-checks"
+ when
+ $p: OlePatronDocument(getOverdueFineAmount() >= 50,  getBorrowerTypeCode() not in ("BORDIR") )
+ $d: DroolsResponse()
+ then
+ $d.addErrorMessage("Patron has overdue fines of $50 or more");
+ //$p.addErrorsAndPermission("Patron has max amount of overdue fines");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+ end
+
+ rule "Check Replacement fine"
+agenda-group "general-checks"
+ when
+ $p: OlePatronDocument(getReplacementFineAmount() >= 150, getBorrowerTypeCode() not in ("BORDIR") )
+ $d: DroolsResponse()
+ then
+ $d.addErrorMessage("Patron has replacement fees of $150 or more");
+ //$p.addErrorsAndPermission("Patron has max amount of replacement fees");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+  end
+
+
+ rule "Patron Has Atleast One Item which is over the allow due limit"
+agenda-group "general-checks"
+ when
+ $p: OlePatronDocument(isOverDueDays(3000))
+ $d: DroolsResponse()
+ then
+ $d.addErrorMessage("Patron Has Atleast One Item which is over the allowed due limit");
+ //$p.addErrorsAndPermission("Patron has max amount of replacement fees");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+  end
+
+ rule "Patron Has Atleast One Item which has been recalled and has exceeded the overdue limit"
+agenda-group "general-checks"
+ when
+ $p: OlePatronDocument(isRecalledAndOverDue(3), getBorrowerTypeCode() not in ("BORDIR") )
+ $d: DroolsResponse()
+ then
+ $d.addErrorMessage("Patron Has Atleast One Item which has been recalled and is overdue");
+ //$p.addErrorsAndPermission("Patron has max amount of replacement fees");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+  end
+
+
+ function Date today(){
+ Date date = new Date(System.currentTimeMillis());
+ return date;
+ }

@@ -17,10 +17,10 @@ $l: OleLoanDocument()
 $n: NoticeInfo()
  $d : DroolsResponse()
 
-$i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72","stks7","stks14","buo"))
+$i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72","stks7","stks14","buo","illbuo","ill7day","ill21day","ill42day","ill77day","bordirc"))
   
 
 then
 $d.setRuleMatched(true);
-$d.addErrorMessage("Reserve and short-term loans may not be renewed");
+$d.addErrorMessage("Reserve, short-term, BorrowDirect and some ILL loans may not be renewed");
  end

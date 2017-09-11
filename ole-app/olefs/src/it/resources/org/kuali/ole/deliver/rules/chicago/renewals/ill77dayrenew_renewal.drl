@@ -1,0 +1,89 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+rule "Circ Policy ill77dayrenew for Renewal with existing request"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+ $d : DroolsResponse()
+
+$l: OleLoanDocument()
+
+$n: NoticeInfo()
+
+$p: OlePatronDocument()
+
+$i: OleItemRecordForCirc($dr:getOleDeliverRequestBo(), null!= $dr)
+
+then
+
+$d.setRuleMatched(true);
+ $d.addErrorMessage("The item cannot be renewed because it has been requested.");
+ $d.addErrorMessageCode("ErrorMessageFromRule");
+ end
+
+
+rule "Circ Policy ill77dayrenew for Renewal"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+ $d : DroolsResponse()
+
+$l: OleLoanDocument($nr: getNumberOfRenewals(), null!= $nr, Integer.valueOf($nr) < 1)
+
+$n: NoticeInfo()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in
+("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC","CARREL"))
+
+$i: OleItemRecordForCirc(getItemType() in ("ill77dayrenew"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"),
+$dr:getOleDeliverRequestBo(), null== $dr)
+
+
+then
+
+$d.setRuleMatched(true);
+$l.setCirculationPolicyId("Circ Policy ill77dayrenew for Renewal");
+$l.loanPeriod(daysBetween($l.getLoanDueDate(),28)+"-D",null); // This method takes due date and recall period as arguments.
+ end
+
+ rule "Circ Policy ill77dayrenew for Renewal for renewal count greater than/equal 1"
+ agenda-group "renewal validation"
+ activation-group "renewal validation"
+ when
+
+ $l: OleLoanDocument($nr: getNumberOfRenewals(), null!= $nr, Integer.valueOf($nr) >= 1)
+ $d : DroolsResponse()
+
+ $n: NoticeInfo()
+
+ $p: OlePatronDocument(getBorrowerTypeCode() in
+ ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC","CARREL"))
+
+ $i: OleItemRecordForCirc(getItemType() in ("ill77dayrenew"),
+ getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"),
+ $dr:getOleDeliverRequestBo(), null== $dr)
+
+
+ then
+
+$d.setRuleMatched(true);
+ $l.setCirculationPolicyId("Circ Policy ill77dayrenew for Renewal");
+ $d.addErrorMessage("Patron has more than allowed limit of renewals");
+ $d.addErrorMessageCode("ErrorMessageFromRule");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+ $l.loanPeriod(daysBetween($l.getLoanDueDate(),28)+"-D",null); // This method takes due date and recall period as arguments.
+  end
+

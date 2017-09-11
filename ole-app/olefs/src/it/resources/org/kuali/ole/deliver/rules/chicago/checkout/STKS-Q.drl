@@ -2,17 +2,19 @@ package org.kuali.ole.deliver.checkout
 
 import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
-import org.kuali.ole.deliver.util.DroolsResponse
+
 import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.drools.DroolsConstants
 import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.util.DroolsResponse
 
 rule "Check out Circ Policy Set STKS/Q"
 agenda-group "checkout validation"
 activation-group "checkout validation"
 when
 $l: OleLoanDocument()
+
 $p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QSTF","QUNLIM_PHD","QUNLIM_ACD","QNONUC","QUNLIM_NONUC","QNONDEG","QOTHER","QDEPT"))
 $i: OleItemRecordForCirc (getItemType() in ("stks","games","mus"),
 getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
