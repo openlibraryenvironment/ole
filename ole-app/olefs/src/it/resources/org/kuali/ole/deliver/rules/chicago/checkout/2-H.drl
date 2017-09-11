@@ -8,7 +8,7 @@ import org.kuali.ole.deliver.util.DroolsResponse
 import org.kuali.ole.deliver.drools.DroolsConstants
 
 
-rule "Check out Circ Policy Set 2-H for Max Loaned Items less than 2"
+rule "Check out Circ Policy Set 2-H"
 agenda-group "checkout validation"
 activation-group "checkout validation"
 when
@@ -24,7 +24,7 @@ getLoanedItemsCountByItemType($i.getItemType()) < 2)
 
 then
 $l.setCirculationPolicyId("Check out Circ Policy Set 2-H");
-$l.loanPeriod("2-H",null); // This method takes due date and recall period as arguments.
+$l.loanPeriod("2-h",null); // This method takes due date and recall period as arguments.
  end
 
 
@@ -45,8 +45,11 @@ getLoanedItemsCountByItemType($i.getItemType()) >= 2)
 $d: DroolsResponse()
 
 then
-$d.addErrorMessage("Patron has 2 items of 2-H reserve loan items type checked out");
-$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
 $l.setCirculationPolicyId("Check out Circ Policy Set 2-H");
-$l.loanPeriod("2-H",null); // This method takes due date and recall period as arguments.
- end
+$l.loanPeriod("2-H",null); 
+$d.addErrorMessage("Patron has 2 items of 2-H reserve loan items type checked out");
+$d.addErrorMessageCode("ErrorMessageFromRule");
+$d.addOverridePermissions("Patron has max # of items checked out");
+end
+
+

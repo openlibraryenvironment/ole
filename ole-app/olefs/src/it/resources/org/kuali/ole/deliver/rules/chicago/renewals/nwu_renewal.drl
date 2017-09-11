@@ -56,7 +56,7 @@ then
 
 $d.setRuleMatched(true);
 $l.setCirculationPolicyId("Circ Policy STKS/NWU for Renewal");
-$l.loanPeriod("84-D",null); // This method takes due date and recall period as arguments.
+$l.loanPeriod(daysBetween($l.getLoanDueDate(),84)+"-D",null); // This method takes due date and recall period as arguments.
  end
 
  rule "Circ Policy STKS/NWU for Renewal for renewal item count greater than 3"
@@ -84,6 +84,6 @@ $d.setRuleMatched(true);
  $d.addErrorMessage("Patron has more than allowed limit of renewals");
  $d.addErrorMessageCode("ErrorMessageFromRule");
  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
- $l.loanPeriod("84-D",null); // This method takes due date and recall period as arguments.
+ $l.loanPeriod(daysBetween($l.getLoanDueDate(),84)+"-D",null);// This method takes due date and recall period as arguments.
   end
 

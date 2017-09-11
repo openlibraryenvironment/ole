@@ -5,6 +5,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.DroolsResponse
 import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.form.OLEPlaceRequestForm
 
 
 rule "Circulation Policy Set 1 Validation for Request for recall"
@@ -25,10 +26,7 @@ $d.getDroolsExchange().addToContext("requestExpirationDays",45);
 $n.setNoticeType(OLEConstants.NOTICE_RECALL);
 $d.getDroolsExchange().addToContext("minimumLoanPeriod","1-D");
 $d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
-$d.getDroolsExchange().addToContext(OLEConstants.RECALL_NOTICE_CONTENT_CONFIG_NAME,"Recall Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Expiration Notice");
 end
 
 
@@ -48,11 +46,8 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
-$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Expiration Notice");
 end
-
 
 
 rule "Circulation Policy Set 1 Validation for Request for page"
@@ -71,9 +66,7 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
-$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Expiration Notice");
 end
 
 
@@ -93,7 +86,7 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
-$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Expiration Notice");
 end
 
 
@@ -110,9 +103,5 @@ $n : NoticeInfo()
 then
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext("requestExpirationDays",45);
-$d.getDroolsExchange().addToContext(OLEConstants.REQUEST_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"Request Expiration Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_NOTICE_CONTENT_CONFIG_NAME,"On Hold Notice");
-$d.getDroolsExchange().addToContext(OLEConstants.ON_HOLD_EXPIRATION_NOTICE_CONTENT_CONFIG_NAME,"On Hold Expiration Notice");
+$d.getDroolsExchange().addToContext(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Expiration Notice");
 end
-
-
