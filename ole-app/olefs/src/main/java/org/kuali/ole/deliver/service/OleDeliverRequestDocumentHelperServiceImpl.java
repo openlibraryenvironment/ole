@@ -2518,8 +2518,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
             }
             try {
-                if(StringUtils.isNotBlank(itemIdentifier)){
-                    if (StringUtils.isNotBlank(itemBarcode)) {
+                if(!StringUtils.isNotBlank(itemIdentifier)){
+                    if (!StringUtils.isNotBlank(itemBarcode)) {
                         olePlaceRequest.setBlockOverride(true);
                         olePlaceRequest.setCode("014");
                         olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
