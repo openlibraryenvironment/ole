@@ -50,6 +50,7 @@ public class OLENCIPConstants {
     public static final String OPERATOR_ID ="operatorId";
     public static final String REQUEST_ID ="requestId";
     public static final String ITEM_BARCODE ="itemBarcode";
+    public static final String ITEM_ID ="itemId";
     public static final String CALLNUMBER ="callNumber";
     public static final String TITLE ="title";
     public static final String AUTHOR ="author";

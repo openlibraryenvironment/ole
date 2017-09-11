@@ -2518,12 +2518,14 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
             }
             try {
-                if (itemBarcode == null || (itemBarcode != null && itemBarcode.isEmpty())) {
-                    olePlaceRequest.setBlockOverride(true);
-                    olePlaceRequest.setCode("014");
-                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                if(StringUtils.isNotBlank(itemIdentifier)){
+                    if (StringUtils.isNotBlank(itemBarcode)) {
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setCode("014");
+                        olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
 
+                    }
                 }
                 oleDeliverRequestBo.setItemId(itemBarcode);
                 oleDeliverRequestBo.setItemUuid(itemIdentifier);
@@ -2532,7 +2534,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 oleDeliverRequestBo.setItemLocation(itemLocation);
                 if (itemIdentifier == null || itemLocation == null || itemType == null) {
                 Thread.sleep(1000);
-                    String itemUUID = null;
+                    String itemUUID = itemIdentifier;
                     String holdingsId = null;
                     if (itemIdentifier == null) {
                         try {
@@ -2565,6 +2567,11 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         olePlaceRequest.setCode("014");
                         olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    } else{
+                        if(StringUtils.isNotBlank(itemUUID) && !itemUUID.contains("wio-")){
+                            itemUUID = "wio-"+itemUUID;
+                            oleDeliverRequestBo.setItemUuid(itemUUID);
+                        }
                     }
                     if (itemType == null || itemLocation == null) {
                         Map<String, Object> detailMap = retrieveBIbItemHoldingData(itemUUID);

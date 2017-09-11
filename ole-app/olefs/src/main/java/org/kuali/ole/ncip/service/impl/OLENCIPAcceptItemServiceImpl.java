@@ -214,7 +214,7 @@ public class OLENCIPAcceptItemServiceImpl extends OLENCIPUtil implements OLEAcce
         BibTrees bibTrees = null;
         try {
             Long startCreationOfItemTime = System.currentTimeMillis();
-            bibTrees = getOleCirculationHelperService().createItem(itemBarcode, callNumber, title, author, itemType, location);
+            bibTrees = getOleCirculationHelperService().createItem(itemBarcode, callNumber, title, author, itemType, location, operatorId);
             Long endCreationOfItemTime = System.currentTimeMillis();
             LOG.info("Time taken to create item : " + (endCreationOfItemTime - startCreationOfItemTime));
         } catch (Exception e) {
