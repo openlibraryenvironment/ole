@@ -34,11 +34,11 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_CALL_NUMBER_PREFIX,OLEConstants.NOTICE_CALL_NUMBER_PREFIX));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_ITEM_BARCODE,OLEConstants.NOTICE_ITEM_BARCODE));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.ITEM_TYPE,OLEConstants.OLEBatchProcess.ITEM_TYPE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_LOCATION,OLEConstants.LIBRARY_LOCATION));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_SHELVING_LOCATION,OLEConstants.LIBRARY_SHELVING_LOCATION));
         if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.RECALL_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_EXPIRATION_NOTICE) || noticeType.equals(OLEConstants.REQUEST_EXPIRATION_NOTICE) || noticeType.equals(OLEConstants.ONHOLD_COURTESY_NOTICE))) {
             keyValues.add(new ConcreteKeyValue(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME,OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME));
             keyValues.add(new ConcreteKeyValue(OLEConstants.CIRCULATION_REPLY_TO_EMAIL,OLEConstants.CIRCULATION_REPLY_TO_EMAIL));
-            keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_SHELVING_LOCATION,OLEConstants.LIBRARY_SHELVING_LOCATION));
-            keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_LOCATION,OLEConstants.LIBRARY_LOCATION));
          }
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.RECALL_NOTICE)){
         keyValues.add(new ConcreteKeyValue(OLEConstants.ORIGINAL_DUE_DATE,OLEConstants.ORIGINAL_DUE_DATE));
