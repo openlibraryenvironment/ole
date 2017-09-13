@@ -55,6 +55,7 @@ public class ItemIndexer extends OleDsNgIndexer {
                 addItemDetailsToHoldings(itemSolrInputDocument, holdingSolrInputDocuemnt);
 
                 addBibInfoForHoldingsOrItems(itemSolrInputDocument, holdingSolrInputDocuemnt);
+                addHoldingsInfoToItem(itemSolrInputDocument, holdingSolrInputDocuemnt);
 
                 itemSolrInputDocument.addField("bibIdentifier", bibs);  // Todo Need to verify
 
