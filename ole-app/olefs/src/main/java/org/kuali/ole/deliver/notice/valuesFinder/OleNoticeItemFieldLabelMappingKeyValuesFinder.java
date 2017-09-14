@@ -59,7 +59,6 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
             keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_NOTE,OLEConstants.MISSING_ITEM_NOTE));
         }
         if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.NOTICE_LOST)){
-            keyValues.add(new ConcreteKeyValue(OLEConstants.LIBRARY_SHELVING_LOCATION,OLEConstants.LIBRARY_SHELVING_LOCATION));
             keyValues.add(new ConcreteKeyValue("Bill Number","Bill Number"));
             keyValues.add(new ConcreteKeyValue(OLEConstants.FEE_TYPE,OLEConstants.FEE_TYPE));
             keyValues.add(new ConcreteKeyValue(OLEConstants.FEE_AMT,OLEConstants.FEE_AMT));
