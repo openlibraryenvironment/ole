@@ -1101,6 +1101,9 @@ public class CircController extends CheckoutValidationController {
                 getBusinessObjectService().deleteMatching(OLEDeliverNotice.class,map);
             }
         }
+        if(!lostNoticesExecutorService.isShutdown()) {
+            lostNoticesExecutorService.shutdown();
+        }
         return getUIFModelAndView(circForm);
     }
 
