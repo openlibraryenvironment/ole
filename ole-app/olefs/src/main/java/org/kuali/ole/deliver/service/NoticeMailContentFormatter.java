@@ -268,7 +268,6 @@ public abstract class NoticeMailContentFormatter {
 
         fileNames.add("notice.ftl");
         fileNames.add("itemInfo.ftl");
-        fileNames.add("replacement-bill.ftl");
 
         return fileNames;
     }

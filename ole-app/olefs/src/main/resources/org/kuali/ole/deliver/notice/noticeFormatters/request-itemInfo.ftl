@@ -104,9 +104,9 @@
                         </#if>
                     </TR>
                     <#break>
-                <#case "Library Shelving location">
+                <#case "Library shelving location">
                     <TR>
-                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Shelving location")} :</TD>
+                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library shelving location")} :</TD>
                         <#if oleNoticeBo.itemShelvingLocation ??>
                             <TD>${oleNoticeBo.itemShelvingLocation}</TD>
                         <#else>
