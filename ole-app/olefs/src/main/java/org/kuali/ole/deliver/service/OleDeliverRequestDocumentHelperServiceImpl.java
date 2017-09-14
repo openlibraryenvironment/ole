@@ -1581,6 +1581,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
             }
         }
+        if(!onHoldNoticesExecutorService.isShutdown()) {
+            onHoldNoticesExecutorService.shutdown();
+        }
     }
 
 
@@ -1615,6 +1618,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(requestMap);
                 onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
             }
+        }
+        if(!onHoldNoticesExecutorService.isShutdown()) {
+            onHoldNoticesExecutorService.shutdown();
         }
     } 
     private void generateNoticesBasedOnNoticeType(List<OleNoticeBo> noticesList, String noticeName, String replyToEmail) throws Exception {
@@ -1696,6 +1702,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Runnable requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(requestMap);
                 requestExpirationNoticesExecutorService.execute(requestExpirationNoticesExecutor);
             }
+        }
+        if(!requestExpirationNoticesExecutorService.isShutdown()) {
+            requestExpirationNoticesExecutorService.shutdown();
         }
     }
 
@@ -1896,6 +1905,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
                 }
             }
+            if(!lostNoticesExecutorService.isShutdown()) {
+                lostNoticesExecutorService.shutdown();
+            }
         }
     }
 
@@ -1939,6 +1951,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
 
             }
+            if(!courtesyNoticesExecutorService.isShutdown()) {
+                courtesyNoticesExecutorService.shutdown();
+            }
         }
     }
 
@@ -1980,6 +1995,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
                 }
 
+            }
+            if(!overDueNoticesExecutorService.isShutdown()) {
+                overDueNoticesExecutorService.shutdown();
             }
         }
     }
@@ -2102,6 +2120,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 onHoldExpirationNoticesExecutorService.execute(onHoldExpirationNoticesExecutor);
             }
         }
+        if(!onHoldExpirationNoticesExecutorService.isShutdown()) {
+            onHoldExpirationNoticesExecutorService.shutdown();
+        }
     }
 
     public void generateOnHoldCourtesyNotice() throws Exception {
@@ -2135,6 +2156,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Runnable onHoldCourtesyNoticesExecutor = new HoldCourtesyNoticeExecutor(requestMap);
                 onHoldCourtesynNoticesExecutorService.execute(onHoldCourtesyNoticesExecutor);
             }
+        }
+        if(!onHoldCourtesynNoticesExecutorService.isShutdown()) {
+            onHoldCourtesynNoticesExecutorService.shutdown();
         }
     }
 
