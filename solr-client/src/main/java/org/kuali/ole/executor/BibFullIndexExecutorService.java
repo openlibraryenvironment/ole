@@ -36,7 +36,7 @@ public class BibFullIndexExecutorService extends BibIndexExecutorService{
         DocumentSearchConfig documentSearchConfig = DocumentSearchConfig.getDocumentSearchConfig();
         Integer numThreads = fullIndexRequest.getNoOfDbThreads();
         Integer docsPerThread = fullIndexRequest.getDocsPerThread();
-        Integer commitIndexesInterval = 100000;
+        Integer commitIndexesInterval = 50000;
 
         StopWatch mainStopWatch = new StopWatch();
         mainStopWatch.start();
@@ -155,6 +155,8 @@ public class BibFullIndexExecutorService extends BibIndexExecutorService{
         for (Iterator<String> iterator = coreNames.iterator(); iterator.hasNext(); ) {
             String coreName = iterator.next();
             BibCrudRepositoryMultiCoreSupport bibCrudRepositoryMultiCoreSupport = new BibCrudRepositoryMultiCoreSupport(coreName, solrUrl);
+            logger.info("Core---->"+coreName + "---------> starting bibId ----------->" + bibCrudRepositoryMultiCoreSupport.getBibIdOrderByBidId("asc"));
+            logger.info("Core---->"+coreName + "---------> ending bibId ----------->" + bibCrudRepositoryMultiCoreSupport.getBibIdOrderByBidId("desc"));
             bibCrudRepositoryMultiCoreSupport.deleteAll();
         }
     }
