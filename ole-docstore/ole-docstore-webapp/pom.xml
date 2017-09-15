@@ -105,6 +105,9 @@
                                 <exclude>
                                     WEB-INF/lib/xstream*.jar
                                 </exclude>
+                                <exclude>
+                                    WEB-INF/lib/db-ojb-1.0.4-patch8.jar
+                                </exclude>
                             </excludes>
                         </overlay>
                     </overlays>
