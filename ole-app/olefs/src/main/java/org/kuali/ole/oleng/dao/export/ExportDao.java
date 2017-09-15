@@ -178,6 +178,9 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                 batchExportHandler.addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
             }
         }
+        if(!executorService.isShutdown()) {
+            executorService.shutdown();
+        }
         return new ArrayList<String>(bibIdentifiers);
     }
 

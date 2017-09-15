@@ -8,37 +8,12 @@ import org.kuali.ole.deliver.util.ItemFineRate
 import org.kuali.ole.deliver.drools.DroolsConstants
 import org.kuali.ole.deliver.bo.PatronBillPayment
 
-
-rule "Requested items hourly fines "
-agenda-group "fine validation"
-activation-group "fine validation"
-when
-
-$l: OleLoanDocument(isItemHasRequest())
-
-$f: ItemFineRate()
-
-$i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72"),
-getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
-
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
-                                                 "QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
-
-then
-$f.setFineRate(5.00);
-$f.setMaxFine(100.00);
-$f.setInterval("H"); //Options are H-Hours; D-Days
-
- end
-
-
-
  rule "Items hourly fines "
  agenda-group "fine validation"
  activation-group "fine validation"
  when
 
- $l: OleLoanDocument(!isItemHasRequest())
+ $l: OleLoanDocument($r:getOleDeliverRequestBo(), null == $r)
 
  $f: ItemFineRate()
 
@@ -46,7 +21,7 @@ $f.setInterval("H"); //Options are H-Hours; D-Days
  getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
 
  $p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
- "QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
+ "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
 
  then
  $f.setFineRate(3.00);

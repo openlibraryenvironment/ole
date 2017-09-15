@@ -1,0 +1,29 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ItemFineRate
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.PatronBillPayment
+
+
+
+rule "No Fines for stks"
+agenda-group "fine validation"
+activation-group "fine validation"
+when
+
+$l: OleLoanDocument($r:getOleDeliverRequestBo(), null == $r)
+
+$f: ItemFineRate()
+
+$i: OleItemRecordForCirc(getItemType() in ("stks"))
+
+then
+$f.setFineRate(0.00);
+$f.setMaxFine(0.00);
+$f.setInterval("D"); //Options are H-Hours; D-Days
+
+ end

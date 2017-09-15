@@ -273,6 +273,9 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
             lostMap.put(OLEConstants.BILL_NOTE,OLEConstants.CLAIM_BILL_NOTE);
             Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
             lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+            if(!lostNoticesExecutorService.isShutdown()) {
+                lostNoticesExecutorService.shutdown();
+            }
         } else {
             getBusinessObjectService().save(oleLoanDocument);
         }

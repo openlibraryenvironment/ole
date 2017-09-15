@@ -4,8 +4,9 @@ import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
+
+
 import org.kuali.ole.deliver.util.DroolsResponse
-import org.kuali.ole.deliver.drools.DroolsConstants
 
 
 rule "Check out Circ Policy Set ITS 8 IPD"
@@ -14,7 +15,9 @@ activation-group "checkout validation"
 when
 $l: OleLoanDocument();
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QSTF,","QOTHER",
+
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QSTF","QOTHER",
 "QUNLIM_ACD","QUNLIM_PHD","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_TRU"))
 
 $i: OleItemRecordForCirc(getItemType() in ("its8ipd"),

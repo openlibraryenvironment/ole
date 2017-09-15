@@ -1,5 +1,7 @@
 package org.kuali.ole.deliver.checkout
 
+import java.util.Date
+
 import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.bo.OlePatronDocument
@@ -11,6 +13,7 @@ import org.kuali.ole.deliver.util.NoticeInfo
 rule "Renewal Policy Set 168-DLL"
 agenda-group "renewal validation"
 activation-group "renewal validation"
+
 when
 
 $l: OleLoanDocument()
@@ -21,8 +24,19 @@ $i: OleItemRecordForCirc(getItemType() in ("res168"),
     getItemLibraryLocation() in ("DLL"))
 
 then
+
 $d.setRuleMatched(true);
 $l.setCirculationPolicyId("Renewal Policy Set 168-D");
-$l.loanPeriod("30-D",null); // This method takes due date and recall period as arguments.
+$l.loanPeriod(daysBetween($l.getLoanDueDate(),30)+"-D",null); // This method takes due date and recall period as arguments.
 $n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
  end
+
+
+function int daysBetween(Date dueDate, Integer rDays){
+   Date today = new Date(System.currentTimeMillis());
+   if(today.before(dueDate)){
+        return (((int)( (dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)))+ rDays);
+   }else{
+        return rDays;
+   }
+}

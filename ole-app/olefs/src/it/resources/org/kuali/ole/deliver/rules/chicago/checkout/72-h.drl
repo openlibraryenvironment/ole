@@ -6,6 +6,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
 import org.kuali.ole.deliver.util.DroolsResponse
 import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
 
 rule "Check out Circ Policy Set 72-H"
 agenda-group "checkout validation"

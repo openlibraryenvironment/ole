@@ -1,0 +1,34 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ItemFineRate
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.PatronBillPayment
+
+rule "Recalled items fines"
+agenda-group "fine validation"
+activation-group "fine validation"
+when
+
+$l: OleLoanDocument()
+
+$f: ItemFineRate()
+
+$i: OleItemRecordForCirc(getItemType() in ("stks","stks7","stks14","res168","res2","res4","res24","res48","res72","buo"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+$r:getOleDeliverRequestBo(),
+null!= $r, $r.getRequestTypeCode() in ("Recall/Delivery Request","Recall/Hold Request"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
+
+then
+$f.setFineRate(5.00);
+$f.setMaxFine(100.00);
+$f.setInterval("D"); //Options are H-Hours; D-Days
+
+ end
+

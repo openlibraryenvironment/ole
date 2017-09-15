@@ -1,0 +1,26 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+rule "Check out Circ Policy Set ill42dayrenew"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument();
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC","CARREL"))
+
+$i: OleItemRecordForCirc(getItemType() in ("ill42dayrenew"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd","ASR"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set ill42dayrenew");
+$l.loanPeriod("42-D",null); // This method takes due date and recall period as arguments.
+ end

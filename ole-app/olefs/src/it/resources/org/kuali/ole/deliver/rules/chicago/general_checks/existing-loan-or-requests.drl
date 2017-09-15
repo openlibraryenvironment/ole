@@ -27,34 +27,271 @@ rule "Available Item by same patron with an existing request"
   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
  end
 
- rule "Available Item by same patron with an existing request and recall request check"
+ rule "On Hold Item by same patron with an existing request and recall request check"
   agenda-group "request-or-existing-loan-checks"
   activation-group "request-or-existing-loan-checks"
   when
   $p : OlePatronDocument()
-  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
-  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId())
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("ONHOLD"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Recall/Hold Request","Recall/Delivery Request"))
   $l : OleLoanDocument(isRequestPatron())
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item is available and it has Recall Request, so the due date will be truncated accordingly.");
+   $d.addErrorMessage("Item is on hold and has an outstanding Recall Request for another patron, so the due date will be truncated accordingly.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
   end
 
-  rule "Available Item with an existing recall request"
+rule "On Hold Item by same patron with an existing request and hold request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("ONHOLD"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+					getRequestTypeCode() in ("Hold/Hold Request","Hold/Delivery Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is on hold and has an outstanding Hold Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "On Hold Item by same patron with an existing request and copy request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("ONHOLD"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Copy Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is on hold and has an outstanding Copy Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Recently Returned Item by same patron with an existing request and hold request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("RECENTLY-RETURNED"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Hold/Hold Request","Hold/Delivery Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is recently returned and it has an outstanding Hold Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Recently Returned Item by same patron with an existing request and page request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("RECENTLY-RETURNED"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Page/Hold Request","Page/Delivery Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is recently returned and it has an outstanding Page Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Available Item by same patron with an existing request and hold request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("AVAILABLE"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Hold/Hold Request","Hold/Delivery Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is available and it has an outstanding Hold Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Available Item by same patron with an existing request and page request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("AVAILABLE"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Page/Hold Request","Page/Delivery Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is available and it has an outstanding Page Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Available Item by same patron with an existing request and copy request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("AVAILABLE"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("Copy Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is available and it has an outstanding Copy Request for another patron, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Available Item by same patron with an existing request and ASR request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("AVAILABLE"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("ASR Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is available and it has an outstanding ASR Request, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "Recently Returned Item by same patron with an existing request and ASR request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("RECENTLY-RETURNED"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("ASR Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is recently returned and it has an outstanding ASR Request, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+rule "On Hold Item by same patron with an existing request and ASR request check"
+  agenda-group "request-or-existing-loan-checks"
+  activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() in ("ONHOLD"))
+  $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId(),
+				 getRequestTypeCode() in ("ASR Request"))
+  $l : OleLoanDocument(isRequestPatron())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item is on hold and it has an outstanding ASR Request, so the due date will be truncated accordingly.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+  end
+
+
+rule "Available Item with an existing recall request"
     agenda-group "request-or-existing-loan-checks"
     activation-group "request-or-existing-loan-checks"
     when
      $p : OlePatronDocument()
      $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
-     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId())
+     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId(),
+				getRequestTypeCode() in ("Recall/Hold Request","Recall/Delivery Request"))
      $l : OleLoanDocument(isRequestPatron())
      $d : DroolsResponse()
 
     then
      $d.addErrorMessage("The Item has an existing Recall Request and the due date will be truncated accordingly.");
+     $d.addErrorMessageCode(DroolsConstants.DUE_DATE_TRUNCATED);
+    end
+
+rule "Available Item with an existing hold request"
+    agenda-group "request-or-existing-loan-checks"
+    activation-group "request-or-existing-loan-checks"
+    when
+     $p : OlePatronDocument()
+     $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
+     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId(),
+			      getRequestTypeCode() in ("Hold/Hold Request","Hold/Delivery Request"))
+     $l : OleLoanDocument(isRequestPatron())
+     $d : DroolsResponse()
+
+    then
+     $d.addErrorMessage("The Item has an existing Hold Request and the due date will be truncated accordingly.");
+     $d.addErrorMessageCode(DroolsConstants.DUE_DATE_TRUNCATED);
+    end
+
+rule "Available Item with an existing page request"
+    agenda-group "request-or-existing-loan-checks"
+    activation-group "request-or-existing-loan-checks"
+    when
+     $p : OlePatronDocument()
+     $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
+     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId(),
+			       getRequestTypeCode() in ("Page/Hold Request","Page/Delivery Request"))
+     $l : OleLoanDocument(isRequestPatron())
+     $d : DroolsResponse()
+
+    then
+     $d.addErrorMessage("The Item has an existing Page Request and the due date will be truncated accordingly.");
+     $d.addErrorMessageCode(DroolsConstants.DUE_DATE_TRUNCATED);
+    end
+
+rule "Available Item with an existing copy request"
+    agenda-group "request-or-existing-loan-checks"
+    activation-group "request-or-existing-loan-checks"
+    when
+     $p : OlePatronDocument()
+     $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
+     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId(),
+			        getRequestTypeCode() in ("Copy Request"))
+     $l : OleLoanDocument(isRequestPatron())
+     $d : DroolsResponse()
+
+    then
+     $d.addErrorMessage("The Item has an existing Copy Request and the due date will be truncated accordingly.");
+     $d.addErrorMessageCode(DroolsConstants.DUE_DATE_TRUNCATED);
+    end
+
+rule "Available Item with an existing asr request"
+    agenda-group "request-or-existing-loan-checks"
+    activation-group "request-or-existing-loan-checks"
+    when
+     $p : OlePatronDocument()
+     $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in ("LOANED"))
+     $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() == $p.getOlePatronId(),
+				getRequestTypeCode() in ("ASR Request"))
+     $l : OleLoanDocument(isRequestPatron())
+     $d : DroolsResponse()
+
+    then
+     $d.addErrorMessage("The Item has an existing ASR Request and the due date will be truncated accordingly.");
      $d.addErrorMessageCode(DroolsConstants.DUE_DATE_TRUNCATED);
     end
 
@@ -68,7 +305,7 @@ rule "Available Item by same patron with an existing request"
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item currently loaned to some one else and has an existing request by the patron who is different than the current borrower.");
+   $d.addErrorMessage("Item has an existing request by the patron who is different than the current borrower.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM);
   end
@@ -82,7 +319,7 @@ rule "Available Item by same patron with an existing request"
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item currently loaned to some one else.");
+   $d.addErrorMessage("Item currently loaned by some one else.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.LOANED_BY_DIFFERENT_PATRON);
   end
@@ -98,7 +335,7 @@ rule "Available Item by same patron with an existing request"
   $d : DroolsResponse()
 
   then
-   $d.addErrorMessage("Item currently loaned to the same patron.");
+   $d.addErrorMessage("Item currently loaned by same patron.");
    $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
    $d.addErrorMessageCode(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON);
   end

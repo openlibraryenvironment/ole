@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.rules.demo.checkin
+package org.kuali.ole.deliver.checkin
 
 
 import org.kuali.ole.deliver.bo.OleLoanDocument
@@ -7,48 +7,24 @@ import org.kuali.ole.deliver.util.DroolsResponse
 import org.kuali.ole.deliver.drools.DroolsConstants
 
 
- rule "On-Hold for in-transit with pickup location Staffed"
+ rule "On-Hold for in-transit "
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 
 when
 $i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
-$p: getPickupLocation(), null != $p, $p.isStaffed(),
-$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "Page/Delivery Request", "ASR Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$r.getPickUpLocationCode() != null)
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 
 $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
-$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
  end
 
- rule "On-Hold for in-transit without pickup location"
-agenda-group "checkin-validation-for-loan"
-activation-group "checkin-validation-for-loan"
-
-when
-$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
-$p: getPickupLocation(), null != $p, $p.isStaffed(),
-$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request","Page/Delivery Request", "ASR Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$r.getPickUpLocationCode() == null)
-
-$d : DroolsResponse()
-
-then
-$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
-$i.updateCheckinCount();
-$d.setRuleMatched(true);
-$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
-$d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);
- end
-
- rule "On-Hold for pickup Staffed"
+ rule "On-Hold for pickup"
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 
@@ -56,7 +32,6 @@ activation-group "checkin-validation-for-loan"
 when
 
 $i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),isItemPickupLocationSameAsOperatorCircLoc(),
-$p: getPickupLocation(), null != $p, $p.isStaffed(),
 $r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
 $s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 
@@ -70,46 +45,41 @@ $d.setRuleMatched(true);
  end
 
 
-rule "On-Hold or in-transit for pickup UnStaffed"
-agenda-group "checkin-validation-for-loan"
-activation-group "checkin-validation-for-loan"
 
-
-when
-
-$i: OleItemRecordForCirc(
-$p: getPickupLocation(), null != $p, !$p.isStaffed(),
-$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
-
-$d : DroolsResponse()
-
-then
-$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-LOAN");
-$i.setRouteToLocation($i.getPickupLocation().getCirculationDeskCode());
-$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
-$d.getDroolsExchange().addToContext(DroolsConstants.AUTO_CHECKOUT, true);
-$i.updateCheckinCount();
-$d.setRuleMatched(true);
- end
-
-
-
- rule "Loaned for in-transit for Circ desk"
+ rule "Loaned for in-transit for Un-Staffed desk"
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 
 when
 $i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
 $r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Hold/Delivery Request", "Recall/Delivery Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
+$pl: getPickupLocation(), null!= $pl, !$pl.isStaffed())
 
 $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-LOAN");
-$i.updateCheckinCount();
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.AUTO_CHECKOUT, true);
+$d.setRuleMatched(true);
+ end
+
+
+ rule "Loaned for in-transit for Staffed desk"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Hold/Delivery Request", "Recall/Delivery Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
+$pl: getPickupLocation(), null!= $pl, $pl.isStaffed())
+
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
+$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.setRuleMatched(true);
  end
