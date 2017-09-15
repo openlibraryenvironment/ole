@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -88,9 +87,6 @@ public class CreateEHoldingsHandler extends Handler {
         Timestamp createdDate = getDateTimeStamp(createdDateString);
         String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
         holdingsRecord.setCreatedBy(createdBy);
-        if(createdDate.after(new Date())){
-            createdDate = new Timestamp(new Date().getTime());
-        }
         holdingsRecord.setCreatedDate(createdDate);
         holdingsRecord.setUpdatedDate(createdDate);
         if(holdingsRecord.getStaffOnlyFlag()==null){
