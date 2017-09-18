@@ -108,6 +108,9 @@
                                 <exclude>
                                     WEB-INF/lib/db-ojb-1.0.4-patch8.jar
                                 </exclude>
+                                <exclude>
+                                    org/kuali/rice/rice-web/WEB-INF/lib/db-ojb-1.0.4-patch8.jar
+                                </exclude>
                             </excludes>
                         </overlay>
                     </overlays>
