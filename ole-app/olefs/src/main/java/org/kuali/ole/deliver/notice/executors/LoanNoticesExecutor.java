@@ -49,7 +49,8 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         String mailContent = generateMailContent(loanDocuments);
         if(StringUtils.isNotBlank(mailContent) && !mailContent.contains("FreeMarker template error")) {
             if(!(this instanceof ClaimsReturnedNoticesExecutor)){
-                preProcess(loanDocuments);
+               preProcess(loanDocuments);
+               mailContent = generateMailContent(loanDocuments);
             }
             //4. Generate notices
             List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();

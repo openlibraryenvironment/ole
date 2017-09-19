@@ -1101,6 +1101,9 @@ public class CircController extends CheckoutValidationController {
                 getBusinessObjectService().deleteMatching(OLEDeliverNotice.class,map);
             }
         }
+        if(!lostNoticesExecutorService.isShutdown()) {
+            lostNoticesExecutorService.shutdown();
+        }
         return getUIFModelAndView(circForm);
     }
 
@@ -1112,11 +1115,6 @@ public class CircController extends CheckoutValidationController {
         String itemReplaceDescription = request.getParameter("itemReplaceDescription");
         List<OleLoanDocument> loanDocumentList = getSelectedLoanDocumentList(circForm);
         CheckinItemController checkinItemController = new CheckinItemController();
-        if(StringUtils.isNotBlank(request.getParameter("cancelRequest"))) {
-            circForm.setCancelRequest(request.getParameter("cancelRequest"));
-        }else{
-            circForm.setCancelRequest("false");
-        }
         if (loanDocumentList.size() > 0) {
             List<OleLoanDocument> loanDocuments = new ArrayList<>();
             for (OleLoanDocument oleLoanDocument : loanDocumentList) {
@@ -1172,6 +1170,19 @@ public class CircController extends CheckoutValidationController {
         return getUIFModelAndView(circForm);
     }
 
+
+    @RequestMapping(params = "methodToCall=showItemLostReplace")
+    public ModelAndView showItemLostReplace(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        if(StringUtils.isNotBlank(request.getParameter("cancelRequest"))) {
+            circForm.setCancelRequest(request.getParameter("cancelRequest"));
+        }else{
+            circForm.setCancelRequest("false");
+        }
+        showDialog("itemReplaceDialog", form, request, response);
+        return getUIFModelAndView(form);
+    }
 
     @RequestMapping(params = "methodToCall=checkForRequestExistsLostItemReplaceCopy")
     public ModelAndView checkForRequestExistsLostItemReplaceCopy(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,

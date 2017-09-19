@@ -15,6 +15,7 @@ import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.LostNoticesExecutor;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.constants.DocstoreConstants;
@@ -160,7 +161,7 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                     oleLoanDocument.setLastClaimsReturnedSearchedDate(new Timestamp(new Date().getTime()));
                     oleLoanDocument.setClaimsSearchCount(claimsSearchCount + 1);
                     if (isNotifyClaimsReturnedToPatron) {
-                        new CircUtilController().sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_NOTICE_CONTENT);
+                        new CircUtilController().sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_NOTICE_CONTENT,true);
                         oleLoanDocument.setNoOfClaimsReturnedNoticesSent(oleLoanDocument.getNoOfClaimsReturnedNoticesSent() + 1);
                     }
                     getBusinessObjectService().save(oleLoanDocument);
@@ -272,11 +273,14 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
             lostMap.put(OLEConstants.BILL_NOTE,OLEConstants.CLAIM_BILL_NOTE);
             Runnable deliverLostNoticesExecutor = new LostNoticesExecutor(lostMap);
             lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
+            if(!lostNoticesExecutorService.isShutdown()) {
+                lostNoticesExecutorService.shutdown();
+            }
         } else {
             getBusinessObjectService().save(oleLoanDocument);
         }
         if (isNotifyClaimsReturnedToPatron) {
-            circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT);
+            circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_CONTENT,true);
         }
     }
 
@@ -313,7 +317,7 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                 oleLoanDocument.setCheckInDate(new Timestamp(new Date().getTime()));
                 circUtilController.updateFees(oleLoanDocument, operatorId, Arrays.asList(OLEConstants.FEE_TYPE_CODE_REPL_FEE, OLEConstants.LOST_ITEM_PRCS_FEE), "Claimed item was forgiven by staff on ", false);
                 if (isNotifyClaimsReturnedToPatron) {
-                    circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT);
+                    circUtilController.sendClaimReturnedNotice(oleLoanDocument, OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE, OLEParameterConstants.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_TITLE, OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_NOT_FOUND_NO_FEES_NOTICE_CONTENT,true);
                 }
             }
         }
@@ -360,6 +364,8 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.HOLDINGS_CALL_NUMBER_PREFIX));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.HOLDINGS_COPY_NUMBER));
         searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.HOLDINGS_LOCATION_DISPLAY));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.TEMPORARY_ITEM_TYPE_FULL_VALUE_SEARCH));
+        searchResultFields.add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ITEM_TYPE_FULL_VALUE_DISPLAY));
         return searchResultFields;
     }
 
@@ -415,6 +421,12 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                             claimedReturnedItemResult.setTitle(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
                             claimedReturnedItemResult.setAuthor(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.TEMPORARY_ITEM_TYPE_FULL_VALUE_SEARCH)){
+                            claimedReturnedItemResult.setItemType(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ITEM_TYPE_FULL_VALUE_DISPLAY)){
+                            if(claimedReturnedItemResult.getItemType() == null || claimedReturnedItemResult.getItemType().isEmpty()){
+                                claimedReturnedItemResult.setItemType(searchResultField.getFieldValue());
+                            }
                         }
                     }
                 }
@@ -449,6 +461,13 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
             loanMap.put(OLEConstants.ITEM_UUID, itemIds);
             List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, loanMap);
             if (CollectionUtils.isNotEmpty(oleLoanDocuments) && CollectionUtils.isNotEmpty(claimedReturnedItemResults)) {
+                Map<String,String> itemTypeDescMap = new HashMap<String,String>();
+                List<OleInstanceItemType> instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findAll(OleInstanceItemType.class);
+                if (instanceItemTypeList != null && instanceItemTypeList.size() > 0) {
+                    for (OleInstanceItemType oleInstanceItemType : instanceItemTypeList) {
+                        itemTypeDescMap.put(oleInstanceItemType.getInstanceItemTypeName(),oleInstanceItemType.getInstanceItemTypeDesc());
+                    }
+                }
                 for (OleLoanDocument oleLoanDocument : oleLoanDocuments) {
                     for (OLEClaimedReturnedItemResult claimedReturnedItemResult : claimedReturnedItemResults) {
                         if (oleLoanDocument.getItemUuid().equalsIgnoreCase(claimedReturnedItemResult.getItemId())) {
@@ -460,6 +479,10 @@ public class OLEClaimedReturnedItemsController extends UifControllerBase {
                             oleLoanDocument.setChronology(claimedReturnedItemResult.getChronology());
                             oleLoanDocument.setItemCallNumber(claimedReturnedItemResult.getCallNumber());
                             oleLoanDocument.setItemCallNumberPrefix(claimedReturnedItemResult.getCallNumberPrefix());
+                            oleLoanDocument.setItemTypeName(claimedReturnedItemResult.getItemType());
+                            if(itemTypeDescMap.size() > 0){
+                                oleLoanDocument.setItemTypeDesc(itemTypeDescMap.get(oleLoanDocument.getItemTypeName()));
+                            }
                             claimedReturnedItemResult.setOleLoanDocument(oleLoanDocument);
                             claimedReturnedItemResultList.add(claimedReturnedItemResult);
                             break;

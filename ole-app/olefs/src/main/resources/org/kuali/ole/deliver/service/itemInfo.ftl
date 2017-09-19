@@ -14,16 +14,6 @@
                           <TD</TD>
                       </#if>
                   </TR>
-                <#break>
-              <#case "Title/Item Information">
-                  <TR>
-                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Title/Item Information")} :</TD>
-                      <#if oleNoticeBo.title ??>
-                          <TD>${oleNoticeBo.title}</TD>
-                      <#else>
-                          <TD</TD>
-                      </#if>
-                  </TR>
                   <#break>
               <#case "Author">
                   <TR>
@@ -105,9 +95,9 @@
                       </#if>
                   </TR>
                   <#break>
-              <#case "Library location">
+              <#case "Library Location">
                   <TR>
-                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library location")} :</TD>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Location")} :</TD>
                       <#if oleNoticeBo.itemLibrary ??>
                           <TD>${oleNoticeBo.itemLibrary}</TD>
                       <#else>
@@ -115,9 +105,9 @@
                       </#if>
                   </TR>
                   <#break>
-              <#case "Library Shelving location">
+              <#case "Library shelving location">
                   <TR>
-                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Shelving location")} :</TD>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library shelving location")} :</TD>
                       <#if oleNoticeBo.itemShelvingLocation ??>
                           <TD>${oleNoticeBo.itemShelvingLocation}</TD>
                       <#else>
@@ -153,6 +143,49 @@
                       <#else>
                           <TD</TD>
                       </#if>
+                  </TR>
+                  <#break>
+              <#case "Item Type">
+                  <TR>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Type")} :</TD>
+                      <#if oleNoticeBo.itemTypeDesc ??>
+                          <TD>${oleNoticeBo.itemTypeDesc}</TD>
+                      <#else>
+                          <TD</TD>
+                      </#if>
+                  </TR>
+                  <#break>
+              <#case "Bill Number">
+                  <TR>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Bill Number")} :</TD>
+                      <#if oleNoticeBo.billNumber ??  >
+                          <TD>${oleNoticeBo.billNumber}</TD>
+                      <#else>
+                          <TD></TD>
+                      </#if>
+
+                  </TR>
+                  <#break>
+              <#case "Fee Type">
+                  <TR>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Fee Type")} :</TD>
+                      <#if oleNoticeBo.feeType ??  >
+                          <TD>${oleNoticeBo.feeType}</TD>
+                      <#else>
+                          <TD></TD>
+                      </#if>
+
+                  </TR>
+                  <#break>
+              <#case "Fee Amount">
+                  <TR>
+                      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Fee Amount")} :</TD>
+                      <#if oleNoticeBo.feeAmount ??  >
+                          <TD>${oleNoticeBo.feeAmount}</TD>
+                      <#else>
+                          <TD></TD>
+                      </#if>
+
                   </TR>
                   <#break>
           </#switch>

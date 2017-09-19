@@ -38,7 +38,7 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
                         var report = "Job successfully completed.\nTotal time taken : " + totalTime;
                         $scope.batchProcessStatus = report;
                         clearInterval(interval);
-                    }else if(status === 'COMPLETED') {
+                    }else if(status === 'FAILED') {
                         $scope.batchProcessStatus = "Job failed.";
                         clearInterval(interval);
                     }

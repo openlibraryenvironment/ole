@@ -1,5 +1,4 @@
 <#import "itemInfo.ftl" as itemInfo >
-<#import "replacement-bill.ftl" as bill>
 
 <HTML>
 <#if oleNoticeBo.noticeTitle ??  >
@@ -113,10 +112,6 @@
 
 <#list oleNoticeBos as oleNoticeBo>
     <#if oleNoticeContentConfigurationBo??>
-        <#if oleNoticeBo.noticeType == "Lost">
-            <@bill.bill oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@bill.bill>
-        </#if>
-        <br/>
         <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
     </#if>
 <#if oleNoticeBo_has_next>

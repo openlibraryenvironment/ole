@@ -14,6 +14,7 @@ import org.kuali.ole.deliver.notice.service.OleNoticeService;
 import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -195,12 +196,15 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                 (oleDeliverRequestBo.getHoldExpirationDate()!=null && oldDeliverRequestBo.getHoldExpirationDate()!=null && oleDeliverRequestBo.getHoldExpirationDate().compareTo(oldDeliverRequestBo.getHoldExpirationDate())!=0)
                 ){
                  if(oleDeliverRequestBo.getDeliverNotices()!=null){
-                for(OLEDeliverNotice oleDeliverNotice:oleDeliverRequestBo.getDeliverNotices()){
-                if(oleDeliverNotice.getNoticeType().equals(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
-                oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(oleDeliverRequestBo.getHoldExpirationDate().getTime()));
-                    break;
+                    for(OLEDeliverNotice oleDeliverNotice:oleDeliverRequestBo.getDeliverNotices()){
+                        if(oleDeliverNotice.getNoticeType().equals(OLEConstants.ONHOLD_EXPIRATION_NOTICE)){
+                            oleDeliverNotice.setNoticeToBeSendDate(new Timestamp(oleDeliverRequestBo.getHoldExpirationDate().getTime()));
+                        }else if(oleDeliverNotice.getNoticeType().equals(OLEConstants.ONHOLD_COURTESY_NOTICE)){
+                            int noOfDaysBefore  = Integer.parseInt(ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
+                                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.OleDeliverRequest.ONHOLD_COURTESY_NOTICE_INTERVAL));
+                            oleDeliverNotice.setNoticeToBeSendDate(new Timestamp((oleDeliverRequestBo.getHoldExpirationDate().getTime() - (noOfDaysBefore* 24 * 3600 * 1000l))));
+                        }
                     }
-                }
                 }
             }
         return processed;

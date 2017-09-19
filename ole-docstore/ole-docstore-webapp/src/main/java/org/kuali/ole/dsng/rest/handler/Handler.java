@@ -52,11 +52,7 @@ public abstract class Handler extends OleDsHelperUtil {
                     timeStamp = new Timestamp(parse.getTime());
                 }
             } catch (Exception e) {
-                try {
-                    return new Timestamp(DocstoreConstants.DOCSTORE_DATE_FORMAT.parse(updatedDateString).getTime());
-                }catch (Exception ex){
-                    LOG.error(ex.getMessage());
-                }
+                LOG.error(e.getMessage());
             }
         }
         return timeStamp;

@@ -68,11 +68,10 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    public  void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
         if (isNotifyClaimsReturnedToPatron() && StringUtils.isNotBlank(mailContent)) {
-            return super.saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
+            super.saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
         }
-        return null;
     }
 
     @Override
@@ -153,7 +152,8 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
         SimpleDateFormat df1 = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         noticeHtmlContent.append("<b>Total Items</b> :" + oleLoanDocuments.size()+ "\n<br/>");
         noticeHtmlContent.append("<b>Date</b> :" + df2.format(System.currentTimeMillis())+ "\n<br/>");
-        noticeHtmlContent.append("<b>Time</b> :" + df1.format(System.currentTimeMillis())+ "\n<br/>");
+        noticeHtmlContent.append("<b>Time</b> :" + df1.format(System.currentTimeMillis())+ "\n<br/><br/>");
+        noticeHtmlContent.append("<p>" +oleNoticeContentConfigurationBo.getNoticeFooterBody() + "</p>");
         noticeHtmlContent.append("</BODY>");
         noticeHtmlContent.append("</HTML>");
         return noticeHtmlContent.toString();

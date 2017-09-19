@@ -87,11 +87,10 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    public void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
         if (isNotifyClaimsReturnedToPatron() && StringUtils.isNotBlank(mailContent)) {
-            return super.saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
+            super.saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
         }
-        return null;
     }
 
     @Override
@@ -118,7 +117,9 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String, String> noticeConfigurationMap = new HashMap<String, String>();
         noticeConfigurationMap.put("noticeType", getNoticeType());
-        noticeConfigurationMap.put("noticeName", noticeContentConfigName);
+        if(noticeContentConfigName != null){
+            noticeConfigurationMap.put("noticeName", noticeContentConfigName);
+        }
         oleNoticeContentConfigurationBoList = (List<OleNoticeContentConfigurationBo>) getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class, noticeConfigurationMap);
         if (oleNoticeContentConfigurationBoList != null && oleNoticeContentConfigurationBoList.size() > 0) {
             oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
@@ -126,7 +127,7 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
             oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
             oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
             oleNoticeContentConfigurationBo.setNoticeBody(getBody());
-         oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(getNoticeType()));
+            oleNoticeContentConfigurationBo.setNoticeSubjectLine(new OleNoticeServiceImpl().getNoticeSubjectForNoticeType(getNoticeType()));
             oleNoticeContentConfigurationBo.setNoticeFooterBody("");
             oleNoticeContentConfigurationBo.setNoticeType(getNoticeType());
         }

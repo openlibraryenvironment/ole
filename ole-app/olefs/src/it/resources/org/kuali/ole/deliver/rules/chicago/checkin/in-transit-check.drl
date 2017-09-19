@@ -1,4 +1,5 @@
-package org.kuali.ole.deliver.rules.demo.checkin
+package org.kuali.ole.deliver.checkin
+
 
 
 import org.kuali.ole.deliver.bo.OleLoanDocument
@@ -79,11 +80,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
-$i.updateCheckinCount();
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);
- end
-
-
-
+end

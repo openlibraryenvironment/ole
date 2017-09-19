@@ -9,47 +9,26 @@ import org.kuali.ole.deliver.drools.DroolsConstants
 import org.kuali.ole.deliver.bo.PatronBillPayment
 
 
-rule "Requested Items daily fines"
-agenda-group "fine validation"
-activation-group "fine validation"
-when
-
-$l: OleLoanDocument(isItemHasRequest())
-
-$f: ItemFineRate()
-
-$i: OleItemRecordForCirc(getItemType() in ("res168","stks7","buo","bordirc","stks14","stks"),
-getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
-
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
-                                                 "QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
-
-then
-$f.setFineRate(5.00);
-$f.setMaxFine(120.00);
-$f.setInterval("D"); //Options are H-Hours; D-Days
-
- end
-
 
 rule "Items daily fines"
 agenda-group "fine validation"
 activation-group "fine validation"
 when
 
- $l: OleLoanDocument(!isItemHasRequest())
+$l: OleLoanDocument($r:getOleDeliverRequestBo(), null == $r)
 
 $f: ItemFineRate()
 
-$i: OleItemRecordForCirc(getItemType() in ("res168","stks7","buo","bordirc","stks14","stks"),
+$i: OleItemRecordForCirc(getItemType() in ("res168","stks7","buo","bordirc","stks14","illbuo","ill7day","ill7dayrenew","ill21day","ill21dayrenew","ill42day","ill42dayrenew","ill77day","ill77dayrenew"),
 getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
 
- $p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
-                                                 "QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
 
 then
-$f.setFineRate(3.00);
-$f.setMaxFine(120.00);
+$f.setFineRate(5.00);
+$f.setMaxFine(100.00);
 $f.setInterval("D"); //Options are H-Hours; D-Days
 
  end
+

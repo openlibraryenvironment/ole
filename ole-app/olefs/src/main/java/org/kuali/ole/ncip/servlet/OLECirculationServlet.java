@@ -56,8 +56,7 @@ public class OLECirculationServlet extends HttpServlet {
                     case OLENCIPConstants.PLACEREQUEST_SERVICE:
                         if(parameterMap.containsKey(OLENCIPConstants.PATRON_BARCODE) &&
                                 parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID) &&
-                                parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE) &&
-                                parameterMap.containsKey(OLENCIPConstants.REQUEST_TYPE)){
+                                parameterMap.containsKey(OLENCIPConstants.REQUEST_TYPE) && parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE) || parameterMap.containsKey(OLENCIPConstants.ITEM_ID)){
                             int size=5;
                             if(parameterMap.containsKey(OLENCIPConstants.FORMAT)){
                                 size++;
@@ -79,7 +78,15 @@ public class OLECirculationServlet extends HttpServlet {
                                 if(parameterMap.containsKey(OLENCIPConstants.REQUEST_NOTE)) {
                                     requestNote = parameterMap.get(OLENCIPConstants.REQUEST_NOTE)[0];
                                 }
-                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,"Item Level",null, requestNote);
+                                String itemId = null;
+                                if(parameterMap.containsKey(OLENCIPConstants.ITEM_ID)) {
+                                    itemId = parameterMap.get(OLENCIPConstants.ITEM_ID)[0];
+                                }
+                                String itemBarcode = null;
+                                if(parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)) {
+                                    itemBarcode = parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0];
+                                }
+                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],itemBarcode,itemId,parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,"Item Level",null, requestNote);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLEPlaceRequestConverter().generatePlaceRequestJson(responseString);
                                 }

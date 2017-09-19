@@ -631,11 +631,9 @@ public abstract class CheckoutBaseController extends CircUtilController {
             for (Iterator<OleDeliverRequestBo> iterator = matching.iterator(); iterator.hasNext(); ) {
                 OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
                 OlePatronDocument olePatronDocument = oleDeliverRequestBo.getOlePatron();
-                if(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.RECALL)){
-                    if(null != olePatronDocument && null != currentBorrower && StringUtils.isNotBlank(currentBorrower.getOlePatronId()) &&
+                if(null != olePatronDocument && null != currentBorrower && StringUtils.isNotBlank(currentBorrower.getOlePatronId()) &&
                             !(currentBorrower.getOlePatronId().equals(olePatronDocument.getOlePatronId()))) {
                         return true;
-                    }
                 }
             }
         }

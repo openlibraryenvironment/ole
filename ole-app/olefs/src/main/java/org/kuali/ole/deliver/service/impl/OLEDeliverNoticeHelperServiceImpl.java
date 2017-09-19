@@ -367,7 +367,7 @@ public class OLEDeliverNoticeHelperServiceImpl implements OLEDeliverNoticeHelper
         Long startTime = System.currentTimeMillis();
         List<OleLoanDocument> oleLoanDocuments = getOleLoanDocumentDaoOjb().getUnprocessedOverdueLoanDocuments();
         try {
-            oleLoanDocuments = getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocuments);
+            oleLoanDocuments = getOleDeliverRequestDocumentHelperService().getLoanDocumentWithItemInfo(oleLoanDocuments,Boolean.FALSE.toString());
         } catch (Exception e) {
           LOG.info("Exception occured while setting the item info " + e.getMessage());
             LOG.error(e,e);

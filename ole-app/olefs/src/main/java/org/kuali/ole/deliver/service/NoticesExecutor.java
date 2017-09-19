@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.asr.service.ASRHelperServiceImpl;
@@ -25,6 +26,9 @@ import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
 import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -49,6 +53,7 @@ public abstract class NoticesExecutor implements Runnable {
     private DocstoreClientLocator docstoreClientLocator;
     private DocstoreUtil docstoreUtil;
     private NoticeUtil noticeUtil;
+    private Map<String,String> itemTypeMap;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -125,22 +130,59 @@ public abstract class NoticesExecutor implements Runnable {
         getBusinessObjectService().delete(oleDeliverNotices);
     }
 
-    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    public void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
         List<OLEDeliverNoticeHistory> oleDeliverNoticeHistoryList = new ArrayList<OLEDeliverNoticeHistory>();
-        for (OLEDeliverNotice oleDeliverNotice : oleDeliverNotices) {
-            OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
-            oleDeliverNoticeHistory.setLoanId(oleDeliverNotice.getLoanId());
-            oleDeliverNoticeHistory.setNoticeType(oleDeliverNotice.getNoticeType());
-            oleDeliverNoticeHistory.setNoticeSentDate(new Timestamp(new Date().getTime()));
-            oleDeliverNoticeHistory.setPatronId(oleDeliverNotice.getPatronId());
-            oleDeliverNoticeHistory.setNoticeSendType(oleDeliverNotice.getNoticeSendType());
-            oleDeliverNoticeHistory.setNoticeContent(mailContent.getBytes());
-            oleDeliverNoticeHistory.setRequestId(oleDeliverNotice.getRequestId());
-            oleDeliverNoticeHistoryList.add(oleDeliverNoticeHistory);
-        }
-        getBusinessObjectService().save(oleDeliverNoticeHistoryList);
+        String numberOfRecords = getParameter(OLEConstants.NUMBER_OF_ITEM_INFO);
+        List<List<OLEDeliverNotice>> slicedList = (List<List<OLEDeliverNotice>>) splitListToSubList(oleDeliverNotices, Integer.valueOf(numberOfRecords).intValue());
+        for (List<OLEDeliverNotice> oleDeliverNoticeList : slicedList) {
+            for (OLEDeliverNotice oleDeliverNotice : oleDeliverNoticeList) {
+                OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
+                oleDeliverNoticeHistory.setLoanId(oleDeliverNotice.getLoanId());
+                oleDeliverNoticeHistory.setNoticeType(oleDeliverNotice.getNoticeType());
+                oleDeliverNoticeHistory.setNoticeSentDate(new Timestamp(new Date().getTime()));
+                oleDeliverNoticeHistory.setPatronId(oleDeliverNotice.getPatronId());
+                oleDeliverNoticeHistory.setNoticeSendType(oleDeliverNotice.getNoticeSendType());
+                oleDeliverNoticeHistory.setNoticeContent(mailContent.getBytes());
+                oleDeliverNoticeHistory.setRequestId(oleDeliverNotice.getRequestId());
+                oleDeliverNoticeHistoryList.add(oleDeliverNoticeHistory);
+            }
+            getBusinessObjectService().save(oleDeliverNoticeHistoryList);
+            oleDeliverNoticeHistoryList.clear();
+      }
+    }
 
-        return oleDeliverNoticeHistoryList;
+    public String getParameter(String name) {
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        if(parameter==null){
+            parameterKey = ParameterKey.create(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+            parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        }
+        return parameter!=null?parameter.getValue():"50";
+    }
+
+
+    public List splitListToSubList(List<OLEDeliverNotice> parentList, int childListSize) {
+        List<List<OLEDeliverNotice>> childList = new ArrayList<List<OLEDeliverNotice>>();
+        List<OLEDeliverNotice> tempList = new ArrayList<OLEDeliverNotice>();
+        int count = 0;
+        if (parentList != null) {
+            for (OLEDeliverNotice obj : parentList) {
+                if (count < childListSize) {
+                    count = count + 1;
+                    tempList.add(obj);
+                } else {
+                    childList.add(tempList);
+                    tempList = new ArrayList<OLEDeliverNotice>();
+                    tempList.add(obj);
+                    count = 1;
+                }
+            }
+            if (tempList.size() <= childListSize) {
+                childList.add(tempList);
+            }
+        }
+        return childList;
     }
 
     public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
@@ -197,6 +239,18 @@ public abstract class NoticesExecutor implements Runnable {
         return itemTypeCode;
     }
 
+    public Map<String,String> getItemTypeNameAndDesc(){;
+
+        List<OleInstanceItemType> instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findAll(OleInstanceItemType.class);
+        if(CollectionUtils.isNotEmpty(instanceItemTypeList) && instanceItemTypeList.size() > 0){
+            itemTypeMap = new HashMap<String,String>();
+            for(OleInstanceItemType instanceItemType : instanceItemTypeList)
+            itemTypeMap.put(instanceItemType.getInstanceItemTypeName(),instanceItemType.getInstanceItemTypeDesc());
+        }
+
+        return itemTypeMap;
+    }
+
     public Timestamp getSendToDate(String noticeToDate) {
         String lostNoticeToDate;
         lostNoticeToDate = getParameterResolverInstance().getParameter(OLEConstants
@@ -229,6 +283,8 @@ public abstract class NoticesExecutor implements Runnable {
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Author_display"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"CallNumberPrefix_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"TemporaryItemTypeFullValue_search"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"ItemTypeFullValue_display"));
                 searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
                 for (SearchResult searchResult : searchResponse.getSearchResults()) {
                     for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
@@ -244,6 +300,13 @@ public abstract class NoticesExecutor implements Runnable {
                             oleDeliverRequestBo.setItemUuid(fieldValue);
                         }else  if (searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display") &&!fieldValue.isEmpty()){
                             oleDeliverRequestBo.setCallNumberPrefix(fieldValue);
+                        }else if (searchResultField.getFieldName().equalsIgnoreCase("TemporaryItemTypeFullValue_search")) {
+                            oleDeliverRequestBo.setItemTypeName(searchResultField.getFieldValue());
+                            oleDeliverRequestBo.setItemTypeDesc(itemTypeMap.get(oleDeliverRequestBo.getItemTypeName()));
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display") &&
+                                (oleDeliverRequestBo.getItemTypeName() == null || oleDeliverRequestBo.getItemTypeName().isEmpty())) {
+                            oleDeliverRequestBo.setItemTypeName(searchResultField.getFieldValue());
+                            oleDeliverRequestBo.setItemTypeDesc(itemTypeMap.get(oleDeliverRequestBo.getItemTypeName()));
                         }
                     }
                 }

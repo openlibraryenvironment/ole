@@ -258,7 +258,7 @@ public class BatchExportUtil extends BatchUtil {
             batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(bibLocalIds.size()));
             updateBatchJob(batchProcessTxObject.getBatchJobDetails());
             removeDuplicates(bibLocalIds, oleNGBatchExportResponse);
-            return getSolrQueryForLocalIds(bibLocalIds);
+            return getLocalIds(bibLocalIds);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -285,15 +285,38 @@ public class BatchExportUtil extends BatchUtil {
         return queryList;
     }
 
+    public List<String> getLocalIds(List<String> bibLocalIds) {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<String> queryList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(bibLocalIds)) {
+            for (int i = 0; i < bibLocalIds.size(); i++) {
+                stringBuilder.append(bibLocalIds.get(i));
+                if( (i+1) % 10000==0  || i == bibLocalIds.size() - 1){
+                    queryList.add(stringBuilder.toString());
+                    stringBuilder.setLength(0);
+                }else{
+                    stringBuilder.append(",");
+                }
+            }
+        }
+        return queryList;
+    }
+
     public void removeDuplicates(List<String> bibLocalIds, OleNGBatchExportResponse oleNGBatchExportResponse) {
         List<String> bibLocalIdData = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(bibLocalIds)) {
             for (String bibLocalId : bibLocalIds) {
-                if (StringUtils.isNotEmpty(bibLocalId) && !bibLocalIdData.contains(bibLocalId)) {
-                    bibLocalIdData.add( DocumentUniqueIDPrefix.getDocumentId(bibLocalId));
-                } else {
+                bibLocalId=bibLocalId.trim();
+                if(StringUtils.isNumeric(bibLocalId)) {
+                    if (StringUtils.isNotEmpty(bibLocalId) && !bibLocalIdData.contains(bibLocalId)) {
+                        bibLocalIdData.add(DocumentUniqueIDPrefix.getDocumentId(bibLocalId));
+                    } else {
+                        oleNGBatchExportResponse.addNoOfFailureRecords(1);
+                        oleNGBatchExportResponse.addFailureRecord(bibLocalId, bibLocalId, OleNGConstants.ERR_DUPLICATE_LOCAL_ID);
+                    }
+                } else{
                     oleNGBatchExportResponse.addNoOfFailureRecords(1);
-                    oleNGBatchExportResponse.addFailureRecord(bibLocalId, bibLocalId, OleNGConstants.ERR_DUPLICATE_LOCAL_ID);
+                    oleNGBatchExportResponse.addFailureRecord(bibLocalId, bibLocalId, OleNGConstants.ERR_NON_NUMERIC_VALUE);
                 }
             }
         }

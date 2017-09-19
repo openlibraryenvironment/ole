@@ -357,7 +357,7 @@
         <property name="name" value="corporateAuthor"/>
         <property name="label" value="Author"/>
         <property name="shortLabel" value="Author"/>
-        <property name="maxLength" value="100"/>
+        <property name="maxLength" value="4000"/>
         <property name="control">
             <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
         </property>

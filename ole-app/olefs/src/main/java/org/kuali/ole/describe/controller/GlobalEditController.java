@@ -1,5 +1,6 @@
 package org.kuali.ole.describe.controller;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -280,37 +281,42 @@ public class GlobalEditController extends OLESearchController {
             SearchParams searchParams = null;
             List<SearchCondition> searchConditions = null;
             String docType = globalEditForm.getDocType();
-            searchConditions = new ArrayList<>();
-            searchParams = new SearchParams();
-            for (String id : inputData) {
-                if (StringUtils.isNotEmpty(id)) {
-                    if (globalEditForm.getFieldType().equalsIgnoreCase("Barcode")) {
-                        if (DocType.HOLDINGS.getCode().equals(globalEditForm.getDocType())) {
-                            searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField("item", "ItemBarcode_display", id), "OR"));
+            List<List<String>> partition = Lists.partition(inputData, 100);
+            for (Iterator<List<String>> iterator = partition.iterator(); iterator.hasNext(); ) {
+                List<String> idLists = iterator.next();
+                searchConditions = new ArrayList<>();
+                searchParams = new SearchParams();
+                for (String id : idLists) {
+                    if (StringUtils.isNotEmpty(id)) {
+                        if (globalEditForm.getFieldType().equalsIgnoreCase("Barcode")) {
+                            if (DocType.HOLDINGS.getCode().equals(globalEditForm.getDocType())) {
+                                searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField("item", "ItemBarcode_display", id), "OR"));
+                            } else {
+                                searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField(docType, "ItemBarcode_display", id), "OR"));
+                            }
                         } else {
-                            searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField(docType, "ItemBarcode_display", id), "OR"));
+                            searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField(globalEditForm.getDocType(), "LocalId_display", id), "OR"));
                         }
-                    } else {
-                        searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField(globalEditForm.getDocType(), "LocalId_display", id), "OR"));
                     }
                 }
-            }
-            if (globalEditForm.getFieldType() != null && globalEditForm.getFieldType().equalsIgnoreCase("Barcode") && DocType.HOLDINGS.getCode().equals(globalEditForm.getDocType())) {
-                searchParams.getSearchConditions().addAll(searchConditions);
-                searchResultDisplayRows = getSearchResults(searchParams, globalEditForm);
-                Set<String> holdingsIdList = new HashSet();
-                for (SearchResultDisplayRow searchResultDisplayRow : searchResultDisplayRows) {
-                    holdingsIdList.add(searchResultDisplayRow.getHoldingsIdentifier());
+                if (globalEditForm.getFieldType() != null && globalEditForm.getFieldType().equalsIgnoreCase("Barcode") && DocType.HOLDINGS.getCode().equals(globalEditForm.getDocType())) {
+                    searchParams.getSearchConditions().addAll(searchConditions);
+                    searchResultDisplayRows.addAll(getSearchResults(searchParams, globalEditForm));
+                    Set<String> holdingsIdList = new HashSet();
+                    for (SearchResultDisplayRow searchResultDisplayRow : searchResultDisplayRows) {
+                        holdingsIdList.add(searchResultDisplayRow.getHoldingsIdentifier());
+                    }
+                    for (String id : holdingsIdList) {
+                        searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField(docType, "LocalId_display", id), "OR"));
+                    }
+                    searchParams.getSearchConditions().addAll(searchConditions);
+                    searchResultDisplayRows.addAll(getSearchResults(searchParams, globalEditForm));
                 }
-                for (String id : holdingsIdList) {
-                    searchConditions.add(searchParams.buildSearchCondition("NONE", searchParams.buildSearchField(docType, "LocalId_display", id), "OR"));
-                }
-                searchParams.getSearchConditions().addAll(searchConditions);
-                searchResultDisplayRows = getSearchResults(searchParams, globalEditForm);
-            }
 
-            searchParams.getSearchConditions().addAll(searchConditions);
-            searchResultDisplayRows = getSearchResults(searchParams, globalEditForm);
+                searchParams.getSearchConditions().addAll(searchConditions);
+                searchResultDisplayRows.addAll(getSearchResults(searchParams, globalEditForm));
+            }
+            globalEditForm.setTotalRecordCount(searchResultDisplayRows.size());
         }
         List<String> listFromDB = new ArrayList<>();
         //List<String> matchedList = new ArrayList<>();

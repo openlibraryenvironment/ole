@@ -22,6 +22,7 @@ public class NoticeSolrInputDocumentGenerator {
         solrInputDocument.addField("patronBarcode", parameterMap.get("patronBarcode"));
         solrInputDocument.addField("dateSent", parameterMap.get("dateSent"));
         solrInputDocument.addField("uniqueId", parameterMap.get("uniqueId"));
+        solrInputDocument.addField("id", parameterMap.get("uniqueId"));
 
         List<String> itemBarcodes = (List<String>) parameterMap.get("itemBarcodes");
         for (Iterator<String> iterator = itemBarcodes.iterator(); iterator.hasNext(); ) {

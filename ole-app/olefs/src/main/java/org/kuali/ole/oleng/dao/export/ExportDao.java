@@ -65,6 +65,7 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
             int fileSize = batchProcessTxObject.getBatchJobDetails().getNumOfRecordsInFile();
             int numOfRecordsInFile = 0;
             List<String> bibIds = new ArrayList<>();
+            List<BatchProfileFilterCriteria> filterCriteriaList = batchProcessTxObject.getBatchProcessProfile().getBatchProfileFilterCriteriaList();
 
             if(batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.INCREMENTAL_EXCEPT_STAFF_ONLY) ||
                     batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY) ||
@@ -75,9 +76,20 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                     totalCount=bibIds.size();
                 }
             }else{
-                SolrDocumentList solrDocumentList= batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(
-                         query, null, null, OleNGConstants.BIB_IDENTIFIER);
-                totalCount = solrDocumentList.getNumFound();
+                if (CollectionUtils.isNotEmpty(filterCriteriaList)) {
+                    if (filterCriteriaList.get(0).getFieldName().equalsIgnoreCase("Bib Local Id From File")) {
+                        bibIds = Arrays.asList(query.split(","));
+                        totalCount = bibIds.size();
+                    } else{
+                        SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(
+                                query, null, null, OleNGConstants.BIB_IDENTIFIER);
+                        totalCount = solrDocumentList.getNumFound();
+                    }
+                } else {
+                    SolrDocumentList solrDocumentList = batchExportHandler.getSolrRequestReponseHandler().getSolrDocumentList(
+                            query, null, null, OleNGConstants.BIB_IDENTIFIER);
+                    totalCount = solrDocumentList.getNumFound();
+                }
             }
 
 
@@ -92,7 +104,6 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                 }
             }
             LOG.info("Total Bibs for export >>> " + totalCount);
-            List<BatchProfileFilterCriteria> filterCriteriaList = batchProcessTxObject.getBatchProcessProfile().getBatchProfileFilterCriteriaList();
             if (CollectionUtils.isNotEmpty(filterCriteriaList)) {
                 if (!filterCriteriaList.get(0).getFieldName().equalsIgnoreCase("Bib Local Id From File")) {
                     batchProcessTxObject.getBatchJobDetails().setTotalRecords(String.valueOf(totalCount));
@@ -118,16 +129,44 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                 }
             } else if(!batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXCEPT_STAFF_ONLY) &&
                     !batchProcessTxObject.getBatchProcessProfile().getExportScope().equalsIgnoreCase(OleNGConstants.FULL_EXPORT)){
-                do {
-                    futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
-                            start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject,bibIds)));
-                    numOfRecordsInFile += chunkSize;
-                    if (numOfRecordsInFile == fileSize) {
-                        fileCount++;
-                        numOfRecordsInFile = 0;
+                if (CollectionUtils.isNotEmpty(filterCriteriaList)) {
+                    if (filterCriteriaList.get(0).getFieldName().equalsIgnoreCase("Bib Local Id From File")) {
+                        List<List<String>> partition = Lists.partition(bibIds, chunkSize);
+                        for (Iterator<List<String>> iterator = partition.iterator(); iterator.hasNext(); ) {
+                            List<String> bibIdLists = iterator.next();
+                            futures.add(executorService.submit(new IncrementalExportCallableImpl(commonFields, getJdbcTemplate(), bibIdLists,
+                                    fileCount, batchExportHandler, batchProcessTxObject)));
+                            numOfRecordsInFile += chunkSize;
+                            if (numOfRecordsInFile >= fileSize) {
+                                fileCount++;
+                                numOfRecordsInFile = 0;
+                            }
+                        }
+                    } else{
+                        do {
+                            futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
+                                    start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject,bibIds)));
+                            numOfRecordsInFile += chunkSize;
+                            if (numOfRecordsInFile == fileSize) {
+                                fileCount++;
+                                numOfRecordsInFile = 0;
+                            }
+                            start += chunkSize;
+                        } while (start < totalCount);
+
                     }
-                    start += chunkSize;
-                } while (start < totalCount);
+                } else {
+                    do {
+                        futures.add(executorService.submit(new ExportDaoCallableImpl(commonFields, getJdbcTemplate(), query,
+                                start, chunkSize, fileCount, batchExportHandler, batchProcessTxObject, bibIds)));
+                        numOfRecordsInFile += chunkSize;
+                        if (numOfRecordsInFile == fileSize) {
+                            fileCount++;
+                            numOfRecordsInFile = 0;
+                        }
+                        start += chunkSize;
+                    } while (start < totalCount);
+                }
             } else{
                 List<String> bibIdPartitionList=new ArrayList<>();
                do {
@@ -177,6 +216,9 @@ public class ExportDao extends PlatformAwareDaoBaseJdbc {
                 e.printStackTrace();
                 batchExportHandler.addBatchExportFailureResponseToExchange(e, null, batchProcessTxObject.getExchangeObjectForBatchExport());
             }
+        }
+        if(!executorService.isShutdown()) {
+            executorService.shutdown();
         }
         return new ArrayList<String>(bibIdentifiers);
     }

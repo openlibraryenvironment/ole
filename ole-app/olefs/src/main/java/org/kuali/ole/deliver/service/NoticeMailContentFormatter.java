@@ -113,6 +113,7 @@ public abstract class NoticeMailContentFormatter {
         oleNoticeBo.setVolumeNumber((oleLoanDocument.getItemVolumeNumber() != null ? oleLoanDocument.getAuthor() : ""));
         oleNoticeBo.setItemCallNumber(oleLoanDocument.getItemCallNumber() != null ? oleLoanDocument.getItemCallNumber() : "");
         oleNoticeBo.setItemCallNumberPrefix(oleLoanDocument.getItemCallNumberPrefix()!=null ? oleLoanDocument.getItemCallNumberPrefix() : "");
+        oleNoticeBo.setItemTypeDesc(oleLoanDocument.getItemTypeDesc() != null ? oleLoanDocument.getItemTypeDesc() : "");
         oleNoticeBo.setCopyNumber(oleLoanDocument.getItemCopyNumber() != null ? oleLoanDocument.getItemCopyNumber() : "");
         oleNoticeBo.setDueDateString(oleLoanDocument.getLoanDueDate() != null ? (oleLoanDocument.getLoanDueDate().toString() != null ? oleLoanDocument.getLoanDueDate().toString() : "") : "");
         oleNoticeBo.setItemId(oleLoanDocument.getItemId() != null ? oleLoanDocument.getItemId() : "");
@@ -226,7 +227,9 @@ public abstract class NoticeMailContentFormatter {
 
         for (Iterator<File> iterator = templateFiles.iterator(); iterator.hasNext(); ) {
             File noticeTemplate = iterator.next();
-            FileUtils.copyFileToDirectory(noticeTemplate, destinationDirectory);
+            if(destinationDirectory.isDirectory()) {
+                FileUtils.copyFileToDirectory(noticeTemplate, destinationDirectory);
+            }
         }
 
         noticeTemplateDir = destinationDirectory;
@@ -265,7 +268,6 @@ public abstract class NoticeMailContentFormatter {
 
         fileNames.add("notice.ftl");
         fileNames.add("itemInfo.ftl");
-        fileNames.add("replacement-bill.ftl");
 
         return fileNames;
     }

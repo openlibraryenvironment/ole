@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.rules.chicago.notices
+package org.kuali.ole.deliver.checkout
 
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.util.NoticeInfo
@@ -9,17 +9,21 @@ import org.kuali.ole.deliver.drools.DroolsConstants;
 
 rule "Courtsey Notice Policy Set ITS ADP"
 agenda-group "notice generation"
-activation-group "notice generation"
+
 when
-$n: NoticeInfo(getNoticeType() == DroolsConstants.ITS_ADP_LOANS_NOTICE_CONFIG)
+$n: NoticeInfo(getNoticeType() == "ITS_ADP")
 $i: ItemRecord(getDueDateTime()!= null)
 then
+
+$n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.NUMBER_OF_COURTESY_NOTICES_TO_BE_SENT, "1");
 $n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "1");
 $n.addInfo(OLEConstants.COURTESY_NOTICE, OLEConstants.COURTESY_NOTICE_CONTENT_CONFIG_NAME,"Courtesy Notice");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "6");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "2");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, OLEConstants.OVERDUE_NOTICE_CONTENT_CONFIG_NAME,"Overdue Notice");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "2");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "1,2,3");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE, OLEConstants.OVERDUE_NOTICE_CONTENT_CONFIG_NAME,"overdue-notice-short");
+
 $n.addInfo(OLEConstants.LOST_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "90");
-$n.addInfo(OLEConstants.LOST_NOTICE, DroolsConstants.LOST_ITEM_PROCESSING_FEE_AMT, "75");
-$n.addInfo(OLEConstants.LOST_NOTICE, OLEConstants.LOST_NOTICE_CONTENT_CONFIG_NAME,"Lost Notice");
+$n.addInfo(OLEConstants.LOST_NOTICE, OLEConstants.LOST_NOTICE_CONTENT_CONFIG_NAME,"lost-notice");
+$n.setIntervalType("D");
  end
+

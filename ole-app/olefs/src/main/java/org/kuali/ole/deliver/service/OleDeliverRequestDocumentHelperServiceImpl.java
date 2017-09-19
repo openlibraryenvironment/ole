@@ -1461,6 +1461,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     public OleDeliverRequestBo generateRecallNotice(OleDeliverRequestBo oleDeliverRequestBo) throws Exception {
         RequestEmailContentFormatter requestEmailContentFormatter = new RecallRequestEmailContentFormatter();
+        setItemInformations(oleDeliverRequestBo);
         List<OleDeliverRequestBo> oleDeliverRequestBos = new ArrayList<>();
         oleDeliverRequestBos.add(oleDeliverRequestBo);
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = getOleNoticeContentConfigurationBo(oleDeliverRequestBo.getRecallNoticeContentConfigName());
@@ -1580,6 +1581,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
             }
         }
+        if(!onHoldNoticesExecutorService.isShutdown()) {
+            onHoldNoticesExecutorService.shutdown();
+        }
     }
 
 
@@ -1614,6 +1618,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(requestMap);
                 onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
             }
+        }
+        if(!onHoldNoticesExecutorService.isShutdown()) {
+            onHoldNoticesExecutorService.shutdown();
         }
     } 
     private void generateNoticesBasedOnNoticeType(List<OleNoticeBo> noticesList, String noticeName, String replyToEmail) throws Exception {
@@ -1695,6 +1702,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Runnable requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(requestMap);
                 requestExpirationNoticesExecutorService.execute(requestExpirationNoticesExecutor);
             }
+        }
+        if(!requestExpirationNoticesExecutorService.isShutdown()) {
+            requestExpirationNoticesExecutorService.shutdown();
         }
     }
 
@@ -1865,7 +1875,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(lostNoticeToDate, OLEConstants.NOTICE_LOST);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
-            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
+            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments,Boolean.FALSE.toString());
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             String threadPoolSizeValue =ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1895,6 +1905,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     lostNoticesExecutorService.execute(deliverLostNoticesExecutor);
                 }
             }
+            if(!lostNoticesExecutorService.isShutdown()) {
+                lostNoticesExecutorService.shutdown();
+            }
         }
     }
 
@@ -1907,7 +1920,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(courtesyNoticeToDate, OLEConstants.COURTESY_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
-            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
+            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments,Boolean.FALSE.toString());
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1938,6 +1951,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
 
             }
+            if(!courtesyNoticesExecutorService.isShutdown()) {
+                courtesyNoticesExecutorService.shutdown();
+            }
         }
     }
 
@@ -1949,7 +1965,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForNoticesByNoticeType(overdueNoticeToDate, OLEConstants.OVERDUE_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
-            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
+            List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments,Boolean.FALSE.toString());
             int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                     .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1979,6 +1995,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
                 }
 
+            }
+            if(!overDueNoticesExecutorService.isShutdown()) {
+                overDueNoticesExecutorService.shutdown();
             }
         }
     }
@@ -2101,6 +2120,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 onHoldExpirationNoticesExecutorService.execute(onHoldExpirationNoticesExecutor);
             }
         }
+        if(!onHoldExpirationNoticesExecutorService.isShutdown()) {
+            onHoldExpirationNoticesExecutorService.shutdown();
+        }
     }
 
     public void generateOnHoldCourtesyNotice() throws Exception {
@@ -2134,6 +2156,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Runnable onHoldCourtesyNoticesExecutor = new HoldCourtesyNoticeExecutor(requestMap);
                 onHoldCourtesynNoticesExecutorService.execute(onHoldCourtesyNoticesExecutor);
             }
+        }
+        if(!onHoldCourtesynNoticesExecutorService.isShutdown()) {
+            onHoldCourtesynNoticesExecutorService.shutdown();
         }
     }
 
@@ -2517,12 +2542,14 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
             }
             try {
-                if (itemBarcode == null || (itemBarcode != null && itemBarcode.isEmpty())) {
-                    olePlaceRequest.setBlockOverride(true);
-                    olePlaceRequest.setCode("014");
-                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                if(!StringUtils.isNotBlank(itemIdentifier)){
+                    if (!StringUtils.isNotBlank(itemBarcode)) {
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setCode("014");
+                        olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
 
+                    }
                 }
                 oleDeliverRequestBo.setItemId(itemBarcode);
                 oleDeliverRequestBo.setItemUuid(itemIdentifier);
@@ -2531,7 +2558,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 oleDeliverRequestBo.setItemLocation(itemLocation);
                 if (itemIdentifier == null || itemLocation == null || itemType == null) {
                 Thread.sleep(1000);
-                    String itemUUID = null;
+                    String itemUUID = itemIdentifier;
                     String holdingsId = null;
                     if (itemIdentifier == null) {
                         try {
@@ -2564,6 +2591,11 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         olePlaceRequest.setCode("014");
                         olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    } else{
+                        if(StringUtils.isNotBlank(itemUUID) && !itemUUID.contains("wio-")){
+                            itemUUID = "wio-"+itemUUID;
+                            oleDeliverRequestBo.setItemUuid(itemUUID);
+                        }
                     }
                     if (itemType == null || itemLocation == null) {
                         Map<String, Object> detailMap = retrieveBIbItemHoldingData(itemUUID);
@@ -4022,7 +4054,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param oleLoanDocuments
      * @return
      */
-    public List<OleLoanDocument> getLoanDocumentWithItemInfo(List<OleLoanDocument> oleLoanDocuments) throws Exception {
+    public List<OleLoanDocument> getLoanDocumentWithItemInfo(List<OleLoanDocument> oleLoanDocuments, String claimsReturnedFlag) throws Exception {
         Long startTime = System.currentTimeMillis();
         List<OleLoanDocument> loanDocumentsWithItemInfo = new ArrayList<OleLoanDocument>();
         if (oleLoanDocuments != null && oleLoanDocuments.size() > 0) {
@@ -4040,7 +4072,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     for (OleLoanDocument oleLoanDocument : oleLoanDocumentList) {
                         loanDocumentMap.put(oleLoanDocument.getItemUuid(), oleLoanDocument);
                         searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), "id", oleLoanDocument.getItemUuid()), "AND"));
-                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), DocstoreConstants.CLAIMS_RETURNED_FLAG_SEARCH, Boolean.FALSE.toString()), "OR"));
+                        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(DocType.ITEM.getCode(), DocstoreConstants.CLAIMS_RETURNED_FLAG_SEARCH, claimsReturnedFlag), "OR"));
                     }
                     searchParams.setPageSize(Integer.parseInt(OLEConstants.MAX_PAGE_SIZE_FOR_LOAN));
                     buildSearchParams(searchParams);
@@ -4053,7 +4085,12 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     }
                     try {
                         List<OleLoanDocument> processedLoanDocuments = buildSearchResultsFields(searchResponse, loanDocumentMap);
-                        loanDocumentsWithItemInfo.addAll(processedLoanDocuments);
+                        if(processedLoanDocuments.size() == 0)
+                        {
+                            loanDocumentsWithItemInfo.addAll(oleLoanDocumentList);
+                        }else{
+                            loanDocumentsWithItemInfo.addAll(processedLoanDocuments);
+                        }
                     } catch (Exception e) {
                         LOG.error(e, e);
                         throw new Exception("Exception occured while setting the item information to loan documents");
@@ -4081,10 +4118,12 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     public List<OleLoanDocument> buildSearchResultsFields(SearchResponse searchResponse, Map<String, OleLoanDocument> loanDocumentMap) throws Exception {
         int count = 0;
         Map<String, String> itemTypeNameMap = new HashMap<String, String>();
+        Map<String, String> itemTypeDescMap = new HashMap<String, String>();
         List<OleInstanceItemType> instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findAll(OleInstanceItemType.class);
         if (instanceItemTypeList != null && instanceItemTypeList.size() > 0) {
             for (OleInstanceItemType oleInstanceItemType : instanceItemTypeList) {
                 itemTypeNameMap.put(oleInstanceItemType.getInstanceItemTypeName(), oleInstanceItemType.getInstanceItemTypeCode());
+                itemTypeDescMap.put(oleInstanceItemType.getInstanceItemTypeCode(),oleInstanceItemType.getInstanceItemTypeDesc());
             }
         }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -4152,10 +4191,12 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("TemporaryItemTypeFullValue_search")) {
                                     oleLoanDocument.setItemTypeName(searchResultField.getFieldValue());
                                     oleLoanDocument.setItemType(itemTypeNameMap.get(oleLoanDocument.getItemTypeName()));
+                                    oleLoanDocument.setItemTypeDesc(itemTypeDescMap.get(oleLoanDocument.getItemType()));
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display") &&
                                         (oleLoanDocument.getItemTypeName() == null || oleLoanDocument.getItemTypeName().isEmpty())) {
                                     oleLoanDocument.setItemTypeName(searchResultField.getFieldValue());
                                     oleLoanDocument.setItemType(itemTypeNameMap.get(oleLoanDocument.getItemTypeName()));
+                                    oleLoanDocument.setItemTypeDesc(itemTypeDescMap.get(oleLoanDocument.getItemType()));
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("Enumeration_display")) {
                                     oleLoanDocument.setEnumeration(searchResultField.getFieldValue());
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("Chronology_display")) {
@@ -4184,7 +4225,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                     oleLoanDocument.setItemNumberOfPieces(Integer.parseInt(searchResultField.getFieldValue()));
                                     oleLoanDocument.setBackUpNoOfPieces(searchResultField.getFieldValue());
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("ClaimsReturnedFlag_search")) {
-                                    oleLoanDocument.setClaimsReturnedIndicator(Boolean.valueOf(searchResultField.getFieldValue()));
+                                    if(!oleLoanDocument.isClaimsReturnedIndicator()) {
+                                        oleLoanDocument.setClaimsReturnedIndicator(Boolean.valueOf(searchResultField.getFieldValue()));
+                                    }
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("itemStatusEffectiveDate")) {
                                     oleLoanDocument.setItemStatusEffectiveDate(searchResultField.getFieldValue());
                                     // LOG.info("Item status Effective date from solr : " + searchResultField.getFieldValue() );
@@ -4231,6 +4274,18 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             itemTypeCode = instanceItemTypeList.get(0).getInstanceItemTypeCode();
         }
         return itemTypeCode;
+    }
+
+    public String getItemTypeDescByName(String itemTypeName) {
+        String itemTypeDesc = "";
+        List<OleInstanceItemType> instanceItemTypeList = null;
+        Map<String, String> instanceItemTypeMap = new HashMap<String, String>();
+        instanceItemTypeMap.put("instanceItemTypeName", itemTypeName);
+        instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findMatching(OleInstanceItemType.class, instanceItemTypeMap);
+        if (instanceItemTypeList != null && instanceItemTypeList.size() > 0) {
+            itemTypeDesc = instanceItemTypeList.get(0).getInstanceItemTypeDesc();
+        }
+        return itemTypeDesc;
     }
 
     /**
@@ -4557,6 +4612,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "holdingsIdentifier"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Author_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "TemporaryItemTypeFullValue_search"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "ItemTypeFullValue_display"));
                 searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
                 for (SearchResult searchResult : searchResponse.getSearchResults()) {
                     for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
@@ -4570,6 +4627,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             bibAuthor = searchResultField.getFieldValue();
                         } else  if (searchResultField.getFieldName().equalsIgnoreCase("id") &&!fieldValue.isEmpty()){
                             oleDeliverRequestBo.setItemUuid(fieldValue);
+                        }else if (searchResultField.getFieldName().equalsIgnoreCase("TemporaryItemTypeFullValue_search")) {
+                            oleDeliverRequestBo.setItemTypeName(searchResultField.getFieldValue());
+                            oleDeliverRequestBo.setItemTypeDesc(getItemTypeDescByName(oleDeliverRequestBo.getItemTypeName()));
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display") &&
+                                (oleDeliverRequestBo.getItemTypeName() == null || oleDeliverRequestBo.getItemTypeName().isEmpty())) {
+                            oleDeliverRequestBo.setItemTypeName(searchResultField.getFieldValue());
+                            oleDeliverRequestBo.setItemTypeDesc(getItemTypeDescByName(oleDeliverRequestBo.getItemTypeName()));
                         }
                     }
                 }

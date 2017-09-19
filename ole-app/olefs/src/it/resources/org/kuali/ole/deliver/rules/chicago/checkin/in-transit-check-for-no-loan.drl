@@ -58,6 +58,7 @@ $s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-
 $d : DroolsResponse()
 
 then
+
 $i.setItemStatusToBeUpdatedTo("ONHOLD");
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
@@ -72,7 +73,7 @@ when
 $c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
 $r: getOleDeliverRequestBo(), null == $r,
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+$s: getItemStatusRecord(),null != $s, $s.getCode() in ("RECENTLY-RETURNED","AVAILABLE"))
 $d : DroolsResponse()
 
 
@@ -117,7 +118,7 @@ $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("AVAILABLE");
-$i.updateInHouseCheckinCount();
+
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
@@ -133,7 +134,7 @@ $d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
 
  then
  $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
- $i.updateInHouseCheckinCount();
+
  $d.setRuleMatched(true);
  $d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
   end
@@ -154,7 +155,7 @@ $d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  $d.setRuleMatched(true);
   end
 
-    rule "Recently returned check for INPROCESS item without a loan"
+    rule "Recently returned check for LOST item without a loan"
 agenda-group "checkin-validation-for-no-loan"
 activation-group "checkin-validation-for-no-loan"
 
@@ -162,14 +163,33 @@ when
 
 
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
-$s: getItemStatusRecord(),null != $s, $s.getCode() in ("INPROCESS"))
+$s: getItemStatusRecord(),null != $s, $s.getCode() in ("LOST"))
 $d : DroolsResponse()
 
 
 then
 $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
-$i.updateInHouseCheckinCount();
+
 $d.setRuleMatched(true);
 $d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
  end
 
+    rule "Recently returned check for other item statuses without a loan"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode() in ("MISSING","RETRIEVING-FROM-MANSUETO","MISSING-FROM-MANSUETO","ONHOLD","INPROCESS","INPROCESS-CRERAR",
+"INPROCESS-LAW","INPROCESS-MANSUETO","INPROCESS-REGENSTEIN","ONORDER","DECLARED-LOST","UNAVAILABLE","FLAGGED-FOR-RESERVE","WITHDRAWN"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.SHOW_LOCATION_POPUP, true);
+ end

@@ -34,16 +34,6 @@
                         </#if>
                     </TR>
                     <#break>
-                <#case "Title/Item Information">
-                    <TR>
-                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Title/Item Information")} :</TD>
-                        <#if oleNoticeBo.title ??>
-                            <TD>${oleNoticeBo.title}</TD>
-                        <#else>
-                            <TD</TD>
-                        </#if>
-                    </TR>
-                    <#break>
                 <#case "Author">
                     <TR>
                         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Author")} :</TD>
@@ -114,9 +104,9 @@
                         </#if>
                     </TR>
                     <#break>
-                <#case "Library Shelving location">
+                <#case "Library shelving location">
                     <TR>
-                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Shelving location")} :</TD>
+                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library shelving location")} :</TD>
                         <#if oleNoticeBo.itemShelvingLocation ??>
                             <TD>${oleNoticeBo.itemShelvingLocation}</TD>
                         <#else>
@@ -149,6 +139,26 @@
                         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Recall Due Date")} :</TD>
                         <#if oleNoticeBo.newDueDate ??>
                             <TD>${(oleNoticeBo.newDueDate)?date}</TD>
+                        <#else>
+                            <TD</TD>
+                        </#if>
+                    </TR>
+                    <#break>
+                <#case "New Due Date">
+                    <TR>
+                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("New Due Date")} :</TD>
+                        <#if oleNoticeBo.newDueDate ??>
+                            <TD>${(oleNoticeBo.newDueDate)?date}</TD>
+                        <#else>
+                            <TD</TD>
+                        </#if>
+                    </TR>
+                    <#break>
+                <#case "Item Type">
+                    <TR>
+                        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Type")} :</TD>
+                        <#if oleNoticeBo.itemTypeDesc ??>
+                            <TD>${oleNoticeBo.itemTypeDesc}</TD>
                         <#else>
                             <TD</TD>
                         </#if>

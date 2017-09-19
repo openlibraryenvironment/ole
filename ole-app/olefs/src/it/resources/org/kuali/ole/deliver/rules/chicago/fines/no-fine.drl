@@ -15,14 +15,15 @@ agenda-group "fine validation"
 activation-group "fine validation"
 when
 
-$b: ItemFineRate()
+$f: ItemFineRate()
 
-$i: OleItemRecordForCirc(getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"))
+$i: OleItemRecordForCirc(getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd","SPCL"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QDEPT","INDEF_NONUC", "INDEF_DEPT","INDEF_ACD",
+"INDEF_FAC", "ILL", "BORDIR", "BIND", "INDEF_OTHER", "INDEF_TRU", "GBCART"))
 
 then
-$b.setFineRate(0.00);
-$b.setMaxFine(0.00);
-
+$f.setFineRate(0.00);
+$f.setMaxFine(0.00);
+$f.setInterval("D"); //Options are H-Hours; D-Days
  end
