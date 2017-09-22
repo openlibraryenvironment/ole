@@ -516,7 +516,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                 throw new RuntimeException("Cannot create mrc file in the given file path :: " + fileToWrite.getPath());
             }
         }
-        MarcSplitStreamWriter writer = new MarcSplitStreamWriter(fileOutputStream, OleNGConstants.UTF_8,70000,"880");
+        MarcSplitStreamWriter writer = new MarcSplitStreamWriter(fileOutputStream, OleNGConstants.UTF_8,300000,"880");
         int errorCount = 0;
         for (String bibContent : bibDocList) {
             InputStream input = new ByteArrayInputStream(bibContent.getBytes());

@@ -1469,10 +1469,11 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
-        String docId = editorForm.getDocId();
-        String instanceId = editorForm.getInstanceId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        //String docId = editorForm.getDocId();
+        //String instanceId = editorForm.getInstanceId();
         String editorMessage = "";
-        Bib bib = null;
+        //Bib bib = null;
         editorForm.setHeaderText("Global Edit - Item");
 
         try {
@@ -1491,6 +1492,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             itemDoc.setFormat(DocFormat.OLEML.getCode());
             itemDoc.setCreatedOn(dateStr);
             itemDoc.setCreatedBy(user);
+            itemDoc.setUpdatedBy(principalName);
             String canUpdateStaffOnlyFlag = "false";
             if (editorForm.isStaffOnlyFlagInGlobalEdit()) {
                 canUpdateStaffOnlyFlag = "true";

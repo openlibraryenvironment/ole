@@ -275,14 +275,17 @@ public class MarcRecordUtil {
 
     public String convertMarcRecordListToRawMarcContent(List<Record> records) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        MarcWriter writer = new MarcSplitStreamWriter(byteArrayOutputStream, OleNGConstants.UTF_8, 70000, "880");
+        MarcWriter writer = new MarcSplitStreamWriter(byteArrayOutputStream, OleNGConstants.UTF_8, 300000, "880");
         for (Iterator<Record> iterator = records.iterator(); iterator.hasNext(); ) {
             Record record = iterator.next();
             if (null != record) {
                 try {
                     writer.write(record);
+                } catch (Error e) {
+                    LOG.error("Error with writing Marc record with 001 tag : " + getControlFieldValue(record,OleNGConstants.TAG_001));
+                    e.printStackTrace();
                 } catch (Exception e) {
-                    LOG.error("Problem with writing Marc record with 001 tag : " + getControlFieldValue(record,OleNGConstants.TAG_001));
+                    LOG.error("Exception with writing Marc record with 001 tag : " + getControlFieldValue(record,OleNGConstants.TAG_001));
                     e.printStackTrace();
                 }
             }

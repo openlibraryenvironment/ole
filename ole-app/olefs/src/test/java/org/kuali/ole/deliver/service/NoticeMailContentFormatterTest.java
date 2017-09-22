@@ -648,7 +648,11 @@ public class NoticeMailContentFormatterTest {
             oleNoticeBo.setNoticeTitle("Lost");
             oleNoticeBo.setBillNumber(oleLoanDocument.getRepaymentFeePatronBillId());
             oleNoticeBo.setFeeType(OLEConstants.REPLACEMENT_FEE);
-            oleNoticeBo.setFeeAmount(oleLoanDocument.getReplacementBill());
+            if(oleLoanDocument.getReplacementBill() != null) {
+                BigDecimal feeamount = oleLoanDocument.getReplacementBill();
+                feeamount = feeamount.setScale(2, BigDecimal.ROUND_HALF_UP);
+                oleNoticeBo.setFeeAmount("$" + feeamount.toString());
+            }
         }
 
         @Override

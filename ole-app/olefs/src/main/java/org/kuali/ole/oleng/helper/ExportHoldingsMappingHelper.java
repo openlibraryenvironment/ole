@@ -820,7 +820,7 @@ public class ExportHoldingsMappingHelper {
      */
     private void generateItemType(Item item, char code, DataField dataField) {
         try {
-            if (item != null && item.getItemType() != null) {
+            if (item != null && item.getItemType() != null && StringUtils.isNotBlank(item.getItemType().getCodeValue())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(item.getItemType().getCodeValue());
@@ -840,7 +840,7 @@ public class ExportHoldingsMappingHelper {
      */
     private void generateItemStatus(Item item, char code, DataField dataField) {
         try {
-            if (item != null && item.getItemStatus() != null) {
+            if (item != null && item.getItemStatus() != null && StringUtils.isNotBlank(item.getItemStatus().getCodeValue())) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(item.getItemStatus().getCodeValue());
