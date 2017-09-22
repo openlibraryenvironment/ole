@@ -31,6 +31,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -45,6 +46,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -992,6 +994,10 @@ public class WorkEInstanceOlemlEditor
         String docId = editorForm.getDocId();
         String docType = editorForm.getDocType();
         String bibId = editorForm.getBibId();
+        java.util.Date date = new java.util.Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
+        String dateStr = sdf.format(date);
+        String user = GlobalVariables.getUserSession().getPrincipalName();
         String editorStatusMessage = "";
         //List<BibTree> bibTreeList = null;
         //BibTree bibTree = null;
@@ -1016,6 +1022,10 @@ public class WorkEInstanceOlemlEditor
                 eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
             eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
+            eHoldingsDoc.setCreatedBy(editorForm.getCreatedBy());
+            eHoldingsDoc.setCreatedOn(editorForm.getCreatedDate());
+            eHoldingsDoc.setUpdatedBy(user);
+            eHoldingsDoc.setUpdatedOn(dateStr);
             Bib bib = new BibMarc();
             bib.setId(workEInstanceOlemlForm.getBibId());
             eHoldingsDoc.setBib(bib);
