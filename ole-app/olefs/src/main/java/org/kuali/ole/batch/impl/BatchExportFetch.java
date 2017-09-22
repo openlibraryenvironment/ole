@@ -335,7 +335,7 @@ public class BatchExportFetch {
             }
         }
         BibMarcRecordProcessor recordProcessor = new BibMarcRecordProcessor();
-        MarcSplitStreamWriter writer = new MarcSplitStreamWriter(fileOutputStream, OleNGConstants.UTF_8,70000,"880");
+        MarcSplitStreamWriter writer = new MarcSplitStreamWriter(fileOutputStream, OleNGConstants.UTF_8,300000,"880");
 
         for (String bibContent : batchProcessExportData.getBibDocList()) {
             InputStream input = new ByteArrayInputStream(bibContent.getBytes());
