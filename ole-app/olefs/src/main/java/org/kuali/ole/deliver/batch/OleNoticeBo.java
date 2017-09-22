@@ -66,7 +66,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String copyNumber;
     private String billNumber;
     private String feeType;
-    private BigDecimal feeAmount;
+    private String feeAmount;
     private String itemInstitution;
     private String itemCampus;
     private String itemCollection;
@@ -386,7 +386,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
         this.feeType = feeType;
     }
 
-    public void setFeeAmount(BigDecimal feeAmount) {
+    public void setFeeAmount(String feeAmount) {
         this.feeAmount = feeAmount;
     }
 
@@ -398,7 +398,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
         return feeType;
     }
 
-    public BigDecimal getFeeAmount() {
+    public String getFeeAmount() {
         return feeAmount;
     }
 
