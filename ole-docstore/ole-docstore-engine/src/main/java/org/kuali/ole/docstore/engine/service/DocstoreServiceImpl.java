@@ -846,7 +846,11 @@ public class DocstoreServiceImpl implements DocstoreService {
                             }
                             if (oleHoldings.getCallNumber().getShelvingScheme() != null &&
                                     StringUtils.isNotBlank(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue())) {
-                                existingOleHoldings.getCallNumber().getShelvingScheme().setCodeValue(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue());
+                                if(existingOleHoldings.getCallNumber().getShelvingScheme()!=null) {
+                                    existingOleHoldings.getCallNumber().getShelvingScheme().setCodeValue(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue());
+                                } else{
+                                    existingOleHoldings.getCallNumber().setShelvingScheme(oleHoldings.getCallNumber().getShelvingScheme());
+                                }
                             }
                             if (oleHoldings.getCallNumber().getShelvingOrder() != null &&
                                     StringUtils.isNotBlank(oleHoldings.getCallNumber().getShelvingOrder().getFullValue())) {
@@ -1125,7 +1129,9 @@ public class DocstoreServiceImpl implements DocstoreService {
 
                         }
                     }
-
+                    if(StringUtils.isNotBlank(item.getUpdatedBy())){
+                        existingItem.setUpdatedBy(item.getUpdatedBy());
+                    }
                     if (itemContent.getHighDensityStorage() != null &&
                             itemContent.getHighDensityStorage().getRow() != null) {
                         existingItemContent.setHighDensityStorage(itemContent.getHighDensityStorage());

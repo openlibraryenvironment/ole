@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -181,10 +182,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
         getBusinessObjectService().save(holdingsRecord);
         if (oleHoldings.getStatisticalSearchingCode() != null) {
-            HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = saveHoldingsStatisticalSearchCode(oleHoldings.getStatisticalSearchingCode(), holdingsRecord.getHoldingsId());
-//            if(holdingsStatisticalSearchRecord !=null){
-//                holdingsRecord.setHoldingsStatisticalSearchId(holdingsStatisticalSearchRecord.getHoldingsStatisticalSearchId());
-//            }
+            List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecord = saveHoldingsStatisticalSearchCode(oleHoldings.getStatisticalSearchingCode(), holdingsRecord.getHoldingsId());
+            if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecord)){
+                holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecord);
+            }
         }
         if (oleHoldings.getExtentOfOwnership() != null) {
             saveEHoldingsExtentOfOwnerShip(oleHoldings.getExtentOfOwnership(), holdingsRecord.getHoldingsId());
@@ -263,10 +264,11 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         return authenticationTypeRecord;
     }
 
-    private HoldingsStatisticalSearchRecord saveHoldingsStatisticalSearchCode(StatisticalSearchingCode statisticalSearchingCode, String holdingsId) {
+    private List<HoldingsStatisticalSearchRecord> saveHoldingsStatisticalSearchCode(StatisticalSearchingCode statisticalSearchingCode, String holdingsId) {
         if (StringUtils.isNotEmpty(statisticalSearchingCode.getCodeValue())) {
             StatisticalSearchRecord statisticalSearchRecord = saveStatisticalSearchRecord(statisticalSearchingCode);
             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = null;
+            List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordList = new ArrayList<>();
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = (List<HoldingsStatisticalSearchRecord>) getBusinessObjectService().findMatching(HoldingsStatisticalSearchRecord.class, getHoldingsMap(holdingsId));
             if(holdingsStatisticalSearchRecords != null && holdingsStatisticalSearchRecords.size() > 0) {
                 holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecords.get(0);
@@ -281,7 +283,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
             }
             getBusinessObjectService().save(holdingsStatisticalSearchRecord);
-            return holdingsStatisticalSearchRecord;
+            holdingsStatisticalSearchRecordList.add(holdingsStatisticalSearchRecord);
+            return holdingsStatisticalSearchRecordList;
         }
         return null;
     }
