@@ -70,7 +70,15 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
         }
         SolrInputDocument solrInputDocument = getSolrInputFieldsForItem(itemDocument);
 
-        SolrDocument solrDocument = getSolrDocumentByUUID(id);
+        SolrDocument solrDocument = null;
+        try {
+            solrDocument = getSolrDocumentByUUID(id);
+        } catch (Exception e){
+            BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+            DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+            bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(rdbmsStorageService.retrieveItem(id).getHolding().getBib().getId()));
+            solrDocument = getSolrDocumentByUUID(id);
+        }
         Object bibs=null;
         if (solrDocument != null && solrDocument.size() > 0) {
              bibs = solrDocument.getFieldValue(BIB_IDENTIFIER);
