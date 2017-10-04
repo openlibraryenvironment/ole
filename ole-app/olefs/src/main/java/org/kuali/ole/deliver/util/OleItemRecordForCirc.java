@@ -218,11 +218,13 @@ public class OleItemRecordForCirc {
         if (!locationsCheckinCountRecords.isEmpty()) {
             for (Iterator<LocationsCheckinCountRecord> iterator = locationsCheckinCountRecords.iterator(); iterator.hasNext(); ) {
                 LocationsCheckinCountRecord checkinCountRecord = iterator.next();
-                if (checkinCountRecord.getLocationName().equals(getItemFullPathLocation())) {
-                    Integer locationCount = checkinCountRecord.getLocationCount();
-                    checkinCountRecord.setLocationCount(null == locationCount ? 1 : locationCount + 1);
-                    locationsCheckinCountRecordToBeUpdated = checkinCountRecord;
-                    isLocationPresent = true;
+                if(checkinCountRecord.getLocationName() != null){
+                    if (checkinCountRecord.getLocationName().equals(getItemFullPathLocation())) {
+                        Integer locationCount = checkinCountRecord.getLocationCount();
+                        checkinCountRecord.setLocationCount(null == locationCount ? 1 : locationCount + 1);
+                        locationsCheckinCountRecordToBeUpdated = checkinCountRecord;
+                        isLocationPresent = true;
+                    }
                 }
             }
         }

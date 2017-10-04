@@ -1461,11 +1461,13 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         boolean isLocationPresent = false;
         if(CollectionUtils.isNotEmpty(locationsCheckinCountRecordList)) {
             for(LocationsCheckinCountRecord locationsCheckinCountRecord : locationsCheckinCountRecordList) {
-                if(locationsCheckinCountRecord.getLocationName().equals(checkInLocation.getName())) {
-                    isLocationPresent = true;
-                    locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
-                    locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
-                    getBusinessObjectService().save(locationsCheckinCountRecord);
+                if(locationsCheckinCountRecord.getLocationName() != null){
+                    if(locationsCheckinCountRecord.getLocationName().equals(checkInLocation.getName())) {
+                        isLocationPresent = true;
+                        locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
+                        locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
+                        getBusinessObjectService().save(locationsCheckinCountRecord);
+                    }
                 }
             }
         }
