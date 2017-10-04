@@ -87,6 +87,7 @@ public class CreateEHoldingsHandler extends Handler {
         Timestamp createdDate = getDateTimeStamp(createdDateString);
         String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
         holdingsRecord.setCreatedBy(createdBy);
+        holdingsRecord.setUpdatedBy(createdBy);
         holdingsRecord.setCreatedDate(createdDate);
         holdingsRecord.setUpdatedDate(createdDate);
         if(holdingsRecord.getStaffOnlyFlag()==null){
