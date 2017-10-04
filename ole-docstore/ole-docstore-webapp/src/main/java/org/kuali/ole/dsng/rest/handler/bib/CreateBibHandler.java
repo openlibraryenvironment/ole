@@ -45,6 +45,7 @@ public class CreateBibHandler extends BibHandler {
 
                     bibRecord.setContent(newBibContent);
                     bibRecord.setCreatedBy(createdBy);
+                    bibRecord.setUpdatedBy(createdBy);
                     bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC);
 
                     Timestamp createdDate = getDateTimeStamp(createdDateString);
