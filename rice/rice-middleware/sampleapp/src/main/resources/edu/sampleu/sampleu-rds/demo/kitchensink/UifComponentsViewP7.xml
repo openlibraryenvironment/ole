@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <disclosure-tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                          id="collection1" layoutManager.numberOfColumns="4"
+                                          layoutManager.richTable.render="false"
+                                          layoutManager.sequencePropertyName="field1" propertyName="list1">
+    <items>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="false">
+        <dependencyConstraints>
+          <prerequisiteConstraint-bean propertyName="field1"/>
+        </dependencyConstraints>
+      </inputField-bean>
+      <inputField-bean propertyName="field3" required="@{1 == 1}"/>
+      <inputField-bean propertyName="bfield" required="true">
+        <control>
+          <checkboxControl-bean onChangeScript="alert('checkbox clicked')"/>
+        </control>
+      </inputField-bean>
+      <dataField-bean label="Read-only Sublist" propertyName="stringList"
+                      readOnlyDisplayReplacement="@{#emptyList(#lp.stringList)?'None Available':''}"/>
+    </items>
+  </disclosure-tableCollectionSection-bean>
+  <disclosure-tableCollectionSection-bean
+                                           collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                          id="collection2" layoutManager.actionColumnPlacement="LEFT"
+                                          layoutManager.actionFieldPrototype.width="10%"
+                                          layoutManager.numberOfColumns="4"
+                                          layoutManager.sequenceFieldPrototype.width="10%"
+                                          layoutManager.sequencePropertyName="field1" propertyName="list2">
+    <lineActions>
+      <secondaryActionButton-small-bean actionLabel="custom"
+                                        actionParameters="field1:@{#line.field1},field2:@{#line.field2}"
+                                        methodToCall="customLineAction"/>
+    </lineActions>
+    <items>
+      <inputField-bean propertyName="field1" required="true" width="20%"/>
+      <inputField-bean propertyName="field2" readOnly="true" required="true" width="20%"/>
+      <inputField-bean propertyName="field3" required="true" width="20%"/>
+      <inputField-bean propertyName="field4" required="true" width="20%">
+        <mustOccurConstraints>
+          <mustOccurConstraint-bean max="2" min="1">
+            <prerequisiteConstraints>
+              <prerequisiteConstraint-bean propertyName="field1"/>
+            </prerequisiteConstraints>
+            <mustOccurConstraints>
+              <mustOccurConstraint-bean max="2" min="2">
+                <prerequisiteConstraints>
+                  <prerequisiteConstraint-bean propertyName="field2"/>
+                  <prerequisiteConstraint-bean propertyName="field3"/>
+                </prerequisiteConstraints>
+              </mustOccurConstraint-bean>
+            </mustOccurConstraints>
+          </mustOccurConstraint-bean>
+        </mustOccurConstraints>
+      </inputField-bean>
+    </items>
+    <filters>
+      <conditionalCollectionFilter-bean expression="#line.field1 ne '1'"/>
+    </filters>
+  </disclosure-tableCollectionSection-bean>
+  <disclosure-stackedCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                            id="collection3" layoutManager.summaryFields="field1" propertyName="list3">
+    <items>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="true">
+        <caseConstraint>
+          <caseConstriant-bean propertyName="field1">
+            <whenConstraint>
+              <whenConstraint-bean>
+                <values>
+                  <spring:value>A</spring:value>
+                  <spring:value>a</spring:value>
+                </values>
+                <constraint>
+                  <alphaPatternConstraint-bean/>
+                </constraint>
+              </whenConstraint-bean>
+              <whenConstraint-bean>
+                <values>
+                  <spring:value>A</spring:value>
+                  <spring:value>a</spring:value>
+                </values>
+                <constraint>
+                  <simpleContraint-bean maxLength="5"/>
+                </constraint>
+              </whenConstraint-bean>
+              <whenConstraint-bean value="1">
+                <constraint>
+                  <numericPatternConstraint-bean/>
+                </constraint>
+              </whenConstraint-bean>
+              <whenConstraint-bean value="1">
+                <constraint>
+                  <simpleContraint-bean exclusiveMin="0" inclusiveMax="50"/>
+                </constraint>
+              </whenConstraint-bean>
+            </whenConstraint>
+          </caseConstriant-bean>
+        </caseConstraint>
+      </inputField-bean>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </items>
+  </disclosure-stackedCollectionSection-bean>
+  <disclosure-stackedCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                            id="collection4" propertyName="list4">
+    <items>
+      <inputField-bean propertyName="field1" required="true">
+        <control>
+          <textControl-bean disabled="@{#line.field1 eq '1'}"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean propertyName="field2" required="true"/>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </items>
+    <lineActions>
+      <primaryActionButton-bean p:methodToCall="updateOfficial" id="collection4-action1"
+                                p:actionParameters="field1:@{#line.field1}"/>
+      <navigationActionLink-bean id="collection4-action2" methodToCall="deleteLine" onClickScript="alert('foo');"/>
+    </lineActions>
+    <subCollections>
+      <spring:ref bean="subCollection1"/>
+    </subCollections>
+  </disclosure-stackedCollectionSection-bean>
+  <disclosure-tableSubCollection-withinSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                                    id="subCollection1" layoutManager.numberOfColumns="4"
+                                                    layoutManager.richTable.render="true"
+                                                    layoutManager.sequencePropertyName="field1" propertyName="subList">
+    <items>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="true">
+        <caseConstraint>
+          <caseConstriant-bean propertyName="field1">
+            <whenConstraint>
+              <whenConstraint-bean>
+                <values>
+                  <spring:value>A</spring:value>
+                  <spring:value>a</spring:value>
+                </values>
+                <constraint>
+                  <alphaPatternConstraint-bean/>
+                </constraint>
+              </whenConstraint-bean>
+              <whenConstraint-bean>
+                <values>
+                  <spring:value>A</spring:value>
+                  <spring:value>a</spring:value>
+                </values>
+                <constraint>
+                  <simpleContraint-bean maxLength="5"/>
+                </constraint>
+              </whenConstraint-bean>
+              <whenConstraint-bean value="1">
+                <constraint>
+                  <numericPatternConstraint-bean/>
+                </constraint>
+              </whenConstraint-bean>
+              <whenConstraint-bean value="1">
+                <constraint>
+                  <simpleContraint-bean exclusiveMin="0" inclusiveMax="50"/>
+                </constraint>
+              </whenConstraint-bean>
+            </whenConstraint>
+          </caseConstriant-bean>
+        </caseConstraint>
+      </inputField-bean>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </items>
+  </disclosure-tableSubCollection-withinSection-bean>
+  <disclosure-stackedCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                            id="collection5" layoutManager.summaryFields="field1" propertyName="list5">
+    <items>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="true"/>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </items>
+    <subCollections>
+      <spring:ref bean="subCollection2"/>
+    </subCollections>
+  </disclosure-stackedCollectionSection-bean>
+  <stackedSubCollection-withinSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                           disclosure.render="false" id="subCollection2"
+                                           layoutManager.summaryFields="field1" propertyName="subList">
+    <items>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="true"/>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </items>
+  </stackedSubCollection-withinSection-bean>
+  <disclosure-tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                                          id="collection6" layoutManager.addLineGroup.layoutManager.numberOfColumns="8"
+                                          layoutManager.generateAutoSequence="false" layoutManager.numberOfColumns="4"
+                                          layoutManager.renderSequenceField="false"
+                                          layoutManager.richTable.render="true" layoutManager.separateAddLine="true"
+                                          layoutManager.sequencePropertyName="field1" propertyName="list6">
+    <items>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="true"/>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </items>
+    <addLineItems>
+      <inputField-bean propertyName="field1" required="true"/>
+      <inputField-bean propertyName="field2" required="true"/>
+      <inputField-bean propertyName="field3" required="true"/>
+      <inputField-bean propertyName="field4" required="true"/>
+    </addLineItems>
+    <spring:property name="layoutManager.richTable.templateOptions">
+      <spring:map>
+        <spring:entry key="'bScrollInfinite'" value="true"/>
+        <spring:entry key="'bScrollCollapse'" value="true"/>
+        <spring:entry key="'sScrollY'" value="200px"/>
+      </spring:map>
+    </spring:property>
+  </disclosure-tableCollectionSection-bean>
+  <listCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                              id="UifCompView-CollectionList" propertyName="list2">
+    <items>
+      <messageField-bean id="UifCompView-CollectionItem"/>
+    </items>
+  </listCollectionSection-bean>
+</spring:beans>

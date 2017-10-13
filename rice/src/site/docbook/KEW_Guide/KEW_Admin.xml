@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Admin" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>KEW Administration Guide</title>
+    <para>This guide provides information on administering a Kuali Enterprise Workflow (KEW)
+        installation. Out of the box, KEW comes with a default setup that works well in
+        development and test environments. However, when moving to a production environment,
+        this setup requires adjustments. This document discusses basic administration as well as
+        instructions for working with some of KEW's administration tools.</para>
+    <section>
+        <title>Configuration Overview</title>
+        <para>You configure KEW primarily through the <emphasis role="bold"
+            >workflow.xml</emphasis> file. Please see the KEW Configuration Parameters guide
+            for more information on initial configuration of a KEW installation.</para>
+    </section>
+    <section>
+        <title>Application Constants</title>
+        <para>Application Constants are the configuration elements in KEW. Each constant is
+            modifiable at system runtime; any changes take effect immediately in KEW.
+            Application Constants are stored in a cluster-safe cache and propagated across all
+            machines when change occurs. For more information about Application Constants,
+            please refer to Application Constants.</para>
+    </section>
+    <section>
+        <title>Production Environments</title>
+        <para>When rolling KEW out into a production environment, there are application
+            constants which you may need to change:<itemizedlist>
+                <listitem>
+                    <para><emphasis role="bold">ActionList.sendEmailNotification</emphasis> -
+                        This is usually set to false in test environments so emails aren't
+                        generated during testing. Usually, this is set this to true in a
+                        production environment to allow email notifications. You also need to
+                        ensure that your email service is configured properly to allow KEW to
+                        send notifications. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">ApplicationContext</emphasis> - In a production
+                        environment, this is usually something like en-prd. You must set this
+                        value correctly so that KEW's email notifications contain valid links.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Backdoor.ShowbackDoorLogin</emphasis> - The
+                        backdoor login allows users to masquerade as other users for testing
+                        purposes. It is recommended that you set this value to false in a
+                        production environment. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RouteManagerPool.numWorkers</emphasis> – The
+                        appropriate value for this depends on the capabilities of your
+                        production hardware. If it's set too high, KEW may use so much of the
+                        CPU that other applications running on the same machine are adversely
+                        impacted. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RouteManagerQueue.waitTime</emphasis> - In test
+                        environments, users tend to be more sensitive to immediate feedback
+                        since they may be testing processes over the course of a couple minutes
+                        that, in practice, occur over a number of days. In test environments, it
+                        is recommended that you keep this value low. In a production
+                        environment, you can reasonably increase this value without affecting
+                        the speed at which documents are routed. This reduces thrashing on the
+                        route queue. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RouteQueue.isRoutingByIPNumber</emphasis> - If
+                        you are running your production KEW system in a clustered environment,
+                        set this value to false. This allows processing of documents in the
+                        queue to be distributed across the entire cluster, which enhances
+                        routing performance and facilitates load balancing. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RouteQueue.maxRetryAttempts</emphasis> - As with
+                        the <emphasis role="italic">RouteManagerQueue.waitTime</emphasis>
+                        constant, in a test environment it is important to find out as quickly
+                        as possible if a document is going to go into exception routing (usually
+                        indicating a problem in that document's routing setup). In a production
+                        environment, it may make sense to allow a longer period before a
+                        document goes into exception routing. This constant, in combination with
+                        the <emphasis role="italic">RouteQueue.timeIncrement</emphasis>
+                        constant, determines how long it takes a document to be put into
+                        exception routing. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RouteQueue.timeIncrement</emphasis> - Increasing
+                        this value results in a longer time before a document goes into
+                        exception routing. </para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+    <section>
+        <title>XML Ingestion</title>
+        <para>KEW relies on XML for data population and routing configuration. <emphasis
+            role="bold">XML Ingester</emphasis> is available from the <emphasis role="bold"
+                >Administrator</emphasis> channel in the portal. This allows import of various
+            KEW components from XML, such as DocumentTypes, RuleAttributes, Rules, Workgroups,
+            and more.</para>
+        <section>
+            <title>Uploading an eDocLite form</title>
+            <para>To upload XML, go to <emphasis role="italic">Ingester UI</emphasis> and select
+                the XML file that you want to import:</para>
+            <figure><title>Ingester</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/ingester.png" scalefit="1" width="100%"  />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>After upload, notice the red arrow and the statement, <emphasis role="italic"
+                >Ingested xml doc: &lt;name of file></emphasis>:</para>
+            <figure><title>Ingestion Complete</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/ingestion_complete.png" scalefit="1" width="100%"  />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+    </section>
+    <section>
+        <title>Message Queue Administration</title>
+        <para>The Message Queue is the main scheduling mechanism in KEW. You use it to schedule
+            documents for asynchronous routing and to queue arbitrary units of work. When KEW
+            places a document into exception routing, it may become stuck after a series of
+            failed attempts. You can use the Route Queue UI to resolve this issue, as well as to
+            fix new entries, if needed.</para>
+        <section>
+            <title>Examining the Message Queue</title>
+            <para>The main Message Queue screen:</para>
+            <figure>
+                <title>Message Queue Screen</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/route_queue_screen2.png" scalefit="1" width="100%"  />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Examining this sample screen, we see there are 20 entries in the message
+                queue, one on each row. The columns display information about each entry:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Message Queue Id</emphasis> - The primary
+                            key of this route queue entry in the data store </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Service Name</emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Service Namespace</emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">IP Number</emphasis> - The IP address of the
+                            machine on which the entry was created. In the environment pictured,
+                            we have three machines in our cluster. The IP number shows from
+                            which machine each entry was queued up. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Queue Status</emphasis> – The entry can be
+                            in a state of QUEUED, ROUTING, or EXCEPTION:<itemizedlist>
+                                <listitem>
+                                    <para> A QUEUED entry is waiting for a worker thread to pick
+                                        it up. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>A ROUTING entry currently has a worker working on it.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>An EXCEPTION entry has a problem and the route manager
+                                        cannot access it. An administrator manually sets an
+                                        EXCEPTION status to suspend a route queue entry until a
+                                        problem can be diagnosed. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Queue Priority</emphasis> - The priority of
+                            the entry in the queue, where entries with the lowest number are
+                            processed first </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Queue Date</emphasis> - The date that KEW
+                            should process this queue entry. If the queue checker runs and
+                            discovers the queue date for an entry is equal to or earlier than
+                            the current time, it processes that entry. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Expiration Date</emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Retry Count</emphasis> - The number of times
+                            KEW has attempted to process the entry </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">App Specific Value 1</emphasis> - The
+                            parameters to be passed to the Route Queue processor such as
+                            document ID </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">App Specific Value 2</emphasis> - The
+                            parameters to be passed to the Route Queue processor </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Action</emphasis> - The Edit link in the
+                            Action column allows you to edit the route queue entry. </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Once a message entry has been successfully processed, it is deleted from the
+                queue.</para>
+        </section>
+        <section>
+            <title>Diagnosing and Fixing Problems</title>
+            <para>Sometimes it is necessary to manually edit a route queue entry that is
+                <emphasis>halted inside of the queue</emphasis>. This situation
+                might happen when:<itemizedlist>
+                    <listitem>
+                        <para>KEW encounters an error trying to put the document into exception
+                            routing. This could occur if there is a database error or the
+                            document's <emphasis role="italic">PostProcessor</emphasis> throws
+                            an exception when it's notified of a status change </para>
+                    </listitem>
+                    <listitem>
+                        <para>KEW is improperly shut down in the middle of an entry being
+                            processed </para>
+                    </listitem>
+                    <listitem>
+                        <para>The database goes down while an entry is being processed </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>In all cases, the status of the entry is <emphasis role="bold"
+                >ROUTING</emphasis>, but there is no longer a worker thread processing the
+                entry. Currently, KEW doesn't implement any auto-detection of failure cases. To
+                put one of these entries in a state where it can be picked up by the route
+                manager again, simply click the <emphasis role="bold">Edit</emphasis> link and
+                set the entry's status back to <emphasis role="bold">QUEUED</emphasis>. Here's a
+                screen shot of the <emphasis role="bold">Route Queue Entry - Edit</emphasis>
+                screen:</para>
+            <figure>
+                <title>Route Queue Entry Edit Screen</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/route_queue_entry_edit.png" scalefit="1" width="100%"  />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Use the Queue Status dropdown list to change the status of the entry. You may
+                also want to set the Retry Count to zero to allow you to diagnose the problem
+                before the document goes into exception routing.</para>
+        </section>
+    </section>
+</chapter>

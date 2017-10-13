@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_overview" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0"> 
+        <title>KEN Overview</title>
+        <section>
+            <title>What is KEN?</title>
+            <para>Kuali Enterprise Notification is a form of communication between distributed
+                systems that allows messages to be sent securely and consistently. These messages
+                act as notifications upon receipt and are processed asynchronously within the
+                service layer. The following architectural diagram represents the flow of messages
+                in a typical Rice Environment. </para>
+            <figure>
+                <title>KEN Message Flow</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEN_Guide/KEN_message_flow.png"/>
+                    </imageobject>
+                </mediaobject></figure>
+            <para>From a developer's perspective the diagram below helps to represent the inner
+                workings of how KEN stores data from the Data Modeling Layer into the Persistence
+                Layer. </para>
+            <figure>
+                <title>KEN Message Storage</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEN_Guide/KEN_message_storage.png"/>
+                    </imageobject>
+                </mediaobject></figure>
+            <para>The following sections of documentation aim at describing the inner workings of
+                KEN as well as how those pieces interact with Rice, specifically KEW. KEN itself is
+                an interface that sits on top of KEW's API. This allows for registration and
+                publishing of notifications, which then flow through KEW to result in a KEW action
+                request. See <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KEW_Guide.html#KEW_Overview">KEW Overview</link> for more information. In addition to the action list, KEW
+                can be optionally configured to forward these requests to the Kuali Communications
+                Broker or KCB for short. This module is logically related to KEN and handles
+                dispatching messages based on the user preferences. Once messages are dispatched, a
+                response or acknowledgement can be created. </para>
+        </section>
+</chapter>

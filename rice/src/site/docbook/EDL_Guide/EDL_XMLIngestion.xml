@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_XMLIngestion" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>XML Ingestion</title>
+    <para>KEW relies on XML for data population and routing configuration. <emphasis
+        role="bold">XML Ingester</emphasis> is available from the <emphasis role="bold"
+            >Administrator</emphasis> channel in the portal. This allows import of various
+        KEW components from XML, such as DocumentTypes, RuleAttributes, Rules, Workgroups,
+        and more.</para>
+    <section>
+        <title>Uploading an eDocLite form</title>
+        <para>To upload XML, from the Administration menu, in the Workflow section, click on
+                <emphasis role="keyword">XML Ingester</emphasis> and select the (one or more) XML
+            file(s) that you want to import:</para>
+        <figure><title>Ingester</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/EDL_Guide/ingester.png" scalefit="1" width="100%" contentdepth="100%" />
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>After upload, notice the statement in red, <emphasis role="keyword"
+            >Ingested xml doc: &lt;name of file></emphasis>:</para>
+        <figure><title>Ingestion Complete</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/EDL_Guide/ingestion_complete.png" scalefit="1" width="100%" contentdepth="100%" />
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+    <section>
+        <title>Ingestion Order</title>
+        <para>Many components can go in at any time, but it is advisable to follow a pattern
+            to minimize the conflicts that can occur. A few pieces are co-dependent.<orderedlist>
+                <listitem>
+                    <para>Basic Components: </para>
+                </listitem>
+                <listitem>
+                    <para>Widgets.xml (If changed or not previously in the environment)
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Kim Group(s) </para>
+                </listitem>
+                <listitem>
+                    <para>Rule Attributes </para>
+                </listitem>
+                <listitem>
+                    <para>Rule Template(s) </para>
+                </listitem>
+                <listitem>
+                    <para>Parent Doctype (often no routing so data is more generic, but do
+                        put routing here if children will use common routing.) </para>
+                </listitem>
+                <listitem>
+                    <para>Children Doctype(s) (routing defined here or on Parent) </para>
+                </listitem>
+                <listitem>
+                    <para>EDL Form </para>
+                </listitem>
+                <listitem>
+                    <para>Rule routing rule (Used if rules are created; explained later- 1
+                        per parent doctype) </para>
+                </listitem>
+                <listitem>
+                    <para>Rules (Create or Ingest) </para>
+                </listitem>
+                <listitem>
+                    <para>Anything else - Like optional custom Email Stylesheet </para>
+                </listitem>
+            </orderedlist></para>
+        <para>A set of sample eDocLite documents you can upload and start using from the Developer Documentation wiki page at <link xlink:href="https://wiki.kuali.org/display/KULRICE/eDocLite+Examples">this</link> location.  
+            <note><para>Please ingest the samples in the correct order, by title (which includes number). That is:
+            <simplelist>
+                <member>01-OAA_Workgroups.xml</member>
+                <member>02-OAA_Attributes.xml</member>    
+                <member>03-OAA_RuleTemplates.xml</member>    
+                <member>04-OAA_ParentDocumentType.xml</member>
+                <member>05-OAA_ChildDoctypes.xml</member>    
+                <member>06-OAA_Rules.xml</member>    
+                <member>07-OAA_InterviewRequestEdl.xml</member>    
+                <member>08-OAA_OfferRequestEdl.xml</member>    
+                <member>09-OAA_SearchStatusEdl.xml</member>    
+                <member>10-OAA_VacancyNoticeEdl.xml</member>
+                <member>11-OAA_WaiverRequestEdl.xml</member>
+            </simplelist>You can ingest the first 10 at one time on the first screen, if they are ordered as above.</para></note>
+        </para>
+        <para> The <link linkend="EDL_Examples">examples</link> section of this guide
+            looks at some of these. </para>
+    </section>
+</chapter>

@@ -1,0 +1,1937 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>SchoolAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>School/Division</label>
+      <description>School/Division Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="school" title="School/Division" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL-BUS-Kelley School of Business">BL BUS</values>
+            <values title="BL-COLL-College of Arts &amp; Sciences">BL COAS</values>
+            <values title="BL-EDUC-School of Education">BL EDUC</values>
+            <values title="BL-GRSC-University Graduate School">BL UGS</values>
+            <values title="BL-HPER-School of Health, Physical Education &amp; Recreation">BL HPER</values>
+            <values title="BL-INFO-School of Informatics">BL INFO</values>
+            <values title="BL-JOUR-School of Journalism">BL JOUR</values>
+            <values title="BL-LAW-School of Law">BL LAW</values>
+            <values title="BL-LSTU-Division of Labor Studies">BL LSTU</values>
+            <values title="BL-MED-School of Medicine">BL MED</values>
+            <values title="BL-MUS-Jacobs School of Music">BL MUS</values>
+            <values title="BL-NURS-School of Nursing">BL NURS</values>
+            <values title="BL-OPT-School of Optometry">BL OPT</values>
+            <values title="BL-SCS-School of Continuing Studies">BL SCS</values>
+            <values title="BL-SLIS-School of Library &amp; Information Sciences">BL SLIS</values>
+            <values title="BL-SPEA-School of Public &amp; Environmental Affairs">BL SPEA</values>
+            <values title="BL-SWK-School of Social Work">BL SWK</values>
+            <values title="BL-UDIV-University Division">BL UDIV</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//school = wf:ruledata('school')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <school>%school%</school>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>RemonstranceFiled</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Remonstrance Filed</label>
+      <description>Remonstrance Filed</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="remonstranceFiled" title="Remonstrance Filed" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//remonstranceFiled = wf:ruledata('remonstranceFiled')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <remonstranceFiled>%remonstranceFiled%</remonstranceFiled>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>ProgramAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Program</label>
+      <description>Program Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="program" title="program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="African American &amp; African Diaspora Studies Nondegree">AAAD9</values>
+            <values title="African American &amp; African Diaspora Studies">AAAD6</values>
+            <values title="African Studies">AFRI6</values>
+            <values title="Anthropology">ANTH6</values>
+            <values title="Apparel Merch and Interior Design">AMID6</values>
+            <values title="Arts Administration">AADM6</values>
+            <values title="Astronomy">AST6</values>
+            <values title="Audiology">COLL5</values>
+            <values title="Biochemistry">BIOC6</values>
+            <values title="Biology">BIOL6</values>
+            <values title="Business Graduate Accounting Programs">BUSA</values>
+            <values title="Business Information Systems Graduate Programs">BUSA</values>
+            <values title="Business PhD">BUS6</values>
+            <values title="Central Eurasian Studies">CEUS6</values>
+            <values title="Chemistry">CHEM6</values>
+            <values title="Classical Studies">CLAS6</values>
+            <values title="Cognitive Science">COGS6</values>
+            <values title="Communication and Culture">CMCL6</values>
+            <values title="Comparative Literature">CMLT6</values>
+            <values title="Computer Science">CSCI6</values>
+            <values title="Criminal Justice">CJUS6</values>
+            <values title="East Asian Lang and Cult">EALC6</values>
+            <values title="Economics">ECON6</values>
+            <values title="Education Doctor of Education degrees EdD">EDUC5</values>
+            <values title="Education Doctor of Philosophy degrees PhD">EDUC6</values>
+            <values title="Education Graduate Certificates">EDUC5</values>
+            <values title="Education Licensure programs">EDUCG</values>
+            <values title="Education Master of Science degrees MS">EDUC5</values>
+            <values title="Education Nondegree Programs">EDUCG</values>
+            <values title="Education Specialist in Education degrees EdS">EDUC5</values>
+            <values title="Education Transition to Teach programs">EDUCT</values>
+            <values title="English Nondegree">ENG9</values>
+            <values title="English">ENG6</values>
+            <values title="Environmental Science PhD">SPES6</values>
+            <values title="Fine Arts-Art History">FINA6</values>
+            <values title="Fine Arts-Studio">FINS6</values>
+            <values title="Folklore and Ethnomusicology">FOLK6</values>
+            <values title="French and Italian Nondegree">FRIT9</values>
+            <values title="French and Italian">FRIT6</values>
+            <values title="Gender Studies Non Degree">GNDR9</values>
+            <values title="Gender Studies">GNDR6</values>
+            <values title="Geography">GEOG6</values>
+            <values title="Geological Sciences">GEOL6</values>
+            <values title="Germanic Studies">GER6</values>
+            <values title="Health - Physical Education and Recreation MS or Director">HPER5</values>
+            <values title="Health - Physical Education and Recreation Nondegree">HPER9</values>
+            <values title="Health - Physical Education and Recreation Phd">HPER6</values>
+            <values title="Hist and Phil of Science">HPSC6</values>
+            <values title="History">HIST6</values>
+            <values title="Informatics MS">INFO5</values>
+            <values title="Informatics PhD">INFO6</values>
+            <values title="Journalism">JOUR6</values>
+            <values title="Latin American Studies">LTAM6</values>
+            <values title="Law Graduate Degrees">LAW5</values>
+            <values title="Library and Info Sci Grad Nondeg">SLIS9</values>
+            <values title="Library and Info Sci Graduate">SLIS5</values>
+            <values title="Library and Info Sci PhD">SLIS6</values>
+            <values title="Linguistics">LING6</values>
+            <values title="Mathematics">MATH6</values>
+            <values title="Medicine Nondegree">MED9</values>
+            <values title="Medicine">MED6</values>
+            <values title="Music MA/ MAT/ PhD">MUS6</values>
+            <values title="Music Non Degree">MUS9</values>
+            <values title="Music Performer and Artist Diploma">MUSD</values>
+            <values title="Music all other areas">MUS5</values>
+            <values title="Near Eastern Lang and Cult">NELC6</values>
+            <values title="Neural Science">NEUS6</values>
+            <values title="Optometry MS PhD">OPT6</values>
+            <values title="Optometry OD">OPT7</values>
+            <values title="Optometry Prof Nondeg">OPT8</values>
+            <values title="Philosophy">PHIL6</values>
+            <values title="Physics">PHYS6</values>
+            <values title="Physics Non Degree">PHYS9</values>
+            <values title="Political Science">POLS6</values>
+            <values title="Psychology">PSY6</values>
+            <values title="Pub and Envir Aff Grad Nondeg">SPEA9</values>
+            <values title="Pub and Envir Aff Graduate">SPEA5</values>
+            <values title="Public Affairs PhD">SPPA6</values>
+            <values title="Public Policy PhD">SPPP6</values>
+            <values title="Religious Studies">REL6</values>
+            <values title="Russian and East Europe Inst">REEI6</values>
+            <values title="Second Language Studies Non Degree">SLST9</values>
+            <values title="Second Language Studies">SLST6</values>
+            <values title="Slavic Languages and Lit">SLAV6</values>
+            <values title="Social Studies">SSTD6</values>
+            <values title="Sociology">SOC6</values>
+            <values title="Spanish and Portuguese">HISP6</values>
+            <values title="Speech and Hearing Sciences Nondegree">SPHS9</values>
+            <values title="Speech and Hearing Sciences">SPHS6</values>
+            <values title="Telecommunications">TEL6</values>
+            <values title="Theatre and Drama">THTR6</values>
+            <values title="West European Studies">WEUR6</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//program = wf:ruledata('program')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <program>%program%</program>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SchoolSearchAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>School/Division</label>
+      <description>School/Division Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="school" title="School/Division" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL-BUS-Kelley School of Business">BL BUS</values>
+            <values title="BL-COLL-College of Arts &amp; Sciences">BL COAS</values>
+            <values title="BL-EDUC-School of Education">BL EDUC</values>
+            <values title="BL-GRSC-University Graduate School">BL UGS</values>
+            <values title="BL-HPER-School of Health, Physical Education &amp; Recreation">BL HPER</values>
+            <values title="BL-INFO-School of Informatics">BL INFO</values>
+            <values title="BL-JOUR-School of Journalism">BL JOUR</values>
+            <values title="BL-LAW-School of Law">BL LAW</values>
+            <values title="BL-LSTU-Division of Labor Studies">BL LSTU</values>
+            <values title="BL-MED-School of Medicine">BL MED</values>
+            <values title="BL-MUS-Jacobs School of Music">BL MUS</values>
+            <values title="BL-NURS-School of Nursing">BL NURS</values>
+            <values title="BL-OPT-School of Optometry">BL OPT</values>
+            <values title="BL-SCS-School of Continuing Studies">BL SCS</values>
+            <values title="BL-SLIS-School of Library &amp; Information Sciences">BL SLIS</values>
+            <values title="BL-SPEA-School of Public &amp; Environmental Affairs">BL SPEA</values>
+            <values title="BL-SWK-School of Social Work">BL SWK</values>
+            <values title="BL-UDIV-University Division">BL UDIV</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//school = wf:ruledata('school')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <school>%school%</school>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SubjectSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Subject Search Attribute</label>
+      <description>Subject Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="academicSubjectArea" title="Academic Subject Area" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="A AE">A AE</values>
+            <values title="AAAD">AAAD</values>
+            <values title="AADM">AADM</values>
+            <values title="ABEH">ABEH</values>
+            <values title="ACE">ACE</values>
+            <values title="AERO">AERO</values>
+            <values title="AFRI">AFRI</values>
+            <values title="AFRO">AFRO</values>
+            <values title="AGR">AGR</values>
+            <values title="AGRY">AGRY</values>
+            <values title="AHLT">AHLT</values>
+            <values title="AHSP">AHSP</values>
+            <values title="AMID">AMID</values>
+            <values title="AMST">AMST</values>
+            <values title="ANAT">ANAT</values>
+            <values title="ANES">ANES</values>
+            <values title="ANSC">ANSC</values>
+            <values title="ANTH">ANTH</values>
+            <values title="AR">AR</values>
+            <values title="ARET">ARET</values>
+            <values title="ART">ART</values>
+            <values title="ASCS">ASCS</values>
+            <values title="AST">AST</values>
+            <values title="AT">AT</values>
+            <values title="AUS">AUS</values>
+            <values title="BCM">BCM</values>
+            <values title="BIOC">BIOC</values>
+            <values title="BIOL">BIOL</values>
+            <values title="BIOP">BIOP</values>
+            <values title="BREG">BREG</values>
+            <values title="BUFW">BUFW</values>
+            <values title="BUNW">BUNW</values>
+            <values title="BUEX">BUEX</values>
+            <values title="BUKD">BUKD</values>
+            <values title="BUPA">BUPA</values>
+            <values title="BUS">BUS</values>
+            <values title="BUSB">BUSB</values>
+            <values title="C S">C S</values>
+            <values title="CAND">CAND</values>
+            <values title="CDFS">CDFS</values>
+            <values title="CE">CE</values>
+            <values title="CET">CET</values>
+            <values title="CEUS">CEUS</values>
+            <values title="CGT">CGT</values>
+            <values title="CHE">CHE</values>
+            <values title="CHEM">CHEM</values>
+            <values title="CHM">CHM</values>
+            <values title="CIMT">CIMT</values>
+            <values title="CIS">CIS</values>
+            <values title="CJUS">CJUS</values>
+            <values title="CLAR">CLAR</values>
+            <values title="CLAS">CLAS</values>
+            <values title="CLLC">CLLC</values>
+            <values title="CMCL">CMCL</values>
+            <values title="CMLT">CMLT</values>
+            <values title="CNT">CNT</values>
+            <values title="COAS">COAS</values>
+            <values title="COGS">COGS</values>
+            <values title="COLL">COLL</values>
+            <values title="COM">COM</values>
+            <values title="COMM">COMM</values>
+            <values title="CPT">CPT</values>
+            <values title="CSCI">CSCI</values>
+            <values title="CSR">CSR</values>
+            <values title="CULS">CULS</values>
+            <values title="DAST">DAST</values>
+            <values title="DENT">DENT</values>
+            <values title="DERM">DERM</values>
+            <values title="DFLT">DFLT</values>
+            <values title="DHYG">DHYG</values>
+            <values title="DLFT">DLFT</values>
+            <values title="DLTP">DLTP</values>
+            <values title="E E">E E</values>
+            <values title="E G">E G</values>
+            <values title="EALC">EALC</values>
+            <values title="EALL">EALL</values>
+            <values title="ECON">ECON</values>
+            <values title="ED">ED</values>
+            <values title="EDUA">EDUA</values>
+            <values title="EDUC">EDUC</values>
+            <values title="EE">EE</values>
+            <values title="EET">EET</values>
+            <values title="EG">EG</values>
+            <values title="EGR">EGR</values>
+            <values title="EN">EN</values>
+            <values title="ENG">ENG</values>
+            <values title="ENGL">ENGL</values>
+            <values title="ENGR">ENGR</values>
+            <values title="ENTM">ENTM</values>
+            <values title="F N">F N</values>
+            <values title="FILM">FILM</values>
+            <values title="FINA">FINA</values>
+            <values title="FLLC">FLLC</values>
+            <values title="FNR">FNR</values>
+            <values title="FOLK">FOLK</values>
+            <values title="FOR">FOR</values>
+            <values title="FREN">FREN</values>
+            <values title="FRIT">FRIT</values>
+            <values title="FRST">FRST</values>
+            <values title="FWAI">FWAI</values>
+            <values title="GE">GE</values>
+            <values title="GEOG">GEOG</values>
+            <values title="GEOL">GEOL</values>
+            <values title="GER">GER</values>
+            <values title="GLLC">GLLC</values>
+            <values title="GNDR">GNDR</values>
+            <values title="GNT">GNT</values>
+            <values title="GRAD">GRAD</values>
+            <values title="GREK">GREK</values>
+            <values title="GRST">GRST</values>
+            <values title="HER">HER</values>
+            <values title="HEU">HEU</values>
+            <values title="HI">HI</values>
+            <values title="HISP">HISP</values>
+            <values title="HIST">HIST</values>
+            <values title="HON">HON</values>
+            <values title="HORT">HORT</values>
+            <values title="HPER">HPER</values>
+            <values title="HPSC">HPSC</values>
+            <values title="HSC">HSC</values>
+            <values title="HSCI">HSCI</values>
+            <values title="HUBI">HUBI</values>
+            <values title="HVST">HVST</values>
+            <values title="I E">I E</values>
+            <values title="IBLS">IBLS</values>
+            <values title="IDIS">IDIS</values>
+            <values title="IE">IE</values>
+            <values title="IET">IET</values>
+            <values title="IIM">IIM</values>
+            <values title="IMP">IMP</values>
+            <values title="INFO">INFO</values>
+            <values title="INPG">INPG</values>
+            <values title="INST">INST</values>
+            <values title="INTL">INTL</values>
+            <values title="INTR">INTR</values>
+            <values title="IT">IT</values>
+            <values title="ITAL">ITAL</values>
+            <values title="JOUR">JOUR</values>
+            <values title="JR D">JR D</values>
+            <values title="JSTU">JSTU</values>
+            <values title="KINS">KINS</values>
+            <values title="LA">LA</values>
+            <values title="LAMP">LAMP</values>
+            <values title="LATS">LATS</values>
+            <values title="LAW">LAW</values>
+            <values title="LBST">LBST</values>
+            <values title="LESA">LESA</values>
+            <values title="LING">LING</values>
+            <values title="LSTU">LSTU</values>
+            <values title="LTAM">LTAM</values>
+            <values title="M E">M E</values>
+            <values title="MA">MA</values>
+            <values title="MATH">MATH</values>
+            <values title="MBIO">MBIO</values>
+            <values title="MCHE">MCHE</values>
+            <values title="ME">ME</values>
+            <values title="MED">MED</values>
+            <values title="MEDC">MEDC</values>
+            <values title="MEST">MEST</values>
+            <values title="MET">MET</values>
+            <values title="MGEN">MGEN</values>
+            <values title="MHT">MHT</values>
+            <values title="MICR">MICR</values>
+            <values title="MIL">MIL</values>
+            <values title="MSCB">MSCB</values>
+            <values title="MSCI">MSCI</values>
+            <values title="MSE">MSE</values>
+            <values title="MU">MU</values>
+            <values title="MUS">MUS</values>
+            <values title="NELC">NELC</values>
+            <values title="NEUR">NEUR</values>
+            <values title="NEUS">NEUS</values>
+            <values title="NTRN">NTRN</values>
+            <values title="NUR">NUR</values>
+            <values title="NURS">NURS</values>
+            <values title="OBGY">OBGY</values>
+            <values title="OLS">OLS</values>
+            <values title="OPHT">OPHT</values>
+            <values title="OPT">OPT</values>
+            <values title="ORTH">ORTH</values>
+            <values title="OTOL">OTOL</values>
+            <values title="OVST">OVST</values>
+            <values title="PATH">PATH</values>
+            <values title="PBHL">PBHL</values>
+            <values title="PCTX">PCTX</values>
+            <values title="PE">PE</values>
+            <values title="PED">PED</values>
+            <values title="PHAR">PHAR</values>
+            <values title="PHIL">PHIL</values>
+            <values title="PHSL">PHSL</values>
+            <values title="PHYS">PHYS</values>
+            <values title="PIRT">PIRT</values>
+            <values title="PLSC">PLSC</values>
+            <values title="POLS">POLS</values>
+            <values title="POPT">POPT</values>
+            <values title="PPP">PPP</values>
+            <values title="PRST">PRST</values>
+            <values title="PS">PS</values>
+            <values title="PSY">PSY</values>
+            <values title="PSYC">PSYC</values>
+            <values title="RADI">RADI</values>
+            <values title="REEI">REEI</values>
+            <values title="REL">REL</values>
+            <values title="REN">REN</values>
+            <values title="RHI">RHI</values>
+            <values title="RHIT">RHIT</values>
+            <values title="RU">RU</values>
+            <values title="SCI">SCI</values>
+            <values title="SCS">SCS</values>
+            <values title="SEMS">SEMS</values>
+            <values title="SLAV">SLAV</values>
+            <values title="SLIS">SLIS</values>
+            <values title="SLST">SLST</values>
+            <values title="SMEP">SMEP</values>
+            <values title="SO">SO</values>
+            <values title="SOC">SOC</values>
+            <values title="SP">SP</values>
+            <values title="SPAN">SPAN</values>
+            <values title="SPCH">SPCH</values>
+            <values title="SPEA">SPEA</values>
+            <values title="SPHS">SPHS</values>
+            <values title="STAT">STAT</values>
+            <values title="SURG">SURG</values>
+            <values title="SWK">SWK</values>
+            <values title="TBUS">TBUS</values>
+            <values title="TCHM">TCHM</values>
+            <values title="TCM">TCM</values>
+            <values title="TCOM">TCOM</values>
+            <values title="TECH">TECH</values>
+            <values title="TEL">TEL</values>
+            <values title="TENG">TENG</values>
+            <values title="TEST">TEST</values>
+            <values title="TEXP">TEXP</values>
+            <values title="TG">TG</values>
+            <values title="THTR">THTR</values>
+            <values title="TMAT">TMAT</values>
+            <values title="TOPT">TOPT</values>
+            <values title="UCOL">UCOL</values>
+            <values title="UD">UD</values>
+            <values title="UDIV">UDIV</values>
+            <values title="UNDI">UNDI</values>
+            <values title="URAL">URAL</values>
+            <values title="UROL">UROL</values>
+            <values title="VART">VART</values>
+            <values title="VICT">VICT</values>
+            <values title="VSCI">VSCI</values>
+            <values title="WEUR">WEUR</values>
+            <values title="WOST">WOST</values>
+            <values title="XRAY">XRAY</values>
+            <values title="ZOOL">ZOOL</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='academicSubjectArea']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CreditTypeAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Credit Type</label>
+      <description>Credit Type Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="creditType" title="Credit Type" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="Graduate">grad</values>
+            <values title="Graduate and Professional">grdprf</values>
+            <values title="Professional">prof</values>
+            <values title="Undergraduate">under</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//creditType = wf:ruledata('creditType')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <creditType>%creditType%</creditType>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DepartmentAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Department</label>
+      <description>Department Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="academicSubjectArea" title="Academic Subject Area" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="AAAD-African Am &amp; Afri Diaspora Std">AAAD</values>
+            <values title="AADM-Arts Administration">AADM</values>
+            <values title="ABEH-Animal Behavior">ABEH</values>
+            <values title="AERO-Aerospace Studies">AERO</values>
+            <values title="AFRI-African Studies">AFRI</values>
+            <values title="AGR-Agriculture">AGR</values>
+            <values title="AMID-Apparel Merch/Int Design">AMID</values>
+            <values title="AMST-American Studies">AMST</values>
+            <values title="ANAT-Anatomy">ANAT</values>
+            <values title="ANSC-Animal Science">ANSC</values>
+            <values title="ANTH-Anthropology">ANTH</values>
+            <values title="ARET-Architectural Eng Technology">ARET</values>
+            <values title="ART-Architectural Technology">ART</values>
+            <values title="ASCS-Arts&amp;Sciences Career Services">ASCS</values>
+            <values title="AST-Astronomy">AST</values>
+            <values title="BIOC-Biochemistry">BIOC</values>
+            <values title="BIOL-Biology">BIOL</values>
+            <values title="BIOP-Biophysics">BIOP</values>
+            <values title="BUEX-Global Executive MBA Program">BUEX</values>
+            <values title="BUKD-Kelley Direct">BUKD</values>
+            <values title="BUPA-Business Prof Accountancy">BUPA</values>
+            <values title="BUS-Business">BUS</values>
+            <values title="CDFS-Child Dev &amp; Family Studies">CDFS</values>
+            <values title="CEUS-Central Eurasian Studies">CEUS</values>
+            <values title="CHEM-Chemistry">CHEM</values>
+            <values title="CIS-Computer Information Services">CIS</values>
+            <values title="CJUS-Criminal Justice-Coas">CJUS</values>
+            <values title="CLAR-Classical Archaeology">CLAR</values>
+            <values title="CLAS-Classical Studies">CLAS</values>
+            <values title="CLLC-Collins Living-Learning Center">CLLC</values>
+            <values title="CMCL-Communication &amp; Culture">CMCL</values>
+            <values title="CMLT-Comparative Literature">CMLT</values>
+            <values title="COAS-College Of Arts And Sciences">COAS</values>
+            <values title="COGS-Cognitive Science">COGS</values>
+            <values title="COLL-College of Arts &amp; Sciences">COLL</values>
+            <values title="COMM-Communication &amp; Theatre">COMM</values>
+            <values title="CSCI-Computer Science">CSCI</values>
+            <values title="CSR-Consumer Sciences &amp; Retailing">CSR</values>
+            <values title="CULS-Cultural Studies">CULS</values>
+            <values title="DAST-Dental Assisting">DAST</values>
+            <values title="DHYG-Dental Hygiene">DHYG</values>
+            <values title="DLTP-Dental Lab Tech">DLTP</values>
+            <values title="EALC-East Asian Lang &amp; Culture">EALC</values>
+            <values title="ECON-Economics">ECON</values>
+            <values title="EDUC-Education">EDUC</values>
+            <values title="ENG-English">ENG</values>
+            <values title="ENTM-Entomology">ENTM</values>
+            <values title="FINA-Fine Arts">FINA</values>
+            <values title="FLLC-Foster Intl Liv/Learn Ctr">FLLC</values>
+            <values title="FNR-Forestry &amp; Natural Resources">FNR</values>
+            <values title="FOLK-Folklore and Ethnomusicology">FOLK</values>
+            <values title="FREN-French">FREN</values>
+            <values title="FRIT-French And Italian">FRIT</values>
+            <values title="FRST-Foreign Study">FRST</values>
+            <values title="GEOG-Geography">GEOG</values>
+            <values title="GEOL-Geology">GEOL</values>
+            <values title="GER-Germanic Languages">GER</values>
+            <values title="GLLC-Global Village Lvg-Lrng Center">GLLC</values>
+            <values title="GNDR-Gender Studies">GNDR</values>
+            <values title="GRAD-Graduate">GRAD</values>
+            <values title="GRST-German Studies, Institute Of">GRST</values>
+            <values title="HER-Herron Art">HER</values>
+            <values title="HISP-Spanish &amp; Portuguese">HISP</values>
+            <values title="HIST-History">HIST</values>
+            <values title="HON-Honors">HON</values>
+            <values title="HORT-Horticulture">HORT</values>
+            <values title="HPER-Health, Phys Ed, &amp; Recreation">HPER</values>
+            <values title="HPSC-Hist &amp; Phil Of Science">HPSC</values>
+            <values title="HUBI-Human Biology">HUBI</values>
+            <values title="HVST-Human Evolutionary Studies">HVST</values>
+            <values title="IBLS-Inst For Biblical Literary St">IBLS</values>
+            <values title="IDIS-Interdisciplinary Studies">IDIS</values>
+            <values title="IMP-Individualized Major Program">IMP</values>
+            <values title="INFO-Informatics">INFO</values>
+            <values title="INPG-International Programs">INPG</values>
+            <values title="INST-India Studies">INST</values>
+            <values title="INTL-International Studies">INTL</values>
+            <values title="INTR-Interior Design">INTR</values>
+            <values title="ITAL-Italian">ITAL</values>
+            <values title="JOUR-Journalism">JOUR</values>
+            <values title="JSTU-Jewish Studies">JSTU</values>
+            <values title="KINS-Kinsey Institute">KINS</values>
+            <values title="LAMP-Liberal Arts And Mgmt Program">LAMP</values>
+            <values title="LATS-Latino Studies">LATS</values>
+            <values title="LAW-Law">LAW</values>
+            <values title="LBST-Liberal Studies">LBST</values>
+            <values title="LESA-Ldrship Eth &amp; Soc Action Prog">LESA</values>
+            <values title="LING-Linguistics">LING</values>
+            <values title="LSTU-Labor Studies">LSTU</values>
+            <values title="LTAM-Latin American Studies">LTAM</values>
+            <values title="MATH-Mathematics">MATH</values>
+            <values title="MBIO-Medical Microbiology">MBIO</values>
+            <values title="MCHE-Medical Chemistry">MCHE</values>
+            <values title="MED-Medicine">MED</values>
+            <values title="MEST-Medieval Studies">MEST</values>
+            <values title="MET-Mechanical Engr Tech">MET</values>
+            <values title="MICR-Microbiology">MICR</values>
+            <values title="MIL-Military">MIL</values>
+            <values title="MSCI-Medical Sciences">MSCI</values>
+            <values title="MUS-Music">MUS</values>
+            <values title="NELC-Near Eastern Lang &amp; Cultures">NELC</values>
+            <values title="NEUR-Neurology">NEUR</values>
+            <values title="NEUS-Center For Neural Sciences">NEUS</values>
+            <values title="NUR-Nursing">NUR</values>
+            <values title="NURS-Nursing">NURS</values>
+            <values title="OPT-Optometry">OPT</values>
+            <values title="OVST-Overseas Studies">OVST</values>
+            <values title="PATH-Pathology">PATH</values>
+            <values title="PCTX-Pharmacol And Toxicol">PCTX</values>
+            <values title="PHAR-Pharmacology">PHAR</values>
+            <values title="PHIL-Philosophy">PHIL</values>
+            <values title="PHSL-Physiology">PHSL</values>
+            <values title="PHYS-Physics">PHYS</values>
+            <values title="PLSC-Plant Sciences">PLSC</values>
+            <values title="POLS-Political Science">POLS</values>
+            <values title="POPT-Physiological Optics">POPT</values>
+            <values title="PPP-Professional Practice Program">PPP</values>
+            <values title="PRST-Performance Studies">PRST</values>
+            <values title="PSY-Psychological &amp; Brain Sciences">PSY</values>
+            <values title="PSYC-Psychiatry">PSYC</values>
+            <values title="RADI-Radiology">RADI</values>
+            <values title="REEI-Russian &amp; East European Inst">REEI</values>
+            <values title="REL-Religious Studies">REL</values>
+            <values title="REN-Renaissance Studies">REN</values>
+            <values title="RHI-Restaurant, Hotel, &amp; Inst Mgmt">RHI</values>
+            <values title="SCI-General Science">SCI</values>
+            <values title="SCS-School Of Continuing Studies">SCS</values>
+            <values title="SLAV-Slavic Languages &amp; Literatures">SLAV</values>
+            <values title="SLIS-Library &amp; Information Science">SLIS</values>
+            <values title="SLST-Second Language Studies">SLST</values>
+            <values title="SOC-Sociology">SOC</values>
+            <values title="SPAN-Spanish">SPAN</values>
+            <values title="SPCH-Speech">SPCH</values>
+            <values title="SPEA-Public And Envir Affairs">SPEA</values>
+            <values title="SPHS-Speech &amp; Hearing Sciences">SPHS</values>
+            <values title="STAT-Statistics">STAT</values>
+            <values title="SURG-Surgery">SURG</values>
+            <values title="SWK-Social Work">SWK</values>
+            <values title="TBUS-Business Gts">TBUS</values>
+            <values title="TCM-Technical Communications">TCM</values>
+            <values title="TEL-Telecommunications">TEL</values>
+            <values title="THTR-Theatre &amp; Drama">THTR</values>
+            <values title="TOPT-Optometric Technology">TOPT</values>
+            <values title="UCOL-University College">UCOL</values>
+            <values title="UDIV-University Division">UDIV</values>
+            <values title="UROL-Urology">UROL</values>
+            <values title="VART-Visual Arts">VART</values>
+            <values title="VICT-Victorian Studies">VICT</values>
+            <values title="VSCI-Vision Science">VSCI</values>
+            <values title="WEUR-West European Studies">WEUR</values>
+            <values title="WOST-Women's Studies">WOST</values>
+            <values title="XRAY-X-Ray Technology">XRAY</values>
+            <values title="ZOOL-Zoology">ZOOL</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//academicSubjectArea = wf:ruledata('academicSubjectArea')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <academicSubjectArea>%academicSubjectArea%</academicSubjectArea>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDCommDept1SearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department 1</label>
+      <description>Department/Academic Subject Area Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department1" title="Department/Program 1" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AMST - American Studies">BL-AMST</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - SPES - Environmental Science">BL-SPES</values>
+            <values title="BL - FINA - Fine Arts">BL-FINA</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPER - Health, PE &amp; Rec">BL-HPER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - INFO - Informatics">BL-INFO</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LAW - Law Grad">BL-LAW</values>
+            <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MED - Medicine Grad">BL-MED</values>
+            <values title="BL - MUS - Music Grad">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+            <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+            <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='department1']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDCommDept2SearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department 2</label>
+      <description>Department/Academic Subject Area Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department2" title="Department/Program 2" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AMST - American Studies">BL-AMST</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - SPES - Environmental Science">BL-SPES</values>
+            <values title="BL - FINA - Fine Arts">BL-FINA</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPER - Health, PE &amp; Rec">BL-HPER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - INFO - Informatics">BL-INFO</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LAW - Law Grad">BL-LAW</values>
+            <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MED - Medicine Grad">BL-MED</values>
+            <values title="BL - MUS - Music Grad">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+            <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+            <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='department2']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegDeptAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Department</label>
+      <description>Department/Academic Subject Area Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="department" title="Department/Program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AFRI - African Studies">BL-AFRI</values>
+            <values title="BL - AFRO - Afro-American Studies">BL-AFRO</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AMID - Apparel Merch &amp; Int Design">BL-AMID</values>
+            <values title="BL - AADM - Arts Administration">BL-AADM</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - FINA - Fine Arts - History of Art">BL-FINA</values>
+            <values title="BL - FINS - Fine Arts - Studio">BL-FINS</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - JSTU - Jewish Studies">BL-JSTU</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LTAM - Latin American Studies">BL-LTAM</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MSCI - Medical Sciences">BL-MSCI</values>
+            <values title="BL - MED - Medicine">BL-MED</values>
+            <values title="BL - MUS - Music">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - OPT - Optometry">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - REEI - Russian &amp; East Europe Inst">BL-REEI</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SSTD - Social Studies">BL-SSTD</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech &amp; Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+            <values title="BL - WEUR - West European Studies">BL-WEUR</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//department = wf:ruledata('department')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <department>%department%</department>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegMajorAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Major</label>
+      <description>Major Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="major" title="Major" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - Afr Am &amp; Afr Diaspora St MA">BL-AAADSMA</values>
+            <values title="BL - African Studies MA">BL-AFRIMA</values>
+            <values title="BL - Afro-American Studies MA">BL-AFROMA</values>
+            <values title="BL - AMID: Apparel Merchandising MS">BL-AMIDAPMS</values>
+            <values title="BL - AMID: Interior Design MS">BL-AMIDINMS</values>
+            <values title="BL - Anatomy MA">BL-ANATMA</values>
+            <values title="BL - Anatomy MS">BL-ANATMMS</values>
+            <values title="BL - Anthropology MA">BL-ANTHMA</values>
+            <values title="BL - Applied Statistics MS">BL-APLDSTATMS</values>
+            <values title="BL - Arts Administration MA">BL-ARTADMA</values>
+            <values title="BL - Astronomy MA">BL-ASTYMA</values>
+            <values title="BL - Biochemistry MS">BL-BIOCMS</values>
+            <values title="BL - Biology MAT">BL-BIOLMAT</values>
+            <values title="BL - Biotechnology MS">BL-BIOTECMS</values>
+            <values title="BL - Central Eurasian Studies MA">BL-CEUSMA</values>
+            <values title="BL - Chemistry MAT">BL-CHEMMAT</values>
+            <values title="BL - Chemistry MS">BL-CHEMMS</values>
+            <values title="BL - Chinese MA">BL-CHINMA</values>
+            <values title="BL - Classical St:Latin &amp; Greek MA">BL-CLSTMA</values>
+            <values title="BL - Classical St:Latin&amp;Greek MAT">BL-CLSTMAT</values>
+            <values title="BL - Classical Studies MA">BL-CLSTMA1</values>
+            <values title="BL - Communication &amp; Culture MA">BL-CMCLMA</values>
+            <values title="BL - Comparative Literature MA">BL-CMLTMA</values>
+            <values title="BL - Comparative Literature MAT">BL-CMLTMAT</values>
+            <values title="BL - Creative Writing MFA">BL-CRWRMFA</values>
+            <values title="BL - Criminal Justice MA">BL-CJUSMA</values>
+            <values title="BL - East Asian Studies MA">BL-EASTMA</values>
+            <values title="BL - Ecology and Evolu Biology MA">BL-EEBMA</values>
+            <values title="BL - Economics MA">BL-ECONMA</values>
+            <values title="BL - Economics MAT">BL-ECONMAT</values>
+            <values title="BL - English MA">BL-ENGMA</values>
+            <values title="BL - English MAT">BL-ENGMAT</values>
+            <values title="BL - Evolution, Ecology &amp; Behvr MS">BL-EEBMS</values>
+            <values title="BL - Fine Arts - History of Art MA">BL-FINAHMA</values>
+            <values title="BL - Fine Arts - Studio MAT">BL-FINSMAT</values>
+            <values title="BL - Fine Arts - Studio MFA">BL-FINASMFA</values>
+            <values title="BL - Folklore  &amp; Ethnomusicology MA">BL-FOLKMA</values>
+            <values title="BL - French MA">BL-FRENMA</values>
+            <values title="BL - Gender Studies MA">BL-GNDRMA</values>
+            <values title="BL - General Science MAT">BL-GSCIMAT</values>
+            <values title="BL - Geography MA">BL-GEOGMA</values>
+            <values title="BL - Geography MAT">BL-GEOGMAT</values>
+            <values title="BL - Geography MS">BL-GEOGMS</values>
+            <values title="BL - Geological Sciences MS">BL-GEOLMS</values>
+            <values title="BL - Geology MS">BL-GLGYMS</values>
+            <values title="BL - Germanic Studies MA">BL-GERMA</values>
+            <values title="BL - Germanic Studies MAT">BL-GERMAT</values>
+            <values title="BL - Hist &amp; Philos of Science MA">BL-HPSCMA</values>
+            <values title="BL - History MA">BL-HISTMA</values>
+            <values title="BL - History MAT">BL-HISTMAT</values>
+            <values title="BL - Italian MA">BL-ITALMA</values>
+            <values title="BL - Japanese MA">BL-JAPAMA</values>
+            <values title="BL - Jewish Studies MA">BL-JSTUMA</values>
+            <values title="BL - Journalism MA">BL-JOURMA</values>
+            <values title="BL - Journalism MAT">BL-JOURMAT</values>
+            <values title="BL - Latin American Studies MA">BL-LTAMMA</values>
+            <values title="BL - Linguistics MA">BL-LINGMA</values>
+            <values title="BL - Linguistics:TESOL &amp; Applied MA">BL-LINGTESLMA</values>
+            <values title="BL - Mathematics MA">BL-MATHMA</values>
+            <values title="BL - Mathematics MAT">BL-MATHMAT</values>
+            <values title="BL - Medical Physics MS">BL-MEDPHYSMS</values>
+            <values title="BL - Microbiology MA">BL-MICRMA</values>
+            <values title="BL - Microbiology MS">BL-MICRMS</values>
+            <values title="BL - Music Theory MA">BL-MSTHRYMA</values>
+            <values title="BL - Musicology MA">BL-MSCLOGYMA</values>
+            <values title="BL - Near Eastern Lang &amp; Cult MA">BL-NELCMA</values>
+            <values title="BL - Near Eastern Lang &amp; LIt MA">BL-NELLMA</values>
+            <values title="BL - Pathology MS">BL-PATHOMS</values>
+            <values title="BL - Pharmacology MS">BL-PHARMMS</values>
+            <values title="BL - Philosophy MA">BL-PHILMA</values>
+            <values title="BL - Physics MAT">BL-PHYSMAT</values>
+            <values title="BL - Physics MS">BL-PHYSMS</values>
+            <values title="BL - Physiology MA">BL-PYSOLMA</values>
+            <values title="BL - Physiology MS">BL-PYSOLMS</values>
+            <values title="BL - Plant Sciences MA">BL-PLSCMA</values>
+            <values title="BL - Plant Sciences MS">BL-PLSCMS</values>
+            <values title="BL - Political Science MA">BL-POLSMA</values>
+            <values title="BL - Political Science MAT">BL-POLSMAT</values>
+            <values title="BL - Portuguese MA">BL-PORTMA</values>
+            <values title="BL - Psychology MA">BL-PSYMA</values>
+            <values title="BL - Religious Studies MA">BL-RELMA</values>
+            <values title="BL - Russian and East Euro St MA">BL-REEIMA</values>
+            <values title="BL - Second Language Studies MA">BL-SLSTMA</values>
+            <values title="BL - Slavic Languages and Lit MA">BL-SLAVMA</values>
+            <values title="BL - Slavic Languages and Lit MAT">BL-SLAVMAT</values>
+            <values title="BL - Social Studies MAT">BL-SSTDMAT</values>
+            <values title="BL - Sociology MA">BL-SOCMA</values>
+            <values title="BL - Spanish MA">BL-SPANMA</values>
+            <values title="BL - Spanish MAT">BL-SPANMAT</values>
+            <values title="BL - Speech &amp; Hearing Sciences MA">BL-SPHSMA</values>
+            <values title="BL - Speech &amp; Hearing Sciences MAT">BL-SPHSMAT</values>
+            <values title="BL - Speech MA">BL-SPCHMA2</values>
+            <values title="BL - Speech Pathology MAT">BL-SPCHPAMAT</values>
+            <values title="BL - Statistical Science MS">BL-STATSCMS</values>
+            <values title="BL - Telecommunications MA">BL-TELMA</values>
+            <values title="BL - Telecommunications MS">BL-TELMS</values>
+            <values title="BL - TESOL &amp; Applied Linguistics MA">BL-TAALMA</values>
+            <values title="BL - Theatre and Drama MA">BL-THTRMA</values>
+            <values title="BL - Theatre and Drama MAT">BL-THTRMAT</values>
+            <values title="BL - Theatre and Drama MFA">BL-THTRMFA</values>
+            <values title="BL - Vision Science MS">BL-VISSCMS</values>
+            <values title="BL - West European Studies MA">BL-WEURMA</values>
+            <values title="BL - Zoology MA">BL-ZOOLMA</values>
+            <values title="BL - Zoology MS">BL-ZOOLMS</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//major = wf:ruledata('major')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <major>%major%</major>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegDualDegAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Dual Degree</label>
+      <description>Department Dual Degree Program Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="maDualDegree" title="Dual Degree Program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL-SPEA-Public And Envir Affairs">BL-SPEA</values>
+            <values title="BL-SLIS- Library &amp; Information Science">BL-SLIS</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//maDualDegree = wf:ruledata('maDualDegree')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <maDualDegree>%maDualDegree%</maDualDegree>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegDualDegYNAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Dual Degree Yes or No</label>
+      <description>Department Dual Degree Program Yes or No Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="maDualDegreeYN" title="Is this a Dual Degree?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//maDualDegreeYN = wf:ruledata('maDualDegreeYN')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <maDualDegreeYN>%maDualDegreeYN%</maDualDegreeYN>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegCampusAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Which Campus?</label>
+      <description>Department Campus Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="campus" title="Campus:" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="BL">BL</values>
+            <values title="IN">IN</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//campus = wf:ruledata('campus')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <campus>%campus%</campus>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegDeptSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department</label>
+      <description>Department/Academic Subject Area Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department" title="Department/Program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AFRI - African Studies">BL-AFRI</values>
+            <values title="BL - AFRO - Afro-American Studies">BL-AFRO</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AMID - Apparel Merch &amp; Int Design">BL-AMID</values>
+            <values title="BL - AADM - Arts Administration">BL-AADM</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - FINA - Fine Arts - History of Art">BL-FINA</values>
+            <values title="BL - FINS - Fine Arts - Studio">BL-FINS</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - JSTU - Jewish Studies">BL-JSTU</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LTAM - Latin American Studies">BL-LTAM</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MSCI - Medical Sciences">BL-MSCI</values>
+            <values title="BL - MED - Medicine">BL-MED</values>
+            <values title="BL - MUS - Music">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - OPT - Optometry">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - REEI - Russian &amp; East Europe Inst">BL-REEI</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SSTD - Social Studies">BL-SSTD</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech &amp; Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+            <values title="BL - WEUR - West European Studies">BL-WEUR</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='department']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegMajorSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Major</label>
+      <description>Major Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="major" title="Major" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - Afr Am &amp; Afr Diaspora St MA">BL-AAADSMA</values>
+            <values title="BL - African Studies MA">BL-AFRIMA</values>
+            <values title="BL - Afro-American Studies MA">BL-AFROMA</values>
+            <values title="BL - AMID: Apparel Merchandising MS">BL-AMIDAPMS</values>
+            <values title="BL - AMID: Interior Design MS">BL-AMIDINMS</values>
+            <values title="BL - Anatomy MA">BL-ANATMA</values>
+            <values title="BL - Anatomy MS">BL-ANATMMS</values>
+            <values title="BL - Anthropology MA">BL-ANTHMA</values>
+            <values title="BL - Applied Statistics MS">BL-APLDSTATMS</values>
+            <values title="BL - Arts Administration MA">BL-ARTADMA</values>
+            <values title="BL - Astronomy MA">BL-ASTYMA</values>
+            <values title="BL - Biochemistry MS">BL-BIOCMS</values>
+            <values title="BL - Biology MAT">BL-BIOLMAT</values>
+            <values title="BL - Biotechnology MS">BL-BIOTECMS</values>
+            <values title="BL - Central Eurasian Studies MA">BL-CEUSMA</values>
+            <values title="BL - Chemistry MAT">BL-CHEMMAT</values>
+            <values title="BL - Chemistry MS">BL-CHEMMS</values>
+            <values title="BL - Chinese MA">BL-CHINMA</values>
+            <values title="BL - Classical St:Latin &amp; Greek MA">BL-CLSTMA</values>
+            <values title="BL - Classical St:Latin&amp;Greek MAT">BL-CLSTMAT</values>
+            <values title="BL - Classical Studies MA">BL-CLSTMA1</values>
+            <values title="BL - Communication &amp; Culture MA">BL-CMCLMA</values>
+            <values title="BL - Comparative Literature MA">BL-CMLTMA</values>
+            <values title="BL - Comparative Literature MAT">BL-CMLTMAT</values>
+            <values title="BL - Creative Writing MFA">BL-CRWRMFA</values>
+            <values title="BL - Criminal Justice MA">BL-CJUSMA</values>
+            <values title="BL - East Asian Studies MA">BL-EASTMA</values>
+            <values title="BL - Ecology and Evolu Biology MA">BL-EEBMA</values>
+            <values title="BL - Economics MA">BL-ECONMA</values>
+            <values title="BL - Economics MAT">BL-ECONMAT</values>
+            <values title="BL - English MA">BL-ENGMA</values>
+            <values title="BL - English MAT">BL-ENGMAT</values>
+            <values title="BL - Evolution, Ecology &amp; Behvr MS">BL-EEBMS</values>
+            <values title="BL - Fine Arts - History of Art MA">BL-FINAHMA</values>
+            <values title="BL - Fine Arts - Studio MAT">BL-FINSMAT</values>
+            <values title="BL - Fine Arts - Studio MFA">BL-FINASMFA</values>
+            <values title="BL - Folklore  &amp; Ethnomusicology MA">BL-FOLKMA</values>
+            <values title="BL - French MA">BL-FRENMA</values>
+            <values title="BL - Gender Studies MA">BL-GNDRMA</values>
+            <values title="BL - General Science MAT">BL-GSCIMAT</values>
+            <values title="BL - Geography MA">BL-GEOGMA</values>
+            <values title="BL - Geography MAT">BL-GEOGMAT</values>
+            <values title="BL - Geography MS">BL-GEOGMS</values>
+            <values title="BL - Geological Sciences MS">BL-GEOLMS</values>
+            <values title="BL - Geology MS">BL-GLGYMS</values>
+            <values title="BL - Germanic Studies MA">BL-GERMA</values>
+            <values title="BL - Germanic Studies MAT">BL-GERMAT</values>
+            <values title="BL - Hist &amp; Philos of Science MA">BL-HPSCMA</values>
+            <values title="BL - History MA">BL-HISTMA</values>
+            <values title="BL - History MAT">BL-HISTMAT</values>
+            <values title="BL - Italian MA">BL-ITALMA</values>
+            <values title="BL - Japanese MA">BL-JAPAMA</values>
+            <values title="BL - Jewish Studies MA">BL-JSTUMA</values>
+            <values title="BL - Journalism MA">BL-JOURMA</values>
+            <values title="BL - Journalism MAT">BL-JOURMAT</values>
+            <values title="BL - Latin American Studies MA">BL-LTAMMA</values>
+            <values title="BL - Linguistics MA">BL-LINGMA</values>
+            <values title="BL - Linguistics:TESOL &amp; Applied MA">BL-LINGTESLMA</values>
+            <values title="BL - Mathematics MA">BL-MATHMA</values>
+            <values title="BL - Mathematics MAT">BL-MATHMAT</values>
+            <values title="BL - Medical Physics MS">BL-MEDPHYSMS</values>
+            <values title="BL - Microbiology MA">BL-MICRMA</values>
+            <values title="BL - Microbiology MS">BL-MICRMS</values>
+            <values title="BL - Music Theory MA">BL-MSTHRYMA</values>
+            <values title="BL - Musicology MA">BL-MSCLOGYMA</values>
+            <values title="BL - Near Eastern Lang &amp; Cult MA">BL-NELCMA</values>
+            <values title="BL - Near Eastern Lang &amp; LIt MA">BL-NELLMA</values>
+            <values title="BL - Pathology MS">BL-PATHOMS</values>
+            <values title="BL - Pharmacology MS">BL-PHARMMS</values>
+            <values title="BL - Philosophy MA">BL-PHILMA</values>
+            <values title="BL - Physics MAT">BL-PHYSMAT</values>
+            <values title="BL - Physics MS">BL-PHYSMS</values>
+            <values title="BL - Physiology MA">BL-PYSOLMA</values>
+            <values title="BL - Physiology MS">BL-PYSOLMS</values>
+            <values title="BL - Plant Sciences MA">BL-PLSCMA</values>
+            <values title="BL - Plant Sciences MS">BL-PLSCMS</values>
+            <values title="BL - Political Science MA">BL-POLSMA</values>
+            <values title="BL - Political Science MAT">BL-POLSMAT</values>
+            <values title="BL - Portuguese MA">BL-PORTMA</values>
+            <values title="BL - Psychology MA">BL-PSYMA</values>
+            <values title="BL - Religious Studies MA">BL-RELMA</values>
+            <values title="BL - Russian and East Euro St MA">BL-REEIMA</values>
+            <values title="BL - Second Language Studies MA">BL-SLSTMA</values>
+            <values title="BL - Slavic Languages and Lit MA">BL-SLAVMA</values>
+            <values title="BL - Slavic Languages and Lit MAT">BL-SLAVMAT</values>
+            <values title="BL - Social Studies MAT">BL-SSTDMAT</values>
+            <values title="BL - Sociology MA">BL-SOCMA</values>
+            <values title="BL - Spanish MA">BL-SPANMA</values>
+            <values title="BL - Spanish MAT">BL-SPANMAT</values>
+            <values title="BL - Speech &amp; Hearing Sciences MA">BL-SPHSMA</values>
+            <values title="BL - Speech &amp; Hearing Sciences MAT">BL-SPHSMAT</values>
+            <values title="BL - Speech MA">BL-SPCHMA2</values>
+            <values title="BL - Speech Pathology MAT">BL-SPCHPAMAT</values>
+            <values title="BL - Statistical Science MS">BL-STATSCMS</values>
+            <values title="BL - Telecommunications MA">BL-TELMA</values>
+            <values title="BL - Telecommunications MS">BL-TELMS</values>
+            <values title="BL - TESOL &amp; Applied Linguistics MA">BL-TAALMA</values>
+            <values title="BL - Theatre and Drama MA">BL-THTRMA</values>
+            <values title="BL - Theatre and Drama MAT">BL-THTRMAT</values>
+            <values title="BL - Theatre and Drama MFA">BL-THTRMFA</values>
+            <values title="BL - Vision Science MS">BL-VISSCMS</values>
+            <values title="BL - West European Studies MA">BL-WEURMA</values>
+            <values title="BL - Zoology MA">BL-ZOOLMA</values>
+            <values title="BL - Zoology MS">BL-ZOOLMS</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='major']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegDualDegSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Dual Degree Program</label>
+      <description>Dual Degree Program Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="maDualDegree" title="Dual Degree Program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL-SPEA-Public And Envir Affairs">BL-SPEA</values>
+            <values title="BL-SLIS-Library &amp; Information Science">BL-SLIS</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='maDualDegree']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>MAAdvDegInitiatorAttribute</name>
+      <className>org.kuali.rice.kew.rule.InitiatorRoleAttribute</className>
+      <label>Initiator Role Attribute</label>
+      <description>Initiator Role Attribute</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseDept1Attribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Department</label>
+      <description>Department/Academic Subject Area Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="department1" title="Program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AMST - American Studies">BL-AMST</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - SPES - Environmental Science">BL-SPES</values>
+            <values title="BL - FINA - Fine Arts">BL-FINA</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPER - Health, PE &amp; Rec">BL-HPER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - INFO - Informatics">BL-INFO</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LAW - Law Grad">BL-LAW</values>
+            <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MED - Medicine Grad">BL-MED</values>
+            <values title="BL - MUS - Music Grad">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+            <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+            <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//department1 = wf:ruledata('department1')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <department1>%department1%</department1>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetworkIdRoleAttribute2a</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>PhDDefense Network Id 2a</label>
+      <description>PhDDefense Network Id 2a Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>requestNetworkId2a</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseDept2Attribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Department</label>
+      <description>Department/Academic Subject Area Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="department2" title="Department/Program" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AMST - American Studies">BL-AMST</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - SPES - Environmental Science">BL-SPES</values>
+            <values title="BL - FINA - Fine Arts">BL-FINA</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPER - Health, PE &amp; Rec">BL-HPER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - INFO - Informatics">BL-INFO</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LAW - Law Grad">BL-LAW</values>
+            <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MED - Medicine Grad">BL-MED</values>
+            <values title="BL - MUS - Music Grad">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+            <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+            <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//department2 = wf:ruledata('department2')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <department2>%department2%</department2>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseDept1SearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department 1</label>
+      <description>Department/Academic Subject Area Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department1" title="Department/Program 1" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AMST - American Studies">BL-AMST</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - SPES - Environmental Science">BL-SPES</values>
+            <values title="BL - FINA - Fine Arts">BL-FINA</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPER - Health, PE &amp; Rec">BL-HPER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - INFO - Informatics">BL-INFO</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LAW - Law Grad">BL-LAW</values>
+            <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MED - Medicine Grad">BL-MED</values>
+            <values title="BL - MUS - Music Grad">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+            <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+            <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='department1']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseDept2SearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department 2</label>
+      <description>Department/Academic Subject Area Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department2" title="Department/Program 2" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+            <values title="BL - AMST - American Studies">BL-AMST</values>
+            <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+            <values title="BL - AST - Astronomy">BL-AST</values>
+            <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+            <values title="BL - BIOL - Biology">BL-BIOL</values>
+            <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+            <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+            <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+            <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+            <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+            <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+            <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+            <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+            <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+            <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+            <values title="BL - ECON - Economics">BL-ECON</values>
+            <values title="BL - EDUC - Education">BL-EDUC</values>
+            <values title="BL - ENG - English">BL-ENG</values>
+            <values title="BL - SPES - Environmental Science">BL-SPES</values>
+            <values title="BL - FINA - Fine Arts">BL-FINA</values>
+            <values title="BL - FOLK - Folklore">BL-FOLK</values>
+            <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+            <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+            <values title="BL - GEOG - Geography">BL-GEOG</values>
+            <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+            <values title="BL - GER - Germanic Studies">BL-GER</values>
+            <values title="BL - HPER - Health, PE &amp; Rec">BL-HPER</values>
+            <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+            <values title="BL - HIST - History">BL-HIST</values>
+            <values title="BL - INFO - Informatics">BL-INFO</values>
+            <values title="BL - JOUR - Journalism">BL-JOUR</values>
+            <values title="BL - LAW - Law Grad">BL-LAW</values>
+            <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+            <values title="BL - LING - Linguistics">BL-LING</values>
+            <values title="BL - MATH - Mathematics">BL-MATH</values>
+            <values title="BL - MED - Medicine Grad">BL-MED</values>
+            <values title="BL - MUS - Music Grad">BL-MUS</values>
+            <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+            <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+            <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+            <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+            <values title="BL - PHYS - Physics">BL-PHYS</values>
+            <values title="BL - POLS - Political Science">BL-POLS</values>
+            <values title="BL - PSY - Psychology">BL-PSY</values>
+            <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+            <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+            <values title="BL - REL - Religious Studies">BL-REL</values>
+            <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+            <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+            <values title="BL - SOC - Sociology">BL-SOC</values>
+            <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+            <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+            <values title="BL - STAT - Statistics">BL-STAT</values>
+            <values title="BL - TEL - Telecommunications">BL-TEL</values>
+            <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='department2']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>PhDDefense Network Id</label>
+      <description>PhDDefense Network Id Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>requestNetworkId1a</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseInitiatorAttribute</name>
+      <className>org.kuali.rice.kew.rule.InitiatorRoleAttribute</className>
+      <label>Initiator Role Attribute</label>
+      <description>Initiator Role Attribute</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetIdAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>PhDDefense optional netid 1a routing Attribute</label>
+      <description>PhDDefense optional netid 1a routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routeByNetId" title="Route by net id?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//netid = wf:ruledata('routeByNetId')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <netid>%routeByNetId%</netid>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetworkIdRoleAttribute1a</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>PhDDefense Network Id 1a</label>
+      <description>PhDDefense Network Id 1a Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>requestNetworkId1a</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetIdAttribute1a</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>PhDDefense optional netid 1a routing Attribute</label>
+      <description>PhDDefense optional netid 1a routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routeByNetId1a" title="Route by net id?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//netid = wf:ruledata('routeByNetId1a')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <netid>%routeByNetId1a%</netid>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetworkIdRoleAttribute1b</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>PhDDefense Network Id 1b</label>
+      <description>PhDDefense Network Id 1b Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>requestNetworkId1b</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetIdAttribute1b</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>PhDDefense optional netid 1b routing Attribute</label>
+      <description>PhDDefense optional netid 1b routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routeByNetId1b" title="Route by net id?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//netid = wf:ruledata('routeByNetId1b')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <netid>%routeByNetId1b%</netid>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>.CommitteeMember1NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>.CommitteeMember1NetworkIdRoleAttribute</label>
+      <description>Committee Member 1 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember1NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>.CommitteeMember2NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>.CommitteeMember2NetworkIdRoleAttribute</label>
+      <description>Committee Member 2 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember2NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>.CommitteeMember3NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>.CommitteeMember3NetworkIdRoleAttribute</label>
+      <description>Committee Member 3 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember3NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>.CommitteeMember4NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>.CommitteeMember4NetworkIdRoleAttribute</label>
+      <description>Committee Member 4 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember4NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>.CommitteeMember5NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>.CommitteeMember5NetworkIdRoleAttribute</label>
+      <description>Committee Member 5 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember5NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>.CommitteeMember6NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>.CommitteeMember6NetworkIdRoleAttribute</label>
+      <description>Committee Member 6 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember6NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeInitiatorAttribute</name>
+      <className>org.kuali.rice.kew.rule.InitiatorRoleAttribute</className>
+      <label>Initiator Role Attribute</label>
+      <description>Initiator Role Attribute</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetIdAttribute2a</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>PhDDefense optional netid 2a routing Attribute</label>
+      <description>PhDDefense optional netid 2a routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routeByNetId2a" title="Route by net id?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//netid = wf:ruledata('routeByNetId2a')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <netid>%routeByNetId2a%</netid>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetworkIdRoleAttribute2b</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>PhDDefense Network Id 2b</label>
+      <description>PhDDefense Network Id 2b Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>requestNetworkId2b</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>PhDDefenseNetIdAttribute2b</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>PhDDefense optional netid 2b routing Attribute</label>
+      <description>PhDDefense optional netid 2b routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routeByNetId2b" title="Route by net id?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//netid = wf:ruledata('routeByNetId2b')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <netid>%routeByNetId2b%</netid>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeMember1NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>CommitteeMember1NetworkIdRoleAttribute</label>
+      <description>Committee Member 1 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember1NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeMember2NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>CommitteeMember2NetworkIdRoleAttribute</label>
+      <description>Committee Member 2 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember2NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeMember3NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>CommitteeMember3NetworkIdRoleAttribute</label>
+      <description>Committee Member 3 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember3NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeMember4NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>CommitteeMember4NetworkIdRoleAttribute</label>
+      <description>Committee Member 4 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember4NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeMember5NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>CommitteeMember5NetworkIdRoleAttribute</label>
+      <description>Committee Member 5 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember5NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>CommitteeMember6NetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>CommitteeMember6NetworkIdRoleAttribute</label>
+      <description>Committee Member 6 NetworkId Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>committeeMember6NetworkId</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

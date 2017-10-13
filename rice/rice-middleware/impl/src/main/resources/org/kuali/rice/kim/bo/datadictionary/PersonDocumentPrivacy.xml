@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DocPrivacy" parent="DocPrivacy-parentBean"/>
+
+  <bean id="DocPrivacy-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.PersonDocumentPrivacy" p:titleAttribute="suppressName" p:objectLabel="Person Privacy" p:inquiryDefinition-ref="DocPrivacy-inquiryDefinition" p:lookupDefinition-ref="DocPrivacy-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocPrivacy-suppressName"/>
+        <ref bean="DocPrivacy-suppressAddress"/>
+        <ref bean="DocPrivacy-suppressEmail"/>
+        <ref bean="DocPrivacy-suppressPhone"/>
+        <ref bean="DocPrivacy-suppressPersonal"/>
+      </list>
+    </property>
+  </bean>
+ 
+   <bean id="DocPrivacy-suppressName" parent="DocPrivacy-suppressName-parentBean"/>
+  <bean id="DocPrivacy-suppressName-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="suppressName"/>
+    <property name="label" value="Suppress Name"/>
+    <property name="shortLabel" value="Suppress Name"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Suppress Name"/>
+    <property name="description" value="Suppress Name"/>
+  </bean>
+  
+  <bean id="DocPrivacy-suppressAddress" parent="DocPrivacy-suppressAddress-parentBean"/>
+  <bean id="DocPrivacy-suppressAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="suppressAddress"/>
+    <property name="label" value="Suppress Address"/>
+    <property name="shortLabel" value="Suppress Address"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Suppress Address"/>
+    <property name="description" value="Suppress Address"/>
+  </bean>
+    
+  <bean id="DocPrivacy-suppressEmail" parent="DocPrivacy-suppressEmail-parentBean"/>
+  <bean id="DocPrivacy-suppressEmail-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="suppressEmail"/>
+    <property name="label" value="Suppress Email"/>
+    <property name="shortLabel" value="Suppress Email"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Suppress Email"/>
+    <property name="description" value="Suppress Email"/>
+  </bean>
+  
+  <bean id="DocPrivacy-suppressPhone" parent="DocPrivacy-suppressPhone-parentBean"/>
+  <bean id="DocPrivacy-suppressPhone-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="suppressPhone"/>
+    <property name="label" value="Suppress Phone"/>
+    <property name="shortLabel" value="Suppress Phone"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Suppress Phone"/>
+    <property name="description" value="Suppress Phone"/>
+  </bean>
+  <bean id="DocPrivacy-suppressPersonal" parent="DocPrivacy-suppressPersonal-parentBean"/>
+  <bean id="DocPrivacy-suppressPersonal-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="suppressPersonal"/>
+    <property name="label" value="Suppress Personal"/>
+    <property name="shortLabel" value="Suppress Personal"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Suppress Personal"/>
+    <property name="description" value="Suppress Personal"/>
+  </bean>
+  
+  <bean id="DocPrivacy-inquiryDefinition" parent="DocPrivacy-inquiryDefinition-parentBean"/>
+
+  <bean id="DocPrivacy-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Privacy Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="suppressName"/>
+              <bean parent="FieldDefinition" p:attributeName="suppressEmail"/>
+              <bean parent="FieldDefinition" p:attributeName="suppressAddress"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocPrivacy-lookupDefinition" parent="DocPrivacy-lookupDefinition-parentBean"/>
+
+  <bean id="DocPrivacy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Privacy Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>suppressName</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="suppressName"/>
+        <bean parent="FieldDefinition" p:attributeName="suppressEmail"/>
+        <bean parent="FieldDefinition" p:attributeName="suppressAddress"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="suppressName"/>
+        <bean parent="FieldDefinition" p:attributeName="suppressEmail"/>
+        <bean parent="FieldDefinition" p:attributeName="suppressAddress"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

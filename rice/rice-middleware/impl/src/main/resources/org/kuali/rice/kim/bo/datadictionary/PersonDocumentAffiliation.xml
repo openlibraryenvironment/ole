@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="DocAffiliation" parent="DocAffiliation-parentBean"/>
+
+  <bean id="DocAffiliation-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.PersonDocumentAffiliation" p:titleAttribute="entityAffiliationId" p:objectLabel="Entity Affiliation" p:inquiryDefinition-ref="DocAffiliation-inquiryDefinition" p:lookupDefinition-ref="DocAffiliation-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocAffiliation-campusCode"/>
+        <ref bean="DocAffiliation-affiliationTypeCode"/>
+        <ref bean="DocAffiliation-entityAffiliationId"/>
+        <ref bean="DocAffiliation-active"/>
+        <ref bean="DocAffiliation-dflt"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: use campus parent bean once imported into Rice -->
+  <bean id="DocAffiliation-campusCode" parent="DocAffiliation-campusCode-parentBean"/>
+  <bean id="DocAffiliation-campusCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="campusCode" p:forceUppercase="true" p:label="Campus Code" p:shortLabel="Campus Code" p:maxLength="2" p:required="true">
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" />
+    </property>
+  </bean>
+
+  <bean id="DocAffiliation-affiliationTypeCode" parent="DocAffiliation-affiliationTypeCode-parentBean"/>
+  <bean id="DocAffiliation-affiliationTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="affiliationTypeCode" p:forceUppercase="true" p:label="Affiliation Type" p:shortLabel="Affiliation Type" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationTypeBo" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeBlankRow="true" p:includeKeyInLabel="false" p:keyAttribute="code" p:labelAttribute="name"/>
+    </property>
+  </bean>
+ 
+   <bean id="DocAffiliation-entityAffiliationId" parent="DocAffiliation-entityAffiliationId-parentBean"/>
+  <bean id="DocAffiliation-entityAffiliationId-parentBean" parent="AttributeDefinition" abstract="true" p:name="entityAffiliationId" p:forceUppercase="true" p:label="Affiliation Entity Id" p:shortLabel="Affiliation Entity Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+    
+  <bean id="DocAffiliation-active" parent="DocAffiliation-active-parentBean"/>
+  <bean id="DocAffiliation-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+  <bean id="DocAffiliation-dflt" parent="DocAffiliation-dflt-parentBean"/>
+  <bean id="DocAffiliation-dflt-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="dflt"/>
+    <property name="label" value="Default"/>
+    <property name="shortLabel" value="Default"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Default"/>
+    <property name="description" value="Default"/>
+  </bean>
+    
+    
+  
+  <bean id="DocAffiliation-inquiryDefinition" parent="DocAffiliation-inquiryDefinition-parentBean"/>
+
+  <bean id="DocAffiliation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Affiliation Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="entityAffiliationId"/>
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="affiliationTypeCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocAffiliation-lookupDefinition" parent="DocAffiliation-lookupDefinition-parentBean"/>
+
+  <bean id="DocAffiliation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Person Affiliation Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>entityAffiliationId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="entityAffiliationId"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="affiliationTypeCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="entityAffiliationId"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="affiliationTypeCode"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

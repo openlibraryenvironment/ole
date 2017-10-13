@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- Default test data for KEW unit tests -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<!-- Unit test ApplicationConstants: reset the admin user list to include some test users -->
+
+    <users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+		<user>
+			<workflowId>2001</workflowId>
+			<emplId>2001</emplId>
+			<authenticationId>ewestfal</authenticationId>
+			<emailAddress>ewestfal@indiana.edu</emailAddress>
+			<displayName>Eric Westfall</displayName>
+			<givenName>Eric</givenName>
+			<lastName>Westfall</lastName>
+		</user>
+		<user>
+			<workflowId>2002</workflowId>
+			<emplId>2002</emplId>
+			<authenticationId>rkirkend</authenticationId>
+			<emailAddress>rkirkend@indiana.edu</emailAddress>
+			<displayName>Ryan Kirkendall</displayName>
+			<givenName>Ryan</givenName>
+			<lastName>Kirkendall</lastName>
+      		</user>
+		<user>
+			<workflowId>2003</workflowId>
+			<emplId>2003</emplId>
+			<authenticationId>jhopf</authenticationId>
+			<emailAddress>jhopf@indiana.edu</emailAddress>
+			<displayName>Jeremy Hopf</displayName>
+			<givenName>Jeremy</givenName>
+			<lastName>Hopf</lastName>
+		</user>
+		<user>
+			<workflowId>2004</workflowId>
+			<emplId>2004</emplId>
+			<authenticationId>bmcgough</authenticationId>
+			<emailAddress>bmcgough@indiana.edu</emailAddress>
+			<displayName>Brian McGough</displayName>
+			<givenName>Brian</givenName>
+			<lastName>McGough</lastName>
+		</user>
+		<user>
+			<workflowId>2005</workflowId>
+			<emplId>2005</emplId>
+			<authenticationId>temay</authenticationId>
+			<emailAddress>temay@indiana.edu</emailAddress>
+			<displayName>Teresa May</displayName>
+			<givenName>Teresa</givenName>
+			<lastName>May</lastName>
+		</user>
+		<user>
+			<workflowId>2006</workflowId>
+			<emplId>2006</emplId>
+			<authenticationId>xqi</authenticationId>
+			<emailAddress>xqi@indiana.edu</emailAddress>
+			<displayName>Xiaofeng Qi</displayName>
+			<givenName>Xiaofeng</givenName>
+			<lastName>Qi</lastName>
+		</user>
+		<user>
+			<workflowId>2007</workflowId>
+			<emplId>2007</emplId>
+			<authenticationId>natjohns</authenticationId>
+			<emailAddress>natjohns@indiana.edu</emailAddress>
+			<displayName>Nate Johnson</displayName>
+			<givenName>Nate</givenName>
+			<lastName>Johnson</lastName>
+		</user>
+		<user>
+			<workflowId>2008</workflowId>
+			<emplId>2008</emplId>
+			<authenticationId>pmckown</authenticationId>
+			<emailAddress>pmckown@indiana.edu</emailAddress>
+			<displayName>Phil McKown</displayName>
+			<givenName>Phil</givenName>
+			<lastName>McKown</lastName>
+		</user>
+		<user>
+			<workflowId>2009</workflowId>
+			<emplId>2009</emplId>
+			<authenticationId>jthomas</authenticationId>
+			<emailAddress>jthomas@indiana.edu</emailAddress>
+			<displayName>Jim Thomas</displayName>
+			<givenName>Jim</givenName>
+			<lastName>Thomas</lastName>
+		</user>
+		<user>
+			<workflowId>2010</workflowId>
+			<emplId>2010</emplId>
+			<authenticationId>tbazler</authenticationId>
+			<emailAddress>tbazler@indiana.edu</emailAddress>
+			<displayName>Tara Bazler</displayName>
+			<givenName>Tara</givenName>
+			<lastName>Bazler</lastName>
+		</user>
+		<user>
+			<workflowId>2011</workflowId>
+			<emplId>2011</emplId>
+			<authenticationId>jitrue</authenticationId>
+			<emailAddress>jitrue@indiana.edu</emailAddress>
+			<displayName>Jim True</displayName>
+			<givenName>Jim</givenName>
+			<lastName>True</lastName>
+		</user>
+		<user>
+			<workflowId>2012</workflowId>
+			<emplId>2012</emplId>
+			<authenticationId>shenl</authenticationId>
+			<emailAddress>shenl@indiana.edu</emailAddress>
+			<displayName>Li Shen</displayName>
+			<givenName>Li</givenName>
+			<lastName>Shen</lastName>
+		</user>
+		<user>
+			<workflowId>2013</workflowId>
+			<emplId>2013</emplId>
+			<authenticationId>arh14</authenticationId>
+			<emailAddress>arh14@cornell.edu</emailAddress>
+			<displayName>Aaron Hamid</displayName>
+			<givenName>Aaron</givenName>
+			<lastName>Hamid</lastName>
+		</user>
+		<user>
+			<workflowId>2014</workflowId>
+			<emplId>2014</emplId>
+			<authenticationId>pzhang</authenticationId>
+			<emailAddress>pzhang@indiana.edu</emailAddress>
+			<displayName>Pan Zhang</displayName>
+			<givenName>Pan</givenName>
+			<lastName>Zhang</lastName>
+		</user>
+		<user>
+			<workflowId>2015</workflowId>
+			<emplId>3234598234</emplId>
+			<authenticationId>delyea</authenticationId>
+			<emailAddress>delyea@indiana.edu</emailAddress>
+			<displayName>David Elyea</displayName>
+			<givenName>David</givenName>
+			<lastName>Elyea</lastName>
+		</user>
+        <user>
+            <workflowId>2016</workflowId>
+            <emplId>2016</emplId>
+            <authenticationId>administrator</authenticationId>
+            <emailAddress>admin@localhost</emailAddress>
+            <displayName>Administrator</displayName>
+            <givenName>administrator</givenName>
+            <lastName>administrator</lastName>
+        </user>
+   		<user>
+			<workflowId>2017</workflowId>
+			<emplId>2017</emplId>
+			<authenticationId>dewey</authenticationId>
+			<emailAddress>dewey@indiana.edu</emailAddress>
+			<displayName>Dewey Decimal</displayName>
+			<givenName>Dewey</givenName>
+			<lastName>Decimal</lastName>
+		</user>
+		<user>
+			<workflowId>9876</workflowId>
+			<emplId>9867</emplId>
+			<authenticationId>security_user</authenticationId>
+			<uuId>9867</uuId>
+			<emailAddress>security_user@indiana.edu</emailAddress>
+			<displayName>Secure User</displayName>
+			<givenName>Secure</givenName>
+			<lastName>User</lastName>
+		</user>  
+	</users>
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+		    <id>3001</id>
+			<name>TestWorkgroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>TestWorkgroup</description>
+			<members>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>jhopf</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>temay</principalName>
+				<principalName>xqi</principalName>
+				<principalName>natjohns</principalName>
+				<principalName>pmckown</principalName>
+				<principalName>jthomas</principalName>
+				<principalName>jitrue</principalName>
+			</members>
+		</group>
+		<group>
+			<id>1</id>
+			<name>WorkflowAdmin</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>WorkflowAdmin</description>
+			<members>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>jhopf</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>shenl</principalName>
+				<principalName>quickstart</principalName>
+			</members>
+		</group>
+		<group>
+			<id>3003</id>
+			<name>NonSIT</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>NonSIT</description>
+			<members>
+				<principalName>user1</principalName>
+				<principalName>user2</principalName>
+				<principalName>user3</principalName>
+				<principalName>dewey</principalName>
+			</members>
+		</group>
+		<group>
+			<id>3004</id>
+			<name>BlanketApproveWorkgroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>BlanketApproveWorkgroup</description>
+			<members>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>jhopf</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>temay</principalName>
+				<principalName>xqi</principalName>
+				<principalName>natjohns</principalName>
+				<principalName>pmckown</principalName>
+				<principalName>jthomas</principalName>
+				<principalName>jitrue</principalName>
+			</members>
+		</group>
+	</groups>
+</data>

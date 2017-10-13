@@ -1,0 +1,350 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate allowOverwrite="true">
+      <name>Testing.LongRoutePath.Template</name>
+      <description>ESI Testing Long Route Path Rule Template</description>
+    </ruleTemplate>
+  </ruleTemplates>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>Testing.LongRoutePath</name>
+      <description>Testing long routing path</description>
+      <label>Test Long Route Path</label>
+      <postProcessorName>
+        org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor
+      </postProcessorName>
+      <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="node0" nextNode="node1"/>
+          <requests name="node1" nextNode="node2"/>
+          <split name="node2" nextNode="node3">
+            <branch name="node2-branch1">
+              <requests name="node2-branch1-nodeA" nextNode="node2-join"/>
+            </branch>
+            <branch name="node2-branch2">
+              <simple name="node2-branch2-nodeA" nextNode="node2-join"/>
+            </branch>
+            <join name="node2-join"/>
+          </split>
+          <simple name="node3" nextNode="node4"/>
+          <split name="node4" nextNode="node5">
+            <branch name="node4-branch1">
+              <requests name="node4-branch1-nodeA" nextNode="node4-join"/>
+            </branch>
+            <branch name="node4-branch2">
+              <simple name="node4-branch2-nodeA" nextNode="node4-join"/>
+            </branch>
+            <join name="node4-join"/>
+          </split>
+          <simple name="node5" nextNode="node6"/>
+          <split name="node6" nextNode="node7">
+            <branch name="node6-branch1">
+              <requests name="node6-branch1-nodeA" nextNode="node6-join"/>
+            </branch>
+            <branch name="node6-branch2">
+              <simple name="node6-branch2-nodeA" nextNode="node6-join"/>
+            </branch>
+            <join name="node6-join"/>
+          </split>
+          <simple name="node7" nextNode="node8"/>
+          <split name="node8" nextNode="node9">
+            <branch name="node8-branch1">
+              <requests name="node8-branch1-nodeA" nextNode="node8-join"/>
+            </branch>
+            <branch name="node8-branch2">
+              <simple name="node8-branch2-nodeA" nextNode="node8-join"/>
+            </branch>
+            <join name="node8-join"/>
+          </split>
+          <simple name="node9" nextNode="node10"/>
+          <split name="node10" nextNode="node11">
+            <branch name="node10-branch1">
+              <requests name="node10-branch1-nodeA" nextNode="node10-join"/>
+            </branch>
+            <branch name="node10-branch2">
+              <simple name="node10-branch2-nodeA" nextNode="node10-join"/>
+            </branch>
+            <join name="node10-join"/>
+          </split>
+          <simple name="node11" nextNode="node12"/>
+          <requests name="node12" nextNode="node13"/>
+          <split name="node13" nextNode="node14">
+            <branch name="node13-branch1">
+              <requests name="node13-branch1-nodeA" nextNode="node13-join"/>
+            </branch>
+            <branch name="node13-branch2">
+              <simple name="node13-branch2-nodeA" nextNode="node13-join"/>
+            </branch>
+            <join name="node13-join"/>
+          </split>
+          <simple name="node14" nextNode="node15"/>
+          <split name="node15" nextNode="node16">
+            <branch name="node15-branch1">
+              <simple name="node15-branch1-nodeA" nextNode="node15-join"/>
+            </branch>
+            <branch name="node15-branch2">
+              <simple name="node15-branch2-nodeA" nextNode="node15-join"/>
+            </branch>
+            <join name="node15-join"/>
+          </split>
+          <simple name="node16" nextNode="node17"/>
+          <split name="node17" nextNode="node18">
+            <branch name="node17-branch17">
+              <requests name="node17-branch1-nodeA" nextNode="node17-join"/>
+            </branch>
+            <branch name="node17-branch2">
+              <simple name="node17-branch2-nodeA" nextNode="node17-join"/>
+            </branch>
+            <join name="node17-join"/>
+          </split>
+          <simple name="node18" nextNode="node19"/>
+          <requests name="node19"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="node0">
+          <activationType>P</activationType>
+        </start>
+        <requests name="node1">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <split name="node2">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node2-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node2-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node2-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node3">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="node4">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node4-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node4-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node4-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node5">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="node6">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node6-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node6-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node6-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node7">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="node8">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node8-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node8-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node8-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node9">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="node10">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node10-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node10-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node10-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node11">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node12">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <split name="node13">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node13-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node13-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node13-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node14">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="node15">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <simple name="node15-branch1-nodeA">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.FYIByUniversityId</type>
+        </simple>
+        <join name="node15-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node15-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node16">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="node17">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+        <requests name="node17-branch1-nodeA">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="node17-join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="node17-branch2-nodeA">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="node18">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node19">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

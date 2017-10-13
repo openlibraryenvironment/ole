@@ -1,0 +1,1162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Person" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Person</title>
+    <section>
+      <title>Person Lookup</title>
+
+      <para>Use the <emphasis role="bold">Person Lookup</emphasis> screen to
+      quickly find basic information about Persons in Kuali Rice (Rice). (In
+      Kuali, a Person is a set of information about a real person or something
+      that stands for real people, like a job title.) From the Person Lookup
+      screen, you can also link to screens where you can create new Persons
+      and edit a Person's information if you have permission to do so.</para>
+
+      <section>
+        <title>Finding the Person Lookup Screen</title>
+
+        <para>You can go to the <emphasis role="bold">Person Lookup</emphasis>
+        screen from many Kuali screens by clicking the field search button
+        next to a Name-related field. How you get to the Person Lookup screen
+        and your <emphasis role="bold">Role</emphasis> in Kuali determine what
+        you see and what you can do there.</para>
+
+        <para>If you have permission to use the Administration screens in
+        Rice, you can go directly to the <emphasis role="bold">Person
+        Lookup</emphasis> screen:<orderedlist>
+            <listitem>
+              <para>Click the <emphasis role="bold">Administration</emphasis>
+              tab</para>
+            </listitem>
+            <listitem>
+              <para>Look under <emphasis
+              role="bold">Identity</emphasis></para>
+            </listitem>
+            <listitem>
+              <para>Click <emphasis role="bold">Person</emphasis></para>
+            </listitem>
+          </orderedlist></para>
+      </section>
+      <section>
+        <title>Person Lookup Options</title>
+        <section>
+          <title>From the Field Search Button</title>
+
+          <para>If you clicked the field search button on another Kuali page
+          to get to the Person Lookup screen, your screen looks like
+          this:</para>
+
+          <figure>
+            <title>Person Lookup</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/person_lookup_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>To find a Person, enter some information about that person in
+          the appropriate fields and click the <emphasis
+          role="bold">search</emphasis> button at the bottom of the
+          screen.<itemizedlist>
+              <listitem>
+                <para>You can display a list of all Persons in KIM if you
+                leave the search fields empty and set the <emphasis
+                role="bold">Active Indicator</emphasis> to <emphasis
+                role="bold">Both</emphasis>, then click the search
+                button.</para>
+              </listitem>
+              <listitem>
+                <para>Rice displays a list of Persons who match your search
+                information. The list is just below the search fields on the
+                Person Lookup page:</para>
+
+                <figure>
+                  <title>Person Lookup: Results</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/person_results_new.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+                <para>Click one of the underlined column titles on the search
+                results list to sort the list by that column. Click it again
+                to sort the list in the opposite order.</para>
+
+                <para>You can also export the search results list in CSV,
+                spreadsheet, or XML format. Click the appropriate link at the
+                bottom of the search results list to do this.</para>
+
+                <para>If you need to see more information about one of the
+                Persons in the search results list, click one of the
+                information fields for that Person. Kuali then displays the
+                <emphasis role="bold">Person Document</emphasis> screen for
+                that Person.</para>
+
+                <figure>
+                  <title>Person Document</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/person_document_new.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
+            </itemizedlist></para>
+        </section>
+        <section>
+          <title>From the Administration Tab</title>
+
+          <para>If you come to the <emphasis role="bold">Person
+          Lookup</emphasis> screen after clicking <emphasis
+          role="bold">Person</emphasis> (under <emphasis
+          role="bold">Identity</emphasis>) on the <emphasis
+          role="bold">Administration</emphasis> tab, you may see a <emphasis
+          role="bold">create new</emphasis> button in the upper right corner
+          of your screen if the user logged in has permissions to create a
+          Person, like this:</para>
+
+          <figure>
+            <title>Person Lookup: Create New Button</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/person_lookup_create_new_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>You can click this create new button to go to the <emphasis
+          role="bold">Person Document</emphasis> screen, where you can add a
+          new Person as a Kuali user. For more information on adding a Person,
+          see the <emphasis role="bold">Person Maintenance</emphasis> function
+          section (next) in this User Guide.</para>
+
+          <para>If you need to edit information for a Person in KIM, you first
+          need to display that Person's information. Search for the Person
+          (see search instructions above) from the <emphasis
+          role="bold">Administration</emphasis> tab's link for <emphasis
+          role="bold">Person</emphasis>. When Kuali displays the list of
+          Persons that match your search, you'll notice one difference in the
+          columns because you did your search from the Administration tab –
+          there is an <emphasis role="bold">Actions</emphasis> column on the
+          left.</para>
+
+          <para>The <emphasis role="bold">Actions</emphasis> column has an
+          <emphasis role="bold">edit</emphasis> link for each person. Click
+          this edit link to go to the <emphasis role="bold">Person
+          Document</emphasis> screen where you can edit this Person's
+          information. For more information on working with Person
+          information, see the <emphasis role="bold">Person
+          Maintenance</emphasis> section (next) in this User Guide.</para>
+        </section>
+      </section>
+    </section>
+    <section>
+      <title>Person Maintenance</title>
+
+      <para>The Person Document allows you to identify and maintain each user
+      in KIM. Each Person Document includes data about that user's
+      relationship with your institution as well as the roles and groups to
+      which the person belongs.</para>
+
+      <para>In KIM, a Person is a unique combination of an <emphasis
+      role="italic">Entity ID</emphasis> and a <emphasis
+      role="italic">Principal ID</emphasis>. The Entity ID represents a Person
+      with a unique number, and the Person Document associates the Entity ID
+      with the user's Principal ID number and Principal Name (often referred
+      to as a user name or user ID). When searching for or working with users
+      in KIM, you usually use either the Principal ID or the Principal Name. A
+      single Entity ID can have multiple Principals associated with it, but
+      the base implementation of KIM assumes that each Entity ID has only a
+      single Principal.</para>
+
+      <note>
+        <para><emphasis role="bold">Person and HR Systems</emphasis>: Many
+        institutions choose to override parts of the Person Document
+        (especially the affiliation and contact information) with data from an
+        HR system.</para>
+      </note>
+      <section>
+        <title>Business Rules</title>
+        <itemizedlist>
+          <listitem>
+            <para>Each Person must have at least one Affiliation.</para>
+          </listitem>
+          <listitem>
+            <para>Each faculty or staff affiliation must have at least one
+            Employment Information record associated with it.</para>
+          </listitem>
+          <listitem>
+            <para>If a Person has any faculty or staff affiliations, then one
+            Employment Information record must be marked as Primary.</para>
+          </listitem>
+          <listitem>
+            <para>Each Person must have a default Name record in the Contacts
+            section.</para>
+          </listitem>
+          <listitem>
+            <para>Each affiliation must be associated with a Campus. </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+      <section>
+        <title>Routing</title>
+
+        <para>Only people with the appropriate role can initiate routing for
+        Person documents.</para>
+      </section>
+    </section>
+    <section>
+      <title>Displaying the Person Lookup Screen</title>
+
+      <para>On the <emphasis role="bold">Administration</emphasis> tab, click
+      <emphasis role="bold">Person</emphasis> to display the <emphasis
+      role="bold">Person Lookup</emphasis> screen. Do a lookup to see a list
+      of Persons. Click any Person on the search results list to display his
+      or her <emphasis role="bold">Person Document</emphasis> screen.</para>
+
+      <section>
+        <title>Document Layout</title>
+
+        <para>The Person Document includes <emphasis role="bold">Document
+        Overview, Overview, Contact, Privacy Preferences, Membership, Ad Hoc
+        Recipients</emphasis>, and <emphasis role="bold">Route Log</emphasis>
+        tabs.</para>
+
+        <figure>
+          <title>Person Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/person_document2_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section>
+        <title>Document Overview Tab</title>
+
+        <para>The <emphasis role="bold">Document Overview</emphasis> tab
+        combined with the Overview tab identifies the <emphasis
+        role="bold">Person</emphasis> as a unique combination of Entity and
+        Principal ID.</para>
+
+        <para>Additional information on the <emphasis role="bold">Document
+        Overview Tab</emphasis> can be found in the 
+          <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/Intro_To_Rice.html#doc_overview_tab">Document Overview Tab</link>
+        section of the Introduction to Rice Guide.</para>
+      </section>
+      <section>
+        <title>Overview Tab</title>
+
+        <para>The Overview tab identifies the <emphasis
+        role="bold">Person</emphasis> as a unique combination of <emphasis
+        role="bold">Entity ID</emphasis> and <emphasis role="bold">Principal
+        ID</emphasis>. It also contains information about how this Person is
+        affiliated with your institution. Two types of affiliations—<emphasis
+        role="bold">Staff</emphasis> and <emphasis
+        role="bold">Faculty</emphasis>—contain additional data fields to
+        further define a person's relationship with your institution.</para>
+
+        <para>The instructions below assume that you are manually entering
+        this information. Many institutions either have this data fed from an
+        existing Person database or simply override this information with
+        existing Person data.</para>
+
+        <figure>
+          <title>Person Document: Overview Section</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/person_overview_tab_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <section>
+          <title>Overview Section</title>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Overview Attributes</title>
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Entity Id</entry>
+                    <entry>Display-only. The unique ID number identifying this
+                    Person in your database. An individual may have multiple
+                    Principal IDs but only one Entity ID. The base
+                    implementation assumes that each user has only one Entity
+                    ID and one Principal ID. KIM automatically assigns an
+                    Entity Id to a new Person when you save or submit a Person
+                    Document.</entry>
+                  </row>
+                  <row>
+                    <entry>Principal Id</entry>
+                    <entry>Display-only. The unique ID number identifying this
+                    Principal. Whereas Entity Id represents a unique Person,
+                    Principal Id represents a set of login information for
+                    that Person. When selecting a Person, you ordinarily
+                    reference his or her Principal Id. KIM automatically
+                    assigns a Principal Id to a new Person when you save or
+                    submit the Person Document.</entry>
+                  </row>
+                  <row>
+                    <entry>Principal Name</entry>
+                    <entry>Required. The user name for this Principal</entry>
+                  </row>
+                  <row>
+                    <entry>Active</entry>
+                    <entry>Check the box to indicate that this Principal ID is
+                    Active. Uncheck the box to indicate that this Principal ID
+                    is Inactive.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+        <section>
+          <title>Affiliations Section</title>
+
+          <para>Use the <emphasis role="bold">Affiliations</emphasis> section
+          of the <emphasis role="bold">Overview</emphasis> tab to add
+          Affiliations for this Principal ID. Depending on the Affiliation
+          type you select, you may need to complete additional fields.</para>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Overview Attributes,
+              Affiliations</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Affiliation Type</entry>
+
+                    <entry><para>Optional. Select the Type of Affiliation from
+                    the list. Options:</para> <itemizedlist>
+                        <listitem>
+                          <para><emphasis role="bold">Affiliate</emphasis>:
+                          Users in your system who are neither employees nor
+                          students</para>
+                        </listitem>
+                        <listitem>
+                          <para><emphasis role="bold">Faculty</emphasis>: A
+                          faculty employee</para>
+                        </listitem>
+                        <listitem>
+                          <para><emphasis role="bold">Staff</emphasis>: A
+                          non-faculty employee</para>
+                        </listitem>
+                        <listitem>
+                          <para><emphasis role="bold">Student</emphasis>: A
+                          non-employee identified as a student of your
+                          institution</para>
+                        </listitem>
+                      </itemizedlist> <para> Affiliation types of Faculty and
+                    Staff require additional information (see
+                    below).</para></entry>
+                  </row>
+                  <row>
+                    <entry>Campus Code</entry>
+
+                    <entry>Required. Select the Campus Code associated with
+                    this Affiliation</entry>
+                  </row>
+                  <row>
+                    <entry>Default</entry>
+
+                    <entry>Check the box to indicate that this Affiliation is
+                    this Principal's default association with your
+                    institution. Each Principal must have at least one default
+                    Affiliation.</entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save the affiliation information.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+
+          <para>If you select an Affiliation of Faculty or Staff, KIM displays
+          additional fields to collect employment information:</para>
+
+          <figure>
+            <title>Person Document: Overview Tab, Affiliations Section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/faculty_staff_affiliate_fields_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Overview Attributes, Affiliations
+              Continued</title>
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Employment ID</entry>
+
+                    <entry>Optional. Enter the Employment ID number associated
+                    with this Faculty or Staff affiliation. Ordinarily this
+                    entry is the ID number identifying this Principal in your
+                    HR system.</entry>
+                  </row>
+                  <row>
+                    <entry>Primary</entry>
+
+                    <entry>Check this box to indicate that this Faculty or
+                    Staff affiliation represents the Principal's primary job
+                    with your institution. Each Principal with a Faculty or
+                    Staff affiliation must have exactly one affiliation marked
+                    as Primary.</entry>
+                  </row>
+                  <row>
+                    <entry>Employee Status</entry>
+
+                    <entry><para>Required. Select the current status of this
+                    Faculty or Staff affiliation. Options:</para>
+                    <itemizedlist>
+                        <listitem>
+                          <para>Active</para>
+                        </listitem>
+                        <listitem>
+                          <para>Deceased</para>
+                        </listitem>
+                        <listitem>
+                          <para>On Non-Pay Leave</para>
+                        </listitem>
+                        <listitem>
+                          <para>Status Not Yet Processed</para>
+                        </listitem>
+                        <listitem>
+                          <para>Processing</para>
+                        </listitem>
+                        <listitem>
+                          <para>Retired</para>
+                        </listitem>
+                        <listitem>
+                          <para>Terminated</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Employee Type</entry>
+
+                    <entry><para>Required. Select the type of employment for
+                    this Affiliation. Options:</para> <itemizedlist>
+                        <listitem>
+                          <para>Non-Professional</para>
+                        </listitem>
+                        <listitem>
+                          <para>Other</para>
+                        </listitem>
+                        <listitem>
+                          <para>Professional</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Base Salary Amount</entry>
+
+                    <entry>Required. Enter the base annual salary for this
+                    Faculty or Staff Affiliation.</entry>
+                  </row>
+                  <row>
+                    <entry>Primary Department Code</entry>
+
+                    <entry>Optional. Enter the code for the Department
+                    associated with this Faculty or Staff affiliation.</entry>
+                  </row>
+                  <row>
+                    <entry>Add</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save this row of employment information.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+      <section>
+        <title>Contact Tab</title>
+
+        <para>The <emphasis role="bold">Contact</emphasis> tab records the
+        names, addresses, phone numbers, and email addresses associated with
+        this Person. Any Person record can store multiple contact information
+        records of each type (name, address, phone number, and email address).
+        You must select one value of each type as the default for that Person
+        record.</para>
+
+        <figure>
+          <title>Person Document: Contact Tab</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/person_contact_tab_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <section>
+          <title>Names Section</title>
+
+          <figure>
+            <title>Person Document: Contact Tab, Names Section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/person_names_section_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Contact Tab, Names Section
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Name Code</entry>
+
+                    <entry><para>Optional. Select the type of name to be added
+                    in this row. Options:</para><itemizedlist>
+                        <listitem>
+                          <para>Other</para>
+                        </listitem>
+                        <listitem>
+                          <para>Preferred</para>
+                        </listitem>
+                        <listitem>
+                          <para>Primary</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Name Prefix</entry>
+
+                    <entry><para>Optional. Select the appropriate title or name prefix for
+                    the name being added in this row. Options:</para>
+                    <itemizedlist>
+                        <listitem>
+                          <para>Ms</para>
+                        </listitem>
+                        <listitem>
+                          <para>Mrs</para>
+                        </listitem>
+                        <listitem>
+                          <para>Mr</para>
+                        </listitem>
+                        <listitem>
+                          <para>Dr</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>First Name</entry>
+                    <entry>Required. Enter the first name for this
+                    record.</entry>
+                  </row>
+                  <row>
+                    <entry>Middle Name</entry>
+                    <entry>Optional. Enter the first name for this
+                      record.</entry>
+                  </row>
+                  <row>
+                    <entry>Last Name</entry>
+                    <entry>Required. Enter the last name for this
+                    record.</entry>
+                  </row>
+                  <row>
+                    <entry>Name Suffix</entry>
+
+                    <entry><para>Optional. Select a suffix for this name
+                    record. Options:</para> <itemizedlist>
+                        <listitem>
+                          <para>Jr</para>
+                        </listitem>
+                        <listitem>
+                          <para>Sr</para>
+                        </listitem>
+                        <listitem>
+                          <para>Mr</para>
+                        </listitem>
+                        <listitem>
+                          <para>MD</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Default</entry>
+                    <entry>Check this box to indicate that this Name record is
+                    the default for this person. Each Person record must have
+                    exactly one Name record identified as the default.</entry>
+                  </row>
+                  <row>
+                    <entry>Active</entry>
+                    <entry>Check the box to indicate that this Name record is
+                    Active. Uncheck the box to indicate that this record
+                    should be considered Inactive.</entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save this Name record.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+        <section>
+          <title>Addresses Section</title>
+
+          <figure>
+            <title>Person Document: Contact Tab, Addresses Section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/addresses_section_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Contact Tab, Address Section
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Address Type</entry>
+
+                    <entry><para>Optional. Select the type of address being
+                    added on this row. Options:</para> <itemizedlist>
+                        <listitem>
+                          <para>Home</para>
+                        </listitem>
+                        <listitem>
+                          <para>Other</para>
+                        </listitem>
+                        <listitem>
+                          <para>Work</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Line 1 to 3</entry>
+                    <entry>Optional. Use lines 1, 2, and 3 to enter the street
+                    address for this row.</entry>
+                  </row>
+                  <row>
+                    <entry>City</entry>
+                    <entry>Optional. Enter the city associated with this
+                    address.</entry>
+                  </row>
+                  <row>
+                    <entry>State/Province</entry>
+                    <entry>Optional. Select the state associated with this
+                    address from the list.</entry>
+                  </row>
+                  <row>
+                    <entry>Postal Code</entry>
+                    <entry>Optional. Enter the postal code (zip code in the
+                    U.S.) associated with this address.</entry>
+                  </row>
+                  <row>
+                    <entry>Country</entry>
+                    <entry>Optional. Select the country associated with this
+                    address.</entry>
+                  </row>
+                  <row>
+                    <entry>Default</entry>
+
+                    <entry>Check this box to indicate this address record
+                    should be used as the Default. A Person record can have
+                    only one Default Address record.</entry>
+                  </row>
+                  <row>
+                    <entry>Active</entry>
+                    <entry>Check this box to indicate that this Address record
+                    is Active. Uncheck the box to indicate that this record is
+                    Inactive.</entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save this Address record.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+        <section>
+          <title>Phone Numbers Section</title>
+
+          <figure>
+            <title>Person Document: Contact Tab, Phone Numbers Section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/phone_numbers_section_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Contact Tab, Phone Numbers
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Phone Type</entry>
+
+                    <entry><para>Optional. Select the type of phone number
+                    being added on this row. Options:</para> <itemizedlist>
+                        <listitem>
+                          <para>Home</para>
+                        </listitem>
+                        <listitem>
+                          <para>Mobile</para>
+                        </listitem>
+                        <listitem>
+                          <para>Other</para>
+                        </listitem>
+                        <listitem>
+                          <para>Work</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Phone Number</entry>
+                    <entry>Optional. Enter the area code and phone
+                    number.</entry>
+                  </row>
+                  <row>
+                    <entry>Extension</entry>
+                    <entry>Optional. Enter the appropriate extension.</entry>
+                  </row>
+                  <row>
+                    <entry>Country</entry>
+
+                    <entry>Optional. Select the country associated with this
+                    Phone Number record.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Default</entry>
+
+                    <entry>Check this box to indicate that this Phone Number
+                    record should be used as the Default. A Person record can
+                    have only one default Phone Number record.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active</entry>
+
+                    <entry>Check this box to indicate that this Phone Number
+                    record is Active. Uncheck the box to indicate that this
+                    record is inactive.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save this Phone Number record.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+
+        <section>
+          <title>Email Addresses Section</title>
+
+          <figure>
+            <title>Person Document: Contact Tab, Email Addresses
+            Section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/email_addresses_section_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Contact Tab, Email Address
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Email</entry>
+                    <entry>Optional. Enter the email address for this
+                    record.</entry>
+                  </row>
+                  <row>
+                    <entry>Type</entry>
+
+                    <entry><para>Optional. Select the type of email address on
+                    this row. Options:</para> <itemizedlist>
+                        <listitem>
+                          <para>Home</para>
+                        </listitem>
+                        <listitem>
+                          <para>Other</para>
+                        </listitem>
+                        <listitem>
+                          <para>Work</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                  <row>
+                    <entry>Default</entry>
+                    <entry>Check this box to indicate that this Email Address
+                    record should be used as the Default. A Person record can
+                    have only one default Email Address record.</entry>
+                  </row>
+                  <row>
+                    <entry>Active</entry>
+                    <entry>Check this box to indicate that this Email Address
+                    record is Active. Uncheck the box to indicate that this
+                    record is Inactive.</entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save this Email Address record.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+      <section>
+        <title>Privacy Preferences Tab</title>
+
+        <para>The <emphasis role="bold">Privacy Preferences</emphasis> tab
+        allows you to suppress the display of (hide) fields on the <emphasis
+        role="bold">Contact</emphasis> Tab.</para>
+
+        <figure>
+          <title>Person Document: Privacy Preferences Tab</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/privacy_preferences_tab_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para><table frame="none" tabstyle="striped">
+            <title>Person Document: Privacy Preferences Tab Attributes</title>
+            <tgroup cols="2">
+              <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+              <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+              <thead>
+                <row>
+                  <entry>Field Name</entry>
+                  <entry>Description</entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>Suppress Name</entry>
+
+                  <entry>Optional. Check this box to specify NOT to display
+                  this person's names.</entry>
+                </row>
+                <row>
+                  <entry>Suppress Personal</entry>
+
+                  <entry>Optional. Check this box to specify NOT to display
+                  any of this person's personal data.</entry>
+                </row>
+                <row>
+                  <entry>Suppress Phone</entry>
+
+                  <entry>Optional. Check this box to specify NOT to display
+                  this person's phone numbers.</entry>
+                </row>
+                <row>
+                  <entry>Suppress Address</entry>
+
+                  <entry>Optional. Check this box to specify NOT to display
+                  this person's addresses.</entry>
+                </row>
+                <row>
+                  <entry>Suppress Email</entry>
+
+                  <entry>Optional. Check this box to specify NOT to display
+                  this person's email addresses.</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </section>
+      <section>
+        <title>Membership Tab</title>
+
+        <para>The <emphasis role="bold">Membership Tab</emphasis> allows you
+        to associate a person with groups and roles and, by extension, with
+        KIM permissions and responsibilities. Assigning a person to a role is
+        the most direct way to give him or her KIM permissions and
+        responsibilities.</para>
+
+        <figure>
+          <title>Person Document: Memberships Tab</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/membership_tab_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The Membership tab is divided into two sections, one for
+        managing assignments to <emphasis role="bold">Groups</emphasis> and
+        another for <emphasis role="bold">Roles</emphasis>.</para>
+
+        <section>
+          <title>Groups Section</title>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Memberships Tab, Groups
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Group</entry>
+
+                    <entry>Optional. Enter the name of the KIM group you want
+                    to assign this person to. You can also use the Group
+                    lookup to search for and select a valid Group.</entry>
+                  </row>
+                  <row>
+                    <entry>Namespace Code</entry>
+                    <entry>Display-only. After you select a group to add this
+                    person to, KIM displays the namespace code associated with
+                    the group you selected.</entry>
+                  </row>
+                  <row>
+                    <entry>Name</entry>
+                    <entry>Display-only. After you select a group to add this
+                    person to, KIM displays the name of that group.</entry>
+                  </row>
+                  <row>
+                    <entry>Type</entry>
+                    <entry>Display-only. After you select a group to add this
+                    person to, KIM displays the type of that group.</entry>
+                  </row>
+                  <row>
+                    <entry>Active From Date</entry>
+
+                    <entry>Optional. If this user's assignment to this group
+                    is to be effective as of a certain date, enter that date
+                    here.</entry>
+                  </row>
+                  <row>
+                    <entry>Active To Date</entry>
+
+                    <entry>Optional. If this user's assignment to this group
+                    is to terminate as of a certain date, enter that date
+                    here.</entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to add this group assignment.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+
+          <note>
+            <para>There is no way to delete a person's assignment to a group.
+            To remove a person from a group, use the Active To Date field to
+            specify a date in the past.</para>
+          </note>
+        </section>
+        <section>
+          <title>Roles Section</title>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Person Document: Memberships Tab, Roles
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Role</entry>
+                    <entry>Optional. Use the Name lookup to search for and
+                    select the role you want to assign this person to.</entry>
+                  </row>
+                  <row>
+                    <entry>Namespace Code</entry>
+                    <entry>Display-only. After you select a role to assign to
+                    this Person record, KIM displays the namespace code
+                    associated with that role.</entry>
+                  </row>
+                  <row>
+                    <entry>Name</entry>
+                    <entry>Display-only. After you select a role to assign to
+                    this Person record, KIM displays the name associated with
+                    that role.</entry>
+                  </row>
+                  <row>
+                    <entry>Type</entry>
+                    <entry>Display-only. After you select a role to assign to
+                    this Person record, KIM displays the role type for the
+                    selected role.</entry>
+                  </row>
+                  <row>
+                    <entry>Active From Date</entry>
+                    <entry>Optional. If this user's assignment to this role is
+                    to be effective as of a certain date, enter that date
+                    here.</entry>
+                  </row>
+                  <row>
+                    <entry>Active To Date</entry>
+                    <entry>Optional. If this user's assignment to this role is
+                    to terminate as of a certain date, enter that date
+                    here.</entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to save this role data.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+
+          <note>
+            <para>There is no way to delete a person's assignment to a role.
+            To remove a person from a role, use the Active To Date field to
+            specify a date in the past.</para>
+          </note>
+
+          <para>When assigning some roles, you may need to supply additional
+          qualifying information that further defines this person's
+          assignment. For more information on Roles see the Role Maintenance
+          section in this User Guide.</para>
+        </section>
+      </section>
+    </section>
+    <section>
+      <title>Ad Hoc Recipients Tab</title>
+
+      <para>Ad Hoc Recipients tab information can be found in the Common
+      Features and Functions section of this User Guide.</para>
+    </section>
+    <section>
+      <title>Route Log Tab</title>
+
+      <para>Route Log tab information can be found in the Common Features and
+      Functions section of this User Guide.</para>
+    </section>
+</chapter>

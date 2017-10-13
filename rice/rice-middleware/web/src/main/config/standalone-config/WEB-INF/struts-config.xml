@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+
+<struts-config>
+  
+    <form-beans>
+    	<!-- Begin required KNS forms -->
+        <form-bean name="KualiForm" type="org.kuali.rice.krad.web.struts.form.KualiForm" />
+    	<!-- End required KNS forms -->
+    </form-beans>
+
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+	</global-exceptions>
+
+    <global-forwards>
+       	<!-- Begin required KNS forwards -->
+        <forward name="save" path="/portal.jsp" redirect="true" />
+        <forward name="cancel" path="/portal.jsp" redirect="true" />
+        <forward name="close" path="/portal.jsp" redirect="true" />
+        <forward name="portal" path="/portal.jsp" redirect="true" />
+        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
+       	<!-- End required KNS forwards -->
+    </global-forwards>
+
+
+    <action-mappings>
+		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
+        <action path="/kualiExceptionIncidentReport"
+                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
+            <forward name="basic" path="/kr/kualiExceptionIncidentReport.do" />
+        </action>        
+		<!-- End Rice Pass-through Actions -->
+       	<!-- Begin required KNS mappings -->       
+        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <!-- KULRICE-2903: An action mapping to "/updateTextArea" is needed here when Javascript is enabled. -->
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        </action>
+       	<!-- End required KNS mappings -->
+		<action path="/travelDocument2" name="TravelDocumentForm2" input="/WEB-INF/jsp/travelDocument2.jsp" type="edu.sampleu.travel.web.action.TravelDocumentAction2"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/travelDocument2.jsp" />
+		</action>
+    </action-mappings>
+
+    <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
+</struts-config>
+

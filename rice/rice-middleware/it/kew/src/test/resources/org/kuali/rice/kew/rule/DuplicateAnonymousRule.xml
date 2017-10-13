@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- Rule used in RuleXmlParserTest.testAnonymousDuplicatesNamed test.  This anonymous rule will duplicate the named rule, "ANamedRule" -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <!-- duplicate of: <name>ANamedRule</name>  -->
+            <documentType>TestDocumentType</documentType>
+            <ruleTemplate>TestRuleTemplate</ruleTemplate>
+            <description>Duplicate of a named rule</description>
+            <forceAction>false</forceAction>
+            <ruleExtensions>
+                <ruleExtension>
+                    <attribute>TestRuleAttribute</attribute>
+                    <ruleTemplate>TestRuleTemplate</ruleTemplate>
+                    <ruleExtensionValues>
+                        <ruleExtensionValue>
+                            <key>color</key>
+                            <value>green</value>
+                        </ruleExtensionValue>
+                        <ruleExtensionValue>
+                            <key>shape</key>
+                            <value>square</value>
+                        </ruleExtensionValue>
+                    </ruleExtensionValues>
+                </ruleExtension>
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility>
+                    <user>user1</user>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+</data>

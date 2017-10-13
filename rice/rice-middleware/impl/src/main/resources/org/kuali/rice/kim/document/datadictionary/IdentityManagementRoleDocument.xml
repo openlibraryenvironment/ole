@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="IdentityManagementRoleDocument" parent="IdentityManagementRoleDocument-parentBean"/>
+
+  <bean id="IdentityManagementRoleDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    
+    <property name="sessionDocument" value="true"/>
+    <property name="documentTypeName" value="IdentityManagementRoleDocument"/>
+    <property name="documentClass" value="org.kuali.rice.kim.document.IdentityManagementRoleDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kim.document.rule.IdentityManagementRoleDocumentRule"/> 
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kim.document.authorization.IdentityManagementKimDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase"/>
+    <!-- <property name="documentTypeCode" value="IMPN" /> -->
+    <property name="allowsCopy" value="true"/>
+    <property name="attributes">
+      <list>
+        <ref bean="IdentityManagementRoleDocument-documentNumber"/>
+        <ref bean="IdentityManagementRoleDocument-roleId"/>
+        <ref bean="IdentityManagementRoleDocument-roleTypeName"/>
+        <ref bean="IdentityManagementRoleDocument-roleNamespace"/>
+        <ref bean="IdentityManagementRoleDocument-roleName"/>
+        <ref bean="IdentityManagementRoleDocument-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementRoleDocument-roleId" parent="IdentityManagementRoleDocument-roleId-parentBean"/>
+  <bean id="IdentityManagementRoleDocument-roleId-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleId" p:forceUppercase="true" p:label="Role Id" p:shortLabel="Role Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementRoleDocument-documentNumber" parent="IdentityManagementRoleDocument-documentNumber-parentBean"/>
+  <bean id="IdentityManagementRoleDocument-documentNumber-parentBean" parent="AttributeDefinition" abstract="true" p:name="documentNumber" p:forceUppercase="true" p:label="Document Number" p:shortLabel="Document Number" p:maxLength="14" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
+    </property>
+  </bean>
+  
+  <bean id="IdentityManagementRoleDocument-roleTypeName" parent="IdentityManagementRoleDocument-roleTypeName-parentBean"/>
+  <bean id="IdentityManagementRoleDocument-roleTypeName-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleTypeName" p:forceUppercase="false" p:label="Role Type Name" p:shortLabel="Role Type Name" p:maxLength="100" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementRoleDocument-roleNamespace" parent="IdentityManagementRoleDocument-roleNamespace-parentBean"/>
+  <bean id="IdentityManagementRoleDocument-roleNamespace-parentBean" parent="RoleBo-namespaceCode" abstract="true" p:name="roleNamespace" p:label="Role Namespace" p:shortLabel="Role Namespace" p:required="true">
+  </bean>
+
+  <bean id="IdentityManagementRoleDocument-roleName" parent="IdentityManagementRoleDocument-roleName-parentBean"/>
+  <bean id="IdentityManagementRoleDocument-roleName-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleName" p:forceUppercase="true" p:label="Role Name" p:shortLabel="Role Name" p:maxLength="100" p:required="true">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementRoleDocument-active" parent="IdentityManagementRoleDocument-active-parentBean"/>
+  <bean id="IdentityManagementRoleDocument-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+
+
+</beans>

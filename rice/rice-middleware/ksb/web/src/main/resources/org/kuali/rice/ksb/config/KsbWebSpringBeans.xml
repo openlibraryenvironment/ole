@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+  <bean id="rice.ksb.Constants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.rice.ksb.util.KSBConstants"/>
+	</bean>
+	
+	<bean id="rice.ksb.ServletContextAttributeExporter" class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="KSBConstants" value-ref="rice.ksb.Constants"/>
+			</map>
+		</property>
+	</bean>
+
+  <bean id="rice.ksb.import.persistenceService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="persistenceService" />
+	</bean>
+
+  <bean id="rice.ksb.import.dataDictionaryService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="dataDictionaryService" />
+	</bean>
+
+  <bean id="rice.ksb.import.kualiModuleService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiModuleService" />
+	</bean>
+
+  <!-- Can only load the KSB Module Configuration when the KNS is available and loaded -->
+
+  <bean id="rice.ksb.moduleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="KR-BUS" />
+		<property name="initializeDataDictionary" value="false"/>
+		<property name="dataDictionaryService" ref="rice.ksb.import.dataDictionaryService" />
+ 	    <property name="persistenceService" ref="rice.ksb.import.persistenceService" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.rice.ksb.</value>
+            </list>
+        </property>
+  </bean>
+
+  <bean id="rice.ksb.module" class="org.kuali.rice.ksb.service.impl.KSBModuleService">
+  	<property name="moduleConfiguration" ref="rice.ksb.moduleConfiguration"/>
+    <property name="kualiModuleService" ref="rice.ksb.import.kualiModuleService" />
+  </bean>
+
+  <bean id="rice.ksb.serviceBusAdminService"
+        class="org.kuali.rice.ksb.impl.bus.ServiceBusAdminServiceImpl">
+  </bean>
+
+  <bean id="rice.ksb.serviceBusAdmin.serviceDefinition" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+    p:serviceNameSpaceURI="#{ T(org.kuali.rice.ksb.api.KsbApiConstants$Namespaces).KSB_NAMESPACE_2_0 }"
+    p:jaxWsService="true"
+    p:busSecurity="true"
+    p:priority="10"
+    p:serviceVersion="${rice.version}"
+    p:servicePath="#{ T(org.kuali.rice.ksb.api.KsbApiConstants).SERVICE_PATH_SOAP }" />
+
+  <bean id="rice.kew.serviceBusAdminService.exporter" parent="ksbServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="rice.ksb.serviceBusAdmin.serviceDefinition">
+        <property name="service">
+          <ref bean="rice.ksb.serviceBusAdminService"/>
+        </property>
+        <property name="localServiceName" value="serviceBusAdminService"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="ksbServiceExporter"
+        class="org.kuali.rice.ksb.api.bus.support.PropertyConditionalServiceBusExporter"
+        abstract="true"
+        p:serviceBus-ref="rice.ksbService.import.serviceBus"/>
+
+  <bean id="rice.ksbService.import.serviceBus"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="rice.ksb.serviceBus"/>
+  </bean>
+
+  <bean id="rice.core.config.propertyPlaceholderConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+        p:properties="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}"/>
+
+</beans>

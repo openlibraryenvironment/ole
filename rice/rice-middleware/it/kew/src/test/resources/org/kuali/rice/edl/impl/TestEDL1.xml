@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+  <edoclite xmlns="ns:workflow/EDocLite"
+      xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite"> 
+
+	<edl name="TestEDL1" title="Course Change Request">
+   <security>not sure what goes here...</security>
+   <eventNotificationURL>http://localhost:8080/en-dev/snoop.jsp</eventNotificationURL>
+   <createInstructions>** Fill out the Course Change Request.</createInstructions>
+   <instructions>** Review the Course Change Request.</instructions>
+   
+   <fieldDef name="campus" title="Campus">
+    	<display>
+     	<type>text</type>
+    	</display>
+   	</fieldDef>
+   
+   <fieldDef name="department" title="Department">
+    <value>AFRI COAS</value>
+    <display>
+     	<type>select</type>
+ 		<values title="COAS-African American/African Diaspora Studies">AAAD COAS</values>
+		<values title="COAS-African Studies">AFRI COAS</values>
+		<values title="COAS-American Studies">AMST COAS</values>
+		<values title="COAS-Ancient Studies">ANCS COAS</values>
+		<values title="COAS-Animal Behavior">ABEH COAS</values>
+		<values title="COAS-Anthropology">ANTH COAS</values>
+		<values title="COAS-Apparel Merchandising/Interior Design">AMID COAS</values>
+		<values title="COAS-Astronomy">AST COAS</values>
+		<values title="COAS-Astrophysics">ASTP COAS</values>
+		<values title="COAS-Biochemistry, Interdisciplinary(COAS, MedSci, OPT)">BIOC COAS</values>
+		<values title="COAS-Biology">BIOL COAS</values>
+		<values title="COAS-Central Eurasian Studies">CEUS COAS</values>
+		<values title="COAS-Chemical Physics">CHPH COAS</values>
+		<values title="COAS-Chemistry">CHEM COAS</values>
+		<values title="COAS-Classical Studies">CLAS COAS</values>
+		<values title="COAS-Cognitive Science">COGS COAS</values>
+		<values title="COAS-Communication &amp; Culture">CMCL COAS</values>
+		<values title="COAS-Comparative Literature">CMLT COAS</values>
+		<values title="COAS-Criminal Justice">CJUS COAS</values>
+		<values title="COAS-Cultural Studies">CULS COAS</values>
+		<values title="COAS-East Asian Languages &amp; Cultures">EALC COAS</values>
+		<values title="COAS-Economics">ECON COAS</values>
+		<values title="COAS-English">ENG COAS</values>
+		<values title="COAS-Ethnomusicology">ETH COAS</values>
+		<values title="COAS-Film Studies">FIST COAS</values>
+		<values title="COAS-Fine Arts">FINA COAS</values>
+		<values title="COAS-Folklore &amp; Ethnomusicology">FOLK COAS</values>
+		<values title="COAS-French &amp; Italian">FRIT COAS</values>
+		<values title="COAS-Gender Studies">GNDR COAS</values>
+		<values title="COAS-Geography">GEOG COAS</values>
+		<values title="COAS-Geological Sciences">GEOL COAS</values>
+		<values title="COAS-German Studies, Institute of">GSI COAS</values>
+		<values title="COAS-German Studies">GER COAS</values>
+		<values title="COAS-History">HIST COAS</values>
+		<values title="COAS-History &amp; Philosophy of Science">HPSC COAS</values>
+		<values title="COAS-Human Dimensions of Global Environmental Change">HDGE COAS</values>
+		<values title="COAS-Human Evolutionary Studies">HVST COAS</values>
+		<values title="COAS-India Studies">INST COAS</values>
+		<values title="COAS-Medieval Studies">MEST COAS</values>
+		<values title="COAS-Inner Asian/Uralic Studies">URAL COAS</values>
+		<values title="COAS-Institute of Biblical/Literary Studies">IBLS COAS</values>
+		<values title="COAS-Jewish Studies">JSTU COAS</values>
+		<values title="COAS-Human Sexuality">KINS COAS</values>
+		<values title="COAS-Latin American &amp; Caribbean Studies">LTAM COAS</values>
+		<values title="COAS-Linguistics">LING COAS</values>
+		<values title="COAS-Mass Communication">MASS COAS</values>
+		<values title="COAS-Mathematical Physics">MAPH COAS</values>
+		<values title="COAS-Mathematics">MATH COAS</values>
+		<values title="COAS-Mythology">MYTH COAS</values>
+		<values title="COAS-Near Eastern Languages &amp; Cultures">NELC COAS</values>
+		<values title="COAS-Neural Science">NEUR COAS</values>
+		<values title="COAS-Performance Studies">PRST COAS</values>
+		<values title="COAS-Philosophy">PHIL COAS</values>
+		<values title="COAS-Physics">PHYS COAS</values>
+		<values title="COAS-Political Sciences">POLS COAS</values>
+		<values title="COAS-Psychology">PSY COAS</values>
+		<values title="COAS-Religious Studies">REL COAS</values>
+		<values title="COAS-Renaissance Studies">REN COAS</values>
+		<values title="COAS-Russian &amp; East European Institute">REEI COAS</values>
+		<values title="COAS-Scientific Computing">SCCO COAS</values>
+		<values title="COAS-Slavic Languages &amp; Literatures">SLAV COAS</values>
+		<values title="COAS-Sociology">SOC COAS</values>
+		<values title="COAS-Spanish &amp; Portuguese">HISP COAS</values>
+		<values title="COAS-Speech &amp; Hearing Science">SPHS COAS</values>
+		<values title="COAS-Telecommunications">TEL COAS</values>
+		<values title="COAS-TESOL/Applied Linguistics">LING COAS</values>
+		<values title="COAS-Theatre &amp; Drama">THTR COAS</values>
+		<values title="COAS-Victorian Studies">VICT COAS</values>
+		<values title="COAS-West European Studies">WEST COAS</values>
+		<values title="BUS-Business">BUS BUS</values>
+		<values title="EDUC-Education">EDUC EDUC</values>
+		<values title="HPER-Health, Physical Education &amp; Recreation">HPER HPER</values>
+		<values title="INFO-Human &amp; Computer Interaction">HCI INFO</values>
+		<values title="INFO-Computer Science">CSCI INFO</values>
+		<values title="INFO-Informatics">INFO INFO</values>
+		<values title="LAW-Law">LAW LAW</values>
+		<values title="SLIS-Liberary &amp; Information Sciences">SLIS SLIS</values>
+		<values title="MSP-Anatomy">ANAT MSP</values>
+		<values title="MSP-Pathology">PATH MSP</values>
+		<values title="MSP-Pharmacology">PHAR MSP</values>
+		<values title="MSP-Physiology">PHYS MSP</values>
+		<values title="MUS-Music">MUS MUS</values>
+		<values title="VSCI-Optometry">OPT VSCI</values>
+		<values title="VSCI-Vision Science">VSCI VSCI</values>
+		<values title="SPEA-Arts Administration">AADM SPEA</values>
+		<values title="SPEA-Environmental Programs">ENPR SPEA</values>
+		<values title="SPEA-Nonprofit Management">NOMA SPEA</values>
+		<values title="SPEA-Public Affairs">PUAF SPEA</values>
+		<values title="SPEA-Public Management">PUMA SPEA</values>
+		<values title="SPEA-Public Policy">PUPO SPEA</values>
+		<values title="SPEA-Reginal Economic Development">RED SPEA</values>
+		<values title="SPEA-Urban Affairs">URAF SPEA</values>
+		<values title="UGS-General Science">GSCI UGS</values>
+		<values title="UGS-Population Institute for Research/Training">GRAD UGS</values>
+		<values title="UGS-Social Studies">SSTD UGS</values>
+    </display>
+    <validation required="false"/>
+        <!-- accept a valid department, OR ATTRIB-ERROR, to force an attribute error 
+     <regex>AAAD COAS|AFRI COAS|AMST COAS|ANCS COAS|ATTRIB-ERROR</regex>-->
+     <!-- define a JS message that makes it clear there was a client-side JS validation error 
+     <message>[JS] Please choose a valid department (AAAD COAS|AFRI COAS|AMST COAS|ANCS COAS|ATTRIB-ERROR)</message>
+    </validation>
+    -->
+   </fieldDef>
+   
+   <fieldDef name="creditType" title="Check Appropriate Boxes:">
+    <value>undergraduateCredit</value>
+    <display>
+     <type>radio</type>
+     <values title="Undergraduate credit">undergraduateCredit</values>
+     <values title="Graduate credit">graduateCredit</values>
+     <values title="Professional credit">professionCredit</values>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="academicSubjectCode" title="Academic Subject Code:">
+    <display>
+     <type>text</type>
+    </display>
+    <validation required="true"/>
+   </fieldDef>
+   
+   <fieldDef name="courseNumber" title="Current Course Number (must be cleared with University Registrar):">
+    <display>
+     <type>text</type>
+     <meta>
+      <name>size</name>
+      <value>4</value>
+     </meta>
+    </display>
+    <validation required="true">
+     <regex>\\D\\d\\d\\d?</regex>
+     <message>Course Number must be of for A123</message>
+    </validation>
+   </fieldDef>
+   
+   <fieldDef name="currentCreditHours" title="Current Credit Hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="currentTitle" title="Current Title:">
+    <display>
+     <type>text</type>
+     <meta>
+     	<name>size</name>
+     	<value>70</value>
+     </meta>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="effectiveCourseOfferTimeline" title="Effective Semester/Year for changes listed below:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>   
+   
+   <fieldDef name="instructor" title="Instructor:">
+    <display>
+     <type>text</type>
+     <meta>
+      <name>size</name>
+      <value>50</value>
+     </meta>
+    </display>
+    <validation>
+        <!-- test that a validation with no regex and not-required, is not enforced -->
+     <message>[JS] Javascript SHOULD NOT enforce instructor to be specified</message>
+    </validation>
+   </fieldDef>
+   
+
+	
+	<fieldDef name="changeCourseNumber" title="Change course number to:">
+    	<display>
+     		<type>text</type>
+     		<meta>
+      			<name>size</name>
+      			<value>10</value>
+     		</meta>
+    	</display>
+   </fieldDef>
+   
+   <fieldDef name="currentCourseTitle" title="Current Course Title:">
+   		<display>
+     		<type>text</type>
+     		<meta>
+      			<name>size</name>
+      			<value>70</value>
+     		</meta>
+    	</display>
+   </fieldDef>
+   
+   <fieldDef name="titleChangeTo" title="Change to:">
+   		<display>
+     		<type>text</type>
+     		<meta>
+      			<name>size</name>
+      			<value>70</value>
+     		</meta>
+    	</display>
+   </fieldDef>
+   
+   <fieldDef name="recommendedAbbreviation" title="Recommended abbreviation (optional, limited to 32 characters including spaces)">
+   		<display>
+     		<type>text</type>
+     		<meta>
+      			<name>size</name>
+      			<value>32</value>
+     		</meta>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="creditHours" title="Current credit hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="creditHoursFixed" title="fixed at: ">
+   	<display>
+   		<type>text</type>
+   	</display>
+   </fieldDef>
+   <fieldDef name="creditHoursVariableFrom" title="or variable from:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="creditHoursVariableTo" title="to">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="changeCreditHours" title="Change to credit hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeCreditHoursFixed" title="fixed at:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeCreditHoursVariableFrom" title="or variable from:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeCreditHoursVariableTo" title="to">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="lectureContactHours" title="Current lecture contact hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="lectureContactHoursFixed" title="fixed at:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="lectureContactHoursVariableFrom" title="or variable from:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="lectureContactHoursVariableTo" title="to">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="changeLectureContactHours" title="Change to lecture contact hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeLectureContactHoursFixed" title="fixed at:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeLectureContactHoursVariableFrom" title="or variable from:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeLectureContactHoursVariableTo" title="to">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="nonlectureContactHours" title="Current non-lecture contact hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="nonlectureContactHoursFixed" title="fixed at:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="nonlectureContactHoursVariableFrom" title="or variable from:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="nonlectureContactHoursVariableTo" title="to">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="changeNonlectureContactHours" title="Change to non-lecture contact hours:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+    <fieldDef name="changeNonlectureContactHoursFixed" title="fixed at:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeNonlectureContactHoursVariableFrom" title="or variable from:">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeNonlectureContactHoursVariableTo" title="to">
+    <display>
+     <type>text</type>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="courseGradedSFOnly" title="Is this course currently graded with S-F (only) grades?">
+    <value>yes</value>
+    <display>
+     <type>radio</type>
+     <values title="Yes">yes</values>
+     <values title="No">no</values>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeCourseGradedSFOnly" title="Change to S-F (only) grading?">
+    <value>yes</value>
+    <display>
+     <type>radio</type>
+     <values title="Yes">yes</values>
+     <values title="No">no</values>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="variableTitleApproveRequested" title="Does this course presently have variable title approval?">
+    <value>yes</value>
+    <display>
+     <type>radio</type>
+     <values title="Yes">yes</values>
+     <values title="No">no</values>
+    </display>
+   </fieldDef>
+   <fieldDef name="changeVariableTitleApproveRequested" title="Is variable title approval being requested?">
+    <value>yes</value>
+    <display>
+     <type>radio</type>
+     <values title="Yes">yes</values>
+     <values title="No">no</values>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="courseDiscontinued" title="Is this course being discontinued?">
+    <display>
+     <type>radio</type>
+     <values title="For all campuses">allCampuses</values>
+     <values title="For this campus only">thisCampus</values>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="courseDescription" title="Current Course Description:">
+    <display>
+     <type>textarea</type>
+     <meta>
+      <name>cols</name>
+      <value>50</value>
+     </meta>
+     <meta>
+      <name>rows</name>
+      <value>5</value>
+     </meta>
+    </display>
+    <!-- JS doesn't like this regex. TODO: figure it out later
+    <validation required="true">
+     <regex>\\b{0,5}</regex>
+     <message>This is a maximum of 50 words</message>    
+    </validation>
+    -->
+   </fieldDef>
+   <fieldDef name="changeCourseDescription" title="Change course description to (not to exceed 50 words)">
+    <value></value>
+    <display>
+     <type>textarea</type>
+     <meta>
+      <name>cols</name>
+      <value>50</value>
+     </meta>
+     <meta>
+      <name>rows</name>
+      <value>5</value>
+     </meta>
+    </display>
+    <!-- JS doesn't like this regex. TODO: figure it out later
+    <validation required="true">
+     <regex>\\b{0,5}</regex>
+     <message>This is a maximum of 50 words</message>    
+    </validation>
+    -->
+   </fieldDef>
+   
+   <fieldDef name="changeJustification" title="Justification for change">
+    <display>
+     <type>textarea</type>
+     <meta>
+      <name>cols</name>
+      <value>50</value>
+     </meta>
+     <meta>
+      <name>rows</name>
+      <value>5</value>
+     </meta>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="readingMaterialsAvailable" title="Are the necessary reading materials currently available in the appropriate library?">
+    <value>yes</value>
+    <display>
+     <type>radio</type>
+     <values title="Yes">yes</values>
+     <values title="No">no</values>
+    </display>
+   </fieldDef>
+   
+   <fieldDef name="overlapDepts" title="A copy of every course change proposal must be submitted to departments, schools, or divisions in which there may be overlap of this course with existing courses or areas of strong concern, with instructions that they send comments directly to the originating Curriculum Committee.  Please append a list of departments, schools, or divisions thus consulted.">
+    <display>
+     <type>textarea</type>
+     <meta>
+      <name>cols</name>
+      <value>50</value>
+     </meta>
+     <meta>
+      <name>rows</name>
+      <value>5</value>
+     </meta>     
+    </display>
+   </fieldDef>
+   	
+  </edl>
+  
+  <association>
+      <docType>TestEDL1</docType>
+      <definition>TestEDL1</definition>
+      <style>Default</style>
+      <active>true</active>
+    </association>
+   </edoclite>
+ </data> 
+ 

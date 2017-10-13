@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <formView-bean entryPageId="Demo-StateBasedValidation-Server-Page1"
+                 formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm"
+                 headertext="State-based Validation Server-side Test View" id="Demo-StateBasedValidation-Server"
+                 validateClientSide="false"
+                 viewHelperServiceClass="edu.sampleu.demo.kitchensink.UIfComponentsViewHelperServiceImpl">
+    <stateMapping>
+      <stateMapping-bean>
+        <states>
+          <spring:value>state1</spring:value>
+          <spring:value>state2</spring:value>
+          <spring:value>state3</spring:value>
+          <spring:value>state4</spring:value>
+          <spring:value>state5</spring:value>
+        </states>
+        <stateNameMessageKeyMap>
+          <spring:entry key="state1" value="demo.state1"/>
+          <spring:entry key="state2" value="demo.state2"/>
+          <spring:entry key="state3" value="demo.state3"/>
+          <spring:entry key="state4" value="demo.state4"/>
+          <spring:entry key="state5" value="demo.state5"/>
+        </stateNameMessageKeyMap>
+      </stateMapping-bean>
+    </stateMapping>
+    <footer>
+      <formFooter-bean/>
+    </footer>
+    <items>
+      <spring:ref bean="Demo-StateBasedValidation-Server-Page1"/>
+    </items>
+  </formView-bean>
+  <page-bean id="Demo-StateBasedValidation-Server-Page1">
+    <items>
+      <verticalBoxSection-bean>
+        <items>
+          <primaryActionButton-bean actionLabel="Change to State 2" methodToCall="gotoState2"/>
+          <primaryActionButton-bean actionLabel="Change to State 3" methodToCall="gotoState3"/>
+          <primaryActionButton-bean actionLabel="Change to State 4" methodToCall="gotoState4"/>
+          <checkFormAction-bean/>
+          <stateBased-requiredInstructionsMessage-bean/>
+          <inputField-labelTop-bean label="State" propertyName="state" readOnly="true"/>
+          <inputField-labelTop-bean constraintText="Required                                         for state2 only"
+                                    label="Field 1" propertyName="field1">
+            <simpleConstraint>
+              <simpleContraint-bean required="true" states="state2"/>
+            </simpleConstraint>
+          </inputField-labelTop-bean>
+          <inputField-labelTop-bean constraintText="Required                   for state2 and after" label="Field 2"
+                                    propertyName="field2">
+            <simpleConstraint>
+              <simpleContraint-bean required="true" states="state2+"/>
+            </simpleConstraint>
+          </inputField-labelTop-bean>
+          <inputField-labelTop-bean constraintText="Required               for state1 through state2" label="Field 3"
+                                    propertyName="field3">
+            <simpleConstraint>
+              <simpleContraint-bean required="true" states="state1&gt;state2"/>
+            </simpleConstraint>
+          </inputField-labelTop-bean>
+          <inputField-labelTop-bean constraintText="Required                                   for state1 and state3"
+                                    label="Field 4" propertyName="field4">
+            <simpleConstraint>
+              <simpleContraint-bean required="true" states="state1,state3"/>
+            </simpleConstraint>
+          </inputField-labelTop-bean>
+          <inputField-labelTop-bean
+                  constraintText="For state 1 and 2 max 50 characters, for state 3 max 25 characters, for                     state4 and after 15 characters"
+                  label="Field 5" propertyName="field5">
+            <simpleConstraint>
+              <simpleContraint-bean maxLength="50" states="state1&gt;state2">
+                <constraintStateOverrides>
+                  <simpleContraint-bean maxLength="25" states="state3"/>
+                  <simpleContraint-bean maxLength="15" states="state4+"/>
+                </constraintStateOverrides>
+              </simpleContraint-bean>
+            </simpleConstraint>
+          </inputField-labelTop-bean>
+          <inputField-labelTop-bean constraintText="Alpha only, state4 and after only upperCase allowed" label="Field 6"
+                                    propertyName="field6">
+            <validCharactersConstraint>
+              <alphaPatternConstraint-bean states="state1&gt;state3">
+                <constraintStateOverrides>
+                  <alphaPatternConstraint-bean states="state4+" upperCase="true"/>
+                </constraintStateOverrides>
+              </alphaPatternConstraint-bean>
+            </validCharactersConstraint>
+          </inputField-labelTop-bean>
+          <inputField-labelTop-bean
+                  constraintText="AlphaNumeric only, state3 and after                                         only Numeric allowed"
+                  label="Field 8" propertyName="field7">
+            <validCharactersConstraint>
+              <alphaNumericPatternConstraint-bean states="state1&gt;state2">
+                <constraintStateOverrides>
+                  <numericPatternConstraint-bean states="state3+"/>
+                </constraintStateOverrides>
+              </alphaNumericPatternConstraint-bean>
+            </validCharactersConstraint>
+          </inputField-labelTop-bean>
+        </items>
+      </verticalBoxSection-bean>
+    </items>
+  </page-bean>
+</spring:beans>

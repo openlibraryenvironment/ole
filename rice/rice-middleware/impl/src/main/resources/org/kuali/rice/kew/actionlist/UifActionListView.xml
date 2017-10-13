@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="UifActionListView" parent="Uif-FormView" p:headerText="Action List View">
+    <property name="items">
+      <list>
+        <ref bean="ActionListPage1"/>
+        <ref bean="ActionListPage2"/>
+        <ref bean="ActionListPage3"/>
+      </list>
+    </property>
+    <property name="formClass" value="org.kuali.rice.kew.actionlist.ActionListForm"/>
+  </bean>
+
+  <bean id="ActionListPage2" parent="Uif-Page" p:headerText="Action List Filter">
+  <property name="items">
+    <list>
+      <bean  parent="Uif-Disclosure-GridSubSection" p:headerText="Action List Filter"
+        p:layoutManager.numberOfColumns="2">
+        <property name="items">
+          <list>
+
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Document Title">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="filter.documentTitle" p:fieldLabel.render="false">
+                    <property name="control">
+                      <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                  </bean>
+
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeDocumentTitle" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Document Route Status">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="filter.docRouteStatus" p:fieldLabel.render="false">
+                    <property name="control">
+                      <bean parent="Uif-DropdownControl">
+                        <property name="options">
+                          <list>
+                            <bean parent="Uif-KeyLabelPair" p:key="All" p:value="All" />
+                            <bean parent="Uif-KeyLabelPair" p:key="" p:value="" />
+                            <bean parent="Uif-KeyLabelPair" p:key="D" p:value="DISAPPROVE" />
+                            <bean parent="Uif-KeyLabelPair" p:key="R" p:value="ENROUTE" />
+                            <bean parent="Uif-KeyLabelPair" p:key="E" p:value="EXCEPTION" />
+                            <bean parent="Uif-KeyLabelPair" p:key="P" p:value="PROCESSED" />
+                            <bean parent="Uif-KeyLabelPair" p:key="S" p:value="SAVED" />
+                            <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FINAL" />
+                          </list>
+                        </property>
+                      </bean>
+                    </property>
+                  </bean>
+
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeRouteStatus" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Action Requested">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="filter.actionRequestCd" p:fieldLabel.render="false">
+                    <property name="control">
+                      <bean parent="Uif-DropdownControl">
+                        <property name="options">
+                          <list>
+                            <bean parent="Uif-KeyLabelPair" p:key="All" p:value="All" />
+                            <bean parent="Uif-KeyLabelPair" p:key="K" p:value="ACKNOWLEDGE" />
+                            <bean parent="Uif-KeyLabelPair" p:key="A" p:value="APPROVE" />
+                            <bean parent="Uif-KeyLabelPair" p:key="C" p:value="COMPLETE" />
+                            <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FYI" />
+                          </list>
+                        </property>
+                      </bean>
+                    </property>
+                  </bean>
+
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeActionRequestCd" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Action Requested Group">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="filter.groupIdString" p:fieldLabel.render="false">
+                    <property name="control">
+                      <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                      <bean class="org.kuali.rice.kew.actionlist.UserWorkgroupsKeyValues"/>
+                    </property>
+                  </bean>
+
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeGroupId" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Document Type">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="filter.documentType">
+                    <property name="quickfinder">
+                      <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kew.doctype.bo.DocumentType"
+                            p:fieldConversions="filter.documentType"/>
+                    </property>
+                  </bean>
+
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeDocumentType" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Date Created">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                      <list>
+                        <bean parent="Uif-InputField" p:propertyName="filter.createDateFrom" p:label="from">
+                          <property name="control">
+                            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                          </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="filter.createDateTo" p:label="To">
+                          <property name="control">
+                            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                          </property>
+                        </bean>
+                      </list>
+                    </property>
+                  </bean>
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeCreateDate" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="Uif-HorizontalFieldGroup" p:label="Date Assigned">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                      <list>
+                        <bean parent="Uif-InputField" p:propertyName="filter.LastAssignedDateFrom" p:label="from">
+                          <property name="control">
+                            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                          </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="filter.LastAssignedDateTo" p:label="To">
+                          <property name="control">
+                            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                          </property>
+                        </bean>
+                      </list>
+                    </property>
+                  </bean>
+                  <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="filter.excludeLastAssignedDate" p:label="exclude?">
+                    <property name="control">
+                      <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+      <bean parent="Uif-HorizontalBoxGroup" p:style="padding:2px;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="setFilter"
+                  p:actionLabel="filter"></bean>
+            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="clear"
+                  p:actionLabel="clear"></bean>
+            <bean parent="Uif-PrimaryActionButton-Small"
+                  p:actionLabel="reset" p:actionScript="javascript:document.forms[0].reset()"></bean>
+            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="cancelFilter"
+                  p:actionLabel="cancel"></bean>
+          </list>
+        </property>
+      </bean>
+    </list>
+  </property>
+</bean>
+
+  <bean id="ActionListPage3" parent="Uif-Page" p:headerText="Action List Preferences">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Add preferences page here!"></bean>
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="start"
+              p:actionLabel="back to action list"></bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ActionListPage1" parent="Uif-Page" p:headerText="Action List Page">
+    <property name="header.rightGroup">
+      <bean parent="Uif-HeaderRightGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-HorizontalBoxGroup" p:style="padding:2px;">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPreferences"
+                        p:actionLabel="preferences"
+                        p:actionScript="window.location = '@{#ConfigProperties['application.url']}/kew/Preferences.do';"></bean>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="refresh"
+                        p:actionLabel="refresh"></bean>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewFilter"
+                        p:actionLabel="filter"></bean>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="clearFilter"
+                        p:actionLabel="clear filter" p:render="@{#dp.filter.filterLegend!=''}"></bean>
+                  <bean parent="Uif-InputField" p:propertyName="helpDeskActionListUserName">
+                    <property name="control">
+                      <bean parent="Uif-TextControl" p:size="5"/>
+                    </property>
+                  </bean>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="helpDeskActionListLogin"
+                        p:actionLabel="help desk action list login"/>
+                  <bean parent="Uif-ActionLink" p:methodToCall="clearHelpDeskActionListUser"
+                        p:actionLabel="Clear @{#dp.user}'s Help Desk List" p:render="@{#dp.helpDeskActionListPerson!=null}" />
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-VerticalBoxSection" p:style="margin-top:50px;" p:headerText="@{#dp.viewOutbox =='true' ? 'Outbox' : 'Action List'}" >
+          <property name="items">
+            <list>
+              <bean parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#dp.showOutbox}">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-ActionLink" p:methodToCall="start" p:actionLabel="Action List" p:disabled="@{#dp.viewOutbox=='false'}" p:additionalSubmitData="viewOutbox:false" ></bean>
+                    <bean parent="Uif-ActionLink" p:methodToCall="start" p:actionLabel="Outbox" p:disabled="@{#dp.viewOutbox=='true'}" p:additionalSubmitData="viewOutbox:true" ></bean>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-Message" p:messageText="@{#dp.filter.filterLegend}" p:style="margin-bottom:5px;font-weight:bold;" p:render="@{#dp.filter.filterLegend!=''}"></bean>
+              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="removeOutboxItems"
+                    p:actionLabel="delete selected items" p:render="@{#dp.viewOutbox=='true' and #dp.helpDeskActionListPerson==null and !#dp.outBoxEmpty}"></bean>
+              <bean parent="Uif-Message" p:messageText="No Outbox items found" p:render="@{#dp.viewOutbox=='true' and #dp.outBoxEmpty}" p:style="margin-top:20px;"></bean>
+              <bean parent="Uif-Message" p:messageText="No Action List items found" p:render="@{#dp.viewOutbox!='true' and #dp.actionList.size()==0}" p:style="margin-top:20px;"></bean>
+              <bean id="Collections-ActionColumnPlacement-TableLayout" parent="Uif-Disclosure-TableCollectionSection"
+                    p:propertyName="ActionList"
+                    p:collectionObjectClass="org.kuali.rice.kew.actionitem.ActionItemActionListExtension"
+                    p:readOnly="true" p:includeLineSelectionField="@{#dp.helpDeskActionListPerson==null}">
+                <property name="layoutManager">
+                  <bean parent="Uif-TableCollectionLayout" p:renderSequenceField="false" p:ajaxDetailsRetrieval="true">
+                    <property name="expandDetailsActionPrototype">
+                      <bean parent="Uif-ExpandDetailsImageAction" p:render="@{#lp.displayParameters!=null}"/>
+                    </property>
+                    <property name="selectFieldPrototype">
+                      <ref bean="actionSelect"/>
+                    </property>
+                    <property name="propertyReplacers">
+                      <list>
+                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="selectFieldPrototype" p:condition="#dp.viewOutbox=='true'">
+                          <property name="replacement">
+                            <ref bean="outboxSelect"/>
+                          </property>
+                        </bean>
+                      </list>
+                    </property>
+                    <property name="rowDetailsGroup">
+                      <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                          <list>
+                            <bean parent="Uif-Iframe" p:width="800px" p:height="550px" p:source="@{#ConfigProperties['application.url']}/ken/DetailView.form?docId=@{#lp.documentId}&amp;command=displayActionListView"/>
+                          </list>
+                        </property>
+                      </bean>
+                    </property>
+                  </bean>
+                </property>
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-LinkField"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"
+                          p:target="_blank"
+                          p:href="@{#ConfigProperties['application.url']}/kew/DocHandler.do?docId=@{#lp.documentId}&amp;command=displayActionListView"
+                          p:linkText="@{#lp.documentId}" p:readOnly="@{#dp.helpDeskActionListPerson!=null}" p:label="ID"/>
+                    <bean parent="Uif-DataField" p:propertyName="docLabel" p:render="@{#dp.preferences.showDocType=='yes'}"
+                          p:label="Type" p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"/>
+                    <bean parent="Uif-DataField" p:propertyName="docTitle" p:label="Title" p:render="@{#dp.preferences.showDocTitle=='yes'}"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"/>
+                    <bean parent="Uif-InputField" p:render="@{#dp.preferences.showDocumentStatus=='yes'}"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"
+                          p:propertyName="routeHeaderRouteStatus" p:label="Route Status" p:readOnly="true">
+                      <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                          <property name="options">
+                            <list>
+                              <bean parent="Uif-KeyLabelPair" p:key="ALL" p:value="ALL" />
+                              <bean parent="Uif-KeyLabelPair" p:key="D" p:value="DISAPPROVE" />
+                              <bean parent="Uif-KeyLabelPair" p:key="R" p:value="ENROUTE" />
+                              <bean parent="Uif-KeyLabelPair" p:key="E" p:value="EXCEPTION" />
+                              <bean parent="Uif-KeyLabelPair" p:key="P" p:value="PROCESSED" />
+                              <bean parent="Uif-KeyLabelPair" p:key="S" p:value="SAVED" />
+                              <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FINAL" />
+                            </list>
+                          </property>
+                        </bean>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-InputField" p:render="@{#dp.preferences.showActionRequested=='yes'}"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"
+                          p:propertyName="actionRequestCd" p:label="Action Requested" p:readOnly="true">
+                      <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                          <property name="options">
+                            <list>
+                              <bean parent="Uif-KeyLabelPair" p:key="ALL" p:value="ALL" />
+                              <bean parent="Uif-KeyLabelPair" p:key="K" p:value="ACKNOWLEDGE" />
+                              <bean parent="Uif-KeyLabelPair" p:key="A" p:value="APPROVE" />
+                              <bean parent="Uif-KeyLabelPair" p:key="C" p:value="COMPLETE" />
+                              <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FYI" />
+                            </list>
+                          </property>
+                        </bean>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-DataField"
+                          p:render="@{#dp.preferences.showInitiator=='yes'}"
+                          p:propertyName="routeHeaderInitiatorName"
+                          p:label="Initiator"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}">
+                      <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                              p:inquiryParameters="routeHeaderInitiatorWorkflowId:principalId1"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-DataField"
+                          p:render="@{#dp.preferences.showDelegator=='yes'}"
+                          p:propertyName="delegatorName"
+                          p:label="Delegator"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}">
+                      <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                              p:inquiryParameters="delegatorName:principalId1"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-DataField" p:propertyName="routeHeaderCreateDate"
+                          p:render="@{#dp.preferences.showDateCreated=='yes'}" p:label="Date Created"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"/>
+                    <bean parent="Uif-DataField" p:propertyName="lastApprovedDate" p:render="@{#dp.preferences.showDateApproved=='yes'}"
+                          p:label="Last Approved Date" p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"/>
+                    <bean parent="Uif-DataField"
+                          p:render="@{#dp.preferences.showWorkgroupRequest=='yes'}"
+                          p:propertyName="groupName" p:label="Group Request"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}">
+                      <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo"
+                              p:inquiryParameters="groupId:id"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-DataField" p:propertyName="routeHeaderCurrentRouteLevelName"
+                          p:render="@{#dp.preferences.showCurrentNode=='yes'}" p:label="Current Route Node(s)"
+                          p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"/>
+                    <bean
+                      parent="Uif-ActionField"
+                      p:cellStyle="display:'';@{'background-color:' + #lp.rowStyleClass + ';'}"
+                      p:actionScript="window.open('@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{#lp.documentId}');">
+                      <property name="actionImage">
+                          <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/kew/images/my_route_log.gif"/>
+                      </property>
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="actionSelect" parent="Uif-InputField" p:readOnly="false"
+        p:label="Action" p:shortLabel="Action">
+    <property name="control">
+      <bean parent="Uif-DropdownControl" p:render="@{#lp.customActions.size()!=0}">
+        <property name="options">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="NONE" p:value="NONE" />
+            <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FYI" />
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  <bean id="outboxSelect" parent="Uif-InputField" p:readOnly="false"
+        p:label="Select?" p:shortLabel="Select?">
+    <property name="control">
+      <bean parent="Uif-CheckboxControl" />
+    </property>
+  </bean>
+</beans>

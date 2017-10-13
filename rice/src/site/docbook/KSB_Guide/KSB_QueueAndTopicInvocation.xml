@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_QueueAndTopicInvocation" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Queue and Topic invocation</title>
+    
+    <para>When you deploy a service, you can configure it for queue or for
+        topic invocation using the <emphasis role="bold">setQueue</emphasis>
+        property on the <emphasis role="bold">ServiceDefinition</emphasis>. The
+        default is to register it as a queue-style service. The distinction
+        between queue and topic invocation occurs when there is more than one
+        service registered under the same <emphasis
+            role="bold">QName</emphasis>.</para>
+    
+    <section>
+        <title>Queue invocation</title>
+        
+        <para>Remote service proxies obtained through the resource loader stack
+            using <emphasis role="bold">getService(QName)</emphasis> (ultimately
+            through the <emphasis role="bold">ServiceBus</emphasis>) are inherently
+            synchronous. In the presence of multiple service registrations, the
+            <emphasis role="bold">ServiceBus</emphasis> will choose one at
+            random.</para>
+        
+        <para>When invoking services asynchronously through the <emphasis
+            role="bold">MessageHelper</emphasis>, an asynchronous service call proxy
+            will be constructed with all available service definitions. The
+            <emphasis role="bold">MessageServiceInvoker</emphasis> is called to
+            invoke each service. If the service is defined as a queue service, then
+            the <emphasis role="bold">ServiceBus</emphasis> will be consulted in a
+            similar fashion to determine a single service to call. After the first
+            queue service invocation the <emphasis
+                role="bold">MessageServiceInvoker</emphasis> will return.</para>
+    </section>
+    
+    <section>
+        <title>Topic invocation</title>
+        
+        <para>The simplest way to invoke a topic service is using the <emphasis
+            role="bold">MessageHelper</emphasis> functions to invoke the service
+            asynchronously. As described above for an asynchronous queue invocation,
+            an asynchronous service call proxy will be constructed with the list of
+            all of the services registered as a topic under the given name. Each of
+            these services will be independently obtained and invoked by the
+            <emphasis role="bold">MessageServiceInvoker</emphasis>.</para>
+        
+        <para>Invoking a topic synchronously, however, requires use of a
+            synchronous service call proxy to aggregate all of the topic's services.
+            This functionality is not directly available via the <emphasis
+                role="bold">ServiceBus</emphasis> API because the <emphasis
+                    role="bold">ServiceBus</emphasis> acts as a facade for direct service
+            invocation.</para>
+        
+        <para>To invoke a topic synchronously, you can construct a <emphasis
+            role="bold">SynchronousServiceCallProxy</emphasis> using <emphasis
+                role="bold">SynchronousServiceCallProxy.createInstance</emphasis>,
+            passing the list of <emphasis role="bold">Endpoint</emphasis> obtained
+            using <emphasis role="bold">ServiceBus.getEndpoints(QName)</emphasis>.
+            This is done, for example, by <emphasis
+                role="bold">MessageHelperImpl</emphasis> when the bus has been forced
+            into synchronous mode via the <emphasis
+                role="bold">message.delivery</emphasis> config param.</para>
+        
+        <para>The synchronous service call proxy is the same as the asynchronous
+            service call proxy, except that it does not queue up the invocation, it
+            will invoke it blockingly. The same queue/topic distinctions described
+            above apply when you invoke a topic synchronously. Under the normal
+            queue situation, use of the synchronous service call proxy is not
+            necessary because, as mentioned above, remote services obtained through
+            the <emphasis role="bold">ServiceBus</emphasis> are naturally
+            synchronous. You can see this in the example below:</para>
+        
+        <programlisting>List&lt;Endpoint&gt; servicesToProxy = KsbApiServiceLocator.getServiceBus().getEndpoints(qname);
+
+SynchronousServiceCallProxy sscp = return SynchronousServiceCallProxy.createInstance(servicesToProxy, callback, context, value1, value2);</programlisting>
+    </section>
+</chapter>

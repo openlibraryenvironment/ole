@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="county" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>County</title>
+    </info>
+    <para>Administration > Identity > Locations > County</para>
+    <para>The County Maintenance document is used to assign specific identifying codes to county
+        names.</para>
+    <para>When the user chooses the <emphasis role="bold">County</emphasis> option from the
+            <emphasis role="bold">Administration</emphasis> menu tab, the system displays the County
+        Lookup screen. After the user selects a county or clicks the <emphasis role="bold">create
+            new</emphasis> button, the system presents the County Maintenance document.</para>
+    <section>
+        <title>Document Layout</title>
+        <para><figure><title>County Maintenance document, create mode</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/county_maintenance_document.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <para>The County Maintenance document includes the <emphasis role="bold">Edit
+                Counties</emphasis> tab.</para>
+        <para>In edit mode, the<emphasis role="bold"> Edit Counties</emphasis> tab presents a
+            display-only set of fields on the left and editable fields on the right in which the
+            user may enter changes.</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Edit Counties tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Country Code</entry>
+                        <entry>The country code for the country in which this county is located. </entry>
+                    </row>
+                    <row>
+                        <entry>County Code </entry>
+                        <entry>A unique identifying code assigned to this county.</entry>
+                    </row>
+                    <row>
+                        <entry>State</entry>
+                        <entry>The state abbreviation assigned to the state in which a county is located.</entry>
+                    </row>
+                    <row>
+                        <entry>County Name </entry>
+                        <entry>Required. The familiar name of this county.</entry>
+                    </row>
+                    <row>
+                        <entry>Active Indicator</entry>
+                        <entry>Indicates whether the county code is active or inactive. Remove the
+                            check mark to deactivate this county code. </entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+</chapter>

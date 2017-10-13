@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+  <bean id="ParameterMaintenanceDocument" parent="ParameterMaintenanceDocument-parentBean"/>
+
+  <bean id="ParameterMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.coreservice.impl.parameter.ParameterBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.coreservice.web.parameter.ParameterMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="ParameterMaintenanceDocument-EditParameter"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="namespace" p:attributeToHighlightOnFail="namespaceCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="parameterType" p:attributeToHighlightOnFail="parameterTypeCode"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>namespaceCode</value>
+        <value>componentCode</value>
+        <value>applicationId</value>
+        <value>name</value>
+      </list>
+    </property>
+
+    <property name="documentTypeName" value="ParameterMaintenanceDocument"/>
+   <property name="businessRulesClass" value="org.kuali.rice.coreservice.web.parameter.ParameterRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowProperties">
+      <ref bean="ParameterMaintenanceDocument-workflowProperties"/>
+    </property>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ParameterMaintenanceDocument-EditParameter" parent="ParameterMaintenanceDocument-EditParameter-parentBean"/>
+
+  <bean id="ParameterMaintenanceDocument-EditParameter-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="namespaceCode"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="componentCode"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="applicationId" p:defaultValue="KUALI"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="name"/>
+        <bean parent="MaintainableFieldDefinition" p:required="false" p:name="value"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="description"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="parameterTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="evaluationOperatorCode"/>
+      </list>
+    </property>
+    <property name="id" value="Edit Parameter"/>
+    <property name="title" value="Edit Parameter"/>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ParameterMaintenanceDocument-workflowProperties" parent="ParameterMaintenanceDocument-workflowProperties-parentBean"/>
+
+  <bean id="ParameterMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+              <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

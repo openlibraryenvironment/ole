@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_channels" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0"> 
+    <title>KEN Channels</title>
+    <para>A KEN Channel is correlated to a specific type of notification. An example of a
+        Channel's use may be to send out information about upcoming Library Events or broadcast
+        general announcements on upcoming concerts. Channels are subscribed to in the act of
+        receiving notifications from a publisher or producer. They can also be unsubscribed to
+        and removed from the data store from within the UI. The Channel Definitions are stored
+        in the database table KREN_CHNL_T. The columns are listed as follows:</para>
+    <para>
+        <table frame="none" tabstyle="striped">
+            <title>KREN_CHNL_T</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Column</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>CHNL_ID</entry>
+                        <entry>Identifier for the Channel</entry>
+                    </row>
+                    <row>
+                        <entry>NM</entry>
+                        <entry>Name of the Channel represented in the UI</entry>
+                    </row>
+                    <row>
+                        <entry>DESC_TXT</entry>
+                        <entry>Description of the Channel</entry>
+                    </row>
+                    <row>
+                        <entry>SUBSCRB_IND</entry>
+                        <entry>Determines if the Channel can or cannot be subscribed to from the
+                            UI. This also determines if the channel will be displayed in the
+                            UI</entry>
+                    </row>
+                    <row>
+                        <entry>VER_NBR</entry>
+                        <entry>Version Number for the Channel</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </para>
+    <section>
+        <title>Channel Subscription</title>
+        <para>Subscribing to a notification channel causes all notifications sent on the channel
+            to be delivered to the subscriber, regardless of the list of users or groups
+            specified as recipients of the notification.</para>
+        <para>Subscriptions are divided into two categories:<itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Subscribers</emphasis> – Users can subscribe to
+                    any channel where the Subscription Flag is set to "Yes". </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Default Recipients</emphasis> – Each channel has a list
+                        of users and groups that receive all channel notifications. To view the
+                        complete list of default recipients for a channel, run the following query
+                        replacing ? with your channel
+                        id:<programlisting>SELECT * FROM KREN_RECIP_LIST_T
+WHERE CHNL_ID = '?';</programlisting>
+                    </para>
+            </listitem>
+        </itemizedlist></para>
+        <para>Channels can be subscribed to through the UI and also through the direct access to
+            the data store. To add a channel that can be subscribed to simply run the following
+            SQL statement against the data store customizing value entries to your needs: </para>
+        <programlisting>INSERT INTO KREN_CHNL_T (CHNL_ID,DESC_TXT,NM,SUBSCRB_IND,VER_NBR)
+VALUES (2, 'This channel is used for sending out information about Library Events.', 'Library Events Channel', 'Y', 1)</programlisting>
+        <para>To add default recipients to a channel, first locate the recipients through the Person Lookup 
+            function as described <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KIM_Guide.html#KIM_Person">here</link> in the KIM Guide.</para>
+        <para>Then, for each person's Principal ID, execute the following SQL where 'X' is the next
+            RECIP_LIST_ID, 'Y' is the channel ID, and 'Z' is the Principal ID:
+            <programlisting>INSERT INTO KREN_RECIP_LIST_T (RECIP_LIST_ID, CHNL_ID, RECIP_TYP_CD, RECIP_ID, OBJ_ID, VER_NBR)
+VALUES ('X', 'Y', 'USER', 'Z', '', 1);  </programlisting></para>
+    </section>
+    <section>
+        <title>Managing Subscribers</title>
+        <para>Users can manage their subscriptions to channels where the Subscription Flag is
+            <emphasis role="bold">Yes</emphasis> using the Channel Subscriptions form. On
+            the Main Menu, click the <emphasis role="bold">Channel Subscriptions</emphasis> link
+            in the <emphasis role="bold">Notification</emphasis> box:</para>
+        <figure><title>Notification Channel: Channel Subscriptions</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KEN_Guide/channel_subscriptions.png" scalefit="1" width="100%" contentdepth="100%" />
+                </imageobject>
+            </mediaobject></figure>
+        <para>This displays the list of channels that allow the user to manage their
+            subscriptions:</para>
+        <figure><title>Chanel Subscriptions: Manage</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KEN_Guide/channel_subscriptions2.png"/>
+                </imageobject>
+            </mediaobject></figure>
+        <para>Click the <emphasis role="bold">Subscribe</emphasis> button for a channel to
+            subscribe to a channel for which you are not already subscribed. Click the <emphasis
+                role="bold">Unsubscribe</emphasis> button to cancel your subscription to the
+            channel.</para>
+    </section>
+    <section>
+        <title>Notification Channel</title>
+        <para>A notification channel is a communication stream used as a means to organize
+            notifications by topic or audience. Users and groups can subscribe to a channel to
+            receive the notifications that interest them.</para>
+        <para>You can think of a notification channel as being like a television channel.
+            Producers put messages on a channel, like producers at television stations air
+            programs. Subscribers receive the messages, like television viewers watch the
+            programs. Unlike a television program, a message sent on a channel will wait for you
+            to read it; you do not need to be actively reading the channel to avoid missing a
+            message.</para>
+        <para>Each channel has the following attributes:<itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">ID</emphasis> – This numeric value is used in
+                    various tables to identify the channel. Each channel must have a unique
+                    ID, but there is no requirement for the IDs to be consecutive or to
+                    start with a particular value. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Name</emphasis> – This is the text displayed to
+                    the user in the user interface. Each channel must have a unique name.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Description</emphasis> – This is text which
+                    further describes the channel. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Subscription Flag</emphasis> – This flag
+                    identifies whether users can adjust their subscription status on the
+                    channel. If "Yes", users can see the channel in the "Channel
+                    Subscriptions" form and change their subscription status. If "No", a
+                    user's subscription to the channel is managed by other means (for
+                    example, group membership). </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Producers</emphasis> – This is a list of users
+                    who are authorized to send notifications on the channel. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Default Recipient List</emphasis> – This is a
+                    list of users and groups who will receive notifications sent to the
+                    channel, regardless of channel subscriptions or notification-specific
+                    recipients. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Reviewers</emphasis> – This is a list of users
+                    who are responsible for approving notifications sent to the channel.
+                </para>
+            </listitem>
+        </itemizedlist></para>
+    </section>
+</chapter>

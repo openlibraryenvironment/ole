@@ -1,0 +1,267 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="UifBreadcrumbTest1" parent="Uif-FormView">
+    <property name="headerText" value="Breadcrumb Test 1"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+
+    <property name="parentLocation.parentViewUrl.href" value=""/>
+    <property name="parentLocation.parentViewLabel" value="Parent View"/>
+    <property name="parentLocation.parentViewUrl.viewId" value="UifBreadcrumbTest2"/>
+    <property name="parentLocation.parentViewUrl.controllerMapping" value="/uicomponents"/>
+
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Test View for breadcrumbs - parentViewUrl set"/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest2" parent="Uif-FormView">
+    <property name="headerText" value="Breadcrumb Test 2"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="singlePageView" value="true"/>
+
+    <property name="parentLocation.parentViewUrl.href" value=""/>
+    <property name="parentLocation.parentViewLabel" value=""/>
+    <property name="parentLocation.parentViewUrl.viewId" value="UifBreadcrumbTest3"/>
+    <property name="parentLocation.parentViewUrl.controllerMapping" value="/uicomponents"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message"
+              p:messageText="Test View for breadcrumbs - no label for parentLocation parentViewLabel"/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest3" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Breadcrumb Test 3"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="singlePageView" value="true"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Test View for breadcrumbs - home"/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest4" parent="Uif-FormView">
+    <property name="headerText" value="Breadcrumb Test 4"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="singlePageView" value="true"/>
+
+    <property name="parentLocation.parentViewUrl.href" value=""/>
+    <property name="parentLocation.parentViewLabel" value="Parent View"/>
+    <property name="parentLocation.parentViewUrl.viewId" value="UifBreadcrumbTest5"/>
+    <property name="parentLocation.parentViewUrl.controllerMapping" value="/uicomponents"/>
+
+    <property name="parentLocation.parentPageLabel" value="Parent Page"/>
+    <property name="parentLocation.parentPageUrl.viewId" value="UifBreadcrumbTest5"/>
+    <property name="parentLocation.parentPageUrl.controllerMapping" value="/uicomponents"/>
+    <property name="parentLocation.parentPageUrl.pageId" value="UifBreadcrumbTest5-Page2"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message"
+              p:messageText="Test View for breadcrumbs - testing parent page with parentPageLabel set"/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest5" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Breadcrumb Test 5"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="UifBreadcrumbTest5-Page1" p:headerText="Page 1" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Test View - page 1 - for breadcrumbs"/>
+            </list>
+          </property>
+        </bean>
+        <bean id="UifBreadcrumbTest5-Page2" p:headerText="Page 2" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Test View - page 2 - for breadcrumbs"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest6" parent="Uif-FormView">
+    <property name="headerText" value="Breadcrumb Test 6"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="singlePageView" value="true"/>
+
+    <property name="parentLocation.parentViewUrl.href" value=""/>
+    <property name="parentLocation.parentViewLabel" value="Parent View"/>
+    <property name="parentLocation.parentViewUrl.viewId" value="UifBreadcrumbTest7"/>
+    <property name="parentLocation.parentViewUrl.controllerMapping" value="/uicomponents"/>
+
+    <property name="parentLocation.parentPageUrl.viewId" value="UifBreadcrumbTest7"/>
+    <property name="parentLocation.parentPageUrl.controllerMapping" value="/uicomponents"/>
+    <property name="parentLocation.parentPageUrl.pageId" value="UifBreadcrumbTest7-Page2"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message"
+              p:messageText="Test View for breadcrumbs - testing parent page with parentPageLabel NOT set"/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest7" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Breadcrumb Test 7"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="UifBreadcrumbTest7-Page1" p:headerText="Page 1" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Test View - page 1 - for breadcrumbs"/>
+            </list>
+          </property>
+        </bean>
+        <bean id="UifBreadcrumbTest7-Page2" p:headerText="Page 2" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Test View - page 2 - for breadcrumbs"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest8" parent="Uif-FormView">
+    <property name="headerText" value="Breadcrumb Test 8"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="singlePageView" value="true"/>
+
+    <property name="parentLocation.parentViewUrl.href" value=""/>
+    <property name="parentLocation.parentViewLabel" value=""/>
+    <property name="parentLocation.parentViewUrl.viewId" value="UifBreadcrumbTest9"/>
+    <property name="parentLocation.parentViewUrl.controllerMapping" value="/uicomponents"/>
+
+    <property name="parentLocation.parentPageUrl.viewId" value="UifBreadcrumbTest9"/>
+    <property name="parentLocation.parentPageUrl.controllerMapping" value="/uicomponents"/>
+    <property name="parentLocation.parentPageUrl.pageId" value="UifBreadcrumbTest9-Page2"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message"
+              p:messageText="Test View for breadcrumbs - testing parent page with parentViewLabel and parentPageLabel NOT set.  Parent view and page
+                title is using expressions."/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest9" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="@{fakeTotal}"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="UifBreadcrumbTest9-Page1" p:headerText="Page 1" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Test View - page 1 - for breadcrumbs"/>
+            </list>
+          </property>
+        </bean>
+        <bean id="UifBreadcrumbTest9-Page2" p:headerText="@{testValueField}" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Test View - page 2 - for breadcrumbs"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifBreadcrumbTest10" parent="Uif-FormView">
+    <property name="headerText" value="Breadcrumb Test 10"/>
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="singlePageView" value="true"/>
+
+    <property name="parentLocation.parentViewUrl.href" value=""/>
+    <property name="parentLocation.parentViewLabel" value=""/>
+    <property name="parentLocation.parentViewUrl.viewId" value="UifCompView"/>
+    <property name="parentLocation.parentViewUrl.controllerMapping" value="/uicomponents"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message"
+              p:messageText="Test View for breadcrumbs - testing a bigger view."/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+</beans>

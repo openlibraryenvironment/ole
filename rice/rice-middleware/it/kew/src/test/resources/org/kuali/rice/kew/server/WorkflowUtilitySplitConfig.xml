@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>UserInRouteLog_Split</name>
+      <label>UserInRouteLog_Split</label>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Start" nextNode="BeforeSplit" />
+					<requests name="BeforeSplit" nextNode="Split" />
+					<split name="Split" nextNode="AfterSplit">
+						<branch name="Left">
+							<requests name="SplitLeft1" nextNode="SplitLeft2" />
+							<requests name="SplitLeft2" nextNode="Join" />
+						</branch>
+						<branch name="Right">
+							<requests name="SplitRight1" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="AfterSplit" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Start">
+					<activationType>S</activationType>
+				</start>
+				<requests name="BeforeSplit">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+            		<ruleName>BeforeSplitRule</ruleName>
+				</requests>
+				<requests name="SplitLeft1">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+            		<ruleName>SplitLeft1Rule</ruleName>
+				</requests>
+				<requests name="SplitLeft2">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+            		<ruleName>SplitLeft2Rule</ruleName>
+				</requests>
+				<requests name="SplitRight1">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+            		<ruleName>SplitRight1Rule</ruleName>
+				</requests>				
+				<requests name="AfterSplit">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+            		<ruleName>AfterSplitRule</ruleName>
+				</requests>
+				<split name="Split">
+				  <type>org.kuali.rice.kew.server.TestSplitNode</type>
+				</split>
+				<join name="Join"/>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+		    <name>BeforeSplitRule</name>
+			<documentType>UserInRouteLog_Split</documentType>
+			<description>BeforeSplitRule</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>ewestfal</principalName>
+					<actionRequested>A</actionRequested>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+		    <name>SplitLeft1Rule</name>
+			<documentType>UserInRouteLog_Split</documentType>
+			<description>SplitLeft1Rule</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+		    <name>SplitLeft2Rule</name>
+			<documentType>UserInRouteLog_Split</documentType>
+			<description>SplitLeft2Rule</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>bmcgough</principalName>
+					<actionRequested>A</actionRequested>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+		    <name>SplitRight1Rule</name>
+			<documentType>UserInRouteLog_Split</documentType>
+			<description>SplitRight1Rule</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>jhopf</principalName>
+					<actionRequested>A</actionRequested>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+		    <name>AfterSplitRule</name>
+			<documentType>UserInRouteLog_Split</documentType>
+			<description>AfterSplitRule</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>natjohns</principalName>
+					<actionRequested>A</actionRequested>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		
+
+	</rules>
+</data>

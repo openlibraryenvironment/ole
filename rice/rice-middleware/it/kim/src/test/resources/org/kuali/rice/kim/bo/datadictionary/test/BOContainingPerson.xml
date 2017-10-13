@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="BOContainingPerson" parent="BOContainingPerson-parentBean"/>
+
+  <bean id="BOContainingPerson-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.test.bo.BOContainingPerson" p:titleAttribute="boPrimaryKey" p:objectLabel="B O Containing Person" p:inquiryDefinition-ref="BOContainingPerson-inquiryDefinition" p:lookupDefinition-ref="BOContainingPerson-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="BOContainingPerson-boPrimaryKey"/>
+        <ref bean="BOContainingPerson-principalId"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="person"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="person.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="person.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>    
+  </bean>
+
+  <bean id="BOContainingPerson-boPrimaryKey" parent="BOContainingPerson-boPrimaryKey-parentBean"/>
+  <bean id="BOContainingPerson-boPrimaryKey-parentBean" parent="AttributeDefinition" abstract="true" p:name="boPrimaryKey" p:forceUppercase="false" p:label="Bo Primary Key" p:shortLabel="Bo Primary Key" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="BOContainingPerson-principalId" parent="BOContainingPerson-principalId-parentBean"/>
+  <bean id="BOContainingPerson-principalId-parentBean" parent="AttributeDefinition" abstract="true" p:name="principalId" p:forceUppercase="false" p:label="Principal Id" p:shortLabel="Principal Id" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="BOContainingPerson-inquiryDefinition" parent="BOContainingPerson-inquiryDefinition-parentBean"/>
+
+  <bean id="BOContainingPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="B O Containing Person Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="B O Containing Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="boPrimaryKey"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="BOContainingPerson-lookupDefinition" parent="BOContainingPerson-lookupDefinition-parentBean"/>
+
+  <bean id="BOContainingPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="B O Containing Person Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>boPrimaryKey</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="boPrimaryKey"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="boPrimaryKey"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

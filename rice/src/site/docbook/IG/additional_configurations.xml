@@ -1,0 +1,777 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="additional_configurations" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Additional Configurations</title>
+    <para>There is a number of additional configurations that Rice supports. We've collected a few
+        of them here and provided setup instructions below.</para>
+    <para>See <link linkend="appendix_server_configs">Example Server Configurations</link> in the
+        appendix for examples of hardware and software configurations of Kuali Rice servers.</para>
+    <section>
+        <title>Configure Rice without KRAD (KNS Only)</title>
+        <para>In some cases it may be desirable to only use the KNS without KRAD. For example if you're timelines push a conversion to KRAD out into the future, you may see some benefits with startup performance and with memory usage.
+            You can override the kradApplicationModuleConfiguration bean to not include any of the files in the UIF folder. That is, you only need to include these files:</para>
+        <programlisting>&lt;property name="dataDictionaryPackages"> &lt;list> &lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/AdHocRoutePerson.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/AdHocRouteWorkgroup.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/Attachment.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/datadictionary/AttributeReference.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/BusinessObjectAttributeEntry.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/DocumentHeader.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/Note.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/NoteType.xml&lt;/value> 
+&lt;value>classpath:org/kuali/rice/krad/bo/datadictionary/PessimisticLock.xml&lt;/value> 
+&lt;/list> 
+&lt;/property></programlisting>
+    </section>
+    <section>
+        <title>Setting Up a Load-Balanced Clustered Production Environment</title>
+        <para>This describes how to set up Rice instances for a load-balanced production environment
+            across multiple servers. <orderedlist>
+                <listitem>
+                    <para>The configuration parameter <emphasis role="bold">${environment}</emphasis>
+                        must be set to the text: <emphasis role="bold">prd</emphasis>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>When the configuration parameter <emphasis role="bold"
+                        >${environment}</emphasis> is set to <emphasis role="bold">prd</emphasis>,
+                        the code triggers: <orderedlist>
+                            <listitem>
+                                <para>Sending email to specified individuals </para>
+                            </listitem>
+                            <listitem>
+                                <para>Turning off some of the Rice "back doors" </para>
+                            </listitem>
+                        </orderedlist></para>
+                </listitem>
+            </orderedlist></para>
+        <para>The high-level process for creating multiple Rice instances:<orderedlist>
+            <listitem>
+                <para>Ensure that these are set up properly so no additional configuration is needed
+                    during installation:<orderedlist>
+                        <listitem>
+                            <para>Quartz is configured properly for clustering (there are various
+                                settings that make this possible). </para>
+                        </listitem>
+                        <listitem>
+                            <para>The initial software setup has the proper configuration to support
+                                a clustered production environment. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rice's initial settings are in the file,
+                                common-config-defaults.xml. </para>
+                        </listitem>
+                    </orderedlist></para>
+                <para>Here are some of the parameters in the common-config-defaults.xml that setup
+                    Quartz for clustering:</para>
+                <para><programlisting>&lt;param name="useQuartzDatabase" override="false">true&lt;/param>
+&lt;param name="ksb.org.quartz.scheduler.instanceId" override="false">AUTO&lt;/param>
+&lt;param name="ksb.org.quartz.scheduler.instanceName" override="false">KSBScheduler&lt;/param>
+&lt;param name="ksb.org.quartz.jobStore.isClustered" override="false">true&lt;/param>
+&lt;param name="ksb.org.quartz.jobStore.tablePrefix" override="false">KRSB_QRTZ_&lt;/param></programlisting></para>
+                <para>If it becomes necessary to pass additional parameters to Quartz during rice
+                    startup, just add parameters in the <emphasis role="bold"
+                        >rice-config.xml</emphasis> file prefixed with<emphasis role="bold">
+                            ksb.org.quartz.*</emphasis></para>
+                <para>The parameter <emphasis role="bold">useQuartzDatabase</emphasis> MUST be set
+                    to <emphasis role="bold">true</emphasis> for Quartz clustering to work. (This is
+                    required because it uses the database to accomplish coordination between the
+                    different scheduler instances in the cluster.)</para>
+            </listitem>
+            <listitem>
+                <para>Ensure that all service bus endpoint URLs are unique on each machine: Make
+                    sure that each Rice server in the cluster has a unique serviceServletUrl
+                    parameter in the rice-config.xml configuration file.</para>
+                <para>One way to accomplish this is to modify the <emphasis role="bold"
+                    >serviceServletUrl</emphasis> in the <emphasis role="bold"
+                        >rice-config.xml</emphasis> on each machine in the cluster. </para>
+                <para>For example, if one of your endpoint url's was 129.79.216.156:8806, you would
+                        change your <emphasis role="bold">serviceServletUrl</emphasis> in the
+                            <emphasis role="bold">rice-config.xml</emphasis> to use that IP and port
+                        number as follows. </para>
+                <para>
+                    <programlisting>&lt;param name="serviceServletUrl">http://129.79.216.156:8806/${app.context.name}/remoting/&lt;/param> </programlisting>
+                </para>
+                <para>You could have different values for <emphasis role="bold"
+                    >serviceServletUrl</emphasis> in the <emphasis role="bold"
+                        >rice-config.xml</emphasis> on each machine in the cluster. </para>
+            </listitem>
+            <listitem>
+                <para>If you are using notes and attachments in workflow, then the <emphasis
+                    role="bold">attachment.dir.location</emphasis> parameter must point to a
+                    shared file system mount (one that is mounted by all machines in the cluster).
+                </para>
+            </listitem>
+            <listitem>
+                <para>The specifics of setting up and configuring a shared file system location are
+                    part of how you set up your infrastructure environment. Those are beyond the
+                    scope of this Guide.</para>
+            </listitem>
+            <listitem>
+                <para>In general, to accomplish a load-balanced clustered environment, you must
+                    implement some type of load balancing technology with session affinity (i.e., it
+                    keeps the browser client associated with the specific machine in the cluster
+                    that it authenticated with). An example of a load balancing appliance-software
+                    is the open source product, Zeus.</para>
+            </listitem>
+        </orderedlist></para>
+    </section>
+    <section>
+            <title>Running Multiple Instances of Rice Within a Single Tomcat Instance</title>        
+    <para>There are two different structural methods to run multiple instances of Rice within a
+        single Tomcat instance. You can use either method:<orderedlist>
+            <listitem>
+                <para>Run a staging and a test environment. This requires a rebuild of the
+                    source code.</para>
+            </listitem>
+            <listitem>
+                <para>Run multiple instances of a production environment. This requires
+                    modification of the Tomcat <emphasis role="bold">WEB-INF/web.xml</emphasis>.
+                </para>
+            </listitem>
+        </orderedlist></para>   
+    <section>
+        <title>Running a Staging and a Test Environment</title>
+        <para>To show you how to set up a staging and a test environment within one Tomcat instance,
+            this section presents the configuration recipe as though it were a Quick Start Best
+            Practices section. This means that this section will be laid out using the Quick Start
+            Best Practices section format and system directory structure. It presents a basic
+            process, method, and guide to what you need to do to get a staging and test environment
+            up within a single Tomcat instance. You could accomplish this functionality many
+            different ways; these sections present one of those ways.</para>
+        <para>This describes how to set up the Rice instances of <emphasis role="bold"
+                >kualirice-stg</emphasis> and <emphasis role="bold">kualirice-tst</emphasis>
+            instances pointing to the same database. However, you could set up two different
+            databases, one for staging and one for testing. How you configure Rice for the scenario
+            of a database for the "stg" instance and a separate database for the "tst" instance
+            depends on how you want to set up Rice. That scenario is not documented here.<itemizedlist>
+                <listitem>
+                    <para>We are assuming that you performed all the installation steps above to
+                        compile the software from source and deploy the example <emphasis
+                            role="bold">kualirice.war</emphasis> file. This example begins with
+                        rebuilding the source to create a test and staging instance
+                        compilation.</para>
+                </listitem>
+                <listitem>
+                    <para>You must compile the source code with a different environment variable. To
+                        add the environment variable, environment, to the WAR file's <emphasis
+                            role="bold">WEB-INF/web.xml</emphasis> file, recompile the source code
+                        with this parameter:</para>
+                    <para><programlisting>ant -Drice.environment=some-environment-variable dist-war</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>To begin: Log in as the rice user.</para>
+                </listitem>
+                <listitem>
+                    <para>Shut down your Tomcat server.</para>
+                    <para><programlisting>cd /usr/local/tomcat/bin
+./shutdown.sh
+Using CATALINA_BASE:	/usr/local/tomcat
+Using CATALINA_HOME:   	/usr/local/tomcat
+Using CATALINA_TMPDIR:	/usr/local/tomcat/temp
+Using JRE_HOME:	 	/usr/java/jdk1.6.0_16</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>Recompile your WAR files with the specific environment variables:</para>
+                    <para><programlisting>cd /opt/software/kuali/src/rice-release-1-0-2-br
+ant -Drice.environment=stg dist-war  
+cd target/
+cp -p kr-stg.war /usr/local/tomcat/webapps/kualirice-stg.war
+
+cd /opt/software/kuali/src/rice-release-1-0-2-br
+ant -Drice.environment=tst dist-war  
+cp -p rice-tst.war /usr/local/tomcat/webapps/kualirice-tst.war</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>Adding an environment variable to the application config variable will
+                        setup Rice to point to the two different instances. To allow each instance
+                        to point to the same database, edit the rice-config.xml and modify the
+                        application.url to correctly point your Rice to load the correct
+                        setup:</para>
+                    <para><programlisting>&lt;param name="application.url">http://yourlocalip:8080/kualirice-${environment}&lt;/param></programlisting></para>                    
+                </listitem>
+                <listitem>
+                    <para>Now start up your Tomcat server:</para>
+                    <para><programlisting>cd /usr/local/tomcat/bin
+./startup.sh
+Using CATALINA_BASE:	/usr/local/tomcat
+Using CATALINA_HOME:	/usr/local/tomcat
+Using CATALINA_TMPDIR:	/usr/local/tomcat/temp
+Using JRE_HOME:		/usr/java/jdk1.6.0_16</programlisting></para>
+                    <para>If your Rice instances started up successfully, browse to the sites
+                        http://yourlocalip:8080/kualirice-stg and
+                        http://yourlocalip:8080/kualirice-tst. You should see the Rice sample
+                        application for each site.</para>
+                </listitem>
+                <listitem>
+                    <para>Next, shut down your Tomcat server:</para>
+                    <para><programlisting>cd /usr/local/tomcat/bin
+./shutdown.sh
+Using CATALINA_BASE:	/usr/local/tomcat
+Using CATALINA_HOME:   	/usr/local/tomcat
+Using CATALINA_TMPDIR:	/usr/local/tomcat/temp
+Using JRE_HOME:	 	/usr/java/jdk1.6.0_16</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>To create specific configuration parameters for the specific instances of
+                        Rice, add this to the <emphasis role="bold"
+                        >rice-config.xml</emphasis>.</para>
+                    <para><programlisting>&lt;param name="config.location">/usr/local/rice/rice-config-${environment}.xml&lt;/param></programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>Next, copy the <emphasis role="bold">rice-config.xml</emphasis> to both
+                        staging and test to enter instance-specific configuration into each of the
+                        resulting xml files:</para>
+                    <para><programlisting>cd /usr/local/rice
+cp -p rice-config.xml rice-config-stg.xml
+cp -p rice-config.xml rice-config-tst.xml</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>Remove anything from <emphasis role="bold">rice-config.xml</emphasis> that
+                        is specific to the stg or tst implementation. Put those specific stg or tst
+                        parameters in the <emphasis role="bold">rice-config-stg.xml</emphasis> or
+                            <emphasis role="bold">rice-config-tst.xml</emphasis> file, respectively.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Now start up your Tomcat server:</para>
+                    <para><programlisting>cd /usr/local/tomcat/bin
+./startup.sh
+Using CATALINA_BASE:	/usr/local/tomcat
+Using CATALINA_HOME:	/usr/local/tomcat
+Using CATALINA_TMPDIR:	/usr/local/tomcat/temp
+Using JRE_HOME:		/usr/java/jdk1.6.0_16</programlisting></para>
+                    <para>If your Rice instances started up successfully, browse to the sites
+                        http://yourlocalip:8080/kualirice-stg and
+                        http://yourlocalip:8080/kualirice-tst. You should see the Rice sample
+                        application for each site.</para>
+                </listitem>
+                <listitem>
+                    <para>As a best practice: <itemizedlist>
+                            <listitem>
+                                <para>Put all common properties and settings across all Rice
+                                    instances in the <emphasis role="bold"
+                                        >rice-config.xml</emphasis>. </para>
+                            </listitem>
+                            <listitem>
+                                <para>Put instance-specific settings in <emphasis role="bold"
+                                        >rice-config-stg.xml</emphasis> and <emphasis role="bold"
+                                        >rice-config-tst.xml</emphasis>. </para>
+                            </listitem>
+                        </itemizedlist></para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+    <section>
+        <title>Running Multiple Production Environments</title>
+        <para>This describes how to set up two production Rice instances running side by side. </para>
+        <section>
+            <title>Items specific to running a Production Platform:</title>
+            <orderedlist>
+                <listitem>
+                    <para>The configuration parameter <emphasis role="bold"
+                            >${environment}</emphasis> must be set to the text: <emphasis
+                            role="bold">prd</emphasis>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>When the configuration parameter <emphasis role="bold"
+                            >${environment}</emphasis> is set to <emphasis role="bold"
+                            >prd</emphasis>, the code: <orderedlist>
+                            <listitem>
+                                <para>Sends email to specified individuals </para>
+                            </listitem>
+                            <listitem>
+                                <para>Turns off some of the Rice "back doors" </para>
+                            </listitem>
+                        </orderedlist></para>
+                </listitem>
+            </orderedlist>
+            <para>This assumes that you performed all the installation steps above to compile the
+                software from source and deploy the example <emphasis role="bold"
+                    >kualirice.war</emphasis> file. This example starts from rebuilding the source
+                to accomplish a test and staging instance compilation.</para>
+        </section>
+        <section>
+            <title>The high-level process for creating multiple Rice instances:</title>
+            <orderedlist>
+                <listitem>
+                    <para>Create a <emphasis role="bold">riceprd1</emphasis> and <emphasis
+                            role="bold">riceprd2</emphasis> database for the first production and
+                        second production instance, respectively. </para>
+                </listitem>
+                <listitem>
+                    <para>Build the WAR file from the source code. </para>
+                </listitem>
+                <listitem>
+                    <para>Unzip the WAR file in a temporary work directory. </para>
+                </listitem>
+                <listitem>
+                    <para>Add an environment variable, prd1, to the <emphasis role="bold"
+                            >WEB-INF/web.xml</emphasis> in the <emphasis role="bold"
+                            >unzipped-war-file-directory</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>Re-zip the WAR file into <emphasis role="bold"
+                            >kualirice-prd1.war</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>Copy <emphasis role="bold">kualirice-prd1.war</emphasis> to
+                        /usr/local/tomcat/webapps. </para>
+                </listitem>
+                <listitem>
+                    <para>Change the environment variable from <emphasis role="bold">prd1</emphasis>
+                        to <emphasis role="bold">prd2</emphasis> in the <emphasis role="bold"
+                            >WEB-INF/web.xml</emphasis> in the <emphasis role="bold"
+                            >unzipped-war-file-directory</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>Re-zip the WAR file into <emphasis role="bold"
+                            >kualirice-prd2.war</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>Copy <emphasis role="bold">kualirice-prd2.war</emphasis> to <emphasis
+                            role="bold">/usr/local/tomcat/webapps</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>In <emphasis role="bold">/usr/local/rice</emphasis>, copy <emphasis
+                            role="bold">rice-config.xml</emphasis> to <emphasis role="bold"
+                            >rice-config-prd1.xml</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>In <emphasis role="bold">/usr/local/rice</emphasis>, copy <emphasis
+                            role="bold">rice-config.xml </emphasis>to <emphasis role="bold"
+                            >rice-config-prd2.xml</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para>In <emphasis role="bold">rice-config.xml</emphasis>, remove any
+                        instance-specific parameters. </para>
+                </listitem>
+                <listitem>
+                    <para>Modify<emphasis role="bold"> rice-config-prd1.xml</emphasis> for
+                        instance-specific parameters. </para>
+                </listitem>
+                <listitem>
+                    <para>Modify <emphasis role="bold">rice-config-prd2.xml</emphasis> for
+                        instance-specific parameters. </para>
+                </listitem>
+                <listitem>
+                    <para>Start up Tomcat. </para>
+                </listitem>
+            </orderedlist>
+            <para>Here are the details:<itemizedlist>
+                    <listitem>
+                        <para>Start by logging in as the rice user. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Shut down your Tomcat server. </para>
+                        <para><programlisting>cd /usr/local/tomcat/bin
+./shutdown.sh
+Using CATALINA_BASE:	/usr/local/tomcat
+Using CATALINA_HOME:   	/usr/local/tomcat
+Using CATALINA_TMPDIR:	/usr/local/tomcat/temp
+Using JRE_HOME:	 	/usr/java/jdk1.6.0_16</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para><link linkend="build_database">Set Up the ImpEx Process to Build
+                                the Database</link> for the process to create the <emphasis
+                                role="bold">riceprd1</emphasis> and <emphasis role="bold"
+                                >riceprd2</emphasis> databases. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Set your directory to the rice home directory:</para>
+                        <para><programlisting>cd ~
+vi impex-build.properties</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>For the <emphasis role="bold">rice-prd1</emphasis> database, modify
+                            this in the ImpEx file:</para>
+                        <para><programlisting>#
+# Uncomment these for a local MySQL database
+#
+import.torque.database = mysql
+import.torque.database.driver = com.mysql.jdbc.Driver
+import.torque.database.url = jdbc:mysql://kmysql:3306/riceprd1
+import.torque.database.user=riceprd1
+import.torque.database.schema=riceprd1
+import.torque.database.password=kualirice</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>Save the file, change directory to the folder where the <emphasis
+                                role="bold">ImpEx build.xml</emphasis> is, and create the
+                            database:</para>
+                        <para><programlisting>cd /opt/software/kuali/db/trunk/impex
+ant create-schema
+ant satellite-update</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>You may receive this error because the ANT and SVN processes cannot
+                            write to a directory on the hard drive:</para>
+                        <para><programlisting>Buildfile: build.xml
+Warning: Reference torque-classpath has not been set at runtime, but was found during
+build file parsing, attempting to resolve. Future versions of Ant may support
+ referencing ids defined in non-executed targets.
+
+satellite-update:
+Warning: Reference torque-classpath has not been set at runtime, but was found during
+build file parsing, attempting to resolve. Future versions of Ant may support
+ referencing ids defined in non-executed targets.
+
+satellite-init:
+     [echo] Running SVN update in /opt/software/kuali/devdb/rice-cfg-dbs
+      [svn] &lt;Update&gt; started ...
+      [svn] svn: '/opt/software/kuali/devdb/rice-cfg-dbs' is not a working copy
+      [svn] svn: Cannot read from '/opt/software/kuali/devdb/rice-cfg-dbs/.svn/format': /opt/software/kuali/devdb/rice-cfg-dbs/.svn/format (No such file or directory)
+      [svn] &lt;Update&gt; failed !
+
+BUILD FAILED
+/opt/software/kuali/db/trunk/impex/build.xml:825: Cannot update dir /opt/software/kuali/devdb/rice-cfg-dbs
+
+Total time: 3 seconds</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>If you received the error above, go to the window where the root user
+                            is logged in and execute this command:</para>
+                        <para><programlisting>rm -rf /opt/software/kuali/devdb/rice-cfg-dbs</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>Then return to where you have the rice user logged in and re-execute
+                            the command: </para>
+                        <para><programlisting>ant satellite-update</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>The creation of the Rice <emphasis role="bold">riceprd1</emphasis>
+                            database should begin at this time.</para>
+                    </listitem>
+                    <listitem>
+                        <para>For the rice-prd2 database, modify this in the ImpEx file:</para>
+                        <para><programlisting>#
+# Uncomment these for a local MySQL database
+#
+import.torque.database = mysql
+import.torque.database.driver = com.mysql.jdbc.Driver
+import.torque.database.url = jdbc:mysql://kmysql:3306/riceprd2
+import.torque.database.user=riceprd2
+import.torque.database.schema=riceprd2
+import.torque.database.password=kualirice</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>Save the file, change directory to the folder where the ImpEx
+                            build.xml is, and create the database:</para>
+                        <para><programlisting>cd /opt/software/kuali/db/trunk/impex
+ant create-schema
+ant satellite-update</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>You may get this error because the ANT and SVN processes cannot write
+                            to a directory on the hard drive:</para>
+                        <para><programlisting>Buildfile: build.xml
+Warning: Reference torque-classpath has not been set at runtime, but was found during
+build file parsing, attempting to resolve. Future versions of Ant may support
+ referencing ids defined in non-executed targets.
+
+satellite-update:
+Warning: Reference torque-classpath has not been set at runtime, but was found during
+build file parsing, attempting to resolve. Future versions of Ant may support
+ referencing ids defined in non-executed targets.
+
+satellite-init:
+     [echo] Running SVN update in /opt/software/kuali/devdb/rice-cfg-dbs
+      [svn] &lt;Update&gt; started ...
+      [svn] svn: '/opt/software/kuali/devdb/rice-cfg-dbs' is not a working copy
+      [svn] svn: Cannot read from '/opt/software/kuali/devdb/rice-cfg-dbs/.svn/format': /opt/software/kuali/devdb/rice-cfg-dbs/.svn/format (No such file or directory)
+      [svn] &lt;Update&gt; failed !
+
+BUILD FAILED
+/opt/software/kuali/db/trunk/impex/build.xml:825: Cannot update dir /opt/software/kuali/devdb/rice-cfg-dbs
+Total time: 3 seconds</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>If you received the error above, go to the window where the root user
+                            is logged in and execute this command:</para>
+                        <para><programlisting>rm -rf /opt/software/kuali/devdb/rice-cfg-dbs</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>Then return to where you have the rice user logged in and re-execute
+                            the command: </para>
+                        <para><programlisting>ant satellite-update</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>The creation of the Rice <emphasis role="bold">riceprd2</emphasis>
+                            database should begin at this time.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Create a temporary work directory where you can unzip the WAR file,
+                            once it has finished building. Recompile your WAR files with the
+                            specific environment variable:<orderedlist>
+                                <listitem>
+                                    <para>Execute this as root:</para>
+                                    <para><programlisting>cd /opt/software/kuali
+mkdir work
+chmod –R 777 /opt/software/kuali/work</programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Execute this as the rice user to create the<emphasis
+                                            role="bold"> kualirice-prd1.war</emphasis> file:</para>
+                                    <para><programlisting>cd /opt/software/kuali/src/rice-release-1-0-2-br
+ant -Drice.environment=prd dist-war  
+cd target/
+cp -p kr-prd.war /opt/software/kuali/work
+cd /opt/software/kuali/work
+mkdir files
+unzip kr-prd.war -d files 
+cd files/WEB-INF/</programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Edit the web.xml with VI and change the top parameters to
+                                        these: </para>
+                                    <para><programlisting>&lt;context-param>
+  &lt;param-name>environment&lt;/param-name>  
+  &lt;param-value>prd&lt;/param-value>
+&lt;/context-param>
+
+&lt;context-param>
+   &lt;param-name>rice-prd-instance-name&lt;/param-name>
+   &lt;param-value>prd1&lt;/param-value>
+&lt;/context-param></programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Zip the kualirice-prd1.war file and deploy it:</para>
+                                    <para><programlisting>cd ..
+zip -9 -r kualirice-prd1.war * 
+mv kualirice-prd1.war /usr/local/tomcat/webapps/</programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Execute this as the rice user to create the <emphasis
+                                            role="bold">kualirice-prd2.war</emphasis> file:</para>
+                                    <para><programlisting>cd WEB-INF</programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Edit the web.xml with VI and change the top parameters to
+                                    these:</para>
+                                    <para><programlisting>&lt;context-param>
+  &lt;param-name>environment&lt;/param-name>  
+  &lt;param-value>prd&lt;/param-value>
+&lt;/context-param>
+
+&lt;context-param>
+   &lt;param-name>rice-prd-instance-name&lt;/param-name>
+   &lt;param-value>prd2&lt;/param-value>
+&lt;/context-param></programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Zip the <emphasis role="bold"
+                                            >kualirice-prd2.war</emphasis> file and deploy
+                                        it:</para>
+                                    <para><programlisting>cd ..
+zip -9 -r kualirice-prd2.war *      
+mv kualirice-prd2.war /usr/local/tomcat/webapps</programlisting></para>
+                                </listitem>
+                                <listitem>
+                                    <para>Remove the work directory:</para>
+                                    <para><programlisting>cd ../..
+rm -rf work</programlisting></para>
+                                    <para>Create a Rice-specific set of configuration files:</para>
+                                    <para><programlisting>cd /usr/local/rice
+cp -p rice-config.xml rice-config-prd1.xml
+cp -p rice-config.xml rice-config-prd2.xml</programlisting></para>
+                                </listitem>
+                            </orderedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>Set the following in the rice-config.xml<itemizedlist>
+                                <listitem>
+                                    <para>Set the <emphasis role="bold">config.location</emphasis>
+                                        for each Rice instance-specific setting </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Set the settings for all instances in the <emphasis
+                                            role="bold">rice-config.xml</emphasis>
+                                    </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>A minimal <emphasis role="bold">rice-config.xml</emphasis> might look
+                            like this:</para>
+                        <para><programlisting>&lt;config>
+
+
+	&lt;param name="config.location">/usr/local/rice/rice-config-${rice-prd-instance-name}.xml&lt;/param>
+
+
+	
+    &lt;!-- Please fill in a value for this parameter! -->
+        &lt;param name="application.url">http://10.93.94.206:8080/kualirice-${rice-prd-instance-name}&lt;/param>
+
+	
+    &lt;param name="notification.basewebappurl">${application.url}/ken&lt;/param>
+	&lt;param name="workflow.url">${application.url}/en&lt;/param>
+
+	&lt;param name="plugin.dir">/usr/local/rice/plugins&lt;/param>
+
+
+	&lt;param name="attachment.dir.location">/usr/local/rice/kew_attachments&lt;/param>
+
+
+	
+    &lt;!-- log4j settings -->
+	&lt;param name="log4j.settings.path">/usr/local/rice/log4j.properties&lt;/param>
+	&lt;param name="log4j.settings.reloadInterval">5&lt;/param>
+
+	
+    &lt;!-- Keystore Configuration -->
+	&lt;param name="keystore.file">/usr/local/rice/rice.keystore&lt;/param>
+	&lt;param name="keystore.alias">rice&lt;/param>
+
+	&lt;param name="keystore.password">kualirice&lt;/param>
+
+
+	&lt;!-- Dummy Login Filter - use if you don't want to go through CAS -->
+	&lt;param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter&lt;/param>
+	&lt;param name="filtermapping.login.1">/*&lt;/param>
+
+&lt;/config>
+</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>A minimal <emphasis role="bold">rice-config-prd1.xml</emphasis> might
+                            look this:</para>
+                        <para><programlisting>&lt;config>
+	
+    &lt;!-- set some datasource defaults -->
+
+	&lt;!-- MySQL example -->
+
+	&lt;param name="datasource.ojb.platform">MySQL&lt;/param>
+
+	&lt;param name="datasource.platform">org.kuali.rice.core.database.platform.MySQLDatabasePlatform&lt;/param>
+	&lt;param name="datasource.url">jdbc:mysql://mysql:3306/riceprd1&lt;/param>
+	&lt;param name="datasource.username">riceprd1&lt;/param>
+	&lt;param name="datasource.password">kualirice&lt;/param>
+
+	&lt;param name="datasource.driver.name">com.mysql.jdbc.Driver&lt;/param>
+
+	&lt;param name="datasource.pool.maxWait">10000&lt;/param>
+	&lt;param name="datasource.pool.validationQuery">select 1&lt;/param>
+
+
+	
+&lt;!-- Oracle example 
+	
+    &lt;param name="datasource.ojb.platform">Oracle9i&lt;/param>
+    &lt;param name="datasource.platform">org.kuali.rice.core.database.platform.OracleDatabasePlatform&lt;/param>
+	&lt;param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE&lt;/param>
+	&lt;param name="datasource.username">rice&lt;/param>
+
+	&lt;param name="datasource.password">*** password ***&lt;/param>
+
+	&lt;param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver&lt;/param>
+	&lt;param name="datasource.pool.maxWait">10000&lt;/param>
+	&lt;param name="datasource.pool.validationQuery">select 1 from dual&lt;/param>
+	-->
+&lt;/config>
+</programlisting></para>
+                    </listitem>
+                    <listitem>
+                        <para>A minimal <emphasis role="bold">rice-config-prd2.xml</emphasis> might
+                        look like this:</para>
+                        <para><programlisting>&lt;config>
+    &lt;!-- set some datasource defaults -->
+
+	&lt;!-- MySQL example -->
+	&lt;param name="datasource.ojb.platform">MySQL&lt;/param>
+	&lt;param name="datasource.platform">org.kuali.rice.core.database.platform.MySQLDatabasePlatform&lt;/param>
+	&lt;param name="datasource.url">jdbc:mysql://mysql:3306/riceprd2&lt;/param>
+	&lt;param name="datasource.username">riceprd1&lt;/param>
+	&lt;param name="datasource.password">kualirice&lt;/param>
+	&lt;param name="datasource.driver.name">com.mysql.jdbc.Driver&lt;/param>
+	&lt;param name="datasource.pool.maxWait">10000&lt;/param>
+	&lt;param name="datasource.pool.validationQuery">select 1&lt;/param>
+
+    &lt;!-- Oracle example 	
+    &lt;param name="datasource.ojb.platform">Oracle9i&lt;/param>
+    &lt;param name="datasource.platform">org.kuali.rice.core.database.platform.OracleDatabasePlatform&lt;/param>
+	&lt;param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE&lt;/param>
+	&lt;param name="datasource.username">rice&lt;/param>
+	&lt;param name="datasource.password">*** password ***&lt;/param>
+	&lt;param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver&lt;/param>
+	&lt;param name="datasource.pool.maxWait">10000&lt;/param>
+	&lt;param name="datasource.pool.validationQuery">select 1 from dual&lt;/param>
+	-->
+&lt;/config></programlisting></para>
+                    </listitem>
+                <listitem>
+                        <para>Now start up your Tomcat server:</para>
+                        <para><programlisting>cd /usr/local/tomcat/bin
+./startup.sh
+Using CATALINA_BASE:	/usr/local/tomcat
+Using CATALINA_HOME:	/usr/local/tomcat
+Using CATALINA_TMPDIR:	/usr/local/tomcat/temp
+Using JRE_HOME:		/usr/java/jdk1.6.0_16</programlisting></para>
+                        <para>If your Rice instances started up successfully, browse to the sites
+                            http://yourlocalip:8080/kualirice-prd1 and
+                            http://yourlocalip:8080/kualirice-prd2. You should see the Rice sample
+                            application for each site.</para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+    </section>
+    <section>
+        <title>Keystore Implementation Variations</title>
+        <para>If multiple instances of Rice are running under the same Tomcat instance, they can use
+            the same keystore. You can set up multiple keystores for multiple instances, but you
+            must insert a parameter for each instance in the <emphasis role="bold"
+                >WEB-INF/web.xml</emphasis> to point to the different keystores. Beyond this, the
+            set up depends on how you want your Tomcat instance configured and your
+            implementation-specific parameter settings.</para>
+    </section>
+    <section><title>The Session Document Service</title>
+        <para>The SessionDocumentService, which was part of the default configuration for Rice before versions 2.1.4 for the 2.1 line 
+            and 2.2.2 for the 2.2 line, provided session failover in certain limited cases, but was disabled as part of <link xlink:href="https://jira.kuali.org/browse/KULRICE-9148">KULRICE-9148</link>. 
+            This service was problematic for performance when dealing with larger documents, and <emphasis role="bold">it is not recommended that it be re-enabled.</emphasis> 
+            It is possible to do so however. </para>
+        <para>To enable it again, a bean definition overriding the knsSessionDocumentService bean needs to be created and configured to load into the correct Spring context. 
+            Create a file such as the following which we'll name KNSOverrideSpringBeans.xml:</para>
+        <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+        &lt;bean id="knsSessionDocumentService" class="org.kuali.rice.kns.service.impl.SessionDocumentServiceImpl">
+                &lt;property name="maxCacheSize" value="${session.document.cache.size}" />
+                &lt;property name="businessObjectService">
+                        &lt;ref bean="businessObjectService" />
+                &lt;/property>
+                &lt;property name="sessionDocumentDao">
+                        &lt;ref bean="sessionDocumentDao" />
+                &lt;/property>
+        &lt;/bean>
+&lt;/beans>
+        </programlisting>
+        <para>This file needs to be added to your web project so that it can be accessed from the classpath. 
+            For this example, it has been added to src/main/resources/edu/sampleu within our web project. 
+            With that in place, the following (adjusting for the actual path) should be added to your rice-config.xml file:</para>
+        <programlisting>&lt;param name="rice.kr.additionalSpringFiles">classpath:edu/sampleu/KNSOverrideSpringBeans.xml&lt;/param></programlisting>
+            <para>Note that if you already have a <code>rice.kr.additionalSpringFiles</code> configuration parameter specified, the value is treated as a comma separated list, so you can add a comma at the end of the present value and append on the configuration for the KNSOverrideSpringBeans.xml file.</para>
+
+    </section>
+    </section>
+</chapter>

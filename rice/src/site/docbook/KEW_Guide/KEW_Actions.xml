@@ -1,0 +1,1321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Actions" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Actions</title>
+        <section>
+            <title>Action List Guide</title>
+            <para>The <emphasis role="bold">Action List</emphasis> page includes your: <itemizedlist>
+                    <listitem>
+                        <para>Action List </para>
+                    </listitem>
+                    <listitem>
+                        <para>Outbox </para>
+                    </listitem>
+                    <listitem>
+                        <para>Action List Filter </para>
+                    </listitem>
+                    <listitem>
+                        <para>Preferences </para>
+                    </listitem>
+            </itemizedlist></para>
+            <para>In the Kuali Rice portal, the Action List button is available in the upper
+                left hand corner of the screen on most pages.</para>
+            <para>Your institution may have KEW links inside other applications, such as Kuali
+                Financial Systems (KFS). KFS may display an Action List button at the top left
+                of the KFS page like this:</para>
+            <para>
+            <figure>
+                <title>Kuali Portal: Action List Button</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/KEW_kfs_kew.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            </para>
+            <para>Clicking an Action List link or button displays your <emphasis role="bold"
+                    >Action List</emphasis> page. This is a sample KEW Action List; your
+                institution's may look somewhat different:</para>
+            <para>On your Action List page is the list of documents on which you need to take an
+                action, such as Approve, Disapprove, or Acknowledge, and those which you have
+                already completed. These are your action requests. Action requests that someone
+                has delegated to you are also listed on your Action List page. Note: You can
+                only see the Action List for the person who is logged into KEW or another Kuali
+                application.</para>
+            <para>You can click the title at the top of a column to sort all of your action
+                requests by the information in that column. For example, if you click the column
+                title, Type, KEW sorts your action requests by their Type.</para>
+            <para>On your Action List, you can see this information about the documents on which
+                you need to take action:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Id</emphasis>: A unique, system-generated ID
+                            for each document <itemizedlist>
+                                <listitem>
+                                    <para>When you click a Document Id, KEW displays the actions
+                                        you can take on this document, such as Blanket Approve,
+                                        Complete, Approve, Disapprove, and Cancel. The actions
+                                        you can take are determined by the document's Type.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Based on your institution's setup, you may see a Show
+                                        button in the Document Id column. Click the Show button
+                                        to see a summary of the document. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Type</emphasis>: The document's type
+                            determines the actions you can take on it. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Title</emphasis>: The title that the
+                            initiator gives to the document. Your institution may have standards
+                            for document titles that give you specific information about that
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Status</emphasis>: The current location of
+                            the document in its routing path. The Status may be: <itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">Approved</emphasis>: These
+                                        documents have been approved by all required reviewers
+                                        and are waiting for additional post-processing. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Cancelled</emphasis>: These
+                                        documents have been stopped. The document's initiator
+                                        can Cancel it before routing begins, or a reviewer of
+                                        the document can cancel it after routing begins. When a
+                                        document is cancelled, routing stops; it is not sent to
+                                        another Action List. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Disapproved</emphasis>: These
+                                        documents have been disapproved by at least one
+                                        reviewer. Routing has stopped for these documents.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Enroute</emphasis>: Routing is
+                                        in progress on these documents and an action request is
+                                        waiting for someone to take action. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Exception</emphasis>: A routing
+                                        exception has occurred on this document. Someone with
+                                        the appropriate KIM Permission (or someone from the
+                                        Exception Group for this Document Type, although this
+                                        feature is deprecated) must take action on this
+                                        document, and it has been sent to the Action List of
+                                        this workgroup. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Initiated</emphasis>: A user or
+                                        a process has created this document, but it has not yet
+                                        been routed to anyone's Action List. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Processed</emphasis>: These
+                                        documents have been approved by all required users, and
+                                        their post-processing is completed. They may be waiting
+                                        for Acknowledgements. No further action is needed on
+                                        these documents. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Saved</emphasis>: These
+                                        documents have been saved for later work. An author
+                                        (initiator) can save a document before routing begins,
+                                        or a reviewer can save a document before he or she takes
+                                        action on it. When someone saves a document, the
+                                        document goes on that person's Action List. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Final</emphasis>: All required
+                                        approvals and all acknowledgements have been received on
+                                        these documents. No changes are allowed to a document
+                                        that is in Final status. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Recalled</emphasis>: The document has 
+                                        been recalled after being submitted and canceled. No changes 
+                                        are allowed to a document that is in Recalled status. </para>
+                                </listitem>                                
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Action Requested</emphasis>: The action that
+                            you have been asked to take on a document, such as to Approve it.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Initiator</emphasis>: The person who created
+                            this document in KEW. Click the initiator's name to see information
+                            about the initiator, including (depending on the initiator's privacy
+                            preferences): <itemizedlist>
+                                <listitem>
+                                    <para>Principal Id and Name </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Entity Id </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Affiliations </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Names </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Phone Numbers </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Email Addresses </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Group and Role memberships </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Delegator</emphasis>: If someone else has
+                            given authority in KEW for you to take action on their action
+                            requests, their name appears in this column. KEW displays both
+                            primary and secondary delegates this way on your Action List.
+                            There are two types of delegate in KEW, you may be a Primary
+                            Delegate or a Secondary Delegate: <itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">Primary Delegate</emphasis>: The
+                                        delegator turns over his or her full authority to a
+                                        primary delegate. The Action Requests for the delegator
+                                        only appear in the Action List of the primary delegate.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Secondary Delegate</emphasis>:
+                                        The secondary delegate acts as a temporary backup and
+                                        has the same authority as the delegator when the
+                                        delegator is not available to take action. Documents
+                                        appear in the Action Lists of both the delegator and the
+                                        delegate. When either acts on the document, it
+                                        disappears from both Action Lists. People often have a
+                                        secondary delegate who takes care of their action
+                                        requests when they are out of the office. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Date Created</emphasis>: The date and time
+                            the document for this action request was created. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Group Request</emphasis>: When you receive
+                            an action request because you are part of a group, KEW displays the
+                            name of the group in this column. Only one member of a group is
+                            required to complete an action request. Click the group name on your
+                            Action List to see more details, including:  <itemizedlist>
+                                <listitem>
+                                    <para>Group Id </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Group Name </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Group Active Indicator </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Group Members and their user names</para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Actions</emphasis>: For documents that you
+                            receive only for your information (they don't require that you take
+                            any further action), there is a dropdown menu in the Actions column.
+                            You can use this menu to agree that you've received the document for
+                            information purposes: Select FYI, then click the Take Actions button
+                            at the bottom of the page. </para>
+                        <para>
+                        <figure>
+                            <title>Action List</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/KEW_Guide/KEW_action_list.png" width="100%" scalefit="1"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Log</emphasis>: (also known as the Route
+                            Log) Click the paper/magnifying glass icon in the Log column to
+                            display the Route Log page. This page has details about the routing
+                            path and Actions Taken on this document. Learn more about this
+                            information in the Route Log Guide. A sample Route Log page:</para>
+                        <para>
+                        <figure>
+                            <title>Route Log</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/KEW_Guide/route_log.png" width="100%" scalefit="1"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                        </para>
+                    </listitem>
+                </itemizedlist></para>
+                <para>If enabled for a particular document, messages can also be logged through
+                the route log tab (or page). This allows users to add a deferral message or
+                other message that will be reflected in the routing without taking an action on
+                the document.</para>
+            <para>This function is enabled by KIM permissions. These permissions have template
+                'Add Message to Route Log' which takes a document type name as a detail. The
+                bootstrap dataset contains one permission with this template and document type
+                detail 'KualiDocument', however this permission is not granted to any role. This
+                means the functionality will be disabled until the permission is assigned or
+                another permission record with this template and for another document type is
+                created and assigned. When matching permissions for a particular document type
+                the document type hierarchy is considered. Permission records for children
+                document types will override any permission record for its parents.</para>
+            <para>For example, if we wanted to enable the feature on all KualiDocuments except
+                document type 'Foo', we would first grant the permission with document type
+                detail 'KualiDocument' to a role. Then we would create an additional permission
+                with template 'Add Message to Route Log' and document type detail 'Foo'. For the
+                second permission we do not assign any roles. </para>
+            <para>By granting these permission(s) to one of the derived workflow roles we can
+                enable this feature to users who have active routing requests. Examples of such
+                roles are KR-WKFLW Approve Request Recipient and KR-WKFLW Acknowledge Request
+                Recipient.</para>
+        </section>
+        <section>
+            <title>Action List Preferences</title>
+            <para>You can customize the appearance and features of your Action List using the
+                Action List Preferences page on KEW. To display this page, click the Preferences
+                button at the top of the Action List page or click the User Preferences link in
+                the Workflow pane of the Main Menu tab. Action List page:</para>
+            <figure><title>Action List: Preferences Button</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/action_list_page.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>This displays the Action List Preferences page, where you can make choices
+                about how KEW displays and refreshes (updates) your Action List and about how
+                and when you receive email reminders about your new action requests:</para>
+            <figure><title>Action List Preference Page</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/action_list_preferences.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>The Action List Preferences page has four sections:</para>
+            <section><title>Action List Preferences: General Section</title>
+            <figure>
+                <title>Action List Preferences: General section</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/action_list_preferences_general.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>In the General section of the Action List Preferences page, you
+                            can set the Automatic Refresh Rate for your Action List. Your action
+                            requests come in from the server and your Actions Taken are sent to
+                            the server each time KEW refreshes (updates) your Action List page.
+                            You only see changes to your Action List when KEW refreshes it.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Depending on the network and computers at your workplace, your
+                            computer may or may not slow down when KEW refreshes your Action
+                            List. If a refresh slows down your computer, you may decide to set
+                            the Automatic Refresh Rate for a longer period, such as 10 or 15
+                            minutes. </para>
+                    </listitem>
+                    <listitem>
+                        <para>The Action List Page Size tells KEW how many action requests to
+                            display at once on your Action List page. </para>
+                    </listitem>
+                    <listitem>
+                        <para>The Delegator Filter field lets you decide where to show action
+                            requests for which you are a secondary delegate. You can choose to
+                            have KEW display these action requests on your Action List page or
+                            not, using this dropdown menu. If you do not display action requests
+                            on which you are the Secondary Delegate on your Action List page,
+                            you can only see them on a Filter Page (see Filter, below).</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            </section>
+            <section><title>Action List Preferences: Fields Displayed</title>
+                        <figure>
+                            <title>Action List Preferences: Fields Displayed section</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/KEW_Guide/fields_displayed_in_action_list.png" width="100%" scalefit="1"/>
+                                </imageobject>
+                            </mediaobject></figure>
+                    <itemizedlist>
+                       <listitem>
+                        <para>You determine which fields are displayed on your Action List page
+                            using this section of the Action List Preferences page. Place a
+                            checkmark in the box next to fields that you want to display on your
+                            Action List page. (Click the box to checkmark it and click it again
+                            to un-checkmark it, and vice versa.)</para>
+                       </listitem>
+                    </itemizedlist>
+            </section>
+            <section><title>Action List Preferences: Document Route Status Colors</title>
+                        <figure>
+                            <title>Action List Preferences: Document Route Status Colors Section</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/KEW_Guide/document_route_status_colors.png" width="100%" scalefit="1"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    <itemizedlist>
+                <listitem>
+                        <para>In this section of the Action List Preferences page, you can
+                            choose a color for each different Status of action requests. This
+                            can help you quickly find action requests on which you need to take
+                            action.</para>
+                    </listitem>
+                    </itemizedlist>
+            <para>For example, if you set these colors for these routing status levels: <itemizedlist>
+                    <listitem>
+                        <para>Green for Saved status </para>
+                    </listitem>
+                    <listitem>
+                        <para>Red for Approved status </para>
+                    </listitem>
+                    <listitem>
+                        <para>Blue for Exception status </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Your Action List Preferences page looks like this: </para>
+            <figure><title>Action List Preferences: Document Route Status Colors Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/action_list_preferences2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Click the Save button at the bottom of the page to make these changes in your
+                Action List.</para>
+            <para>Action Lists your color changes by Status:</para>
+            <figure><title>Action List Preferences: Document Route Status Colors Action List Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/document_route_status_colors_exp.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            </section>
+            <section><title>Action List Preferences: Email Notifications</title>
+            <figure><title>Action List Preferences: Email Notifications Preferences</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/action_list_prefs_email_settings.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>            
+            <para>The fields used to maintain email preferences are located in a new "Email 
+                Notification Preferences" section at the bottom of the Workflow Preferences 
+                screen.
+                
+                The "Email Notification Preferences" section accommodates two new options and 
+                allows selection of how and when to receive reminder emails on items sent to the 
+                Action List.</para>
+            
+            <para>In this section, one can select whether or not to receive emails as the Primary 
+                Delegate, as the Secondary Delegate, and also set the Default Email Notification 
+                preference (None, Daily, Weekly, or Immediate). If you are NOT a Primary or Secondary Delegate, 
+                you can leave those fields as unchecked.</para>
+            
+                <para>You can choose to get email reminders on one of these Default Email
+                Notification schedules: <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">None</emphasis> (KEW won't send you any email
+                            reminders for your Action List.) </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Daily</emphasis> (If you have any new action
+                            requests, KEW sends you an email reminder once a day.) </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Weekly</emphasis> (If you have any new action
+                            requests, KEW sends you an email reminder once a week.) </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Immediately</emphasis> (KEW sends you an email
+                            reminder as soon as you receive a new action request on a document. This
+                            is the default – the setting when you start to use KEW.) </para>
+                    </listitem>
+                </itemizedlist></para>
+            
+            <para>The first new option allows overriding of the 'Default Email Notification' preference 
+                and setting of different frequencies to receive notifications based on the document type 
+                of the action request (Timesheet, EPTO, Hire Employee eDoc, Create Additional Pay eDoc, 
+                Requisition, etc.).</para>
+            <para>The parameters set for the default email notification and document-type notification work 
+                together to determine when a given action item is included in the immediate, daily, or 
+                weekly email reminders.</para>  
+            <para>If one sets a 'Default Email Notification' without any 'Document Type Notifications,' 
+                then emails are sent (or not sent), based on the default selection.</para>
+            <para>The second new option allows one to turn notifications on or off based on the request 
+                type (Complete, Approve, Acknowledge, or FYI) when "Immediate" is set as the 'Default 
+                Email Notification.'</para>
+            <figure>
+                <title>Action List Preferences: Document Type Notifications</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/document_type_notifications.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>    
+            <para>However, adding a 'Document Type Notification' that is different from 
+                the 'Default Email Notification,' forces the document-type notification to take 
+                precedence. This allows users to customize by document- type for email reminders. 
+                For example:<itemizedlist>
+                    <listitem><para>If 'Immediate' is set as the 'Default Email Notification,' but a 
+                        document-type rule is set to 'None' for the Maintain Time Assignment eDoc; 
+                        then no email notifications are sent for that specific document.</para>
+                    </listitem>
+                    <listitem><para>If 'Daily' is the 'Default Email Notification,' and a document-type rule 
+                        is added to receive 'Weekly notifications for the Hire Employee eDoc; then for that document, 
+                        the only action request email received is a Weekly reminder.</para>
+                    </listitem>
+                    <listitem><para>If 'None' is set as the 'Default Email Notification,' and a document-type rule 
+                        is added to receive "Daily" notifications for EPIC Purchase Orders; then for that document, 
+                        the only action request email received is a Daily reminder.</para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>In addition, when the 'Default Email Notification' is set to "Immediate" one can use the Send Email 
+                Notifications For option to decide whether or not to receive notifications by request-type.</para>
+            <para>All four of the request-types are already "checked" by default in your Workflow Preferences screen.</para>
+            <figure>
+                <title>Action List Preferences: Action Requested Email Notification</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/action_requested_email_notification.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure> 
+            <para>When an action request is received, and the preference is set to receive an immediate reminder, the system 
+                checks to ensure that the request-type checkbox is turned-on (checked) before an email is sent.</para>
+            <para>This allows these checkboxes to be used as a switch to 'turn-on or turn-off' the "immediate" email 
+                reminders for a given request type. For example:<itemizedlist>
+                    <listitem><para>To stop the receipt of Acknowledgement emails when your preference is set to 
+                    receive "Immediate" reminders, just uncheck the "Acknowledge" checkbox.</para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Remember, all of these preferences and settings are on your Action List
+            Preferences page.</para>
+            </section>
+        </section>
+        <section><title>Action List Refresh and Filter</title>
+            <section>
+                <title>Refresh</title>
+                <para>As described above, you can use the Action List Preferences page to tell
+                    KEW to automatically update (refresh) the information on your Action List on
+                    a regular schedule, such as every 15 minutes. You can also click the Refresh
+                    button near the top of your Action List page to update the page at any time.
+                </para>
+            </section>
+            <section>
+                <title>Filter</title>
+                <para>If you have a large Action List, the Filter function can help you by
+                    displaying only action requests of certain types. To use the Filter
+                    function, click the Filter button in the top right corner of your Action
+                    List page:</para>
+                <para>This displays the <emphasis role="bold">Action List Filter</emphasis>
+                    page: </para>
+                <figure><title>Action List Filter Page</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/action_list_filter.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section>
+                <title>Keys to using the Action List Filter:</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Each of the fields on the Action List Filter page is called a
+                            criteria. You can choose to display only the action requests that
+                            are the same as one or more criteria, or you can choose to display
+                            all action requests except those that are the same as one or more
+                            criteria. You can also use some criteria to display action requests
+                            and some to not display action requests. </para>
+                    </listitem>
+                    <listitem>
+                        <para>If you want the filter to display action requests that meet one or
+                            more criteria, then just enter those criteria in the appropriate
+                            fields (field descriptions are below). Leave the Exclude? checkboxes
+                            blank for these criteria. </para>
+                    </listitem>
+                    <listitem>
+                        <para>If you want the filter to display only the action requests that
+                            don't match one or more criteria, then checkmark the Exclude?
+                            checkbox for each of these criteria. This tells KEW not to display
+                            action requests that match these criteria. </para>
+                    </listitem>
+                    <listitem>
+                        <para>When you've selected the criteria you want to use in your filter,
+                            click the Filter button at the bottom of the Action List Filter
+                            page. KEW displays your Action List filtered in the way you
+                            requested. </para>
+                    </listitem>
+                    <listitem>
+                        <para>To display all action requests on your Action List page again,
+                            click the Clear button at the bottom of the Action List Filter page
+                            or the Clear Filter button at the top of your Action List page.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>To undo your most recent filter criteria, click the Reset button
+                            at the bottom of the Action List Filter page. This returns you to
+                            the list of Action Requests that met your previous set of filter
+                            criteria. </para>
+                    </listitem>                        
+                </itemizedlist>
+                <note><para>Note: The filter is case sensitive – use upper and lower case
+                    (capital letters and small letters) exactly the same as the item
+                    you're filtering. For example, if an actual document title is Travel
+                    Doc 2, then you must type this in the Document Title field with a
+                    capital letter at the beginning of each word, exactly like the real
+                    document title. If you type it as travel doc 2, then the filter
+                    won't recognize this document because the capitalization is
+                    different. </para></note>
+            </section>
+            <section>
+                <title>Filter Criteria:</title>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Document Title</emphasis>: The title given
+                            to the document when it was created. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Document Route Status</emphasis>: The
+                            current routing Status of the document. You may filter for documents
+                            with these routing statuses: <itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">All</emphasis>: Selecting All
+                                        causes KEW to display all documents that have been
+                                        submitted for routing. If you select All and Exclude
+                                        (for the Document Route Status criteria), then KEW
+                                        displays only documents that are in Initiated status. </para>
+                                    <note><para>Documents that are in Initiated Status have not yet
+                                        been submitted for routing.</para></note>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Approved</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Disapproved</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Enroute</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Exception</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Processed</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Saved</emphasis>
+                                    </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Action Requested</emphasis>: The action you
+                            need to take on a document. You may filter your action requests by
+                            these Action Requests: <itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">All</emphasis>: matches all
+                                        Action Requested types </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Acknowledge</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Approve</emphasis>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Complete</emphasis></para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">FYI</emphasis>
+                                    </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Action Requested Group</emphasis>: You may
+                            filter your action requests by the group to which the action
+                            requests were sent. For example, if you are a member of two groups,
+                            you might use this filter to display only the action requests you've
+                            received as part of one of those groups.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Document Type</emphasis>: Use this to filter
+                            based on Document Type. <itemizedlist>
+                                <listitem>
+                                    <para>The document's type tells KEW who needs to take what
+                                        action on that document. This determines where KEW
+                                        routes the document. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>You can use the Type filter to display only documents
+                                        of one type, or to display all of your documents except
+                                        one type. Click the checkbox next to <emphasis
+                                            role="bold">Exclude?</emphasis> if you do NOT want
+                                        to display the selected Type. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>To choose a Type for your filter, click the magnifying
+                                        glass icon on the Type row. This takes you to the
+                                            <emphasis role="bold">Document Type
+                                            Lookup</emphasis> page. </para>
+                                    <para>Enter information in one or more of these fields to
+                                        find the Document Type you need for your filter, then
+                                        click the Search button. This displays a list of
+                                        document Types that match your search. Find the one you
+                                        need, and click return value for that Type. This returns
+                                        you to the previous page and automatically enters it in
+                                        the Type field. For example, in the screenshot below you
+                                        searched for a Type with maintenance in the Name. If you
+                                        want to use the first one in the list, KIM Principal
+                                        Maintenance Document, click return value in the row for
+                                        KIM Principal Maintenance Document. </para>
+                                    <figure><title>Document Type Lookup</title>
+                                        <mediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                    fileref="../images/KEW_Guide/document_type_lookup.png" width="100%" scalefit="1"/>
+                                            </imageobject>
+                                        </mediaobject>
+                                    </figure>
+                                    <note><para>If you do not find the Type that you need, you can
+                                        either do another search or click the link for return
+                                        with no value to return to the Action List Filter page
+                                        without a Type.</para></note>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Date Created</emphasis>: Use this filter
+                            criteria to select only action requests for documents that were (or
+                            were not) created between dates that you choose. You must enter each
+                            date in this format: MM/DD/YYYY, e.g., 12/25/2000 for December 25,
+                            2000. Instead of typing the date in the field, you can click the
+                            small Calendar icon next to the date field and then click the date
+                            you need from the calendar. When you click a date on the calendar,
+                            the small calendar disappears and that date is automatically entered
+                            in the date field. Use the small arrowheads on either side of the
+                            month's name to display other months. A single arrowhead moves the
+                            calendar one month forward or back. A double arrowhead moves the
+                            calendar to the same month a year ahead or back. </para>
+                        <para>For example, if you could click the single arrowhead to the left
+                            of "April" on this calendar, the month displayed would change to
+                            March 2009. If you could click the double arrowhead to the right of
+                            "April", the month would change to April 2010.</para>
+                        <figure><title>Date Widget</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/KEW_Guide/date_created.png" width="100%" scalefit="1"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Date Last Assigned</emphasis>: Use this
+                            filter criteria to select only action requests for documents that
+                            were (or were not) assigned to someone between dates that you
+                            choose. You must enter each date in this format: MM/DD/YYYY. For
+                            more detail on entering or selecting dates, see Date Created
+                            above.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Clear Filter</title>
+                <para>When you have used a filter on your Action List, you can see a Clear
+                    Filter button at the top of your page:</para>
+                <figure><title>Action List: Clear Filter Button</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/action_list_old.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Click this button to display all of your action requests again. </para>
+                <note><para>If your Action List is not filtered, you cannot see the Clear Filter
+                    button.</para></note>
+                <para>Remember, you can click the Filter button at the top of your Action List
+                    page to return to the Filter page and change or Reset your filters.</para>
+            </section>
+        </section>
+    <section>
+        <title>Action Requests and Actions Guide </title>
+        <section>
+            <title>Overview</title>
+            <para>Action Requests are one of the core functions of the Kuali Enterprise Workflow
+                (KEW) system. An Action Request is a call from KEW to a person or group to take
+                action on a document. Action Requests are created when the system or a person routes
+                (sends) a document to another user and ask that user to do something with the
+                document. You might ask someone to approve an expense, for example, or to
+                acknowledge that he or she received a copy of an expense report. </para>
+            <para>Once an Action Request has been created in KEW, the associated document is sent to
+                the appropriate users' action lists. A user can open his or her Action List and from
+                there, view information about the document, open the document, and/or take the
+                requested action. If a user takes an action, for example, approves or disapproves a
+                document, that is called an Action Taken.</para>
+            <para>The path that the document takes from its starting point to final approval is
+                called its route. Each point along that path where a person needs to do something
+                with the document (approve, acknowledge, etc.) is called a node on the route.</para>
+        </section>
+        <section>
+            <title>Types of Action Requests</title>
+            <para>Each action request has one row on your Action List. There are five types of
+                Action Requests:</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Types of Action Requests</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.79*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.69*"/>
+                        <thead>
+                            <row>
+                                <entry>Action Requested </entry>
+                                <entry>Description </entry>
+                                <entry>Stops Document Until Action is Taken? </entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Complete </entry>
+                                <entry><para>You need to Complete the document.</para>
+                                <para>You may cancel a document when you have a Complete action
+                                        request on it.</para></entry>
+                                <entry>Yes</entry>
+                            </row>
+                            <row>
+                                <entry>Approve </entry>
+                                <entry><para>You should verify the document and either Approve or Disapprove it. </para>
+                                <para>You may cancel a document when you have an Approve action
+                                        request on it.</para></entry>
+                                <entry>Yes</entry>
+                            </row>
+                            <row>
+                                <entry>Acknowledge </entry>
+                                <entry>You need to acknowledge (agree) that you have seen the
+                                    document </entry>
+                                <entry><para>No</para>
+                                <para>If there are no other requests, the document changes to
+                                        Processed status even if there are outstanding Acknowledge
+                                        requests. </para></entry>
+                            </row>
+                            <row>
+                                <entry>FYI </entry>
+                                <entry>You have been told about this document and you need to Clear
+                                    the FYI on it</entry>
+                                <entry><para>No</para>
+                                <para>If there are no other requests, the document changes to Final
+                                        status even if there are outstanding FYI requests.</para></entry>
+                            </row>
+                            <row>
+                                <entry>Print</entry>
+                                <entry>You need to print this document and take some action with it,
+                                    such as mailing it to a vendor.</entry>
+                                <entry/>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>You can only Disapprove or Cancel a document if you have a Complete or
+                            Approve request. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete and Approve are essentially the same: A Complete action
+                            satisfies an Approve request, and an Approve action satisfies a Complete
+                            request. </para>
+                    </listitem>
+                    <listitem>
+                        <para>When you Clear an FYI request, that action is not recorded on the
+                            Route Log (history of where the document has been and what has been done
+                            on it) for that document. </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>There are other actions that you can take in addition to Action Requests. We will
+                look at those in the Action Taken section below.</para>
+        </section>
+        <section>
+            <title>Action Request Recipients</title>
+            <para>Every action request has a recipient. The recipient is the individual or group of
+                individuals whose action is requested on the document. There are three types of recipients:<orderedlist>
+                    <listitem>
+                        <para>Person: An individual </para>
+                    </listitem>
+                    <listitem>
+                        <para>Group: A group of users who are members of a KIM Group </para>
+                    </listitem>
+                    <listitem>
+                        <para>Role: A group of users who are members of a KIM Role </para>
+                    </listitem>
+                </orderedlist></para>
+            <para>Roles are groups of users or KIM Groups associated with a document. </para>
+            <para>The first user in a Group to take action on a request satisfies (completes) that
+                request. Role requests can be set up to work the same way as Group requests or to
+                require that everyone in that Role approves the document before the request is
+                satisfied.</para>
+        </section>
+        <section>
+            <title>Action Request Hierarchies</title>
+            <para>In certain situations, you can use roles for action requests and you can delegate
+                action requests. You can think of these as trees or as a parent action request that
+                has children action requests.</para>
+            <para>Roles are groups of Principals or Groups that KEW creates based on rules your
+                institution sets up. Since KEW can only create an action request for a single person
+                or group but a role may have several people or groups in it, KEW creates an action
+                request for the role (a parent request), and that action request creates child
+                action requests that go to each person or group in that role. </para>
+            <para>The parent role request can have any number of children requests that are each
+                either a user request or a group request.</para>
+            <section>
+                <title>Action Request Delegation</title>
+                <para>In KEW, you may delegate, or give, your request authority to other people. For
+                    example, if Joe is the fiscal officer for an account but he doesn't actually
+                    approve documents, he may delegate his approval authority to Jane. Both Joe and
+                    Jane can now take actions on Joe's action requests</para>
+                <para>If Jane approves a document as Joe's delegate, Joe's action request is
+                    satisfied. If Joe approves the document, Jane's action request is satisfied.
+                </para>
+            </section>
+            <section>
+                <title>Combining Role Requests and Delegation</title>
+                <para>You can combine a role request with a delegate. In fact, in the previous
+                    example, the action request that is sent to Joe as a fiscal officer is really a
+                    role request. The action request tree for that scenario is:</para>
+                <figure><title>Delegation Tree Example</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/action_request_tree.png" contentwidth="400"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>This tree is three levels deep and shows a role delegating to a user. You can
+                    also have a role delegate to another role.</para>
+            </section>
+        </section>
+        <section>
+            <title>Action Request Activation and Deactivation</title>
+            <section>
+                <title>Activation</title>
+                <para>When action requests are created, they are in the Initialized state. They stay in
+                    this state until KEW determines that they need to be Activated. When a request
+                    becomes Activated, it appears in the user's Action List. </para>
+                <para>When action requests are created, they can be set to ignore previous actions or not.<itemizedlist>
+                        <listitem>
+                            <para>If <emphasis role="italic">Ignore Previous</emphasis> is true, the
+                                activation process will not consider previous actions that the user has
+                                taken. </para>
+                        </listitem>
+                        <listitem>
+                            <para>If <emphasis role="italic">Ignore Previous</emphasis> is false, the
+                                activation process will consider previous actions by the user and may
+                                even consider the action request satisfied by previous user actions.
+                                (This is sometimes referred to as a request being "auto-approved.")
+                            </para>
+                        </listitem>
+                </itemizedlist></para>
+                <para>During request activation, if the Ignore Previous flag is false and KEW determines
+                    that a previous action satisfies the current request, it will Deactivate the request
+                    instead of Activating it. Activation begins at a root request, but Deactivation
+                    begins at the request where KEW finds that a satisfying action has occurred if that
+                    request is set to not ignore previous actions.</para>
+                <note>
+                    <para>Action request structures can be hierarchical. Activation of requests always
+                        starts at the parent request and works down the tree, activating each level of the
+                        tree in turn. </para>
+                    <para>Roles can have an All Approve policy. All Approve means that all members of a role
+                        must approve the document before the entire request is deactivated. (See
+                        Deactivation below.)</para>
+                </note>
+            </section>
+            <section>
+                <title>Deactivation</title>
+                <para>When a user takes action on a document, that action may start the deactivation
+                    of other action requests on the document. For example, if Joe has a pending
+                    request and he takes an Approve action on it, his request is deactivated.
+                    Request deactivation changes the status of the request from Initialized or
+                    Activated to Deactivated. </para>
+                <para>If Joe's action taken causes other action requests to be Deactivated, his
+                    action taken is associated with all of the requests that it Deactivates. </para>
+                <para>Unlike Activation, Deactivation always starts at the request that was
+                    satisfied by the action taken. For example, if Joe is delegating to Jane and
+                    Jane issues an Approve action on her request, Deactivation starts at Jane's
+                    request. However, if Joe issues the Approve action, Deactivation starts at the
+                    parent. </para>
+                <figure><title>Delegation Tree Example: Deactivation</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/deactivation_flow.png" contentwidth="400"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>If there are no roles set to "All Approve" on an action request, one action
+                    can Deactivate the entire request tree. This is because KEW works up and down
+                    the tree, Deactivating requests as it goes.</para>
+                <para>However, when there is an "All Approve" role, requests for all parties within
+                    the role must be Deactivated before the parent role request is Deactivated. For
+                    example, if we have an "All Approve" role request with three children requests,
+                    when one of the users takes action, their request is Deactivated, but since
+                    there are two other requests that still need to be satisfied, the Deactivation
+                    cannot go back to the parent role request. When the last of the three users has
+                    taken action, the parent role request is Deactivated.</para>
+            </section>
+        </section>
+        <section>
+            <title>Actions and Action Takens</title>
+            <para>Actions are how a user interacts with KEW. Actions can be performed in response to
+                an Action Request (such as an Approve action) or they can be user-initiated (such as
+                the routing of a document). Most, but not all, actions create Action Takens. The
+                Action Taken is recorded on the Route Log and associated with a satisfied action
+                request, where appropriate.</para>
+            <para>The KEW Action library contains these Actions, explained below:<itemizedlist>
+                    <listitem>
+                        <para>Acknowledge </para>
+                    </listitem>
+                    <listitem>
+                        <para>Approve </para>
+                    </listitem>
+                    <listitem>
+                        <para>Blanket Approve </para>
+                    </listitem>
+                    <listitem>
+                        <para>Cancel </para>
+                    </listitem>
+                    <listitem>
+                        <para>Clear FYI </para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete </para>
+                    </listitem>
+                    <listitem>
+                        <para>Create Document </para>
+                    </listitem>
+                    <listitem>
+                        <para>Disapprove </para>
+                    </listitem>
+                    <listitem>
+                        <para>Log Document </para>
+                    </listitem>
+                    <listitem>
+                        <para>Move Document </para>
+                    </listitem>
+                    <listitem>
+                        <para>Return to Previous Node </para>
+                    </listitem>
+                    <listitem>
+                        <para>Route Document </para>
+                    </listitem>
+                    <listitem>
+                        <para>Save </para>
+                    </listitem>
+                    <listitem>
+                        <para>Recall </para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Actions <itemizedlist>
+                                <listitem>
+                                    <para>Superuser Approve Document </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Superuser Approve Node </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Superuser Approve Request </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Superuser Cancel </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Superuser Disapprove </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist></para>
+            <section>
+                <title>Acknowledge Action</title>
+                <para>Use this action to satisfy an Acknowledge action request. When you take an
+                    Acknowledge action, it usually means that you have examined the document.
+                    Acknowledgement provides no real authority over the document; you can only take
+                    the Acknowledge action on this document.</para>
+                <para>When you take an Acknowledge action, KEW finds all pending acknowledge
+                    requests for that document that are routed to you and Deactivates them. It then
+                    records an Acknowledge Action Taken and associates it with the Deactivated
+                    requests. You may take an Acknowledge action even if you have no Acknowledge
+                    Action Requests.</para>
+            </section>
+            <section>
+                <title>Approve Action</title>
+                <para>Use this action to satisfy an Approve or Complete action request. When you use
+                    an Approve action, it means that you have looked at the document and approve
+                    that transaction.</para>
+                <para>When you use the Approve action, KEW Deactivates all pending approve or
+                    complete requests that have been routed to you for this document. You may take
+                    an Approve action even if you have no Approve or Complete action
+                    requests.</para>
+            </section>
+            <section>
+                <title>Blanket Approve Action</title>
+                <para>Use the Blanket Approve action to force a document to complete a set of action
+                    requests. This allows certain users to "push" a document through its routing. To
+                    take this action, you must have the appropriate KIM Permission (or be in the
+                    Blanket Approve Group which is set in the Document Type, but that is a
+                    deprecated feature). Unless you select a specific node (point in the document's
+                    routing path) when you take a Blanket Approve Action, KEW finds all pending
+                    Approve or Complete requests at the current level in the request tree and
+                    Deactivates them. It records a Blanket Approve Action Taken and associates it
+                    with each of the Deactivated requests.</para>
+                <para>Then, KEW sends Acknowledge action requests to each person whose action
+                    request was satisfied by the Blanket Approve. It does this for all levels in the
+                    request tree until it reaches the end point set in the Blanket Approve Action or
+                    it reaches the end of the request tree.</para>
+            </section>
+            <section>
+                <title>Cancel Action</title>
+                <para>Use this action when a document is no longer valid and you need to cancel it.
+                    You must have a pending Approve or Complete action request on the document
+                    before you can Cancel it. Cancelling a document is similar to Disapproving it
+                    except that the Cancel action does not send out notifications.</para>
+                <para>When you take a Cancel action, KEW finds all pending requests on the document
+                    and Deactivates them. It records a Cancel Action Taken and associates it with
+                    the Deactivated requests. Then it sets the document's status to CANCELLED and
+                    the document is effectively dead.</para>
+            </section>
+            <section>
+                <title>Clear FYI Action</title>
+                <para>Use this action to satisfy an FYI action request. You usually get an FYI just
+                    to notify you about a document. You don't need to take any action on an FYI
+                    request, but if you want to remove that FYI and document from your Action List,
+                    take the Clear FYI action.</para>
+                <para>When you take the Clear FYI action KEW locates all pending FYI requests on
+                    this document that are routed to you and Deactivates them. It then records an
+                    FYI Action Taken. You must have a pending FYI request on a document to use the
+                    Clear FYI action.</para>
+            </section>
+            <section>
+                <title>Complete Action</title>
+                <para>Use this action to satisfy an Approve or Complete action request. When you use
+                    a Complete, it means that you have looked at the document and completed any of
+                    the necessary information on the document so it can proceed. Complete action
+                    requests are typically created as the result of a Save action or in response to
+                    an Exception Routing request.</para>
+                <para>When you use the Complete action KEW finds all pending Approve or Complete
+                    requests that are routed to you and Deactivates them. If the document is in the
+                    Exception state, it changes it back to Enroute. It then records a Complete
+                    Action Taken. You may take a Complete action even if you have no Complete or
+                    Approve action requests.</para>
+            </section>
+            <section>
+                <title>Create Document Action</title>
+                <para>This action creates a new document in KEW of the chosen Document Type. This
+                    action does not record an Action Taken of any sort but simply begins a new
+                    document and assigns a document ID to it. The document begins in Initiated
+                    status. The Document type determines how the document is routed and what must be
+                    done for it. For example, an expense report might be routed (sent) to two or
+                    three different people for approval before it is paid.</para>
+            </section>
+            <section>
+                <title>Disapprove Action</title>
+                <para>When you have an Approve action request, you use a Disapprove action if the
+                    document does not meet the approval criteria. You must have a pending Approve or
+                    Complete request on the document before you can Disapprove it. Disapproving a
+                    document is similar to Cancelling it, except that Disapproval sends out
+                    notifications.</para>
+                <para>When you Disapprove a document, KEW finds all pending requests on the document
+                    and Deactivates them. Next, it creates Acknowledge notification requests to all
+                    users that had Approve or Complete action requests at the current node and all
+                    previous nodes. It also sends an Acknowledge notification request to the
+                    initiator of the document. Then the document's status is set to Disapproved and
+                    the document is effectively dead.</para>
+            </section>
+            <section>
+                <title>Log Document Action</title>
+                <para>This action simply enters a message on the document. It records an Action
+                    Taken but it is never associated with any action requests. This action displays
+                    a message on the document in the Route Log.</para>
+            </section>
+            <section>
+                <title>Move Document Action</title>
+                <para>This action moves a document either backward in the route path or forward.
+                    Moving the document backward works like the Return to Previous Node action and
+                    moving the document forward works like a Blanket Approve action. The difference
+                    between these is that the Action Taken is recorded as a Move action. </para>
+            </section>
+            <section>
+                <title>Return to Previous Node Action</title>
+                <para>Use this action to move a document to a previous node in the route. You must
+                    have a pending Approve or Complete request on the document before you can use
+                    this action.</para>
+                <para>When you use this action, KEW Deactivates all pending requests on the document
+                    and sets the current node on the document to the previous node that you
+                    requested (this is called the target node). It records a Return to Previous Node
+                    Action Taken and associates it with the Deactivated requests. Any requests on
+                    nodes between the current node and the target node are removed, effectively
+                    erasing them. KEW then sends the document through again to recreate requests on
+                    the target node. This way a document is "returned" to a previous node, rolling
+                    it back to its previous state at that point in the route.</para>
+            </section>
+            <section>
+                <title>Route Document Action</title>
+                <para>Use the Route Document action to route an Initialized or Saved document to
+                    other users. Only the initiator of the document can take this action unless the
+                    user has an "Initiate Document" KIM permission (or initiator_must_route policy
+                    is set to false in the Document Type, although this feature is deprecated). The
+                    Action Taken for a Route Document action is Complete.</para>
+                <para>When you use the Route Document action, it Deactivates all pending requests
+                    for the initiator of the document and it associates a Complete Action Taken with
+                    the Deactivated requests. The document's state is then set to Enroute.</para>
+            </section>
+            <section>
+                <title>Save Document Action</title>
+                <para>Use this action to put a newly created document in the Action List of the
+                    document's initiator. You can only use this action on a document in an Initiated
+                    status. When you use this action, KEW creates and Activates a Complete action
+                    request for the document's initiator and then changes the document's status to
+                    Saved.</para>
+            </section>
+            <section>
+                <title>Recall</title>
+                <para>Use this action to recall a document that has been submitted to your action list. 
+                    You can only use this action on a document if you have a specific role for the application
+                    and/or document you are trying to recall. When you use this action, you are given the option 
+                    to recall the document to your action list for updating or you can recall and cancel the document
+                    with one action if it is no longer needed.</para>
+            </section>            
+            <section>
+                <title>Superuser Actions </title>
+                <para>Superuser actions let you move a document past workflow nodes where it may be
+                    held up because another user is unavailable to take action on it or due to a
+                    system problem. Superuser actions are an administrative tool and safety net.
+                    Superusers are designated with a KIM Permission (or they are listed in the
+                    Document Type, but this feature is deprecated). </para>
+            </section>
+            <section>
+                <title>Using the Superuser Functions</title>
+                <para>To use the Superuser functions, go to Document Search (it is a link in the
+                    left menu) and click the Superuser Search link.</para>
+                <para>Now, do a normal document search for the document on which you need to perform
+                    a Superuser action. When you find the document, click the Document/Notification
+                    Id link. If you are authorized to perform a Superuser action on this document,
+                    this takes you to the Superuser page. Otherwise, KEW displays a message that you
+                    are not authorized to take Superuser action on this document.</para>
+            </section>
+            <section>
+                <title>Superuser Approve Document Action</title>
+                <para>This action fully approves a document, Deactivating all remaining routing
+                    requests. KEW also records a Superuser Approve Action Taken and associates it
+                    with the Deactivated requests. The document's state changes to Approved and the
+                    document is scheduled for processing. The document status automatically changes
+                    to Final when it goes into the Workflow Engine. </para>
+            </section>
+            <section>
+                <title>Superuser Approve Node Action</title>
+                <para>This action approves the document through all nodes up to (but not including)
+                    a specified node. When the document gets to the specified node, requests are
+                    created as usual. This action is exactly the same as Blanket Approve except that
+                    no notification requests are created from the Superuser Approve Node
+                    action.</para>
+            </section>
+            <section>
+                <title>Superuser Approve Request Action</title>
+                <para>This action approves a single pending Approve or Complete action request. This
+                    works the same way as a standard Approve action except that the Superuser is
+                    acting in place of the responsible user.</para>
+            </section>
+            <section>
+                <title>Superuser Cancel Action</title>
+                <para>This action cancels the document. This action works exactly the same way as
+                    the standard Cancel action except that the Superuser does not need to have a
+                    pending request to Cancel a document.</para>
+            </section>
+            <section>
+                <title>Superuser Disapprove Action</title>
+                <para>This action disapproves the document. This action works the same way as the
+                    standard Disapprove action except that the Superuser does not need to have a
+                    pending request to perform the action. Also, on a Superuser disapprove, KEW does
+                    not send notification requests.</para>
+            </section>
+            <section>
+                <title>Superuser Return to Previous Node Action</title>
+                <para>This action returns the document to a previous node in the route path. This
+                    action works exactly the same way as the standard Return to Previous Node action
+                    except that the Superuser does not need to have a pending request to perform the
+                    action.</para>
+            </section>
+            <section>
+                <title>Superuser Quick Action's Tab</title>
+                <para>With the release of Rice 2.1 a new option is available for applications to enable. 
+                    Superuser's can now access documents directly from the standard document search 
+                    and quickly perform approval, acknowledgment, FYI, or disapproval actions from this 
+                    new tab on the document. This streamlined version of the still available superuser 
+                    form of document search will allow for common actions to be taken in a more user 
+                    friendly fashion. Pending actions are displayed in a list that the super user can 
+                    check off and take the actions necessary all at once (see example below). 
+                    Before actions can be taken, a annotation must be provided.</para>
+                <para>By default, the new tab will not appear on a document.  
+                    <programlisting>&lt;kul:superUserActions /></programlisting>This needs to be included in the JSP of 
+                    a document for the superuser tab to be shown. The logic for whether it should actually display anything 
+                    is contained inside of this. Developers may also look at KualiMaintenanceDocument.jsp in the Rice code for an example.</para>
+                <figure><title>New Superuser Tab Example</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/new_superuser_tab.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>    
+    </section>
+</chapter>

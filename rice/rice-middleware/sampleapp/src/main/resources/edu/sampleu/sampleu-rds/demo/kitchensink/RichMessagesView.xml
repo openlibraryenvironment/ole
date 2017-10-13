@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <formView-bean formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm" headertext="Rich Messages"
+                 id="RichMessagesView">
+    <items>
+      <page-bean>
+        <items>
+          <spring:ref bean="Demo-BasicMessagesSection"/>
+          <spring:ref bean="Demo-AdvancedMessagesSection"/>
+          <spring:ref bean="Demo-RadioCheckboxMessageSection"/>
+          <spring:ref bean="Demo-RichMessageLinks"/>
+        </items>
+      </page-bean>
+    </items>
+    <theme>
+      <kradTheme-bean/>
+    </theme>
+  </formView-bean>
+  <formView-bean id="RichMessagesView_KNS" parent="RichMessagesView">
+    <theme>
+      <classicKnsTheme-bean/>
+    </theme>
+  </formView-bean>
+  <verticalBoxSection-bean headertext="Basic [css='fl-text-underline']Functionality[/css]"
+                           id="Demo-BasicMessagesSection">
+    <items>
+      <message-bean messageText="Message with [b]bold[/b], break,[br/]and [i]italics[/i] inline"/>
+      <message-bean messageText="Message with input [0] and link [1] inline">
+        <inlineComponents>
+          <inputField-bean propertyName="field1"/>
+          <link-bean href="http://www.kuali.org" linkText="Kuali"/>
+        </inlineComponents>
+      </message-bean>
+      <message-bean messageText="Message getting component by id [id=Demo-SampleMessageInput] inside its content"/>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean headertext="Advanced Functionality" id="Demo-AdvancedMessagesSection">
+    <items>
+      <message-bean messageText="Message with [color=green]color[/color] [color=blue]option[/color]"/>
+      <message-bean messageText="Message with [css='fl-text-underline fl-text-larger']css class[/css] option"/>
+      <message-bean
+              messageText="[b]Message[/b] using a [color=#F78C00] [css='fl-text-underline']combination[/css] [0] of different options[/color] [id=Demo-SampleMessageInput2] inside its [1] content">
+        <inlineComponents>
+          <inputField-bean propertyName="field3" required="true"/>
+          <primaryActionButton-small-bean actionLabel="Action Button" actionScript="alert('Inline Button')"/>
+        </inlineComponents>
+      </message-bean>
+      <inputField-bean
+              constraintText="[b]Constraint text[/b] with [a href='http://www.kuali.org']rich message[/a] [color='red']functionality[/color] inline"
+              label="Rich Message Field" propertyName="field5">
+        <instructionalMessage>
+          <message-bean messageText="Instructions with [i]rich message[/i] functionality [0] inline">
+            <inlineComponents>
+              <secondaryActionButton-small-bean actionLabel="Instruction Button" actionScript="alert('Inline Button')"/>
+            </inlineComponents>
+          </message-bean>
+        </instructionalMessage>
+      </inputField-bean>
+      <inputField-labelTop-bean label="Label With [color=green]Color[/color]" propertyName="field100"/>
+      <inputField-labelTop-bean label="Label With [i][b]Html[/b][/i]" propertyName="field101"/>
+      <inputField-labelTop-bean label="Label With [id=Demo-RichMessagesImage]Image" propertyName="field102"/>
+      <message-bean messageText="Getting message content from a value on the form (springEL): @{#dp.richMessageField}"/>
+      <message-bean
+              messageText="Getting message content from a value with [css=fl-text-underline]no formatting [/css]- [b]@{#dp.testValueField}[/b] - and applying rich message around it"/>
+      <message-bean
+              messageText="Getting a message from the form that mixes inlineComponents and id specified content into its value: @{#dp.richMessageField2}">
+        <inlineComponents>
+          <inputField-labelTop-bean constraintText="Only [b]numbers[/b] allowed" propertyName="field6" required="true">
+            <validCharactersConstraint>
+              <numericPatternConstraint-bean/>
+            </validCharactersConstraint>
+          </inputField-labelTop-bean>
+        </inlineComponents>
+      </message-bean>
+      <message-bean
+              messageText="Multiple ways to get an image inline within a message:                     [ul]                     [li]By inlineComponents[0][/li]                     [li]By id[id=Demo-RichMessagesImage][/li]                     [li]By html image tag[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png&quot;][/li]                     [/ul]">
+        <inlineComponents>
+          <image-bean altText="Image" source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </inlineComponents>
+      </message-bean>
+      <message-bean
+              messageText="Testing rich message special character(\[\]) escape [color=green]\[[b]content[/b]\][/color]"/>
+      <message-bean
+              messageText="Testing component by id setting propertyName to field12, required to false, label to 'Label Text'                     [id='Demo-SampleMessageInput3' propertyName=field12 required=false label='Label Text']"/>
+      <message-bean
+              messageText="Testing component with progressive render condition                     [id='Demo-SampleMessageInput3' propertyName=field13 refreshWhenChangedPropertyNames=field24]"/>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean headertext="[color=red]Radio[/color] and   [color=blue]Checkbox[/color] groups rich messages"
+                           id="Demo-RadioCheckboxMessageSection"
+                           instructionalText="Testing [css='fl-text-underline']checkbox and radio groups[/css] below">
+    <items>
+      <inputField-labelTop-bean label="Favorite Color" propertyName="field24" width="auto">
+        <control>
+          <verticalRadioControl-bean>
+            <options>
+              <keyLabelPair-bean key="1" value="[color=blue]Blue[/color]"/>
+              <keyLabelPair-bean key="2" value="[color=red]Red[/color]"/>
+              <keyLabelPair-bean key="3" value="[color=gold]Yellow[/color]"/>
+              <keyLabelPair-bean key="4" value="Other: [id=Demo-SampleMessageInput4]"/>
+            </options>
+          </verticalRadioControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean label="You heard about us from?" propertyName="field115" width="auto">
+        <control>
+          <verticalCheckboxesControl-bean>
+            <inlineComponents>
+              <inputField-bean propertyName="field19"/>
+              <inputField-bean propertyName="field20"/>
+            </inlineComponents>
+            <options>
+              <keyLabelPair-bean key="1" value="A website: [0]"/>
+              <keyLabelPair-bean key="2" value="A magazine: [1]"/>
+              <keyLabelPair-bean key="3" value="Other: [id=Demo-SampleMessageInput2]"/>
+            </options>
+          </verticalCheckboxesControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean label="CheckboxControl" propertyName="bField1">
+        <control>
+          <checkboxControl-bean
+                  checkboxLabel="I,                     [id=Demo-SampleMessageInput4 propertyName=field103], agree to the terms                     and conditions of this form"/>
+        </control>
+      </inputField-labelTop-bean>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean headertext="Link Declarations" id="Demo-RichMessageLinks"
+                           instructionalText="Testing [css='fl-text-underline'][/css] below">
+    <items>
+      <message-bean messageText="Testing link tag [link='http://www.kuali.org']Kuali Site[/link]"/>
+      <message-bean messageText="Testing methodToCall action [action=addErrors]addErrors[/action]"/>
+      <message-bean
+              messageText="Testing methodToCall action (no client validation check)                     [action=addErrors,false]addErrors[/action]"/>
+      <message-bean
+              messageText="Testing passing data [action=addErrors,false data={extraInfo: 'You passed data'}]addErrors[/action]"/>
+      <message-bean messageText="Testing non-ajax submit [action=addErrors,false,false]addErrors[/action]"/>
+      <message-bean
+              messageText="Testing custom success callback [action=addErrors,false,true,function(){alert('Successful Callback')}]addErrors[/action]"/>
+    </items>
+  </verticalBoxSection-bean>
+  <inputField-bean id="Demo-SampleMessageInput" propertyName="field2">
+    <control>
+      <checkboxControl-bean checkboxLabel="Checkbox Label"/>
+    </control>
+  </inputField-bean>
+  <inputField-labelTop-bean id="Demo-SampleMessageInput2" propertyName="field4" required="true">
+    <control>
+      <dropdownControl-bean/>
+    </control>
+    <optionsFinder>
+      <spring:bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+    </optionsFinder>
+  </inputField-labelTop-bean>
+  <inputField-labelTop-bean constraintText="Only [b]letters[/b] allowed" id="Demo-SampleMessageInput3"
+                            propertyName="field5" required="true">
+    <validCharactersConstraint>
+      <alphaPatternConstraint-bean/>
+    </validCharactersConstraint>
+  </inputField-labelTop-bean>
+  <inputField-labelTop-bean id="Demo-SampleMessageInput4" propertyName="field22" required="true"/>
+  <image-bean altText="Image" id="Demo-RichMessagesImage"
+              source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+</spring:beans>

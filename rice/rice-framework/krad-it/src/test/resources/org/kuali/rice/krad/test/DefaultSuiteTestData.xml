@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+			<name>WorkflowAdmin</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>WorkflowAdmin</description>
+			<members>
+				<principalId>quickstart</principalId>
+                <principalId>admin</principalId>
+                <principalId>fran</principalId>
+			</members>
+		</group>
+		<group>
+			<name>KUALI_PED</name>
+			<namespace>KFS</namespace>
+			<description>KUALI_PED</description>
+			<members>
+				<principalId>employee</principalId>
+				<principalId>fran</principalId>
+			</members>
+		</group>
+		<group>
+			<name>KUALI_OPERATIONS</name>
+			<namespace>KFS</namespace>
+			<description>KUALI_OPERATIONS</description>
+			<members>
+				<principalId>employee</principalId>
+                <principalId>user4</principalId>
+                <principalId>fran</principalId>
+			</members>
+		</group>
+		<group>
+			<name>KUALI_ROLE_MAINTENANCE</name>
+			<namespace>KFS</namespace>
+			<description>KUALI_ROLE_MAINTENANCE</description>
+			<members>
+				<principalId>employee</principalId>
+				<principalId>fran</principalId>
+			</members>
+		</group>
+		<group>
+			<name>KUALI_ROLE_SUPERVISOR</name>
+			<namespace>KFS</namespace>
+			<description>KUALI_ROLE_SUPERVISOR</description>
+			<members>
+				<principalId>admin</principalId>
+                <principalId>supervisor</principalId>
+
+			</members>
+		</group>
+	</groups>
+	
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>TestDataDictionarySearchableAttribute</name>
+			<className>org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer</className>
+			<label>Test Data Dictionary Searchable Attribute</label>
+			<description>DD searchable attribute for testing purposes</description>
+			<type>SearchableAttribute</type>
+		</ruleAttribute>
+    <ruleAttribute>
+      <name>TravelAccountDocumentAccountNumberAttribute</name>
+      <className>org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Account Number Attribute</label>
+      <description>The search attribute used to find documents by account number.</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="accountNumber" title="kuali_dd_label(TravelAccount)">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/number')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+	</ruleAttributes>
+	
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>SearchAttributeIndexTestRuleTemplateLevel1</name>
+			<description>Search Attribute Index Test Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>SearchAttributeIndexTestRuleTemplateLevel2</name>
+			<description>Search Attribute Index Test Template</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>SearchAttributeIndexTestRuleTemplateLevel3</name>
+			<description>Search Attribute Index Test Template</description>
+		</ruleTemplate>
+	</ruleTemplates>
+
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>RiceDocument</name>
+			<description>Workflow Maintenance Document</description>
+			<label>Workflow Maintenance Document</label>
+			<postProcessorName>none</postProcessorName>
+			<docHandler>docHandler is now mandatory...</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="adhoc" nextNode="exception" />
+					<requests name="exception" nextNode="Workflow Document Routing" />
+					<requests name="Workflow Document Routing" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="adhoc">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+				</start>
+				<requests name="exception">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="Workflow Document Routing">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.DocumentType</name>
+			<parent>RiceDocument</parent>
+			<description>Workflow Maintenance Document Type Document</description>
+			<label>Workflow Maintenance Document Type Document</label>
+			<postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/SampleRiceClient/kew/DocumentType.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<policies />
+			<routePaths>
+				<routePath>
+					<start name="placeholder" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="placeholder">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.RuleDocument</name>
+			<parent>RiceDocument</parent>
+			<description>Rule Maintenance Document Type Document</description>
+			<label>Rule Maintenance Document Type Document</label>
+			<postProcessorName>org.kuali.rice.kew.rule.RulePostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/SampleRiceClient/kew/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<policies />
+			<routePaths>
+				<routePath>
+					<start name="placeholder" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="placeholder">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.WKGRPREQ</name>
+			<parent>RiceDocument</parent>
+			<description>Document to generate a new workgroup</description>
+			<label>Add/modify EDEN workgroup</label>
+			<postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>http://localhost:8080/SampleRiceClient/kew/Workgroup.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>1</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Adhoc Routing" nextNode="Workgroup Approvers" />
+					<requests name="Workgroup Approvers" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Adhoc Routing">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+				<requests name="Workgroup Approvers">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountRequest</name>
+			<parent>RiceDocument</parent>
+			<description>Request Account Information</description>
+			<label>Account Request</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Initiated"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountRequest2</name>
+			<parent>RiceDocument</parent>
+			<description>Request Account Information 2</description>
+			<label>Account Request 2</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Initiated"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountRequest3</name>
+			<parent>RiceDocument</parent>
+			<description>Request Account Information</description>
+			<label>Account Request</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Initiated"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountManagerMaintenanceDocument</name>
+			<parent>RiceDocument</parent>
+			<description>Create a New Travel Fiscal Officer</description>
+			<label>Travel Fiscal Officer</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountMaintenanceDocument</name>
+			<parent>RiceDocument</parent>
+			<description>Create a New Account</description>
+			<label>Account Maintenance</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountType2MaintenanceDocument</name>
+			<parent>RiceDocument</parent>
+			<description>Create a New Account Type 2</description>
+			<label>Account Type 2 Maintenance</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AccountWithDDAttributes</name>
+			<parent>RiceDocument</parent>
+			<description>Test document for data dictionary attributes</description>
+			<label>Account With DD Attributes</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<attributes>
+				<attribute>
+					<name>TestDataDictionarySearchableAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SearchAttributeIndexTestDocument</name>
+			<parent>RiceDocument</parent>
+			<description>Test document for search attribute indexing</description>
+			<label>Search Attribute Indexing test document</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<attributes>
+				<attribute>
+					<name>TestDataDictionarySearchableAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Level1" />
+					<requests name="Level1" nextNode="Level2" />
+					<requests name="Level2" nextNode="Level3" />
+					<requests name="Level3" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Level1">
+					<activationType>S</activationType>
+					<ruleTemplate>SearchAttributeIndexTestRuleTemplateLevel1</ruleTemplate>
+				</requests>
+				<requests name="Level2">
+					<activationType>S</activationType>
+					<ruleTemplate>SearchAttributeIndexTestRuleTemplateLevel2</ruleTemplate>
+				</requests>
+				<requests name="Level3">
+					<activationType>S</activationType>
+					<ruleTemplate>SearchAttributeIndexTestRuleTemplateLevel3</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+     <documentType>
+      <name>CountryMaintenanceDocument</name>
+      <parent>RiceDocument</parent>
+      <label>CountryMaintenanceDocument</label>
+      <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <docHandler>${krad.url}/maintenance.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcountry.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CountyMaintenanceDocument</name>
+      <parent>RiceDocument</parent>
+      <label>CountyMaintenanceDocument</label>
+      <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcounty.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CampusTypeMaintenanceDocument</name>
+      <parent>RiceDocument</parent>
+      <label>CampusTypeMaintenanceDocument</label>
+      <docHandler>${krad.url}/maintenance.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcampustype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>TravelAccountMaintenanceDocument</name>
+  <parent>RiceDocument</parent>
+  <description>Create a New Travel Account Maintenance Document</description>
+  <label>Travel Account Maintenance Document</label>
+  <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+  <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+  <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+  <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+  <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+  <active>true</active>
+  <attributes>
+    <attribute>
+      <name>TravelAccountDocumentAccountNumberAttribute</name>
+    </attribute>
+  </attributes>
+  <routingVersion>2</routingVersion>
+  <routePaths>
+    <routePath>
+      <start name="Initiated" nextNode="PeopleFlows"/>
+      <requests name="PeopleFlows"/>
+    </routePath>
+  </routePaths>
+  <routeNodes>
+    <start name="Initiated">
+      <activationType>P</activationType>
+      <mandatoryRoute>false</mandatoryRoute>
+      <finalApproval>false</finalApproval>
+    </start>
+    <requests name="PeopleFlows">
+      <activationType>R</activationType>
+      <rulesEngine executorClass="edu.sampleu.travel.workflow.TravelAccountRulesEngineExecutor"/>
+    </requests>
+  </routeNodes>
+</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>RiceDocument</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>workflowdocumenttemplate description</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>quickstart</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RiceDocument.WKGRPREQ</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Workgroup Approval Rule</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">WorkflowAdmin</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchAttributeIndexTestDocument</documentType>
+			<ruleTemplate>SearchAttributeIndexTestRuleTemplateLevel1</ruleTemplate>
+			<description>SearchAttributeIndexTestRuleTemplateLevel1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchAttributeIndexTestDocument</documentType>
+			<ruleTemplate>SearchAttributeIndexTestRuleTemplateLevel2</ruleTemplate>
+			<description>SearchAttributeIndexTestRuleTemplateLevel2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchAttributeIndexTestDocument</documentType>
+			<ruleTemplate>SearchAttributeIndexTestRuleTemplateLevel3</ruleTemplate>
+			<description>SearchAttributeIndexTestRuleTemplateLevel3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user3</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

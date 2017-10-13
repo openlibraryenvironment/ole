@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="GenericTextArea" parent="Uif-InputField" abstract="true"
+        p:labelPlacement="TOP"
+        p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+    <property name="control">
+      <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40"/>
+    </property>
+  </bean>
+
+  <bean id="GenericTextField" parent="Uif-InputField" abstract="true"
+        p:labelPlacement="TOP"
+        p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+    <property name="control">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+  </bean>
+
+  <bean id="GenericTextFieldMedium" parent="GenericTextField" p:control.size="12"/>
+  <bean id="GenericTextFieldSmall" parent="GenericTextField" p:control.size="5"/>
+
+  <bean id="GenericFieldGroup" parent="Uif-VerticalFieldGroup" p:fieldLabel.cssClasses="labelTop" p:labelPlacement="TOP"
+        p:fieldLabel.renderColon="false"/>
+
+  <bean id="GenericHorizontalFieldGroup" parent="Uif-HorizontalFieldGroup" p:fieldLabel.cssClasses="labelTop"
+        p:labelPlacement="TOP"
+        p:fieldLabel.renderColon="false"/>
+
+  <bean id="GenericDateField" parent="GenericTextField">
+    <property name="control">
+      <bean parent="Uif-TextControl" p:size="10">
+        <property name="datePicker">
+          <bean parent="Uif-DatePicker"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="GenericSelection" parent="Uif-InputField" abstract="true"
+        p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"
+        p:fieldLabel.renderColon="false">
+    <property name="control">
+      <bean parent="Uif-DropdownControl">
+        <property name="options">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key=""/>
+            <bean parent="Uif-KeyLabelPair" p:key="1"/>
+            <bean parent="Uif-KeyLabelPair" p:key="2"/>
+            <bean parent="Uif-KeyLabelPair" p:key="3"/>
+            <bean parent="Uif-KeyLabelPair" p:key="4"/>
+            <bean parent="Uif-KeyLabelPair" p:key="5"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="GenericGroup" parent="Uif-VerticalBoxSection" p:disclosure.render="false"
+        p:header.cssClasses="group_header"/>
+
+  <bean id="genericTextGroup" parent="Uif-HorizontalBoxSection">
+    <property name="disclosure.render" value="false"/>
+    <property name="items">
+      <list>
+        <bean parent="GenericTextField" p:required="true" p:propertyName="gField1"/>
+        <bean parent="GenericTextField" p:required="true" p:propertyName="gField2"/>
+        <bean parent="GenericTextField" p:required="true" p:propertyName="gField3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="GenericCollectionGroup" parent="Uif-StackedCollectionSection" p:disclosure.render="false"
+        p:header.cssClasses="group_header">
+    <property name="layoutManager">
+      <bean parent="Uif-StackedCollectionLayout-WithBoxItems"/>
+    </property>
+    <property name="addLineActions">
+      <list>
+        <bean id="GenericCollectionGroup-AddLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine">
+          <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}ks/icon_btn_add.png"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="lineActions">
+      <list>
+        <bean id="GenericCollectionGroup-DeleteLine" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine">
+          <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}ks/icon_btn_minus.png"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="GenericRadio" parent="Uif-InputField" abstract="true"
+        p:label="Radio" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"
+        p:fieldLabel.renderColon="false">
+    <property name="control">
+      <bean parent="Uif-VerticalRadioControl">
+        <property name="options">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="1"/>
+            <bean parent="Uif-KeyLabelPair" p:key="2"/>
+            <bean parent="Uif-KeyLabelPair" p:key="3"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="GenericCheckbox" parent="Uif-InputField" abstract="true"
+        p:labelPlacement="RIGHT"
+        p:fieldLabel.cssClasses="labelRight" p:fieldLabel.renderColon="false">
+    <property name="control">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
+  </bean>
+
+  <bean id="KSFormView" parent="Uif-FormView" p:breadcrumbs.render="false"
+        p:breadcrumbs.cssClasses="fl-container-flex75 fl-col breadcrumbs gutter-right">
+    <property name="applicationHeader">
+      <bean parent="Uif-HeaderOne" p:id="ks-banner" p:template="/WEB-INF/jsp/templates/StudentApplicationHeader.jsp"
+            p:cssClasses="fl-container-flex"/>
+    </property>
+    <property name="applicationFooter">
+      <bean parent="Uif-FooterBase" p:template="/WEB-INF/jsp/templates/StudentApplicationFooter.jsp"
+            p:cssClasses="fl-container-flex ks-page-bottom"/>
+    </property>
+  </bean>
+
+  <bean id="GenericCriteriaGroup" parent="Uif-VerticalBoxSection">
+    <property name="renderHeader" value="false"/>
+  </bean>
+
+  <bean id="AdvancedSearchQuickFinder" parent="Uif-QuickFinder">
+    <property name="lightBoxLookup">
+      <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+    </property>
+    <property name="quickfinderAction">
+      <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:cssClasses="kr-quickfinder action">
+      </bean>
+    </property>
+  </bean>
+
+</beans>

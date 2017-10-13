@@ -1,0 +1,106 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- StickyHeader demo -->
+  <bean id="Demo-UnifiedHeader-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoUnifiedHeader.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.view.View"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-UnifiedHeader-Example1"/>
+        <ref bean="Demo-UnifiedHeader-Example2"/>
+        <ref bean="Demo-UnifiedHeader-Example3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-UnifiedHeader-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Unified exampl"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-UnifiedHeader-View1&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-UnifiedHeader-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Non-Unified example"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-UnifiedHeader-View2&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-UnifiedHeader-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Additional unified header options"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-UnifiedHeader-View3&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-UnifiedHeader-View1" parent="Demo-UnifiedHeader-BaseView">
+    <!-- ex:Demo-UnifiedHeader-Example1 start-->
+    <property name="unifiedHeader" value="true"/>
+    <!-- ex:Demo-UnifiedHeader-Example1 end-->
+  </bean>
+
+  <bean id="Demo-UnifiedHeader-View2" parent="Demo-UnifiedHeader-BaseView">
+    <!-- ex:Demo-UnifiedHeader-Example2 start-->
+    <property name="unifiedHeader" value="false"/>
+    <!-- ex:Demo-UnifiedHeader-Example2 end-->
+  </bean>
+
+  <bean id="Demo-UnifiedHeader-View3" parent="Demo-UnifiedHeader-BaseView">
+    <!-- ex:Demo-UnifiedHeader-Example3 start-->
+    <property name="header.metadataText" value="metadata information"/>
+    <property name="header.areaTitleText" value="Area Title"/>
+    <property name="header.supportTitleText" value="Custom Support/Page title"/>
+    <!-- ex:Demo-UnifiedHeader-Example3 end-->
+  </bean>
+
+
+  <bean id="Demo-UnifiedHeader-BaseView" parent="Uif-FormView">
+    <property name="headerText" value="View Header"/>
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation">
+        <property name="parentViewLabel" value="Home"/>
+        <property name="parentViewUrl.viewId" value="KradSampleAppHome"/>
+        <property name="parentViewUrl.controllerMapping" value="/kradsampleapp"/>
+      </bean>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="Demo-StickyHeaderFooter-Page1"/>
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

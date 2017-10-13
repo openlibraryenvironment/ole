@@ -1,0 +1,159 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/kim/impl/config/_KimCommonSpringBeans.xml"/>
+
+  <bean id="rice.kim.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl"
+        p:cacheManager-ref="kimLocalCacheManager"/>
+  
+  <bean id="rice.kim.remote.import" abstract="true" lazy-init="true"
+        class="org.kuali.rice.core.api.resourceloader.LazyResourceFactoryBean"
+        p:serviceNamespace-ref="rice.kim.serviceNamespace"/>
+
+  <bean id="kimGroupService"
+        parent="rice.kim.remote.import"
+        p:serviceName="groupService"
+        p:objectType="org.kuali.rice.kim.api.group.GroupService"/>
+
+  <bean id="kimIdentityService"
+        parent="rice.kim.remote.import"
+        p:serviceName="identityService"
+        p:objectType="org.kuali.rice.kim.api.identity.IdentityService"/>
+
+  <bean id="kimPermissionService"
+        parent="rice.kim.remote.import"
+        p:serviceName="permissionService"
+        p:objectType="org.kuali.rice.kim.api.permission.PermissionService"/>
+
+  <bean id="kimResponsibilityService"
+        parent="rice.kim.remote.import"
+        p:serviceName="responsibilityService"
+        p:objectType="org.kuali.rice.kim.api.responsibility.ResponsibilityService"/>
+
+  <bean id="kimRoleService"
+        parent="rice.kim.remote.import"
+        p:serviceName="roleService"
+        p:objectType="org.kuali.rice.kim.api.role.RoleService"/>
+
+  <bean id="kimTypeInfoService"
+        parent="rice.kim.remote.import"
+        p:serviceName="kimTypeInfoService"
+        p:objectType="org.kuali.rice.kim.api.type.KimTypeInfoService"/>
+
+  <bean id="kimModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration"
+        p:namespaceCode="KR-IDM"
+        p:dataSourceName="kimDataSource"
+        p:initializeDataDictionary="true">
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimPhoneType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/AffiliationType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/CitizenshipStatus.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/EmailType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/EmploymentStatus.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/EmploymentType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/EntityNameType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/EntityType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/ExternalIdentifierType.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimAddressType.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/identity/PersonImpl.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/role/RoleBo.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/role/RoleMemberBo.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/group/Group.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimAttributes.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentAffiliation.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentEmploymentInfo.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentCitizenship.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentName.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentAddress.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentPhone.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentEmail.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentGroup.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentRole.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimDocumentRoleMember.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/GroupDocumentMember.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/RoleDocumentDelegationMember.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimDocumentRoleResponsibilityAction.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/KimDocumentRoleQualifier.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/common/attribute/KimAttributeData.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/GroupDocumentQualifier.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/RoleDocumentDelegationMemberQualifier.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonDocumentPrivacy.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/type/KimType.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/responsibility/ResponsibilityTemplate.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/responsibility/Responsibility.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/responsibility/UberResponsibility.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/permission/UberPermission.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/permission/PermissionTemplate.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/permission/PermissionBo.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/common/delegate/DelegateBo.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/common/attribute/KimAttribute.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/permission/PermissionAttribute.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/responsibility/ResponsibilityAttribute.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/responsibility/ReviewResponsibility.xml</value>
+        <value>classpath:org/kuali/rice/kim/bo/datadictionary/GenericPermission.xml</value>
+        <value>classpath:org/kuali/rice/kim/impl/responsibility/ReviewResponsibility.xml</value>
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.kim.</value>
+      </list>
+    </property>
+    <property name="externalizableBusinessObjectImplementations">
+      <map>
+        <entry key="org.kuali.rice.kim.api.identity.Person"
+               value="org.kuali.rice.kim.impl.identity.PersonImpl"/>
+        <entry key="org.kuali.rice.kim.framework.role.RoleEbo"
+               value="org.kuali.rice.kim.impl.role.RoleBo"/>
+        <entry key="org.kuali.rice.kim.framework.group.GroupEbo"
+               value="org.kuali.rice.kim.impl.group.GroupBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.email.EntityEmailTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.email.EntityEmailTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.address.EntityAddressTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.address.EntityAddressTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.affiliation.EntityAffiliationTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.citizenship.EntityCitizenshipStatusEbo"
+               value="org.kuali.rice.kim.impl.identity.citizenship.EntityCitizenshipStatusBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.employment.EntityEmploymentStatusEbo"
+               value="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentStatusBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.employment.EntityEmploymentTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.name.EntityNameTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.name.EntityNameTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.EntityTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.EntityTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.external.EntityExternalIdentifierTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.external.EntityExternalIdentifierTypeBo"/>
+        <entry key="org.kuali.rice.kim.framework.identity.phone.EntityPhoneTypeEbo"
+               value="org.kuali.rice.kim.impl.identity.phone.EntityPhoneTypeBo"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="kimModule" class="org.kuali.rice.kim.impl.services.KimRemoteModuleService"
+        p:moduleConfiguration-ref="kimModuleConfiguration"
+        p:kualiModuleService-ref="rice.kim.import.kualiModuleService"/>
+</beans>

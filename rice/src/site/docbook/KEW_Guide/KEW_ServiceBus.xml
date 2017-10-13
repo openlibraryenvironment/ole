@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_ServiceBus" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>KEW Usage of the Kuali Service Bus</title>
+    <section>
+        <title>General Usage</title>
+        <para>The Kuali Enterprise Workflow engine makes use of both synchronous service
+            endpoints and asynchronous messaging features from the Kuali Service Bus.</para>
+        <para>Most asynchronous processing that KEW does is implemented using asynchronous
+            messaging on the service bus. This includes:<orderedlist>
+                <listitem>
+                    <para>Workflow engine processing </para>
+                </listitem>
+                <listitem>
+                    <para>Blanket approval orchestration </para>
+                </listitem>
+                <listitem>
+                    <para>Action processing for actions taken directly from the Action List
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Re-resolving actions requests resulting from a responsibility change
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Sending email reminders </para>
+                </listitem>
+                <listitem>
+                    <para>Distributed cache flush notifications </para>
+                </listitem>
+            </orderedlist></para>
+        <para>In each of these cases, there exists a service that processes asynchronous
+            messages and performs the appropriate actions for each of these functions.</para>
+        <para>In terms of synchronous services, Kuali Enterprise Workflow publishes two
+            different types of services. One is used for performing workflow document actions
+            (such as creating, approving, disapproving, etc.). The other is used to perform
+            various query or read-only operations against the workflow system.</para>
+    </section>
+    <section>
+        <title>Implications of using "Synchronous" KSB messaging with KEW</title>
+        <para>For general information on synchronous messaging and its implications in the KSB,
+            please read "Implications of synchronous vs. asynchronous Message Deliver" in the
+            KSB technical reference guide.</para>
+        <para>In terms of Kuali Enterprise Workflow, the usage of synchronous messing means that
+            operations like workflow engine processing will happen immediately and synchronously
+            at the time it's invoked.</para>
+        <para>The main implication here besides what is listed in the KSB documentation is that,
+            since message exception handling isn't implemented, exception routing does not work
+            when using synchronous KSB messaging.</para>
+        <para>This means that if this messaging model is being used in a batch job, or similar
+            type of program, routing exceptions will need to be manually caught. If it's desired
+            to place a document into exception status from here, there are methods on the KEW
+            APIs to do this manually.</para>
+    </section>
+</chapter>

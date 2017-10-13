@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Field Groups
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-FieldGroups" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean id="UifCompView-FieldGroup1" parent="Uif-VerticalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field80">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="5"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="field121">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="21"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-FieldGroup2" parent="Uif-HorizontalFieldGroup" p:label="Field Group 2">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field122" p:fieldLabel.render="false">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="5"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="field123" p:fieldLabel.render="false">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="21"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-FieldGroup3" parent="Uif-HorizontalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field124" p:fieldLabel.render="false">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="5"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="find"
+                    p:actionScript="alert('You clicked a button');"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Message Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-MessageFields" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean id="UifCompView-MessageField1" parent="Uif-Message"/>
+        <bean id="UifCompView-MessageFieldWithExpression" parent="Uif-Message"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Syntax Highlighter
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-SyntaxHighlighters" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean id="UifCompView-SyntaxHighlighter1" parent="Uif-SyntaxHighlighter" p:sourceCode='@{sourceCodeField}'/>
+        <bean id="UifCompView-SyntaxHighlighter2" parent="Uif-SyntaxHighlighter" p:sourceCode='@{sourceCodeField}'
+              p:showCopyConfirmation="true"/>
+        <bean id="UifCompView-SyntaxHighlighter3" parent="Uif-SyntaxHighlighter" p:sourceCode='@{sourceCodeField}'
+              p:allowCopy="false"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Attribute Security
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-AttributeSecurity" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="GenericTextField" p:propertyName="mField1">
+          <property name="componentSecurity.attributeSecurity">
+            <bean parent="AttributeSecurity">
+              <property name="mask" value="true"/>
+              <property name="maskFormatter">
+                <bean parent="MaskFormatterLiteral" p:literal="*********"/>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <bean parent="GenericTextField" p:propertyName="mField2">
+          <property name="componentSecurity.attributeSecurity">
+            <bean parent="AttributeSecurity">
+              <property name="partialMask" value="true"/>
+              <property name="partialMaskFormatter">
+                <bean parent="MaskFormatterSubString" p:maskLength="5"/>
+              </property>
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Image Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-ImageFields" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean id="UifCompView-ImageField1" parent="Uif-ImageField"
+              p:source="@{#ConfigProperties['krad.externalizable.images.url']}pdf.png"/>
+        <bean id="UifCompView-ImageField2" parent="Uif-ImageField" p:fieldLabel.render="false" p:cssClasses="kr-photo"
+              p:source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Action Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-ActionFields" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-SecondaryActionButton-Small" id="submitButton1">
+          <property name="actionLabel" value="Popover Form Action"/>
+          <property name="actionScript"
+                    value="openPopupContent(e,'UifCompView-PopoverContent-1');"/>
+        </bean>
+        <bean id="UifCompView-PopoverContent-1" parent="Uif-HorizontalBoxSection">
+          <property name="cssClasses">
+            <list>
+              <value>uif-bubblepopup-content</value>
+            </list>
+          </property>
+          <property name="style" value="margin-bottom:0;padding-left:10px;"/>
+          <property name="hidden" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop">
+                <property name="propertyName" value="field100"/>
+                <property name="label" value="Field 1"/>
+                <property name="helpSummary" value="Standard KRAD 'helpSummary' property"/>
+              </bean>
+              <bean parent="Uif-InputField-LabelTop">
+                <property name="propertyName" value="field101"/>
+                <property name="label" value="Field 2"/>
+              </bean>
+              <bean parent="Uif-InputField-LabelTop">
+                <property name="propertyName" value="field102"/>
+                <property name="label" value="Field 3"/>
+                <property name="required" value="true"/>
+              </bean>
+              <bean parent="Uif-SecondaryActionButton-Small">
+                <property name="style" value="margin-top:1.5em;"/>
+                <property name="actionLabel" value="Button"/>
+                <property name="actionScript" value="alert('You clicked a button!');"/>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean id="UifCompView-ActionField1" parent="Uif-ActionLink" p:actionScript="alert('You clicked the link');"/>
+
+        <bean id="UifCompView-ActionField2" parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:preSubmitCall="return testPresubmitCall()"/>
+
+        <bean id="UifCompView-ActionField3" parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:preSubmitCall="return testPresubmitCall2(this, 'stop')"/>
+
+        <bean id="UifCompView-ActionField4" parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:ajaxSubmit="false" p:preSubmitCall="var valid=true;return valid;"/>
+
+        <bean id="UifCompView-ActionField5" parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:successCallback="testSuccessCallback(responseContents)"/>
+
+        <bean id="UifCompView-ActionField6" parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:performClientSideValidation="true"/>
+
+        <bean id="UifCompView-ActionField7" parent="Uif-ActionLink" p:methodToCall="errorCheck"
+              p:errorCallback="testErrorCallback"/>
+
+        <bean id="UifCompView-ActionField8" parent="Uif-ActionLink" p:methodToCall="redirectCheck" p:ajaxSubmit="true"/>
+
+        <bean id="UifCompView-ActionField9" parent="Uif-ActionLink" p:actionImagePlacement="RIGHT"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean id="UifCompView-ActionField10" parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField11" parent="Uif-ActionLink" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean id="UifCompView-ActionField12" parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField13" parent="Uif-ActionImage" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}down.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField14" parent="Uif-PrimaryActionButton"
+              p:actionScript="alert('You clicked a button');"/>
+
+        <bean id="UifCompView-ActionField15" parent="Uif-PrimaryActionButton" p:actionImagePlacement="BOTTOM"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField16" parent="Uif-PrimaryActionButton" p:actionImagePlacement="TOP"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField17" parent="Uif-PrimaryActionButton" p:actionImagePlacement="LEFT"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField18" parent="Uif-PrimaryActionButton" p:actionImagePlacement="RIGHT"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean id="UifCompView-ActionField19" parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ActionField20" parent="Uif-PrimaryActionButton" p:methodToCall="foo" p:disabled="true"/>
+
+        <bean id="UifCompView-ActionField21" parent="Uif-ActionField" p:methodToCall="foo">
+          <property name="actionImage">
+            <bean id="UifCompView-ActionField22" parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Link Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-LinkFields" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean id="UifCompView-LinkField1" parent="Uif-LinkField" p:href="http://www.kuali.org"/>
+
+        <bean id="UifCompView-LinkField2" parent="Uif-LinkField" p:target="_blank" p:href="http://www.kuali.org">
+          <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-LinkField3" parent="Uif-LinkGroup" p:groupBeginDelimiter="[" p:groupEndDelimiter="]"
+              p:linkSeparator="|">
+          <property name="items">
+            <list>
+              <bean id="UifCompView-LinkField4" parent="Uif-ActionLink"
+                    p:actionScript="alert('You clicked the link');"/>
+              <bean id="UifCompView-LinkField5" parent="Uif-ActionLink"
+                    p:actionScript="alert('You clicked the link');"/>
+              <bean id="UifCompView-LinkField6" parent="Uif-ActionLink"
+                    p:actionScript="alert('You clicked the link');"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="UifCompView-SubList1" parent="Uif-ListSubSection" p:headerText="Accordion Item 1">
+    <property name="layoutManager">
+      <bean parent="Uif-OrderedListLayout"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Item 1"/>
+        <bean parent="Uif-Message" p:messageText="Item 2"/>
+        <bean parent="Uif-Message" p:messageText="Item 3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="UifCompView-SubList2" parent="Uif-ListSubSection" p:headerText="Accordion Item 2">
+    <property name="layoutManager">
+      <bean parent="Uif-OrderedListLayout"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Item 1"/>
+        <bean parent="Uif-Message" p:messageText="Item 2"/>
+        <bean parent="Uif-Message" p:messageText="Item 3"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Other Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-OtherFields" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="UifCompView-Accordion1" parent="Uif-AccordionSection">
+          <property name="items">
+            <list>
+              <ref bean="UifCompView-SubList1"/>
+              <ref bean="UifCompView-SubList2"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-List1" parent="Uif-ListSection">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Item 1"/>
+              <bean parent="Uif-Message" p:messageText="Item 2"/>
+              <bean parent="Uif-Message" p:messageText="Item 3"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-List2" parent="Uif-ListSection">
+          <property name="layoutManager">
+            <bean parent="Uif-OrderedListLayout"/>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-Message" p:messageText="Item 1"/>
+              <bean parent="Uif-Message" p:messageText="Item 2"/>
+              <bean parent="Uif-Message" p:messageText="Item 3"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-OtherField1" parent="Uif-TabSection">
+          <property name="items">
+            <list>
+              <bean parent="UifCompView-TextFields3"/>
+              <bean parent="UifCompView-TextAreas"/>
+            </list>
+          </property>
+          <property name="tabsWidget.position" value="BOTTOM"/>
+        </bean>
+
+        <bean id="UifCompView-OtherField2" parent="Uif-TreeSection">
+          <property name="propertyName" value="tree1"/>
+        </bean>
+
+        <bean id="UifCompView-OtherField3" parent="Uif-TreeSection">
+          <property name="propertyName" value="tree2"/>
+          <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+              <property name="labelPrototype">
+                <bean parent="Uif-Message"/>
+              </property>
+              <property name="dataGroupPrototype">
+                <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                  <property name="items">
+                    <list>
+                      <bean parent="Uif-HorizontalFieldGroup">
+                        <property name="items">
+                          <list>
+                            <bean id="UifCompView-OtherField4" parent="Uif-InputField" p:propertyName="field1"
+                                  p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
+                            <bean id="UifCompView-OtherField5" parent="Uif-InputField" p:propertyName="field2"
+                                  p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
+                            <bean id="UifCompView-OtherField6" parent="Uif-InputField" p:propertyName="field3"
+                                  p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
+                            <bean id="UifCompView-OtherField7" parent="Uif-InputField" p:propertyName="field4"
+                                  p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
+                          </list>
+                        </property>
+                      </bean>
+                    </list>
+                  </property>
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Iframe" p:width="800px" p:height="550px" p:source="http://www.kuali.org"/>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="UifCompView-ScrollableGroups" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean id="UifCompView-ScrollableGroup1" parent="Uif-Disclosure-VerticalBoxSubSection">
+          <property name="width" value="30%"/>
+          <property name="scrollpane">
+            <bean parent="Uif-Scrollpane">
+              <property name="height" value="100px"/>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean id="UifCompView-ScrollableGroup2" parent="Uif-Message"/>
+
+              <bean parent="Uif-InputField" p:propertyName="field80">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="5"/>
+                </property>
+              </bean>
+
+              <bean id="UifCompView-ScrollableGroup3" parent="Uif-Message"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-ScrollableGroup4" parent="Uif-VerticalBoxGroup">
+          <property name="width" value="30%"/>
+          <property name="scrollpane">
+            <bean parent="Uif-Scrollpane">
+              <property name="height" value="100px"/>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean id="UifCompView-ScrollableGroup5" parent="Uif-Message"/>
+
+              <bean parent="Uif-InputField" p:propertyName="field80">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="5"/>
+                </property>
+              </bean>
+
+              <bean id="UifCompView-ScrollableGroup6" parent="Uif-Message"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

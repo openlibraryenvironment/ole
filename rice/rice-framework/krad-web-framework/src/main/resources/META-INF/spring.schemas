@@ -1,0 +1,9 @@
+http\://www.kuali.org/krad/schema.xsd=/META-INF/krad-schema.xsd
+http\://www.kuali.org/krad/krad-elements.xsd=/META-INF/krad-elements.xsd
+http\://www.kuali.org/krad/krad-baseTypes.xsd=/META-INF/krad-baseTypes.xsd
+http\://www.kuali.org/krad/krad-types1.xsd=/META-INF/krad-types1.xsd
+http\://www.kuali.org/krad/krad-types2.xsd=/META-INF/krad-types2.xsd
+http\://www.kuali.org/krad/krad-types3.xsd=/META-INF/krad-types3.xsd
+# Below are included for future-proofing purposes only
+http\://www.kuali.org/krad/krad-types4.xsd=/META-INF/krad-types4.xsd
+http\://www.kuali.org/krad/krad-types5.xsd=/META-INF/krad-types5.xsd

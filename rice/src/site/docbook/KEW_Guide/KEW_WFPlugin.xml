@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_WFPlugin" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Workflow Plugin Guide</title>
+        <section>
+            <title>Overview</title>
+            <para>Kuali Enterprise Workflow (KEW) has a plugin framework that allows you to load
+                code into the core system without requiring changes to the KEW source code or
+                configuration. This framework provides:<itemizedlist>
+                    <listitem>
+                        <para>A custom class loading space </para>
+                    </listitem>
+                    <listitem>
+                        <para>Hot deploy and reload capabilities </para>
+                    </listitem>
+                    <listitem>
+                        <para>Participation in Workflow's JTA transactions </para>
+                    </listitem>
+                    <listitem>
+                        <para>An application plugin for installation of routing components </para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Application Plugin</title>
+            <para>Use an application plugin to deploy an application area's routing components into
+                Workflow. These routing components might include:<itemizedlist>
+                    <listitem>
+                        <para>Rule attributes </para>
+                    </listitem>
+                    <listitem>
+                        <para>Searchable attributes </para>
+                    </listitem>
+                    <listitem>
+                        <para>Post processors </para>
+                    </listitem>
+                    <listitem>
+                        <para>Route modules </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>If these components require access to a data source, then the application plugin
+                also configures the data source and allows it to participate in Workflow's JTA
+                transactions. </para>
+            <para>In addition to routing components, the application plugin can also configure a
+                plugin listener and a Resource Loader. The Resource Loader is responsible for
+                loading resources (both Java classes and service implementations) from the plugin
+                and providing them to the core system.</para>
+            <para>Application plugins are hot-deployable, so a restart of the server is not required
+                when they are added or modified. The core system searches for plugins in a directory
+                configured in the application configuration (see KEW Module Configuration).</para>
+        </section>
+        <section>
+            <title>Plugin Layout</title>
+            <para>You build the plugin as a set of files and directories. You then zip this
+                structure and place it in the appropriate Workflow plugin space. For application
+                plugins, this directory location is defined in the core system configuration.</para>
+            <para>The name of the zip file (minus the .zip extension) is used as the name of the
+                plugin. The Plugin Loader only looks for files that end in .zip when determining
+                whether to load and hot-deploy a plugin.</para>
+            <para>In general, application plugins can be named as desired. However, there is one
+                reserved plugin name:</para>
+            <para>
+                <emphasis role="bold">shared</emphasis> - A special plugin that provides a shared
+                classloading space to all plugins (see Plugin Shared Space). </para>
+            <para>The directory structure of a plugin is similar to that of a web application. It
+                should have this structure:</para>
+            <programlisting>classes/
+
+lib/
+META-INF/
+    workflow.xml
+</programlisting>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">classes</emphasis> - All java .class files that
+                            are used by the plugin should reside in this directory </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">lib</emphasis> - All .jar library files that are
+                            used by the plugin should reside in this directory </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">META-INF</emphasis> - The <emphasis role="bold"
+                                >workflow.xml</emphasis> configuration file must reside in this
+                            directory </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Plugin Configuration</title>
+            <para>Application plugins usually provide a subset of the functionality that an
+                institutional plugin provides, since the institutional plugin can provide core
+                service overrides.</para>
+            <para>The plugin framework provides two configuration points:<orderedlist>
+                    <listitem>
+                        <para>Plugin XML Configuration (described below) </para>
+                    </listitem>
+                    <listitem>
+                        <para>Transaction and DataSource Configuration </para>
+                    </listitem>
+                </orderedlist></para>
+            <section>
+                <title>Plugin XML Configuration</title>
+                <para>The XML configuration is defined in a file called workflow.xml. The format of
+                    this file is relatively simple. An example workflow.xml file:</para>
+                <programlisting>&lt;plug-in>
+    &lt;param name="my.param.1">abc&lt;/param>
+    &lt;param name="my.param.2">123&lt;/param>
+    &lt;listener>
+        &lt;listener-class>org.kuali.rice.core.ApplicationInitializeListener&lt;/listener-class>
+    &lt;/listener>
+    &lt;resourceLoader class="my.ResourceLoader"/>
+&lt;/plug-in>
+</programlisting>
+                <para>We'll explain each of these elements in more detail below:</para>
+            </section>
+            <section>
+                <title>Plugin Parameters</title>
+                <para>The parameter configuration uses XML as the syntax. These parameters are
+                    placed into a configuration context for the plugin. The configuration inherits
+                    (and can override) values from the parent configurations. The configuration
+                    hierarchy is core -> institutional plugin -> application plugins.</para>
+                <para>A plugin can access its configuration using this code:</para>
+                <programlisting>org.kuali.rice.Config config = org.kuali.rice.Core.getCurrentContextConfig();</programlisting>
+                <section>
+                    <title>Plugin Listeners</title>
+                    <para>You can define one or more listeners that implement the interface
+                            <emphasis role="bold"
+                            >org.kuali.rice.kew.plugin.PluginListener</emphasis>. These can be used
+                        to receive plugin lifecycle notifications from KEW.</para>
+                    <para>The interface defines two methods to implement:<itemizedlist>
+                            <listitem>
+                                <para>Invoked when a plugin starts up</para>
+                                <programlisting>public void pluginInitialized(Plugin plugin);</programlisting>
+                            </listitem>
+                            <listitem>
+                                <para>Invoked when a plugin shuts down</para>
+                                <programlisting>public void pluginDestroyed(Plugin plugin);</programlisting>
+                            </listitem>
+                    </itemizedlist></para>
+                    <para>It is legal to define more than one plugin listener. Plugin listeners are
+                        started in the order in which they appear in the configuration file (and
+                        stopped in reverse order).</para>
+                </section>
+                <section>
+                    <title>Resource Loader</title>
+                    <para>A plugin can define an instance of <emphasis role="bold"
+                            >org.kuali.rice.resourceloader.ResourceLoader</emphasis> to handle the
+                        loading of classes and services. When KEW attempts to load classes or locate
+                        services, it searches the institutional plugin, then the core, then any
+                        application plugins. It does this by invoking the <emphasis role="bold"
+                            >getObject(..)</emphasis> and <emphasis role="bold"
+                            >getService(...)</emphasis> methods on the plugin's
+                        ResourceLoader.</para>
+                    <para>If no ResourceLoader is defined in the plugin configuration, then the
+                        default implementation <emphasis role="bold"
+                            >org.kuali.rice.resourceloader.BaseResourceLoader</emphasis> is used.
+                        The BaseResourceLoader lets you examine the plugin's classloader for objects
+                        when requested (such as post processors, attributes, etc.). This is
+                        sufficient for most application plugins.</para>
+                    <para>For more information on configuring service overrides in a plugin, see the
+                        Overriding Services with a ResourceLoader section below.</para>
+                </section>
+                <section>
+                    <title>Configuring an Extra Classpath</title>
+                    <para>Sometimes it is desirable to be able to point in a plugin to classes or
+                        library directories outside of the plugin space. This can be particularly
+                        useful in development environments, where the plugin uses many of the same
+                        classes as the main application that is integrating with Workflow. In these
+                        scenarios, configuring an extra Classpath may mean you don't need to jar or
+                        copy many common class files.</para>
+                    <para>To do this, specify these properties in your plugin's <emphasis
+                            role="bold">workflow.xml</emphasis> file:<orderedlist>
+                            <listitem>
+                                <para><emphasis role="bold">extra.classes.dir</emphasis> - Path to
+                                    an additional directory of <emphasis role="bold"
+                                        >.class</emphasis> files or resources to include in the
+                                    plugin's classloader </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">extra.lib.dir</emphasis> - Path to an
+                                    additional directory of <emphasis role="bold">.jar</emphasis>
+                                    files to include in the plugin's classloader </para>
+                            </listitem>
+                        </orderedlist></para>
+                    <para>The classloader then includes these classes and/or lib directories into
+                        its classloading space, in the same manner that it includes the standard
+                            <emphasis role="bold">classes</emphasis> and <emphasis role="bold"
+                            >lib</emphasis> directories. The classloader always looks in the default
+                        locations first, and then defers to the extra classpath if it cannot locate
+                        the class or resource.</para>
+                </section>
+            </section>
+            <section>
+                <title>Transaction and DataSource Configuration</title>
+                <para>The easiest method to configure Datasources and Transactions is through the
+                    Spring Framework. Here is a snippet of Spring XML that shows how to wire up a
+                    Spring Transaction Manager inside of a plugin:</para>
+                <programlisting>&lt;bean id="userTransaction" class="org.kuali.rice.jta.UserTransactionFactoryBean" />
+
+&lt;bean id="jtaTransactionManager" class="org.kuali.rice.jta.TransactionManagerFactoryBean" />
+
+&lt;bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+    &lt;property name="userTransaction" ref="userTransaction" />
+    &lt;property name="transactionManager" ref="jtaTransactionManager" />
+    &lt;property name="defaultTimeout" value="${transaction.timeout}"/>
+&lt;/bean></programlisting>
+                <para>The factory beans in the above XML will locate the <emphasis role="bold"
+                        >javax.trasaction.UserTransaction</emphasis> and <emphasis role="bold"
+                        >java.transaction.TransactionManager</emphasis>, which are configured in the
+                    core system. These can then be referenced and injected into other beans (such as
+                    the Spring JtaTransactionManager).</para>
+                <para>Once you configure the transaction manager, you also need to configure any
+                    DataSources you require. Here's an example of configuring a DataSource that
+                    participates in Atomikos JTA transactions (the default Transaction Manager
+                    distributed with Rice Standalone).</para>
+                <programlisting>&lt;bean id="myDataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+    &lt;property name="uniqueResourceName" value="myDataSource"/>
+    &lt;property name="driverClassName" value="..."/>
+    &lt;property name="url" value="..."/>  
+    ...
+&lt;/bean></programlisting>
+                <para>So, the application can access it's datasource by either injecting it into
+                    Spring services or by fetching it directly from the Spring context. </para>
+                <para>You can find more information on configuring Rice DataSources and
+                    TransactionManagers in Datasource and JTA Configuration.</para>
+            </section>
+        </section>
+        <section>
+            <title>OJB Configuration within a Plugin</title>
+            <para>If your plugin needs to use OJB, there are a few other configuration steps that
+                you need to take. First, in your Spring file, add the following line to allow Spring
+                to locate OJB and the JTA Transaction Manager:</para>
+            <programlisting>&lt;bean id="ojbConfigurer" class="org.kuali.rice.ojb.JtaOjbConfigurer">
+    &lt;property name="transactionManager" ref="jtaTransactionManager" />
+
+&lt;/bean>
+</programlisting>
+            <para>Next, for OJB to plug into Workflow's JTA transactions, you need to modify some
+                settings in the plugin's <emphasis role="bold">OJB.properties</emphasis> file (or
+                the equivalent):</para>
+            <programlisting>PersistenceBrokerFactoryClass=org.apache.ojb.broker.core.PersistenceBrokerFactorySyncImpl
+ImplementationClass=org.apache.ojb.odmg.ImplementationJTAImpl
+OJBTxManagerClass=org.apache.ojb.odmg.JTATxManager
+ConnectionFactoryClass=org.kuali.rice.ojb.RiceDataSourceConnectionFactory
+JTATransactionManagerClass=org.kuali.rice.ojb.TransactionManagerFactory
+</programlisting>
+            <para>The first three properties listed are part of the standard setup for using JTA
+                with OJB. However, there are custom Rice implementations:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold"
+                                >org.kuali.rice.ojb.RiceDataSourceConnectionFactory</emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold"
+                                >org.kuali.rice.ojb.TransactionManagerFactory</emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold"
+                                >org.kuali.rice.ojb.RiceDataSourceConnectionFactory</emphasis>
+                        </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>This OJB ConnectionFactory searches your Spring Context for a bean with the same
+                name as your <emphasis role="bold">jcd-alias</emphasis>. Here is what an OJB
+                connection descriptor might look like inside of a Workflow plugin:</para>
+            <programlisting>&lt;jdbc-connection-descriptor
+    jcd-alias="myDataSource"
+    default-connection="true"
+    platform="Oracle9i"
+    jdbc-level="3.0"
+    eager-release="false"
+    batch-mode="false"
+    useAutoCommit="0"
+    ignoreAutoCommitExceptions="false">
+    
+    &lt;sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl" />
+    &lt;object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl"/>
+&lt;/jdbc-connection-descriptor>
+</programlisting>
+            <para>Notice that the <emphasis role="bold">jcd-alias</emphasis> attribute matches the
+                name of the DataSource Spring bean defined in the example above.</para>
+            <para>Another important thing to notice in this configuration is that <emphasis
+                    role="bold">useAutoCommit</emphasis> is set to 0. This tells OJB not to change
+                the auto commit status of the connection because it is being managed by JTA.</para>
+            <para>Finally, when your plugin needs to use OJB, you need to use this:</para>
+            <programlisting>org.kuali.rice.ojb.TransactionManagerFactory</programlisting>
+            <para>This provides OJB with the <emphasis role="bold"
+                    >javax.transaction.TransactionManager</emphasis> that was injected into your
+                JtaOjbConfigurer, as in the example above.</para>
+        </section>
+        <section>
+            <title>Overriding Services with a ResourceLoader</title>
+            <para>For a service override, you need to define a custom ResourceLoader implementation
+                and configure it in your workflow.xml plugin configuration file. The
+                org.kuali.rice.resourceloader.ResourceLoader interface defines this relative
+                method:</para>
+            <programlisting>public Object getService(javax.xml.namespace.QName qname);</programlisting>
+            <para>When KEW is searching for services, it invokes this method on its plugins'
+                ResourceLoader implementations. The service name is a qualified name (as indicated
+                by the use of <emphasis role="bold">javax.xml.namespace.QName</emphasis>), but for
+                services being located from the core, service names typically contain only a local
+                part and no namespace.</para>
+            <para>The easiest way to implement a custom ResourceLoader is to create a class that
+                extends from <emphasis role="bold"
+                    >org.kuali.rice.resourceloader.BaseResourceLoader</emphasis> and just override
+                the <emphasis role="bold">getService(QName)</emphasis> method. The
+                BaseResourceLoader provides standard functionality for loading objects from
+                ClassLoaders, among other things.</para>
+            <para>For example, if you want to override the User Service, you might implement this
+                ResourceLoader:</para>
+            <programlisting>public class MyResourceLoader extends BaseResourceLoader {
+    public MyResourceLoader() {
+        super(new QName("MyResourceLoader"));
+	
+    }
+
+    @Override
+    public Object getService(QName serviceName) {
+        if ("enUserOptionsService".equals(serviceName.getLocalPart()) {
+            // return your custom implementation of org.kuali.rice.kew.useroptions.UserOptionsService
+        } else if (...) {
+            ...
+        } else if (...) {
+            ...
+        }
+        return super.getService(serviceName);
+    }
+}
+</programlisting>
+            <para>In the next section, we'll look at some of the services commonly overridden in an
+                institutional plugin</para>
+            <section>
+                <title>Commonly Overridden Services</title>
+                <para>In theory, you can override any service defined in the <emphasis role="bold"
+                        >org/kuali/workflow/resources/KewSpringBeans.xml</emphasis> file in the
+                    Institutional Plugin. What follows is a list of the most commonly overridden
+                    services:</para>
+                <para>
+                    <table frame="none" pgwide="1" tabstyle="striped">
+                        <?dbfo table-width="100%" ?>
+                        <title>Commonly Overridden Services</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="2.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Service Name </entry>
+                                    <entry>Interface </entry>
+                                    <entry>Description </entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>enUserOptionsService </entry>
+                                    <entry>org.kuali.rice.kew.useroptions.UserOptionsService </entry>
+                                    <entry>Provides User lookup and searching services </entry>
+                                </row>
+                                <row>
+                                    <entry>IdentityHelperService</entry>
+                                    <entry>org.kuali.rice.kew.identity.service.IdentityHelperService</entry>
+                                    <entry>Interfaces with KIM identity management services</entry>
+                                </row>
+                                <row>
+                                    <entry>enEmailService </entry>
+                                    <entry>org.kuali.rice.kew.mail.service.impl.DefaultEmailService</entry>
+                                    <entry>Provides email sending capabilities </entry>
+                                </row>
+                                <row>
+                                    <entry>enNotificationService </entry>
+                                    <entry>org.kuali.rice.ken.service.NotificationService </entry>
+                                    <entry>Provides callbacks for notifications within the system
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry>enEncryptionService </entry>
+                                    <entry>org.kuali.rice.core.service.EncryptionService </entry>
+                                    <entry>Allows for pluggable encryption implementations </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+                <section>
+                    <title>User Service</title>
+                    <para>The Workflow core uses the UserService to resolve and search for users.
+                        The UserService could be as simple as a static set of users or as complex
+                        and integrated as a university-wide user system. Your institution may choose
+                        how to implement this, as long as you provide capabilities for the ID types
+                        that you intend to use. At the very least, implementations are required for
+                        the <emphasis role="bold">WorkflowUserId</emphasis> and <emphasis
+                            role="bold">AuthenticationUserId</emphasis> types (and their
+                        corresponding VO beans). All of the UserId types must be unique across the
+                        entire set of users. </para>
+                    <para>The <emphasis role="bold">WorkflowUserId</emphasis> is typically
+                        associated with a unique numerical sequence value and the <emphasis
+                            role="bold">AuthenticationUserId</emphasis> is typically the username or
+                        network ID of the user.</para>
+                    <para>The default UserService implementation provides a persistent user store
+                        that allows you to create and edit users through the GUI. It also caches
+                        users for improved performance and implements an XML import for mass user
+                        import. Institutions usually override the default user service with an
+                        implementation that integrates with their own user repository.</para>
+                </section>
+                <section>
+                    <title>IdentityHelper Service</title>
+                    <para>The IdentityHelper service helps to interact with the KIM identity
+                        management services in the system. IdentityHelpers are identified in one of
+                        two ways:<orderedlist>
+                            <listitem>
+                                <para><emphasis role="bold">PrincipalId</emphasis> - A numerical
+                                    identifier for a KIM principal </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">Group</emphasis> – An object associated
+                                    with a group of principal users numerical identifier assigned to
+                                    a Workgroup </para>
+                            </listitem>
+                        </orderedlist></para>
+                    <para>Both of these object variables are implemented in KEW in the
+                        IdentityHelperServiceImpl file.</para>
+                </section>
+                <section>
+                    <title>Email Service</title>
+                    <para>The Email service is used to send emails from KEW. You can configure the
+                        default implementation when you configure KEW (see KEW Configuration).
+                        However, if more custom configuration is needed, then you can override the
+                        service in the plugin.</para>
+                    <para>For example, you could override this service if you need to make a secure
+                        and authorized SSL connection with an SMTP server because of security
+                        policies.</para>
+                </section>
+                <section>
+                    <title>Notification Service</title>
+                    <para>The Notification service is responsible for notifying users when they
+                        receive Action Items in their Action List.</para>
+                    <para>The default implementation simply sends an email (using the EmailService)
+                        to the user according to the individual user's preferences. A custom
+                        implementation might also notify other (external) systems in addition to
+                        sending the email.</para>
+                </section>
+                <section>
+                    <title>Encryption Service</title>
+                    <para>The Encryption service is responsible for encrypting document
+                        content.</para>
+                    <para>The default implementation uses DES to encrypt the document content. If
+                        the <emphasis role="bold">encryption.key</emphasis> configuration parameter
+                        is set as a <emphasis role="italic">Base64</emphasis> encoded value, then
+                        the document content is encrypted using that key. If it is not set, then
+                        document content will not be encrypted and will be stored in the database in
+                        plain text.</para>
+                </section>
+            </section>
+            <section>
+                <title>Plugin Shared Space</title>
+                <para>All plugins also load certain classes from a shared space. The shared space
+                    contains certain classes that link with certain libraries that might exist in
+                    each application or institutional plugin's classloader (such as OJB and Spring).
+                    Current classes that Workflow publishes in the <emphasis role="bold"
+                        >shared</emphasis> space are those in the shared module of the Rice project
+                        (<emphasis role="bold">rice-shared-version.jar</emphasis>). This is
+                    important because some of these classes link with libraries like Spring or OJB
+                    and since the plugin needs its own copy of these libraries, it needs to ensure
+                    that it doesn't retrieve these classes from any classloader but it's own.</para>
+            </section>
+        </section>
+</chapter>

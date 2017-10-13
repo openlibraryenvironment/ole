@@ -1,0 +1,3755 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" xml:id="groups" version="5.0">
+  <title>Groups</title>
+  <section>
+    <title>Groups</title>
+    <para>In the last chapter we learned a great deal about the Content Element and Field
+      component types. These types are essentially KRAD representations of the HTML content
+      markup. They form the palate from which to paint our picture.
+    </para>
+    <para>In this chapter, we will move on to the Group component. This is one of the general
+      Container types in KRAD. These allow us to bundle our fields together and structure them for
+      layout purposes. In other words, they allow us to organize our content into the top most
+      container, the view.
+    </para>
+    <para>A group component is represented by the org.kuali.rice.krad.uif.container.Group class.
+      This is the 'general' group component, meaning there are no restrictions on the types of
+      fields or content elements we can put into the group. Other special group types exist that
+      allow only a subset of fields and elements. They do this to target a more specify behavior.
+      For example, the LinkGroup only supports adding Link components. These group types have a
+      class that extends the Group class and add properties specific to the behavior or rendering
+      they provide.
+    </para>
+    <para>Besides holding fields and content elements, groups can also contain other groups. This
+      means we can nest groups within each other. Although a simple concept, it becomes very
+      powerful in terms of building our view. Essentially, we can break complete web page up into
+      several group layers. This process will be discussed more in the next section.
+    </para>
+    <para>As we stated in the UIF Overview, there are common properties for all containers. The
+      first of these is, of course, the container 'items'. This is the list of components that
+      belong to the container. By itself, the items container just performs grouping of the
+      components, it tells us nothing about how the items should be arranged on the page. For this
+      information, an object called a Layout Manager is associated with the group. The layout
+      manager encapsulates the information for how to arrange and decorate the items. Therefore, the
+      same group can be reused and presented in different ways without changing its associated
+      layout manager. A large part of this chapter will discuss the concept of layout managers and
+      the particular managers provided by KRAD out of the box.
+    </para>
+    <para>The items that are rendered form the majority of the group's contents. However, we can
+      configure additional content before and after the container items. The before content is known
+      as the group's header, while the after content is known as the group's footer. In code the
+      corresponding objects found on group are the Header and Footer groups. The Header component
+      contains another group itself. But in addition to containing a group with configurable items,
+      it also generates a HTML header tag (h tag) using the Header content element. The header
+      generally indicates visually the beginning of the group presentation. The footer is just a
+      standard group. It adds nothing special and is simply known as the footer because it falls
+      after the main group content.
+    </para>
+    <para>The group also allows an instructional text message to be configured. Similar to the
+      input field instructional message, this gives directions to the user for completing the
+      form. However, this applies to the group as a whole and not to an individual field.
+      Finally, also similar to the input field, the group contains an errors field component.
+      This is used for presenting error/warning/info messages that apply to the group
+      contents, or to display message counts.
+    </para>
+    <para>The group template controls how these various pieces are rendered. Basically the
+      rendering order is: header group, instructional message, errors field, container items
+      (delegate to layout manager), and footer.
+    </para>
+    <para>Ok, so where's the beans? There are several base beans provided for groups (they actually
+      have their own file 'UifGroupDefinitions.xml'). These correspond to various layout manager
+      configurations and the special types of groups. Therefore we will cover the beans with each
+      subsequent section.
+    </para>
+    <note>
+      <title>Group Base Bean</title>
+      <para>An abstract bean with name 'Uif-GroupBase' is provided from which all the group beans
+        extend. This sets the class, template, base style, errors field setup, and some disclosure
+        options. The use of abstract base beans is done throughout the framework to match the
+        abstract classes. Included in this is a top level bean named 'Uif-ComponentBase'. Therefore
+        the bean hierarchy closely resembles the actual class hierarchy.
+      </para>
+    </note>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>The group component allows us to bundle together components for layout
+            purposes
+          </para>
+        </listitem>
+        <listitem>
+          <para>The base group component is generic and can hold any field or content
+            element
+          </para>
+        </listitem>
+        <listitem>
+          <para>More special groups exist to extend a group and restrict the type of components that
+            can be added. They do so to target more specific behavior or rendering. An example is
+            the link group
+          </para>
+        </listitem>
+        <listitem>
+          <para>Groups can nest within each other, therefore we can organize our entire
+            view with groups
+          </para>
+        </listitem>
+        <listitem>
+          <para>Groups have an associated object called a layout manger. The layout manager
+            encapsulates information on how to present the group's items
+          </para>
+        </listitem>
+        <listitem>
+          <para>We can easily reuse a group and change its presentations by switching layout
+            managers
+          </para>
+        </listitem>
+        <listitem>
+          <para>Groups also allow content to be added before and after the group items. The before
+            content is configured with a header group, and the after content with a group
+            footer
+          </para>
+        </listitem>
+        <listitem>
+          <para>Instructional text message can also be configured for the group. It gives
+            the users directions on how to complete the set of fields within the
+            group
+          </para>
+        </listitem>
+        <listitem>
+          <para>Like input fields, groups have an associated errors group. This errors group
+            displays error/warning/info messages related to the group in general (or displays
+            message counts)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The group template controls how the various group parts are rendered. The
+            default template rendering order is: header group, instructional message,
+            errors field, group items (delegates to layout manager), and the
+            footer
+          </para>
+        </listitem>
+        <listitem>
+          <para>Several group base beans are provided that correspond to various
+            configurations with various layout managers
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Page Decomposition with Groups</title>
+    <para>Let's look more closely at how we use groups to organize our user interface contents into
+      one single view. So far we have learned that the view and group components are container
+      types. Let's think of a container as an area of the screen enclosed by a box shape. With this
+      in mind, we are going to work through the process of reverse engineering an interface (assume
+      we have a mock or wireframe) into the view and group containers.
+    </para>
+    <para>First we start with one large box that will cover the entire interface (everything in
+      the window, with the exception of any application header or footer such as the portal
+      wrapper).
+    </para>
+    <figure>
+      <title>One Large Box</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/pageLargeTextbox.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>This top level box will be our view container. The view is always at the top of the
+      hierarchy (not nested within any other component). To do the further breakdown, we need to
+      know the parts of a view component. We will cover this more in The View section, but besides
+      the standard container properties (header, footer, items) we also have a navigation and
+      breadcrumbs component that take up space within the view 'box'. In the 'classic' view template
+      provided with KRAD, the navigation can be a left vertical menu, or a top horizontal row of
+      tabs. The view breadcrumbs are rendered at the top of the page, followed by the view header.
+      The view footer will be the very last thing rendered. Assuming our mock has all of these
+      (which we can take out as needed) let's then block off those areas:
+    </para>
+    <figure>
+      <title>Full View Page</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/fullViewPage.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Notice after we mark off the pieces of the view we have an area left for content. This is
+      where we can add content with a Group component. This top level group (with view parent) is
+      known as a
+      <emphasis role="keyword">Page</emphasis>
+      and has a base bean named 'Uif-Page'. Since
+      each item in our view navigation will replace the page contents, we can have multiple Page
+      components associated with the view. These page components are thus configured through the
+      view's items list (from the Container interface).
+    </para>
+    <para>At this point, we could start adding field or content elements to our page group. However,
+      unless our page is very simple, we likely want to provide further groupings on the page
+      contents. This will allow the user to clearly see fields that go together and provide a
+      cleaner organization to our page. So to do this, we break our page into a set of vertical
+      boxes, each known as a section:
+    </para>
+    <figure>
+      <title>Vertical Sections</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/verticalSections.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Here we see we have divided the page into three groups. A group at this level is known
+      as a<emphasis role="keyword">Section</emphasis>. Again we could now add content to one or
+      all of our sections, but there might be a case where we need to divide again. Thus we
+      can break each section into a set of vertical boxes. These are known as
+      sub-sections:
+    </para>
+    <figure>
+      <title>Vertical SubSections</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/verticalSubSections.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>The first section we have divided into two groups and likewise for the third section.
+      A group at this level is called a<emphasis role="keyword">Sub-Section</emphasis>.
+    </para>
+    <para>There are a couple of things that should be noted from the example. First, each group
+      breakdown (section, sub-section) does not necessarily have the same height. The heights can
+      vary based on the contents. Furthermore, they do not necessarily have to stack vertically one
+      on top of another. This depends on the layout manager we use for the parent group. Finally,
+      the actual type of group (whether it the base group, collection group, or whatever) does not
+      matter. It is the level at which the group is at that makes the difference in our conceptual
+      naming. Below gives us another picture of the conceptual groupings.
+    </para>
+    <figure>
+      <title>Conceptual Groupings</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/KRAD_Conceptual_Groupings.png" scalefit="1"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>So what is the point of this? These are all just group components so why not just call
+      them that? That is a true point. However, recall we can have multiple bean definitions for the
+      same component. Therefore, the UIF provides a set of bean definitions with names that
+      correspond to these levels. These do various things for us. For example:
+    </para>
+    <orderedlist>
+      <listitem>
+        <para>Set up the correct header level for the corresponding group level. That way,
+          by correctly using the group levels for nesting, the generated headers will
+          reflect the nested group (will not end up with an h2 header within a group with
+          an h4 header).
+        </para>
+      </listitem>
+      <listitem>
+        <para>Defaults for the group's errors field will be setup based on best practice.</para>
+      </listitem>
+      <listitem>
+        <para>Additional style classes are added for the group level so that padding and
+          other visual treatments can be given.
+        </para>
+      </listitem>
+    </orderedlist>
+    <para>In general, it gives us a hook to treat groups differently based on where they are at in
+      the view. Besides the technical benefits, these names help to create a language between page
+      designers and developers for working together to create the user interface.
+    </para>
+    <note>
+      <title>Levels Past Sub-Section</title>
+      <para>There is no limit enforced for how deep groups can nest. Therefore, if needed, you can
+        nest groups within a sub-section and further down. However, base beans are not provided in
+        these cases, so you need to take care to set the header levels, error configuration, and
+        styling for these levels (or develop the base beans to represent them).
+      </para>
+    </note>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>Our entire interface can be broken down with the view component and a set
+            of groups
+          </para>
+        </listitem>
+        <listitem>
+          <para>We can decompose our page by drawing boxes and dividing</para>
+        </listitem>
+        <listitem>
+          <para>We start by drawing a box around the window content (excluding any application
+            header and footer such as portal navigation). This first box makes up the view content
+            area
+          </para>
+        </listitem>
+        <listitem>
+          <para>Besides the standard container parts (header, items, footer), the view also contains
+            a navigation and breadcrumbs component that takes up a 'box' of the view
+          </para>
+        </listitem>
+        <listitem>
+          <para>After boxing the view header, footer, navigation, and breadcrumbs, the remaining
+            content area is a group known as the page
+          </para>
+        </listitem>
+        <listitem>
+          <para>If we have navigation, the page contents can change for each navigation link. Thus
+            the view can contain multiple page components which are set in the view's items
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>If we have a simple page, we can start adding fields directly to the page group.
+            However, generally we want make grouping of the page content. This is done by dividing
+            the page into multiple groups. A group at this level is known as a section
+          </para>
+        </listitem>
+        <listitem>
+          <para>We can continue by dividing a section into groups. A group at this level is called a
+            sub-section
+          </para>
+        </listitem>
+        <listitem>
+          <para>Although these different levels are all still group components, KRAD provides
+            different bean definitions corresponding to the levels
+          </para>
+        </listitem>
+        <listitem>
+          <para>Using the correct bean definition for a level ensures the header order will be
+            correct for nested headers. In addition defaults for the associated errors fields at
+            each level have been setup, and style classes are provided to provide indenting and
+            other visual cues
+          </para>
+        </listitem>
+        <listitem>
+          <para>You can nest groups down as many levels as needed. However when going past the
+            sub-section level, care needs to be taken to correctly set the header levels, error
+            configuration, and styling
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Headers</title>
+    <para>The Header component is used to render the various HTML header tags (h1, h2, h3, .. h6).
+      Similar to the errors field component, there are header component instances already associated
+      with, and configured for, containers (view and group). These are generally used to indicate
+      the start of a container on the page and to give a title for that container. If needed, the
+      header component can be used in other places of the view as well (for instance in a group's
+      items list). However, it is generally better to create nested groups in those
+      situations.
+    </para>
+    <para>Besides rendering the HTML 'h' tag, the header element contains a nested group that can be
+      used to add field components. Thus with this group we can configure links or other content
+      type to display within the header part of the group.
+    </para>
+    <note>
+      <title>Header Container</title>
+      <para>HTML 5 provides the header tag which is meant to represent a block of content that
+        introduces the main content. This gives more semantic meaning than using just the div tag.
+        The KRAD Header component is more in line with the header tag than the h tag, although it
+        generates a h tag as well.
+      </para>
+    </note>
+    <para>The Header content element contains two custom properties. The first of these is the
+      <emphasis role="keyword">headerText</emphasis>
+      property. This property gives the text that will
+      display as the header. The second property is<emphasis role="keyword">headerLevel</emphasis>.
+      This is a string that corresponds to one of the header levels supported by HTML ('h1', 'h2',
+      .. 'h6').
+    </para>
+    <para>Base bean definitions for the header components are found in
+      UifHeaderFooterDefinitions.xml. For the Header component, a base bean is provided for each of
+      the header levels 1-6. These are named: 'Uif-HeaderOne', 'Uif-HeaderTwo', 'Uif-HeaderThree',
+      'Uif-HeaderFour', 'Uif-HeaderFive', and 'Uif-HeaderSix'. To create a header component, we add
+      a new bean using one of these as our parent. For example:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-HeaderOne" p:headerText="Big Header"/&gt;
+    </programlisting>
+    <para>This would result in the following HTML markup:</para>
+    <programlisting linenumbering="numbered">
+      &lt;h1 class="uif-header"&gt;Big Header&lt;/h1&gt;
+    </programlisting>
+    <para>The use of one of the other beans would change the h tag to the corresponding h tag
+      for that level.
+    </para>
+    <para>As mentioned at the start of this section, we generally work with header components
+      through a container (the view or group containers). Within the container is a nested header
+      component. This allows us to not only generate a header element, but also to configure content
+      that will render within the header area. For each container level, there are header component
+      beans configured. However, instead of being named by the header level, they are named by the
+      container level they are associated with. These include:
+    </para>
+    <para>Uif-ViewHeader – Header associated with the view container. Uses a header one and adds the
+      style class 'uif-viewHeader' to the group div.
+    </para>
+    <para>Uif-PageHeader – Header associated with the page container. Uses a header two and adds the
+      style class 'uif-pageHeader' to the group div.
+    </para>
+    <para>Uif-SectionHeader – Header associated with the section container. Uses a header three and
+      adds the style class 'uif-sectionHeader' to the group div.
+    </para>
+    <para>Uif-SubSectionHeader – Header associated with the sub-section container. Uses a header
+      four and adds the style class 'uif-subSectionHeader' to the group div.
+    </para>
+    <para>By default the header components are already initialized in the corresponding group
+      definition. Therefore we can use the nested syntax to set properties like in the
+      following example:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MySection" parent="Uif-VerticalBoxSection" p:header.headerText="Section 1 Title"&gt;
+    </programlisting>
+    <para>For specifying the header text, containers give us a special property named title. When
+      this is set, the value will be pushed to the headerText property on the nested header
+      element:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MySection" parent="Uif-VerticalBoxSection" p:title="Section 1 Title"&gt;
+    </programlisting>
+    <para>The resulting header is shown below.</para>
+    <figure>
+      <title>Header Text Example</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/headerTextExample.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Now suppose we want to add other content to the header group. For example, we might want
+      to display links or buttons to the right of the header text. We do this configuring the rightGroup
+      header property with a Uif-HeaderRightGroup bean:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MySection" parent="Uif-VerticalBoxSection" p:title="Section 1 Title"&gt;
+      &lt;property name="header.rightGroup"&gt;
+      &lt;bean parent="Uif-HeaderRightGroup"&gt;
+      &lt;items&gt;
+      &lt;bean parent="Uif-ActionLink&quot; p:actionLabel=&quot;copy&quot; p:methodToCall="copy"/&gt;
+      &lt;bean parent="Uif-ActionLink&quot; p:actionLabel=&quot;edit&quot; p:methodToCall="edit"/&gt;
+      &lt;/items&gt;
+      &lt;/bean&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <para>Like the rightGroup header property, a lowerGroup and upperGroup property are also available.</para>
+    <para>We can accomplish a lot with the use of these header properties. The following Screen Shot shows a
+      couple more examples. In the first one, the standard view header for document views is used,
+      which contains a group that displays information about the document. The second header is a
+      page header that contains buttons for expanding or collapsing all the disclosure groups on the
+      page (notice in this case there is no actual header text) Besides of the different items,
+      notice the difference in styling between the header areas based on their associated container
+      level.
+    </para>
+    <figure>
+      <title>Additional Header Examples</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/additionalHeaderExamples.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>The header component is used to generate the various HTML header tags (h1, h2,
+            h3..h6)
+          </para>
+        </listitem>
+        <listitem>
+          <para>We generally don't need to create a header component, since they are associated with
+            a container and initialized as a nested component. However, they can be added in other
+            places (in the groups items for instance) if needed
+          </para>
+        </listitem>
+        <listitem>
+          <para>Besides rendering the html header tag, the header component also contains a nested
+            group. This group can be used to display content (such as links or buttons) in the
+            header area of the group
+          </para>
+        </listitem>
+        <listitem>
+          <para>The header element contains the properties headerText and headerLevel. The header
+            text specifies the actual text that will display as the header. The header level
+            corresponds with the html header level that should be generated (h1-h6)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides base bean definitions for each of the six header levels. To create
+            a header component we use one of these in our bean parent
+          </para>
+        </listitem>
+        <listitem>
+          <para>Also provided are header beans that correspond with each container level (view,
+            page, section, sub-section). In addition to setting the header level, these add a style
+            class corresponding to the level so that we can add different visual treatments (a view
+            header will display differently than a section header)
+          </para>
+        </listitem>
+        <listitem>
+          <para>We can add items to the header by setting the rightGroup, lowerGroup or upperGroup
+            header property. Each property contains a group bean where components can be added.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Footers</title>
+    <para>Unlike the header area for a group, the footer does nothing special. It is simply another
+      group instance that is rendered after the group's items. It is called a footer because of
+      being rendered at the 'foot' of the group. The actual component type is just a standard group
+      (at least in the default group definition, subclasses of a group could have a subclass
+      'footer' group).
+    </para>
+    <para>Since the footer is just a group, we can populate the property using any of the provided
+      group beans. However, there are a few group beans that are target the footer area. Generally
+      since the footer group is below the group's main content, it is a great place to add buttons,
+      links, or other content that applies the presented group. In the footer, we want to just
+      display this content, not another header and footer (since the footer is a group, it also has
+      a nested header and footer, and the nesting can continue). The UIF provides the following base
+      bean for footer groups:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id=&quot;Uif-FooterBase&quot; parent=&quot;Uif-HorizontalBoxGroup&quot; scope=&quot;prototype&quot;&gt;
+      &lt;property name=&quot;styleClasses&quot; value=&quot;uif-footer&quot;/&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <para>Notice the footer base bean extends 'Uif-HorizontalBoxGroup'. We will learn more about
+      this bean later on, but essentially it is a group definition with no header and footer (both
+      set to render false) and using a box layout with horizontal orientation. This means the items
+      configured in the group will be rendered in a horizontal row. When setting the header
+      property, we can create an inner bean that extends the footer base:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MyGroup" parent="Uif-VerticalBoxSection" p:title="My Group"&gt;
+      &lt;property name="footer"&gt;
+      &lt;bean parent="Uif-FooterBase"&gt;
+      &lt;property name="items&gt;
+      &lt;list&gt;
+      &lt;bean parent=&quot;Uif-PrimaryActionButton&quot; p:methodToCall=&quot;calculate&quot; p:actionLabel=&quot;calculate&quot;/&gt;
+      &lt;bean parent=&quot;Uif-PrimaryActionButton&quot; p:methodToCall=&quot;clear&quot; p:actionLabel=&quot;clear&quot;/&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <para>In this example we have configured our group to have two buttons ('calculate' and 'clear')
+      by setting the group's footer property. To set the property we used the provided footer base
+      bean and added two action components through the footer's items property. Below shows the
+      "MyGroup" bean.
+    </para>
+    <figure>
+      <title>Group Footer Example</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/myGroupFooter.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>It is common for the View and Page footers to have buttons. For these containers, the
+      footer is already initialized, and we can use the nested notation:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MyPage" parent="Uif-Page" p:title="My Page"&gt;
+      &lt;property name="footer.items&gt;
+      &lt;list&gt;
+      &lt;bean parent=&quot;Uif-PrimaryActionButton&quot; p:methodToCall=&quot;save&quot; p:actionLabel=&quot;save&quot;/&gt;
+      &lt;bean parent=&quot;Uif-PrimaryActionButton&quot; p:methodToCall=&quot;cancel&quot; p:actionLabel=&quot;cancel&quot;/&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <tip>
+      <title>Common Button Groupings</title>
+      <para>If you have common button groupings, it is helpful to create a top level bean (with an
+        id) for those so they can be reused. For example, the UIF provides the footer bean
+        'Uif-FormFooter' which includes actions or save, close, and cancel. If these are the buttons
+        you need, you can simply do the following:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="MyPage" parent="Uif-Page" p:title="My Page"&gt;
+        &lt;property name="footer"&gt;
+        &lt;bean parent="Uif-FormFooter"/&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>The UIF also contains a common footer for document views that contains the various
+        workflow actions.
+      </para>
+    </tip>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>The footer is simply another group that is rendered at the 'foot' of a parent
+            group
+          </para>
+        </listitem>
+        <listitem>
+          <para>Generally in the footer we want to just display contents (not another
+            header and footer)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The footer is a great place to add buttons, links, or other content that
+            apply to the whole group (for example page buttons)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides a base bean named 'Uif-FooterBase' that uses a group configured to
+            not render a header and footer, and to use a horizontal box layout
+          </para>
+        </listitem>
+        <listitem>
+          <para>Since it is common to have footer contents for the view and page, a footer is
+            already initialized and we can simply set the
+            <emphasis role="keyword"
+                    >footer.items
+            </emphasis>
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>Common button groups can be configured in a footer definition with an id so that
+            they can be reused. The UIF provides one such grouping for the standard save, close, and
+            cancel actions named 'Uif-FormFooter'
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Introduction to Layout Managers</title>
+    <para>We know a group bundles together multiple components as a container, but the group itself
+      has no knowledge on how these components should be positioned on the page. Instead, KRAD
+      provides an object called a Layout Manager. For those who have developed applications in Java
+      with Swing, GWT, or used the .Net Framework, the concept of Layout Managers will be familiar.
+      Basically a Layout Manager encapsulates an algorithm on how to position a group of components
+      by their relative positions. You might say it is the blueprint for a group's items.
+    </para>
+    <para>To become a layout manager, a class must implement the interface
+      org.kuali.rice.krad.uif.layout.LayoutManager, or extend the base class
+      org.kuali.rice.krad.uif.layout.LayoutManagerBase. A layout manager is not a Component itself
+      (does not implement the Component interface), however, it does have some of the same
+      properties. These include:
+    </para>
+    <para>id – A unique identifier for the layout manager instance. This is unique among all
+      layout managers and components of a view instance. If the layout manager renders some
+      HTML element that needs to be referenced client side, the id value can be used for the
+      corresponding element id attribute. The id assignment for layout managers follows the
+      same rules as components.
+    </para>
+    <para>template – Unlike layout managers in Swing and others that build the layouts in code,
+      the KRAD layout managers operate through templates (although this is not required, a
+      layout manger can build the layout in code as well). These generally follow the basic
+      pattern of:
+    </para>
+    <orderedlist>
+      <listitem>
+        <para>Add starting markup (for example &lt;table&gt;)</para>
+      </listitem>
+      <listitem>
+        <para>Iterate through each of the groups items wrapping with markup and then
+          invoking template tag (for example
+          &lt;tr&gt;&lt;td&gt;template&lt;/td&gt;..&lt;td&gt;template&lt;/td&gt;&lt;/tr&gt;</para>
+      </listitem>
+      <listitem>
+        <para>Add finishing markup (for example &lt;/table&gt;)</para>
+      </listitem>
+    </orderedlist>
+    <para>Since layout managers use templates, they can be customized the same way as a
+      component (switching the template, extension and so on).
+    </para>
+    <para>style and styleClasses – Similar to component, these properties hold style configuration
+      or a list of style classes that should be applied to a layout manager wrapper (for example a
+      div or table).
+    </para>
+    <para>context – Map of context objects that can be used for expressions configured on layout
+      manager properties
+    </para>
+    <para>A layout manager by default supports any group instance. However, a layout manager can
+      be built to only support specific group types. One example of this is the layout
+      managers that work with Collection Groups. We will see these later on in the chapter. A
+      layout manager can declare the type of group supported by implementing (or overriding)
+      the following method:
+    </para>
+    <programlisting linenumbering="numbered">
+      public Class&lt;? extends Container&gt; getSupportedContainer();
+    </programlisting>
+    <para>For example, a layout manager may be setup to work only with TreeGroups as
+      follows:
+    </para>
+    <programlisting linenumbering="numbered">
+      public Class&lt;? extends Container&gt; getSupportedContainer() {
+      return TreeGroup.class;
+      }
+    </programlisting>
+    <para>In the rendering process, the layout managers will then invoke the rendering of the
+      group's items. What then invokes the layout manager? Well the group of course! Recall at the
+      beginning of this chapter that basic group template:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <para>Render header</para>
+      </listitem>
+      <listitem>
+        <para>Render instructional text</para>
+      </listitem>
+      <listitem>
+        <para>Render errors field</para>
+      </listitem>
+      <listitem>
+        <para>Invoke layout manager passing group items</para>
+      </listitem>
+      <listitem>
+        <para>Render footer</para>
+      </listitem>
+    </itemizedlist>
+    <para>Since the group template controls the invocation of the layout manager, a group
+      template may choose to not do so and instead layout the items itself. There are a couple
+      examples of this we will learn about later on in this chapter.
+    </para>
+    <para>Moving on, let's learn more about these layout managers!</para>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>A group has no knowledge regarding the positioning of the
+            components
+          </para>
+        </listitem>
+        <listitem>
+          <para>KRAD provides the concept of layout mangers. This concept can also be seen in
+            frameworks such as Java Swing, GWT, and .NET
+          </para>
+        </listitem>
+        <listitem>
+          <para>A layout manager encapsulates an algorithm on how to position a set of components by
+            their relative position. It is a blueprint for rendering the group's items
+          </para>
+        </listitem>
+        <listitem>
+          <para>To become a layout manager, a class must implement the interface
+            org.kuali.rice.krad.uif.layout.LayoutManager, or extend the base class
+            org.kuali.rice.krad.uif.layout.LayoutManagerBase
+          </para>
+        </listitem>
+        <listitem>
+          <para>Layout managers are not components, but share similar properties.
+            These include:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>id – unique identifier for the layout manager</para>
+            </listitem>
+            <listitem>
+              <para>template – FreeMarker template file for the layout manager that
+                performs the layout logic
+              </para>
+            </listitem>
+            <listitem>
+              <para>templateName – Name of the layout manager macro</para>
+            </listitem>
+            <listitem>
+              <para>style and style classes – CSS treatment for the layout manger wrapper (such as a
+                div or table)
+              </para>
+            </listitem>
+            <listitem>
+              <para>context – map of objects available for property
+                expressions
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>A layout manager can support all general groups, or subsets by implementing the
+            method getSupportedContainer()
+          </para>
+        </listitem>
+        <listitem>
+          <para>Collection layout mangers are a type that only work with collection
+            groups
+          </para>
+        </listitem>
+        <listitem>
+          <para>The layout manger is invoked by the group template</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Group Layout Managers</title>
+    <para>Let's begin our exploration of layout managers by looking at those that work with basic
+      groups. That is, we have a group containing items 1..n, that need to be positioned onto the
+      page. Out of the box KRAD provides two such layout managers, the Grid Layout and the Box
+      Layout.
+    </para>
+    <para>To help explain the algorithm employed by each layout manager, it is helpful to think of
+      our 'box' areas again. We know our default group template renders starting content (header,
+      instructions), and then invokes the layout manger, and finally the footer. Therefore, the
+      layout manager positions the group items in the box between the group header and
+      footer.
+    </para>
+    <figure>
+      <title>Group Layout</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/groupLayoutDiagram.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <section>
+      <title>Grid Layout</title>
+      <para>The Grid Layout manager divides the layout area into a grid (n by m blocks) and then
+        places the group components into the 'slots' based on the order in which they are found in
+        the group's items list. The most important configuration property for this layout manager is
+        the number of columns our grid should have. For example, if we use a grid layout with number
+        of columns equal to two, two items will be positioned on each row. New rows will be created
+        until all the items are positioned. Assuming we had five items in our group, they would be
+        positioned as shown here:
+      </para>
+      <figure>
+        <title>Grid Layout</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/gridLayout.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The group layout manager can then be
+        configured to meet any grid configuration. We could take our same group of five
+        items with a one column grid which would stack all the items on top of each other.
+        Or we could use a 5 column grid would be put all the items on one horizontal row.
+        The next figure depicts the general N columns by M rows layout.
+      </para>
+      <figure>
+        <title>Grid Layout Examples</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/KRAD_Grid_Layout.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The default template for the grid layout uses HTML tables to achieve the grid
+        positioning. A single table is created for the group items, with each item being rendered in
+        a table cell (and table rows created as necessary). Because tables are used, this is
+        sometimes referred to as 'table based' layout, as opposed to the Box Layout we will learn
+        about next which is 'div based'. There are advantages and disadvantages to the table layout.
+        The advantages are easier alignment of content and the ability to do things such as row and
+        column span. The disadvantages are the table is 'non-fluid' (does not adjust as the window
+        resizes) and accessibility concerns. Many of the accessibility concerns are addressed in
+        KRAD with the use of ARIA (see Chapter 11).
+      </para>
+      <para>The UIF provides a base bean named 'Uif-GridLayoutBase' that all grid layout beans
+        should extend. This bean configures the grid template, adds a style class of
+        'uif-gridLayout', and sets defaults for some of the grid properties we will learn about in a
+        bit. We can create a new grid layout manger instance using this as our bean parent:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-GridLayoutBase" p:numberOfColumns="2"/&gt;
+      </programlisting>
+      <para>The UIF also provides beans preconfigured with the number of columns for typical cases.
+        These include 'Uif-TwoColumnGridLayout' (2 columns), 'Uif-FourColumnGridLayout' (4 columns),
+        'Uif-SixColumnGridLayout' (6 columns). Therefore if we wanted a four column grid we can just
+        do the following:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-FourColumnGridLayout"/&gt;
+      </programlisting>
+      <para>To associate a layout manager with a group, we use the group property named
+        <emphasis role="keyword">layoutManager</emphasis>:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="MyGroup" parent="Uif-GroupBase" p:title="Group with Grid Layout"&gt;
+        &lt;property name="layoutManager"&gt;
+        &lt;bean parent="Uif-FourColumnGridLayout"/&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>This is made even easier for us though, because there are beans that extend
+        'Uif-GridBase' and have a layout manger already configured for us. These beans are:
+      </para>
+      <para>Uif-GridGroup - General group configured with a grid layout. Also adds a style class of
+        'uif-gridGroup' to the group component.
+      </para>
+      <para>Uif-GridSection - Section level group configured with a grid layout. Also adds a style
+        class of 'uif-gridSection' to the group component.
+      </para>
+      <para>Uif-GridSubSection - Sub-Section level group configured with a grid layout. Also adds a
+        style class of 'uif-gridSubSection' to the group component.
+      </para>
+      <para>Using these beans we can rewrite our previous example as follows:</para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="MyGroup" parent="Uif-GridGroup" p:title="Group with Grid Layout"
+        p:layoutManger.numberOfColumns="4"/&gt;
+      </programlisting>
+      <para>Since the layoutManager property is initialized by the base bean, we can use
+        nested notation to set the numberOfColumns property. By default numberOfColumns is
+        set to two.
+      </para>
+      <section>
+        <title>Row, Col Span, Width</title>
+        <para>Since the grid layout manager creates an HTML table, it supports the row and col span
+          options available from the table cell element. These properties are not set on the layout
+          manager, but instead set on the group component itself using the properties colSpan and
+          rowSpan. The column span can be set to specify an item should take up more than one
+          'slot'. That is, setting the span to two means the item will take up the position of two
+          slots. The row span is similar, but the slots are counted vertically instead of
+          horizontally. Thus a row span of two means an items will take up the vertical space of two
+          items. Let's take the following example:
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean id="MyGroup" parent="Uif-GridGroup" p:title="Group with Grid Layout"
+          p:layoutManager.numberOfColumns="3"&gt;
+          &lt;property name="items"&gt;
+          &lt;list&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field1" p:colSpan="2"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field2"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field3" p:rowSpan="2"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field4" p:colSpan="2"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field5" p:colSpan="2"/&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+        </programlisting>
+        <para>This configuration would result in the following table structure:</para>
+        <programlisting linenumbering="numbered">
+          &lt;table&gt;
+          &lt;tr&gt;&lt;td colSpan="2"&gt;field1&lt;/td&gt;&lt;td&gt;field2&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td rowSpan="2"&gt;field3&lt;/td&gt;&lt;td colSpan="2"&gt;field4&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td colSpan="2"&gt;field5&lt;/td&gt;&lt;/tr&gt;
+          &lt;/table&gt;
+        </programlisting>
+        <para>Note for items without the row or col span properties set, they receive a
+          default of one. The following figure shows the corresponding blocks for each
+          item.
+        </para>
+        <figure>
+          <title>Row, Col Span Layout</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/rowColSpanLayout.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>Using row and col span, along with the ability to nest grid groups (nested
+          tables), we have a great amount of flexibility in the layouts we can achieve.
+          Below shows what a grid group with different row and col spans looks like in the
+          legacy look and feel.
+        </para>
+        <figure>
+          <title>Row, Col Span Example</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/rowColSpanExample.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>As you might have noticed, the previous figures depict even widths for each cell. This
+          is the default behavior for the grid layout (the area will be divided by the number of
+          columns to set a percentage width for each column). We can adjust the widths of each
+          column by setting the width property on the group items. For example let's take the
+          previous three column grid layout and set varying widths for the columns:
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean id="MyGroup" parent="Uif-GridGroup" p:title="Group with Grid Layout"
+          p:layoutManager.numberOfColumns="3"&gt;
+          &lt;property name="items"&gt;
+          &lt;list&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field1" p:width="50%"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field2" p:width="25%"/&gt;/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field3" p:width="25%"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field4"/&gt;
+          &lt;bean parent="Uif-InputField" p:propertyName="field5"/&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+        </programlisting>
+        <para>Here we are setting the first column to span 50% of the total table width, and
+          25% for the second and third columns. Since we are only using three columns, we
+          do not need to set the width on the remaining group items (field4 and field5).
+          Essentially we just need to set the widths for the first row. The width can be
+          given as a percentage of the table or a fixed width (for example pixels). For
+          controlling the full table width, we can apply a style setting (which will
+          render as the style attribute on the table element) or add a style class to the
+          layout manager.
+        </para>
+      </section>
+      <section>
+        <title>Label Separator</title>
+        <para>When working with a grid layout it can be useful for alignment purposes to render the
+          field label in a separate column. Recall our discussion in Chapter 6 regarding fields and
+          label positioning. Let's assume we have a group containing input fields with the label
+          configured to render in the left position (the default). For this group we are using a
+          grid layout configured with one column (therefore each field will stack vertically). Our
+          labels and controls will then look something like the following:
+        </para>
+        <para>
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/labelUnaligned.png"/>
+            </imageobject>
+          </inlinemediaobject>
+        </para>
+        <para>Here the field labels were chosen to be different lengths, which is likely to happen
+          with real label text. Notice with the variable label length, were the control begins
+          varies from field to field and thus we do not have alignment vertically. If we were to put
+          the labels in their own column, the cell width would expand to cover the longest label,
+          and our controls would all start in the next column. Thus we would have alignment:
+        </para>
+        <para>
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/labelAligned.png"/>
+            </imageobject>
+          </inlinemediaobject>
+        </para>
+        <para>The framework provides the option for doing this through a Component Modifier.
+          Component modifiers are classes that perform some modification to the component they are
+          configured on. Each component may have one or more such modifiers configured. Thus they
+          give us a way to encapsulate some functionality in a piece of code that can be applied to
+          multiple components, and in addition can be conditionally applied. Chapter 10 covers this
+          concept in more detail.
+        </para>
+        <para>One component modifier provided with KRAD is the LabelFieldSeparateModifier. This
+          modifier operates on a group component by iterating through the group items and pulling
+          out the label as a separate item. Thus, it appears to the layout manager that we
+          configured the label as a separate group item, and the layout manager will then in turn
+          render the label in its own cell. The Uif-GridGroup bean we have been working with has
+          this modifier configured by default:
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean id=&quot;Uif-GridGroup&quot; parent=&quot;Uif-GroupBase&quot; scope=&quot;prototype&quot;&gt;
+          ...
+          &lt;property name=&quot;layoutManager&quot;&gt;
+          &lt;bean parent=&quot;Uif-GridLayoutBase&quot;/&gt;
+          &lt;/property&gt;
+          &lt;property name=&quot;componentModifiers&quot;&gt;
+          &lt;list&gt;
+          &lt;bean parent=&quot;Uif-LabelFieldSeparator-Modifier&quot; p:runPhase=&quot;FINALIZE&quot;/&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+        </programlisting>
+        <para>Notice this bean sets the componentModifiers list property adding the label field
+          separator, whose UIF bean is named 'Uif-LabelFieldSeparator-Modifier'. The runPhase is one
+          property modifiers have that determines when in the view lifecycle the modifier will be
+          executed. The available phases are INITIALIZE, APPLY_MODEL, and FINALIZE.
+        </para>
+        <para>If we inherit from a bean with one or more modifiers configured, we can choose not to
+          use the modifiers by setting the property to null (using the Spring null tag):
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;property name=&quot;componentModifiers&quot;&gt;
+          &lt;null/&gt;
+          &lt;/property&gt;
+        </programlisting>
+      </section>
+      <section>
+        <title>Other Grid Layout Options</title>
+        <para>The Grid Layout Manager also supports the following properties:</para>
+        <para>suppressLineWrapping – By default, once the configured number of columns is reached,
+          the layout manager will wrap to a new row. If this property is set to true, the layout
+          manager will ignore the number of columns property and instead continue to render all
+          group items in one row. This is useful if the number of group items is unknown and you
+          wish to have them in a single line. The number of columns property does not need to be
+          specified when using line wrap suppressing.
+        </para>
+        <para>applyAlternatingRowStyles – Boolean that indicates whether alternating row styles of
+          'odd' and 'even' should be applied to each tr element. This allows alternating row styles
+          that is common on data grids.
+        </para>
+        <para>applyDefaultCellWidths – Boolean that indicates whether default widths should be
+          calculated for each cell. If set to true, the total width will be divided by number of
+          columns to determine the default width as a percentage for each cell. If the width is
+          configured for an item, it will not be overridden.
+        </para>
+        <para>renderAlternatingHeaderColumns – Boolean that indicates whether cells should
+          alternate between table header and table cells (th and td). This is generally
+          set to true when using the label separator so the label cells appear with
+          different styling. The appropriate scopes are added by the framework (th with
+          scope equal to column for the header row, and th with scope equal to row for
+          table headers within a data row).
+        </para>
+      </section>
+    </section>
+    <section>
+      <title>Box Layout</title>
+      <para>Next, let's take a look at the other provided group layout, called the Box Layout.
+        Unlike the grid layout, which creates a grid of blocks, the box layout creates just a single
+        row of blocks in either the horizontal or vertical direction. It will keep creating blocks
+        in a direction until all items of the group have been rendered. The first item configured in
+        the group will receive the first position, on to the last group item which will receive the
+        last position.
+      </para>
+      <para>Within the layout area we can think of the box layout as dividing the area
+        horizontally (in the case of horizontal orientation):
+      </para>
+      <figure>
+        <title>Horizontal Box Layout</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/horizontalBoxLayout.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The box layout manager contains a property named orientation that determines the
+        direction of the rendered items. The valid values for this property are HORIZONTAL
+        and VERTICAL. The following figure shows an example of each orientation.
+      </para>
+      <figure>
+        <title>Box Layout Manager</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/KRAD_Box_Layout_Manager.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>To accomplish these layouts the box manager uses CSS display styles. Recall our
+        component types and their HTML output:
+      </para>
+      <para>Groups – div element</para>
+      <para>Field – span element</para>
+      <para>Content Element – content element</para>
+      <para>Each of these inherits the style and styleClasses properties from ComponentBase.
+        Therefore the box layout manager manipulates these properties in code to achieve the
+        desired layout through CSS. For the horizontal orientation, the manager applies a
+        style class of boxLayoutHorizontalItem to each item. This adds a float left to each
+        item style making the items align in a horizontal row. For the vertical orientation,
+        the manager applies a style class of boxLayoutVerticalItem. This style class simply
+        adds a display style of block, making each item wrap to a new row and the items
+        stacking to form a vertical row.
+      </para>
+      <para>Like grid layout, the box layout had advantages and disadvantages. One advantage is the
+        ability for the layout to adjust as the window resizes (items will automatically wrap down
+        to new lines as needed instead of forcing a scrollbar). With the increasing need to support
+        mobile devices, this can be a big win. In addition, div based layouts are better for
+        accessibility support. However, aligning content (such as the label/control alignment in the
+        grid layout) is much harder to accomplish. Furthermore, cross-browser rendering issues occur
+        more often than when using basic tables.
+      </para>
+      <para>For XML configuration, the box layout manager has a base bean with name
+        'Uif-BoxLayoutBase'. This sets the box layout template and adds the style class of
+        'uif-boxLayout'. Then, extending this, we have beans for each orientation. First is
+        'Uif-HorizontalBoxLayout', which sets the orientation as HORIZONTAL and adds a style class
+        of 'uif-horizontalBoxLayout'. Likewise, there is a bean named 'Uif-VerticalBoxLayout' that
+        sets the orientation to VERTICAL, and adds a style class of 'uif-verticalBoxLayout'. We can
+        apply one of these to a group as we did for the grid layout, using the group's layoutManager
+        property:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="MyGroup" parent="Uif-GroupBase" p:title="Group with Box Layout"&gt;
+        &lt;property name="layoutManager"&gt;
+        &lt;bean parent="Uif-VerticalBoxLayout"/&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>However, the UIF again provides us with group definitions with box layouts already
+        configured. These are as follows:
+      </para>
+      <para>Uif-VerticalBoxGroup – General group configured with a vertical box layout. Adds a style
+        class of 'uif-verticalBoxGroup' to the group.
+      </para>
+      <para>Uif-VerticalBoxSection – Section level group configured with a vertical box layout. Adds
+        a style class of 'Uif-VerticalBoxSection' to the group.
+      </para>
+      <para>Uif-VerticalBoxSubSection – Sub-Section level group configured with a vertical box
+        layout. Adds a style class of 'Uif-VerticalBoxSubSection' to the group.
+      </para>
+      <para>Uif-HorizontalBoxGroup - General group configured with a horizontal box layout. Adds a
+        style class of 'uif-horizontalBoxGroup' to the group.
+      </para>
+      <para>Uif-HorizontalBoxSection - Section level group configured with a horizontal box layout.
+        Adds a style class of 'Uif-VerticalBoxSection' to the group.
+      </para>
+      <para>Uif-HorizontalBoxSubSection - Sub-Section level group configured with a horizontal box
+        layout. Adds a style class of 'Uif-VerticalBoxSubSection' to the group.
+      </para>
+      <para>Using these beans we can rewrite our previous example as:</para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="MyGroup" parent="Uif-VerticalBoxGroup" p:title="Group with Box Layout"/&gt;
+      </programlisting>
+      <para>When looking at the grid layout, the examples shown were all fields. Recall, though,
+        that we can also nest groups within groups, and, just like fields, they need a layout
+        manager to position them. The box layout manager is generally the layout of choice in this
+        case. In particular, because groups such as section and sub-section typically span the full
+        width available, the vertical box layout is used to 'stack' the groups.
+      </para>
+      <para>As an example let's build a page group with sections:</para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="BookInfoPage" parent="Uif-Page" p:title="Book Info"&gt;
+        &lt;property name="items"&gt;
+        &lt;list&gt;
+        &lt;bean parent="BookInfoSection"/&gt;
+        &lt;bean parent="BookDetailsSection"/&gt;
+        &lt;bean parent="BookRefSection"/&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>Here we are creating a page with three items. Each item is a reference to another bean
+        that is a section group. How will these sections be positioned? It turns out that because it
+        is so common for the sections to be vertically stacked, that the default layout defined in
+        Uif-Page is Uif-VerticalBoxLayout! Therefore each section will divide the page
+        vertically.
+      </para>
+      <tip>
+        <title>Sections and Sub-Sections</title>
+        <para>There is no requirement that sections and sub-sections divide the page vertically. In
+          fact, in our previous example, we could override the layout manager to be
+          UIF-HorizontalBoxLayout. This would result in three section columns. We could furthermore
+          override the layout manager for each section using a horizontal layout, which would result
+          in sub-section columns. Of course, we can also switch between horizontal and vertical
+          layout between group levels, or use another layout such as grid.
+        </para>
+      </tip>
+      <section>
+        <title>Other Box Layout Options</title>
+        <para>The Box Layout Manager also supports the following properties:</para>
+        <para>padding – The box layout essentially is just using CSS to perform layouts, and, using
+          the style and style classes properties, you can modify the CSS applied. However, the box
+          layout provides a couple of properties for convenience. The first of these is the
+          <emphasis role="keyword">padding</emphasis>
+          property. When positioning items side by side,
+          or one below another, a typical visual concern is the padding (or space) between each
+          item. Too little space and the item content might run together as one, and too much will
+          waste space and not look visually appealing. Therefore, the padding can be set to specify
+          the exact amount of space between each item. Note the manager will take the value given
+          and use it to set the corresponding CSS property (either padding-right for horizontal
+          layout or padding-bottom for vertical layout). The value can be a fixed amount (px, pt,
+          cm, etc.) or as a percentage of the parent container. Note the default styles applied have
+          a default setting for padding that should be acceptable in most cases.
+        </para>
+        <para>itemStyle and itemStyleClasses – These have similar purposes to the style and
+          styleClasses properties we have already learned about. The difference in this case is the
+          given style or class will be applied not to the layout manager, but each group item that
+          layout manager positions. Note that we could accomplish the same thing by setting the
+          style or styleClasses property on the group item itself; however, it is more convenient to
+          set in this one place instead of each item. Also, if we are inheriting a group and
+          changing the layout, setting the properties for each item would require us to redefine
+          each item.
+        </para>
+        <para>As an example here is a group bean with the style classes set on each
+          item:
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean parent="Uif-HorizontalBoxSection"&gt;
+          &lt;property name="items"&gt;
+          &lt;list&gt;
+          &lt;bean parent="Uif-DataField" ...&gt;
+          &lt;property name="styleClasses"&gt;
+          &lt;list merge="true"&gt;
+          &lt;value&gt;fssLayoutItem&lt;/value&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+          &lt;bean parent="Uif-DataField" ...&gt;
+          &lt;property name="styleClasses"&gt;
+          &lt;list merge="true"&gt;
+          &lt;value&gt;fssLayoutItem&lt;/value&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+          &lt;bean parent="Uif-DataField" ...&gt;
+          &lt;property name="styleClasses"&gt;
+          &lt;list merge="true"&gt;
+          &lt;value&gt;fssLayoutItem&lt;/value&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+        </programlisting>
+        <para>Since we want to keep the inherited style classes for Uif-DataField, we must use the
+          Spring list tags with merge="true". Now we can accomplish the same thing using the box
+          layout manager's itemStyleClasses property:
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean parent="Uif-HorizontalBoxSection"&gt;
+          &lt;property name="layoutManager.itemStyleClasses" value="fssLayoutItem"/&gt;
+          &lt;property name="items"&gt;
+          &lt;list&gt;
+          &lt;bean parent="Uif-DataField" ...&gt;
+          &lt;bean parent="Uif-DataField" ...&gt;
+          &lt;bean parent="Uif-DataField" ...&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+        </programlisting>
+        <para>Since the layout manager property is initialized by the parent bean, we can
+          use the nested notation. Now that is much better!
+        </para>
+        <tip>
+          <title>CSS Layouts</title>
+          <para>You can achieve many layouts using the box layout manager and using the styleClasses
+            properties. It is your gateway for doing CSS based layouts. In particular, KRAD comes
+            bundled with the Fluid CSS layout engine, which allows you to create various layouts by
+            adding the appropriate Fluid classes. You can also explore such things as CSS3 grid
+            layouts, or bring in other CSS layout engines. For quick layout adjustments, just use
+            the style property to specify a CSS float value: p:style="float: right;".
+          </para>
+        </tip>
+      </section>
+    </section>
+    <section>
+      <title>Css Grid Layout</title>
+      <para>There exists one more group layout called the CssGridLayoutManager. This layout attempts
+        to mimic the look and field of the GridLayoutManager using divs. The layout will appear to
+        be table-based without being backed by the table, tr, and td elements in the DOM. This
+        functionality is achieved by leveraging the bootstrap css framework in KRAD.
+      </para>
+      <para>To use css grid layout, set the colSpan property of components contained in the items of
+        the group. The layout will use this to add a the necessary css class for that item in the
+        layout. Each "row" in the CssGridLayout has a maximum size of 9, if colSpan is not defined
+        for an item, that item will automatically take up a full row. When a row contains items
+        which equal 9 total, the next item in the group will be placed on the next row. When an item
+        exceeds the max size for a row, that item will become an item of the next row.
+      </para>
+      <para>The following figure shows what a CssGridLayout backed group may look like:
+        <figure>
+          <title>Fixed Css Grid Layout</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/cssGridLayout.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </para>
+      <para>In this example, the group will have 2 rows, the first row will contain the first 3
+        fields, and the second row will contain the last 2
+        fields:
+        <programlisting>        &lt;bean parent="Uif-FixedCssGridGroup">
+          &lt;property name="items">
+          &lt;list>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:colSpan="3" p:instructionalText="This is
+          instructions"
+          p:propertyName="inputField1"/>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="3" p:propertyName="inputField2"/>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField3"/>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:colSpan="4" p:propertyName="inputField4"/>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 5" p:colSpan="5" p:propertyName="inputField5"/>
+          &lt;/list>
+          &lt;/property>
+          &lt;/bean>
+        </programlisting>
+      </para>
+      <para>In this example, the group will have 2 rows, the first field will take the entire row
+        (because no colSpan is supplied), and the second row will contain the last 2
+        fields:
+        <programlisting>        &lt;bean parent="Uif-FixedCssGridGroup">
+          &lt;property name="items">
+          &lt;list>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField6"/>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="6" p:propertyName="inputField7"/>
+          &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField8"/>
+          &lt;/list>
+          &lt;/property>
+          &lt;/bean>
+        </programlisting>
+      </para>
+      <para>The CssGridLayoutManager can either be fluid (items expand and retract with page size)
+        or fixed (items do not move or change when page size changes). This is defined by the beans
+        available in the framework as follows (and appropriate group and section beans which have
+        these predefined):
+        <itemizedlist>
+          <listitem>
+            <para>Uif-FixedCssGridLayout - fixed layout for items - used by Uif-FixedCssGridGroup,
+              Uif-FixedCssGridSection, etc.
+            </para>
+          </listitem>
+          <listitem>
+            <para>Uif-FluidCssGridLayout - fluid layout for items - used by Uif-FluidCssGridGroup,
+              Uif-FluidCssGridSection, etc.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        <emphasis role="bold">Imporant Note:</emphasis>
+        do not set the
+        <emphasis role="bold">
+          rowLayoutCssClass
+        </emphasis>
+        property for CssGridLayoutManagers as this is handled by the
+        framework's beans explicitly and will break expected functionality, if set.
+      </para>
+      <section>
+        <title>Other Css Grid Layout Options</title>
+        <para>The CssGridLayoutManager contains a property called<emphasis role="bold"
+                >defaultItemColSpan</emphasis>. As mentioned above, if an item of a group which uses
+          CssGridLayoutManager does not define colSpan, normally this item would take up the entire
+          row (default is 9). This property allows you define what the default fallback is for
+          items which do not define colSpan. This makes it easy to make a css grid layout that has
+          a consistent size for all of its items.
+        </para>
+        <para>The following example shows a group that would have two rows of three items because
+          the defaultItemColSpan is set to 3, and each item automatically gets a colspan of 3 if
+          they do not define their own
+          colSpan:
+          <programlisting>        &lt;bean parent="Uif-FixedCssGridGroup">
+            &lt;property name="layoutManager.defaultItemColSpan" value="3"/>
+            &lt;property name="items">
+            &lt;list>
+            &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField22"/>
+            &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField23"/>
+            &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField24"/>
+            &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField25"/>
+            &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 5" p:propertyName="inputField26"/>
+            &lt;bean parent="Uif-InputField-LabelTop" p:label="Field 6" p:propertyName="inputField27"/>
+            &lt;/list>
+            &lt;/property>
+            &lt;/bean>
+          </programlisting>
+        </para>
+        <para>Like TableLayoutManager, the CssGridLayoutManager has a property called<emphasis
+                role="bold">conditionalRowCssClasses</emphasis>. It supports all the following
+          conditions in its keys (note that SpringEL is not supported as a condition in this
+          scenario as there is no concept of a line object in this layout):
+          <itemizedlist>
+            <listitem>
+              <para>all - put a class on every row</para>
+            </listitem>
+            <listitem>
+              <para>even - put a class on even rows</para>
+            </listitem>
+            <listitem>
+              <para>odd - put a class on odd rows</para>
+            </listitem>
+            <listitem>
+              <para>index - one-based index is used to put a css class on a single row (this should
+                only be used on tables which never change)
+              </para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <programlisting>        &lt;bean parent="Uif-FixedCssGridGroup">
+          &lt;property name="layoutManager.conditionalRowCssClasses">
+          &lt;map>
+          &lt;entry key="all" value="demo-border"/>
+          &lt;entry key="odd" value="demo-odd"/>
+          &lt;entry key="even" value="demo-even"/>
+          &lt;/map>
+          &lt;/property>
+          ...
+        </programlisting>
+      </section>
+    </section>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>For basic groups KRAD provides two layout managers: the Grid layout and the Box
+            layout
+          </para>
+        </listitem>
+        <listitem>
+          <para>The grid layout manager positions the group items in table cells</para>
+        </listitem>
+        <listitem>
+          <para>When using the grid layout manager, we must specify the number of columns for each
+            row. The manager will then fill in the slots with the group items wrapping to new rows
+            once the column count is reached
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides the base bean 'Uif-GridLayoutBase' for the grid layout manager, in
+            addition to beans with a preconfigured number of columns (such as
+            'Uif-TwoColumnGridLayout')
+          </para>
+        </listitem>
+        <listitem>
+          <para>A layout manager is associated with a group using the
+            <emphasis role="keyword">layoutManager</emphasis>
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>Instead of setting the layout manager property on a group, we can use the
+            base beans that are already configured to use a grid layout. These
+            correspond to the various group levels:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>Uif-GridGroup</para>
+            </listitem>
+            <listitem>
+              <para>Uif-GridSection</para>
+            </listitem>
+            <listitem>
+              <para>Uif-GridSubSection</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>The grid layout allows us to change the number of 'slots' (cells) an item takes up
+            by setting the row and col span. In addition, we can specify a custom width for each
+            item (by default the manager will divide by the number of columns to set the width
+            equally)
+          </para>
+        </listitem>
+        <listitem>
+          <para>A typical requirement is for the labels and controls to align between
+            fields. Since labels can vary in length, this is difficult to achieve
+            without using tables. KRAD provides a label separator modifier that can be
+            used with a grip layout to place the field label in a separate cell. This is
+            enabled by default (through the base beans)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The grid layout manager also supports options for applying alternate row styles
+            ('odd' and 'even' style classes) and rendering alternating header columns (th elements
+            with scope 'row')
+          </para>
+        </listitem>
+        <listitem>
+          <para>The box layout manager places the group items into a row using CSS
+            styling
+          </para>
+        </listitem>
+        <listitem>
+          <para>The direction of the layout row can be set using the
+            <emphasis role="keyword">orientation</emphasis>
+            property. The options are HORIZONTAL and
+            VERTICAL
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides the base bean named 'Uif-BoxLayoutBase' for the box layout manager.
+            In addition base beans are provided for the two orientations: 'Uif-HorizontalBoxLayout'
+            and 'Uif-VerticalBoxLayout'
+          </para>
+        </listitem>
+        <listitem>
+          <para>Similar to the case of grid layout, beans are provided for groups
+            configured with a box layout manager. These include both orientations at
+            each of the group levels:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>Uif-VerticalBoxGroup</para>
+            </listitem>
+            <listitem>
+              <para>Uif-VerticalBoxSection</para>
+            </listitem>
+            <listitem>
+              <para>Uif-VerticalBoxSubSection</para>
+            </listitem>
+            <listitem>
+              <para>Uif-HorizontalBoxGroup</para>
+            </listitem>
+            <listitem>
+              <para>Uif-HorizontalBoxSection</para>
+            </listitem>
+            <listitem>
+              <para>Uif-HorizontalBoxSubSection</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>The box layout is generally used for positioning groups (such as sections)
+            and rows of buttons (action fields)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The
+            <emphasis role="keyword">padding</emphasis>
+            property can be specified to customize
+            the space between the group items (either the space to the right for horizontal
+            orientation or space below for vertical orientation)
+          </para>
+        </listitem>
+        <listitem>
+          <para>CSS styling can be applied to the group items to achieve other layouts. For example,
+            using the Fluid styles to make various grids or left/right panels. Instead of adding the
+            style class(s) to each group item, we can use the layout manager properties
+            <emphasis
+                    role="keyword">itemStyle
+            </emphasis>
+            and<emphasis role="keyword"
+                    >itemStyleClasses</emphasis>. The layout manager will then apply them to each item for
+            us
+          </para>
+        </listitem>
+        <listitem>
+          <para>Css grid layout is a layout that looks similar to grid layout, but is backed by divs
+            instead of a table
+          </para>
+        </listitem>
+        <listitem>
+          <para>The items of groups backed by CssGridLayoutManager must define colSpan or the item
+            will take up the entire row, unless defaultItemColSpan is set
+          </para>
+        </listitem>
+        <listitem>
+          <para>Css grid layout rows have a max size of 9 columns across</para>
+        </listitem>
+        <listitem>
+          <para>The beans of css grid layout comes in two varieties: fluid for automatic resizing
+            during page resize, and fixed to not be affected by page resize
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Field Groups</title>
+    <para>There is one type of Field that we didn't cover in Chapter 6 which is the Field Group.
+      This is merely a field that contains a group! Why do we need that? We need this because fields
+      have something groups don't, a label! Let's consider the following group using a grid
+      layout:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MyGroup" parent="Uif-GridGroup" p:title="Group with Grid Layout" p:layoutManager.numberOfColumns="4"&gt;
+      &lt;property name="items"&gt;
+      &lt;list&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"/&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"/&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"&gt;
+      &lt;property name="control"&gt;
+      &lt;bean parent="Uif-CheckboxControl"/&gt;
+      &lt;/property&gt;
+      &lt;/bean>
+      &lt;bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"&gt;
+      &lt;property name="control"&gt;
+      &lt;bean parent="Uif-CheckboxControl"/&gt;
+      &lt;/property&gt;
+      &lt;/bean>
+      &lt;bean parent="Uif-InputField" p:propertyName="field5" p:label="Field 5"/&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <para>This result of this is show below.</para>
+    <figure>
+      <title>Grid Group Checkbox</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/fieldGroupCheckboxes.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Notice here the labels appear in separate cells due to the label field separator being
+      enabled. What if we wanted the two checkboxes (field3 and field4) to appear in one cell
+      together instead of two separate cells? We could add a nested group in our items but
+      then there would not be a label for the corresponding label cell. This is where field
+      groups help us.
+    </para>
+    <para>For creating field group components the base bean with name 'Uif-FieldGroupBase' is
+      provided. This adds a style class of 'uif-fieldGroup' to our field. Extending this are the
+      following two beans:
+    </para>
+    <para>Uif-VerticalFieldGroup – Initialized the nested group component to Uif-VerticalBoxGroup.
+      This means the nested group will use a vertical box layout. In addition this bean adds the
+      style class of 'uif-verticalFieldGroup' to the field.
+    </para>
+    <para>Uif-HorizontalFieldGroup – Initialized the nested group component to
+      Uif-HorizontalBoxGroup. This means the nested group will use a horizontal box layout. In
+      addition this bean adds the style class of 'uif-horizontalFieldGroup' to the field.
+    </para>
+    <para>The most common use case for a field group is to combine a set of fields into one, and
+      then use the label property of the field to label the group. In these cases the header
+      and footer on the nested group are not used and thus turned off by default (in the base
+      beans).
+    </para>
+    <para>Now let's create a field group for our checkboxes. We'll use the vertical field group so
+      they appear on top of each other within the cell:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean id="MyGroup" parent="Uif-GridGroup" p:title="Group with Field Groups" p:layoutManager.numberOfColumns="4"&gt;
+      &lt;property name="items"&gt;
+      &lt;list&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"/&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"/&gt;
+      &lt;bean parent="Uif-VerticalFieldGroup" p:label="Checkboxes"&gt;
+      &lt;property name="items"&gt;
+      &lt;list&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"&gt;
+      &lt;property name="control"&gt;
+      &lt;bean parent="Uif-CheckboxControl"/&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"&gt;
+      &lt;property name="control"&gt;
+      &lt;bean parent="Uif-CheckboxControl"/&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="field5" p:label="Field 5"/&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <para>Notice here we are setting the label property on our field group, this will be the label
+      that displays the in the label cell. Also notice to set the items on the nested group, we just
+      specified "items" instead of "group.items". This is because the field group class provides a
+      convenience getter and setter that worked with the nested group. The result of the above is
+      shown below.
+    </para>
+    <figure>
+      <title>Nested Field Groups</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/KRAD_Guide/nestedFieldGroup.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>A Field Group is simply a field that contains a nested group</para>
+        </listitem>
+        <listitem>
+          <para>Field groups are useful for grouping fields that act as a set (for example a group
+            of checkboxes) and need to be labeled as a set
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides the base bean named 'Uif-FieldGroupBase' for field group
+            components. Extending from these are beans that use a box layout for the nested group:
+            'Uif-VerticalFieldGroup' and 'Uif-HorizontalFieldGroup'
+          </para>
+        </listitem>
+        <listitem>
+          <para>Generally, when using a field group, the header and footer for the nested group is
+            not needed; therefore these are turned off (render property is false) in the base
+            beans
+          </para>
+        </listitem>
+        <listitem>
+          <para>Field groups are also helpful for achieving complex layouts</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Link Group</title>
+    <para>One special type of group provided in KRAD is the
+      <emphasis role="keyword">LinkGroup</emphasis>
+      component. A link group may be used to create such things as a
+      link tool bar or a group of links (such as a menu group). As implied by its name, only
+      link components may be placed into a link group.
+    </para>
+    <para>To create a link group, a bean with parent of Uif-LinkGroup is used.</para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-LinkGroup" p:headerText="Link Group"&gt;
+    </programlisting>
+    <para>To position the contained links, the link group does not use a layout manager, but instead
+      a specified delimiter. This delimiter is rendered between each link pair. To configure the
+      delimiter string, the property
+      <emphasis role="keyword">linkSeparator</emphasis>
+      is given.
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-LinkGroup" p:headerText="Link Group" p:linkSeparator="|"&gt;
+    </programlisting>
+    <para>In addition we can specify a string that will render before the group of links, and a
+      string that will render after the group. The begin string is given using the<emphasis role="keyword">
+        groupBeginDelimiter</emphasis>. Likewise the end string is given using
+      the<emphasis role="keyword">groupEndDelimiter</emphasis>.
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-LinkGroup" p:headerText="Link Group" p:linkSeparator="|" p:groupBeginDelimiter="["
+      p:groupEndDelimiter="]"&gt;
+    </programlisting>
+    <para>Now, to complete the link group, we add links through the group items property:</para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-LinkGroup" p:headerText="Link Group" p:linkSeparator="|" p:groupBeginDelimiter="["
+      p:groupEndDelimiter="]"&gt;
+      &lt;property name="items"&gt;
+      &lt;list&gt;
+      &lt;bean parent="Uif-Link" p:href="http:myapp/home" p:linkText="Home"/&gt;
+      &lt;bean parent="Uif-Link" p:href="http:myapp/register" p:linkText="Register"/&gt;
+      &lt;bean parent="Uif-Link" p:href="http:myapp/about" p:linkText="About"/&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+  </section>
+  <section>
+    <title>Navigation Group</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+              -->
+  </section>
+  <section>
+    <title>Collection Groups</title>
+    <para>Time to tackle the dragon! If you have followed everything up to this point, you are ready
+      to go. If not, well this would be a good time to review! The next component type we are going
+      to look at is the Collection Group. This component is inherent with complexity due to the many
+      responsibilities it has. First, as its name implies, it as a type of group. However, similar
+      to data field, it is also a DataBinding component (is backed by a model property). But in both
+      cases, the collection group has significant differences.
+    </para>
+    <para>Let's start by looking at the data binding aspect of collection group. We know from our
+      work with data field this means our component is going to point to a property somewhere in the
+      model. The purpose of doing so is to provide IO (Input/Output) with the application model.
+      Consider our model we used in Chapter 6:
+    </para>
+    <programlisting linenumbering="numbered">
+      public class TestForm {
+      private String field1;
+      private Test1Object test1Object;
+      }
+
+      public class Test1Object {
+      private String t1Field;
+      private Test2Object test2Object;
+      private List&lt;Test2Object&gt; test2List;
+      }
+
+      public class Test2Object {
+      private String t2Field;
+      private String t2Field2;
+      private String t2Field3;
+      private Map&lt;String, String&gt; t2Map;
+      }
+    </programlisting>
+    <para>All of the data (or input) field examples we showed pointed to
+      properties that had primitive types (String, Integer, Boolean, List&lt;String&gt;).
+      Although the property path might have been nested, it eventually pointed to a primitive
+      property. So in Test1Object, how would we give the ability to edit or display properties
+      from each item of the test2List property? Notice the type for this property is a List of
+      data objects. This is the type of property our collection group will bind to. We use the
+      same approach as data field for configuring the collection property. That is by using
+      the propertyName property and the nested bindingInfo property (when
+      needed).
+    </para>
+    <para>We will learn about the collection group beans later on, but for now let's create a bean
+      that uses the collection group base bean with name 'Uif-CollectionGroupBase':
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection" p:propertyName="test1Object.test2List"/&gt;
+    </programlisting>
+    <para>Collection group is a type of group (which is a container), therefore, we can specify the
+      title property which will be used for the group header text. Then we are pointing our
+      collection to the test1Object.testList List property. Now let's add some input fields to our
+      collection group:
+    </para>
+    <programlisting linenumbering="numbered">
+      &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection" p:propertyName="test1Object.test2List"&gt;
+      &lt;property name="items"&gt;
+      &lt;list&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="t2Field"/&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="t2Field2"/&gt;
+      &lt;bean parent="Uif-InputField" p:propertyName="t2Field3"/&gt;
+      &lt;/list&gt;
+      &lt;/property&gt;
+      &lt;/bean&gt;
+    </programlisting>
+    <para>Notice the property names for our input fields point to properties on Test2Object. Unlike
+      general group fields that are assumed to be relative to the root model object (form) or a
+      binding object path, the property names given for a collection field are assumed to be on the
+      collection item class. What do we mean by collection item class? This refers to the type for
+      each of our list items, which in our example is Test2Object. All collection items must contain
+      properties (with valid getters and setters) for the fields configured.
+    </para>
+    <note>
+      <title>Collection Field Binding</title>
+      <para>Recall our discussion on data binding in Chapter 6 and the binding info
+        'bindByNamePrefix'. This property is set automatically for each field in the collection
+        group to be the path to the collection item (collection binding path plus the item
+        index).
+      </para>
+    </note>
+    <para>This collection group looks very similar to the basic groups we have looked at, so what is
+      the difference? A good way to think of the difference is our basic group renders one set of
+      fields, while our collection groups renders multiple sets of fields. That is, for each item
+      that exists in the list property, the set of fields configured will be generated. Let's assume
+      our test2List property has three items, then the corresponding fields generated will
+      be:
+    </para>
+    <para>Collection Item 1 (test2List[0]):</para>
+    <para>Fields: test2List[0].t2Field, test2List[0].t2Field2, test2List[0].t2Field3</para>
+    <para>Collection Item 2 (test2List[1]):</para>
+    <para>Fields: test2List[1].t2Field, test2List[1].t2Field2, test2List[1].t2Field3</para>
+    <para>Collection Item 3 (test2List[2]):</para>
+    <para>Fields: test2List[2].t2Field, test2List[2].t2Field2, test2List[2].t2Field3</para>
+    <para>And so on for further collection items. This requires the framework to dynamically create
+      new fields in code to expand to the number of collection items present in the model. This
+      process is described in the upcoming section 'Component Prototypes'.
+    </para>
+    <section>
+      <title>Collection Object Class</title>
+      <para>The collection item class is critical for much of the functionality collection groups
+        provide. Therefore, when creating a collection group, we must specify the item class type
+        using the
+        <emphasis role="keyword">collectionObjectClass</emphasis>
+        property:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection"
+        p:propertyName="test1Object.test2List"
+        p:collectionObjectClass="edu.myedu.sample.Test2Object"/&gt;
+      </programlisting>
+      <para>The class given must be a concrete (non-abstract) class that follows the JavaBean
+        specification.
+      </para>
+    </section>
+    <section>
+      <title>Add Line</title>
+      <para>Collection groups provide data IO at two different levels: One for the individual
+        collection item fields, and two at the collection level itself. Data IO at the collection
+        level is done in terms of adding and removing items (data objects). Therefore, a general
+        facility provided by the collection group is the add line configuration.
+      </para>
+      <para>First, to specify we want to have an add line for our collection group, we set the
+        <emphasis role="keyword">renderAddLine</emphasis>
+        property to true. This is true by default
+        in our collection group base, however, in code there is also the condition that the
+        collection group not be read-only (when in read-only state, the add line will not be
+        rendered). This behavior can be modified by a collection helper class called the Collection
+        Group Builder, which we will learn about later in this section.
+      </para>
+      <para>Currently the UIF implements the add line functionality using a separate property. This
+        means the object that holds the add line data is not part of the collection property itself.
+        Once the line is added, the add object is interested in collection. Thus, the collection
+        group needs to have a property to store the add line object. This can be done in one of two
+        ways. First, if no configuration is provided and the UifFormBase is being used for a base
+        form class (the recommendation), a generic property of Map type will be used. The full
+        collection path is used to key the map, with the actual add line object as the Map value.
+        The framework will then take care of setting the binding paths appropriately. You can also
+        choose to specify the path for the add line through the collection group. This works similar
+        to specifying other property paths. We can do this by setting the
+        <emphasis role="keyword"
+                >addLinePropertyName
+        </emphasis>
+        and, if needed, the
+        <emphasis role="keyword"
+                >addLineBindingInfo
+        </emphasis>
+        properties. As an example, let's assume we want to use our
+        test2Object property to hold the add line:
+      </para>
+      <programlisting linenumbering="numbered">
+        public class Test1Object {
+        private String t1Field;
+        private Test2Object test2Object;
+        private List&lt;Test2Object&gt; test2List;
+        }
+      </programlisting>
+      <para>We can configure this as follows:</para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection"
+        p:propertyName="test1Object.test2List"
+        p:collectionObjectClass="edu.myedu.sample.Test2Object"&gt;
+        &lt;property name="addLinePropertyName" value="test1Object.test2Object"/&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>Note unlike the field property names, the add line is not assume to be on the collection
+        item. Therefore, it follows the standard rules as other non-collection fields. In this case
+        (assuming the view has no default object binding path), we set the full path from the form
+        to our add line property, which is 'test1Object.test2Object".
+      </para>
+      <para>The configured collection group items will be used to generate the add line as well.
+        Therefore, they must all exist for the add properties type (generally this is the same type
+        as the collection items). If it is desired to have a different set of fields for the add
+        line (for example, some fields might get defaulted or are not necessary to show until the
+        line has been added), an alternate set of items can be specify using the
+        <emphasis
+                role="keyword">addLineItems
+        </emphasis>
+        property. This property holds a list of components
+        similar to the generic group's items property.
+      </para>
+      <para>Lastly, the collection group provides a nested Label component for the add line named
+        <emphasis role="keyword">addLineLabel</emphasis>. This is not used by the collection group
+        itself, but is made available to the collection layout managers (for example, the table
+        layout manager uses this to label the add line row).
+      </para>
+    </section>
+    <section>
+      <title>Collection Add Blank Line</title>
+      <para>Collections can be configured to allow the user to add blank editable lines to the
+        collection. This way, the user is forced to add the line to the collection before entering
+        data. In this case, the blank line will already be part of the collection data.
+      </para>
+      <para>To enable this feature the
+        <emphasis role="keyword">renderAddBlankLineButton</emphasis>
+        property on CollectionGroup must be set to true. This can be set on stacked as well as table
+        collection layouts. This will cause the default add line actions not to be rendered inside
+        the items and, instead, an Add Line action button will be rendered once for the
+        collection.
+      </para>
+      <para>The placement of this button can be set using the
+        <emphasis role="keyword">addLinePlacement</emphasis>
+        property. Valid values are &apos;TOP&apos; and &apos;BOTTOM&apos;. The default will always be &apos;TOP&apos;.
+        This will also
+        determine where the blank will be added to the collection, &apos;TOP&apos; will insert the line first and
+        &apos;BOTTOM&apos; will insert the line last.
+      </para>
+      <para>The newly added line will be highlighted until the collection
+        is saved in order to differentiate it from the original items.
+      </para>
+      <para>Example configuration (NOTE : the addLinePlacement does not need to specified if the
+        value is &apos;TOP&apos;)...
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id=&quot;Collections-AddBlankLine-TableLayout&quot; parent=&quot;Uif-Disclosure-TableCollectionSection&quot;
+        p:layoutManager.numberOfColumns=&quot;4&quot;&gt;
+        ...
+        &lt;property name=&quot;renderAddBlankLineButton&quot; value=&quot;true&quot; /&gt;
+        &lt;property name=&quot;addLinePlacement&quot; value=&quot;TOP&quot; /&gt;
+        ...
+        &lt;/bean&gt;
+      </programlisting>
+      <figure>
+        <title>Collection Add Blank Line Example - TableLayout with TOP add line placement</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/KRAD_Collection_AddBlank.png" contentwidth="400"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    <section>
+      <title>Collection Add Via Lightbox</title>
+      <para>Collections can be configured to allow the user to add items to the collection via a modal dialog.</para>
+      <para>The add button in the dialog will execute client side checks just like the add action in
+        normal collection setup would do, and not allow the user to add invalid content.
+      </para>
+      <para>To enable this feature, the
+        <emphasis role="keyword">addViaLightBox</emphasis>
+        property on
+        CollectionGroup must be set to true. This can be set on stacked as well as table collection
+        layouts. This will cause the default add line actions not to be rendered inside the items
+        and, instead, an Add Line action button will be rendered once for the collection.
+      </para>
+      <para>The
+        <emphasis role="keyword">addLinePlacement</emphasis>
+        property determines where the
+        blank will be added to the collection. Valid values are &apos;TOP&apos; and
+        &apos;BOTTOM&apos;. The default will always be &apos;TOP&apos;. &apos;TOP&apos; will insert
+        the line first and &apos;BOTTOM&apos; will insert the line last.
+      </para>
+      <para>The newly added line will be highlighted until the collection
+        is saved in order to differentiate it from the original items.
+      </para>
+      <para>Example configuration (NOTE : the addLinePlacement does not need to specified if the
+        value is &apos;TOP&apos;) :
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id=&quot;Collections-AddViaLightBox-TableLayout&quot; parent=&quot;Uif-Disclosure-TableCollectionSection&quot;
+        p:layoutManager.numberOfColumns=&quot;4&quot;&gt;
+        ...
+        &lt;property name=&quot;addViaLightBox&quot; value=&quot;true&quot; /&gt;
+        &lt;property name=&quot;addLinePlacement&quot; value=&quot;TOP&quot; /&gt;
+        ...
+        &lt;/bean&gt;
+      </programlisting>
+      <figure>
+        <title>Collection Add Via Lightbox Example - TableLayout with TOP add line placement</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/KRAD_Collection_AddViaLightbox.PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    <section>
+      <title>Line Actions</title>
+      <para>In Chapter 6, we learned about the action component, which is used to render buttons or
+        links for our view. These allow the user to perform some action such as making a server
+        call, or invoking client side script. The collection group provides us the ability to
+        configure actions that operate on a collection line. Examples of this are the add action
+        (present with the add line to invoke the line addition), and the delete action (to remove an
+        item from the collection). These are standard actions we think about with collections, but
+        others can be added as well. For example, we might choose to have a copy action, or a
+        perform detail action. In short, actions can be configured for whatever the functional needs
+        are.
+      </para>
+      <para>We specify the line actions using the collection group's
+        <emphasis role="keyword"
+                >lineActions
+        </emphasis>
+        property. The property holds a list of Action components that are
+        rendered when the collection group
+        <emphasis role="keyword">renderLineActions</emphasis>
+        property is true (this property gives us a way to turn off all actions conditionally).
+        Similar to add line, the framework also enforces the condition of the collection group being
+        in editable state (not read-only) before the actions will be rendered.
+      </para>
+      <para>Let's configure two buttons for our collection lines. The first button will call a
+        server side controller method named 'copyLine', and the second will call a server side
+        controller method named 'deleteLine':
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection"
+        p:propertyName="test1Object.test2List"
+        p:collectionObjectClass="edu.myedu.sample.Test2Object"&gt;
+        &lt;property name="lineActions"&gt;
+        &lt;list&gt;
+        &lt;bean parent=&quot;Uif-SecondaryActionButton-Small&quot; p:methodToCall=&quot;copyLine&quot; p:actionLabel=&quot;copy&quot;/&gt;
+        &lt;bean parent=&quot;Uif-SecondaryActionButton-Small&quot; p:methodToCall=&quot;deleteLine&quot; p:actionLabel=&quot;delete&quot;/&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>Notice we have chosen to use the secondary small button styling. This is the
+        chosen design for collection buttons by the KRAD team, but any button style may be
+        used. Furthermore, any action component may be used, including the action links or
+        images.
+      </para>
+      <para>Similar to the group items, the set of line action components will be created for each
+        collection item present in the model. This means our view could end up with several action
+        buttons with labels 'copy' and 'delete', that all call server methods 'copyLine' and
+        'deleteLine' respectively. So when the server method is invoked, how do we know which line
+        was chosen? This is where the action parameters map available on the Action component comes
+        into play. When the actions are created during the view lifecycle, action parameters will be
+        added to each action component indicating the collection path, and the line index. These
+        parameters are then sent with the request made when the action is invoked, and can be pulled
+        from the request (or form) within the controller method.
+      </para>
+      <para>What about if we have an add line, will these actions be rendered for it as well? In
+        most cases the actions configured for existing lines do not make sense for the add line
+        (consider our case with the copy and delete actions). Therefore the line actions are not
+        rendered for the add line and, instead, a separate property is provided named<emphasis
+                role="keyword">addLineActions</emphasis>. The usual action we find here is, of course, the
+        'add' action. This is used to make the server call for adding the line to the collection.
+        Let's see how we add this:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection"
+        p:propertyName="test1Object.test2List"
+        p:collectionObjectClass="edu.myedu.sample.Test2Object"&gt;
+        &lt;property name="addLineActions"&gt;
+        &lt;list&gt;
+        &lt;bean parent=&quot;Uif-SecondaryActionButton-Small&quot; p:methodToCall=&quot;addLine&quot; p:actionLabel=&quot;add&quot;/&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;property name="lineActions"&gt;
+        &lt;list&gt;
+        &lt;bean parent=&quot;Uif-SecondaryActionButton-Small&quot; p:methodToCall=&quot;copyLine&quot; p:actionLabel=&quot;copy&quot;/&gt;
+        &lt;bean parent=&quot;Uif-SecondaryActionButton-Small&quot; p:methodToCall=&quot;deleteLine&quot; p:actionLabel=&quot;delete&quot;/&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>The configuration is the same as the lineActions property, the only difference being we
+        specify a different property name on the collection group.
+      </para>
+      <para>If all you need for your collection is the standard add and delete actions, you're in
+        luck! That is because you get all this for free by extending the 'Uif-CollectionGroupBase'
+        bean. This bean definition sets the addLineActions to include the add action, and likewise
+        sets the lineActions to include the delete action. Furthermore, the UifControllerBase class
+        provided with KRAD takes care of adding and deleting collection lines. Thus no code required
+        at all by the page developer!
+      </para>
+      <tip>
+        <title>Add/Delete Actions</title>
+        <para>In many cases an application needs to do more than simply modifying the collection
+          when an add or delete request is made. One common requirement is to first validate the
+          data with business rules. Or we might need to invoke some other operation. These needs can
+          be taken care of while having the framework take care of the collection manipulation.
+          First, the controller methods delegate the operations to a ViewHelperService. This is a
+          service implementation that is configured on a view instance and performs much of the view
+          related functions. Within the view helper, methods are provided that can be easily
+          overridden to perform validation or other functions. We could also choose to write a
+          controller that extends the UifControllerBase and configure the actions to invoke a custom
+          method. After performing custom logic, a call to super can be made to carry out the line
+          action.
+        </para>
+      </tip>
+    </section>
+    <section>
+      <title>Validated Line Actions</title>
+      <para>A special type of Line Actions are the Validated Line Actions. They do client side
+        validation on the related item before the action can be fired. If the validation fails, a
+        message dialog will be displayed informing the user that the item contains errors, and that
+        the action will not be executed.
+      </para>
+      <para>We specify the validated line actions using the collection group's
+        <emphasis role="keyword"
+                >validatedLineActions
+        </emphasis>
+        property. Similar to line actions, the property holds a
+        list of Action components that are rendered when the collection group
+        <emphasis role="keyword"
+                >renderLineActions
+        </emphasis>
+        property is true (this property gives us a way to turn off
+        all actions conditionally). Example :
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection" p:propertyName="test1Object.test2List"
+        p:collectionObjectClass="edu.myedu.sample.Test2Object"&gt;
+        &lt;property name="validatedLineActions"&gt;
+        &lt;list&gt;
+        &lt;bean parent=&quot;Uif-SecondaryActionButton-Small&quot; p:methodToCall=&quot;updateLine&quot; p:actionLabel=&quot;update&quot;/&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <section>
+        <title>Collection Save Action</title>
+        <para>A type of Validated Line Action that is configured on collections is the save action.
+          This action is not rendered by default. This action will call the saveLine method on the
+          UifControllerBase controller which will call the ViewHelperService
+          processCollectionSaveLine method which can be overridden by the client. This will allow
+          for processing single collections items.
+        </para>
+        <para>The save actions can be rendered by setting the
+          <emphasis role="keyword">renderSaveLineActions</emphasis>
+          property to true. Example :
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean id=&quot;Collections-SaveLines-TableLayout&quot; parent=&quot;Uif-Disclosure-TableCollectionSection&quot;
+          p:layoutManager.numberOfColumns=&quot;4&quot;&gt;
+          ...
+          &lt;property name=&quot;renderSaveLineActions&quot; value=&quot;true&quot; /&gt;
+          ...
+          &lt;/bean&gt;
+        </programlisting>
+      </section>
+    </section>
+    <section>
+      <title>Collection Action Column Sequence</title>
+      <para>Collections using TableLayoutManager can be configured to set the action column placement.</para>
+      <para>The
+        <emphasis role="keyword">layoutManager.actionColumnPlacement</emphasis>
+        property on the CollectionGroup
+        can be set to specify the placement of the action column. The default placement will be &apos;RIGHT&apos;. Other
+        valid
+        placement values are &apos;LEFT&apos; or any valid column number. Values higher than the number of columns or a
+        value of -1 will default to &apos;RIGHT&apos;.
+      </para>
+      <para>Example configuration (NOTE : the addLinePlacement does not need to specified if &apos;TOP&apos;)...</para>
+      <programlisting linenumbering="numbered">
+        &lt;bean id=&quot;Collections-ActionColumnPlacement-TableLayout&quot; parent=&quot;Uif-Disclosure-TableCollectionSection&quot;
+        p:layoutManager.numberOfColumns=&quot;4&quot;&gt;
+        ...
+        &lt;property name=&quot;layoutManager.actionColumnPlacement&quot; value=&quot;3&quot; /&gt;
+        ...
+        &lt;/bean&gt;
+      </programlisting>
+      <figure>
+        <title>Collection Action Column Placement Example</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/KRAD_Collection_ActionColumnPlacement.PNG" contentwidth="400"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    <section>
+      <title>SubCollections</title>
+      <para>We have seen how to bind to primitive types (data field), and collection types
+        (collection group), and primitives within a collection (collection group data fields), so
+        what about a collection property within a collection item? We can do that as well, and these
+        are called SubCollections.
+      </para>
+      <para>Basically we configure a sub-collection the same way as a normal collection, using a
+        collection group. The difference is the collection group for a sub-collection is nested
+        within another collection group. So we can just set the sub-collection collection group in
+        the parent collection group's items list right? The answer is no. The reason being, these
+        nested collection groups need to be treated differently for rendering than the standard
+        collection group items. Therefore, a property named
+        <emphasis role="keyword"
+                >subCollections
+        </emphasis>
+        is provided for configuring nested collection groups.
+      </para>
+      <para>For an example let's first create a Test3Object, and add a list of these objects to our
+        Test2Object:
+      </para>
+      <programlisting linenumbering="numbered">
+        public class Test3Object {
+        private String t3Field;
+        private String t3Field2;
+        }
+
+        public class Test2Object {
+        private String t2Field;
+        private String t2Field2;
+        private String t2Field3;
+        private List&lt;Test3Object&gt; test3List;
+        private Map&lt;String, String&gt; t2Map;
+        }
+      </programlisting>
+      <para>We can then configure the collection group for the sub-collection as
+        follows:
+      </para>
+      <programlisting linenumbering="numbered">
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection"
+        p:propertyName="test1Object.test2List"
+        p:collectionObjectClass="edu.myedu.sample.Test2Object"&gt;
+        &lt;property name="subCollections"&gt;
+        &lt;list&gt;
+        &lt;bean parent="Uif-CollectionGroupBase" p:title="My First Collection"
+        p:propertyName="test3List"
+        p:collectionObjectClass="edu.myedu.sample.Test3Object"&gt;
+        &lt;property name="items"&gt;
+        &lt;list&gt;
+        &lt;bean parent="Uif-InputField" p:propertyName="t3Field"/&gt;
+        &lt;bean parent="Uif-InputField" p:propertyName="t3Field2"/&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>Notice our collection group for the sub-collection is configured exactly like any
+        standard collection. Also notice that the property name is simply 'test3List'. This is
+        because the binding for the sub collections follow the same rule as the collection group
+        fields (assumed to be on the collection item). We can continue adding other sub collections
+        to the list as needed.
+      </para>
+      <para>Note that if your collection is using a TableLayoutManager, you should place your
+        sub-collections in a rowDetailsGroup, as the subcollection property is not officially
+        supported by TableLayoutManager. It is recommended that the subcollections property only be
+        used for collections which use a StackedLayoutManager (or other).
+      </para>
+      <para>As you might have guessed, the sub-collection could in turn have sub-collections
+        and further down the line. The framework does not restrict how many levels the
+        nesting can go (in practical terms of screen real estate three levels is usually the
+        limit). The number of fields generated when using sub-collections can grow quite
+        rapidly. For each parent collection line, a separate sub collection must be rendered
+        entirely. For example assume our test2List has 2 items, and our test3List has 3
+        items. The line rendering would then be:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>Render test2List[0]</para>
+          <itemizedlist>
+            <listitem>
+              <para>Render test2List[0].test3List[0]</para>
+            </listitem>
+            <listitem>
+              <para>Render test2List[0].test3List[1]</para>
+            </listitem>
+            <listitem>
+              <para>Render test2List[0].test3List[2]</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>Render test2List[1]</para>
+          <itemizedlist>
+            <listitem>
+              <para>Render test2List[1].test3List[0]</para>
+            </listitem>
+            <listitem>
+              <para>Render test2List[1].test3List[1]</para>
+            </listitem>
+            <listitem>
+              <para>Render test2List[1].test3List[2]</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+      <para>You can clearly see that as more test2List items are added, the number of fields grows
+        fast. Adding other sub-collections, or another level of sub-collections, makes the rate of
+        growth even more rapid.
+      </para>
+    </section>
+    <section>
+      <title>Collection Group Builder</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+                -->
+    </section>
+    <section>
+      <title>LightTable Group</title>
+      <para>which does not contain or allow many of the options already described in this section.</para>
+      <para>The LightTable group ("Uif-LightTableGroup") and sections are special collections that
+        are a light-weight collection table implementation, supporting a subset of features
+        available in a normal collection. Since the LightTable does not retain the many of the
+        features of the full featured collection table groups, the usage of a LightTable is to allow
+        for a very fast render/response of a large table with many rows. Its purpose (in most
+        cases) is to display these entries as read-only, therefore, adding is not allowed for this
+        collection.
+      </para>
+      <para>Currently the features officially supported by this table in Krad are:</para>
+      <para>
+        <itemizedlist>
+          <listitem>
+            <para>DataField</para>
+          </listitem>
+          <listitem>
+            <para>InputField with TextControl</para>
+          </listitem>
+          <listitem>
+            <para>InputField with CheckboxControl</para>
+          </listitem>
+          <listitem>
+            <para>InputField with a single-select SelectControl (ie, "Uif-Dropdown")</para>
+          </listitem>
+          <listitem>
+            <para>MessageField</para>
+          </listitem>
+          <listitem>
+            <para>LinkField</para>
+          </listitem>
+          <listitem>
+            <para>ActionField</para>
+          </listitem>
+          <listitem>
+            <para>ImageField</para>
+          </listitem>
+          <listitem>
+            <para>most RichTable widget options (including sorting and paging, among other jQuery
+              DataTables options)
+            </para>
+          </listitem>
+          <listitem>
+            <para>FieldGroup containing only Actions, Image, Messages, or Links</para>
+          </listitem>
+          <listitem>
+            <para>SpringEL (Spring Expression Language) for String properties on components
+              supported by this table only
+            </para>
+          </listitem>
+          <listitem>
+            <para>SpringEL specifically for the render property</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>Other features are not guaranteed by the framework to work, but may be still be
+        functional.
+      </para>
+      <para>LightTable has the following relevant properties:
+        <itemizedlist>
+          <listitem>
+            <para>propertyName and bindingInfo - for data binding purposes</para>
+          </listitem>
+          <listitem>
+            <para>richTable - RichTable widget configuration for sorting and other advanced
+              features
+            </para>
+          </listitem>
+          <listitem>
+            <para>items - list of Fields/FieldGroups (must be of these types) for this table</para>
+          </listitem>
+          <listitem>
+            <para>other properties inherited from the Group component</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>Example of using a LightTable group to display a very simple table that is highly
+        performant with large sets of
+        data:
+        <programlisting linenumbering="numbered">  &lt;bean id="Demo-LightTableGroup1" parent="Uif-LightTableGroup">
+          &lt;property name="propertyName" value="list6"/>
+          &lt;property name="items">
+          &lt;list>
+          &lt;bean parent="Uif-DataField" p:label="Field 1" p:propertyName="field1"/>
+          &lt;bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+          &lt;bean parent="Uif-DataField" p:label="Field 3" p:propertyName="field3"/>
+          &lt;bean parent="Uif-DataField" p:label="Field 4" p:propertyName="field4"/>
+          &lt;/list>
+          &lt;/property>
+          &lt;/bean>
+        </programlisting>
+      </para>
+      <para>The appearance of this table will be exactly the same as if a CollectionGroup with a
+        TableCollectionLayout was being used (though it is limited by the types of components and
+        advanced functionality allowed).
+      </para>
+      <para>Like TableLayoutManager, the LightTable has a property called<emphasis role="bold"
+              >conditionalRowCssClasses</emphasis>. It supports all the following conditions in its keys:
+        <itemizedlist>
+          <listitem>
+            <para>all - put a class on every row</para>
+          </listitem>
+          <listitem>
+            <para>even - put a class on even rows</para>
+          </listitem>
+          <listitem>
+            <para>odd - put a class on odd rows</para>
+          </listitem>
+          <listitem>
+            <para>index - one-based index is used to put a css class on a single row (this should
+              only be used on tables which never change)
+            </para>
+          </listitem>
+          <listitem>
+            <para>SpringEL - create a condition that returns true/false based on the fields and
+              context of the row itself. When true, that row will have the class specified.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>A Collection Group is a special group that renders multiple sets of fields
+            and associates with a model property of type Collection
+          </para>
+        </listitem>
+        <listitem>
+          <para>Like an input field, the collection group uses the
+            <emphasis role="keyword">propertyName</emphasis>
+            and
+            <emphasis role="keyword">bindingInfo</emphasis>
+            properties for finding the property that
+            provides the collection data
+          </para>
+        </listitem>
+        <listitem>
+          <para>When configuring a collection group, we must specify the type for each
+            collection item using the
+            <emphasis role="keyword">collectionObjectClass</emphasis>
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>All data fields declared within the collection group's items list are assumed to be
+            on the collection object class (therefore, their path given is relative to the path of
+            the collection item)
+          </para>
+        </listitem>
+        <listitem>
+          <para>Collection groups provide data IO at two levels: the individual collection fields,
+            and the collection items (data objects). For adding a collection item, we use the add
+            line feature which is enabled by the property
+            <emphasis role="keyword"
+                    >renderAddLine
+            </emphasis>
+            (true by default when the group is not read-only)
+          </para>
+        </listitem>
+        <listitem>
+          <para>The add line data object is not part of the collection until the user performs the
+            add operation. Therefore, we must hold the data object in a separate property
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides a general Map on UifFormBase for holding add line
+            objects. We can override this to use a custom property by setting the
+            properties
+            <emphasis role="keyword">addLinePropertyName</emphasis>
+            and
+            <emphasis role="keyword">addLineBindingInfo</emphasis>
+          </para>
+        </listitem>
+        <listitem>
+          <para>By default, the components configured in the items property will be used for the add
+            line as well. We can, however, configure a different list of components using the
+            <emphasis role="keyword">addLineItems</emphasis>
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>Collections can be configured to allow the user to add blank editable lines to the
+            collection. This way, the user is forced to add the line to the collection before
+            entering data. To enable this feature, the
+            <emphasis role="keyword"
+                    >renderAddBlankLineButton
+            </emphasis>
+            property on CollectionGroup must be set to
+            true
+          </para>
+        </listitem>
+        <listitem>
+          <para>Collections can be configured to allow the user to add items to the collection via a
+            modal dialog. To enable this feature the
+            <emphasis role="keyword">addViaLightBox</emphasis>
+            property on CollectionGroup must be set to true
+          </para>
+        </listitem>
+        <listitem>
+          <para>The collection group provides the property
+            <emphasis role="keyword">addLineLabel</emphasis>
+            which is used by layout managers to label the
+            add line
+          </para>
+        </listitem>
+        <listitem>
+          <para>Action fields that perform an action related to an existing line can be given using
+            the
+            <emphasis role="keyword">lineActions</emphasis>
+            property. For the add line, actions are
+            given using the
+            <emphasis role="keyword">addLineActions</emphasis>
+            property. Common
+            examples include the 'delete' action for existing lines and the 'add' action for the add
+            line
+          </para>
+        </listitem>
+        <listitem>
+          <para>Validated Action fields that perform a validation and an action related to an
+            existing line can be given using the
+            <emphasis role="keyword"
+                    >validatedLineActions
+            </emphasis>
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>The display of the actions is controlled by the property
+            <emphasis role="keyword"
+                    >renderLineActions
+            </emphasis>
+            (by default this is true when the group is not
+            read-only)
+          </para>
+        </listitem>
+        <listitem>
+          <para>We can specify the placement of the action column on collection groups using
+            TableLayoutManager by setting the
+            <emphasis role="keyword"
+                    >layoutManager.actionColumnPlacement
+            </emphasis>
+            property
+          </para>
+        </listitem>
+        <listitem>
+          <para>Collection group beans can extend the base bean 'Uif-CollectionGroupBase' which
+            configures the add and delete buttons by default
+          </para>
+        </listitem>
+        <listitem>
+          <para>We can create a controller that extends
+            <emphasis role="keyword">UifControllerBase</emphasis>
+            which provides handling of the add and
+            delete line actions. If we need to perform custom actions (such as
+            validation), we can override the controller method or implement the
+            ViewHelperService method
+            <emphasis role="keyword">processBeforeAddLine</emphasis>
+            or
+            <emphasis role="keyword">processAfterAddLine</emphasis>
+          </para>
+        </listitem>
+        <listitem>
+          <para>In addition to providing data IO for primitive property types on a
+            collection, we also have nested collection property types. These are
+            referred to as sub-collections
+          </para>
+        </listitem>
+        <listitem>
+          <para>Sub-collections are just a collection that is nested, therefore, we use a collection
+            group and configure in the same way as a non-nested collection. The only difference is
+            we then add this collection group to the
+            <emphasis role="keyword">subCollections</emphasis>
+            property of the parent collection group
+          </para>
+        </listitem>
+        <listitem>
+          <para>When configuring the property path for the sub-collection (like the collection
+            items), it is assumed to be related to the collection object class
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Component Prototypes</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+              -->
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>In many places of the UIF components need to be created dynamically based on data or
+            other conditions. A good example of this are components configured for a collection
+            group. For example, when we specify the lineActions, these action need to be rendered
+            for each line. Therefore, we need separate components for each line (the same components
+            cannot be used for reasons such as id, action parameters, property paths and so
+            on)
+          </para>
+        </listitem>
+        <listitem>
+          <para>When the framework needs to dynamically build a component, it makes a copy of the
+            component configured. Therefore, the configured component acts as a prototype for the
+            component creations rather than being the actual component that is rendered
+          </para>
+        </listitem>
+        <listitem>
+          <para>Many properties have the suffix 'prototype' in their name to indicate this
+            purpose
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Collection Layout Managers</title>
+    <para>Again we know the group component (including collection groups) has no knowledge of how to
+      position the components it holds. Therefore, we need to associate a layout manager with the
+      group. Because of the unique features we have seen with collection groups, they require a
+      special type of layout manager. These layout managers must implement the interface
+      org.kuali.rice.krad.uif.layout.CollectionLayoutManager, which requires a method named
+      buildLine to be implemented. Collection layout managers have to do a lot more work than the
+      standard layout managers. For the standard manager such as grid and box, most of the work can
+      be simply done through the template by the process described earlier in this chapter.
+      Collection layout managers, though, need to do work in code to collect the generated
+      collection line fields (and actions) and, in some cases, create wrapping components (this will
+      become more clear as we continue).
+    </para>
+    <para>Setting aside the concerns of item layout, the collection group appears just like the
+      standard group. We have the group header, instructional message, errors field, the group
+      items, and the footer. The difference comes where the items are rendered, which we will
+      again call the Layout Area.
+    </para>
+    <para>Version 2.0 of KRAD comes with two collection layout mangers, the Table Layout Manager and
+      the Stacked Layout Manager. Let's take a close look at each of these.
+    </para>
+    <section>
+      <title>Table Layout</title>
+      <para>The Table Layout manager does as you might expect: it creates an HTML table! However,
+        unlike the table created by the grid layout, these tables follow more closely with what we
+        think of as a data table (for example a spreadsheet). These tables have the following
+        characteristics:
+      </para>
+      <orderedlist>
+        <listitem>
+          <para>Each collection item is one line in the table. Note we say line instead of
+            row (tr). In most cases a line is a single table row, but can span multiple
+            rows.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Each item field is a column in the table. The field label is presented as
+            the column header.
+          </para>
+        </listitem>
+      </orderedlist>
+      <para>The basic table layout is shown below.</para>
+      <figure>
+        <title>Table Layout Manager</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/KRAD_Table_Layout.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>In addition to the columns rendered for the group items, the table layout manager
+        will create two additional columns. One of these will hold the line actions. Recall
+        our line actions are configured as a list of Action components on the collection
+        group. In order to place these in a cell, the table layout manager wraps these
+        actions into a Field Group. We use the prototype pattern to specify how the action
+        field groups should be created. The property for doing so is<emphasis role="keyword">
+          actionFieldPrototype</emphasis>.
+      </para>
+      <para>By default these prototype is set as follows:</para>
+      <programlisting linenumbering="numbered">
+        &lt;property name=&quot;actionFieldPrototype&quot;&gt;
+        &lt;bean parent=&quot;Uif-HorizontalFieldGroup&quot; p:align=&quot;center&quot; p:label=&quot;Actions&quot;
+        p:shortLabel=&quot;Actions&quot;/&gt;
+        &lt;/property&gt;
+      </programlisting>
+      <para>For each collection item, a new field group component will be created by copying this
+        prototype. The list of actions will then also be copied, and finally inserted as the items
+        on the nested field group. The prototype definition here stated the field group items
+        (actions) will be rendered using a horizontal box layout. Furthermore, this specifies a
+        label for the field of 'Actions', which, like the label for the collection fields, will be
+        displayed as the column header. Finally, we are specifying our content should align
+        center.
+      </para>
+      <para>The second column the table layout manager will add is referred to as the sequence
+        column. This is a column that will provide a label for each row. Typically the label is
+        either a generated sequence (1,2,3…), or uses an identifier property from the collection
+        item class (such as a line number or unique identifier). To enable the column, the property
+        <emphasis role="keyword">renderSequenceField</emphasis>
+        on the table manger must be set to
+        true (default). We then need to specify where the sequence value should come from. One way
+        of doing this is to allow the framework to create the sequence value for us. This is
+        basically a numbering of each line starting with one. To use autosequencing we set the
+        property generateAutoSequence to true.
+      </para>
+      <section>
+        <title>Conditional Row Css Classes</title>
+        <para>Row css classes can be set per a row conditional based on a variety of conditions for
+          that row in your table layout. There is a property on TableLayoutManager called
+          <emphasis
+                  role="bold">conditionalRowCssClasses
+          </emphasis>
+          which takes a "condition" as a key and a
+          css class (or classes separated by spaces) as a value. The class will be placed on the tr
+          element in the DOM for that row. The options available for the condition are:
+          <itemizedlist>
+            <listitem>
+              <para>all - put a class on every row</para>
+            </listitem>
+            <listitem>
+              <para>even - put a class on even rows</para>
+            </listitem>
+            <listitem>
+              <para>odd - put a class on odd rows</para>
+            </listitem>
+            <listitem>
+              <para>index - one-based index is used to put a css class on a single row (this should
+                only be used on tables which never change)
+              </para>
+            </listitem>
+            <listitem>
+              <para>SpringEL - create a condition that returns true/false based on the fields and
+                context of the row itself. When true, that row will have the class
+                specified.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <para>DO NOT use the rowCssClass property to set your css classes, but use this property
+          instead. The rowCssClasses property is used by the framework internally (however it can
+          be used with GridLayoutManagers).
+        </para>
+        <para>This is an example of setting each type of condition, the SpringEL condition here puts
+          the "demo-rowCondition" class on the row when field1 of the line equals
+          "B":
+          <programlisting>  &lt;property name="layoutManager.conditionalRowCssClasses">
+            &lt;map>
+            &lt;entry key="all" value="demo-all"/>
+            &lt;entry key="odd" value="demo-odd"/>
+            &lt;entry key="even" value="demo-even"/>
+            &lt;entry key="2" value="demo-index2"/>
+            &lt;entry key="@{#line.field1 eq 'B'}" value="demo-rowCondition"/>
+            &lt;/map>
+            &lt;/property>
+          </programlisting>
+        </para>
+      </section>
+      <section>
+        <title>Row Details Group option</title>
+        <para>Table collections can now display additional details on a row. When using this
+          functionality, an additional column with a "Details" link will be available, and when the
+          user clicks on it, the configured group to display for that row will be revealed/disclosed
+          below that row. The intended uses of this functionality is for the user to be able to
+          discover additional information about that collection item without having to leave the
+          page, or hide content that can become large, such as descriptions. Using row details for
+          subcollections is the ONLY officially supported way to display subcollections for
+          table-based (TableLayoutManager) collections; do not use the subcollections property on
+          CollectionGroup.
+        </para>
+        <para>To use a row details group with a Uif-TableCollectionSection (or variation of) you setup the following
+          properties on its
+          <emphasis role="keyword">layoutManager</emphasis>
+          (It is
+          <emphasis role="bold">REQUIRED</emphasis>
+          that the layoutManager is using richTable functionality - in other words, it is using the dataTables jQuery
+          plugin to render):
+        </para>
+        <para>
+          <emphasis role="keyword">rowDetailsGroup</emphasis>
+          – this can be ANY group or section
+          content you would like to use for the content of details. The input and data fields used
+          in this group will automatically inherit the necessary collection binding path just like
+          items of the collection itself
+        </para>
+        <para>RowDetailsGroup which contains fields (note that both fields, field3 and field4 are
+          part of line's object since the path is automatically
+          adjusted):
+          <programlisting>&lt;property name="layoutManager.rowDetailsGroup">
+            &lt;bean parent="Uif-VerticalBoxGroup">
+            &lt;property name="items">
+            &lt;list>
+            &lt;bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+            p:required="true"/>
+            &lt;bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4" p:progressiveRender="false"
+            p:required="true"/>
+            &lt;/list>
+            &lt;/property>
+            &lt;/bean>
+            &lt;/property>
+          </programlisting>
+        </para>
+        <para>RowDetailsGroup which contains an input field and a subcollection (again no need to
+          adjust the binding path, this subcollection is a subcollection of the line's
+          object):
+          <programlisting>&lt;property name="layoutManager.rowDetailsGroup">
+            &lt;bean parent="Uif-VerticalBoxGroup">
+            &lt;property name="items">
+            &lt;list>
+            &lt;bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+            p:required="true"/>
+            &lt;bean parent="Uif-StackedSubCollection-WithinSection">
+            &lt;property name="propertyName" value="subList"/>
+            &lt;property name="headerText" value="SubCollection"/>
+            &lt;property name="collectionObjectClass"
+            value="edu.sampleu.demo.kitchensink.UITestObject"/>
+            &lt;property name="readOnly" value="true"/>
+            &lt;property name="items">
+            &lt;list>
+            &lt;bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+            p:required="true"/>
+            &lt;bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+            p:required="true">
+            &lt;/bean>
+            &lt;/list>
+            &lt;/property>
+            &lt;/bean>
+            &lt;/list>
+            &lt;/property>
+            &lt;/bean>
+            &lt;/property>
+          </programlisting>
+        </para>
+        <para>
+          <emphasis role="bold">A note on column width:</emphasis>
+          If you would like the details column to take up less space than it does by default, you must manually alter
+          the column width as follows (20px is the width we are manually setting here and 0 is the index of the details
+          column):
+        </para>
+        <programlisting linenumbering="numbered">&lt;property name=&quot;layoutManager.applyDefaultCellWidths&quot;
+          value=&quot;false&quot;/&gt;
+          &lt;property name=&quot;layoutManager.richTable.templateOptions&quot;&gt;
+          &lt;map merge=&quot;true&quot;&gt;
+          &lt;entry key=&quot;aoColumnDefs&quot; value=&quot;[{&amp;quot;sWidth&amp;quot; : &amp;quot;20px&amp;quot;,
+          &amp;quot;aTargets&amp;quot; : [0]}]&quot;/&gt;
+          &lt;/map&gt;
+          &lt;/property&gt;</programlisting>
+        <figure>
+          <title>Row Details</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/rowDetails.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section>
+        <title>Row Grouping</title>
+        <para>Collection row grouping allows for rows of a table collection to be grouped together under a common header
+          when one (or more) of their property values are the same.
+        </para>
+        <para>To group lines of a collection, the
+          <emphasis role="keyword"
+                  >groupingPropertyNames
+          </emphasis>
+          property must be set. In most cases, this will be a
+          single<emphasis role="keyword">propertyName</emphasis>, but it can be as many as you want to
+          specify. When there are multiple propertyNames given, they will be sorted and displayed by
+          value in the order given in the list (concatenated using a comma to separate the values).
+          ALL propertyNames given MUST be a valid property of the collection object for this table
+          collection specified by the collection's collectionObjectClass property .
+        </para>
+        <para>All propertyNames are relative to the collection line object, and do not need accept
+          #lp (or other prefixes). Important note: grouping currently does not allow/ignores the use
+          of the sequenceField property (renderSequenceField should be set to false). The
+          <emphasis
+                  role="keyword">richTable
+          </emphasis>
+          widget of collections must be have render="true" for
+          grouping to work.
+        </para>
+        <para>There are 2 available options to customize the grouping title:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="keyword">groupingPrefix</emphasis>(string) – this will prefix the default title of the
+              group with the string provided (does not affect sort order, sort order will still be based on actual
+              grouping value)
+            </para>
+          </listitem>
+          <listitem>
+            <para><emphasis role="keyword">groupingTitle</emphasis>(string) –<emphasis role="italic">this is a
+              customized title that MUST include SpringEL for values to group by</emphasis>. #lp should be used to
+              reference values of the line in the expression(s) used. The title can be anything as long as it includes
+              some content that is based on line values. Sorting will be based on the full title in alphabetical order.
+              groupingTitle will
+              <emphasis role="bold">always</emphasis>
+              override the settings of groupingPropertyNames and groupingPrefix.
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>By default, when using grouping, the field you are grouping on is not displayed automatically. This has to
+          be done in the same way you would display other fields of the line, by adding the field you want to show to
+          items (so displaying the grouping field value or not is up to the developer depending on use case).
+        </para>
+        <para>To enable grouping, simply supply some<emphasis role="keyword"
+                >groupingPropertyNames</emphasis>. In this example, lines will be grouped by the values
+          that exist for field1 of the collectionObject. The field1 InputField is also displayed as
+          a field of the collection line (but could be omitted if desired).
+        </para>
+        <programlisting linenumbering="numbered">
+          &lt;bean id=&quot;Demo-CollectionGrouping-Section1&quot; parent=&quot;Uif-TableCollectionSection&quot;&gt;
+          &lt;property name=&quot;headerText&quot; value=&quot;Basic Grouping&quot;/&gt;
+          &lt;property name=&quot;collectionObjectClass&quot;
+          value=&quot;edu.sampleu.demo.kitchensink.UITestObject&quot;/&gt;
+          &lt;property name=&quot;propertyName&quot; value=&quot;groupedList1&quot;/&gt;
+          &lt;property name=&quot;readOnly&quot; value=&quot;true&quot;/&gt;
+          &lt;property name=&quot;layoutManager.renderSequenceField&quot; value=&quot;false&quot;/&gt;
+          <emphasis role="bold"> &lt;property name=&quot;layoutManager.groupingPropertyNames&quot;&gt; &lt;list&gt; &lt;value&gt;field1&lt;/value&gt;
+            &lt;/list&gt; &lt;/property&gt;</emphasis>
+          &lt;property name=&quot;items&quot;&gt;
+          &lt;list&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field2&quot; p:label=&quot;Value 1&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field3&quot; p:label=&quot;Value 2&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field4&quot; p:label=&quot;Value 3&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field1&quot; p:label=&quot;Group Value&quot;/&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+
+        </programlisting>
+        <para>Which results in a table that looks like this:
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/row_grouping_1.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+        <para>Alternatively, if we supply multiple property names, we can group lines based on
+          multiple properties of the collectionObject instead of one.
+        </para>
+        <programlisting linenumbering="numbered">…
+          <emphasis role="bold">&lt;property name=&quot;layoutManager.groupingPropertyNames&quot;&gt; &lt;list&gt; &lt;value&gt;field2&lt;/value&gt;
+            &lt;value&gt;field1&lt;/value&gt; &lt;/list&gt; &lt;/property&gt;</emphasis>
+          &lt;property name=&quot;items&quot;&gt;
+          &lt;list&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field1&quot; p:label=&quot;Semester&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field2&quot; p:label=&quot;Year&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field3&quot; p:label=&quot;Course&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field4&quot; p:label=&quot;Credits&quot;/&gt;
+          &lt;/list&gt;
+          …
+        </programlisting>
+        <para>This results in a table that looks like this (this table also has column totaling
+          turned on, this is covered in the next section):
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/row_grouping_2.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+        <para>Supplying a groupingPrefix to use for the grouping row title (set on the
+          <emphasis
+                  role="keyword">layoutManager
+          </emphasis>
+          of the
+          Uif-TableCollectionSection)
+          <programlisting linenumbering="numbered">…
+            &lt;property name=&quot;layoutManager.groupingPrefix&quot; value=&quot;Lines with value &quot;/&gt;
+            …
+
+          </programlisting>
+        </para>
+        <para>Results in a table that looks like this:
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/row_grouping_3.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+        <para>And supplying a
+          <emphasis role="keyword">groupingTitle</emphasis>
+          (note that SpringEL is
+          REQUIRED to be used in the groupingTitle property, if used)
+        </para>
+        <programlisting linenumbering="numbered">…
+          &lt;property name=&quot;layoutManager.groupingTitle&quot; value=&quot;Letter @{#lp.field1} in item&quot;/&gt;
+          …
+        </programlisting>
+        <para>Results in a table that looks like this:
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/row_grouping_4.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+      </section>
+      <section>
+        <title>Column Calculations</title>
+        <para>Collection totaling allows the calculation of column data, and puts this total at the
+          bottom of that column in the table's footer. Currently, column calculations only work for
+          numeric data. To setup calculations for a collection, the only thing that needs to be
+          provided is a list of column calculations (<emphasis role="keyword"
+                  >ColumnCalculationInfo</emphasis>) you want for each column on the collection's
+          <emphasis role="keyword">layoutManager.columnCalculations</emphasis>
+          property. Columns can
+          even have multiple types of calculations per column.
+        </para>
+        <para>The following KRAD base beans are available that provide default ColumnCalculationInfo configurations for
+          the most common column calculation operations:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>
+              <emphasis role="keyword">Uif-ColumnCalculationInfo</emphasis>
+              – ALL
+              ColumnCalculationInfo must have this bean as a parent (this is important for any
+              custom calculations)
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">Uif-ColumnCalculationInfo-Sum</emphasis>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">Uif-ColumnCalculationInfo-Average</emphasis>
+              (default 2 decimal places, but allows you to specify decimal places through calculationFunctionExtraData –
+              described below)
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">Uif-ColumnCalculationInfo-Max</emphasis>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">Uif-ColumnCalculationInfo-Min</emphasis>
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>By default, KRAD supports sum, average, min, and max, but can easily be expanded with
+          any calculation you want to provide, by creating your own javascript function and
+          ColumnCalculationInfo bean. Javascript functions referenced by ColumnCalculationInfo must
+          follow this format ("values" must be the first parameter, "yourExtraData" is optional and
+          can be named anything):
+        </para>
+        <programlisting linenumbering="numbered">
+          function yourCalculationFunctionName(values, yourExtraData){
+          //do a calculation with the array of values passed
+          //return calculation result
+          }
+        </programlisting>
+        <para>The function's name is used in ColumnCalculationInfo's
+          <emphasis role="keyword"
+                  >calculationFuctionName
+          </emphasis>
+          property. This property must be specified by name
+          only; parenthesis and parameters CANNOT be included. The framework automatically passes
+          the array of column values to calculate to the function as the first parameter and data
+          specified by the<emphasis role="keyword">calculationFunctionExtraData</emphasis>property as
+          the second parameter. This data can be
+          <emphasis role="bold">any</emphasis>
+          valid
+          javascript data: int, String, object, etc.
+        </para>
+        <para>The calculationFunctionExtraData property is meant to provide options to your calculation function, if
+          needed (our average function, for example, uses calculationFunctionExtraData to pass the number of decimal
+          places to be used in the average).
+        </para>
+        <para>The settable properties available on
+          <emphasis role="keyword">Uif-ColumnCalculationInfo</emphasis>
+          are:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>
+              <emphasis role="keyword">propertyName</emphasis>
+              – must be set. This specifies the column of the collection you are totaling. The field for this
+              propertyName must be one of the fields specified by items of the TableCollection.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">showTotal</emphasis>
+              (Boolean) – default true. Whether or not to show the calculation total for the column (this is the total
+              of all values of the collection across all pages)(default is true on KRAD base beans).
+            </para>
+          </listitem>
+          <listitem>
+            <para><emphasis role="keyword">showPageTotal</emphasis>(Boolean) – if true, this shows the calculation total
+              for the values of the currently shown page for the column(default is true on KRAD base beans).
+            </para>
+          </listitem>
+          <listitem>
+            <para><emphasis role="keyword">showGroupTotal</emphasis>(Boolean) – if true, shows the group calculation
+              total for the values of each group. The TableCollection must be using row grouping functionality for this
+              to work (see TableCollection Row Grouping) (default is false on KRAD base beans).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">totalField, pageTotalField, and groupTotalFieldPrototype</emphasis>
+              – the MessageField component used to display the column calculation results. Normally not configured, but
+              can be used to force messageText in the skip client-side scenario (described below) and to modify the
+              label of the calculation field at will. These fields should not be overridden, only their properties set.
+              Example of setting the label on pageTotalField:
+              <programlisting linenumbering="numbered">&lt;property name=&quot;pageTotalField.fieldLabel.labelText&quot;
+                value=&quot;Page Average&quot;/&gt;
+              </programlisting>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">calculationFunctionName</emphasis>
+              – described above, the js calculation function to use by name.
+            </para>
+          </listitem>
+          <listitem>
+            <para><emphasis role="keyword">calculationFunctionExtraData</emphasis>– optional. The additional js data to
+              pass to the js calculation function.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">recalculateTotalClientSide</emphasis>
+              – if false, the calculation for total (not page or group totals – these are ALWAYS client-side
+              calculations if shown) is not done client side. What this means is the total must come from the server by
+              providing the total to the totalField in this way through SpringEL:
+              <programlisting linenumbering="numbered">&lt;property name=&quot;totalField.messageText&quot; value=&quot;@{#form.serverCalculatedTotal}&quot;/&gt;
+              </programlisting>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="keyword">calculateOnKeyUp</emphasis>
+              – if true, fields of this column will perform their calculations on key up (there is a small delay to
+              prevent it from calculating before you are done typing).
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>The following example has a different calculation for each column of the collection.
+          Since we do not specify the show properties, our beans, by default, show total and page
+          total. Note that the columnCalculationInfo propertyNames match the propertyNames of the
+          fields in the collection's items list.
+        </para>
+        <programlisting linenumbering="numbered">&lt;bean id=&quot;Demo-CollectionTotaling-Section1&quot; parent=&quot;Uif-TableCollectionSection&quot;
+          p:layoutManager.numberOfColumns=&quot;4&quot;&gt;
+          &lt;property name=&quot;headerText&quot; value=&quot;Different Calculations per Column&quot;/&gt;
+          &lt;property name=&quot;instructionalText&quot; value=&quot;Demonstrating sum, average, min, max&quot;/&gt;
+          &lt;property name=&quot;collectionObjectClass&quot; value=&quot;edu.sampleu.demo.kitchensink.UITestObject&quot;/&gt;
+          &lt;property name=&quot;propertyName&quot; value=&quot;list1&quot;/&gt;
+          &lt;property name=&quot;layoutManager.generateAutoSequence&quot; value=&quot;true&quot;/&gt;
+          &lt;property name=&quot;layoutManager.richTable.render&quot; value=&quot;true&quot;/&gt;
+          <emphasis role="bold">&lt;property name=&quot;layoutManager.columnCalculations&quot;&gt; &lt;list&gt; &lt;bean
+            parent=&quot;Uif-ColumnCalculationInfo-Sum&quot; p:propertyName=&quot;field1&quot;/&gt; &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Average&quot;
+            p:propertyName=&quot;field2&quot;/&gt; &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Min&quot;
+            p:propertyName=&quot;field3&quot;/&gt; &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Max&quot;
+            p:propertyName=&quot;field4&quot;/&gt; &lt;/list&gt; &lt;/property&gt;</emphasis>
+          &lt;property name=&quot;items&quot;&gt;
+          &lt;list&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:label=&quot;Field 1&quot; p:propertyName=&quot;field1&quot;
+          p:required=&quot;true&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:label=&quot;Field 2&quot; p:propertyName=&quot;field2&quot;
+          p:required=&quot;true&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:label=&quot;Field 3&quot; p:propertyName=&quot;field3&quot;
+          p:required=&quot;true&quot;/&gt;
+          &lt;bean parent=&quot;Uif-InputField&quot; p:label=&quot;Field 4&quot; p:propertyName=&quot;field4&quot;
+          p:required=&quot;true&quot;&gt;
+          &lt;/bean&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;/bean&gt;
+        </programlisting>
+        <para>Which results in a table that looks like this:
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/column_calc_1.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+        <para>To enable calculations for a collection that also has row grouping, we would do the
+          following (note in this example we are turning off total and page total, and only doing
+          sums for each
+          column):
+          <programlisting linenumbering="numbered">&lt;bean id=&quot;Demo-CollectionTotaling-Section7&quot; parent=&quot;Uif-TableCollectionSection&quot;&gt;
+            &lt;property name=&quot;headerText&quot; value=&quot;Group Totaling&quot;/&gt;
+            &lt;property name=&quot;instructionalText&quot; value=&quot;Group Totaling on for last 3 columns, no
+            totaling for
+            total or page total&quot;/&gt;
+            &lt;property name=&quot;collectionObjectClass&quot;
+            value=&quot;edu.sampleu.demo.kitchensink.UITestObject&quot;/&gt;
+            &lt;property name=&quot;propertyName&quot; value=&quot;groupedList1&quot;/&gt;
+            &lt;property name=&quot;readOnly&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;layoutManager.renderSequenceField&quot; value=&quot;false&quot;/&gt;
+            <emphasis role="bold"> &lt;property name=&quot;layoutManager.columnCalculations&quot;&gt; &lt;list&gt; &lt;bean
+              parent=&quot;Uif-ColumnCalculationInfo-Sum&quot; p:showPageTotal=&quot;false&quot; p:showGroupTotal=&quot;true&quot;
+              p:showTotal=&quot;false&quot; p:propertyName=&quot;field2&quot;/&gt; &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Sum&quot;
+              p:showPageTotal=&quot;false&quot; p:showGroupTotal=&quot;true&quot; p:showTotal=&quot;false&quot;
+              p:propertyName=&quot;field3&quot;/&gt; &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Sum&quot;
+              p:showPageTotal=&quot;false&quot; p:showGroupTotal=&quot;true&quot; p:showTotal=&quot;false&quot;
+              p:propertyName=&quot;field4&quot;/&gt; &lt;/list&gt; &lt;/property&gt;</emphasis>
+            <emphasis role="bold"> &lt;property name=&quot;layoutManager.groupingPropertyNames&quot;&gt; &lt;list&gt;
+              &lt;value&gt;field1&lt;/value&gt; &lt;/list&gt; &lt;/property&gt;</emphasis>
+            &lt;property name=&quot;items&quot;&gt;
+            &lt;list&gt;
+            &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field2&quot; p:label=&quot;Value 1&quot;/&gt;
+            &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field3&quot; p:label=&quot;Value 2&quot;/&gt;
+            &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field4&quot; p:label=&quot;Value 3&quot;/&gt;
+            &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field1&quot; p:label=&quot;Group Value&quot;/&gt;
+            &lt;/list&gt;
+            &lt;/property&gt;
+            &lt;/bean&gt;
+          </programlisting>
+        </para>
+        <para>Which results in a table that looks like this:
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/column_calc_2.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+        <para>The TableCollection's TableLayoutManager also has a few options related to
+          calculations (besides the layoutManager.columnCalculations described in detail above).
+          These relate to if left total labels will be used. When renderOnlyLeftTotalLabels is true,
+          the label for the total fields will be rendered in the left most column of the footer (if
+          that column also has a total itself, it will be shown alongside it). When using left
+          labels, columns can ONLY have one calculation type that must be common to all the columns
+          that will be calculated.
+        </para>
+        <para>When the renderOnlyLeftTotalLabels flag is true, the tableLayoutManager will also override any of the show
+          flags of the columnCalculations defined with its own showTotal, showPageTotal, and showGroupTotal flags (total
+          and pageTotal are shown by default). In addition, the labels used in the left most column are defined by
+          totalLabel, pageTotalLabel, and groupTotalLabelPrototype.
+        </para>
+        <para>The following settings will render a table with left labels and each column with a sum calculation:
+        </para>
+        <programlisting linenumbering="numbered">…
+          ...
+          <emphasis role="bold">&lt;property name=&quot;layoutManager.renderOnlyLeftTotalLabels&quot; value=&quot;true&quot;/&gt;</emphasis>
+          &lt;property name=&quot;layoutManager.columnCalculations&quot;&gt;
+          &lt;list&gt;
+          &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Sum&quot; p:propertyName=&quot;field1&quot;/&gt;
+          &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Sum&quot; p:propertyName=&quot;field2&quot;/&gt;
+          &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Sum&quot; p:propertyName=&quot;field3&quot;/&gt;
+          &lt;bean parent=&quot;Uif-ColumnCalculationInfo-Sum&quot; p:propertyName=&quot;field4&quot;/&gt;
+          &lt;/list&gt;
+          &lt;/property&gt;
+          …
+        </programlisting>
+        <para>Which results in a table that looks like this:
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/column_calc_3.png" contentwidth="400"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+      </section>
+      <section>
+        <title>Stacked Layout</title>
+        <para>Coming Soon!</para>
+        <!-- TODO: Add content here.
+                  -->
+        <figure>
+          <title>Stacked Layout Manager</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KRAD_Guide/KRAD_Stacked_Layout_Manager.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section>
+        <title>The List Template</title>
+        <para>Coming Soon!</para>
+        <!-- TODO: Add content here.
+                  -->
+      </section>
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>Due to the nature of collection groups special layout mangers are needed.
+              These must implement the interface
+              org.kuali.rice.krad.uif.layout.CollectionLayoutManager which requires
+              implementing the method
+              <emphasis role="keyword">buildLine</emphasis>
+            </para>
+          </listitem>
+          <listitem>
+            <para>KRAD provides two collection layout managers: the Table layout
+              manager and the Stacked layout manager
+            </para>
+          </listitem>
+          <listitem>
+            <para>The table layout manager creates an HTML table in the form of a
+              data grid, whose characteristics are the following:
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>Each collection item is one line in the table (which might
+                  correspond to one or more table rows)
+                </para>
+              </listitem>
+              <listitem>
+                <para>Each item field is a column in the table</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>The table layout manager can also add two columns for us. The first being the
+              action column, which will present the configured actions (lineActions or
+              addLineActions) for the associated collection group
+            </para>
+          </listitem>
+          <listitem>
+            <para>The field group that is rendered in the action column is configured
+              using the
+              <emphasis role="keyword">actionFieldPrototype</emphasis>
+              property.
+              The label given for the prototype is used to label the table column
+            </para>
+          </listitem>
+          <listitem>
+            <para>The second column the layout manager can add is called the sequence
+              column. This is used to label the row (using a th with scope row)
+            </para>
+          </listitem>
+          <listitem>
+            <para>We can specify a property whose value will be displayed in the
+              sequence column by setting the property
+              <emphasis role="keyword">sequenceFieldPrototype</emphasis>
+              (Note this property is actually of
+              type Field, meaning we could instead use a message field or other type of
+              field)
+            </para>
+          </listitem>
+          <listitem>
+            <para>We can also have the table layout manager automatically number each
+              row for us by setting the property
+              <emphasis role="keyword">generateAutoSequence</emphasis>
+              to true
+            </para>
+          </listitem>
+          <listitem>
+            <para>By default the add line will be rendered as the first line of the
+              table. We can have the add line render before the table by setting property
+              <emphasis role="keyword">separateAddLine</emphasis>
+              to true. When doing so
+              the group property
+              <emphasis role="keyword">addLineGroup</emphasis>
+              will be
+              used to render the add line contents. This can be configured to use the
+              layout and other properties necessary (note: the separate add line group is
+              generally needed when our add line fields do not match up with the fields
+              configured for existing lines)
+            </para>
+          </listitem>
+          <listitem>
+            <para>The table layout manager also supports the following options:</para>
+            <itemizedlist>
+              <listitem>
+                <para>useShortLabels – For creating the table header row the labels
+                  for each field configured in the items list will be pulled. By
+                  default the label property is used, however if this property is set
+                  to true the shortLabel will be used instead. This is helpful if
+                  there are many table columns
+                </para>
+              </listitem>
+              <listitem>
+                <para>headerLabelPrototype – Prototype label component that will be
+                  copied to create the table headers. Styling and other properties can
+                  be set this way
+                </para>
+              </listitem>
+              <listitem>
+                <para>richTable – The nested RichTable widget that adds on client side features such
+                  as sorting, paging, and export. These options can be changed on a per table bases
+                  by setting the options on the nested property (if a basic table with no client
+                  side features is desired, simply set richTable.render to false)
+                </para>
+              </listitem>
+              <listitem>
+                <para>numberOfColumns and suppressLineWrapping – The table layout manager extends the
+                  grid layout manager (used for general groups). Therefore all of the properties
+                  available for the grid layout are also available for the table layout. This
+                  includes setting the number of columns for the table. If the number of columns is
+                  less than the number of fields configured in the items property, multiple rows
+                  will be created for each collection item as necessary. In most cases we want the
+                  number of columns to match the number of configured items. The property
+                  suppressLineWrapping can be set to true to force this condition (in which case the
+                  numberOfColumns property does not need to be set)
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>The following beans are provided for the table layout:</para>
+            <itemizedlist>
+              <listitem>
+                <para>Uif-TableCollectionLayout – Base bean for the table collection layout. Sets
+                  defaults for many of the properties and adds the style class
+                  'uif-tableCollectionLayout'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-TableCollectionGroup – General group (not associated with any level)
+                  configured with a table layout. Adds the style class
+                  'uif-tableCollectionGroup'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-TableCollectionSection – Section level group configured with a table
+                  layout. Adds the style class 'uif-tableCollectionSection'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-TableCollectionSubSection – Sub-section level group configured with a
+                  table layout. Adds the style class 'uif-tableCollectionSubSection'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-TableSubCollection-WithinSection – For a sub-collection
+                  group using a table layout where the parent is at the section level
+                  (because sub-collections need to appear nested, it is necessary to
+                  adjust header levels and styling for the collection group)
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-TableSubCollection-WithinSubSection – For a sub-collection
+                  group using a table layout where the parent is at the sub-section
+                  level
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>Similar to the difference between the two general group layouts (the grid table
+              based and the box div based), is the difference between the table and stacked
+              collection layout managers
+            </para>
+          </listitem>
+          <listitem>
+            <para>A stacked layout manager renders each collection line in a div. In other words,
+              for each collection item, a standard Group is created containing the items for that
+              line
+            </para>
+          </listitem>
+          <listitem>
+            <para>The groups generated from the stacked manager by default 'stack' on each other,
+              that is by default they are positioned using a box layout with vertical
+              orientation
+            </para>
+          </listitem>
+          <listitem>
+            <para>The group for each line is created from the
+              <emphasis role="keyword">lineGroupPrototype</emphasis>
+              property. For the add line, the
+              <emphasis role="keyword">addLineGroup</emphasis>
+              group is used (note since only one
+              add line is needed this group is used directly, not copied)
+            </para>
+          </listitem>
+          <listitem>
+            <para>Since a group is generated for each line, the line fields are positioned according
+              to the layout manager of that group. Therefore, when using a stacked layout manager,
+              we also have a choice of the layout manager to use for each line group (such as grid,
+              horizontal or vertical box)
+            </para>
+          </listitem>
+          <listitem>
+            <para>Similar to the sequence field used by the table layout manager to label each line,
+              the stacked layout labels each line using the header for the line's group.
+            </para>
+          </listitem>
+          <listitem>
+            <para>For existing lines, the properties
+              <emphasis role="keyword">summaryTitle</emphasis>
+              and
+              <emphasis role="keyword">summaryFields</emphasis>
+              are used. The summaryTitle is a string that
+              will be set as the group header text (this can contain expressions for
+              adding dynamic content). The summaryFields property is a List of property
+              names whose value should be appended to the title. These properties are
+              assumed to be relative to the collection object class (this property will be
+              renamed to summaryPropertyNames in version 2.2)
+            </para>
+          </listitem>
+          <listitem>
+            <para>The overall layout of the generate groups (along with other
+              properties such as styling classes) can be controlled by configured the
+              <emphasis role="keyword">wrapperGroup</emphasis>
+              property
+            </para>
+          </listitem>
+          <listitem>
+            <para>The following beans are provided for using the stacked layout:</para>
+            <itemizedlist>
+              <listitem>
+                <para>Uif-StackedCollectionLayoutBase – Base bean for the stacked layout manager.
+                  Sets up some prototypes and adds the style class
+                  'uif-stackedCollectionLayout'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedCollectionLayout-WithGridItems – Stacked layout
+                  manager that has a configured line group prototype to use a grid
+                  layout
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedCollectionLayout-WithBoxItems - Stacked layout
+                  manager that has a configured line group prototype to use a box
+                  layout
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedCollectionGroup - General group (not associated with any level)
+                  configured with a stacked layout with line group grid layout. Adds the style class
+                  'uif-stackedCollectionGroup'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedCollectionSection – Section level group configured with a stacked
+                  layout with line group grid layout. Adds the style class
+                  'uif-stackedCollectionSection'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedCollectionSubSection – Sub-section level group configured with a
+                  stacked layout with line group grid layout. Adds the style class
+                  'uif-stackedCollectionSubSection'
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedSubCollection-WithinSection – For a sub-collection
+                  group using a stacked layout where the parent is at the section
+                  level (because sub-collections need to appear nested, it is
+                  necessary to adjust header levels and styling for the collection
+                  group)
+                </para>
+              </listitem>
+              <listitem>
+                <para>Uif-StackedSubCollection-WithinSubSection – For a
+                  sub-collection group using a stacked layout where the parent is at
+                  the sub-section level
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>An alternate template for the stacked collection layout is provided that renders
+              each line group in a list item. The following base beans are provided for a collection
+              group that uses the stacked list template: 'Uif-ListCollectionGroup',
+              'Uif-ListCollectionSection', and 'Uif-ListCollectionSubSection'
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Disclosure</title>
+      <para>The Disclosure widget exists on KRAD Groups and is used to define settings for when to
+        display and is used to define disclosure functionality.  Disclosure refers to the ability to
+        show and hide a Group's content by clicking on that Group's header.  By default, Groups in
+        KRAD use the configuration defined by the "Uif-Disclosure" bean definition.  All Group beans
+        which use disclosure by default start with "Uif-Disclosure".  For disclosure functionality
+        to work, a header with headerText must be present.</para>
+      <para>The following properties are available on Disclosure for configuration: <itemizedlist>
+          <listitem>
+            <para>collapseImageSrc - path to the image to use when the Group is collapsed
+              (hidden)</para>
+          </listitem>
+          <listitem>
+            <para>expandImageSrc - path to the image to use when the Group is expanded
+              (shown)</para>
+          </listitem>
+          <listitem>
+            <para>animationSpeed - animation speed in ms for the opening/closing animation</para>
+          </listitem>
+          <listitem>
+            <para>defaultOpen - if true, the disclosure's Group is open by default (this is the
+              default setting).  When false, the disclosure's Group is closed/collapsed</para>
+          </listitem>
+          <listitem>
+            <para>ajaxRetrievalWhenOpened - when true, the Group's content will be retrieved from
+              the server when the disclosure's content is opened for the first time.  This REQUIRES
+              that defaultOpen be false to take effect.  This option may help page load performance
+              when used to hide complex group content.</para>
+          </listitem>
+          <listitem>
+            <para>renderImage - if false, the collapse/expand images are not rendered</para>
+          </listitem>
+        </itemizedlist></para>
+      <!-- TODO: Add content here.
+                -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>The
+              <emphasis role="underline">Disclosure</emphasis>
+              component can be used to
+              allow for the showing and hiding of presented content
+            </para>
+          </listitem>
+          <listitem>
+            <para>All Groups contain the disclosure component that can be enabled to provide the
+              ability to collapse a Group</para>
+          </listitem>
+          <listitem>
+            <para>The UIF provides beans for all the group beans with disclosure
+              enabled
+            </para>
+          </listitem>
+          <listitem>
+            <para>All the disclosure bean names start with 'Uif-Disclosure' (for example
+              "Uif-Disclosure-GridGroup") </para>
+          </listitem>
+          <listitem>
+            <para>The disclosure widget supports the <emphasis role="keyword">defaultOpen</emphasis>
+              property, along with options for rendering (such as animation properties and collapse
+              image) </para>
+          </listitem>
+          <listitem>
+            <para>The disclosure widget allows the Group's content to be retrieved when opened by
+              using ajaxRetrievalWhenOpened (set to "true") and defaultOpen (set to "false")</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Scrollable</title>
+      <para>Adding Scrollable to a group, section or sub-section enables a scroll bar to appear when the content exceeds
+        height that is specified with Scrollable.
+      </para>
+      <figure>
+        <title>Scrollable Section</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/scrollableSection.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <programlisting linenumbering="numbered">
+        &lt;bean id="MyScrollableGroup" parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Scrollable Groupt"
+        p:width=&quot;30%&quot;&gt;
+        &lt;property name=&quot;scrollpane&quot;&gt;
+        &lt;bean parent=&quot;Uif-Scrollpane&quot;&gt;
+        &lt;property name=&quot;height&quot; value=&quot;100px&quot;/&gt;
+        &lt;/bean&gt;
+        &lt;/property&gt;
+        ...
+      </programlisting>
+      <para>For section and sub-section only the content is scrolled, not the title or instructional text.</para>
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>The
+              <emphasis role="underline">Scrollable</emphasis>
+              component can be used to
+              enable scrolling in groups and sections
+            </para>
+          </listitem>
+          <listitem>
+            <para>The height property on Scrollable needs to be specified</para>
+          </listitem>
+          <listitem>
+            <para>The height property is given in pixels or percentages (e.g. 100px or 30%)</para>
+          </listitem>
+          <listitem>
+            <para>Only the content of the section and subsection will be scrolled, not the title or
+              instructional text
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+  </section>
+</chapter>

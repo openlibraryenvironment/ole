@@ -1,0 +1,240 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<descriptor-repository version="1.0">
+
+  <jdbc-connection-descriptor jcd-alias="kradApplicationDataSource" default-connection="false" jdbc-level="3.0"
+                              eager-release="false" batch-mode="false"
+                              useAutoCommit="0" ignoreAutoCommitExceptions="false">
+    <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl"/>
+    <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+      <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager"/>
+    </sequence-manager>
+  </jdbc-connection-descriptor>
+
+  <!--  DOCUMENT MAPPINGS -->
+  <!--
+    NOTE:  we are not relating from document header to the other document
+    specific tables, we are relating in the other direction in order
+    to minimize the number of relations to the document header object
+    since if we map everything to doc header we would have at least 250
+    objects that relate to document header.
+  -->
+
+  <!--  MAINTENANCE/REFERENCE TABLE DOCUMENT MAPPING -->
+
+  <class-descriptor class="org.kuali.rice.krad.maintenance.MaintenanceDocumentBase" table="KRNS_MAINT_DOC_T">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="xmlDocumentContents" column="DOC_CNTNT" jdbc-type="CLOB"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion"/>
+
+    <reference-descriptor name="attachment" class-ref="org.kuali.rice.krad.bo.DocumentAttachment" auto-retrieve="true"
+                          auto-update="object"
+                          auto-delete="object" proxy="true">
+      <foreignkey field-ref="documentNumber"/>
+    </reference-descriptor>
+
+    <collection-descriptor auto-retrieve="true" auto-update="object" auto-delete="object"
+                           element-class-ref="org.kuali.rice.krad.bo.MultiDocumentAttachment"
+                           name="attachments"
+                           orderby="id"
+                           sort="ASC"
+                           proxy="true">
+      <inverse-foreignkey field-ref="documentNumber"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.DocumentAttachment" table="KRNS_MAINT_DOC_ATT_T">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="attachmentContent" column="ATT_CNTNT" jdbc-type="LONGVARBINARY"/>
+    <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contentType" column="CNTNT_TYP" jdbc-type="VARCHAR"/>
+
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.MultiDocumentAttachment" table="KRNS_MAINT_DOC_ATT_LST_T">
+    <field-descriptor name="id" column="ATT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                      sequence-name="KRNS_MAINT_DOC_ATT_S"/>
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="attachmentContent" column="ATT_CNTNT" jdbc-type="LONGVARBINARY"/>
+    <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contentType" column="CNTNT_TYP" jdbc-type="VARCHAR"/>
+
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.maintenance.MaintenanceLock" table="KRNS_MAINT_LOCK_T">
+    <field-descriptor name="lockId" column="MAINT_LOCK_ID" jdbc-type="VARCHAR" primarykey="true"
+                      indexed="true" autoincrement="true" sequence-name="KRNS_MAINT_LOCK_S"/>
+    <field-descriptor name="lockingRepresentation" column="MAINT_LOCK_REP_TXT" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" indexed="true"/>
+  </class-descriptor>
+
+  <!--  DOCUMENT CORE MAPPINGS -->
+
+  <class-descriptor class="org.kuali.rice.krad.bo.DocumentHeader" table="KRNS_DOC_HDR_T">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="documentDescription" column="FDOC_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_HDR_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="documentTemplateNumber" column="TMPL_DOC_HDR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+
+	<class-descriptor class="org.kuali.rice.krad.document.authorization.PessimisticLock" table="KRNS_PESSIMISTIC_LOCK_T">
+		<field-descriptor name="id" column="PESSIMISTIC_LOCK_ID" jdbc-type="BIGINT" primarykey="true" indexed="true"  autoincrement="true"
+			sequence-name="KRNS_LOCK_S" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="ownedByPrincipalIdentifier" column="PRNCPL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="generatedTimestamp" column="GNRT_DT" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="lockDescriptor" column="LOCK_DESC_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="sessionId" column="SESN_ID" jdbc-type="VARCHAR" />
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.Note" table="KRNS_NTE_T">
+    <field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT" primarykey="true" indexed="true"
+                      autoincrement="true" sequence-name="KRNS_NTE_S"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="remoteObjectIdentifier" column="RMT_OBJ_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="authorUniversalIdentifier" column="AUTH_PRNCPL_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="notePostedTimestamp" column="POST_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="noteTypeCode" column="NTE_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="noteText" column="TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="notePurgeCode" column="PRG_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="noteTopicText" column="TPC_TXT" jdbc-type="VARCHAR"/>
+
+    <reference-descriptor name="noteType" class-ref="org.kuali.rice.krad.bo.NoteType" auto-retrieve="true"
+                          auto-update="none" auto-delete="none">
+      <foreignkey field-ref="noteTypeCode"/>
+    </reference-descriptor>
+
+    <!-- fdocAttachmentIdentifier ABOVE AND REFERENCE BELOW ARE TEMPORARY B/C THIS SHOULD BE 1 TO MANY -->
+    <reference-descriptor name="attachment" class-ref="org.kuali.rice.krad.bo.Attachment" auto-retrieve="true"
+                          auto-update="object" auto-delete="object">
+      <foreignkey field-ref="noteIdentifier"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.NoteType" table="KRNS_NTE_TYP_T">
+    <field-descriptor name="noteTypeCode" column="NTE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="noteTypeDescription" column="TYP_DESC_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="noteTypeActiveIndicator" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.Attachment" table="KRNS_ATT_T">
+    <field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT" primarykey="true" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="attachmentMimeTypeCode" column="MIME_TYP" jdbc-type="VARCHAR"/>
+    <field-descriptor name="attachmentFileName" column="FILE_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="attachmentIdentifier" column="ATT_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="attachmentFileSize" column="FILE_SZ" jdbc-type="BIGINT"/>
+    <field-descriptor name="attachmentTypeCode" column="ATT_TYP_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="note" class-ref="org.kuali.rice.krad.bo.Note" auto-retrieve="true" auto-update="none"
+                          auto-delete="none">
+      <foreignkey field-ref="noteIdentifier"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.AdHocRouteRecipient" table="KRNS_ADHOC_RTE_ACTN_RECIP_T">
+    <field-descriptor name="type" column="RECIP_TYP_CD" jdbc-type="INTEGER" primarykey="true" indexed="true"/>
+    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="CHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="id" column="ACTN_RQST_RECIP_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.AdHocRoutePerson" table="KRNS_ADHOC_RTE_ACTN_RECIP_T">
+    <field-descriptor name="type" column="RECIP_TYP_CD" jdbc-type="INTEGER" primarykey="true" indexed="true"/>
+    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="CHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="id" column="ACTN_RQST_RECIP_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.AdHocRouteWorkgroup" table="KRNS_ADHOC_RTE_ACTN_RECIP_T">
+    <field-descriptor name="type" column="RECIP_TYP_CD" jdbc-type="INTEGER" primarykey="true" indexed="true"/>
+    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="CHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="id" column="ACTN_RQST_RECIP_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.messages.Message" table="KRAD_MSG_T">
+    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="componentCode" column="CMPNT_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="key" column="MSG_KEY" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="locale" column="LOC" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="description" column="MSG_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="text" column="TXT" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+
+  <!-- old KNS tables, not used in KRAD -->
+
+  <class-descriptor class="org.kuali.rice.kns.document.MaintenanceDocumentBase" table="KRNS_MAINT_DOC_T">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="xmlDocumentContents" column="DOC_CNTNT" jdbc-type="CLOB"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion"/>
+
+    <reference-descriptor name="attachment" class-ref="org.kuali.rice.krad.bo.DocumentAttachment" auto-retrieve="true"
+                          auto-update="object" auto-delete="object" proxy="true">
+      <foreignkey field-ref="documentNumber"/>
+    </reference-descriptor>
+
+    <collection-descriptor auto-retrieve="true" auto-update="object" auto-delete="object"
+                           element-class-ref="org.kuali.rice.krad.bo.MultiDocumentAttachment"
+                           name="attachments"
+                           orderby="id"
+                           sort="ASC"
+                           proxy="true">
+      <inverse-foreignkey field-ref="documentNumber"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.krad.bo.SessionDocument" table="KRNS_SESN_DOC_T">
+    <field-descriptor name="sessionId" column="SESN_DOC_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="ipAddress" column="IP_ADDR" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="serializedDocumentForm" column="SERIALZD_DOC_FRM" jdbc-type="BLOB"/>
+    <field-descriptor name="lastUpdatedDate" column="LAST_UPDT_DT" jdbc-type="TIMESTAMP" indexed="true"/>
+    <field-descriptor name="encrypted" column="CONTENT_ENCRYPTED_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+  </class-descriptor>
+
+</descriptor-repository>

@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleAttribute">
+		<ruleAttribute>
+			<name>RoleToRoleDelegationAttribute</name>
+			<className>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole</className>
+			<label>Role To Role Delegation Attribute</label>
+			<description>Role To Role Delegation Attribute</description>
+		</ruleAttribute>
+        <ruleAttribute>
+            <name>InlineRequestsStep1Attribute</name>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>InlineRequestsStep1Attribute</label>
+            <description>InlineRequestsStep1Attribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="inlineRequestsStep1Attribute" title="Test Title Step 1" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>//step = 'step1'</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>InlineRequestsStep2Attribute</name>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>InlineRequestsStep2Attribute</label>
+            <description>InlineRequestsStep2Attribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="inlineRequestsStep2Attribute" title="Test Title Step 2" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>//step = 'step2'</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>InlineRequestsStep3Attribute</name>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>InlineRequestsStep3Attribute</label>
+            <description>InlineRequestsStep3Attribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="inlineRequestsStep3Attribute" title="Test Title Step 3" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>//step = 'step3'</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument2Template</name>
+			<description>Workflow Document 2 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Node1Template</name>
+			<description>Node 1 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>RoleToRoleDelegationTemplate</name>
+			<description>Role To Role Delegation Template</description>
+			<attributes>
+				<attribute>
+					<name>RoleToRoleDelegationAttribute</name>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>RoleToRoleTemplate</name>
+			<description>Role To Role Template</description>
+			<delegationTemplate>RoleToRoleDelegationTemplate</delegationTemplate>
+			<attributes>
+				<attribute>
+					<name>RoleToRoleDelegationAttribute</name>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>GroupApproveTemplate</name>
+			<description>Group Approve Template</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>DRDocType</name>
+			<description>DRDocType</description>
+			<label>DRDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+		</documentType>
+		<documentType>
+			<name>DRSeqDocType</name>
+			<parent>DRDocType</parent>
+			<description>DRSeqDocType</description>
+			<label>SeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<!-- DocumentType for the ActionRequestServiceTest -->
+		<documentType>
+			<name>testForceActionWithDelegation</name>
+			<description>DocType for testForceActionWithDelegation</description>
+			<label>DocType for testForceActionWithDelegation</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>about:blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Node1" />
+					<requests name="Node1" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Node1">
+					<activationType>P</activationType>
+					<ruleTemplate>Node1Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<documentType>
+			<name>testRoleToRoleDelegation</name>
+			<description>DocType for testRoleToRoleDelegation</description>
+			<label>DocType for testRoleToRoleDelegation</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>about:blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Node1" />
+					<requests name="Node1" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Node1">
+					<activationType>P</activationType>
+					<ruleTemplate>RoleToRoleTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		
+		<documentType>
+			<name>testGroupAllApprovePolicy</name>
+			<description>DocType for testGroupAllApprovePolicy</description>
+			<label>DocType for testGroupAllApprovePolicy</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>about:blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Node1" />
+					<requests name="Node1" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Node1">
+					<activationType>P</activationType>
+					<ruleTemplate>GroupApproveTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+<!--  for testing role to role delegations with mixes of all approve and first approve in role delegations -->
+		<documentType>
+			<name>testMixedbagRoleToRoleDelegation</name>
+			<description>DocType for testRoleToRoleDelegation</description>
+			<label>DocType for testRoleToRoleDelegation</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>about:blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Node1" />
+					<requests name="Node1" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Node1">
+					<activationType>P</activationType>
+					<ruleTemplate>RoleToRoleTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+            <name>InlineRequestsDocumentType</name>
+            <description>InlineRequestsDocumentType</description>
+            <label>InlineRequestsDocumentType</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>_blank</docHandler>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <active>true</active>
+            <policies>
+           		<policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="step1" nextNode="step2" />
+                    <requests name="step2" nextNode="step3" />
+                    <requests name="step3" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <!-- route straight to a user -->
+                <requests name="step1">
+                    <activationType>S</activationType>
+                    <routeModule>org.kuali.rice.kew.routemodule.InlineRequestsRouteModule</routeModule>
+                    <match>//step = 'step1'</match>
+                    <responsibility xmlns="ns:workflow/Rule">
+                        <user>user1</user>
+                        <actionRequested>A</actionRequested>
+                    </responsibility>
+                </requests>
+                <!-- route straight to a workgroup -->
+                <requests name="step2">
+                    <activationType>S</activationType>
+                    <match>//step = 'step2'</match>
+                    <routeModule>org.kuali.rice.kew.routemodule.InlineRequestsRouteModule</routeModule>
+                    <responsibility xmlns="ns:workflow/Rule">
+                        <groupName namespace="KR-WKFLW">TestWorkgroup</groupName>
+                        <actionRequested>A</actionRequested>
+                    </responsibility>
+                </requests>
+                <!-- route straight to a role -->
+                <requests name="step3">
+                    <activationType>S</activationType>
+                    <routeModule>org.kuali.rice.kew.routemodule.InlineRequestsRouteModule</routeModule>
+                    <match>//step = 'step3'</match>
+                    <responsibility xmlns="ns:workflow/Rule">
+                        <role>org.kuali.rice.kew.rule.InitiatorRoleAttribute!INITIATOR</role>
+                        <actionRequested>A</actionRequested>
+                    </responsibility>
+                </requests>
+            </routeNodes>
+        </documentType>
+		<documentType>
+            <name>InlineRequestsDocumentType_UsingAttributes</name>
+            <description>InlineRequestsDocumentType_UsingAttributes</description>
+            <label>InlineRequestsDocumentType_UsingAttributes</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>_blank</docHandler>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <active>true</active>
+            <policies>
+            	  <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="step1" nextNode="step2" />
+                    <requests name="step2" nextNode="step3" />
+                    <requests name="step3" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <!-- route straight to a user -->
+                <requests name="step1">
+                    <activationType>S</activationType>
+                    <routeModule>org.kuali.rice.kew.routemodule.InlineRequestsRouteModule</routeModule>
+                    <ruleAttributes>
+                        <name>InlineRequestsStep1Attribute</name>
+                    </ruleAttributes>
+                    <responsibility xmlns="ns:workflow/Rule">
+                        <user>user1</user>
+                        <actionRequested>A</actionRequested>
+                    </responsibility>
+                </requests>
+                <!-- route straight to a workgroup -->
+                <requests name="step2">
+                    <activationType>S</activationType>
+                    <ruleAttributes>
+                        <name>InlineRequestsStep2Attribute</name>
+                    </ruleAttributes>
+                    <routeModule>org.kuali.rice.kew.routemodule.InlineRequestsRouteModule</routeModule>
+                    <responsibility xmlns="ns:workflow/Rule">
+                        <groupName namespace="KR-WKFLW">TestWorkgroup</groupName>
+                        <actionRequested>A</actionRequested>
+                    </responsibility>
+                </requests>
+                <!-- route straight to a role -->
+                <requests name="step3">
+                    <activationType>S</activationType>
+                    <routeModule>org.kuali.rice.kew.routemodule.InlineRequestsRouteModule</routeModule>
+                    <ruleAttributes>
+                        <name>InlineRequestsStep3Attribute</name>
+                    </ruleAttributes>
+                    <responsibility xmlns="ns:workflow/Rule">
+                        <role>org.kuali.rice.kew.rule.InitiatorRoleAttribute!INITIATOR</role>
+                        <actionRequested>A</actionRequested>
+                    </responsibility>
+                </requests>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>UnresolvableRoleRecipsDocType</name>
+            <description>UnresolvableRoleRecipsDocType</description>
+            <label>DocType for testUnresolvableRoleAttributeRecipients</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>about:blank</docHandler>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <policies>
+              <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>true</value>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="Node1" />
+                    <requests name="Node1" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc">
+                    <activationType>P</activationType>
+                </start>
+                <requests name="Node1">
+                    <activationType>S</activationType>
+                    <ruleTemplate>Node1Template</ruleTemplate>
+                </requests>
+            </routeNodes>
+        </documentType>
+	</documentTypes>
+
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>DRDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DRDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DRDocType</documentType>
+			<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>pmckown</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- Rules for ActionRequestServiceTest -->
+		<rule>
+		 	<name>ActionRequestsConfig-Rule1</name>
+			<documentType>testForceActionWithDelegation</documentType>
+			<ruleTemplate>Node1Template</ruleTemplate>
+			<description>testForceActionWithDelegation node 1 rule</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+<!-- this is for testing all approve role to role delegation -->
+		<rule>
+		    <name>ActionRequestsConfig-Rule2</name>
+			<documentType>testRoleToRoleDelegation</documentType>
+			<ruleTemplate>RoleToRoleTemplate</ruleTemplate>
+			<description>testRoleToRoleDelegation node 1 role</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!MAIN</role>
+					<approvePolicy>A</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+
+<!-- this is for testing all mixed bag approval policies in role action requests (some all approves and some first approves )on role to role delegation -->
+		<rule>
+		    <name>ActionRequestsConfig-Rule3</name>
+			<documentType>testMixedbagRoleToRoleDelegation</documentType>
+			<ruleTemplate>RoleToRoleTemplate</ruleTemplate>
+			<description>testRoleToRoleDelegation node 1 role</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!MAIN</role>
+					<approvePolicy>A</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		
+<!-- this is for testing all approve group policy -->
+		<rule>
+		    <name>ActionRequestsConfig-Rule4</name>
+			<documentType>testGroupAllApprovePolicy</documentType>
+			<ruleTemplate>GroupApproveTemplate</ruleTemplate>
+			<description>test group approval with all approve policy</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupId>3001</groupId>
+					<!--<approvePolicy>A</approvePolicy>-->
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+        <rule>
+            <documentType>UnresolvableRoleRecipsDocType</documentType>
+            <ruleTemplate>Node1Template</ruleTemplate>
+            <description>Rule with role attribute that doesn't produce a valid recipient</description>
+            <forceAction>false</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <role>org.kuali.rice.kew.rule.MockRole!group:IAmAGroupThatDoesNotExist</role>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+
+	</rules>
+	
+	<ruleDelegations xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<ruleDelegation>
+		  <parentResponsibility>
+      		<parentRuleName>ActionRequestsConfig-Rule1</parentRuleName>
+      		<principalName>ewestfal</principalName>
+      	  </parentResponsibility>
+    	  <delegationType>P</delegationType>
+		  <rule>
+			<documentType>testForceActionWithDelegation</documentType>
+			<ruleTemplate>Node1Template</ruleTemplate>
+			<description>Node1 Primary Delegation</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+			  <responsibility>
+			    <principalName>rkirkend</principalName>
+			    <approvePolicy>F</approvePolicy>
+			  </responsibility>
+			</responsibilities>
+		  </rule>
+		</ruleDelegation>
+		<ruleDelegation>
+		  <parentResponsibility>
+      		<parentRuleName>ActionRequestsConfig-Rule2</parentRuleName>
+      		<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!MAIN</role>
+      	  </parentResponsibility>
+    	  <delegationType>P</delegationType>
+		  <rule>
+			<documentType>testRoleToRoleDelegation</documentType>
+			<ruleTemplate>RoleToRoleDelegationTemplate</ruleTemplate>
+			<description>Role To Role Primary Delegation</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+			  <responsibility>
+			    <role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!PRIMARY_DELEGATE</role>
+				<approvePolicy>A</approvePolicy>
+			  </responsibility>
+			</responsibilities>
+		  </rule>
+		</ruleDelegation>
+		<ruleDelegation>
+		  <parentResponsibility>
+      		<parentRuleName>ActionRequestsConfig-Rule2</parentRuleName>
+      		<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!MAIN</role>
+      	  </parentResponsibility>
+      	  <delegationType>S</delegationType>
+      	  <rule>
+			<documentType>testRoleToRoleDelegation</documentType>
+			<ruleTemplate>RoleToRoleDelegationTemplate</ruleTemplate>
+			<description>Role To Role SECONDARY Delegation</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+			  <responsibility>
+				<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!SECONDARY_DELEGATE</role>
+				<approvePolicy>A</approvePolicy>
+			  </responsibility>
+			</responsibilities>
+		  </rule>
+		</ruleDelegation>
+		<ruleDelegation>
+		  <parentResponsibility>
+		    <parentRuleName>ActionRequestsConfig-Rule3</parentRuleName>
+		    <role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!MAIN</role>
+		  </parentResponsibility>
+		  <delegationType>P</delegationType>
+		  <rule>
+			<documentType>testMixedbagRoleToRoleDelegation</documentType>
+			<ruleTemplate>RoleToRoleDelegationTemplate</ruleTemplate>
+			<description>Role To Role Primary Delegation</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+			  <responsibility>
+				<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!PRIMARY_DELEGATE</role>
+				<approvePolicy>F</approvePolicy>
+			  </responsibility>
+			</responsibilities>				
+		  </rule>
+		</ruleDelegation>
+		<ruleDelegation>
+		  <parentResponsibility>
+		    <parentRuleName>ActionRequestsConfig-Rule3</parentRuleName>
+		    <role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!MAIN</role>
+		  </parentResponsibility>
+		  <delegationType>S</delegationType>		
+		  <rule>
+			<documentType>testMixedbagRoleToRoleDelegation</documentType>
+			<ruleTemplate>RoleToRoleDelegationTemplate</ruleTemplate>
+			<description>Role To Role SECONDARY Delegation</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+			  <responsibility>
+				<role>org.kuali.rice.kew.actionrequest.RoleToRoleDelegationRole!SECONDARY_DELEGATE</role>
+				<approvePolicy>F</approvePolicy>
+			  </responsibility>
+			</responsibilities>
+		  </rule>
+		</ruleDelegation>
+	</ruleDelegations>
+
+</data>

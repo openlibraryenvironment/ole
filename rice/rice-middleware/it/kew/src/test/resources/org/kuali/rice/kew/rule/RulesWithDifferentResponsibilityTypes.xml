@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<name>RespTypeTest1</name>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>user1</principalName>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>RespTypeTest2</name>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalId>user1</principalId>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>RespTypeTest3</name>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">TestWorkgroup</groupName>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>RespTypeTest4</name>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupId>1</groupId>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>RespTypeTest5</name>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.rule.TestRuleAttribute!TEST</role>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>RespTypeTest6</name>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<roleName attributeClassName="org.kuali.rice.kew.rule.TestRuleAttribute">TEST</roleName>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

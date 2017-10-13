@@ -1,0 +1,1388 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="client_application" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Creating a Client Application</title>
+    <para>Developing a Rice application is essentially no different than other J2EE applications.
+        Any tool that can be used for creating J2EE apps can be used for a Rice app. Essentially
+        Rice is a set of libraries that are used with your project (like many other libraries a J2EE
+        app includes) and configured for your needs.</para>
+
+    <para>The essential tools for developing a project are documented in the next section.</para>
+
+    <section xml:id="dev_tools">
+        <title>Development Tools</title>
+
+        <section>
+            <title>IDE (Integrated Development Environment)</title>
+            <para>This is the tool you will use to developer the source code and resources for your
+                project. It can be a simple text editor if you want, however it is recommended to
+                use one of the Java IDE tools available. Of these Eclipse, Intellij, and NetBeans
+                are the most popular in today's market. Any of these will be fine for developing a
+                Rice project. However, as we will learn about next, Rice provides its own tooling to
+                help getting started with Eclipse. Eclipse is chosen due to its high use and that it
+                is a free open source tool. The latest release is 'Indigo' and can be downloaded
+                here: </para>
+
+            <para>
+                <link
+                    xlink:href="http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/indigosr1"
+                    >http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/indigosr1</link>
+            </para>
+        </section>
+
+        <section>
+            <title>Database</title>
+            <para>Rice applications can use a MySql or Oracle database for persisting
+                application data. Rice itself will use the database for supporting the various Rice modules
+                (workflow, identity management, and so on). With each Rice distribution datasets are
+                provided that can be used to create the initial database schema. You can choose to load the
+                'bootstrap' dataset, which provides the baseline data needed to run Rice, or the 'demo'
+                dataset which adds additional demo data (such as example KIM data and workflow doc types). 
+                Although it is possible to provide a shared database for development, it is recommended for
+                productivity reasons for each developer to have a local database installed. Both MySql and
+                Oracle provide freely available databases for development. Currently Rice has been tested
+                with the following versions:</para>
+
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Oracle</emphasis>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Oracle Database 10g</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Oracle Database 11g</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Oracle Express Edition (XE)</para>
+                                </listitem>
+                            </itemizedlist></para>
+                        <para>Use the Oracle JDBC Driver to connect to these databases.</para>
+                        <para>Ensure that the Oracle database you intend to use encodes character data in a UTF
+                            variant by default. For Oracle XE, this entails downloading the "Universal" flavor
+                            of the binary, which uses AL32UTF8.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">MySQL</emphasis><itemizedlist>
+                            <listitem>
+                                <para>MySQL 5.1.+</para>
+                            </listitem>
+                        </itemizedlist></para>
+                        <para>Use the MySQL Connector/J (5.1.+) to connect to MySQL databases.</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+
+            <para>Note for our chosen database we must also download the corresponding database driver. This
+                is a jar file we will need to make available to our web container for connecting to the
+                database.</para>
+
+            <para>These supported databases can be downloaded with the following URLs.</para>
+
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Locations for Database Software</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4.11*"/>
+                        <thead>
+                            <row>
+                                <entry>Software</entry>
+                                <entry>Download Location</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Oracle Standard and Enterprise Editions </entry>
+                                <entry><link
+                                    xlink:href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html"
+                                    >http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html</link></entry>
+                            </row>
+                            <row>
+                                <entry>Oracle Express Edition</entry>
+                                <entry><link
+                                    xlink:href="http://www.oracle.com/technetwork/database/express-edition/downloads/index.html"
+                                    >http://www.oracle.com/technetwork/database/express-edition/downloads/index.html</link></entry>
+                            </row>
+                            <row>
+                                <entry>Oracle JDBC DB Driver</entry>
+                                <entry><link
+                                    xlink:href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html"
+                                    >http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</link></entry>
+                            </row>
+                            <row>
+                                <entry>MySQL </entry>
+                                <entry><link xlink:href="http://www.mysql.com/downloads/"
+                                    >http://www.mysql.com/downloads/</link></entry>
+                            </row>
+                            <row>
+                                <entry>MySQL Connector/J JDBC Driver</entry>
+                                <entry><link xlink:href="http://www.mysql.com/products/connector/j/"
+                                    >http://www.mysql.com/products/connector/j/</link></entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+
+            <para>Note for working with a MySql database the MySql Workbench (available for free
+                download) is very useful and can save time for those new to MySql.
+            </para>
+
+            <para>Once the database provider is installed, we can then load one of the provided datasets using the
+                Kuali ImpEx tool. The ImpEx tool is a Kuali-developed application which is based on Apache
+                Torque. It reads in database structure and data from XML files in a platform independent way
+                and then creates the resulting database in either Oracle or MySQL. To use this tool we
+                simply provide configuration about the location of the source dataset, along with
+                connectivity information for our target database. This is done by creating a properties file
+                named 'impex-build.properties' in the user home directory. Once the configuration is
+                complete, we can invoke the tool using ant or maven and our database will be
+                created.</para>
+        </section>
+
+        <section>
+            <title>JDK</title>
+            <para>In order to support compilation of the application source code a JDK must be
+        installed (Note this must be the JDK and not a Java Runtime Environment – JRE). Rice
+        requires a JDK version of 1.6.x or 1.7.x. Additionally, Rice has only been tested with the
+        Sun JDK implementation. Therefore use of other implementations such as OpenJDK may have
+        problems.</para>
+
+            <para>For machines running Windows, JDK 6 can be downloaded at the
+                following URL:</para>
+
+            <para>
+                <link
+                    xlink:href="http://www.oracle.com/technetwork/java/javase/downloads/index.html"
+                    >http://www.oracle.com/technetwork/java/javase/downloads/index.html</link>
+            </para>
+
+            <para>If you are on a Mac, then Java 6 should already be installed if you are up to date with
+            the latest updates from Apple.</para>
+
+            <para>You will also want to set up your JAVA_HOME environment variable to point to the
+                installation directory of your JDK. In both Windows and Mac environments, the java
+                executable program should already be on your path. But if it is not, you will want to
+                include JAVA_HOME/bin in your PATH environment variable.</para>
+
+            <para>In order to verify that your JDK has been installed successfully, open a command prompt
+            and type the following: </para>
+
+            <programlisting>java -version</programlisting>
+            <para>You should see output similar to the following:</para>
+            <programlisting>java version "1.7.0_10"
+Java(TM) SE Runtime Environment (build 1.7.0_10-b18)
+Java HotSpot(TM) Client VM (build 23.6-b04, mixed mode)</programlisting>
+            <para>If you receive an error indicating that the "java" command could not be found,
+                please ensure that the java command is on your machine's <emphasis role="bold"
+                    >PATH</emphasis> environment variable.</para>
+        </section>
+
+        <section>
+            <title>Maven</title>
+            <para>Maven is the primary build tool used by the Kuali Rice project. Maven is
+                based on a project object model (POM) that defines various standards and conventions
+                surrounding the organization of a project. This facilitates a set of standard build
+                goals and lifecycle phases (such as compile, test, package, etc.). Maven is
+                particularly helpful in terms of dependency management. When building a Rice
+                application using Maven, all of the dependent libraries will be pulled in
+                automatically.</para>
+
+            <para>It is not a required for Rice enabled applications to be Maven projects. Again, Rice
+                is essentially a set of jars that can be used with an application. However using Maven
+                simplifies the setup process greatly. For example applications not using Rice must pull
+                in and manage all of the third party libraries that are needed by Rice. That has an impact
+                not only on initial project setup, but also each time that application is upgraded to
+                a new Rice version.</para>
+
+            <para>To download version 3 of Maven, use the following link:</para>
+
+            <para><link xlink:href="http://maven.apache.org/download.html"
+                >http://maven.apache.org/download.html</link></para>
+
+            <para>You will want to set your M2_HOME environment variable to point to the location
+                where you unzipped Maven. You will additionally want to include M2_HOME/bin in your
+                PATH environment variable so that maven can be executed from the command line without having
+                to specify the full path.</para>
+
+            <para>In order to verify that Maven has been installed successfully and is available on
+                the path, open a command prompt and type the following:</para>
+            <programlisting>mvn -version</programlisting>
+            <para>You should see output like the following:</para>
+            <programlisting>Apache Maven 3.0.3 (r1075438; 2011-02-28 10:31:09-0700)
+Maven home: /usr/local/maven
+Java version: 1.6.0_26, vendor: Apple Inc.
+Java home: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+Default locale: en_US, platform encoding: MacRoman
+OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programlisting>
+            <para>If you receive an error indicating hat the "mvn" command could not be found,
+                please ensure that the directory that includes the mvn executable (<emphasis
+                    role="bold">M2_HOME/bin</emphasis>) is on your machine's <emphasis role="bold"
+                        >PATH</emphasis> environment variable.</para>
+
+        </section>
+
+        <section>
+            <title>Servlet Container</title>
+
+            <para>In order to run our Rice application we need have a servlet
+                container. The servlet container serves the web requests for a J2EE application. There
+                are many containers available for use, but Tomcat is most commonly used. Kuali Rice
+                2.0 supports the following Tomcat version:</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>Tomcat 6 (Servlet API 2.5, JSP 2.1) </para>
+                </listitem>
+                <listitem>
+                    <para>Tomcat 7 (Servlet API 3.0, JSP 2.2) </para>
+                </listitem>
+            </itemizedlist>
+
+            <para>For downloading and install instructions visit the Apache Tomcat site:</para>
+            <para><link xlink:href="http://tomcat.apache.org/">http://tomcat.apache.org/</link></para>
+
+            <para>For development purposes you can also choose to use an embedded application
+                container such as Jetty. The Rice project provides a sample Jetty Server that can be used
+                for your project. The next section will cover this in more detail.</para>
+
+        </section>
+    </section>
+
+    <section xml:id="new_project"><title>New Project Setup</title>
+      <para>
+        The org.kuali.rice:rice-archetype-quickstart:${project.version} Maven Archetype is used to build the rice
+        application skeleton. Eclipse and Maven are required and the database needs to be setup.
+      </para>
+      <para>
+        Note: Due to Maven Central's archetype index policy, there could be a slight delay from when rice officially
+        releases and the availability of the archetype.
+        See <link xlink:href="https://docs.sonatype.org/display/Repository/Central+Repository+FAQ">https://docs.sonatype.org/display/Repository/Central+Repository+FAQ</link>
+      </para>
+      <para>
+        Below are the instruction for Maven CLI, Eclipse, and Intellij.
+      </para>
+
+      <section xml:id="Maven_CLI"><title>Maven CLI</title>
+        <procedure>
+          <step>
+            <para>
+              Run the <command>mvn archetype:generate</command> command either in interactive or the automated mode to create the
+              project.
+              <itemizedlist>
+                <listitem>
+                  <para>Interactive mode:</para>
+                  <programlisting linenumbering = "numbered">
+C:\project> mvn archetype:generate -DarchetypeGroupId=org.kuali.rice -DarchetypeArtifactId=rice-archetype-quickstart -DarchetypeVersion=${project.version}</programlisting>
+                </listitem>
+                <listitem>
+                  <para>Automated mode:</para>
+                  <programlisting linenumbering = "numbered">
+C:\project> mvn archetype:generate -DarchetypeGroupId=org.kuali.rice -DarchetypeArtifactId=rice-archetype-quickstart -DarchetypeVersion=${project.version}
+-DgroupId=org.foo
+-DartifactId=bar
+-Dversion=1.0-SNAPSHOT
+-Dpackage=org.foo.bar
+-Ddatasource_ojb_platform=Oracle
+-Ddatasource_url=jdbc:oracle:thin:@localhost:1521:XE
+-Ddatasource_username=RICE
+-Ddatasource_password=RICE</programlisting>
+                </listitem>
+              </itemizedlist>
+            </para>
+          </step>
+          <step>
+            <para>Enter the project path and build the project.</para>
+            <para>
+              <programlisting linenumbering = "numbered">
+C:\project> cd bar
+C:\project\bar> mvn clean install -Dmaven.failsafe.skip=false jetty:run</programlisting>
+              This will clean, compile, run unit and integration tests and startup the project in jetty.
+            </para>
+          </step>
+          <step>
+            <para>
+              Navigate to <link xlink:href="http://localhost:8080/bar">http://localhost:8080/bar</link>
+            </para>
+          </step>
+        </procedure>
+
+      </section>
+
+      <section xml:id="Eclipse"><title>Eclipse 3.7.2 JEE Edition</title>
+        <para>
+          The following plugins are required:
+          <itemizedlist>
+            <listitem>
+              <para>m2e - this is the core maven plugin for eclipse.</para>
+            </listitem>
+            <listitem>
+              <para>>m2e - connector for the buildhelper plugin. It is not necessary to install this plugin ahead of time.
+                m2e will show an error and give the option to install it via the Eclipse Market Place.</para>
+            </listitem>
+            <listitem>
+              <para>Maven Integration for WTP - this allows maven to integrate with WTP (Eclipse Web Tools Platform). To
+              install this plugin search for <emphasis>m2e-wtp</emphasis> on the Eclipse Market Place (<guilabel>help</guilabel>
+                -> <guilabel>Market Place</guilabel>).</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+          <procedure><title>Eclipse 3.7.2 JEE Edition</title>
+          <step>
+            <para>
+              Follow the <menuchoice><guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Project...</guimenuitem>
+              </menuchoice> menu choices.  On the <guilabel>New Project</guilabel> window choose <menuchoice>
+              <guimenu>Maven</guimenu><guisubmenu>Maven Project</guisubmenu></menuchoice> and press the
+              <guibutton>Next</guibutton> button twice to get to the <guilabel>Select an Archtype</guilabel> window.
+              <figure>
+                <title>Eclipse: Select maven project</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="../images/archetype/2_eclipse_dbk.png"/>
+                  </imageobject>
+                </mediaobject>
+              <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/2_eclipse.png">Click to enlarge</link></para>
+              </figure>
+            </para>
+          </step>
+          <step>
+            <para>
+              Add Archetype if org.kuali.rice:rice-archetype-quickstart:${project.version} does not exist in the list.</para>
+              <substeps>
+                <step>
+                  <para>
+                    Click the <guibutton>Add Archetype...</guibutton> button.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    Fill in:
+                    <itemizedlist>
+                      <listitem>
+                        <para>Archetype Group Id: org.kuali.rice</para>
+                      </listitem>
+                      <listitem>
+                        <para>Archetype Artifact Id: rice-archetype-quickstart</para>
+                      </listitem>
+                      <listitem>
+                        <para>Archetype Version: ${project.version}</para>
+                      </listitem>
+                      <listitem>
+                        <para>Archetype Group Id: org.kuali.rice</para>
+                      </listitem>
+                    </itemizedlist>
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    Click the <guibutton>OK</guibutton> button.
+                  </para>
+                </step>
+              </substeps>
+          </step>
+          <step>
+            <para>
+              If needed check the <guilabel>Include snapshot archetypes</guilabel> check box.
+            </para>
+          </step>
+          <step>
+            <para>
+              Select <guilabel>org.kuali.rice:rice-archetype-quickstart:${project.version}</guilabel> and click
+              the <guibutton>Next</guibutton> button.
+            </para>
+            <figure>
+              <title>Eclipse: Select archetype</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/3_eclipse_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/3_eclipse.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              Fill in your project specific information:
+              <itemizedlist>
+                <listitem>
+                  <para>Group Id: org.foo</para>
+                </listitem>
+                <listitem>
+                  <para>Artifact Id: bar</para>
+                </listitem>
+                <listitem>
+                  <para>Version: 1.0-SNAPSHOT</para>
+                </listitem>
+                <listitem>
+                  <para>package: org.foo.bar</para>
+                </listitem>
+              </itemizedlist>
+              And your database specific information:
+              <itemizedlist>
+                <title>Oracle</title>
+                <listitem>
+                  <para>datasource_ojb_platform: Oracle</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_url: jdbc:oracle:thin:@localhost:1421:XE</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_username: RICE</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_password: RICE</para>
+                </listitem>
+              </itemizedlist>
+              <itemizedlist>
+                <title>MySQL</title>
+                <listitem>
+                  <para>datasource_ojb_platform: MySQL</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_url: jdbc:mysql://localhost:3306/rice</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_username: RICE</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_password: RICE</para>
+                </listitem>
+              </itemizedlist>
+              Click the <guibutton>Finish</guibutton> button.
+            </para>
+            <figure>
+              <title>Eclipse: Add database information</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/4_eclipse_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/4_eclipse.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              If the project's pom.xml contains an error related to the buildhelper plugin:</para>
+              <substeps>
+                <step>
+                  <para>
+                    Open the pom in eclipse.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    On the overview tab click on the error. This will find the required plugin in the eclipse marketplace
+                    to resolve this error. The plugin needed is the m2e connector for buildhelper plugin.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    After installing restart eclipse.
+                  </para>
+                </step>
+              </substeps>
+          </step>
+          <step>
+            <para>
+              You may get JSP, JavaScript or other validation errors. Just ignore them. Eclipse's various validations
+              creates many false positives. They can be disabled within eclipse.
+            </para>
+          </step>
+            
+            <step>
+            <para>
+              At this point it is a good idea to rebuild the entire project and make sure there are no errors.  Then
+              run all the unit and integration tests through eclipse.</para>
+              <substeps>
+                <step>
+                  <para>
+                    Follow the <menuchoice><guimenu>Project</guimenu><guimenuitem>Clean...</guimenuitem></menuchoice>
+                    menu choices.  Make sure that <guilabel>Clean all projects</guilabel> or your specific project
+                    <guilabel>bar</guilabel> is selected and click the <guibutton>OK</guibutton> button.
+                  </para>
+                  <figure>
+                    <title>Clean the project</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/5_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/5_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+                <step>
+                  <para>
+                    Run the BasicApplicationIT.java integration test by right clicking on
+                    <guilabel>src/it/java/org/foo/bar/BasicApplicationIT.java</guilabel> in the Project Explorer and
+                    choosing <menuchoice><guimenu>Run As</guimenu> <guimenuitem>JUnit Test</guimenuitem></menuchoice>
+                    from the menu.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Run integration test</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/6_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/6_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+                <step>
+                  <para>
+                    Run the three unit tests (AbstractproductServiceImplTest, AdditionProductServiceImplTest,
+                    MultiplicationProductServiceTest) by right clicking on <guilabel>src/test/java/org/foo/bar</guilabel>
+                    in the Project Explorer and choosing <menuchoice><guimenu>Run As</guimenu>
+                    <guimenuitem>JUnit Test</guimenuitem></menuchoice> from the menu.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Run the 3 unit tests</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/7_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/7_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+              </substeps>
+
+          </step>
+          <step>
+            <para>
+              Setup the Application server through the Eclipse WTP plugin:</para>
+              <substeps>
+                <step>
+                  <para>
+                    From the JEE perspective select the <guilabel>Servers</guilabel> tab and click the
+                    <guilabel>new server wizard</guilabel> link.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Start new server wizard</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/8_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/8_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                 </step>
+                 <step>
+                  <para>
+                    Select Apache Tomcat 6 (or the app server of your choice) and click the <guibutton>Next</guibutton>
+                    button.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Select app server</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/9_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/9_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+                <step>
+                  <para>
+                    Point to a local install of tomcat and click the <guibutton>Next</guibutton> button.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Select local install of Tomcat</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/10_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/10_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+                <step>
+                  <para>
+                    Select <guilabel>bar</guilabel> and click the <guibutton>Add ></guibutton> button to move bar to the
+                    configured side. Click the <guibutton>Finish</guibutton> button.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Move bar to configured</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/11_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/11_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+                <step>
+                  <para>
+                    Double click on the newly created server under the <guilabel>Servers</guilabel> tab.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Select new server</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/12_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/12_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+                <step>
+                  <para>
+                    Select the <guilabel>Arguments</guilabel> tab and add more more memory by adding the following
+                    <guilabel>VM Arguments:</guilabel>
+                    <programlisting linenumbering = "numbered">-Xms512m -Xmx2g -XX:MaxPermSize=512m</programlisting>
+                    Click the <guibutton>OK</guibutton> button.
+                  </para>
+                  <figure>
+                    <title>Eclipse: Add more memory</title>
+                    <mediaobject>
+                      <imageobject>
+                        <imagedata fileref="../images/archetype/13_eclipse_dbk.png"/>
+                      </imageobject>
+                    </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/13_eclipse.png">Click to enlarge</link></para>
+                  </figure>
+                </step>
+              </substeps>
+          </step>
+          <step>
+            <para>
+              Right click on the server under the <guilabel>Servers</guilabel> tab and choose
+              <guimenuitem>Start</guimenuitem>.
+            </para>
+            <figure>
+              <title>Eclipse: Start the server</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/14_eclipse_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/14_eclipse.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              After the application has started navigate to
+              <link xlink:href="http://localhost:8080/bar">http://localhost:8080/bar</link>.
+            </para>
+            <figure>
+              <title>Eclipse: Login</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/15_eclipse_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/15_eclipse.png">Click to enlarge</link></para>
+            </figure>
+            <figure>
+              <title>Eclipse: Initial screen</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/16_eclipse_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/16_eclipse.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+        </procedure>
+      </section>
+
+      <section xml:id="Intellij"><title>Intellij IDEA Ultimate 11.1</title>
+        <procedure>
+          <step>
+            <para>
+              Follow the <menuchoice><guimenu>File</guimenu><guimenuitem>New Project ...</guimenuitem></menuchoice>
+              menu choices.
+            </para>
+            <figure>
+              <title>Intellij: new project</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s1_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s1_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              Select <guilabel>Create project from scratch</guilabel> and click the <guibutton>Next</guibutton> button.
+              menu choices.
+            </para>
+            <figure>
+              <title>Intellij: Create project from scratch</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s2_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s2_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              Fill in the project information:
+              <itemizedlist>
+                <listitem>
+                  <para>Project Name: bar</para>
+                </listitem>
+                <listitem>
+                  <para>Module Name: bar</para>
+                </listitem>
+              </itemizedlist>
+              Select <guilabel>Maven Module</guilabel> and click the <guibutton>Next</guibutton> button.
+            </para>
+            <figure>
+              <title>Intellij: Select Maven Module</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s3_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s3_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              Fill in module information:
+              <itemizedlist>
+                <listitem>
+                  <para>GroupId: org.foo</para>
+                </listitem>
+                <listitem>
+                  <para>ArtifactId: bar</para>
+                </listitem>
+                <listitem>
+                  <para>Version: 1.0-SNAPSHOT</para>
+                </listitem>
+              </itemizedlist>
+              Check the <guilabel>Create from archetype</guilabel>checkbox.
+            </para>
+            <para>
+              Add the org.kuali.rice:rice-archetype-quickstart:${project.version} archetype if it does not exist in the
+              archetype list.</para>
+              <substeps>
+                <step>
+                  <para>
+                    Click the <guibutton>Add archetype...</guibutton>button.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    Fill in module information:
+                    <itemizedlist>
+                      <listitem>
+                        <para>GroupId: org.kuali.rice</para>
+                      </listitem>
+                      <listitem>
+                        <para>ArtifactId: rice-archetype-quickstart</para>
+                      </listitem>
+                      <listitem>
+                        <para>Version: ${project.version}</para>
+                      </listitem>
+                    </itemizedlist>
+                  </para>
+                </step>
+                <step>
+                  <para>Click the <guibutton>OK</guibutton> button.</para>
+                </step>
+              </substeps>
+            <para>
+              Select the <guilabel>org.kuali.rice:rice-archetype-quickstart:${project.version}</guilabel> archetype
+              and click the <guibutton>Next</guibutton> button.
+            </para>
+            <figure>
+              <title>Intellij: Select archetype</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s4_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s4_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              And your database specific information:
+              <itemizedlist>
+                <title>Oracle</title>
+                <listitem>
+                  <para>datasource_ojb_platform: Oracle</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_url: jdbc:oracle:thin:@localhost:1421:XE</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_username: RICE</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_password: RICE</para>
+                </listitem>
+              </itemizedlist>
+              <itemizedlist>
+                <title>MySQL</title>
+                <listitem>
+                  <para>datasource_ojb_platform: MySQL</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_url: jdbc:mysql://localhost:3306/rice</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_username: RICE</para>
+                </listitem>
+                <listitem>
+                  <para>datasource_password: RICE</para>
+                </listitem>
+              </itemizedlist>
+              Click the <guibutton>Finish</guibutton> button.
+            </para>
+            <figure>
+              <title>Intellij: Add database information</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s5_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s5_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              Force a reimport of the project.  Right click on the project and select <menuchoice><guimenu>Maven</guimenu>
+              <guimenuitem>Reimport</guimenuitem></menuchoice> from the menu.
+            </para>
+            <figure>
+              <title>Intellij: Reimport the project</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s6_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s6_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>
+              At this point it is a good idea to rebuild the entire project and make sure there are no errors.  Then
+              run all the unit tests through Intellij. The integration test will be run after the server is configured. 
+            </para>
+            <substeps>
+              <step>
+                <para>
+                  From the menu choose <menuchoice><guimenu>Build</guimenu><guimenuitem>Rebuild Project</guimenuitem>
+                  </menuchoice> to rebuild the project.
+                </para>
+                <figure>
+                  <title>Intellij: Rebuild the project</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s7.1_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s7.1_intellij.png">Click to enlarge</link></para>
+                </figure>
+                <para>
+                  If you receive out of memory errors during the build, you can also try increasing the size of memory when maven runs in environment variables. 
+                  For specific instructions on setting environment variables, please refer to <link linkend="environment_variables">this</link> section of the installation guide.</para><para>
+                    <inlinemediaobject><imageobject><imagedata fileref="../images/archetype/s7.1a_Intellij.png"/></imageobject></inlinemediaobject>
+                  </para>
+                <note><para>If you have any errors during the build, ensure the Maven Importing is set to Import Maven
+                  projects automatically. (Go to <menuchoice>
+                    <guimenu>File</guimenu>
+                    <guimenuitem>Settings</guimenuitem>
+                  </menuchoice> and under Maven select Importing. Check the Import Maven projects
+                  automatically check box.) </para><para><inlinemediaobject><imageobject><imagedata fileref="../images/archetype/s7.1a_intellij_note.png" scalefit="1" width="100%" contentdepth="100%" /></imageobject></inlinemediaobject></para></note>
+              </step>
+              <step>
+                <para>
+                  Right click on <guilabel>src/test/java/org/foo/</guilabel> folder and choose
+                  <menuchoice><guimenuitem>Run 'Tests in 'org.foo''</guimenuitem></menuchoice> from the menu to run the
+                  unit tests.
+                </para>
+                <figure>
+                  <title>Intellij: Run unit tests</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s7.2_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetypes/s7.2_intellij.png">Click to enlarge</link></para>
+                </figure>
+              </step>
+            </substeps>
+          </step>
+          <step>
+            <para>
+              Setup the Application server in Intellij:
+            </para>
+            <substeps>
+              <step>
+                <para>
+                  Choose <menuchoice><guimenu>Run</guimenu><guimenuitem>Edit Configurations...</guimenuitem>
+                  </menuchoice> from the menu.
+                </para>
+                <figure>
+                  <title>Intellij: Edit configurations</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s8.1_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s8.1_intellij.png">Click to enlarge</link></para>
+                </figure>
+              </step>
+              <step>
+                <para>
+                  Click the <guibutton>+</guibutton> icon on the top left and select <menuchoice>
+                    <guimenu>Tomcat Server</guimenu><guimenuitem>Local</guimenuitem></menuchoice> from the menu.
+                </para>
+                <figure>
+                  <title>Intellij: Select the Tomcat Server</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s8.2_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s8.2_intellij.png">Click to enlarge</link></para>
+                </figure>
+              </step>
+              <step>
+                <para>
+                  Specify the server name in the <guilabel>Name</guilabel> field (e.g. "Local Tomcat 6"). Choose the
+                  tomcat server in the <guilabel>Application server</guilabel> drop down. Add more memory by specifying
+                  "-Xms512m -Xmx2g -XX:MaxPermSize=512m" in the <guilabel>VM options</guilabel> field.
+                </para>
+                <figure>
+                  <title>Intellij: Specify server and add more memory</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s8.3_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s8.3_intellij.png">Click to enlarge</link></para>
+                </figure>
+              </step>
+              <step>
+                <para>
+                  Switch to the <guilabel>Deployment</guilabel> tab.  Click the <guibutton>+</guibutton> icon and select
+                  <menuchoice><guimenuitem>artifact</guimenuitem></menuchoice> from the menu. Select
+                  <guilabel>bar:war (exploded)</guilabel> and click the <guibutton>OK</guibutton> button.
+                </para>
+                <figure>
+                  <title>Intellij: Deploy</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s8.4_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s8.4_intellij.png">Click to enlarge</link></para>
+                </figure>
+              </step>
+              <step>
+                <para>
+                  Specify "/bar" as the <guilabel>Application context</guilabel>.
+                  Click the <guibutton>OK</guibutton> button.
+                </para>
+                <figure>
+                  <title>Intellij: Specify application context</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/archetype/s8.5_intellij_dbk.png"/>
+                    </imageobject>
+                  </mediaobject>
+                  <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s8.5_intellij.png">Click to enlarge</link></para>
+                </figure>
+              </step>
+            </substeps>
+          </step>
+          <step>
+            <para>
+              Add the integration test folder as a source folder.</para>
+              <substeps>
+                <step>
+                  <para>
+                    Right click on the project and select <menuchoice><guimenuitem>Open Module Settings</guimenuitem>
+                    </menuchoice>.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    Navigate to <guilabel>src/it/java</guilabel> folder.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    Select <guilabel>Test Sources</guilabel>.
+                  </para>
+                </step>
+                <step>
+                  <para>
+                    Click the <guibutton>OK</guibutton> button.
+                  </para>
+                </step>
+              </substeps>
+            <figure>
+              <title>Intellij: Add integration test folder</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s9_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s9_intellij.png">Click to enlarge</link></para>
+            </figure>
+            <para> If you have not already done so, set the SDK to the JDK directory for all
+            projects by going to <menuchoice>
+              <guimenu>File</guimenu>
+              <guimenuitem>Project Structure</guimenuitem>
+            </menuchoice> and then under Project SDK, click New.</para><para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="../images/archetype/s9.1_Intellij.png" scalefit="1" width="100%" contentdepth="100%" />
+              </imageobject>
+            </inlinemediaobject>
+          </para>
+            <para>Locate and select the directory where the JDK is installed on your machine, for
+              example C:\Program Files\Java\jdk1.6.0_41</para><para><inlinemediaobject>
+              <imageobject>
+                  <imagedata fileref="../images/archetype/s9.2_Intellij.png" scalefit="1" width="100%" contentdepth="100%"/>
+              </imageobject>
+            </inlinemediaobject>
+          </para>
+            <para> If you need to allocate more memory to the Java compiler you can do so under <menuchoice>
+              <guimenu>File</guimenu>
+              <guimenuitem>Settings</guimenuitem>
+              <guisubmenu>Compiler</guisubmenu>
+            </menuchoice> and then under Java Compiler, change the Maximum heap size (MB).</para><para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="../images/archetype/s9.3_Intellij.png" scalefit="1" width="100%" contentdepth="100%" />
+              </imageobject>
+            </inlinemediaobject>
+          </para>
+          </step>
+          <step>
+            <para>
+              Choose <menuchoice><guimenu>Run</guimenu><guimenuitem>Run 'Local Tomcat 6'</guimenuitem></menuchoice> from
+              the menu
+              <note><para>If you have something defined in the field Startup page for Run/Debug Configurations for Tomcat (for example: http://localhost:8080/bar/), 
+                then that page will automatically show up in your default browser after the server starts.</para></note>
+            </para>
+            <figure>
+              <title>Intellij: Run Tomcat locally</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s10_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+              <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s10_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para>Run the integration test</para>
+            <para>
+              Right click on <guilabel>src/it/java/org/foo/BasicApplicationIT.java</guilabel> and choose
+              <menuchoice><guimenuitem>Run 'BasicApplicationIT'</guimenuitem></menuchoice> from the menu to run the
+              integration test.
+            </para>
+            <figure>
+              <title>Intellij: Run integration test</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s11_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+              <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s11_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+          <step>
+            <para> If the browser has not already done so after the server starts up, after a
+            message like the following in the server log:
+            <programlisting>INFO: Server startup in 136133 ms
+Connected to server</programlisting>navigate
+            to <link xlink:href="http://localhost:8080/bar">http://localhost:8080/bar</link>. </para>
+            <figure>
+              <title>Intellij: Login</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s12_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s12_intellij.png">Click to enlarge</link></para>
+            </figure>
+            <figure>
+              <title>Intellij: Initial screen</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="../images/archetype/s12.1_intellij_dbk.png"/>
+                </imageobject>
+              </mediaobject>
+            <para><link xlink:href="http://site.kuali.org/rice/${project.version}/reference/images/archetype/s12.1_intellij.png">Click to enlarge</link></para>
+            </figure>
+          </step>
+
+
+        </procedure>
+      </section>
+    </section>
+
+    <section xml:id="project_structure_and_config">
+        <title>Project Structure and Configuration Files</title>
+        <para>The result of running the create project script is a new maven based Rice client
+            project. This includes the directory structures for building out your application, along
+            with the necessary configuration files. Let's start by looking the directories that were
+            created. </para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Project Root (eg '/java/projects/myapp') – This is the root folder that was created to
+                    hold all the project contents. Within this folder you will find three sub-folders, a
+                    '.classpath', '.project', 'instructions.txt', and 'pom.xml' file.</para>
+            </listitem>
+            <listitem>
+                <para>.settings – This folder contains settings configuration for the Eclipse IDE</para>
+            </listitem>
+            <listitem>
+                <para>src – This folder is for the application source files and resources. Within this
+                    folder is the standard maven directory breakdown:
+
+                  <itemizedlist>
+                      <listitem><para>src/main/java – Contains Java source code</para></listitem>
+                      <listitem><para>src/main/resources – Contains resource files (XML and other resources)</para></listitem>
+                      <listitem><para>src/main/webapp – Contains the application web content (JSP, tags, images,
+                          CSS, Script)</para></listitem>
+                  </itemizedlist>
+                </para>
+            </listitem>
+            <listitem><para>target – This folder holds the build output such as generated classes and wars.</para></listitem>
+        </itemizedlist>
+
+        <para>Along with the directories several files are created. These are as follows:</para>
+
+        <table frame="none" tabstyle="striped">
+            <title>Generated Files</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.56*"/>
+                <thead>
+                    <row>
+                        <entry>File</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>.classpath</entry>
+                        <entry>Eclipse file for managing the application classpath</entry>
+                    </row>
+                    <row>
+                        <entry>.project</entry>
+                        <entry>Eclipse project file</entry>
+                    </row>
+                    <row>
+                        <entry>pom.xml</entry>
+                        <entry>Maven Project File</entry>
+                    </row>
+                    <row>
+                        <entry>{project}-RiceDataSourceSpringBeans.xml*</entry>
+                        <entry>Spring XML file containing Rice datasource configurations</entry>
+                    </row>
+                    <row>
+                        <entry>{project}-RiceJTASpringBeans.xml*</entry>
+                        <entry>Spring XML file containing JTA transaction configuration</entry>
+                    </row>
+                    <row>
+                        <entry>{project}-RiceSpringBeans.xml*</entry>
+                        <entry>Spring XML file containing the Rice module Configurers</entry>
+                    </row>
+                    <row>
+                        <entry>SpringBeans.xml*</entry>
+                        <entry>Spring XML file for Application beans</entry>
+                    </row>
+                    <row>
+                        <entry>{project}-SampleAppModuleBeans.xml*</entry>
+                        <entry>Spring XML file for Sample App beans (only created if –sampleapp option was given)</entry>
+                    </row>
+                    <row>
+                        <entry>OJB-repository-sampleapp.xml*</entry>
+                        <entry>OJB configuration file for the Sample App (only created if –sampleapp option was given)</entry>
+                    </row>
+                    <row>
+                        <entry>META-INF/{project}-config.xml*</entry>
+                        <entry>Default Rice configuration properties</entry>
+                    </row>
+                    <row>
+                        <entry>src/main/webapp/WEB-INF/web.xml</entry>
+                        <entry>Standard web deployment descriptor for J2EE applications</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+
+        <note><para>All of these files are located within the src/main/resources directory </para></note>
+        <para>In addition to the files created within the project, two files are created in the
+            '{user home}/kuali/main/dev' folder. These include:</para>
+
+        <itemizedlist>
+            <listitem><para>{project}-config.xml – Configuration file for application. This is where the settings
+                for the database and other configurations are given.</para></listitem>
+            <listitem><para>rice.keystore – Provides a secure key for consuming secured services running on a Rice
+                server</para></listitem>
+        </itemizedlist>
+
+    </section>
+
+    <section xml:id="configuring_rice_app">
+        <title>Configuring Your Rice Application</title>
+        <para>Next we need to provide some configuration for our application that is custom to our
+            environment (for example database connectivity). We can do this by modifying the
+            properties available in {project}-config.xml (located in the /kuali/main/dev folder in
+            user home).</para>
+        <para>Although there are many configuration properties available for customization, the
+        following are required for getting started:</para>
+
+      <table frame="none" tabstyle="striped">
+        <title>Configuration Parameters</title>
+        <tgroup cols="3">
+          <colspec colname="c1" colnum="1" colwidth="0.8*"/>
+          <colspec colname="c2" colnum="2" colwidth="1.5*"/>
+          <colspec colname="c3" colnum="3" colwidth="1.3*"/>
+          <thead>
+            <row>
+              <entry>Parameter</entry>
+              <entry>Description</entry>
+              <entry>Example</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry morerows="1">datasource.url</entry>
+              <entry morerows="1">JDBC URL of database to connect to</entry>
+              <entry>jdbc:oracle:thin:@localhost:1521:XE
+              </entry>
+            </row>
+            <row>
+              <entry>jdbc:mysql://localhost:3306/kuldemo</entry>
+            </row>
+            <row>
+              <entry>datasource.username</entry>
+              <entry>User name for connecting to the server database</entry>
+              <entry>rice
+              </entry>
+            </row>
+            <row>
+              <entry>datasource.password</entry>
+              <entry>Password for connecting to the server database</entry>
+              <entry></entry>
+            </row>
+            <row>
+              <entry>datasource.ojb.platform</entry>
+              <entry>Name of OJB platform to use for the database</entry>
+              <entry>Oracle9i or MySQL
+              </entry>
+            </row>
+            <row>
+              <entry>datasource.platform</entry>
+              <entry>Rice platform implementation for the database</entry>
+              <entry>org.kuali.rice.core.framework.persistence.platform.OraclePlatform
+                org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform
+              </entry>
+            </row>
+            <row>
+              <entry>datasource.driver.name</entry>
+              <entry>JDBC driver for the database</entry>
+              <entry>oracle.jdbc.driver.OracleDriver
+                com.mysql.jdbc.Driver
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+    </section>
+
+    <section xml:id="importing_into_eclipse">
+        <title>Importing into Eclipse</title>
+
+        <para>Now we have our project setup and are ready to begin development. Note at this point
+            the application is completely runnable. We could do a maven deploy, copy the generated
+            war to our tomcat server, and start up the application. However we are going to first
+            import our project to Eclipse so that we will be ready to develop further application
+            code.</para>
+
+        <para>Navigate to the Eclipse installation directory. There you should find an executable
+            named 'eclipse.exe'. Once this file is found double click to start the IDE. When Eclipse
+            starts up for the first time it will ask you to choose a workspace. This is a directory
+            that Eclipse place newly created projects and will also read current projects from. A
+            standard within the community is to use '/java/projects' for your working space. Note
+            you can select the checkbox to use the directory as your default and Eclipse will not
+            prompt on the next startup.</para>
+
+        <para><emphasis role="bold">Eclipse Memory:</emphasis> It is generally needed and
+            recommended to allocate additional JVM memory for the Eclipse runtime. This can be done
+            by opening up the file named 'eclipse.ini' that exists in the root installation
+            directory. At the end of the file you specify VM arguments as follows:</para>
+        <programlisting linenumbering = "numbered">-vmargs
+-Xms128m
+-Xmx1024m
+-XX:MaxPermSize=512m</programlisting>
+
+        <para>The amount of memory allocated depends on the host machine. The above settings are for
+            a machine with 4g of memory.</para>
+
+
+        <para>When working with Eclipse for the first time, there are additional plugins you
+                will likely want to get. None of these are required by Rice and depend on your
+                institutional development environment and how you plan to create your project.
+                However, most projects today use SVN or GIT for source code control. Therefore an
+                additional Eclipse plugin is needed for communicating with the repository. Also if
+                you have chosen to use Maven (or used the create project script) the Eclipse Maven
+                plugin will be very useful as well.</para>
+
+         <para>To bring a new project into eclipse, select the File-Import menu
+         option. This should bring up a dialog as show in next figure.</para>
+
+        <figure>
+            <title>Eclipse Import</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/eclipse_import_existing_projects.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+         <para>For the import source select 'Existing Projects info Workspace'. This should
+         bring up a dialog that looks like the following figure. </para>
+
+        <figure>
+            <title>Eclipse Import Project Directory</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/eclipse_import_projects_directory.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>Here click the 'Browse' button to locate the directory for the project. After
+            selecting the project location click the 'Finish' button. Eclipse will then import the
+            project contents and you are ready to begin coding!</para>
+
+
+    </section>
+
+</chapter>

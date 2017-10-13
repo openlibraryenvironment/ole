@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--
+used to test that if you upload document types without a parent and then assign them a parent through upload the
+hierarchy is correct
+ -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>DepartmentAttribute</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>Department Routing</label>
+			<description>Department Routing</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="department" title="Department" workflowType="RULE">
+					<display>
+						<type>select</type>
+						<values title="COAS-African American/African Diaspora Studies">AAAD</values>
+					</display>
+					<!-- enforce attrib-level validation -->
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-before(//department, ' ')) = wf:ruledata('department')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<department>%department%</department>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>DepartmentSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>DepartmentSearchAttribute</label>
+			<description>DepartmentSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="department" title="Department">
+					<display>
+						<type>select</type>
+						<values title="None"></values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-before(//department, ' '))</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>SchoolAttribute</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>School/Division Routing</label>
+			<description>School/Division Routing</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="school" title="School/Division" workflowType="RULE">
+					<display>
+						<type>select</type>
+						<values title="College of Arts and Sciences">COAS</values>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-after(//department, ' ')) = wf:ruledata('school')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>SchoolSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>SchoolSearchAttribute</label>
+			<description>SchoolSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="school" title="School">
+					<display>
+						<type>select</type>
+						<values title="None"></values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-after(//department, ' '))</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+
+	</ruleAttributes>
+
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+
+
+		<ruleTemplate allowOverwrite="true">
+			<name>UniversityGraduateSchoolOffice-DepartmentRouting</name>
+			<description>University Graduate School Office - Department Routing</description>
+			<attributes>
+				<attribute>
+					<name>DepartmentAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+
+		<ruleTemplate allowOverwrite="true">
+			<name>UniversityGraduateSchoolOffice-SchoolRouting</name>
+			<description>University Graduate School Office - School Routing</description>
+			<attributes>
+				<attribute>
+					<name>SchoolAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+
+		<ruleTemplate allowOverwrite="true">
+			<name>UniversityGraduateSchoolOffice-Routing</name>
+			<description>University Graduate School Office Routing</description>
+		</ruleTemplate>
+
+		<ruleTemplate allowOverwrite="true">
+			<name>UniversityGraduateSchoolOffice-Dean of Faculty</name>
+			<description>Dean of Faculty Graduation Office Routing</description>
+		</ruleTemplate>
+
+		<ruleTemplate allowOverwrite="true">
+			<name>UniversityGraduateSchoolOffice-SSSS</name>
+			<description>SSSS Faculty Office Routing</description>
+		</ruleTemplate>
+
+	</ruleTemplates>
+
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+	<!-- the parent of these document types will be the UGS document of the ParentWithChildrenDocTypeConfiguration.xml file -->
+
+		<documentType>
+			<name>CourseRemonstranceProcess</name>
+			<description>Course Remonstrance Process</description>
+			<label>Course Change Request</label>
+			<postProcessorName>org.kuali.rice.kew.edoclite.EDocLitePostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>https://es-nd.ucs.indiana.edu:9000/en-cnv/EDocLite</docHandler>
+			<active>true</active>
+			<attributes>
+				<attribute>
+					<name>DepartmentSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>SchoolSearchAttribute</name>
+				</attribute>
+			</attributes>
+		</documentType>
+
+		<documentType>
+			<name>NewCourseRequest</name>
+			<description>New Course Request</description>
+			<label>New Course Request</label>
+			<postProcessorName>org.kuali.rice.kew.edoclite.EDocLitePostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>https://es-nd.ucs.indiana.edu:9000/en-cnv/EDocLite</docHandler>
+			<active>true</active>
+
+			<attributes>
+				<attribute>
+					<name>DepartmentSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>SchoolSearchAttribute</name>
+				</attribute>
+			</attributes>
+		</documentType>
+
+		<documentType>
+			<name>DeleteCourseRequest</name>
+			<description>Delete Course Request</description>
+			<label>Delete Course Request</label>
+			<postProcessorName>org.kuali.rice.kew.edoclite.EDocLitePostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>https://es-nd.ucs.indiana.edu:9000/en-cnv/EDocLite</docHandler>
+			<active>true</active>
+
+			<attributes>
+				<attribute>
+					<name>DepartmentSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>SchoolSearchAttribute</name>
+				</attribute>
+			</attributes>
+		</documentType>
+	</documentTypes>
+</data>

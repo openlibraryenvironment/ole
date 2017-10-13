@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SimulationTestDocumenType_ForceAction</name>
+			<description>SimulationTestDocumenType_ForceAction</description>
+			<label>SimulationTestDocumenType_ForceAction</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="WorkflowDocument3" />
+					<requests name="WorkflowDocument3" nextNode="WorkflowDocument4" />
+					<requests name="WorkflowDocument4" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<finalApproval>false</finalApproval>
+				</requests>
+				<requests name="WorkflowDocument3">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+					<finalApproval>false</finalApproval>
+				</requests>
+				<requests name="WorkflowDocument4">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>DocumentWithSpecialRouteNodes</name>
+			<description>DocumentWithSpecialRouteNodes</description>
+			<label>DocumentWithSpecialRouteNodes</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Level5" nextNode="Level1" />
+					<requests name="Level1" nextNode="Level3" />
+					<requests name="Level3" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Level5">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Level1">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="Level3">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SeqDocType</name>
+			<description>SeqDocType</description>
+			<label>SeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttributeString</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeLong</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeFloat</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeDateTime</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SeqChildDocType</name>
+			<parent>SeqDocType</parent>
+			<description>SeqChildDocType</description>
+			<label>SeqChildDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+		</documentType>
+		<!--  This document type used to add an extra request to one of the nodes -->
+		<documentType>
+			<name>SeqLastApproverDocType</name>
+			<parent>SeqDocType</parent>
+			<description>SeqLastApproverDocType</description>
+			<label>SeqLastApproverDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RuleTestDocType</name>
+			<description>RuleTestDocument Type</description>
+			<label>RuleTestDocument</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc"/>
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+        <documentType>
+            <name>UserAndGroupTestDocType</name>
+            <description>UserAndGroupTest  Type</description>
+            <label>UserAndGroupTestDocument</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>_blank</docHandler>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <active>true</active>
+            <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="WorkflowDocument" />
+                    <requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+                    <requests name="WorkflowDocument2" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc">
+                    <activationType>S</activationType>
+                </start>
+                <requests name="WorkflowDocument">
+                    <activationType>S</activationType>
+                    <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+                </requests>
+                <requests name="WorkflowDocument2">
+                    <activationType>S</activationType>
+                    <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+                    <finalApproval>true</finalApproval>
+                </requests>
+            </routeNodes>
+        </documentType>        
+
+	</documentTypes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument2Template</name>
+			<description>Workflow Document 2 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument3Template</name>
+			<description>Workflow Document 3 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument4Template</name>
+			<description>Workflow Document 4 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack1Template</name>
+			<description>Acknowledgement 1 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack2Template</name>
+			<description>Acknowledgement 2 Template</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>XMLSearchableAttributeString</name>
+			<className>org.kuali.rice.kew.docsearch.TestXMLSearchableAttributeString</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeLong</name>
+			<className>org.kuali.rice.kew.docsearch.TestXMLSearchableAttributeLong</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeFloat</name>
+			<className>org.kuali.rice.kew.docsearch.TestXMLSearchableAttributeFloat</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeDateTime</name>
+			<className>org.kuali.rice.kew.docsearch.TestXMLSearchableAttributeDateTime</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SimulationTestDocumenType_ForceAction</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>SimulationTestDocumenType_ForceAction and WorkflowDocumentTemplate Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SimulationTestDocumenType_ForceAction</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>SimulationTestDocumenType_ForceAction and WorkflowDocument2Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SimulationTestDocumenType_ForceAction</documentType>
+            <ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+			<description>SimulationTestDocumenType_ForceAction and WorkflowDocument3Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SimulationTestDocumenType_ForceAction</documentType>
+            <ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+			<description>SimulationTestDocumenType_ForceAction and WorkflowDocument4Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>jitrue</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SimulationTestDocumenType_ForceAction</documentType>
+            <ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+			<description>SimulationTestDocumenType_ForceAction and WorkflowDocument4Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DocumentWithSpecialRouteNodes</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>bmcgough</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DocumentWithSpecialRouteNodes</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DocumentWithSpecialRouteNodes</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>pmckown</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>bmcgough</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>pmckown</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Ack1Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>temay</principalName>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>Ack2Template</ruleTemplate>
+			<description>Ack2Template Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>jhopf</principalName>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqLastApproverDocType</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Last Approver Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>ewestfal</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<rule>
+			<documentType>SeqLastApproverDocType</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template Last Approver Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>ewestfal</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RuleTestDocType</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule for Rule Test</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>temay</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RuleTestDocType</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template Rule for Rule Test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>temay</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+				<responsibility>
+					<principalName>ewestfal</principalName>
+					<actionRequested>K</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	    <rule>
+	      <documentType>RuleTestDocType</documentType>
+            <ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+	      <description>WorkflowDocument3Template Rule for Rule Test (Workgroup)</description>
+	      <forceAction>true</forceAction>
+	      <responsibilities>
+	        <responsibility>
+	          <groupName namespace="KR-WKFLW">NonSIT</groupName>
+	          <actionRequested>F</actionRequested>
+	          <priority>1</priority>
+	        </responsibility>
+	      </responsibilities>
+	    </rule>
+        <rule>
+          <documentType>UserAndGroupTestDocType</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+          <description>WorkflowDocumentTemplate Rule</description>
+          <forceAction>true</forceAction>
+          <responsibilities>
+            <responsibility>
+              <principalName>ewestfal</principalName>
+              <actionRequested>A</actionRequested>
+              <priority>1</priority>
+            </responsibility>
+            <responsibility>
+              <groupName namespace="KR-WKFLW">NonSIT</groupName>
+              <actionRequested>A</actionRequested>
+              <priority>1</priority>
+            </responsibility>
+          </responsibilities>
+        </rule>
+        <rule>
+          <documentType>UserAndGroupTestDocType</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+          <description>WorkflowDocumentTemplate Rule</description>
+          <forceAction>true</forceAction>
+          <responsibilities>
+            <responsibility>
+              <principalName>jitrue</principalName>
+              <actionRequested>A</actionRequested>
+              <priority>1</priority>
+            </responsibility>
+            <responsibility>
+              <groupName namespace="KR-WKFLW">WorkflowAdmin</groupName>
+              <actionRequested>A</actionRequested>
+              <priority>1</priority>
+            </responsibility>
+          </responsibilities>
+        </rule>              
+	</rules>
+    
+</data>

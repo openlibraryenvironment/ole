@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate>
+      <name>PhDCommencement.Final</name>
+      <description>PhD Commencement Participation Application -  Final Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.FYI</name>
+      <description>PhD Commencement Participation Application - FYI notification</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.Department1b</name>
+      <description>PhD Commencement Participation Application - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.Department1a</name>
+      <description>PhD Commencement Participation Application - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.Depart2b</name>
+      <description>PhD Commencement Participation Application - Department (second major) Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.Department2a</name>
+      <description>PhD Commencement Participation Application - Department (second major) Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.InitatorFYI</name>
+      <description>PhD Commencement Participation Application - Initiator notification of processed</description>
+      <attributes>
+        <attribute>
+          <name>PhDCommencementInitiatorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.NetId1a</name>
+      <description>PhDCommencement.NetId1a optional Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDCommencementnetidAttribute1a</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>PhDCommencementNetworkIdRoleAttribute1a</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDCommencement.NetId2a</name>
+      <description>PhDCommencement.NetId2a optional Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDCommencementnetidAttribute2a</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>PhDCommencementNetworkIdRoleAttribute2a</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>

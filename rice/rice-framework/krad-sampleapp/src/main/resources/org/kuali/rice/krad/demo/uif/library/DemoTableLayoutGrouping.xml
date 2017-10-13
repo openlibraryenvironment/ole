@@ -1,0 +1,227 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- TableLayoutGrouping demo -->
+  <bean id="Demo-TableLayoutGrouping-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoTableLayoutGrouping.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.layout.TableLayoutManager"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-TableLayoutGrouping-Example1"/>
+        <ref bean="Demo-TableLayoutGrouping-Example2"/>
+        <ref bean="Demo-TableLayoutGrouping-Example3"/>
+        <ref bean="Demo-TableLayoutGrouping-Example4"/>
+        <ref bean="Demo-TableLayoutGrouping-Example5"/>
+        <ref bean="Demo-TableLayoutGrouping-Example6"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-TableLayoutGrouping-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <ref bean="Demo-TableLayoutGrouping-Section1"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-TableLayoutGrouping-Example1 start-->
+  <bean id="Demo-TableLayoutGrouping-Section1" parent="Uif-TableCollectionGroup">
+    <property name="collectionObjectClass"
+              value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="propertyName" value="groupedCollection1"/>
+    <property name="readOnly" value="true"/>
+    <property name="layoutManager.renderSequenceField" value="false"/>
+
+    <!-- list of fields by propertyName to group rows by (will normally be one) -->
+    <property name="layoutManager.groupingPropertyNames">
+      <list>
+        <value>field1</value>
+      </list>
+    </property>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="Value 1"/>
+        <bean parent="Uif-InputField" p:propertyName="field3" p:label="Value 2"/>
+        <bean parent="Uif-InputField" p:propertyName="field4" p:label="Value 3"/>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="Group Value"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-TableLayoutGrouping-Example1 end-->
+
+  <!-- 2 field grouping -->
+  <bean id="Demo-TableLayoutGrouping-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <!-- ex:Demo-TableLayoutGrouping-Example2 start-->
+        <bean id="Demo-TableLayoutGrouping-Section2" parent="Uif-TableCollectionGroup">
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="doubleGroupedCollection"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+
+          <!-- column calculations are being used for the credits(field4) field -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="true" p:propertyName="field4"/>
+              <bean parent="Uif-ColumnCalculationInfo-Max" p:showGroupTotal="true" p:propertyName="field4"/>
+            </list>
+          </property>
+
+          <!-- two fields are used to group here, it will group by year(field1) first then semester(field2) -->
+          <property name="layoutManager.groupingPropertyNames">
+            <list>
+              <value>field2</value>
+              <value>field1</value>
+            </list>
+          </property>
+
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Semester"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Year"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Course"/>
+              <bean parent="Uif-InputField" p:propertyName="field4" p:label="Credits"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutGrouping-Example2 end-->
+
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- Not showing grouping field -->
+  <bean id="Demo-TableLayoutGrouping-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutGrouping-Example3 start-->
+        <bean id="Demo-TableLayoutGrouping-Section3" parent="Uif-TableCollectionGroup">
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="groupedCollection2"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.groupingPropertyNames">
+            <list>
+              <value>field1</value>
+            </list>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Value 1"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Value 2"/>
+              <bean parent="Uif-InputField" p:propertyName="field4" p:label="Value 3"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutGrouping-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- grouping with add -->
+  <bean id="Demo-TableLayoutGrouping-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutGrouping-Example4 start-->
+        <bean id="Demo-TableLayoutGrouping-Section4" parent="Uif-TableCollectionGroup">
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="groupedCollection3"/>
+          <property name="renderAddLine" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+
+          <!-- adding column calculations for the other fields -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="true" p:propertyName="field2"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="true" p:propertyName="field3"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="true" p:propertyName="field4"/>
+            </list>
+          </property>
+
+          <!-- Grouping on field with propertyName field1 -->
+          <property name="layoutManager.groupingPropertyNames">
+            <list>
+              <value>field1</value>
+            </list>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Value 1"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Value 2"/>
+              <bean parent="Uif-InputField" p:propertyName="field4" p:label="Value 3"/>
+              <!-- readOnly when not in an addLine -->
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Group" p:required="true"
+                    p:readOnly="@{!#isAddLine}"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutGrouping-Example4 end-->
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- prefix -->
+  <bean id="Demo-TableLayoutGrouping-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutGrouping-Section5" parent="Demo-TableLayoutGrouping-Section1">
+          <!-- ex:Demo-TableLayoutGrouping-Example5 start-->
+          <property name="layoutManager.groupingPrefix" value="Lines with value "/>
+          <!-- ex:Demo-TableLayoutGrouping-Example5 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- grouping title -->
+  <bean id="Demo-TableLayoutGrouping-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutGrouping-Section6" parent="Demo-TableLayoutGrouping-Section1">
+          <!-- ex:Demo-TableLayoutGrouping-Example6 start-->
+          <!-- groupingTitle MUST use the value of the field being grouped on in its value or be unique in some other way -->
+          <property name="layoutManager.groupingTitle" value="Letter @{#lp.field1} in item"/>
+          <!-- ex:Demo-TableLayoutGrouping-Example6 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

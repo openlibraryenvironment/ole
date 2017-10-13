@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <!-- Box Layout Managers -->
+
+  <bean id="Uif-BoxLayoutBase" abstract="true" parent="Uif-BoxLayoutBase-parentBean"/>
+  <bean id="Uif-BoxLayoutBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.layout.BoxLayoutManager"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/box.ftl"/>
+    <property name="templateName" value="uif_box"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-boxLayout</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout-parentBean"/>
+  <bean id="Uif-HorizontalBoxLayout-parentBean" abstract="true" parent="Uif-BoxLayoutBase">
+    <property name="cssClasses">
+      <list>
+        <value>uif-horizontalBoxLayout</value>
+      </list>
+    </property>
+    <property name="orientation" value="HORIZONTAL"/>
+  </bean>
+
+  <bean id="Uif-VerticalBoxLayout" parent="Uif-VerticalBoxLayout-parentBean"/>
+  <bean id="Uif-VerticalBoxLayout-parentBean" abstract="true" parent="Uif-BoxLayoutBase">
+    <property name="cssClasses">
+      <list>
+        <value>uif-verticalBoxLayout</value>
+      </list>
+    </property>
+    <property name="orientation" value="VERTICAL"/>
+  </bean>
+
+  <!--Css Grid Layout Managers (div based)-->
+
+  <bean id="Uif-CssGridLayoutBase" abstract="true" parent="Uif-CssGridLayoutBase-parentBean"/>
+  <bean id="Uif-CssGridLayoutBase-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.layout.CssGridLayoutManager"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/cssGrid.ftl"/>
+    <property name="templateName" value="uif_cssGrid"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-cssGridLayout</value>
+      </list>
+    </property>
+    <!-- this means items which don't define their colSpan will take up a whole "row" -->
+    <property name="defaultItemColSpan" value="9"/>
+    <property name="rowLayoutCssClass" value="row"/>
+  </bean>
+
+  <bean id="Uif-FixedCssGridLayout" parent="Uif-FixedCssGridLayout-parentBean"/>
+  <bean id="Uif-FixedCssGridLayout-parentBean" abstract="true" parent="Uif-CssGridLayoutBase">
+    <property name="libraryCssClasses">
+      <list>
+        <value>span9</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-fixedCssGridLayout</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-FluidCssGridLayout" parent="Uif-FluidCssGridLayout-parentBean"/>
+  <bean id="Uif-FluidCssGridLayout-parentBean" abstract="true" parent="Uif-CssGridLayoutBase">
+    <property name="cssClasses">
+      <list>
+        <value>uif-fluidCssGridLayout</value>
+      </list>
+    </property>
+    <property name="rowLayoutCssClass" value="row-fluid"/>
+  </bean>
+
+  <!--Grid Layout Managers-->
+
+  <bean id="Uif-GridLayoutBase" abstract="true" parent="Uif-GridLayoutBase-parentBean"/>
+  <bean id="Uif-GridLayoutBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.layout.GridLayoutManager"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/grid.ftl"/>
+    <property name="templateName" value="uif_grid"/>
+    <property name="libraryCssClasses">
+      <list>
+        <value>table</value>
+        <value>table-condensed</value>
+        <value>table-bordered</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-gridLayout</value>
+      </list>
+    </property>
+    <property name="numberOfColumns" value="2"/>
+    <property name="suppressLineWrapping" value="false"/>
+    <property name="applyAlternatingRowStyles" value="false"/>
+    <property name="applyDefaultCellWidths" value="true"/>
+    <property name="renderAlternatingHeaderColumns" value="true"/>
+  </bean>
+
+  <bean id="Uif-TwoColumnGridLayout" parent="Uif-TwoColumnGridLayout-parentBean"/>
+  <bean id="Uif-TwoColumnGridLayout-parentBean" abstract="true" parent="Uif-GridLayoutBase">
+    <property name="numberOfColumns" value="2"/>
+  </bean>
+
+  <bean id="Uif-FourColumnGridLayout" parent="Uif-TwoColumnGridLayout-parentBean"/>
+  <bean id="Uif-FourColumnGridLayout-parentBean" abstract="true" parent="Uif-GridLayoutBase">
+    <property name="numberOfColumns" value="4"/>
+  </bean>
+
+  <bean id="Uif-SixColumnGridLayout" parent="Uif-SixColumnGridLayout-parentBean"/>
+  <bean id="Uif-SixColumnGridLayout-parentBean" abstract="true" parent="Uif-GridLayoutBase">
+    <property name="numberOfColumns" value="6"/>
+  </bean>
+
+  <!-- List Layout Managers (html list) -->
+  <bean id="Uif-ListLayout" abstract="true" parent="Uif-ListLayout-parentBean"/>
+  <bean id="Uif-ListLayout-parentBean" abstract="true" class="org.kuali.rice.krad.uif.layout.ListLayoutManager"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/list.ftl"/>
+    <property name="templateName" value="uif_list"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-listLayout</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OrderedListLayout" parent="Uif-OrderedListLayout-parentBean"/>
+  <bean id="Uif-OrderedListLayout-parentBean" abstract="true" parent="Uif-ListLayout">
+    <property name="orderedList" value="true"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-orderedListLayout</value>
+      </list>
+    </property>
+  </bean>
+
+  <!--Collection Layout Managers-->
+
+  <!--Table Collection Layout Managers-->
+
+  <bean id="Uif-TableCollectionLayout" parent="Uif-TableCollectionLayout-parentBean"/>
+  <bean id="Uif-TableCollectionLayout-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.layout.TableLayoutManager"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/table.ftl"/>
+    <property name="templateName" value="uif_table"/>
+    <property name="libraryCssClasses">
+      <list>
+        <value>table</value>
+        <value>table-condensed</value>
+        <value>table-bordered</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-tableCollectionLayout</value>
+      </list>
+    </property>
+    <property name="applyAlternatingRowStyles" value="true"/>
+    <property name="applyDefaultCellWidths" value="false"/>
+    <property name="renderAlternatingHeaderColumns" value="false"/>
+    <property name="headerLabelPrototype">
+      <bean parent="Uif-Label" p:renderColon="false" p:cssClasses="infoline"/>
+    </property>
+    <property name="generateAutoSequence" value="true"/>
+    <property name="actionFieldPrototype">
+      <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="Actions" p:shortLabel="Actions"/>
+    </property>
+    <property name="addLineGroup">
+      <bean parent="Uif-CollectionGridItem"
+            p:cssClasses="uif-collectionItem,uif-tableCollectionItem,uif-collectionAddItem"/>
+    </property>
+    <property name="subCollectionFieldGroupPrototype">
+      <bean parent="Uif-VerticalFieldGroup"
+            p:fieldLabel.render="false"
+            p:cssClasses="uif-subCollection"/>
+    </property>
+    <property name="selectFieldPrototype">
+      <bean parent="Uif-SelectCollectionItemField"/>
+    </property>
+    <property name="pagerWidget">
+      <bean parent="Uif-Pager"/>
+    </property>
+    <property name="richTable">
+      <bean parent="Uif-PagedRichTable"/>
+    </property>
+    <property name="suppressLineWrapping" value="true"/>
+    <property name="toggleAllDetailsAction">
+      <bean parent="Uif-ToggleRowDetailsAction"/>
+    </property>
+    <property name="expandDetailsActionPrototype">
+      <bean parent="Uif-ExpandDetailsAction"/>
+    </property>
+    <property name="totalLabel">
+      <bean parent="Uif-Label" p:labelText="Total"/>
+    </property>
+    <property name="pageTotalLabel">
+      <bean parent="Uif-Label" p:labelText="Page Total"/>
+    </property>
+    <property name="groupTotalLabelPrototype">
+      <bean parent="Uif-Label" p:labelText="Group Total">
+        <property name="dataAttributes">
+          <map>
+            <entry key="role" value="groupTotalLabel"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="showPageTotal" value="true"/>
+    <property name="showTotal" value="true"/>
+
+  </bean>
+
+  <!--Stacked Collection Layout Managers-->
+
+  <bean id="Uif-StackedCollectionLayoutBase" abstract="true" parent="Uif-StackedCollectionLayoutBase-parentBean"/>
+  <bean id="Uif-StackedCollectionLayoutBase-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.layout.StackedLayoutManager"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/stacked.ftl"/>
+    <property name="templateName" value="uif_stacked"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-stackedCollectionLayout</value>
+      </list>
+    </property>
+    <property name="subCollectionFieldGroupPrototype">
+      <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+            p:colSpan="@{#parent.layoutManager.numberOfColumns}"
+            p:cssClasses="uif-subCollection"/>
+    </property>
+    <property name="selectFieldPrototype">
+      <bean parent="Uif-SelectCollectionItemField"/>
+    </property>
+    <property name="pagerWidget">
+      <bean parent="Uif-Pager"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-StackedCollectionLayout-WithGridItems" parent="Uif-StackedCollectionLayout-WithGridItems-parentBean"/>
+  <bean id="Uif-StackedCollectionLayout-WithGridItems-parentBean" abstract="true"
+        parent="Uif-StackedCollectionLayoutBase">
+    <property name="addLineGroup">
+      <bean parent="Uif-CollectionGridItem"/>
+    </property>
+    <property name="lineGroupPrototype">
+      <bean parent="Uif-CollectionGridItem"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-StackedCollectionLayout-WithBoxItems" parent="Uif-StackedCollectionLayout-WithBoxItems-parentBean"/>
+  <bean id="Uif-StackedCollectionLayout-WithBoxItems-parentBean" abstract="true"
+        parent="Uif-StackedCollectionLayoutBase">
+    <property name="addLineGroup">
+      <bean parent="Uif-CollectionHorizontalBoxItem"/>
+    </property>
+    <property name="lineGroupPrototype">
+      <bean parent="Uif-CollectionHorizontalBoxItem"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-StackedCollectionLayout-List" parent="Uif-StackedCollectionLayout-WithBoxItems">
+    <property name="template" value="/krad/WEB-INF/ftl/layout/stackedList.ftl"/>
+    <property name="templateName" value="uif_stackedList"/>
+    <property name="lineGroupPrototype">
+      <bean parent="Uif-VerticalBoxSection">
+        <property name="header">
+          <bean parent="Uif-HeaderFour"/>
+        </property>
+        <property name="disclosure.renderImage" value="false"/>
+        <property name="disclosure.defaultOpen" value="true"/>
+      </bean>
+    </property>
+    <property name="subCollectionFieldGroupPrototype">
+      <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"/>
+    </property>
+  </bean>
+
+  <!-- Stacked collection item prototypes -->
+
+  <bean id="Uif-CollectionGridItem" parent="Uif-CollectionGridItem-parentBean"/>
+  <bean id="Uif-CollectionGridItem-parentBean" abstract="true" parent="Uif-GridGroup">
+    <property name="cssClasses">
+      <list>
+        <value>uif-collectionItem</value>
+        <value>uif-gridCollectionItem</value>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-CollectionVerticalBoxItem" parent="Uif-CollectionVerticalBoxItem-parentBean"/>
+  <bean id="Uif-CollectionVerticalBoxItem-parentBean" abstract="true" parent="Uif-VerticalBoxGroup"
+        p:layoutManager.orientation="VERTICAL">
+    <property name="cssClasses">
+      <list>
+        <value>uif-collectionItem</value>
+        <value>uif-boxCollectionItem</value>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-CollectionHorizontalBoxItem" parent="Uif-CollectionHorizontalBoxItem-parentBean"/>
+  <bean id="Uif-CollectionHorizontalBoxItem-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list>
+        <value>uif-collectionItem</value>
+        <value>uif-boxCollectionItem</value>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-SelectCollectionItemField" parent="Uif-InputField" p:readOnly="false"
+        p:label="Select?" p:shortLabel="Select?">
+    <property name="control">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
+  </bean>
+
+</beans>  

@@ -1,0 +1,192 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- CssGridLayoutManager demo -->
+  <bean id="Demo-CssGridLayoutManager-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoCssGridLayoutManager.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.layout.CssGridLayoutManager"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-CssGridLayoutManager-Example1"/>
+        <ref bean="Demo-CssGridLayoutManager-Example2"/>
+        <ref bean="Demo-CssGridLayoutManager-Example3"/>
+        <ref bean="Demo-CssGridLayoutManager-Example4"/>
+        <ref bean="Demo-CssGridLayoutManager-Example5"/>
+        <ref bean="Demo-CssGridLayoutManager-Example6"/>
+        <ref bean="Demo-CssGridLayoutManager-Example7"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example1 start-->
+        <!-- Grid group is backed by a CssGridLayoutManager -->
+        <bean parent="Uif-FixedCssGridGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:colSpan="3" p:instructionalText="This is instructions"
+                    p:propertyName="inputField1"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="3" p:propertyName="inputField2"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField3"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:colSpan="4" p:propertyName="inputField4"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 5" p:colSpan="5" p:propertyName="inputField5"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example2 start-->
+        <bean parent="Uif-FixedCssGridGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField6"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="6" p:propertyName="inputField7"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField8"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example3 start-->
+        <bean parent="Uif-FluidCssGridGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:colSpan="3" p:propertyName="inputField9"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="3" p:propertyName="inputField10"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField11"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:colSpan="4" p:propertyName="inputField12"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 5" p:colSpan="5" p:propertyName="inputField13"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example4 start-->
+        <bean parent="Uif-FluidCssGridGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField14"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="6" p:propertyName="inputField15"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField16"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example5 start-->
+        <!-- Grid group is backed by a CssGridLayoutManager -->
+        <bean parent="Uif-FixedCssGridGroup">
+          <property name="layoutManager.conditionalRowCssClasses">
+            <map>
+              <entry key="all" value="demo-border"/>
+              <entry key="odd" value="demo-odd"/>
+              <entry key="even" value="demo-even"/>
+            </map>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:colSpan="3" p:propertyName="inputField17"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:colSpan="3" p:propertyName="inputField18"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:colSpan="3" p:propertyName="inputField19"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:colSpan="4" p:propertyName="inputField20"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 5" p:colSpan="5" p:propertyName="inputField21"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example6 start-->
+        <!-- Grid group is backed by a CssGridLayoutManager -->
+        <bean parent="Uif-FixedCssGridGroup">
+          <property name="layoutManager.defaultItemColSpan" value="3"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField22"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField23"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField24"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField25"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 5" p:propertyName="inputField26"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 6" p:propertyName="inputField27"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-CssGridLayoutManager-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CssGridLayoutManager-Example7 start-->
+        <!-- Grid group is backed by a CssGridLayoutManager -->
+        <bean parent="Uif-FixedCssGridGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:headerText="Group A"
+                    p:style="background-color: #00CC66; height: 200px;"/>
+              <bean parent="Uif-VerticalBoxSection" p:colSpan="6" p:headerText="Group B"
+                    p:style="background-color: #00CCFF; height: 200px;"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-CssGridLayoutManager-Example7 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,115 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <dataObjectEntry id="BSAddresType" parent="BSAddresType-parentBean"/>
+  <dataObjectEntry abstract="true" dataObjectClass="edu.sampleu.bookstore.bo.BSAddressType" id="BSAddresType-parentBean"
+                   objectLabel="Address Type" parent="DataObjectEntry" titleAttribute="type">
+    <attributes>
+      <ref bean="BSAddresType-type"/>
+      <ref bean="BSAddresType-description"/>
+      <ref bean="BSAddresType-activeBean"/>
+    </attributes>
+    <primaryKeys>
+      <value>type</value>
+    </primaryKeys>
+  </dataObjectEntry>
+  <attributeDefinition id="BSAddresType-type" parent="BSAddresType-type-parentBean"/>
+  <attributeDefinition abstract="true" description="Type identifying the Authr." forceUppercase="true"
+                       id="BSAddresType-type-parentBean" label="Address Type" maxLength="40" name="type"
+                       parent="AttributeDefinition" required="true" shortLabel="Type"
+                       summary="Type identifying the Authr.">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="false"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="30"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BSAddresType-description" parent="BSAddresType-description-parentBean"/>
+  <attributeDefinition abstract="true" description="Description for the address type." forceUppercase="false"
+                       id="BSAddresType-description-parentBean" label="Address Description" maxLength="100"
+                       name="description" parent="AttributeDefinition" required="true" shortLabel="Description"
+                       summary="Description for the address type.">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="50"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BSAddresType-activeBean" parent="BSAddresType-activeBean-parentBean"/>
+  <attributeDefinition abstract="true"
+                       description="This attribute is used to describe whether the associated object is active or inactive."
+                       forceUppercase="false" formatterClass="org.kuali.rice.core.web.format.BooleanFormatter"
+                       id="BSAddresType-activeBean-parentBean" label="Active Indicator" maxLength="1" name="active"
+                       parent="AttributeDefinition" shortLabel="active" summary="Active Indicator">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <checkboxControl parent="Uif-CheckboxControl"/>
+    </control>
+  </attributeDefinition>
+  <inquiryView dataObjectClassName="edu.sampleu.bookstore.bo.BSAddressType" headertext="Address Type Inquiry"
+               id="BSAddresType-InquiryView" parent="Uif-InquiryView">
+    <items>
+      <group headertext="Address Type Information" layoutManager.numberOfColumns="2"
+             parent="Uif-Disclosure-GridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="type"/>
+          <inputField parent="Uif-InputField" propertyName="description"/>
+          <inputField parent="Uif-InputField" propertyName="active"/>
+        </items>
+      </group>
+    </items>
+  </inquiryView>
+  <lookupView dataObjectClassName="edu.sampleu.bookstore.bo.BSAddressType" headertext="Address Type Book Store Lookup"
+              id="BSAddresType-LookupView" parent="Uif-LookupView">
+    <criteriaFields>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="type"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="description"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="active"/>
+    </criteriaFields>
+    <resultFields>
+      <inputField parent="Uif-DataField" propertyName="type"/>
+      <inputField parent="Uif-DataField" propertyName="description"/>
+      <inputField parent="Uif-DataField" propertyName="active"/>
+    </resultFields>
+  </lookupView>
+</spring:beans>

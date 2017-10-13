@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>rice-framework</artifactId>
+    <groupId>org.kuali.rice</groupId>
+    <version>2.3.6</version>
+    <relativePath>../../../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>rice-krad-theme-builder-test</artifactId>
+  <packaging>war</packaging>
+
+  <properties>
+    <!-- Directory containing the web app source, assets will pulled from here to the output directory -->
+    <webapp.source.dir>${basedir}/src/main/webapp</webapp.source.dir>
+
+    <!-- Directory where the theme builders output should be placed. This can be the actual war
+     directory or a temporary directory that gets copied over in a later phase -->
+    <theme.builder.output.dir>${project.build.directory}/${project.artifactId}-${project.version}</theme.builder.output.dir>
+
+
+    <!-- One or more themes to exclude from the build. The theme is identified by its directory name. Separate
+     each theme with a comma. All directories in the default themes directory or additional directories will be
+     copied, but only the ones not excluded here will be processed -->
+    <theme.builder.excludes />
+
+
+    <!-- One or more additional directories to process as themes. This should contain the full path to the theme
+    directory. Separate each directory with a comma -->
+    <theme.builder.theme.adddirs />
+
+
+    <!-- One or more additional directories to process as plugins. This should contain the full path to the plugin
+    directory. Separate each directory with a comma -->
+    <theme.builder.plugin.adddirs />
+
+    <!-- Indicates whether theme processing should be disabled, in which case the builder will only perform
+     copying of assets to the output directory and overlays -->
+    <theme.skip.theme.processing>false</theme.skip.theme.processing>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>src/main/webapp/</directory>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+
+
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>spring-maven-plugin</artifactId>
+       <!-- <version>3.0.2</version>-->
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>buildthemes</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>loadxml</goal>
+            </goals>
+            <configuration>
+              <location>classpath:org/kuali/rice/krad/theme/themebuilder-context.xml</location>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>rice-krad-theme-builder</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+            <dependency>
+              <groupId>org.kuali.common</groupId>
+              <artifactId>kuali-jdbc</artifactId>
+              <version>3.1.10</version>
+            </dependency>
+            <dependency>
+              <groupId>org.kuali.common</groupId>
+              <artifactId>kuali-util</artifactId>
+              <version>4.4.10</version>
+            </dependency>
+            <dependency>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>rice-krad-theme-builder</artifactId>
+              <version>${project.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.kuali.common</groupId>
+              <artifactId>kuali-maven</artifactId>
+              <version>1.1.4</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.plugin-tools</groupId>
+              <artifactId>maven-plugin-annotations</artifactId>
+              <version>3.2</version>
+              <scope>runtime</scope>
+            </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

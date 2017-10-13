@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_config" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0"> 
+    <title>KEN Configuration Parameters</title>
+    <para>
+        <table frame="none" pgwide="1" tabstyle="striped">
+            <title>KEN Core Parameters</title>
+            <tgroup cols="3">
+                <colspec colname="c1" colnum="1" colwidth="1.4*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <colspec colname="c3" colnum="3" colwidth="0.6*"/>
+                <thead>
+                    <row>
+                        <entry>Configuration Parameter</entry>
+                        <entry>Description</entry>
+                        <entry>Default value</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>ken.url</entry>
+                        <entry>The base URL of the KEN webapp; this should be changed when
+                            deploying for external access</entry>
+                        <entry>${application.url}/ken</entry>
+                    </row>
+                    <row>
+                        <entry>notification.resolveMessageDeliveriesJob.startDelayMS</entry>
+                        <entry>The start delay (in ms) of the job that resolves message
+                            deliveries</entry>
+                        <entry>5000</entry>
+                    </row>
+                    <row>
+                        <entry>notification.resolveMessageDeliveriesJob.intervalMS</entry>
+                        <entry>The interval (in ms) between runs of the message delivery
+                            resolution job</entry>
+                        <entry>10000</entry>
+                    </row>
+                    <row>
+                        <entry>notification.processAutoRemovalJob.startDelayMS</entry>
+                        <entry>The start delay (in ms) of the job that auto-removes
+                            messages</entry>
+                        <entry>60000</entry>
+                    </row>
+                    <row>
+                        <entry>notification.processAutoRemovalJob.intervalMS</entry>
+                        <entry>The interval (in ms) between runs of the message auto-removal
+                            job</entry>
+                        <entry>60000</entry>
+                    </row>
+                    <row>
+                        <entry>notification.quartz.autostartup</entry>
+                        <entry>Whether to automatically start the KEN Quartz jobs</entry>
+                        <entry>true</entry>
+                    </row>
+                    <row>
+                        <entry>notification.concurrent.jobs</entry>
+                        <entry>Whether the invocation of a KEN Quartz job can overlap another
+                            KEN Quartz job running concurrently</entry>
+                        <entry>true</entry>
+                    </row>
+                    <row>
+                        <entry>ken.system.user</entry>
+                        <entry>The principal name of the user that KEN should use when
+                            initiating KEN-originated documents</entry>
+                        <entry>notsys</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.url</entry>
+                        <entry>The base URL of the KCB (notification broker) webapp</entry>
+                        <entry>${application.url}/kcb</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.messaging.synchronous</entry>
+                        <entry>Whether notification messages are processed synchronously</entry>
+                        <entry>false</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.messageprocessing.startDelayMS</entry>
+                        <entry>The start delay (in ms) of the job that processes notification
+                            messages</entry>
+                        <entry>50000</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.messageprocessing.repeatIntervalMS</entry>
+                        <entry>The interval (in ms) between runs of the notification message
+                            processing job</entry>
+                        <entry>30000</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.quartz.group</entry>
+                        <entry>Group name of the KCB Quartz job</entry>
+                        <entry>KCB-Delivery</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.quartz.job.name</entry>
+                        <entry>Name of the KCB Quartz job</entry>
+                        <entry>MessageProcessingJobDetail</entry>
+                    </row>
+                    <row>
+                        <entry>kcb.maxProcessAttempts</entry>
+                        <entry>Maximum number of times that KCB will attempt to process a
+                            notification message</entry>
+                        <entry>3</entry>
+                    </row>
+                    <row>
+                        <entry>notification.processUndeliveredJob.intervalMS</entry>
+                        <entry>The elapsed time, in milliseconds, between runs of the KEN
+                            process undelivered notifications job.</entry>
+                        <entry>10000</entry>
+                    </row>
+                    <row>
+                        <entry>notification.processUndeliveredJob.startDelayMS</entry>
+                        <entry>The elapsed time, in milliseconds, between the start of the
+                            application and the first run of the KEN process undelivered
+                            notifications job.</entry>
+                        <entry>10000</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </para>
+    <note><para>As of Rice 1.0.1, The parameter <emphasis role="bold">kcb.smtp.host</emphasis> is no longer
+        used. The smtp server settings that are required for sending email notifications
+        with KEN are documented in the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KEW_Guide.html#KEW_Config">Configuration section of the Kuali Enterprise Workflow Guide</link> under the subsection <emphasis role="bold">Email Configuration.</emphasis></para></note>
+</chapter>

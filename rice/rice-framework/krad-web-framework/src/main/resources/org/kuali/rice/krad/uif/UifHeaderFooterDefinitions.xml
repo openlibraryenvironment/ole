@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- Overrideable global application header and footer -->
+  <bean id="Uif-GlobalApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"/>
+  <bean id="Uif-GlobalApplicationHeader-parentBean" abstract="true" parent="Uif-HeaderBase"
+        p:render="false"/>
+
+  <bean id="Uif-GlobalApplicationFooter" parent="Uif-GlobalApplicationFooter-parentBean"/>
+  <bean id="Uif-GlobalApplicationFooter-parentBean" abstract="true" parent="Uif-GroupBase"
+        p:render="false"/>
+
+  <!-- Base Headers -->
+
+  <bean id="Uif-HeaderBase" abstract="true" parent="Uif-HeaderBase-parentBean"/>
+  <bean id="Uif-HeaderBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Header"
+        scope="prototype" parent="Uif-ComponentBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/header.ftl"/>
+    <property name="templateName" value="uif_header"/>
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-header</value>
+      </list>
+    </property>
+    <property name="headerTagCssClasses">
+      <list merge="true">
+        <value>uif-headerText</value>
+      </list>
+    </property>
+    <property name="toolTip">
+      <bean parent="Uif-Tooltip"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-HeaderUpperGroup" parent="Uif-HeaderUpperGroup-parentBean"/>
+  <bean id="Uif-HeaderUpperGroup-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
+  </bean>
+
+  <bean id="Uif-HeaderRightGroup" parent="Uif-HeaderRightGroup-parentBean"/>
+  <bean id="Uif-HeaderRightGroup-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
+  </bean>
+
+  <bean id="Uif-HeaderLowerGroup" parent="Uif-HeaderLowerGroup-parentBean"/>
+  <bean id="Uif-HeaderLowerGroup-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-lowerHeaderGroup</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-HeaderOne" parent="Uif-HeaderOne-parentBean"/>
+  <bean id="Uif-HeaderOne-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="headerLevel" value="h1"/>
+  </bean>
+
+  <bean id="Uif-HeaderTwo" parent="Uif-HeaderTwo-parentBean"/>
+  <bean id="Uif-HeaderTwo-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="headerLevel" value="h2"/>
+  </bean>
+
+  <bean id="Uif-HeaderThree" parent="Uif-HeaderThree-parentBean"/>
+  <bean id="Uif-HeaderThree-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="headerLevel" value="h3"/>
+  </bean>
+
+  <bean id="Uif-HeaderFour" parent="Uif-HeaderFour-parentBean"/>
+  <bean id="Uif-HeaderFour-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="headerLevel" value="h4"/>
+  </bean>
+
+  <bean id="Uif-HeaderFive" parent="Uif-HeaderFive-parentBean"/>
+  <bean id="Uif-HeaderFive-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="headerLevel" value="h5"/>
+  </bean>
+
+  <bean id="Uif-HeaderSix" parent="Uif-HeaderSix-parentBean"/>
+  <bean id="Uif-HeaderSix-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="headerLevel" value="h6"/>
+  </bean>
+
+  <bean id="Uif-ViewHeader" parent="Uif-ViewHeader-parentBean"/>
+  <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne"
+        class="org.kuali.rice.krad.uif.element.ViewHeader">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/viewHeader.ftl"/>
+    <property name="templateName" value="uif_viewHeader"/>
+    <property name="supportTitleMessage">
+      <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-supportTitle"/>
+    </property>
+    <property name="areaTitleMessage">
+      <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-areaTitle"/>
+    </property>
+    <property name="metadataMessage">
+      <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-metadata"/>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-viewHeader</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-PageHeader" parent="Uif-PageHeader-parentBean"/>
+  <bean id="Uif-PageHeader-parentBean" abstract="true" parent="Uif-HeaderTwo">
+    <property name="cssClasses">
+      <list>
+        <value>uif-pageHeader</value>
+        <value>clearfix</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SectionHeader" parent="Uif-SectionHeader-parentBean"/>
+  <bean id="Uif-SectionHeader-parentBean" abstract="true" parent="Uif-HeaderThree">
+    <property name="cssClasses">
+      <list>
+        <value>uif-sectionHeader</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SubSectionHeader" parent="Uif-SubSectionHeader-parentBean"/>
+  <bean id="Uif-SubSectionHeader-parentBean" abstract="true" parent="Uif-HeaderFour">
+    <property name="cssClasses">
+      <list>
+        <value>uif-subSectionHeader</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SubCollectionHeader" parent="Uif-SubCollectionHeader-parentBean"/>
+  <bean id="Uif-SubCollectionHeader-parentBean" abstract="true" parent="Uif-HeaderBase">
+    <property name="cssClasses">
+      <list>
+        <value>uif-subCollectionHeader</value>
+      </list>
+    </property>
+    <property name="headerLevel" value="label"/>
+  </bean>
+
+  <!-- Common Headers -->
+
+  <bean id="Uif-EditablePageHeader" parent="Uif-EditablePageHeader-parentBean"/>
+  <bean id="Uif-EditablePageHeader-parentBean" abstract="true" parent="Uif-PageHeader">
+    <property name="lowerGroup">
+      <bean parent="Uif-DisclosureActions-ReqMessageGroup"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-ReadOnlyPageHeader" parent="Uif-ReadOnlyPageHeader-parentBean"/>
+  <bean id="Uif-ReadOnlyPageHeader-parentBean" abstract="true" parent="Uif-PageHeader">
+    <property name="lowerGroup">
+      <bean parent="Uif-DisclosureActionsGroup"/>
+    </property>
+  </bean>
+
+  <!-- Base Footer -->
+
+  <bean id="Uif-FooterBase" abstract="true" parent="Uif-FooterBase-parentBean"/>
+  <bean id="Uif-FooterBase-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup" scope="prototype">
+    <property name="cssClasses" value="uif-footer"/>
+  </bean>
+
+  <!-- Common Footers -->
+
+  <bean id="Uif-FormFooter" parent="Uif-FooterBase">
+    <property name="items">
+      <list>
+        <bean parent="Uif-SaveAction"/>
+        <bean parent="Uif-CancelAction"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

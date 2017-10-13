@@ -1,0 +1,1845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>BANotificationAttribute</name>
+			<className>org.kuali.rice.kew.actions.BANotificationRoleAttribute</className>
+			<label>BANotificationAttribute</label>
+			<description>BANotificationAttribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument2Template</name>
+			<description>Workflow Document 2 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument3Template</name>
+			<description>Workflow Document 3 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument4Template</name>
+			<description>Workflow Document 4 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocumentFinalTemplate</name>
+			<description>Workflow Document Final Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack1Template</name>
+			<description>Acknowledgement 1 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack2Template</name>
+			<description>Acknowledgement 2 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkgroupByDocument</name>
+			<description>WorkgroupByDocument</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>NotifyFirstTemplate</name>
+			<description>Notify First Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>NotifyLeftBranchTemplate</name>
+			<description>Notify Left Branch Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>NotifyRightBranchTemplate</name>
+			<description>Notify Right Branch Template</description>
+			<attributes>
+				<attribute>
+					<name>BANotificationAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>NotifyFinalTemplate</name>
+			<description>Notify Final Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>BANotificationRoleTemplate</name>
+			<description>BANotificationRoleTemplate</description>
+			<attributes>
+				<attribute>
+					<name>BANotificationAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SuperUserActionInvalidPostProcessor</name>
+			<description>SuperUserActionInvalidPostProcessor</description>
+			<label>SuperUserActionInvalidPostProcessor</label>
+			<postProcessorName>org.kuali.rice.kew.actions.SuperUserActionInvalidPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>S</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>S</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>BlanketApproveTest</name>
+			<description>BlanketApproveTest</description>
+			<label>BlanketApproveTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+		</documentType>
+		<documentType>
+			<name>CreatedDocumentInactive</name>
+			<parent>BlanketApproveTest</parent>
+			<description>CreatedDocumentInactive document</description>
+			<label>CreatedDocumentInactive</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>false</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>BlanketApprovePolicyTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>BlanketApprovePolicyTest document</description>
+			<label>BlanketApprovePolicyTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>INITIATOR_MUST_ROUTE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>INITIATOR_MUST_SAVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>    
+		<documentType>
+			<name>BlanketApproveSequentialTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>BlanketApproveSequentialTest</description>
+			<label>BlanketApproveSequentialTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>BlanketApproveParallelTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>BlanketApproveParallelTest</description>
+			<label>BlanketApproveParallelTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Split" />
+					<split name="Split" nextNode="WorkflowDocumentFinal">
+						<branch name="B1">
+							<requests name="WorkflowDocument2-B1" nextNode="WorkflowDocument3-B1" />
+							<requests name="WorkflowDocument3-B1" nextNode="Join" />
+						</branch>
+						<branch name="B2">
+							<requests name="WorkflowDocument3-B2" nextNode="WorkflowDocument2-B2" />
+							<requests name="WorkflowDocument2-B2" nextNode="Join" />
+						</branch>
+						<branch name="B3">
+							<requests name="WorkflowDocument4-B3" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="WorkflowDocumentFinal" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<split name="Split" />
+				<requests name="WorkflowDocument2-B1">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2-B2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument3-B1">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument3-B2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument4-B3">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+				</requests>
+				<join name="Join" />
+				<requests name="WorkflowDocumentFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SuperUserApproveActionRequestFyiTest</name>
+			<description>SuperUserApproveActionRequestFyiTest</description>
+			<label>SuperUserApproveActionRequestFyiTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SuperUserApproveActionRequestApproveTest</name>
+			<description>SuperUserApproveActionRequestApproveTest</description>
+			<label>SuperUserApproveActionRequestApproveTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Approval" />
+					<requests name="Approval" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+				<requests name="Approval">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>NotificationTest</name>
+			<description>NotificationTest</description>
+			<label>NotificationTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="NotifyFirst" />
+					<requests name="NotifyFirst" nextNode="Split" />
+					<split name="Split" nextNode="NotifyFinal">
+						<branch name="LeftBranch">
+							<requests name="NotifyLeftBranch" nextNode="Join" />
+						</branch>
+						<branch name="RightBranch">
+							<requests name="NotifyRightBranch" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="NotifyFinal" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="NotifyFirst">
+					<activationType>P</activationType>
+					<ruleTemplate>NotifyFirstTemplate</ruleTemplate>
+				</requests>
+				<split name="Split" />
+				<requests name="NotifyLeftBranch">
+					<activationType>P</activationType>
+					<ruleTemplate>NotifyLeftBranchTemplate</ruleTemplate>
+				</requests>
+				<requests name="NotifyRightBranch">
+					<activationType>P</activationType>
+					<ruleTemplate>NotifyRightBranchTemplate</ruleTemplate>
+				</requests>
+				<join name="Join" />
+				<requests name="NotifyFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>NotifyFinalTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>NotificationTestChild</name>
+			<parent>NotificationTest</parent>
+			<description>NotificationTest</description>
+			<label>NotificationTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>SEND_NOTIFICATION_ON_SU_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+		</documentType>
+
+    <documentType>
+      <name>RecallTest</name>
+      <parent>NotificationTest</parent>
+      <label>RecallTest</label>
+      <postProcessorName>org.kuali.rice.kew.actions.RecallActionTest$RecallTestPostProcessor</postProcessorName>
+    </documentType>
+    <documentType>
+      <name>RecallTestRestricted</name>
+      <parent>RecallTest</parent>
+      <label>RecallTestRestricted</label>
+      <postProcessorName>org.kuali.rice.kew.actions.RecallActionTest$RecallTestPostProcessor</postProcessorName>
+      <policies>
+        <policy>
+          <name>RECALL_VALID_ACTIONSTAKEN</name>
+          <stringValue>SAvEd, cOmPlete</stringValue>
+        </policy>
+      </policies>
+    </documentType>
+    <documentType>
+      <name>RecallTestOnlyAdhoc</name>
+      <label>RecallTestOnlyAdhoc</label>
+      <postProcessorName>org.kuali.rice.kew.actions.RecallActionTest$RecallTestPostProcessor</postProcessorName>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>RecallWithPrevNotifyTest</name>
+      <parent>NotificationTest</parent>
+      <label>RecallTest</label>
+      <postProcessorName>org.kuali.rice.kew.actions.RecallActionTest$RecallTestPostProcessor</postProcessorName>
+      <policies>
+        <policy>
+          <name>NOTIFY_COMPLETED_ON_RETURN</name>
+          <value>true</value>
+        </policy>
+      </policies>
+    </documentType>
+    <documentType>
+      <name>IntermediateRecallDocType</name>
+      <parent>NotificationTest</parent>
+      <label>RecallTest</label>
+      <policies>
+        <policy>
+          <name>NOTIFY_COMPLETED_ON_RETURN</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>NOTIFY_PENDING_ON_RETURN</name>
+          <value>false</value>
+        </policy>
+      </policies>
+    </documentType>
+    <documentType>
+      <name>RecallWithoutPendingNotifyTest</name>
+      <parent>IntermediateRecallDocType</parent>
+      <label>RecallTest</label>
+      <postProcessorName>org.kuali.rice.kew.actions.RecallActionTest$RecallTestPostProcessor</postProcessorName>
+    </documentType>
+    <documentType>
+      <name>RecallWithThirdPartyNotifyTest</name>
+      <parent>NotificationTest</parent>
+      <label>RecallTest</label>
+      <postProcessorName>org.kuali.rice.kew.actions.RecallActionTest$RecallTestPostProcessor</postProcessorName>
+      <policies>
+        <policy>
+          <name>NOTIFY_COMPLETED_ON_RETURN</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>RECALL_NOTIFICATION</name>
+          <value>true</value>
+          <recipients xmlns:r="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule" xmlns:dt="ns:workflow/DocumentType">
+            <r:principalName>quickstart</r:principalName>
+            <r:user>quickstart</r:user>
+            <role namespace="KR-SYS" name="Technical Administrator"/>
+          </recipients>
+        </policy>
+      </policies>
+    </documentType>
+    <documentType>
+        <name>RecallWithCustomAuthorizer</name>
+        <parent>NotificationTest</parent>
+        <label>RecallTest</label>
+        <authorizer>org.kuali.rice.kew.actions.RecallActionTest$RecallTestDocumentTypeAuthorizer</authorizer>
+    </documentType>
+
+    <documentType>
+      <name>SUDisapproveWithNotificationTest</name>
+      <parent>NotificationTest</parent>
+      <label>SUDisapproveWithNotificationTest</label>
+      <policies>
+        <policy>
+          <name>SEND_NOTIFICATION_ON_SU_DISAPPROVE</name>
+          <value>true</value>
+        </policy>
+      </policies>
+    </documentType>
+
+    <documentType>
+      <name>SUApproveFinalNodeDisallowed</name>
+      <parent>NotificationTest</parent>
+      <label>SUApproveFinalNodeDisallowed</label>
+      <policies>
+        <policy>
+          <name>ALLOW_SU_FINAL_APPROVAL</name>
+          <value>false</value>
+        </policy>
+      </policies>
+    </documentType>
+
+    <documentType>
+			<name>BlanketApproveMandatoryNodeTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>BlanketApproveMandatoryNodeTest</description>
+			<label>BlanketApproveMandatoryNodeTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+					<finalApproval>true</finalApproval>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!--  SAE Doc types -->
+		<documentType>
+			<name>SaveActionEventTest</name>
+			<description>SaveActionEventTest</description>
+			<label>SaveActionEventTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SaveActionEventTestNonInitiator</name>
+			<description>SaveActionEventTest With No Initiator Only Save Required</description>
+			<label>SaveActionEventTestNonInitiator</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>INITIATOR_MUST_SAVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!--  end SAE Doc types -->
+		<!--  Workgroup Authority Doc type -->
+		<documentType>
+			<name>TakeWorkgroupAuthorityDoc</name>
+			<description>TakeWorkgroupAuthority Action Test</description>
+			<label>TakeWorkgroupAuthorityDoc</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkgroupByDocument" />
+					<requests name="WorkgroupByDocument" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkgroupByDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkgroupByDocument</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!--  end workgroup authority doc typ -->
+		<!--  Move to node document types -->
+		<documentType>
+			<name>MoveSequentialTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>Move Sequential Test</description>
+			<label>Move Sequential Test</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>MoveInProcessTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>Move In Process Test</description>
+			<label>Move In Process Test</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="MyRadSubProcess" />
+					<process name="MyRadSubProcess" nextNode="WorkflowDocumentFinal" />
+					<requests name="WorkflowDocumentFinal" />
+				</routePath>
+				<routePath processName="MyRadSubProcess" initialNode="WorkflowDocument2">
+					<requests name="WorkflowDocument2" nextNode="WorkflowDocument3" />
+					<requests name="WorkflowDocument3" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<process name="MyRadSubProcess" />
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument3">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocumentFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!--  end move to node document types -->
+		<documentType>
+			<name>AdhocRouteTest</name>
+			<description>AdhocRouteTest</description>
+			<label>AdhocRouteTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="One" />
+					<requests name="One" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="One">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+    <!-- Document for testing Parallel-Priority activation in conjuction with adhoc requests -->
+    <documentType>
+      <name>AdhocRouteTest-PriorityParallel</name>
+      <docHandler>_blank</docHandler>
+      <label>AdhocRouteTest-PriorityParallel</label>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <!-- This is the Priority-Parallel activation type, new in Rice 2.0 -->
+          <activationType>R</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+
+
+		<!--  preapproval test document type -->
+
+		<documentType>
+			<name>PreApprovalTest</name>
+			<description>PreApprovalTest</description>
+			<label>PreApprovalTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="PreApprovalTestOne" />
+					<requests name="PreApprovalTestOne" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="PreApprovalTestOne">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<!--  end preapproval test document type -->
+
+		<!-- variables test document type -->
+
+		<documentType>
+			<name>VariablesTest</name>
+			<description>VariablesTest</description>
+			<label>VariablesTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="setStartedVar" />
+					<simple name="setStartedVar" nextNode="setCopiedVar" />
+					<simple name="setCopiedVar" nextNode="PreApprovalTestOne" />
+					<requests name="PreApprovalTestOne" nextNode="setEndedVar" />
+					<simple name="setEndedVar" nextNode="setGoogleVar" />
+					<simple name="setGoogleVar" nextNode="setXPathVar" />
+					<simple name="setXPathVar" nextNode="resetStartedVar" />
+					<simple name="resetStartedVar" nextNode="logNode" />
+					<simple name="logNode" nextNode="logNode2" />
+					<simple name="logNode2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<simple name="setStartedVar">
+					<type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+					<name>started</name>
+					<value>startedVariableValue</value>
+				</simple>
+				<simple name="setCopiedVar">
+					<type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+					<name>copiedVar</name>
+					<value>var:started</value>
+				</simple>
+				<requests name="PreApprovalTestOne">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<simple name="setEndedVar">
+					<type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+					<name>ended</name>
+					<value>endedVariableValue</value>
+				</simple>
+				<simple name="setGoogleVar">
+					<type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+					<name>google</name>
+					<value>url:http://google.com</value>
+				</simple>
+				<simple name="setXPathVar">
+					<type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+					<name>xpath</name>
+					<value>xpath:concat(local-name(//documentContent),$ended)</value>
+				</simple>
+				<simple name="resetStartedVar">
+					<type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+					<name>started</name>
+					<value>aNewStartedVariableValue</value>
+				</simple>
+				<simple name="logNode">
+					<type>org.kuali.rice.kew.engine.node.LogNode</type>
+					<message>var:xpath</message>
+				</simple>
+				<simple name="logNode2">
+					<type>org.kuali.rice.kew.engine.node.LogNode</type>
+					<level>ErRoR</level>
+					<log>Custom.Logger.Name</log>
+					<message>THAT'S ALL FOLKS</message>
+				</simple>
+			</routeNodes>
+		</documentType>
+
+		<!-- end variables test document type -->
+
+		<!--  initiator role test document type -->
+
+		<documentType>
+			<name>InitiatorRoleApprovalTest</name>
+			<description>InitiatorRoleApprovalTest</description>
+			<label>InitiatorRoleApprovalTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="InitiatorRoleApprovalTestOne" />
+					<requests name="InitiatorRoleApprovalTestOne" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="InitiatorRoleApprovalTestOne">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<!--  end initiator role test document type -->
+
+		<!--  Blanket Approve Through role and workgroup document type -->
+
+		<documentType>
+			<name>BlanketApproveThroughRoleAndWorkgroupTest</name>
+			<description>BlanketApproveThroughRoleAndWorkgroupTest</description>
+			<label>BlanketApproveThroughRoleAndWorkgroupTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">NonSIT</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="BANotification" />
+					<requests name="BANotification" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="BANotification">
+					<activationType>S</activationType>
+					<ruleTemplate>BANotificationRoleTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<!--  end Blanket Approve Through role and workgroup document type -->
+
+		<!--  super user approve exception case document type -->
+		<documentType>
+			<name>SUApproveDocument</name>
+			<description>SUApproveDocument</description>
+			<label>SUApproveDocument</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">NonSIT</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+					<requests name="WorkflowDocument2" nextNode="Node3" />
+					<requests name="Node3" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+				<requests name="Node3">
+					<activationType>S</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<documentType>
+			<name>SUApproveDocumentNotifications</name>
+			<parent>SUApproveDocument</parent>
+			<description>SUApproveDocumentNotifications</description>
+			<label>SUApproveDocumentNotifications</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">NonSIT</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>SEND_NOTIFICATION_ON_SU_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+		</documentType>
+
+		<!-- end  super user approve exception case document type -->
+
+        <documentType>
+            <name>RouteLogActionTest</name>
+            <description>RouteLogActionTest</description>
+            <label>RouteLogActionTest</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>_blank</docHandler>
+            <active>true</active>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="WorkflowDocument" />
+                    <requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+                    <requests name="WorkflowDocument2" nextNode="Acknowledge" />
+                    <requests name="Acknowledge"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc">
+                    <activationType>P</activationType>
+                </start>
+                <requests name="WorkflowDocument">
+                    <activationType>P</activationType>
+                    <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+                </requests>
+                <requests name="WorkflowDocument2">
+                    <activationType>P</activationType>
+                    <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+                </requests>
+                <requests name="Acknowledge">
+                    <activationType>P</activationType>
+                    <ruleTemplate>Ack1Template</ruleTemplate>
+                </requests>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>RouteLogActionTestTrivial</name>
+            <description>RouteLogActionTestTrivial</description>
+            <label>RouteLogActionTestTrivial</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>_blank</docHandler>
+            <active>true</active>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc">
+                    <activationType>S</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+    	<documentType>
+      		<name>AdHocNoNodeTest</name>
+      		<description>AdHocNoNodeTest</description>
+      		<label>AdHocNoNodeTest</label>
+      		<postProcessorName />
+      		<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      		<docHandler>_blank</docHandler>
+      		<active>true</active>
+      		<routePaths />
+    	</documentType> 
+    	        
+    	<!-- Test Return to Previous with split -->
+        <documentType>
+			<name>ReturnToPreviousWithSplitTest</name>
+			<parent>BlanketApproveTest</parent>
+			<description>ReturnToPreviousWithSplitTest</description>
+			<label>ReturnToPreviousWithSplitTest</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Banana" />
+					<split name="Banana" nextNode="NoOp2">
+						<branch name="There">
+							<requests name="WorkflowDocument2" nextNode="Join"/>
+						</branch>
+						<branch name="Here">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+					<simple name="NoOp2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<split name="Banana">
+					<type>org.kuali.rice.kew.actions.ReturnToPreviousTestSplit</type>
+				</split>
+				<simple name="NoOp">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<simple name="NoOp2">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<join name="Join"/>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SuperUserActionInvalidPostProcessor</documentType>
+			<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template and SuperUserActionInvalidPostProcessor Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SuperUserActionInvalidPostProcessor</documentType>
+			<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template and SuperUserActionInvalidPostProcessor Rule 2</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SuperUserApproveActionRequestApproveTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 3</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate Rule 2</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>WorkflowDocument2Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>pmckown</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+			<description>WorkflowDocument3Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jitrue</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+			<description>WorkflowDocument4Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jthomas</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+			<description>WorkflowDocumentFinalTemplate Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>xqi</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Ack1Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveTest</documentType>
+			<ruleTemplate>Ack2Template</ruleTemplate>
+			<description>Ack2Template Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<rule>
+			<documentType>NotificationTest</documentType>
+			<ruleTemplate>NotifyFirstTemplate</ruleTemplate>
+			<description>Notify First Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>NotificationTest-Rule1</name>
+			<documentType>NotificationTest</documentType>
+			<ruleTemplate>NotifyLeftBranchTemplate</ruleTemplate>
+			<description>Notify Left Branch Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>NotificationTest-Rule2</name>
+			<documentType>NotificationTest</documentType>
+			<ruleTemplate>NotifyRightBranchTemplate</ruleTemplate>
+			<description>Notify Right Branch Rule 1</description>
+			<fromDateValue>05/30/2002</fromDateValue>
+			<toDateValue>05/30/2209</toDateValue>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.actions.BANotificationRoleAttribute!Notify</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>NotificationTest</documentType>
+			<ruleTemplate>NotifyFinalTemplate</ruleTemplate>
+			<description>Notify Final Rule 1</description>
+			<fromDateValue>05/30/2002</fromDateValue>
+			<toDateValue>05/30/2209</toDateValue>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>xqi</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+				<responsibility>
+					<user>jthomas</user>
+					<actionRequested>F</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  SAE Rules -->
+		<rule>
+			<documentType>SaveActionEventTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate SaveAction Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SaveActionEventTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>WorkflowDocumentTemplate SaveAction Rule 2</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  End SAE Rules -->
+		<!--  workgroup authority rules -->
+		<rule>
+			<documentType>TakeWorkgroupAuthorityDoc</documentType>
+			<ruleTemplate>WorkgroupByDocument</ruleTemplate>
+			<description>TakeWorkgroupAuthorityDoc route to TestWorkgroup</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">TestWorkgroup</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  end workgroup authority rules -->
+		<!-- begin AdhocRouteTest rules -->
+		<rule>
+			<documentType>AdhocRouteTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required AdhocRouteTest</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  end AdhocRouteTest rules -->
+
+		<!--  pre approval test rules -->
+		<rule>
+			<documentType>PreApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required PreApprovalTest1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>PreApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required PreApprovalTest2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>PreApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required PreApprovalTest3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>K</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>PreApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required PreApprovalTest4</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user3</user>
+					<actionRequested>C</actionRequested>
+					<priority>4</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  end preapproval test rules	-->
+
+		<!-- variables test rules -->
+		<rule>
+			<documentType>VariablesTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required VariablesTest1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>VariablesTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required VariablesTest2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>VariablesTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required VariablesTest3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>K</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>VariablesTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required VariablesTest4</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user3</user>
+					<actionRequested>C</actionRequested>
+					<priority>4</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!-- end variables test rules -->
+		<!--  initiator role test rules -->
+		<rule>
+			<documentType>InitiatorRoleApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required InitiatorRoleApprovalTest1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.rule.InitiatorRoleAttribute!INITIATOR</role>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>InitiatorRoleApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required InitiatorRoleApprovalTest2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>InitiatorRoleApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required InitiatorRoleApprovalTest3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>K</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>InitiatorRoleApprovalTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>required InitiatorRoleApprovalTest4</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user3</user>
+					<actionRequested>C</actionRequested>
+					<priority>4</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  end initiator role test rules	-->
+
+		<!-- rules for testing blanket approval past a role -->
+		<rule>
+			<documentType>BlanketApproveThroughRoleAndWorkgroupTest</documentType>
+			<ruleTemplate>BANotificationRoleTemplate</ruleTemplate>
+			<description>BA Notification Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.actions.BANotificationRoleAttribute!Notify</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveThroughRoleAndWorkgroupTest</documentType>
+			<ruleTemplate>BANotificationRoleTemplate</ruleTemplate>
+			<description>BA Notification Rule 2</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.actions.BANotificationRoleAttribute!Notify2</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveThroughRoleAndWorkgroupTest</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>BA Notification Workgroup Rule 1</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">WorkflowAdmin</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>BlanketApproveThroughRoleAndWorkgroupTest</documentType>
+			<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>BA Notification Workgroup Rule 2</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">NonSIT</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- su approve exception case rules -->
+		<rule>
+			<documentType>SUApproveDocument</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>SUApproveDocument rule</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SUApproveDocument</documentType>
+			<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+			<description>SUApproveDocument rule WorkflowDocument3Template</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>quickstart</user>
+					<actionRequested>A</actionRequested>
+					<priority>3</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!-- end su approve exception case rules -->
+    
+        <rule>
+            <documentType>RouteLogActionTest</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+            <description>RLAT WorkflowDocumentTemplate Rule 1</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <user>ewestfal</user>
+                    <actionRequested>C</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>RouteLogActionTest</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+            <description>RLAT WorkflowDocumentTemplate Rule 2</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <user>user2</user>
+                    <actionRequested>C</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>RouteLogActionTest</documentType>
+            <ruleTemplate>Ack1Template</ruleTemplate>
+            <description>RLAT Ack1Template Rule 1</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <user>user3</user>
+                    <actionRequested>K</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+	</rules>
+
+	<ruleDelegations xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<ruleDelegation>
+			<parentResponsibility>
+				<parentRuleName>NotificationTest-Rule1</parentRuleName>
+				<principalName>rkirkend</principalName>
+			</parentResponsibility>
+			<delegationType>P</delegationType>
+			<rule>
+				<documentType>NotificationTest</documentType>
+				<ruleTemplate>NotifyLeftBranchTemplate</ruleTemplate>
+				<description>Notify left Branch Prim Del</description>
+				<forceAction>false</forceAction>
+				<responsibilities>
+					<responsibility>
+						<user>temay</user>
+					</responsibility>
+					<responsibility>
+						<groupName namespace="KR-WKFLW">NonSIT</groupName>
+					</responsibility>
+				</responsibilities>
+			</rule>
+		</ruleDelegation>
+
+		<ruleDelegation>
+			<parentResponsibility>
+				<parentRuleName>NotificationTest-Rule1</parentRuleName>
+				<principalName>rkirkend</principalName>
+			</parentResponsibility>
+			<delegationType>S</delegationType>
+			<rule>
+				<documentType>NotificationTest</documentType>
+				<ruleTemplate>NotifyLeftBranchTemplate</ruleTemplate>
+				<description>Notify Left Branch Sec Del</description>
+				<forceAction>true</forceAction>
+				<responsibilities>
+					<responsibility>
+						<user>pmckown</user>
+					</responsibility>
+				</responsibilities>
+			</rule>
+		</ruleDelegation>
+
+		<ruleDelegation>
+			<parentResponsibility>
+				<parentRuleName>NotificationTest-Rule2</parentRuleName>
+				<role>org.kuali.rice.kew.actions.BANotificationRoleAttribute!Notify</role>
+			</parentResponsibility>
+			<delegationType>S</delegationType>
+			<rule>
+				<documentType>NotificationTest</documentType>
+				<ruleTemplate>NotifyRightBranchTemplate</ruleTemplate>
+				<description>Notify Right Delegation</description>
+				<forceAction>true</forceAction>
+				<responsibilities>
+					<responsibility>
+						<role>org.kuali.rice.kew.actions.BANotificationRoleAttribute!NotifyDelegate</role>
+						<approvePolicy>F</approvePolicy>
+					</responsibility>
+				</responsibilities>
+			</rule>
+		</ruleDelegation>
+	</ruleDelegations>
+
+</data>

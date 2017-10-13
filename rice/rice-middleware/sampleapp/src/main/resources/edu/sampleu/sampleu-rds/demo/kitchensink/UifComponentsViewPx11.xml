@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <verticalBoxSection-bean disclosure.render="false" id="UifCompView-EventsIntroGroup">
+    <items>
+      <headerThree-bean id="UifCompView-EventsIntroGroup1" onMouseOutScript="jq(this).stop().css({ 'color': 'black'});"
+                        onMouseOverScript="jq(this).stop().css({ 'color': 'red'});"/>
+      <verticalBoxGroup-bean onMouseOutScript="jq('#'+'myEvents').stop().css({'color':'black','fontSize':'1em'});"
+                             onMouseOverScript="jq(this).stop();jq('#'+'myEvents').stop().css({'color':'blue','fontSize':'2em'});">
+        <items>
+          <message-bean id="EventsIntroGroup1-Item1"/>
+          <message-bean id="EventsIntroGroup1-Item2"/>
+          <gridGroup-bean id="myEvents" layoutManager.numberOfColumns="3"
+                          layoutManager.renderAlternatingHeaderColumns="false" style="padding-left:50px;">
+            <items>
+              <message-bean id="myEvents-item1"/>
+              <message-bean id="myEvents-item2"/>
+              <message-bean id="myEvents-item3"/>
+              <message-bean id="myEvents-item4"/>
+              <message-bean id="myEvents-item5"/>
+              <message-bean id="myEvents-item6"/>
+              <message-bean id="myEvents-item7"/>
+              <message-bean id="myEvents-item8"/>
+              <message-bean id="myEvents-item9"/>
+              <message-bean id="myEvents-item10"/>
+              <message-bean id="myEvents-item11"/>
+              <message-bean id="myEvents-item12"/>
+              <message-bean id="myEvents-item13"/>
+              <message-bean id="myEvents-item14"/>
+              <message-bean id="myEvents-item15"/>
+            </items>
+          </gridGroup-bean>
+          <messageField-bean id="EventsIntroGroup1-Item3"/>
+        </items>
+      </verticalBoxGroup-bean>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean disclosure.render="true" id="UifCompView-WindowEventsGroup">
+    <items>
+      <spring:ref bean="UifCompView-WindowEvents-Group1"/>
+      <spring:ref bean="UifCompView-WindowEvents-Group2"/>
+      <spring:ref bean="UifCompView-WindowEvents-Group3"/>
+      <spring:ref bean="UifCompView-WindowEvents-Group4"/>
+    </items>
+  </verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean id="UifCompView-MouseEventsGroup">
+    <items>
+      <spring:ref bean="UifCompView-MouseEvents-Group1"/>
+      <spring:ref bean="UifCompView-MouseEvents-Group2"/>
+      <spring:ref bean="UifCompView-MouseEvents-Group4"/>
+      <spring:ref bean="UifCompView-MouseEvents-Group3"/>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <verticalBoxSection-bean disclosure.render="true" id="UifCompView-KeyEventsGroup">
+    <items>
+      <spring:ref bean="UifCompView-KeyEvents-Group1"/>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean disclosure.render="false" id="UifCompView-Html5EventsGroup">
+    <items/>
+  </verticalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-WindowEvents-Group1">
+    <items>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="true" labelPlacement="TOP"
+                       propertyName="field100">
+        <control>
+          <textControl-bean onClickScript="alert('Clicked Text Control');"/>
+        </control>
+      </inputField-bean>
+      <inputField-labelTop-bean propertyName="field112">
+        <control>
+          <dateControl-bean onClickScript="alert('Clicked Date Control');"/>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-bean
+              onClickScript="             var color = jq('input:radio:checked',this).val();             if (color === undefined){color = 'white';};             if (color == 'xxx'){color = 'rgb(' + (Math.floor(Math.random() * 256)) + ','+ (Math.floor(Math.random() * 256)) + ','+ (Math.floor(Math.random() * 256)) + ')';};             jq(this).animate({backgroundColor: color },1000);             "
+              propertyName="field118" style="border: 1px solid #999999;" width="auto">
+        <control>
+          <verticalRadioControl-bean>
+            <options>
+              <keyLabelPair-bean key="blue"/>
+              <keyLabelPair-bean key="red"/>
+              <keyLabelPair-bean key="green"/>
+              <keyLabelPair-bean key="yellow"/>
+              <keyLabelPair-bean key="xxx"/>
+            </options>
+          </verticalRadioControl-bean>
+        </control>
+      </inputField-bean>
+      <inputField-bean defaultValue="true" onClickScript="alert('Clicked Checkbox Input Field');"
+                       propertyName="bField1">
+        <control>
+          <checkboxControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean onClickScript="alert('Checkboxes Input Field onClick event fired.');" propertyName="field115"
+                       width="auto">
+        <control>
+          <verticalCheckboxesControl-bean>
+            <options>
+              <keyLabelPair-bean key="1"/>
+              <keyLabelPair-bean key="2"/>
+              <keyLabelPair-bean key="3"/>
+            </options>
+          </verticalCheckboxesControl-bean>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-WindowEvents-Group2">
+    <items>
+      <inputField-bean propertyName="field119" width="auto">
+        <control>
+          <dropdownControl-bean
+                  onChangeScript="var c=jq(this).val();jq('#'+'UifCompView-WindowEvents-Group2').animate({backgroundColor:c});"
+                  options-ref="color-options" size="3"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field110">
+        <control>
+          <textAreaControl-bean cols="40" onBlurScript="jq(this).stop().animate({'height':'-=50px'},100);"
+                                onFocusScript="jq(this).stop().animate({'height':'+=50px'},100);" rows="5"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="Group2-principalName" onClickScript="alert('User Control Input Field onClick event fired.');"
+                       propertyName="testPerson.principalName">
+        <control>
+          <kimPersonControl-bean personNamePropertyName="testPerson.name" principalIdPropertyName="testPersonId"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean onClickScript="alert('Spinner Control Input Field onClick event fired.');"
+                       propertyName="field131">
+        <control>
+          <spinnerControl-bean/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-WindowEvents-Group3">
+    <items>
+      <linkField-bean href="http://www.kuali.org" id="Group3-Link1"
+                      onClickScript="alert('Link field onClick event fired');"/>
+      <inputField-bean onClickScript="alert('File Control Input Field onClick event fired.');"
+                       propertyName="fileUpload">
+        <control>
+          <fileControl-bean size="30"/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-WindowEvents-Group4">
+    <items>
+      <imageField-bean cssClasses="kr-photo" cutlineText="" fieldLabel.render="false" id="Group4-Image1"
+                       onClickScript="jq(this).animate({marginLeft: '+=80px'}, 'slow');"
+                       onDblClickScript="jq(this).animate({marginLeft: '0px'}, 'slow', 'easeOutBounce');"
+                       source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg"/>
+    </items>
+  </horizontalBoxSection-bean>
+  <util:list id="color-options">
+    <keyLabelPair-bean key="navy" value="Navy"/>
+    <keyLabelPair-bean key="lime" value="Lime"/>
+    <keyLabelPair-bean key="gold" value="Gold"/>
+    <keyLabelPair-bean key="maroon" value="Maroon"/>
+    <keyLabelPair-bean key="fuchsia" value="Fuchsia"/>
+    <keyLabelPair-bean key="yellow" value="Yellow"/>
+    <keyLabelPair-bean key="olive" value="Olive"/>
+    <keyLabelPair-bean key="silver" value="Silver"/>
+    <keyLabelPair-bean key="white" value="White"/>
+  </util:list>
+  <horizontalBoxSection-bean id="UifCompView-MouseEvents-Group1">
+    <items>
+      <inputField-bean defaultValue="true"
+                       onMouseOutScript="jq(this).stop().animate({width: '10%',marginLeft: '',fontSize: '1em',borderWidth: '0px'},200 );"
+                       onMouseOverScript="jq(this).stop().animate({width: '50%',marginLeft: '',fontSize: '3em',borderWidth: '10px'}, 500 );"
+                       propertyName="bField1" style="border: 0px solid #999999; width:10%">
+        <control>
+          <checkboxControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean onMouseOutScript="jq(this).stop().animate({backgroundColor:'white'},{duration:500});"
+                       onMouseOverScript="jq(this).stop().animate({backgroundColor:'pink'},{duration:20});             jq(this).stop().animate({backgroundColor:'black'},{duration:20});jq(this).stop().animate({backgroundColor:'pink'},{duration:20});             "
+                       propertyName="field118" width="auto">
+        <control>
+          <verticalRadioControl-bean>
+            <options>
+              <keyLabelPair-bean key="blue"/>
+              <keyLabelPair-bean key="red"/>
+              <keyLabelPair-bean key="green"/>
+            </options>
+          </verticalRadioControl-bean>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-MouseEvents-Group2">
+    <items>
+      <imageField-bean cssClasses="kr-photo" fieldLabel.render="false" id="MouseEvents-Group2-Image1"
+                       onMouseDownScript="jq(this).stop().animate({opacity: '0.1',borderWidth: '10px'}, 500 );"
+                       onMouseUpScript="jq(this).stop().animate({opacity: '1.0',borderWidth: '1px'}, 500 );"
+                       source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg"/>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-MouseEvents-Group3">
+    <items>
+      <verticalBoxSection-bean onMouseOutScript="jq(this).stop().animate({backgroundColor:'red'});"
+                               onMouseOverScript="jq(this).stop().animate({backgroundColor:'pink'});"
+                               style="background-color:red;height:200px; width:300px">
+        <items>
+          <inputField-labelTop-bean id="MouseEvents-Group3-Field1" propertyName="field112" style="padding-left:15px;">
+            <control>
+              <dateControl-bean/>
+            </control>
+          </inputField-labelTop-bean>
+          <inputField-bean defaultValue="true" id="MouseEvents-Group3-Field2" propertyName="bField1"
+                           style="padding-left:15px;">
+            <control>
+              <checkboxControl-bean/>
+            </control>
+          </inputField-bean>
+          <inputField-bean id="MouseEvents-Group3-Field3" propertyName="field131" style="padding-left:15px;">
+            <control>
+              <spinnerControl-bean/>
+            </control>
+          </inputField-bean>
+        </items>
+      </verticalBoxSection-bean>
+      <horizontalBoxSection-bean onMouseOverScript="jq(this).effect('bounce', { direction:'right', times:3 }, 300);"
+                                 style="background-color:aqua; height:200px; width:300px">
+        <items>
+          <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="true"
+                           id="Group3-HorizontalBoxSection-Field100" labelPlacement="TOP" propertyName="field100"
+                           style="padding-left:15px">
+            <control>
+              <textControl-bean onClickScript="alert('Clicked Text Control');"/>
+            </control>
+          </inputField-bean>
+          <inputField-bean defaultValue="4" id="Group3-HorizontalBoxSection-Field119"
+                           onClickScript="alert('Select Input Field onClick event fired.');" propertyName="field119"
+                           style="padding-left:15px" width="auto">
+            <control>
+              <dropdownControl-bean/>
+            </control>
+            <optionsFinder>
+              <spring:bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+            </optionsFinder>
+          </inputField-bean>
+        </items>
+      </horizontalBoxSection-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-MouseEvents-Group4">
+    <items>
+      <horizontalBoxSection-bean style="background-color:grey; height:40px; width:900px">
+        <items>
+          <primaryActionButton-bean actionLabel="Click Me!" actionScript="alert('You clicked a button');"
+                                    onMouseOverScript="                 var n = parseInt(jq(this).css('margin-left'),10);                 jq(this).animate({marginLeft: (n+300)&amp;800}, 'fast');"
+                                    style="margin-top:10px"/>
+        </items>
+      </horizontalBoxSection-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-KeyEvents-Group1">
+    <items>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="true" labelPlacement="TOP"
+                       propertyName="field100">
+        <control>
+          <textControl-bean onKeyPressScript="alert('Pressed a Key');"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field110">
+        <control>
+          <textAreaControl-bean cols="40" id="KeyEvents-Group1-TextArea"
+                                onKeyDownScript="jq(this).stop().animate({'borderWidth':'10px'},100);"
+                                onKeyUpScript="jq(this).stop().animate({'borderWidth':'2px'},100);" rows="5"
+                                style="border=2px solid #88ff88;"/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+</spring:beans>

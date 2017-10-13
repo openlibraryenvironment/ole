@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+  <bean id="testDataDictionary" class="org.kuali.rice.krad.datadictionary.DataDictionary">
+    <property name="moduleDictionaryFiles">
+      <map>
+        <entry key="KR-NS">
+          <list>
+            <value>classpath:org/kuali/rice/krad/datadictionary/AdHocRoutePerson.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/AdHocRouteWorkgroup.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/Attachment.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/AttributeReference.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml</value>
+            <value>classpath:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/DocumentHeader.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/Note.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/NoteType.xml</value>
+            <value>classpath:org/kuali/rice/krad/datadictionary/PessimisticLock.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifActionDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifViewPageDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifMaintenanceDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifDocumentDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifInquiryDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifLookupDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifIncidentReportDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifRiceDefinitions.xml</value>
+            <value>classpath:org/kuali/rice/krad/uif/UifElementDefinitions.xml</value>
+          </list>
+        </entry>
+      </map>
+    </property>
+    <property name="moduleLoadOrder">
+      <list>
+        <value>KR-NS</value>
+      </list>
+    </property>
+  </bean>
+</beans>

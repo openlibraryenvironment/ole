@@ -1,0 +1,274 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- ConfigurationBasedRegexPatternConstraint demo -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath"
+              value="/org/kuali/rice/krad/demo/uif/library/DemoConfigurationBasedRegexPatternConstraint.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example1"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example2"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example3"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example4"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example5"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example6"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example7"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example8"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example9"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example10"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example11"/>
+        <ref bean="Demo-ConfigurationBasedRegexPatternConstraint-Example12"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Phone -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example1 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Phone Number" p:propertyName="inputField1"
+              p:constraintText="###-###-####">
+          <property name="validCharactersConstraint">
+            <bean parent="PhoneNumberPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Email -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example2 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Email" p:propertyName="inputField2"
+              p:constraintText="Valid email address">
+          <property name="validCharactersConstraint">
+            <bean parent="EmailAddressPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Url -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example3 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Url" p:propertyName="inputField3"
+              p:constraintText="Valid url address">
+          <property name="validCharactersConstraint">
+            <bean parent="UrlPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- No whitespace -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example4 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="No Whitespace" p:propertyName="inputField4"
+              p:constraintText="Any character except whitespace is allowed">
+          <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Time -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example5 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Time 12" p:propertyName="inputField5"
+              p:constraintText="Accepts some basic 12 hour time format">
+          <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Time 24 -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example6 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Time 24" p:propertyName="inputField6"
+              p:constraintText="Accepts some basic 24 hour time format">
+          <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Timestamp -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example7 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Timestamp" p:propertyName="inputField7"
+              p:constraintText="Accepts timestamps in the yyyy-mm-dd hh:mm:ss.ms format only">
+          <property name="validCharactersConstraint">
+            <bean parent="JavaClassPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example7 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Year -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example8 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Year" p:propertyName="inputField8"
+              p:constraintText="Valid years 1600s to 2000s only">
+          <property name="validCharactersConstraint">
+            <bean parent="YearPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example8 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Month -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example9" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example9 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Year" p:propertyName="inputField9"
+              p:constraintText="Valid month numbers only">
+          <property name="validCharactersConstraint">
+            <bean parent="MonthPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example9 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example10" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example10 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Zipcode" p:propertyName="inputField10"
+              p:constraintText="any valid USA zipcode with or without additional dash and 4 number postfix">
+          <property name="validCharactersConstraint">
+            <bean parent="MonthPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example10 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- java class -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example11" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example11 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Java Class" p:propertyName="inputField11"
+              p:constraintText="Accepts any valid java class name">
+          <property name="validCharactersConstraint">
+            <bean parent="JavaClassPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example11 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- customized -->
+  <bean id="Demo-ConfigurationBasedRegexPatternConstraint-Example12" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example12 start-->
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Custom 1" p:propertyName="inputField12"
+              p:constraintText="Only 1 alpha character followed by a period  and then followed by a number (a.8, b.0, etc)">
+          <property name="validCharactersConstraint">
+            <!-- value contains regex and messageKey points to a message defined in a properties file by key -->
+            <bean parent="ValidCharactersConstraint" p:value="^[a-zA-Z]\.[0-9]$"
+                  p:messageKey="validation.aDotNumTest"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Custom 2" p:propertyName="inputField13"
+              p:constraintText="Only 'Demo-' followed by any numbers of characters and ending with a number allowed">
+          <property name="validCharactersConstraint">
+            <!-- value contains and messageKey points to a message defined in a properties file by key -->
+            <bean parent="ValidCharactersConstraint" p:value="^Demo-.*?[0-9]$"
+                  p:messageKey="validation.demoRegexTest"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-ConfigurationBasedRegexPatternConstraint-Example12 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

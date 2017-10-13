@@ -1,0 +1,13 @@
+    <${'%'}-- ${app} Menu --${'%'}>
+    <c:if test='\${selectedTab == "${app}"}'>
+      <li class="red">
+        <a class="red" href="portal.do?selectedTab=${app}"
+           title="${app}">${app}</a>
+      </li>
+    </c:if>
+    <c:if test='\${selectedTab != "${app}"}'>
+        <li class="green">
+          <a class="green" href="portal.do?selectedTab=${app}"
+             title="${app}">${app}</a>
+        </li>
+    </c:if>

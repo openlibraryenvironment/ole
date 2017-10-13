@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_contypes" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0"> 
+    <title>KEN Content Types</title>
+    <section>
+        <title>Overview</title>
+        <para>A Content Type is part of the message content of a notification that may be sent
+            using KEN. It can be as simple as a single message string, or something more
+            complex, such as an event that might have a date associated with it, start and stop
+            times, and other metadata you may want to associate with the notification.</para>
+        <para>KEN is distributed with two Content Types: Simple and Event. </para>
+        <warning><para>It is strongly recommended that you leave these two Content Types intact, but you
+            can use them as templates for creating new Content Types.</para></warning>
+        <para>Every notification sent through KEN must be associated with a <emphasis
+            role="bold">registered</emphasis> Content Type. Registration of Content Types
+            requires administrative access to the system and is described in the KEN Content
+            Types section in the User Guide. The rest of this section describes the Content Type
+            attributes that are required for registration.</para>
+    </section>
+    <section>
+        <title>Content Type Attributes</title>
+        <para>A Content Type is represented as a <emphasis role="italic"
+            >NotificationContent</emphasis> business object and consists of several
+            attributes, described below:</para>
+        <para><emphasis role="bold">id</emphasis> - Unique identifier that KEN automatically
+            creates when you add a Content Type </para>
+        <para><emphasis role="bold">name</emphasis> - This is a unique string that identifies
+            the content. For example, <emphasis role="italic">ItemOverdue</emphasis> might be
+            the <emphasis role="italic">name</emphasis> used for a notification Content Type
+            about an item checked out from the campus library. </para>
+        <para><emphasis role="bold">description</emphasis> - This is a more verbose description
+            of the Content Type. For example, "Library item overdue notices" might be the
+            <emphasis role="italic">description</emphasis> for <emphasis role="italic"
+                >ItemOverdue</emphasis>. </para>
+        <para><emphasis role="bold">namespace</emphasis> - This is the string used in the XSD
+            schema and XML to provide validation of the content, for example, <emphasis
+                role="italic">notification/ContentTypeItemOverdue</emphasis>. The XSD namespace
+            is typically the <emphasis role="italic">name</emphasis> attribute concatenated to
+            the <emphasis role="italic">notification/ContentType</emphasis> string. Note how it
+            is used in the <emphasis role="bold">XSD</emphasis> and <emphasis role="bold"
+                >XSL</emphasis> examples below. </para>
+        <para><emphasis role="bold">xsd</emphasis> - The XSD attribute contains the complete
+            <link xlink:href="http://www.w3.org/XML/Schema">W3C XML Schema</link> compliant
+            code. </para>
+        <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- This schema defines a generic event notification type in order for it to be accepted into the system. -->
+&lt;schema xmlns="http://www.w3.org/2001/XMLSchema"         
+        xmlns:c="ns:notification/common"         
+        xmlns:ce="ns:notification/ContentTypeItemOverdue"         
+        targetNamespace="ns:notification/ContentTypeItemOverdue"         
+        attributeFormDefault="unqualified"         
+        elementFormDefault="qualified">  
+    &lt;annotation>    
+        &lt;documentation xml:lang="en">Item Overdue Schema&lt;/documentation>  
+    &lt;/annotation>
+    &lt;import namespace="ns:notification/common" schemaLocation="resource:notification/notification-common" />
+ 
+    &lt;!-- The content element describes the content of the notification.  It contains a message (a simple String) and a message element -->  
+    &lt;element name="content">    
+        &lt;complexType>      
+            &lt;sequence>        
+                &lt;element name="message" type="c:LongStringType"/>        
+                &lt;element ref="ce:event"/>      
+            &lt;/sequence>    
+        &lt;/complexType>  
+    &lt;/element>
+
+    &lt;!-- This is the itemoverdue element.  It describes an item overdue notice containing a summary, description, location, due date, and the amount of the fine levied -->  
+    &lt;element name="itemoverdue">    
+        &lt;complexType>      
+            &lt;sequence>        
+                &lt;element name="summary" type="c:NonEmptyShortStringType" />        
+                &lt;element name="description" type="c:NonEmptyShortStringType" />        
+                &lt;element name="location" type="c:NonEmptyShortStringType" />        
+                &lt;element name="dueDate" type="dateTime" />        
+                &lt;element name="fine" type="decimal" />      
+            &lt;/sequence>    
+        &lt;/complexType>  
+    &lt;/element>
+&lt;/schema></programlisting>
+        <para><emphasis role="bold">xsl</emphasis> - The XSD attribute contains the complete XSL
+            code that will be used to transform a notification in XML to html for rendering in
+            an Action List. </para>
+        <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- style sheet declaration: be very careful editing the following, the
+ default namespace must be used otherwise elements will not match -->
+&lt;xsl:stylesheet
+ 
+    version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:n="ns:notification/ContentTypeEvent"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="ns:notification/ContentTypeItemOverdue resource:notification/ContentTypeItemOverdue"
+    exclude-result-prefixes="n xsi">
+
+    
+
+    &lt;!-- output an html fragment -->
+    &lt;xsl:output method="html" indent="yes" />
+
+
+    &lt;!-- match everything -->
+    &lt;xsl:template match="/n:content" >
+        &lt;table class="bord-all">
+            &lt;xsl:apply-templates />
+        &lt;/table>
+    &lt;/xsl:template>
+
+
+    &lt;!--  match message element in the default namespace and render as strong -->
+    &lt;xsl:template match="n:message" >
+        &lt;caption>
+            &lt;strong>&lt;xsl:value-of select="." disable-output-escaping="yes"/>&lt;/strong>
+        &lt;/caption>
+    &lt;/xsl:template>
+
+
+    &lt;!-- match on itemoverdue in the default namespace and display all children -->
+    &lt;xsl:template match="n:itemoverdue">
+        &lt;tr>
+            &lt;td class="thnormal">&lt;strong>Summary: &lt;/strong>&lt;/td>
+            &lt;td class="thnormal">&lt;xsl:value-of select="n:summary" />&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">&lt;strong>Item Description: &lt;/strong>&lt;/td>
+            &lt;td class="thnormal">&lt;xsl:value-of select="n:description" />&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">&lt;strong>Library: &lt;/strong>&lt;/td>
+            &lt;td class="thnormal">&lt;xsl:value-of select="n:location" />&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">&lt;strong>Due Date: &lt;/strong>&lt;/td>
+            &lt;td class="thnormal">&lt;xsl:value-of select="n:startDateTime" />&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">&lt;strong>Fine: &lt;/strong>&lt;/td>
+            &lt;td class="thnormal">$&lt;xsl:value-of select="n:fine" />&lt;/td>
+        &lt;/tr>
+    &lt;/xsl:template>
+&lt;/xsl:stylesheet>
+</programlisting>
+    </section>
+</chapter>
+

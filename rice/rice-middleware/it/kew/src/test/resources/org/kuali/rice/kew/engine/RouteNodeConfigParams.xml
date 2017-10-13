@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <name>TestRule1</name>
+            <documentType>RouteNodeConfigParams</documentType>
+            <description>TestRule1</description>
+            <expression type="dummytype">this is some expresssion</expression>
+            <forceAction>false</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <user>user1</user>
+                    <actionRequested>A</actionRequested>
+                    <priority>2</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>RouteNodeConfigParams</name>
+            <description>RouteNodeConfigParams</description>
+            <label>RouteNodeConfigParams</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <docHandler>_blank</docHandler>
+            <active>true</active>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="setStartedVar" />
+                    <simple name="setStartedVar" nextNode="setCopiedVar"/>
+                    <simple name="setCopiedVar" nextNode="PreApprovalTestOne"/>
+                    <requests name="PreApprovalTestOne" nextNode="setEndedVar"/>
+                    <simple name="setEndedVar" nextNode="setGoogleVar"/>
+                    <simple name="setGoogleVar" nextNode="setXPathVar"/>
+                    <simple name="setXPathVar" nextNode="resetStartedVar"/>
+                    <simple name="resetStartedVar" nextNode="logNode"/>
+                    <simple name="logNode" nextNode="logNode2"/>
+                    <simple name="logNode2"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc">
+                    <activationType>P</activationType>
+                </start>
+                <simple name="setStartedVar">
+                  <type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+                  <name>started</name>
+                  <value>startedVariableValue</value>
+                </simple>
+                <simple name="setCopiedVar">
+                  <type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+                  <name>copiedVar</name>
+                  <value>var:started</value>
+                </simple>
+                <requests name="PreApprovalTestOne">
+                    <activationType>S</activationType>
+                    <ruleSelector>Named</ruleSelector>
+                    <ruleName>TestRule1</ruleName>
+                </requests>
+                <simple name="setEndedVar">
+                    <type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+                    <name>ended</name>
+                    <value>endedVariableValue</value>
+                </simple>
+                <simple name="setGoogleVar">
+                    <type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+                    <name>google</name>
+                    <value>url:http://google.com</value>
+                </simple>
+                <simple name="setXPathVar">
+                    <type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+                    <name>xpath</name>
+                    <value>xpath:concat(local-name(//documentContent),$ended)</value>
+                </simple>
+                <simple name="resetStartedVar">
+                  <type>org.kuali.rice.kew.engine.node.var.SetVarNode</type>
+                  <name>started</name>
+                  <value>aNewStartedVariableValue</value>
+                </simple>
+                <simple name="logNode">
+                    <type>org.kuali.rice.kew.engine.node.LogNode</type>
+                    <message>var:xpath</message>
+                </simple>
+                <simple name="logNode2">
+                    <type>org.kuali.rice.kew.engine.node.LogNode</type>
+                    <level>ErRoR</level>
+                    <log>Custom.Logger.Name</log>
+                    <message>THAT'S ALL FOLKS</message>
+                </simple>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+</data>

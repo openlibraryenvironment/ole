@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="RuleDocument" parent="RuleDocument-parentBean"/>
+
+  <bean id="RuleDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    
+    <property name="documentTypeName" value="RoutingRuleDocument"/>
+    <property name="documentClass" value="org.kuali.rice.kew.rule.document.RuleDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase"/>
+    <property name="allowsCopy" value="true"/>
+    <!-- 
+    <property name="workflowProperties" >
+      <ref bean="RuleDocument-workflowProperties" />
+    </property>-->
+    
+  </bean>
+
+  <!-- Exported Workflow Properties 
+
+  <bean id="RuleDocument-workflowProperties" parent="RuleDocument-workflowProperties-parentBean" />
+
+  <bean id="RuleDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines.account" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  -->
+  
+</beans>

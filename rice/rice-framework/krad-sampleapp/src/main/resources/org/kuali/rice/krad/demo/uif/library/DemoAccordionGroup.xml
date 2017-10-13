@@ -1,0 +1,83 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- AccordionGroup demo -->
+  <bean id="Demo-AccordionGroup-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoAccordionGroup.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.container.AccordionGroup"/>
+    <property name="docBookAnchor" value=""/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-AccordionGroup-Example1"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-AccordionGroup-Example1"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-AccordionGroup-Example1 start-->
+        <bean parent="Uif-AccordionSection">
+          <property name="items">
+            <list>
+              <ref bean="Demo-AccordionGroup-SubList1"/>
+              <ref bean="Demo-AccordionGroup-SubList2"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-AccordionGroup-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-AccordionGroup-Example1 start-->
+  <bean id="Demo-AccordionGroup-SubList1" parent="Uif-ListSubSection" p:headerText="Accordion Item 1">
+    <property name="layoutManager">
+      <bean parent="Uif-OrderedListLayout"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Item 1"/>
+        <bean parent="Uif-Message" p:messageText="Item 2"/>
+        <bean parent="Uif-Message" p:messageText="Item 3"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-AccordionGroup-Example1 end-->
+
+  <!-- ex:Demo-AccordionGroup-Example1 start-->
+  <bean id="Demo-AccordionGroup-SubList2" parent="Uif-ListSubSection" p:headerText="Accordion Item 2">
+    <property name="layoutManager">
+      <bean parent="Uif-OrderedListLayout"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="Item 1"/>
+        <bean parent="Uif-Message" p:messageText="Item 2"/>
+        <bean parent="Uif-Message" p:messageText="Item 3"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-AccordionGroup-Example1 end-->
+
+</beans>

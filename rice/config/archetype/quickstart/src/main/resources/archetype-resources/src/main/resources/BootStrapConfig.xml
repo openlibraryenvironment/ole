@@ -1,0 +1,71 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--
+
+Kuali Rice ArcheType Help
+
+This is the internal project configuration required by Kuali Rice based applications.
+
+It is usually desirable to put some of these parameters, such as datasource password,
+in configuration files outside of the project.
+
+-->
+<config>
+
+  <param name="rice.logging.configure">true</param>
+
+  <param name="location.mode">LOCAL</param>
+  <param name="coreservice.mode">LOCAL</param>
+  <param name="ken.mode">LOCAL</param>
+  <param name="kim.mode">LOCAL</param>
+  <param name="kew.mode">LOCAL</param>
+  <param name="krms.mode">LOCAL</param>
+  <param name="ksb.mode">LOCAL</param>
+
+  <param name="module.name">${artifactId}</param>
+  <param name="application.id">${artifactId}</param>
+  <param name="app.context.name">${artifactId}</param>
+
+  <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+  <param name="filtermapping.login.1">/*</param>
+
+  <param name="dev.mode">true</param>
+
+  ##clean the platform to make it the correct case
+  #if($datasource_ojb_platform.toUpperCase().contains('MYSQL'))
+    #set ($datasource_ojb_platform = 'MySQL')
+  #elseif($datasource_ojb_platform.toUpperCase().contains('ORACLE'))
+    #set ($datasource_ojb_platform = 'Oracle')
+  #end
+
+  <param name="datasource.ojb.platform">${datasource_ojb_platform}</param>
+
+  ## if user selected MySQL but forgot to change the datasource url, then lets do it for them
+  #if($datasource_ojb_platform == 'MySQL' && $datasource_url == 'jdbc:oracle:thin:@localhost:1521:XE')
+    #set ($datasource_url = 'jdbc:mysql://localhost:3306/' + $datasource_username)
+  #end
+
+  <param name="datasource.url">${datasource_url}</param>
+  <param name="datasource.username">${datasource_username}</param>
+  <param name="datasource.password">${datasource_password}</param>
+
+  <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+  <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
+  <param name="config.location">${alt.config.location}</param>
+  <param name="version">${artifactId} :: ${project.version} :: ${kuali.build.timestamp}</param>
+</config>

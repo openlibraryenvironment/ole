@@ -1,0 +1,153 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="LabsMenuLookupView" parent="KradSampleAppView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-kradSampleAppDemo</value>
+      </list>
+    </property>
+    <property name="page.items">
+      <list>
+        <ref bean="LabsMenuLookups"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookups" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <ref bean="LabsMenuLookup-Row1"/>
+        <ref bean="LabsMenuLookup-Row2"/>
+        <ref bean="LabsMenuLookup-Row3"/>
+        <ref bean="LabsMenuLookup-Row4"/>
+        <ref bean="LabsMenuLookup-Row5"/>
+        <ref bean="LabsMenuLookup-Row6"/>
+        <ref bean="LabsMenuLookup-Row7"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row1" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row1-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row1-Col2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row1-Col3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row2" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row2-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row2-Col2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row2-Col3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row3" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row3-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row3-Col2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row3-Col3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row4" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row4-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row4-Col2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row4-Col3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row5" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row5-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row5-Col2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row5-Col3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row6" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row6-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row6-Col2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="LabsMenuLookup-Row6-Col3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsMenuLookup-Row7" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="LabsMenuLookup-Row7-Col1" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

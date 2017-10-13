@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_DatabaseTables" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>KIM Database Tables</title>
+    
+    <section>
+        <title>Table Name Prefixes</title>
+        
+        <para>The KIM tables in the Rice database are prefixed by KRIM, which
+            stands for <emphasis role="bold">K</emphasis>uali <emphasis
+                role="bold">R</emphasis>ice <emphasis role="bold">I</emphasis>dentity
+            <emphasis role="bold">M</emphasis>anagement.</para>
+    </section>
+    
+    <section>
+        <title>Unmapped LAST_UPDT_DT Columns</title>
+        
+        <para>Many of the KIM tables have an additional column called
+            LAST_UPDTD_DT (of type DATE in Oracle, DATETIME in MySQL) that isn't
+            mapped at the ORM layer. Using this column is entirely optional, and it
+            is unmapped by design. Its purpose is to aid implementers with tracking
+            changes, and with doing data synchronization or extracts against KIM
+            tables. The following sample PL/SQL script (Oracle only) adds to all the
+            tables that contain LAST_UPDATED_DT an insert and update trigger to
+            populate it:</para>
+        
+        <programlisting>DECLARE
+    CURSOR tables IS
+        SELECT table_name
+            FROM user_tab_columns
+            WHERE column_name = 'LAST_UPDATE_DT'
+            AND data_type LIKE 'DATE%'
+            ORDER BY 1;
+BEGIN
+    FOR rec IN tables LOOP
+        EXECUTE IMMEDIATE 'CREATE OR REPLACE TRIGGER '||LOWER( SUBSTR( rec.table_name, 1, 27) )||'_tr BEFORE INSERT OR UPDATE ON '
+            ||LOWER( rec.table_name )||' FOR EACH ROW BEGIN :new.last_update_ts := SYSDATE; END;';
+    END LOOP;
+
+END;
+/
+</programlisting>
+    </section>
+</chapter>

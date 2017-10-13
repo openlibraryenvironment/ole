@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Preferences" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Preferences</title>
+    <para>Workflow allows for users to individually configure certain aspects of the system. You
+        should be able to access the User Preferences from the Main portal page:</para>
+    <figure><title>Workflow Channel: User Preferences Link</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KEW_Guide/select_user_preferences.png" width="100%" scalefit="1"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>After clicking the link you should be taken to Workflow Preferences screen:</para>
+    <figure><title>Workflow Preferences</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KEW_Guide/workflow_preferences.png" width="100%" scalefit="1"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>There are three configuration sections on this screen:</para>
+    <section>
+        <title>General Preferences</title>
+        <note><para>Many of these preferences can have their system wide default values changed via
+            configuration parameters. Look in the KEW technical documentation for information on
+            how to override the default values.</para></note>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>User Preferences Attributes</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.2*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.14*"/>
+                    <colspec colname="c3" colnum="3" colwidth="2.41*"/>
+                    <thead>
+                        <row>
+                            <entry>Name</entry>
+                            <entry>Default Value</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Automatic Refresh Rate</entry>
+                            <entry>15</entry>
+                            <entry>How often your action list updates (minutes).</entry>
+                        </row>
+                        <row>
+                            <entry>Action List Page Size</entry>
+                            <entry>10</entry>
+                            <entry># of actions displayed on action list</entry>
+                        </row>
+                        <row>
+                            <entry>Email Notification</entry>
+                            <entry>Immediate</entry>
+                            <entry>When action items emails should be sent. Can be none,
+                                immediate, daily, weekly</entry>
+                        </row>
+                        <row>
+                            <entry>Receive Primary Delegation Emails</entry>
+                            <entry>True</entry>
+                            <entry>User will receive primary delegate emails</entry>
+                        </row>
+                        <row>
+                            <entry>Receive Secondary Delegation Emails</entry>
+                            <entry>False</entry>
+                            <entry>User will receive secondary delegate emails</entry>
+                        </row>
+                        <row>
+                            <entry>Delegator Filter</entry>
+                            <entry>Secondary Delegators on Action List Page</entry>
+                            <entry><para>Determines what is displayed on the action list page.  Options:</para>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>Secondary Delegators on Action List Page</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Secondary Delegators only on Filter Page</para>
+                                    </listitem>
+                                </itemizedlist></entry>
+                        </row>
+                        <row>
+                            <entry>Primary Delegate Filter</entry>
+                            <entry>Primary Delegators on Action List Page</entry>
+                            <entry><para>Determines what is displayed on the action list page. Options:</para> <itemizedlist>
+                                <listitem>
+                                    <para>Primary Delegators on Action List Page</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Primary Delegators only on Filter Page</para>
+                                </listitem>
+                            </itemizedlist></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+    <section>
+        <title>Fields Displayed in Action List Preferences</title>
+        <para>These are the columns that will be displayed on the user's action list
+            page.</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>User Preferences: Fields Displayed Attributes</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Name</entry>
+                            <entry>Default Value</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Document Type</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>ActionRequested</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Initiator</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Delegator</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Date Created</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Date Approved</entry>
+                            <entry>FALSE</entry>
+                        </row>
+                        <row>
+                            <entry>Current Route Node(s)</entry>
+                            <entry>FALSE</entry>
+                        </row>
+                        <row>
+                            <entry>Workgroup Request</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Document Route Status</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Application Document Status</entry>
+                            <entry>FALSE</entry>
+                        </row>
+                        <row>
+                            <entry>Clear FYI</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                        <row>
+                            <entry>Use Outbox</entry>
+                            <entry>TRUE</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+    <section>
+        <title>Document Route Status Colors for Action list Entries</title>
+        <para>Each Document Route Status can be displayed with a certain color on the action
+            list. This section allows you to configure which colors are used. By default, no
+            colors are set.</para>
+    </section>
+</chapter>

@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="build_database" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Building the Rice Database</title>
+    <section>
+        <title>Overview</title>
+        <para>The ImpEx tool is a Kuali-developed application which is based on <link
+            xlink:href="http://db.apache.org/torque">Apache Torque</link>. It reads in
+            database structure and data from XML files in a platform independent way and
+            then creates the resulting database in either Oracle or MySQL.</para>
+    </section>
+    
+    <section>
+        <title>Obtaining the ImpEx Tool</title>
+        <para>The ImpEx tool is included in the Rice binary and server distributions. It is
+            located in the <emphasis role="bold">database/database-impex</emphasis> directory of
+            the relevant archive. If you are building Rice from source, the ImpEx tool can be
+            acquired from Subversion:</para>
+        <programlisting>svn co https://test.kuali.org/svn/kul-cfg-dbs/trunk</programlisting>
+    </section>
+    <section>
+        <title>Oracle ImpEx Preconfiguration Setup</title>
+        <para>For Oracle users, you must run two scripts on your Oracle database before
+            continuing on to the ImpEx development database ingestion process. Please contact
+            your DBA and have him or her run these two setup scripts as the <emphasis
+                role="bold">Oracle SYS user</emphasis>. These scripts will be in the <emphasis
+                    role="bold">database/database-impex</emphasis> distribution (or the impex
+            subdirectory if you checked out the tool from svn). These are the commands, and they
+            must be run in this order:<orderedlist>
+                <listitem>
+                    <para><emphasis role="bold">create_kul_developer.sql</emphasis> (Creates the
+                        <emphasis role="bold">KUL_DEVELOPER</emphasis> role and applies
+                        grants)</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">system_grants.sql</emphasis> (Creates the
+                        <emphasis role="bold">KULUSERMAINT</emphasis> user for Rice Oracle
+                        system maintenance)</para>
+                </listitem>
+            </orderedlist></para>
+        <note><para>Please inform your DBA that the above scripts must be run under the Oracle SYS account.</para></note>
+        <para>After your DBA runs the above scripts, you must run two more scripts as the kulusermaint:<orderedlist>
+            <listitem>
+                <para><emphasis role="bold">create_admin_user.sql</emphasis> (Creates the
+                    <emphasis role="bold">kuluser_admin</emphasis> user)</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">kuluser_maint_pk.sql</emphasis> (Creates the
+                    package containing the functions that the Rice system uses to do Oracle
+                    system maintenance)</para>
+            </listitem>
+        </orderedlist></para>
+    </section>
+    <section>
+        <title>ImpEx Configuration Overview</title>
+        <para>The Rice team released four different sets of data with Rice 1.0.3. The server
+            distribution contains only the first two listed, whereas the binary distribution
+            contains all four. You can find these datasets in the /database directory of the
+            relevant archive:<orderedlist>
+                <listitem>
+                    <para><emphasis role="bold">bootstrap-server-dataset</emphasis> – This is
+                        the core dataset. The Rice standalone server cannot function properly
+                        without this data.</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">demo-server-dataset </emphasis>– This is a
+                        superset of the bootstrap-server-dataset which, in addition to necessary
+                        bootstrap data, includes sample security groups and workflow
+                        documents.</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">bootstrap-client-dataset</emphasis> – This
+                        dataset is necessary for creating a Rice client application </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">demo-client-dataset </emphasis>– This is a
+                        superset of the data in the bootstrap-client-dataset. In addition to
+                        necessary bootstrap data, it includes tables used by some of the Rice
+                        sample client applications.</para>
+                </listitem>
+            </orderedlist></para>
+        <para>This guide does not deal with developing a client application; for more information on creating a Rice client application and the use of the client datasets, see the Global Technical Reference Guide.</para>
+    </section>
+    <section>
+        <title>impex-build.properties Reference</title>
+        <para>After you have uncompressed the distribution (Binary or Server) you will use for
+            Rice, login as the user that you use to run the Tomcat server:<orderedlist>
+                <listitem>
+                    <para>1. Go to the sub-directory, <emphasis role="bold">&lt;directory where
+                        uncompressed>/database/database-impex</emphasis>. This directory is
+                        the same for each of the distributions.</para>
+                </listitem>
+                <listitem>
+                    <para>Copy the <emphasis role="bold"
+                        >impex-build.properties.sample</emphasis> file to your home
+                        directory, renaming the file to <emphasis role="bold"
+                            >impex-build.properties</emphasis>.</para>
+                </listitem>
+            </orderedlist></para>
+    </section>
+    <section>
+        <title>Specific impex-build.properties database parameter setup</title>
+        <section>
+            <title>For MySQL Users</title>
+            <orderedlist>
+                <listitem>
+                    <para>Configure the <emphasis role="bold">drivers.directory</emphasis>, the
+                        directory where the MySQL and Oracle JDBC drivers are located.</para>
+                </listitem>
+                <listitem>
+                    <para>Configure <emphasis role="bold">import.torque.database.*</emphasis>.
+                        Set the user and password to the user under which you want to run the
+                        Rice software.</para>
+                </listitem>
+                <listitem>
+                    <para>Configure <emphasis role="bold">import.admin.user</emphasis> and
+                        <emphasis role="bold">import.admin.password</emphasis>.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>For Local MySQL Server</title>
+            <para>Set import.admin.url as follows:</para>
+            <para><programlisting>import.admin.url=jdbc:mysql://localMySQLServerComputerName:MySQL-port-number/</programlisting></para>
+            <para>Example: <emphasis role="bold"
+                >import.admin.url=jdbc:mysql://localhost:3306/</emphasis></para>
+        </section>
+        <section>
+            <title>For Remote MySQL Server</title>
+            <para>Set import.admin.url as follows:</para>
+            <para><programlisting>import.admin.url=jdbc:mysql://remoteMySQLServerComputerName:MySQL-port-number/</programlisting></para>
+            <para>Example: <emphasis role="bold"
+                >import.admin.url=jdbc:mysql://192.168.25.22:3306/</emphasis></para>
+            <para>To setup the database from one of the distributions, change directories to
+                /database/database-impex and use these commands:</para>
+            <para><programlisting>ant create-schema 
+ant import</programlisting></para>
+        </section>
+        <section>
+            <title>For Oracle users</title>
+            <orderedlist>
+                <listitem>
+                    <para>Configure the <emphasis role="bold">drivers.directory</emphasis>, the
+                        directory where the MySQL and Oracle JDBC drivers are located.</para>
+                </listitem>
+                <listitem>
+                    <para>Configure <emphasis role="bold">import.torque.database.*</emphasis>
+                        for the Oracle setup. Set the user and password to the user under which
+                        you want to run the Rice software.</para>
+                </listitem>
+                <listitem>
+                    <para>Configure <emphasis role="bold">import.admin.user</emphasis> and
+                        <emphasis role="bold">import.admin.password</emphasis>.</para>
+                    <para><programlisting>import.admin.url= ${import.torque.database.url}</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>Configure <emphasis role="bold">oracle.usermaint.*</emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>To setup the database from one of the distributions, use these Ant
+                        commands:</para>
+                    <para><programlisting>ant create-schema 
+ant import </programlisting></para>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+    <section>
+        <title>Verifying your Database Installation</title>
+        <para>At this point, your Kuali Rice database should be successfully installed. To
+            verify this, log into your database and verify the number of tables that are
+            present. There should be at least 200 (the number will be different for mysql and
+            oracle).</para>
+    </section>
+</chapter>

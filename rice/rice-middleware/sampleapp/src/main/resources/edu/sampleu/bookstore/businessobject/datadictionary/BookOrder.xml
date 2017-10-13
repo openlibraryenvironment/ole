@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BookOrder" parent="BookOrder-parentBean"/>
+
+  <bean id="BookOrder-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.sampleu.bookstore.bo.BookOrder"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="BookOrder"/>
+    <property name="attributes">
+      <list>
+        <ref bean="BookOrder-bookId"/>
+        <ref bean="BookOrder-quantity"/>
+        <ref bean="BookOrder-unitPrice"/>
+        <ref bean="BookOrder-discount"/>
+        <ref bean="BookOrder-totalPrice"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="book"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bookId" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="BookOrder-bookId" parent="BookOrder-bookId-parentBean"/>
+
+  <bean id="BookOrder-bookId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Book Id"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="edu.sampleu.bookstore.bo.Book" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="true" p:keyAttribute="id" p:labelAttribute="title"/>
+    </property>
+    <property name="name" value="bookId"/>
+    <property name="label" value="Book Id"/>
+  </bean>
+
+  <bean id="BookOrder-quantity" parent="BookOrder-quantity-parentBean"/>
+
+  <bean id="BookOrder-quantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Qty"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="quantity"/>
+    <property name="label" value="Quantity"/>
+  </bean>
+  
+  <bean id="BookOrder-unitPrice" parent="BookOrder-unitPrice-parentBean"/>
+  <bean id="BookOrder-unitPrice-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitPrice"/>
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Price"/>
+    <property name="shortLabel" value="Unit Price"/>
+    <property name="maxLength" value="10"/>    
+    <property name="required" value="false"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="false"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="Unit Price of the Book."/>
+    <property name="description" value="Unit Price of the Book."/>
+  </bean>
+  
+  <bean id="BookOrder-discount" parent="BookOrder-discount-parentBean"/>
+  <bean id="BookOrder-discount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="discount"/>
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Discount"/>
+    <property name="shortLabel" value="Discount"/>
+    <property name="maxLength" value="10"/>    
+    <property name="required" value="false"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="false"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition"  p:size="10"/>
+    </property>
+    <property name="summary" value="Discount on the Book."/>
+    <property name="description" value="Discount on the Book."/>
+  </bean>
+  
+  <bean id="BookOrder-totalPrice" parent="BookOrder-totalPrice-parentBean"/>
+  <bean id="BookOrder-totalPrice-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalPrice"/>
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Total Price"/>
+    <property name="shortLabel" value="Total Price"/>
+    <property name="maxLength" value="10"/>    
+    <property name="required" value="false"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="false"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="Total Price of the Book."/>
+    <property name="description" value="Total Price of the Book."/>
+  </bean>
+
+</beans>

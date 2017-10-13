@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate1</name>
+			<description>RuleTemplate1</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate2</name>
+			<description>RuleTemplate1</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate3</name>
+			<description>RuleTemplate1</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>DocumentType</name>
+			<description>TestDocumentType</description>
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">${test.doctype.workgroup}</superUserGroupName>
+			<docHandler>${test.base.url}/_blank</docHandler>
+            <helpDefinitionURL>/_help</helpDefinitionURL>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">${test.doctype.workgroup}</defaultExceptionGroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Split" />
+					<split name="Split" nextNode="RuleTemplate3">
+						<branch name="B1">
+							<requests name="RuleTemplate1" nextNode="Join" />
+						</branch>
+						<branch name="B2">
+							<requests name="RuleTemplate2" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="RuleTemplate3" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<split name="Split" />
+				<join name="Join" />
+				<requests name="RuleTemplate1">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate1</ruleTemplate>
+				</requests>
+				<requests name="RuleTemplate2">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate2</ruleTemplate>
+				</requests>
+				<requests name="RuleTemplate3">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate3</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>FinalApproverDocumentType</name>
+			<description>TestDocumentType</description>
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RuleTemplate1" />
+					<requests name="RuleTemplate1" nextNode="RuleTemplate2" />
+					<requests name="RuleTemplate2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="RuleTemplate1">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate1</ruleTemplate>
+					<finalApproval>true</finalApproval><!-- this should cause an exception when RuleTemplate2 approve requests get activated -->
+				</requests>
+				<requests name="RuleTemplate2">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate2</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>MandatoryRouteDocumentType</name>
+			<description>MandatoryRouteDocumentType</description>
+			<label>MandatoryRouteDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RuleTemplate1" />
+					<requests name="RuleTemplate1" nextNode="RuleTemplate2" />
+					<requests name="RuleTemplate2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="RuleTemplate1">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate1</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute><!-- this should cause an exception when no approval requests are generated -->
+				</requests>
+				<requests name="RuleTemplate2">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate2</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!--  save test document types -->
+
+		<documentType>
+			<name>SaveTestDocumentType</name>
+			<description>SaveTestDocumentType</description>
+			<label>SaveTestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies/>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc"  />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SaveTestDocumentTypeChild1</name>
+			<parent>SaveTestDocumentType</parent>
+			<description>SaveTestDocumentType</description>
+			<label>SaveTestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+		</documentType>
+		<documentType>
+			<name>SaveTestDocumentTypeChild2</name>
+			<parent>SaveTestDocumentType</parent>
+			<description>SaveTestDocumentType</description>
+			<label>SaveTestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+		</documentType>
+		<documentType>
+			<name>EmptyRoutePathDocumentType</name>
+			<description>EmptyRoutePathDocumentType</description>
+			<label>EmptyRoutePathDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<routePaths />
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+		</documentType>
+
+		<!--  end save test document types-->
+
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>DocumentType</documentType>
+			<ruleTemplate>RuleTemplate1</ruleTemplate>
+			<description>RuleTemplate1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DocumentType</documentType>
+			<ruleTemplate>RuleTemplate2</ruleTemplate>
+			<description>RuleTemplate2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!-- FinalApprover test rules -->
+		<rule>
+			<documentType>FinalApproverDocumentType</documentType>
+			<ruleTemplate>RuleTemplate1</ruleTemplate>
+			<description>RuleTemplate1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>FinalApproverDocumentType</documentType>
+			<ruleTemplate>RuleTemplate2</ruleTemplate>
+			<description>RuleTemplate2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!-- MandatoryRouteDocumentType test rules -->
+		<rule>
+			<documentType>MandatoryRouteDocumentType</documentType>
+			<ruleTemplate>RuleTemplate1</ruleTemplate>
+			<description>RuleTemplate1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>K</actionRequested><!-- this should make the route go boom -->
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

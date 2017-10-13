@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>DocTypeWithSecurity</name>
+			<description>Test Security on Doc Type</description>
+			<label>Doc Type with Security</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<security>
+				<routeLogAuthenticated>true</routeLogAuthenticated>
+				<initiator>true</initiator>
+				<searchableAttribute idType="emplid" name="emplid" />
+				<groupName namespace="KR-WKFLW">NonSIT</groupName>
+			</security>
+		</documentType>
+		<documentType>
+			<name>NoDocHandlerDocType</name>
+			<description>Chart/Org</description>
+			<label>Chart/Org</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+		</documentType>
+        <documentType>
+            <name>DocTypeWithHelpUrls</name>
+            <description>test doc type with help urls</description>
+            <label>doc types with help urls</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <helpDefinitionURL>foo/bar</helpDefinitionURL>
+            <docSearchHelpURL>baz/boo</docSearchHelpURL>
+            <active>true</active>
+        </documentType>        
+		<documentType>
+			<name>ChartOrgDocType</name>
+			<description>Chart/Org</description>
+			<label>Chart/Org</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<notificationFromAddress>notifyme@indiana.edu</notificationFromAddress>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="MySimpleNode"/>
+                    <simple name="MySimpleNode"/>
+				</routePath>
+				<routePath processName="Organization Request" initialNode="Organization Request">
+					<requests name="Organization Request"/>
+				</routePath>
+				<routePath processName="Organization Split" initialNode="Organization Split">
+					<split name="Organization Split"/>
+				</routePath>
+				<routePath processName="Organization Join" initialNode="Organization Join">
+					<join name="Organization Join"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+                <simple name="MySimpleNode">
+                  <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+				<requests name="Organization Request">
+					<ruleTemplate>OrgRouting</ruleTemplate>
+				</requests>
+				<split name="Organization Split"/>
+				<join name="Organization Join"/>
+			</routeNodes>
+		</documentType>
+        <documentType>
+            <name>DocTypeWithAuthorizer</name>
+            <description>test doc type with document type authorizer</description>
+            <label>test doc type with document type authorizer</label>
+            <authorizer>a.doc.type.authorizer</authorizer>
+            <active>true</active>
+        </documentType>
+    </documentTypes>
+</data>

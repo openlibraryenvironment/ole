@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="5.0">
+    <info>
+        <title>Kuali Rice ${project.version} Database Diagrams</title>
+    </info>
+    <para>
+    <emphasis role="bold">
+        Database Diagrams
+    </emphasis></para>
+    <tip>
+        <para>When using Internet Explorer, we recommend viewing the PDF files since the size of the
+            diagrams may be illegible in IE.</para>
+    </tip>
+    <para>
+        <orderedlist>
+            <listitem>
+                <para><link
+                    xlink:href="http://site.kuali.org/rice/2.3.1/reference/html/schema-spy/index.html"
+                    >Schema Spy</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRAD (KRAD): <link xlink:show="new"
+                    xlink:href="../db_diagrams/rice-krad.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krad.pdf">pdf</link></para>
+            </listitem><listitem>
+                <para>Rice KREN (KEN): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-kren.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-kren.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KREW (KEW): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krew.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krew.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRIM (KIM): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krim.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krim.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRNS (KNS): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krns.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krns.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRSB (KSB): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krsb.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krsb.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRMS: <link xlink:show="new" xlink:href="../db_diagrams/rice-krms.png"
+                        >png*</link> / <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krms.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRCR (Core): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krcr.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krcr.pdf">pdf</link></para>
+            </listitem>
+            <listitem>
+                <para>Rice KRLC (Location): <link xlink:show="new"
+                        xlink:href="../db_diagrams/rice-krlc.png">png*</link> / <link
+                        xlink:show="new" xlink:href="../db_diagrams/rice-krlc.pdf">pdf</link></para>
+            </listitem>
+        </orderedlist>
+    </para>
+</article>

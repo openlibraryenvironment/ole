@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_Lookup" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>eDocLite Lookup</title>
+    <para>Use the <emphasis role="bold">eDocLite Lookup</emphasis> screen to quickly find
+        basic information about eDocLite documents and as the first step in creating a new
+        eDocLite. </para>
+    <figure><title>Workflow Channel: eDocLite Link</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KEW_Guide/edoclite_link.png" contentwidth="400"/>
+            </imageobject>
+        </mediaobject></figure>
+    <section>
+        <title>Finding the eDocLite Lookup Screen</title>
+        <para>You can go to the <emphasis role="bold">eDocLite Lookup</emphasis> by:<orderedlist>
+            <listitem>
+                <para>Click the Main Menu tab </para>
+            </listitem>
+            <listitem>
+                <para>Look in the Workflow section </para>
+            </listitem>
+            <listitem>
+                <para>Click eDoc Lite </para>
+            </listitem>
+        </orderedlist></para>
+    </section>
+    <section>
+        <title>eDocLite Lookup</title>
+        <figure><title>eDocLite Lookup</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KEW_Guide/edoclite_lookup.png" contentwidth="400"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>On the eDocLite lookup page, users can search for an eDocLite document based
+            on several criteria:</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>eDocLite Lookup Attributes</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.47*"/>
+                    <thead>
+                        <row>
+                            <entry>Field</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Id</entry>
+                            <entry>The unique ID number assigned to each document.</entry>
+                        </row>
+                        <row>
+                            <entry>Document Type</entry>
+                            <entry>The name of the document type, which is specified in the
+                                Document Type attribute of an eDocLite.</entry>
+                        </row>
+                        <row>
+                            <entry>Definition</entry>
+                            <entry>The name of the EDL XML definition.</entry>
+                        </row>
+                        <row>
+                            <entry>Style</entry>
+                            <entry>The style specified in the EDL XML file is the style
+                                attribute of an eDocLite. Generally an EDL XML file has only
+                                one definition name which relates to one and only one style
+                                name.</entry>
+                        </row>
+                        <row>
+                            <entry>Active Indicator</entry>
+                            <entry>You have the choice of searching by the active status of
+                                an eDocLite. </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+        <para>You can use the above criteria to limit your search results. A search will
+            produce a list of one or more results that look similar to the following:</para>
+        <figure><title>eDocLite Lookup: Search Results</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KEW_Guide/search_results.png" contentwidth="400"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>Clicking <emphasis role="bold">Create Document</emphasis> on any line takes
+            you to the eDocLite document screen where new documents can be created. The line
+            item you choose will result in that document being used as a template for the
+            new one you are creating. More information on this follows in the section called
+            <emphasis role="bold">Create New eDocLite Document</emphasis>.</para>
+        <para>Clicking any underlined Id will take you to the <emphasis role="bold">eDocLite
+            Inquiry</emphasis> screen for that document.</para>
+        <note><para>Exporting the output list to XML will give you the option of viewing the XML
+            used to produce the list returned from the search.</para>
+        </note>
+        <para>Standard in KEW there is one eDocLite for electronic routing, and new
+            eDocLites can be added based on business requirements. Some of the functions
+            that eDocLites are used for in business include: <itemizedlist>
+                <listitem>
+                    <para>Applicant Monitoring </para>
+                </listitem>
+                <listitem>
+                    <para>BLSC Request </para>
+                </listitem>
+                <listitem>
+                    <para>Course Change Request </para>
+                </listitem>
+                <listitem>
+                    <para>Grade Replacement Request </para>
+                </listitem>
+                <listitem>
+                    <para>Internship Contract </para>
+                </listitem>
+                <listitem>
+                    <para>Interview Request </para>
+                </listitem>
+                <listitem>
+                    <para>Mass Mailing Request </para>
+                </listitem>
+                <listitem>
+                    <para>Offer Request </para>
+                </listitem>
+                <listitem>
+                    <para>Program Plan Update </para>
+                </listitem>
+                <listitem>
+                    <para>REGR Access Request </para>
+                </listitem>
+                <listitem>
+                    <para>Removal Of Incomplete </para>
+                </listitem>
+                <listitem>
+                    <para>Revenue Producing Activity </para>
+                </listitem>
+                <listitem>
+                    <para>SUDS Request Document Type </para>
+                </listitem>
+                <listitem>
+                    <para>Search Status </para>
+                </listitem>
+                <listitem>
+                    <para>Special Credit Request </para>
+                </listitem>
+                <listitem>
+                    <para>Student Trip </para>
+                </listitem>
+                <listitem>
+                    <para>User Agreement </para>
+                </listitem>
+                <listitem>
+                    <para>Unit Change Request </para>
+                </listitem>
+                <listitem>
+                    <para>Vacancy Notice </para>
+                </listitem>
+                <listitem>
+                    <para>Vehicle Replacement </para>
+                </listitem>
+                <listitem>
+                    <para>Waiver Request </para>
+                </listitem>
+                <listitem>
+                    <para>New Course Request </para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+</chapter>

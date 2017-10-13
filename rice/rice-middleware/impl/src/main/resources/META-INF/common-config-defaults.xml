@@ -1,0 +1,580 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+
+    <!--  NOTE: This environment parameter must be defined early -->
+    <param name="environment" override="false">dev</param>
+    <param name="app.code" override="false">kr</param>
+    <param name="app.context.name" override="false">${app.code}-${environment}</param>
+    <param name="rice.struts.message.resources" override="false">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param>
+    <param name="context.names.app" override="false">${app.context.name}</param>
+    <param name="http.port" override="false">8080</param>
+    <param name="application.host" override="false">localhost</param>
+    <param name="application.http.scheme" override="false">http</param>
+    <param name="rice.custom.ojb.properties" override="false">org/kuali/rice/core/ojb/RiceOJB.properties</param>
+
+    <!-- This value is filtered by the Maven build based on project.version maven property -->
+    <param name="rice.version" override="false">${project.version}</param>
+
+    <!-- applications should change this property to match their version number -->
+    <param name="application.version" override="false">${project.version}</param>
+
+	  <!-- Database Config -->
+
+	  <!-- below used by atomikos data sources -->
+    <!-- below are dbcp properties used for non-JTA datasources needed by KSB in some instances -->
+    <param name="datasource.pool.maxActive" override="false">10</param>
+    <param name="datasource.minIdle" override="false">5</param>
+    <param name="datasource.initialSize" override="false">5</param>
+    <param name="datasource.accessToUnderlyingConnectionAllowed" override="false">true</param>
+
+  	<param name="datasource.pool.minSize" override="false">10</param>
+    <param name="datasource.pool.maxSize" override="false">50</param>
+    <param name="datasource.pool.maxWait" override="false">30000</param>
+
+    <param name="datasource.ojb.platform" override="false">Oracle9i</param>
+
+    <param name="datasource.driver.name.Oracle" override="false">oracle.jdbc.OracleDriver</param>
+    <param name="datasource.platform.Oracle" override="false">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+    <param name="datasource.ojb.sequenceManager.Oracle" override="false"></param>
+    <param name="datasource.ojb.sequenceManager.className.Oracle" override="false"></param>
+    <param name="datasource.pool.validationQuery.Oracle" override="false">select 1 from dual</param>
+
+    <param name="datasource.driver.name.Oracle9i" override="false">oracle.jdbc.OracleDriver</param>
+    <param name="datasource.platform.Oracle9i" override="false">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+    <param name="datasource.ojb.sequenceManager.Oracle9i" override="false"></param>
+    <param name="datasource.ojb.sequenceManager.className.Oracle9i" override="false"></param>
+    <param name="datasource.pool.validationQuery.Oracle9i" override="false">select 1 from dual</param>
+
+    <param name="datasource.driver.name.MySQL" override="false">com.mysql.jdbc.Driver</param>
+    <param name="datasource.platform.MySQL" override="false">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+    <param name="datasource.ojb.sequenceManager.MySQL" override="false">org.apache.ojb.broker.platforms.KualiMySQLSequenceManagerImpl</param>
+    <param name="datasource.ojb.sequenceManager.className.MySQL" override="false">org.apache.ojb.broker.platforms.KualiMySQLSequenceManagerImpl</param>
+    <param name="datasource.pool.validationQuery.MySQL" override="false">select 1</param>
+
+    <param name="datasource.driver.name.Derby" override="false">org.apache.derby.jdbc.EmbeddedDriver</param>
+    <param name="datasource.platform.Derby" override="false">org.kuali.rice.core.framework.persistence.platform.DerbyDatabasePlatform</param>
+    <param name="datasource.ojb.sequenceManager.Derby" override="false">** NEEDS IMPLEMENTED **</param>
+    <param name="datasource.ojb.sequenceManager.className.Derby" override="false">** NEEDS IMPLEMENTED **</param>
+    <param name="datasource.pool.validationQuery.Derby" override="false">values(1)</param>
+
+    <param name="datasource.driver.name.McKoi" override="false">com.mckoi.JDBCDriver</param>
+    <param name="datasource.platform.McKoi" override="false">org.kuali.rice.core.framework.persistence.platform.MckoiDatabasePlatform</param>
+    <param name="datasource.ojb.sequenceManager.McKoi" override="false">org.apache.ojb.broker.platforms.PlatformMckoiImpl</param>
+    <param name="datasource.ojb.sequenceManager.className.McKoi" override="false">org.apache.ojb.broker.platforms.PlatformMckoiImpl</param>
+    <param name="datasource.pool.validationQuery.McKoi" override="false">select 1 from dual</param>
+
+    <param name="datasource.driver.name" override="false">${datasource.driver.name.${datasource.ojb.platform}}</param>
+    <param name="datasource.platform" override="false">${datasource.platform.${datasource.ojb.platform}}</param>
+    <param name="datasource.ojb.sequenceManager" override="false">${datasource.ojb.sequenceManager.${datasource.ojb.platform}}</param>
+    <param name="datasource.ojb.sequenceManager.className" override="false">${datasource.ojb.sequenceManager.className.${datasource.ojb.platform}}</param>
+    <param name="datasource.pool.validationQuery" override="false">${datasource.pool.validationQuery.${datasource.ojb.platform}}</param>
+
+    <!-- datasource.btm.journal can be "null", "disk", or a class name -->
+    <param name="datasource.btm.journal" override="false">null</param>
+    <param name="datasource.btm.transactionTimeout" override="false">120</param>
+
+    <param name="datasource.pool.class" override="false">oracle.jdbc.xa.client.OracleXADataSource</param>
+    <param name="datasource.pool.class.non.xa" override="false">bitronix.tm.resource.jdbc.lrc.LrcXADataSource</param>
+
+
+    <!-- developer use only, if set to true, will serialize everything in memory on startup to quickly find objects that aren't serializable -->
+    <!-- this parameter doesn't matter in a prod environment, as the serialization won't occur in prod environment -->
+    <param name="enableSerializationCheck" override="false">false</param>
+
+    <!--<param name="connection.pool.impl" override="false">Bitronix</param>-->
+    <param name="connection.pool.impl" override="false">XAPool</param>
+
+    <!-- Action List Outbox -->
+    <param name="actionlist.outbox.default.preference.on" override="false">true</param>
+    <param name="actionlist.outbox" override="false">true</param>
+    <param name="ActionList.norefresh" override="false">false</param>
+
+    <!--
+      NOTE: The application.url parameter needs to be set by the client
+        this should be set to something similar to:
+	    <param name="appserver.url" override="false">${application.http.scheme}://${application.host}:${http.port}</param>
+	    <param name="application.url" override="false">${appserver.url}/${app.context.name}</param>
+     -->
+    <param name="appserver.url" override="false">${application.http.scheme}://${application.host}:${http.port}</param>
+    <param name="application.url" override="false">${appserver.url}/${app.context.name}</param>
+    <param name="serviceServletUrl" override="false">${application.url}/remoting/</param>
+    <param name="rice.url" override="false">${application.url}/kr</param>
+    <param name="rice.server.url" override="false">${application.url}</param>
+    <param name="workflow.url" override="false">${rice.server.url}/kew</param>
+    <param name="workflow.documentsearch.base.url" override="false">${workflow.url}/DocumentSearch.do?docFormKey=88888888&amp;returnLocation=${application.url}/portal.do&amp;hideReturnLink=true</param>
+    <param name="initiated.document.url" override="false">/initdocinfo?viewId=InitiatedDocumentView&amp;methodToCall=start</param>
+    <param name="rice.default.soap.service" override="false">false</param>
+
+    <param name="cas.context.name" override="false">cas</param>
+    <param name="cas.url" override="false">https://test.kuali.org/cas-stg</param>
+    <param name="cas.login.url" override="false">${cas.url}/login</param>
+    <param name="cas.validate.url" override="false">${cas.url}/serviceValidate</param>
+    <param name="cas.require.https" override="false">false</param>
+    <param name="cas.validate.password" override="false">false</param>
+    <param name="cas.rice.server.name" override="false">${appserver.url}</param>
+
+	  <!-- Tells the KualiInitializeListener to look in another location for the Rice configuration. Comma separated list -->
+	  <param name="additional.config.locations" override="false"></param>
+
+  	<!-- Portal display parameters -->
+	  <!-- rice.portal.links.showRiceServerConfig determines if a second config viewer link will be shown.
+	     This is helpful for client apps using the rice portal, because both client and rice config params
+	     can be linked to -->
+	  <param name="rice.portal.links.showRiceServerConfig" override="false">false</param>
+	  <param name="rice.portal.logout.redirectUrl" override="false">${application.url}/portal.do</param>
+    <param name="rice.portal.allowed.regex" override="false">^${application.url}(/.*|)</param>
+
+    <!-- App specific parameters -->
+    <param name="externalizable.help.url" override="false">${application.url}/kr/static/help/</param>
+    <param name="externalizable.images.url" override="false">${application.url}/kr/static/images/</param>
+    <param name="kr.externalizable.images.url" override="false">${application.url}/kr/static/images/</param>
+    <param name="travel.externalizable.images.url" override="false">${application.url}/kr/static/images/</param>
+
+    <!-- Defined images for specific file types (mime type codes) -->
+    <param name="attach.img.application/msword" override="false">word.gif</param>
+    <param name="attach.img.application/vnd.ms-excel" override="false">xls.gif</param>
+    <param name="attach.img.application/pdf" override="false">pdf.gif</param>
+    <param name="attach.img.application/xml" override="false">xml.gif</param>
+    <param name="attach.img.text/xml" override="false">xml.gif</param>
+    <param name="attach.img.application/vnd.openxmlformats-officedocument.wordprocessingml.document" override="false">word.gif</param>
+    <param name="attach.img.application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" override="false">xls.gif</param>
+    <param name="attach.img.default" override="false">clip.gif</param>
+
+    <!-- Code Options: (dev|snd|unt|reg|stg|trn|prd) -->
+    <param name="production.environment.code" override="false">prd</param>
+     <!-- I think this is workflow related; everywhere it was specified as 'iu' so I'll just keep that for now -->
+    <param name="institution" override="false">iu</param>
+    <!-- TODO: doc these params -->
+    <param name="security.directory" override="false">/usr/local/rice/</param>
+    <param name="settings.directory" override="false">/usr/local/rice/</param>
+    <param name="memory.monitor.threshold" override="false">.85</param>
+    <!-- TODO: ksn related? -->
+    <param name="mail.relay.server" override="false">mail.relay.server</param>
+    <param name="mailing.list.batch" override="false">mailing.list.batch</param>
+
+    <!-- TODO: remove once all KNS screen converted to KRAD -->
+    <param name="kns.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>
+    <param name="kns.css.files" override="false">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+
+    <param name="portal.css.files" override="false">rice-portal/css/portal.css,plugins/fancybox/jquery.fancybox.css,plugins/textpopout/popoutTextarea.css,plugins/jgrowl/jquery.jgrowl.css</param>
+    <param name="portal.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,plugins/scrollto/jquery.scrollTo-1.4.6.js,plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,plugins/fancybox/jquery.fancybox.pack.js,plugins/easing/jquery.easing-1.3.pack.js,plugins/jgrowl/jquery.jgrowl.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
+    <param name="portal.title" override="false">Kuali Rice</param>
+
+  	<!-- JPA-related parameters -->
+	  <param name="rice.jpa.DatabasePlatform" override="false">org.hibernate.dialect.OracleDialect</param>
+	  <param name="rice.jpa.UseSerialization" override="false">false</param>
+
+	  <!-- End JPA-related parameters -->
+
+    <param name="transaction.timeout" override="false">30000</param>
+
+    <!--
+    	See KULRICE- regarding the encryption.key property
+    <param name="encryption.key" override="false">7IC64w6ksLU</param>
+
+    -->
+
+    <param name="mail.transport.protocol" override="false">smtp</param>
+    <param name="mail.debug" override="false">false</param>
+    <param name="mail.smtp.host" override="false">localhost</param>
+
+    <!-- KEW XML-related filesystem locations -->
+    <!-- These should be overridden, but the defaults are here so they do not have to
+         be specified everywhere when they are not used -->
+    <param name="data.xml.root.location" override="false">${java.io.tmpdir}/${environment}/kew/xml</param>
+    <param name="data.xml.pending.location" override="false">${data.xml.root.location}pending</param>
+    <param name="data.xml.loaded.location" override="false">${data.xml.root.location}loaded</param>
+    <param name="data.xml.problem.location" override="false">${data.xml.root.location}problem</param>
+
+    <!-- KEW Note Class -->
+    <param name="default.kew.note.class" override="false">DefaultNoteAttribute</param>
+
+
+    <param name="attachment.dir.location" override="false">${java.io.tmpdir}/${environment}/attachments</param>
+    <param name="data.xml.pollIntervalSecs" override="false">30</param>
+    <param name="initialDelaySecs" override="false">10</param>
+
+    <param name="rice.logging.configure" override="false">false</param>
+
+    <param name="classpath.resource.prefix" override="false">/WEB-INF/classes/</param>
+
+	  <!-- KEW -->
+	  <param name="rice.kew.enableKENNotification" override="false">true</param>
+
+	  <!-- KEW-specific JPA parameters -->
+	  <param name="rice.kew.jpa.enabled" override="false">false</param>
+	  <param name="rice.kew.jpa.PersistenceXmlLocation" override="false">/META-INF/kew-persistence.xml</param>
+	  <param name="rice.kew.jpa.PersistenceUnitName" override="false">kew-unit</param>
+	  <param name="rice.kew.jpa.GenerateDdl" override="false">true</param>
+	  <!-- End KEW-specific JPA parameters -->
+
+    <!-- KNS -->
+    <param name="kr.incident.mailing.list" override="false"></param>
+    <param name="kr.feedback.mailing.list" override="false"></param>
+
+  <param name="session.document.cache.size" override="false">100</param>
+
+    <param name="rice.krad.illegalBusinessObjectsForSave.applyCheck" override="false">true</param>
+
+    <param name="kns.editable.properties.history.size" override="false">20</param>
+
+    <!-- KSB -->
+
+	  <param name="rice.ksb.registry.serviceUrl" override="false">${rice.server.url}/remoting/soap/ksb/v2_0/serviceRegistry</param>
+	  <param name="rice.ksb.serviceRegistry.security" override="false">true</param>
+    <param name="rice.ksb.config.allowSelfSignedSSL" override="false">false</param>
+    <param name="rice.ksb.cxf.client.receiveTimeout" override="false">120000</param>
+
+	  <param name="dev.mode" override="false">false</param>
+    <param name="bam.enabled" override="false">false</param>
+
+  	<param name="message.persistence" override="false">true</param>
+	  <param name="message.delivery" override="false">async</param>
+	  <param name="message.off" override="false">false</param>
+	  <param name="Routing.ImmediateExceptionRouting" override="false">false</param>
+    <param name="RouteQueue.maxRetryAttempts" override="false">5</param>
+    <param name="RouteQueue.timeIncrement" override="false">5000</param>
+
+    <param name="useQuartzDatabase" override="false">true</param>
+  	<param name="ksb.org.quartz.scheduler.instanceId" override="false">AUTO</param>
+    <param name="ksb.org.quartz.scheduler.instanceName" override="false">KSBScheduler</param>
+    <param name="ksb.org.quartz.jobStore.isClustered" override="false">true</param>
+    <param name="ksb.org.quartz.jobStore.tablePrefix" override="false">KRSB_QRTZ_</param>
+
+	<!-- KSB-specific JPA parameters -->
+	<param name="rice.ksb.jpa.enabled" override="false">false</param>
+	<param name="rice.ksb.registry.jpa.PersistenceXmlLocation" override="false">META-INF/ksb-persistence.xml</param>
+	<param name="rice.ksb.registry.jpa.PersistenceUnitName" override="false">ksb-registry-unit</param>
+	<param name="rice.ksb.registry.jpa.GenerateDdl" override="false">true</param>
+	<param name="rice.ksb.message.jpa.PersistenceXmlLocation" override="false">META-INF/ksb-persistence.xml</param>
+	<param name="rice.ksb.message.jpa.PersistenceUnitName" override="false">ksb-message-unit</param>
+	<param name="rice.ksb.message.jpa.GenerateDdl" override="false">true</param>
+
+	<!-- End KSB-specific JPA parameters -->
+
+	<!-- KNS-specific JPA parameters -->
+	<param name="rice.krad.jpa.enabled" override="false">false</param>
+	<param name="rice.krad.application.jpa.PersistenceXmlLocation" override="false">META-INF/krad-persistence.xml</param>
+	<param name="rice.krad.application.jpa.PersistenceUnitName" override="false">krad-application-unit</param>
+	<param name="rice.krad.application.jpa.GenerateDdl" override="false">true</param>
+
+	<param name="rice.krad.server.jpa.PersistenceXmlLocation" override="false">META-INF/krad-persistence.xml</param>
+	<param name="rice.krad.server.jpa.PersistenceUnitName" override="false">krad-server-unit</param>
+	<param name="rice.krad.server.jpa.GenerateDdl" override="false">true</param>
+
+	<!-- End KNS-specific JPA parameters -->
+
+
+	<!-- KIM -->
+
+    <!-- The Kim peron inquiry screens can (since 1.0.3.1) hide fields based on two different type of config parameters
+    	If the kim document showing the data has a type (i.e. Address, Phone, etc have AddressType/PhoneType), you can hide all
+    	data with this type by using the following format: "kim.hide.document.type" and the value of of the code (HM, WRK, OTH)
+
+    	Individual fields (all instances of them on the page) can also be hidden by following this format:
+    	"[documentClass].hidden".  The value of this should be a comma delimited list of the DD names of the fields.
+     -->
+    <param name="org.kuali.rice.kim.bo.ui.PersonDocumentEmploymentInfo.hidden" override="false">baseSalaryAmount</param>
+	  <param name="kim.hide.PersonDocumentAddress.type" override="false">HM</param>
+	  <param name="kim.hide.PersonDocumentPhone.type" override="false">HM</param>
+
+    <param name="kim.soapExposedService.jaxws.security" override="false">true</param>
+    <param name="kim.identityArchiveServiceImpl.executionIntervalSeconds" override="false">300</param>
+    <param name="kim.identityArchiveServiceImpl.maxWriteQueueSize" override="false">300</param>
+
+    <!-- KIM-specific JPA parameters -->
+	  <param name="rice.kim.jpa.enabled" override="false">false</param>
+	  <param name="rice.kim.jpa.PersistenceXmlLocation" override="false">META-INF/kim-persistence.xml</param>
+	  <param name="rice.kim.jpa.PersistenceUnitName" override="false">kim-unit</param>
+	  <param name="rice.kim.jpa.GenerateDdl" override="false">true</param>
+
+	  <!-- End KIM-specific JPA parameters -->
+
+	  <param name="kim.show.blank.qualifiers" override="false">true</param>
+	  <param name="enable.nonproduction.data.unmasking" override="false">false</param>
+
+    <!-- KEN -->
+  	<param name="ken.system.user" override="false">notsys</param>
+    <param name="notification.resolveMessageDeliveriesJob.startDelayMS" override="false">5000</param>
+    <param name="notification.resolveMessageDeliveriesJob.intervalMS" override="false">10000</param>
+    <param name="notification.processAutoRemovalJob.startDelayMS" override="false">60000</param>
+    <param name="notification.processAutoRemovalJob.intervalMS" override="false">60000</param>
+    <param name="notification.quartz.autostartup" override="false">true</param>
+    <param name="notification.concurrent.jobs" override="false">true</param>
+
+	  <param name="kcb.messaging.synchronous" override="false">false</param>
+    <param name="kcb.messageprocessing.startDelayMS" override="false">75000</param>
+    <param name="kcb.messageprocessing.repeatIntervalMS" override="false">30000</param>
+    <param name="kcb.quartz.group" override="false">KCB-Delivery</param>
+    <param name="kcb.quartz.job.name" override="false">MessageProcessingJobDetail</param>
+    <param name="kcb.maxProcessAttempts" override="false">3</param>
+    <param name="kcb.messaging.synchronous" override="false">false</param>
+    <param name="kcb.smtp.host" override="false">${mail.smtp.host}</param>
+
+    <!-- KEN-specific JPA parameters -->
+   	<param name="rice.ken.jpa.enabled" override="false">false</param>
+	  <param name="rice.ken.jpa.PersistenceXmlLocation" override="false">META-INF/ken-persistence.xml</param>
+	  <param name="rice.ken.jpa.PersistenceUnitName" override="false">ken-unit</param>
+	  <param name="rice.ken.jpa.GenerateDdl" override="false">true</param>
+	  <!-- End KEN-specific JPA parameters -->
+
+    <!-- EDL specific -->
+    <param name="rice.resourceloader.servicesToCache" override="false">enEDocLiteService</param>
+
+    <param name="edl.config.loc" override="false">classpath:META-INF/EDLConfig.xml</param>
+    <param name="edl.style.widgets" override="false">classpath:org/kuali/rice/edl/impl/default-widgets.xml</param>
+    <param name="edl.mode" override="false">LOCAL</param>
+    <!-- end EDL specific parameters -->
+
+	  <param name="title.inquiry.url.value.prependtext" override="false"></param>
+
+	  <param name="bus.refresh.rate" override="false">60</param>
+	  <param name="threadPool.size" override="false">5</param>
+
+	<!-- Default Option for Action List User Preferences. -->
+	<param name="userOptions.default.color" override="false">white</param>
+	<!-- email options: no, daily, weekly, immediate -->
+	<param name="userOptions.default.email" override="false">immediate</param>
+	<param name="userOptions.default.notifyPrimary" override="false">yes</param>
+	<param name="userOptions.default.notifySecondary" override="false">no</param>
+	<param name="userOptions.default.openNewWindow" override="false">yes</param>
+	<param name="userOptions.default.actionListSize" override="false">10</param>
+	<param name="userOptions.default.refreshRate" override="false">15</param>
+	<param name="userOptions.default.showActionRequired" override="false">yes</param>
+	<param name="userOptions.default.showDateCreated" override="false">yes</param>
+	<param name="userOptions.default.showDocumentType" override="false">yes</param>
+	<param name="userOptions.default.showDocumentStatus" override="false">yes</param>
+	<param name="userOptions.default.showInitiator" override="false">yes</param>
+	<param name="userOptions.default.showDelegator" override="false">yes</param>
+	<param name="userOptions.default.showTitle" override="false">yes</param>
+	<param name="userOptions.default.showWorkgroupRequest" override="false">yes</param>
+	<param name="userOptions.default.showClearFYI" override="false">yes</param>
+	<param name="userOptions.default.showLastApprovedDate" override="false">no</param>
+	<param name="userOptions.default.showCurrentNode" override="false">no</param>
+	<param name="userOptions.default.useOutBox" override="false">yes</param>
+	<!-- delegatorFilterOnActionList: "Secondary Delegators on Action List Page" or "Secondary Delegators only on Filter Page" -->
+	<param name="userOptions.default.delegatorFilterOnActionList" override="false">Secondary Delegators on Action List Page</param>
+	<param name="userOptions.default.primaryDelegatorFilterOnActionList" override="false">Primary Delegates on Action List Page</param>
+	<param name="userOptions.default.notifyComplete" override="false">yes</param>
+	<param name="userOptions.default.notifyApprove" override="false">yes</param>
+ 	<param name="userOptions.default.notifyAcknowledge" override="false">yes</param>
+ 	<param name="userOptions.default.notifyFYI" override="false">yes</param>
+
+
+	<!-- additonal params extracted from Configurers -->
+
+	<!-- Rice (common) -->
+	<param name="datasource.jndi.location" override="false"></param>
+	<param name="nonTransactional.datasource.jndi.location" override="false"></param>
+	<param name="serverDatasource.jndi.location" override="false"></param>
+	<param name="transactionManager.jndi.location" override="false"></param>
+	<param name="userTransaction.jndi.location" override="false"></param>
+
+	<!-- KNS -->
+	<param name="rice.kr.struts.config.files" override="false">/kr/WEB-INF/struts-config.xml</param>
+	<param name="kr.url" override="false">${application.url}/kr</param>
+  <param name="kr.krad.url" override="false">${application.url}/kr-krad</param>
+	<param name="kr.mode" override="false">LOCAL</param>
+	<param name="kradServer.datasource.jndi.location" override="false"></param>
+	<param name="kradApplication.datasource.jndi.location" override="false"></param>
+	<param name="rice.kr.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.kr.expose.services.on.bus" override="false">true</param>
+  <param name="rice.krad.bos.ignoreMissingFieldsOnDeserialize" override="false"></param>
+
+	<!-- KCB -->
+	<param name="rice.kcb.struts.config.files" override="false">/kcb/WEB-INF/struts-config.xml</param>
+	<param name="kcb.url" override="false">${application.url}/kcb</param>
+	<param name="rice.kcb.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.kcb.expose.services.on.bus" override="false">true</param>
+
+	<!-- KEN -->
+	<param name="rice.ken.struts.config.files" override="false">/ken/WEB-INF/struts-config.xml</param>
+	<param name="ken.url" override="false">${application.url}/ken</param>
+	<param name="ken.mode" override="false">REMOTE</param>
+	<param name="rice.ken.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.ken.expose.services.on.bus" override="false">true</param>
+
+	<!-- KEW -->
+	<param name="rice.kew.struts.config.files" override="false">/kew/WEB-INF/struts-config.xml</param>
+	<param name="kew.url" override="false">${application.url}/kew</param>
+	<param name="kew.mode" override="false">REMOTE</param>
+	<param name="client.protocol" override="false">LOCAL</param>
+	<param name="org.kuali.workflow.datasource.jndi.location" override="false"></param>
+  <param name="ken.soapExposedService.jaxws.security" override="false">true</param>
+	<param name="rice.kew.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.kew.expose.services.on.bus" override="false">true</param>
+  <param name="rice.kew.ignoreUnknownPrincipalIds" override="false">false</param>
+	<!-- This is used to get the standalone version of WorkflowDocumentActionsService when kew.mode is REMOTE or THIN --> 
+	<param name="standalone.application.id" override="false">RICE</param>
+	
+	<!-- KIM -->
+	<param name="rice.kim.struts.config.files" override="false">/kim/WEB-INF/struts-config.xml</param>
+	<param name="kim.url" override="false">${application.url}/kim</param>
+	<param name="kim.mode" override="false">REMOTE</param>
+	<param name="rice.kim.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.kim.expose.services.on.bus" override="false">true</param>
+  <param name="kim.ehcache.config.location" override="false">classpath:org/kuali/rice/kim/impl/config/kim.ehcache.xml</param>
+
+  <!-- KRMS -->
+  <param name="krms.mode" override="false">REMOTE</param>
+  <param name="krms.soapExposedService.jaxws.security" override="false">true</param>
+  <param name="rice.krms.ruleRepositoryService.secure" override="false">true</param>
+  <param name="rice.krms.ruleManagementService.secure" override="false">true</param>
+  <param name="rice.krms.functionRepositoryService.secure" override="false">true</param>
+  <param name="rice.krms.termRepositoryService.secure" override="false">true</param>
+  <param name="rice.krms.krmsTypeRepositoryService.secure" override="false">true</param>
+  <param name="rice.krms.notificationPeopleFlowActionTypeService.secure" override="false">true</param>
+  <param name="rice.krms.approvalPeopleFlowActionTypeService.secure" override="false">true</param>
+  <param name="rice.krms.expose.services.on.bus" override="false">true</param>
+  <param name="krms.ehcache.config.location" override="false">classpath:org/kuali/rice/krms/config/krms.ehcache.xml</param>
+
+  <!-- LOCATION -->
+
+	<param name="location.mode" override="false">REMOTE</param>
+	<param name="rice.location.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.location.expose.services.on.bus" override="false">true</param>
+  <param name="location.soapExposedService.jaxws.security" override="false">true</param>
+  <param name="location.ehcache.config.location" override="false">classpath:org/kuali/rice/location/config/location.ehcache.xml</param>
+
+	<!-- KSB -->
+  <param name="rice.ksb.web.forceEnable" override="false">false</param>
+	<param name="rice.ksb.struts.config.files" override="false">/ksb/WEB-INF/struts-config.xml</param>
+	<param name="ksb.url" override="false">${application.url}/ksb</param>
+	<param name="ksb.mode" override="false">REMOTE</param>
+	<param name="keystore.alias" override="false"></param>
+	<param name="keystore.password" override="false"></param>
+	<param name="keystore.file" override="false"></param>
+	<param name="ksbMessage.datasource.jndi.location" override="false"></param>
+	<param name="ksbMessage.nonTransactional.datasource.jndi.location" override="false"></param>
+	<param name="ksbRegistry.datasource.jndi.location" override="false"></param>
+	<param name="http.service.url" override="false">${serviceServletUrl}</param>
+	<param name="rice.ksb.set.soap.services.as.default" override="false">true</param>
+	<param name="rice.ksb.expose.services.on.bus" override="false">true</param>
+  <param name="rice.ksb.expose.services.on.bus" override="false">true</param>
+  <param name="ksb.soapExposedService.jaxws.security" override="false">true</param>
+
+	<!-- CORE -->
+  <param name="rice.core.struts.config.files" override="false">/core/WEB-INF/struts-config.xml</param>
+  <param name="core.url" override="false">${application.url}/core</param>
+	<param name="core.mode" override="false">LOCAL</param>
+  <param name="rice.core.expose.services.on.bus" override="false">true</param>
+  <param name="core.soapExposedService.jaxws.security" override="false">true</param>
+
+  <!-- CORE Services -->
+  <param name="coreservice.mode" override="false">REMOTE</param>
+  <param name="coreService.ehcache.config.location" override="false">classpath:org/kuali/rice/coreservice/config/coreService.ehcache.xml</param>
+
+	<!-- from kew-config-defaults -->
+
+	 <!-- Daily emails every day at 1 AM -->
+  <!--  By disabling the cronExpression below, that disables the related scheduled email -->
+  <!--<param name="dailyEmail.cronExpression" override="false">0 0 1 * * ?</param>-->
+  <param name="dailyEmail.active" override="false">true</param>
+
+  <!-- Weekly emails every Monday at 2 AM -->
+  <!--  By disabling the cronExpression below, that disables the related scheduled email -->
+  <!--<param name="weeklyEmail.cronExpression" override="false">0 0 2 ? * 2</param>-->
+  <param name="weeklyEmail.active" override="false">true</param>
+
+  <param name="rice.kew.workflowDocumentActionsService.secure" override="false">true</param>
+  <param name="rice.kew.workflowDocumentService.secure" override="false">true</param>
+  <param name="rice.kew.actionListService.secure" override="false">true</param>
+  <param name="rice.kew.documentTypeService.secure" override="false">true</param>
+  <param name="rice.kew.noteService.secure" override="false">true</param>
+  <param name="rice.kew.preferencesService.secure" override="false">true</param>
+  <param name="rice.kew.ruleService.secure" override="false">true</param>
+  <param name="rice.kew.documentAttributeIndexingQueue.secure" override="false">true</param>
+  <param name="rice.kew.actionListCustomizationHandlerService.secure" override="false">true</param>
+  <param name="rice.kew.documentSearchCustomizationHandlerService.secure" override="false">true</param>
+  <param name="rice.kew.documentSecurityHandlerService.secure" override="false">true</param>
+  <param name="rice.kew.ruleValidationAttributeExporterService.secure" override="false">true</param>
+  <param name="rice.kew.workflowRuleAttributeHandlerService.secure" override="false">true</param>
+  <param name="rice.kew.groupMembershipChangeQueue.secure" override="false">true</param>
+  <param name="rice.kew.responsibilityChangeQueue.secure" override="false">true</param>
+  <param name="rice.kew.kewTypeRepositoryService.secure" override="false">true</param>
+  <param name="rice.kew.peopleFlowService.secure" override="false">true</param>
+  <param name="rice.kew.extensionRepositoryService.secure" override="false">true</param>
+  <param name="rice.kew.immediateEmailReminderQueue.secure" override="false">true</param>
+  <param name="nonproduction.notification.mailing.list" override="false"></param>
+  <param name="real.notifications.enabled" override="false">true</param>
+
+  <param name="rice.resourceloader.servicesToCache" override="false">
+      userTransaction,
+      jtaTransactionManager,
+      transactionManager,
+      kewDataSource,
+      enRuleAttributeService,
+      enRuleTemplateService,
+      enRuleServiceInternal,
+      enDocumentRouteHeaderService,
+      enActionListService,
+      enDocumentSearchService,
+      enDocumentTypeService,
+      enPreferencesService,
+      enActionTakenService,
+      enApplicationConstantsService,
+      enActionRequestService,
+      enResponsibilityIdService,
+      enRuleDelegationService,
+      enNotificationService,
+      enRouteModuleService,
+      enWorkflowDocumentService,
+      enRoleService,
+      enRoutingReportService,
+      enExtractService,
+      workflowEngine,
+      enRouteNodeService,
+      enBranchService,
+      enExceptionRoutingService,
+      enEDocLiteService,
+      enStyleService,
+      enXmlDigesterService,
+      enStatsService,
+      enNoteService,
+      rice.kew.documentProcessingQueue,
+      rice.kew.documentOrchestrationQueue,
+      enMoveDocumentService,
+      rice.kew.actionInvocationQueue,
+      rice.kew.immediateEmailReminderQueue,
+      enActionListEmailService,
+      enWorkflowUtilityService,
+      enUserOptionsService,
+      enDocumentSecurityService,
+      enEmailContentService,
+      enActionRegistry,
+      enEncryptionService,
+      enQuickLinksService
+      enDocumentLinkService
+  </param>
+
+  <!-- Valid Date Formats -->
+  <param name="STRING_TO_DATE_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+  <param name="STRING_TO_TIME_FORMATS" override="false">hh:mm aa</param>
+  <param name="STRING_TO_TIMESTAMP_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+  <param name="DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy</param>
+  <param name="TIME_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">hh:mm aa</param>
+  <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy hh:mm a</param>
+  <param name="DATE_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd</param>
+  <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd-HH-mm-ss-S</param>
+
+  <param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
+
+  <param name="config.location">classpath:META-INF/framework-config-defaults.xml</param>
+
+</config>

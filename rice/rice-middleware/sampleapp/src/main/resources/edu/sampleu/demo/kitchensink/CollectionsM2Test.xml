@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="CollectionsM2Test" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Collection 2.2 M2 Items Test View"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="CollectionsM2Test-PageTest" p:headerText="Collection 2.2M2 Test Page">
+          <property name="items">
+            <list>
+              <ref bean="CollectionsM2Test-collectionTest5"/>
+              <ref bean="CollectionsM2Test-collectionTest"/>
+              <ref bean="CollectionsM2Test-collectionTest3"/>
+              <ref bean="CollectionsM2Test-collectionTest2"/>
+              <ref bean="CollectionsM2Test-collectionTest4"/>
+              <ref bean="toolTipTest"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+    <property name="growlMessagingEnabled" value="true"/>
+  </bean>
+
+  <bean id="CollectionsM2Test-collectionTest5" parent="Uif-Disclosure-TableCollectionSection"
+        p:layoutManager.numberOfColumns="4">
+    <property name="headerText"
+              value="Collection With Add Via Lightbox"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="propertyName" value="list5"/>
+    <property name="layoutManager.generateAutoSequence" value="true"/>
+    <property name="layoutManager.richTable.render" value="true"/>
+    <property name="layoutManager.separateAddLine" value="true"/>
+    <property name="addViaLightBox" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4"
+              p:required="true">
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+  <bean id="CollectionsM2Test-collectionTest" parent="Uif-Disclosure-TableCollectionSection"
+        p:layoutManager.numberOfColumns="4">
+    <property name="headerText"
+              value="Collection With Add Blank Line Button (TOP) and New Line Action(Save)"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="propertyName" value="list1"/>
+    <property name="layoutManager.generateAutoSequence" value="true"/>
+    <property name="layoutManager.richTable.render" value="true"/>
+    <property name="renderAddBlankLineButton" value="true"/>
+    <property name="renderSaveLineActions" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4"
+              p:required="true">
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CollectionsM2Test-collectionTest3" parent="CollectionsM2Test-collectionTest">
+    <property name="headerText"
+              value="Collection With Add Blank Line Button (BOTTOM)"/>
+    <property name="propertyName" value="list2"/>
+    <property name="addLinePlacement" value="BOTTOM"/>
+    <property name="renderSaveLineActions" value="true"/>
+  </bean>
+
+  <bean id="CollectionsM2Test-collectionTest2" parent="Uif-Disclosure-StackedCollectionSection">
+    <property name="headerText"
+              value="Collection With Add Via Lightbox"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="propertyName" value="list3"/>
+    <!--<property name="renderAddBlankLineButton" value="true"/>-->
+    <property name="renderSaveLineActions" value="true"/>
+    <property name="layoutManager.summaryTitle" value="Line Summary"/>
+    <property name="layoutManager.summaryFields" value="field1"/>
+    <property name="addViaLightBox" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"
+              p:required="true">
+
+        </bean>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"
+              p:required="true">
+        </bean>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"/>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CollectionsM2Test-collectionTest4" parent="CollectionsM2Test-collectionTest2">
+    <property name="headerText"
+              value="Collection With Add Blank Line Button (BOTTOM)"/>
+    <property name="propertyName" value="list4"/>
+    <property name="addLinePlacement" value="BOTTOM"/>
+    <property name="renderSaveLineActions" value="false"/>
+  </bean>
+
+  <bean id="toolTipTest" parent="Uif-VerticalBoxSection" p:disclosure.render="false">
+    <property name="headerText" value="Tooltip examples"/>
+    <property name="header">
+      <bean parent="Uif-SectionHeader">
+        <property name="toolTip">
+          <bean parent="Uif-Tooltip" p:tooltipContent="This is a header tooltip">
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Test Lightbox"
+              p:actionScript="showLightboxContent(jQuery('#toolTipTest').detach());"/>
+        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Test Lightbox2"
+              p:actionScript="showLightboxComponent('toolTipTest');"/>
+        <bean parent="GenericTextField" p:label="Field 1" p:required="true" p:propertyName="field1" p:readOnly="false"
+              p:exclusiveMin="2"
+              p:instructionalText="Hover mouse over label or select control to display tooltip. Default tooltip should not display when field contains a message.">
+          <property name="fieldLabel">
+            <bean parent="Uif-Label">
+              <property name="toolTip">
+                <bean parent="Uif-Tooltip"
+                      p:tooltipContent='&lt;p&gt;Example of HTML rich tooltip content.&lt;p&gt;&lt;p&gt;&lt;font color="#660033"&gt;&lt;a href="http://www.vegabit.com/jquery_bubble_popup_v2/#examples" target="_blank"&gt;jQuery Bubble Popup&lt;/a&gt;&lt;/font&gt;&lt;/p&gt;'>
+                </bean>
+              </property>
+            </bean>
+          </property>
+          <property name="control">
+            <bean parent="Uif-TextControl">
+              <property name="toolTip">
+                <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                      p:tooltipContent="This tooltip is triggered by focus or and mouse over."/>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="GenericTextField" p:label="Field 2" p:required="true" p:propertyName="field2" p:readOnly="false"
+              p:instructionalText="Mouse over control tooltip">
+          <property name="control">
+            <bean parent="Uif-TextControl">
+              <property name="toolTip">
+                <bean parent="Uif-Tooltip"
+                      p:tooltipContent="This is a tool-tip with different position and tail options">
+                  <property name="templateOptions">
+                    <map merge="true">
+                      <entry key="position" value="right"/>
+                      <entry key="align" value="center"/>
+                      <entry key="tail" value="{ align:'center', hidden: true }"/>
+                    </map>
+                  </property>
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="GenericTextField" p:propertyName="field119" p:label="Select Control" p:width="auto"
+              p:defaultValue="4">
+          <property name="control">
+            <bean parent="Uif-DropdownControl">
+              <property name="toolTip">
+                <bean parent="Uif-Tooltip" p:tooltipContent="This is a Select Control tooltip">
+                </bean>
+              </property>
+            </bean>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="GenericTextField" p:propertyName="field120" p:label="Multi Select Control" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-DropdownControl" p:multiple="true" p:size="3" p:options-ref="test-options">
+              <property name="toolTip">
+                <bean parent="Uif-Tooltip" p:tooltipContent="This is a Multi Select Control tooltip">
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,157 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.rice</groupId>
+    <artifactId>rice</artifactId>
+    <version>2.3.6</version>
+  </parent>
+  <artifactId>rice-dist</artifactId>
+  <packaging>pom</packaging>
+  <name>Rice Distributions</name>
+  <properties>
+    <kuali.testjar.phase>none</kuali.testjar.phase>
+    <gmaven.stubs.phase>none</gmaven.stubs.phase>
+    <gmaven.compile.phase>none</gmaven.compile.phase>
+    <gmaven.test.compile.phase>none</gmaven.test.compile.phase>
+    <maven.test.skip>true</maven.test.skip>
+    <enforcer.phase>none</enforcer.phase>
+    <failsafe.phase>none</failsafe.phase>
+    <bin.phase>package</bin.phase>
+    <src.phase>package</src.phase>
+    <server.phase>package</server.phase>
+    <wsdl.phase>package</wsdl.phase>
+  </properties>
+  <profiles>
+    <!-- Profile for generating versioned builds. Don't need the distributions as those get generated each night as a SNAPSHOT -->
+    <profile>
+      <id>builds</id>
+      <properties>
+        <bin.phase>none</bin.phase>
+        <src.phase>none</src.phase>
+        <server.phase>none</server.phase>
+      </properties>
+    </profile>
+    <profile>
+      <id>kuali-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>buildnumber-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>create-timestamp</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>create-timestamp</goal>
+                </goals>
+                <configuration>
+                  <timestampFormat>${readme.date.format}</timestampFormat>
+                  <timestampPropertyName>readme.build.timestamp</timestampPropertyName>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>process-resources</phase>
+                <configuration>
+                  <target>
+                    <copy todir="${project.build.directory}/wsdls">
+                      <fileset dir="${project.basedir}/..">
+                        <include name="**/target/wsdl/*.wsdl" />
+                      </fileset>
+                      <flattenmapper />
+                    </copy>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>bin</id>
+                <phase>${bin.phase}</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <descriptors>
+                    <descriptor>src/main/resources/assemblies/bin.xml</descriptor>
+                  </descriptors>
+                </configuration>
+              </execution>
+              <execution>
+                <id>src</id>
+                <phase>${src.phase}</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <descriptors>
+                    <descriptor>src/main/resources/assemblies/src.xml</descriptor>
+                  </descriptors>
+                </configuration>
+              </execution>
+              <execution>
+                <id>server</id>
+                <phase>${server.phase}</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <descriptors>
+                    <descriptor>src/main/resources/assemblies/server.xml</descriptor>
+                  </descriptors>
+                </configuration>
+              </execution>
+              <execution>
+                <id>wsdl</id>
+                <phase>${wsdl.phase}</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <descriptors>
+                    <descriptor>src/main/resources/assemblies/wsdl.xml</descriptor>
+                  </descriptors>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencies>
+        <dependency>
+          <groupId>org.kuali.rice</groupId>
+          <artifactId>rice-license-bundle</artifactId>
+          <version>1.0-legacy</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+</project>

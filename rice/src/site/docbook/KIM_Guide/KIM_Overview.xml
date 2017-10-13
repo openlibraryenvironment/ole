@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Overview" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>KIM Overview</title>
+    
+    <para>Kuali Identity Management (KIM) provides identity and access
+        management services to Rice and other applications. All KIM services are
+        available on the service bus with both SOAP endpoints. KIM provides a
+        service layer and a set of GUIs that you can use to maintain the identity
+        information.</para>
+    <para>KIM is designed to be used with both Kuali and non-Kuali
+        applications. The permissions and responsibilities it provides are defined
+        by each user's Role or Roles in the system. Roles can be customized to
+        handle permissions and responsibilities in a variety of ways based on your
+        particular needs.</para>
+    
+    <figure>
+        <title>KIM Architecture</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KIM_architecture.png" width="100%" scalefit="1"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    <section>
+        <title>KIM Features</title>
+        <itemizedlist>
+            <listitem>
+                <para>KIM provides a reference implementation of the services but
+                    allows for customization and/or replacement to facilitate
+                    integration with institutional services or other third party
+                    identity management solutions.</para>
+            </listitem>
+            <listitem>
+                <para>KIM allows you to override its core services. </para>
+            </listitem>
+            <listitem>
+                <para>KIM consists of these services, which encompass it's
+                    API:<itemizedlist>
+                        <listitem>
+                            <para>AuthenticationService</para>
+                        </listitem>
+                        <listitem>
+                            <para>GroupService</para>
+                        </listitem>
+                        <listitem>
+                            <para>IdentityService</para>
+                        </listitem>
+                        <listitem>
+                            <para>PermissionService</para>
+                        </listitem>
+                        <listitem>
+                            <para>PersonService</para>
+                        </listitem>
+                        <listitem>
+                            <para>ResponsibilityService</para>
+                        </listitem>
+                        <listitem>
+                            <para>RoleService</para>
+                        </listitem>
+                        <listitem>
+                            <para>KimTypeInfoService</para>
+                        </listitem>
+                    </itemizedlist></para>
+            </listitem>
+            <listitem>
+                <para>KIM evaluates permissions through its permission service. KIM
+                    provides plug points for implementing custom logic for permission
+                    checking, such as permission checks based on hierarchical
+                    data.</para>
+            </listitem>
+        </itemizedlist>
+        <para>A more detailed picture of the KIM architecture:</para>
+        
+        <figure>
+            <title>Detailed KIM Architecture</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KIM_architecture_detailed.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+</chapter>

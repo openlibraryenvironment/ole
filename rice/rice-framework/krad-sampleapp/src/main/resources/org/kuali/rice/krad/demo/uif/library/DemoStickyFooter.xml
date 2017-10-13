@@ -1,0 +1,149 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- StickyFooter demo -->
+  <bean id="Demo-StickyFooter-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoStickyFooter.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.view.View"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-StickyFooter-Example1"/>
+        <ref bean="Demo-StickyFooter-Example2"/>
+        <ref bean="Demo-StickyFooter-Example3"/>
+        <ref bean="Demo-StickyFooter-Example4"/>
+        <ref bean="Demo-StickyFooter-Example5"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyFooter-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky application footer"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View6&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyFooter-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky page footer"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View7&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyFooter-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky view footer"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View8&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyFooter-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky page and view footer"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View10&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyFooter-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="All footer content sticky"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View9&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View6" parent="Demo-StickyHeaderFooter-BaseView">
+    <property name="stickyHeader" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example1 start-->
+    <property name="stickyApplicationFooter" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example1 end-->
+    <property name="header.metadataText" value="Sticky Footer: applicationFooter"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View7" parent="Demo-StickyHeaderFooter-BaseView">
+    <property name="stickyHeader" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example2 start-->
+    <property name="items">
+      <list>
+        <bean parent="Demo-StickyHeaderFooter-Page1" p:stickyFooter="true"/>
+        <bean parent="Demo-StickyHeaderFooter-Page2" p:stickyFooter="true"/>
+      </list>
+    </property>
+    <!-- ex:Demo-StickyFooter-Example2 end-->
+    <property name="header.metadataText" value="Sticky Footer: page footer"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View8" parent="Demo-StickyHeaderFooter-BaseView">
+
+    <property name="stickyHeader" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example3 start-->
+    <property name="stickyFooter" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example3 end-->
+    <property name="header.metadataText" value="Sticky Footer: view footer"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View9" parent="Demo-StickyHeaderFooter-BaseView">
+    <property name="stickyHeader" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example4 start-->
+    <property name="items">
+      <list>
+        <bean parent="Demo-StickyHeaderFooter-Page1" p:stickyFooter="true"/>
+        <bean parent="Demo-StickyHeaderFooter-Page2" p:stickyFooter="true"/>
+      </list>
+    </property>
+    <property name="stickyApplicationFooter" value="true"/>
+    <property name="stickyFooter" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example4 end-->
+    <property name="header.metadataText" value="Sticky Footer: All"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View10" parent="Demo-StickyHeaderFooter-BaseView">
+    <property name="stickyHeader" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example5 start-->
+    <property name="items">
+      <list>
+        <bean parent="Demo-StickyHeaderFooter-Page1" p:stickyFooter="true"/>
+        <bean parent="Demo-StickyHeaderFooter-Page2" p:stickyFooter="true"/>
+      </list>
+    </property>
+    <property name="stickyFooter" value="true"/>
+    <!-- ex:Demo-StickyFooter-Example5 end-->
+    <property name="header.metadataText" value="Sticky Footer: Page and View"/>
+  </bean>
+
+</beans>

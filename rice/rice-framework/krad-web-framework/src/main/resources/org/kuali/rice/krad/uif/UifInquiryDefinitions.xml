@@ -1,0 +1,83 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Uif-InquiryView" abstract="true" parent="Uif-InquiryView-parentBean"/>
+  <bean id="Uif-InquiryView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.InquiryView" parent="Uif-FormView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-inquiryView</value>
+      </list>
+    </property>
+    <property name="viewTypeName" value="INQUIRY"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.inquiry.InquirableImpl"/>
+    <property name="presentationControllerClass"
+              value="org.kuali.rice.krad.inquiry.InquiryViewPresentationControllerBase"/>
+    <property name="authorizerClass" value="org.kuali.rice.krad.inquiry.InquiryViewAuthorizerBase"/>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.InquiryForm"/>
+    <property name="defaultBindingObjectPath" value="dataObject"/>
+    <property name="readOnly" value="true"/>
+    <property name="singlePageView" value="true"/>
+    <property name="disableBrowserCache" value="false"/>
+    <property name="page">
+      <bean parent="Uif-InquiryPage"/>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-InquiryFooter"/>
+    </property>
+    <property name="propertyReplacers">
+      <list>
+        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="page.items" p:condition="dataObject eq null">
+          <property name="replacement">
+            <list>
+              <bean parent="Uif-Message" p:messageText="No records found for the given parameters."/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-InquiryPage" parent="Uif-InquiryPage-parentBean"/>
+  <bean id="Uif-InquiryPage-parentBean" abstract="true" parent="Uif-Page">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-inquiryPage</value>
+      </list>
+    </property>
+    <property name="header">
+      <ref bean="Uif-ReadOnlyPageHeader"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-InquiryFooter" parent="Uif-FooterBase">
+    <property name="items">
+      <list>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="export" p:actionLabel="export"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}" p:disableBlocking="true"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+              p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+        <bean parent="Uif-BackAction" p:render="@{!#form.renderedInLightBox}"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="software_architecture" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <title>Software Architecture</title>
+    <section>
+        <title>Kuali Rice Implementations</title>
+        <para>Kuali Rice is available for two types of implementations, Standalone Server and
+            Bundled (packaged with Kuali applications).</para>
+        <section>
+            <title>Standalone Server </title>
+            <para>The Standalone Server is the most versatile implementation of Rice. It is a web
+                application that can provide services to multiple applications that integrate with
+                Kuali Rice at your institution. The server distribution contains a web archive or
+                WAR file for the Kuali Rice standalone server. The Standalone Server distribution is
+                the one you should use when your enterprise wants to run multiple Kuali applications
+                or when you want to integrate other applications with Rice. </para>
+        </section>
+        <section>
+            <title>Bundled</title>
+            <para>When an application bundles all of the Rice functionality (including what is
+                usually handled by the standalone server) into the client application, it's called a
+                Bundled Distribution. Kuali Financial Systems (KFS), Kuali Coeus (KC), and Kuali
+                Student (KS) all offer bundled distributionswhere you do not need to set up and
+                install a Rice standalone server; the necessary Rice functionality is bundled with
+                the application. Bundled Distributions are not recommended for enterprise
+                implementations, but are good for quick start, testing, and demonstrations.</para>
+        </section> 
+    </section>
+    <section>
+        <title>Software Distributions</title>
+        <section>
+            <title>Source Code Distribution</title>
+            <para>The Source Code Distribution is available if you want to build Rice from scratch
+                and create the standalone or binary libraries yourself.</para>
+        </section>
+        <section>
+            <title>Binary Distribution</title>
+            <para>The Binary Distribution (also known as the client distribution) is a collection of
+                JAR files. It is used when other applications need to use your Rice implementation
+                and you won't be using the Rice web application. It is designed for embedding Rice
+                and can be used as a set of libraries for client applications.</para>
+            <para>The Binary Distribution of Kuali Rice is implemented as an application framework
+                consisting of application programming interfaces (APIs), libraries, and the web
+                framework. This allows you to construct a Kuali Rice application. All JARs and web
+                content are included in this version.</para>
+        </section>
+        <section>
+            <title>Server Distribution</title>
+            <para>This is the distribution that contains the standalone server WAR.</para>
+        </section>
+        <section>
+            <title>Which Distribution to Use</title>
+            <para>In a typical enterprise deployment of Kuali Rice, a Standalone Rice server hosts
+                numerous shared services and provides the most versatility. The composition of Rice
+                contains an application framework — the APIs, Libraries, and web framework that are
+                used to construct a Rice application. You can configure subsequent Rice client
+                applications to interact with these services as needed. </para>
+        </section> 
+    </section>
+    <section>
+        <title>Obtaining Distributions and Source Code</title>
+        <para>All three distributions, as well as the source code of the latest production release are available at <link xlink:href="http://kuali.org/rice/download">http://kuali.org/rice/download</link>.</para> 
+    </section>
+</chapter>
+

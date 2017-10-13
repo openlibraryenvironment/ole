@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+	<bean id="AccountWithDDAttributes" parent="AccountWithDDAttributes-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+		<property name="documentTypeName" value="AccountWithDDAttributes"/>
+		<property name="documentClass" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+		<property name="businessRulesClass" value="org.kuali.rice.krad.rules.TransactionalDocumentRuleBase" />
+		<property name="workflowAttributes">
+			<ref bean="AccountWithDDAttributes-workflowAttributes"/>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="AccountWithDDAttributes-accountNumber"/>
+				<ref bean="AccountWithDDAttributes-accountOwner"/>
+				<ref bean="AccountWithDDAttributes-accountBalance"/>
+				<ref bean="AccountWithDDAttributes-accountOpenDate"/>
+				<ref bean="AccountWithDDAttributes-accountState"/>
+				<ref bean="AccountWithDDAttributes-accountStateMultiselect"/>
+				<ref bean="AccountWithDDAttributes-accountAwake"/>
+				<ref bean="AccountWithDDAttributes-accountUpdateDateTime" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute definitions. -->
+
+	<bean id="AccountWithDDAttributes-accountNumber" parent="AccountWithDDAttributes-accountNumber-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountNumber"/>
+		<property name="label" value="Account Number"/>
+		<property name="description" value="Account Number"/>
+		<property name="shortLabel" value="Account Number"/>
+		<property name="summary" value="Account Number"/>
+		<property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30"/>
+		</property>
+	</bean>
+
+	<bean id="AccountWithDDAttributes-accountOwner" parent="AccountWithDDAttributes-accountOwner-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountOwner-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountOwner"/>
+		<property name="label" value="Account Owner"/>
+		<property name="description" value="Account Owner"/>
+		<property name="shortLabel" value="Account Owner"/>
+		<property name="summary" value="Account Owner"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="maxLength" value="50"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50"/>
+		</property>
+	</bean>
+
+	<bean id="AccountWithDDAttributes-accountBalance" parent="AccountWithDDAttributes-accountBalance-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountBalance-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountBalance"/>
+		<property name="label" value="Account Balance"/>
+		<property name="description" value="Account Balance"/>
+		<property name="shortLabel" value="Account Balance"/>
+		<property name="summary" value="Account Balance"/>
+		<property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="16" p:scale="2" p:allowNegative="true"/>
+		</property>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30"/>
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+	</bean>
+
+	<bean id="AccountWithDDAttributes-accountOpenDate" parent="AccountWithDDAttributes-accountOpenDate-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountOpenDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+		<property name="name" value="accountOpenDate"/>
+		<property name="label" value="Account Open Date"/>
+		<property name="description" value="Account Open Date"/>
+		<property name="shortLabel" value="Account Open Date"/>
+		<property name="summary" value="Account Open Date"/>
+		<property name="maxLength" value="30"/>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" p:datePicker="true"/>
+		</property>
+	</bean>
+
+	<bean id="AccountWithDDAttributes-accountState" parent="AccountWithDDAttributes-accountState-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountState-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountState"/>
+		<property name="label" value="Account State"/>
+		<property name="description" value="Account State"/>
+		<property name="shortLabel" value="Account State"/>
+		<property name="summary" value="Account State"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.test.document.AccountStateKeyValues" p:includeKeyInLabel="false"/>
+		</property>
+	</bean>
+	
+	<bean id="AccountWithDDAttributes-accountStateMultiselect" parent="AccountWithDDAttributes-accountStateMultiselect-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountStateMultiselect-parentBean" abstract="true" parent="AccountWithDDAttributes-accountState">
+		<property name="name" value="accountStateMultiselect"/>
+		<property name="control">
+			<bean parent="MultiselectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.test.document.AccountStateKeyValues" p:includeKeyInLabel="false"/>
+		</property>
+	</bean>
+	
+	<bean id="AccountWithDDAttributes-accountUpdateDateTime" parent="AccountWithDDAttributes-accountUpdateDateTime-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-accountUpdateDateTime-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+		<property name="name" value="accountUpdateDateTime"/>
+		<property name="label" value="Account Update Time"/>
+		<property name="description" value="Account Update Time"/>
+		<property name="shortLabel" value="Account Update Time"/>
+		<property name="summary" value="Account Update Time"/>
+		<property name="maxLength" value="60"/>
+		<property name="required" value="true"/>
+		<property name="validationPattern">
+			<bean parent="TimestampValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" p:datePicker="true"/>
+		</property>
+	</bean>
+	
+	<bean id="AccountWithDDAttributes-accountAwake" parent="AccountWithDDAttributes-accountAwake-parentBean" />
+	
+	<bean id="AccountWithDDAttributes-accountAwake-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountAwake"/>
+	    <property name="forceUppercase" value="false"/>
+	    <property name="label" value="Account Awake"/>
+	    <property name="shortLabel" value="Acct. Awake"/>
+	    <property name="maxLength" value="8"/>
+	    <property name="control">
+	      <bean parent="CheckboxControlDefinition"/>
+	    </property>
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+	</bean>
+
+	<!-- Workflow attributes. -->
+	
+	<bean id="AccountWithDDAttributes-workflowAttributes" parent="AccountWithDDAttributes-workflowAttributes-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+			<ref bean="AccountWithDDAttributes-searchingTypeDefinitions"/>
+		</property>
+	</bean>
+
+	<bean id="AccountWithDDAttributes-searchingTypeDefinitions" parent="AccountWithDDAttributes-searchingTypeDefinitions-parentBean"/>
+
+	<bean id="AccountWithDDAttributes-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountNumber"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountNumber</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountOwner"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountOwner</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountBalance"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountBalance</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountOpenDate"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountOpenDate</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountStateMultiselect"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountState</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountAwake"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountAwake</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument"/>
+							<property name="attributeName" value="accountUpdateDateTime"/>
+							<property name="showAttributeInSearchCriteria" value="true"/>
+							<property name="showAttributeInResultSet" value="true"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>accountUpdateDateTime</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

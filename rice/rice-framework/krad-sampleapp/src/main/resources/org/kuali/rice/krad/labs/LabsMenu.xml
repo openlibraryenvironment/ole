@@ -1,0 +1,73 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="LabsMenuView" parent="Uif-FormView">
+      <property name="headerText" value="KRAD Labs"/>
+      <property name="page">
+          <bean parent="Uif-Page"/>
+      </property>
+      <property name="items">
+          <list>
+              <bean parent="Uif-VerticalFieldGroup">
+                  <property name="items">
+                      <list>
+                        <bean parent="Uif-Link" p:linkText="Kitchen Sink" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=UifCompView"/>
+                        <bean parent="Uif-Link" p:linkText="Client Side State Test View" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/labs?viewId=Lab-ClientSideState"/>
+                        <bean parent="Uif-Link" p:linkText="File Upload View" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/fileUploads?viewId=Lab-FileUploads"/>
+                        <bean parent="Uif-Link" p:linkText="Session Policy Redirect Home" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/sessionPolicy?viewId=Lab-SessionPolicy-RedirectHome"/>
+                        <bean parent="Uif-Link" p:linkText="Session Policy Redirect URL View" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/sessionPolicy?viewId=Lab-SessionPolicy-RedirectUrl"/>
+                        <bean parent="Uif-Link" p:linkText="Session Policy Timeout View" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/sessionPolicy?viewId=Lab-SessionPolicy-TimeoutView"/>
+                        <bean parent="Uif-Link" p:linkText="Session Policy Timeout Warning" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/sessionPolicy?viewId=Lab-SessionPolicy-TimeoutWarning&amp;methodToCall=setSessionTimeout"/>
+                        <bean parent="Uif-Link" p:linkText="Encryption Utility" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/encryption?viewId=Lab-Encryption"/>
+                        <bean parent="Uif-Link" p:linkText="Session Policy Missing Form" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/sessionPolicy?viewId=Lab-SessionPolicy-MissingForm"/>
+                        <bean parent="Uif-Link" p:linkText="Native Autocomplete Form Disabled" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=Lab-NativeAutocomplete-DisableForm"/>
+                        <bean parent="Uif-Link" p:linkText="Native Autocomplete Field Disabled" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=Lab-NativeAutocomplete-DisableField"/>
+                        <bean parent="Uif-Link" p:linkText="Performance Medium" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/labs?viewId=Lab-PerformanceMedium"/>
+                        <bean parent="Uif-Link" p:linkText="JSON Template Example" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/labs?methodToCall=jsonExample"/>
+                        <bean parent="Uif-Link" p:linkText="Lookups" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/labs?viewId=LabsMenuLookupView"/>
+                        <bean parent="Uif-Link" p:linkText="KSA Transaction" p:target="_self"
+                              p:href="@{#ConfigProperties['krad.url']}/transaction?viewId=TransactionView"/>
+                      </list>
+                  </property>
+              </bean>
+          </list>
+      </property>
+      <property name="singlePageView" value="true"/>
+      <property name="breadcrumbs.render" value="false"/>
+      <property name="persistFormToSession" value="false"/>
+  </bean>
+
+</beans>

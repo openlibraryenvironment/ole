@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>Client1AlwaysRouteAttribute</name>
+			<className>org.kuali.rice.kew.test.services.remotedcomponents.TestClient1WorkflowAttribute</className>
+			<label>Client1AlwaysRouteAttribute</label>
+			<description>Client1AlwaysRouteAttribute</description>
+			<type>RuleAttribute</type>
+			<applicationId>TestCl1</applicationId>
+		</ruleAttribute>
+	    <ruleAttribute>
+	      <name>ActionListAttribute</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1ActionListAttribute</className>
+	      <label>ActionListAttribute</label>
+	      <description>ActionListAttribute</description>
+	      <type>ActionListAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>DocumentSearchGeneratorAttribute</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.ClientDocumentSearchGenerator</className>
+	      <label>DocumentSearchGeneratorAttribute</label>
+	      <description>DocumentSearchGeneratorAttribute</description>
+	      <type>DocumentSearchGeneratorAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>NoteAttribute</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1NoteAttribute</className>
+	      <label>NoteAttribute</label>
+	      <description>NoteAttribute</description>
+	      <type>NoteAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>EmailAttribute</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1EmailAttribute</className>
+	      <label>EmailAttribute</label>
+	      <description>EmailAttribute</description>
+	      <type>EmailAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>SearchAttribute</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1SearchableAttribute</className>
+	      <label>SearchAttribute</label>
+	      <description>SearchAttribute</description>
+	      <type>SearchableAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>SearchAttribute2</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1SearchAttribute2</className>
+	      <label>SearchAttribute2</label>
+	      <description>SearchAttribute2</description>
+	      <type>SearchableAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <!-- attribute with no M.E. -->
+		<ruleAttribute>
+			<name>Client1AlwaysRouteAttributeNoME</name>
+			<className>org.kuali.rice.kew.test.services.remotedcomponents.TestClient1WorkflowAttribute</className>
+			<label>Client1AlwaysRouteAttribute</label>
+			<description>Client1AlwaysRouteAttribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+	    <ruleAttribute>
+	      <name>ActionListAttributeNoME</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1ActionListAttribute</className>
+	      <label>ActionListAttribute</label>
+	      <description>ActionListAttribute</description>
+	      <type>ActionListAttribute</type>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>DocumentSearchGeneratorAttributeNoME</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.ClientDocumentSearchGenerator</className>
+	      <label>DocumentSearchGeneratorAttribute</label>
+	      <description>DocumentSearchGeneratorAttribute</description>
+	      <type>DocumentSearchGeneratorAttribute</type>
+	      <applicationId>TestCl1</applicationId>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>NoteAttributeNoME</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1NoteAttribute</className>
+	      <label>NoteAttribute</label>
+	      <description>NoteAttribute</description>
+	      <type>NoteAttribute</type>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>EmailAttributeNoME</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1EmailAttribute</className>
+	      <label>EmailAttribute</label>
+	      <description>EmailAttribute</description>
+	      <type>EmailAttribute</type>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>SearchAttributeNoME</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1SearchableAttribute</className>
+	      <label>SearchAttribute</label>
+	      <description>SearchAttribute</description>
+	      <type>SearchableAttribute</type>
+	    </ruleAttribute>
+	    <ruleAttribute>
+	      <name>SearchAttribute2NoME</name>
+	      <className>org.kuali.rice.kew.test.services.remotedcomponents.Client1SearchAttribute2</className>
+	      <label>SearchAttribute2</label>
+	      <description>SearchAttribute2</description>
+	      <type>SearchableAttribute</type>
+	    </ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate1</name>
+			<description>RuleTemplate1</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>AlwaysRouteRuleTemplate</name>
+			<description>AlwaysRouteRuleTemplate</description>
+			<attributes>
+				<attribute>
+					<name>Client1AlwaysRouteAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>AlwaysRouteRuleTemplateNoME</name>
+			<description>AlwaysRouteRuleTemplateNoME</description>
+			<attributes>
+				<attribute>
+					<name>Client1AlwaysRouteAttributeNoME</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>AttributeTestDocumentNoME</name>
+			<description>AttributeTestDocumentNoME</description>
+			<label>AttributeTestDocumentNoME</label>
+			<applicationId>TestCl1</applicationId>
+			<postProcessorName>org.kuali.rice.kew.test.services.remotedcomponents.TestClient1PostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<attributes>
+				<attribute>
+				  <name>DocumentSearchGeneratorAttributeNoME</name>
+				</attribute>
+		        <attribute>
+		          <name>ActionListAttributeNoME</name>
+		        </attribute>
+		        <attribute>
+		        	<name>NoteAttributeNoME</name>
+		        </attribute>
+		        <attribute>
+		        	<name>EmailAttributeNoME</name>
+		        </attribute>
+		        <attribute>
+		        	<name>SearchAttributeNoME</name>
+		        </attribute>
+		        <attribute>
+		        	<name>SearchAttribute2NoME</name>
+		        </attribute>
+		    </attributes>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Start" nextNode="AlwaysRouteRuleTemplateNoME" />
+					<requests name="AlwaysRouteRuleTemplateNoME" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Start">
+					<activationType>P</activationType>
+				</start>
+				<requests name="AlwaysRouteRuleTemplateNoME">
+					<activationType>S</activationType>
+					<ruleTemplate>AlwaysRouteRuleTemplateNoME</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AttributeTestDocument</name>
+			<description>AttributeTestDocument</description>
+			<label>AttributeTestDocument</label>
+			<applicationId>KEW</applicationId>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<attributes>
+				<attribute>
+				  <name>DocumentSearchGeneratorAttribute</name>
+				</attribute>
+		        <attribute>
+		          <name>ActionListAttribute</name>
+		        </attribute>
+		        <attribute>
+		        	<name>NoteAttribute</name>
+		        </attribute>
+		        <attribute>
+		        	<name>EmailAttribute</name>
+		        </attribute>
+		        <attribute>
+		        	<name>SearchAttribute</name>
+		        </attribute>
+		        <attribute>
+		        	<name>SearchAttribute2</name>
+		        </attribute>
+		    </attributes>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Start" nextNode="AlwaysRouteRuleTemplate" />
+					<requests name="AlwaysRouteRuleTemplate" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Start">
+					<activationType>P</activationType>
+				</start>
+				<requests name="AlwaysRouteRuleTemplate">
+					<activationType>S</activationType>
+					<ruleTemplate>AlwaysRouteRuleTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>AttributeTestDocument</documentType>
+			<ruleTemplate>AlwaysRouteRuleTemplate</ruleTemplate>
+			<description>AlwaysRouteRuleTemplate</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>AttributeTestDocumentNoME</documentType>
+			<ruleTemplate>AlwaysRouteRuleTemplateNoME</ruleTemplate>
+			<description>AlwaysRouteRuleTemplateNoME</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+
+</data>

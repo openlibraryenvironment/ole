@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+<bean id="DocumentType-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Document Type Edit" />
+    <property name="dataObjectClassName" value="org.kuali.rice.kew.doctype.bo.DocumentType" />
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection" p:layoutManager.numberOfColumns="2" >
+          <property name="headerText" value="Edit Document Type" />
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="parentDocType.name"/>
+              <bean parent="Uif-InputField" p:propertyName="name" />
+              <bean parent="Uif-InputField" p:propertyName="unresolvedDocHandlerUrl" />
+              <bean parent="Uif-InputField" p:propertyName="actualNotificationFromAddress" />
+              <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true">
+              	<property name="control">
+      				<bean parent="Uif-CheckboxControl"/>
+    			</property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-MaintenanceGridSection" p:layoutManager.numberOfColumns="2" >
+          <property name="headerText" value="Fields Available for Retroactive Application" />
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="label"/>
+              <bean parent="Uif-InputField" p:propertyName="description" >
+              	<property name="control">
+        			<bean parent="Uif-TextAreaControl" p:rows="3" p:cols="80"/>
+    			</property>
+    		  </bean>
+              <bean parent="Uif-InputField" p:propertyName="unresolvedHelpDefinitionUrl" />
+              <bean parent="Uif-InputField" p:propertyName="unresolvedDocSearchHelpUrl" />
+              <bean parent="Uif-InputField" p:propertyName="applyRetroactively" p:defaultValue="false">
+              	<property name="control">
+      				<bean parent="Uif-CheckboxControl"/>
+    			</property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+  	</list>
+  </property>
+  </bean>		
+  
+  </beans>

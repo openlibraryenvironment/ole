@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="PermissionTemplateBo" parent="PermissionTemplateBo-parentBean"/>
+
+  <bean id="PermissionTemplateBo-parentBean" abstract="true" parent="BusinessObjectEntry" 
+  		p:businessObjectClass="org.kuali.rice.kim.impl.permission.PermissionTemplateBo" 
+  		p:titleAttribute="id" 
+  		p:objectLabel="Permission Templates" 
+  		p:inquiryDefinition-ref="PermissionTemplateBo-inquiryDefinition" 
+  		p:lookupDefinition-ref="PermissionTemplateBo-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="PermissionTemplateBo-templateId"/>
+        <ref bean="PermissionTemplateBo-namespaceCode"/>
+        <ref bean="PermissionTemplateBo-name"/>
+        <ref bean="PermissionTemplateBo-description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PermissionTemplateBo-templateId" parent="PermissionTemplateBo-templateId-parentBean"/>
+  <bean id="PermissionTemplateBo-templateId-parentBean" parent="AttributeDefinition" abstract="true" p:name="id" p:forceUppercase="true" p:label="Template Id" p:shortLabel="Template Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="PermissionTemplateBo-namespaceCode" parent="PermissionTemplateBo-namespaceCode-parentBean"/>
+  <bean id="PermissionTemplateBo-namespaceCode-parentBean" parent="RoleBo-namespaceCode" abstract="true" p:name="namespaceCode" p:label="Template Namespace" p:shortLabel="Template Namespace">
+  </bean>
+    
+  <bean id="PermissionTemplateBo-name" parent="PermissionTemplateBo-name-parentBean"/>
+  <bean id="PermissionTemplateBo-name-parentBean" parent="AttributeDefinition" abstract="true" p:name="name" p:label="Template Name" p:shortLabel="Template Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="PermissionTemplateBo-description" parent="PermissionTemplateBo-description-parentBean"/>
+  <bean id="PermissionTemplateBo-description-parentBean" parent="AttributeDefinition" abstract="true" p:name="description" p:forceUppercase="true" p:label="Permission Template Description" p:shortLabel="Perm Templ Description" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="PermissionTemplateBo-inquiryDefinition" parent="PermissionTemplateBo-inquiryDefinition-parentBean"/>
+  <bean id="PermissionTemplateBo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Permission Template Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Permission Template Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+        	  <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PermissionTemplateBo-lookupDefinition" parent="PermissionTemplateBo-lookupDefinition-parentBean"/>
+  <bean id="PermissionTemplateBo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Permission Template Lookup">
+    <!-- property name="lookupableID" value="permissionLookupable"/ -->
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>id</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+          <bean parent="FieldDefinition" p:attributeName="name"/>
+       	  <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="id"/>
+          <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+          <bean parent="FieldDefinition" p:attributeName="name"/>
+       	  <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

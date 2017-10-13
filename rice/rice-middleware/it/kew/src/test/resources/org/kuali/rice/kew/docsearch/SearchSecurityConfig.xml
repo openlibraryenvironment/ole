@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>XMLSearchableAttributeString</name>
+			<className>org.kuali.rice.kew.docsearch.TestXMLSearchableAttributeString</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>CustomSecurityFilterAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.CustomSecurityFilterAttribute</className>
+			<label>CustomSecurityFilterAttribute</label>
+			<description>CustomSecurityFilterAttribute</description>
+			<type>DocumentSecurityAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>UserEmployeeId</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Visible Search Attribute</label>
+			<description>Searchable attribute is visible</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="employeeId" title="Employee Id">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/employeeId/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<employeeId>
+							<value>%employeeId%</value>
+						</employeeId>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>MatchAllTemplate</name>
+			<description>Template that matches always</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SecurityDocument</name>
+			<description>SecurityDocument</description>
+			<label>SecurityDocument</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttributeString</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>MatchAllTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_InitiatorOnly</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_InitiatorOnly</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			    <initiator>true</initiator>
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_RouteLogAuthOnly</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_RouteLogAuthOnly</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			    <routeLogAuthenticated>true</routeLogAuthenticated>
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_WorkgroupOnly</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_WorkgroupOnly</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			    <groupName namespace="KR-WKFLW">Test_Security_Group</groupName>
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_SearchAttributeOnly</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_SearchAttributeOnly</label>
+			<docHandler>_blank</docHandler>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttributeString</name>
+				</attribute>
+				<attribute>
+					<name>UserEmployeeId</name>
+				</attribute>
+			</attributes>
+			<security>
+			    <searchableAttribute name="employeeId" idType="authenticationId"/>
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_SecurityAttributeOnly_Class</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_SecurityAttributeOnly_Class</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			    <securityAttribute class="org.kuali.rice.kew.docsearch.CustomSecurityFilterAttribute" />
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_SecurityAttributeOnly_Name</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_SecurityAttributeOnly_Name</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			    <securityAttribute name="CustomSecurityFilterAttribute" />
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_PermissionOnly</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_PermissionOnly</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			   <permission name="Log In Kuali Portal" namespace="KUALI">
+			     <qualification name="principalId">${document.initiatorPrincipalId}</qualification>
+			     <qualification name="documentTypeName">${document.docTypeName}</qualification>
+			     <qualification name="documentId">${document.documentId}</qualification>
+			     <qualification name="dateCreated">${document.dateCreated}</qualification>
+			     <qualification name="fyiRequested">${document.fyiRequested}</qualification>
+			   </permission>
+			</security>
+		</documentType>
+		
+		<documentType>
+			<name>SecurityDoc_InvalidPermissionOnly</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_PermissionOnly</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			   <permission name="Log In Badly" namespace="KUALI" />
+			</security>
+		</documentType>
+		<documentType>
+			<name>SecurityDoc_Initiator</name>
+			<parent>SecurityDocument</parent>
+			<label>SecurityDoc_RoleOnly</label>
+			<docHandler>_blank</docHandler>
+			<security>
+			    <initiator>true</initiator>
+			</security>
+		</documentType>
+	</documentTypes>
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+			<id>9776</id>
+			<name>Test_Security_Group</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>Test_Security_Group</description>
+			<members>
+				<principalName>security_user</principalName>
+			</members>
+		</group>
+	</groups>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SecurityDocument</documentType>
+            <ruleTemplate>MatchAllTemplate</ruleTemplate>
+			<description>Search attribute rule test</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

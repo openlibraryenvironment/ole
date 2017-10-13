@@ -1,0 +1,196 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <dataObjectEntry id="Author" parent="Author-parentBean"/>
+  <dataObjectEntry abstract="true" dataObjectClass="edu.sampleu.bookstore.bo.Author" id="Author-parentBean"
+                   objectLabel="Author" parent="DataObjectEntry" titleAttribute="authorId">
+    <collections>
+      <spring:bean parent="CollectionDefinition">
+        <spring:property name="elementLabel" value="Address"/>
+        <spring:property name="label" value="Addresses"/>
+        <spring:property name="name" value="addresses"/>
+        <spring:property name="shortLabel" value="Addresses"/>
+      </spring:bean>
+      <spring:bean parent="CollectionDefinition">
+        <spring:property name="elementLabel" value="Book"/>
+        <spring:property name="label" value="Books"/>
+        <spring:property name="name" value="books"/>
+        <spring:property name="shortLabel" value="Books"/>
+      </spring:bean>
+    </collections>
+    <attributes>
+      <ref bean="Author-Id"/>
+      <ref bean="Author-Name"/>
+      <ref bean="Author-Email"/>
+      <ref bean="Author-PhoneNbr"/>
+      <ref bean="Author-Active"/>
+      <ref bean="Author-extension-accountNumber"/>
+      <ref bean="Author-extension-bankName"/>
+    </attributes>
+    <primaryKeys>
+      <value>authorId</value>
+    </primaryKeys>
+  </dataObjectEntry>
+  <attributeDefinition id="Author-Id" parent="Author-Id-parentBean"/>
+  <attributeDefinition abstract="true" description="ID identifying the Author." id="Author-Id-parentBean"
+                       label="Author Name" maxLength="14" name="authorId"
+                       parent="AttributeReferenceDummy-genericSystemId" shortLabel="ID"
+                       summary="ID identifying the Auhtor.">
+    <validChractersConstraint>
+      <numericPatternConstraint parent="NumericPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <hiddenControl parent="Uif-HiddenControl"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Author-Name" parent="Author-Name-parentBean"/>
+  <attributeDefinition abstract="true" description="Name identifying the Author." forceUppercase="false"
+                       id="Author-Name-parentBean" label="Author Name" maxLength="100" name="authorName"
+                       parent="AttributeDefinition" required="true" shortLabel="Name"
+                       summary="Name identifying the Author.">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="50"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Author-Email" parent="Author-Email-parentBean"/>
+  <attributeDefinition abstract="true" description="Email identifying the Author." forceUppercase="false"
+                       id="Author-Email-parentBean" label="Email Id" maxLength="100" name="email"
+                       parent="AttributeDefinition" required="true" shortLabel="Email"
+                       summary="Email identifying the Author.">
+    <validChractersConstraint>
+      <spring:bean parent="EmailAddressPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="50"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Author-PhoneNbr" parent="Author-Phone-parentBean"/>
+  <attributeDefinition abstract="true" description="Name identifying the Author." id="Author-Phone-parentBean"
+                       label="Phone No." maxLength="20" name="phoneNbr" parent="AttributeDefinition" required="true"
+                       shortLabel="Phone" summary="Name identifying the Author.">
+    <validChractersConstraint>
+      <spring:bean parent="PhoneNumberPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="50"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Author-Active" parent="Author-Active-parentBean"/>
+  <attributeDefinition abstract="true"
+                       description="This attribute is used to describe whether the associated object is active or inactive."
+                       forceUppercase="false" id="Author-Active-parentBean" label="Active Indicator" maxLength="1"
+                       name="active" parent="AttributeDefinition" shortLabel="active" summary="Active Indicator">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <checkboxControl parent="Uif-CheckboxControl"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Author-extension-bankName" parent="Author-extension-bankName-parentBean"/>
+  <attributeDefinition abstract="true" id="Author-extension-bankName-parentBean" name="extension.bankName"
+                       parent="Account-bankName"/>
+  <attributeDefinition id="Author-extension-accountNumber" parent="Author-extension-accountNumber-parentBean"/>
+  <attributeDefinition abstract="true" id="Author-extension-accountNumber-parentBean" name="extension.accountNumber"
+                       parent="Account-accountNumber"/>
+  <inquiryView dataObjectClassName="edu.sampleu.bookstore.bo.Author" headertext="Author Inquiry" id="Author-InquiryView"
+               parent="Uif-InquiryView">
+    <items>
+      <group headertext="Author Information" layoutManager.numberOfColumns="2" parent="Uif-Disclosure-GridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="authorName"/>
+          <inputField parent="Uif-InputField" propertyName="email"/>
+          <inputField parent="Uif-InputField" propertyName="active"/>
+        </items>
+      </group>
+      <group headertext="Account Information" layoutManager.numberOfColumns="2" parent="Uif-Disclosure-GridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="extension.accountNumber"/>
+          <inputField parent="Uif-InputField" propertyName="extension.bankName"/>
+        </items>
+      </group>
+      <collectionGroup collectionObjectClass="edu.sampleu.bookstore.bo.Address" headertext="Addresses"
+                       layoutManager.summaryTitle="Address" parent="Uif-Disclosure-StackedCollectionSection"
+                       propertyName="addresses">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="addressType.type"/>
+          <inputField parent="Uif-InputField" propertyName="street1"/>
+          <inputField parent="Uif-InputField" propertyName="street2"/>
+          <inputField parent="Uif-InputField" propertyName="city"/>
+          <inputField parent="Uif-InputField" propertyName="province"/>
+          <inputField parent="Uif-InputField" propertyName="country"/>
+        </items>
+        <layoutManager.summaryFields>
+          <value>type</value>
+        </layoutManager.summaryFields>
+      </collectionGroup>
+      <collectionGroup collectionObjectClass="edu.sampleu.bookstore.bo.Book" headertext="Books"
+                       layoutManager.summaryTitle="Book" parent="Uif-Disclosure-StackedCollectionSection"
+                       propertyName="books">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="title"/>
+          <inputField parent="Uif-InputField" propertyName="isbn"/>
+          <inputField parent="Uif-InputField" propertyName="price"/>
+          <inputField parent="Uif-InputField" propertyName="rating"/>
+          <inputField parent="Uif-InputField" propertyName="publisher"/>
+          <inputField parent="Uif-InputField" propertyName="publicationDate"/>
+        </items>
+        <layoutManager.summaryFields>
+          <value>title</value>
+        </layoutManager.summaryFields>
+      </collectionGroup>
+    </items>
+  </inquiryView>
+  <lookupView dataObjectClassName="edu.sampleu.bookstore.bo.Author" headertext="Author Lookup" id="Author-LookupView"
+              parent="Uif-LookupView">
+    <criteriaFields>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="authorName"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="email"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="active"/>
+    </criteriaFields>
+    <resultFields>
+      <inputField parent="Uif-DataField" propertyName="authorId"/>
+      <inputField parent="Uif-DataField" propertyName="authorName"/>
+      <inputField parent="Uif-DataField" propertyName="email"/>
+      <inputField parent="Uif-DataField" propertyName="phoneNbr"/>
+      <inputField parent="Uif-DataField" propertyName="active"/>
+    </resultFields>
+  </lookupView>
+</spring:beans>

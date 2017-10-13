@@ -1,0 +1,345 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- TableLayoutTotaling demo -->
+  <bean id="Demo-TableLayoutTotaling-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoTableLayoutTotaling.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.layout.TableLayoutManager"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-TableLayoutTotaling-Example1"/>
+        <ref bean="Demo-TableLayoutTotaling-Example2"/>
+        <ref bean="Demo-TableLayoutTotaling-Example3"/>
+        <ref bean="Demo-TableLayoutTotaling-Example4"/>
+        <ref bean="Demo-TableLayoutTotaling-Example5"/>
+        <ref bean="Demo-TableLayoutTotaling-Example6"/>
+        <ref bean="Demo-TableLayoutTotaling-Example7"/>
+        <ref bean="Demo-TableLayoutTotaling-Example8"/>
+        <ref bean="Demo-TableLayoutTotaling-Example9"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-TableLayoutTotaling-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <ref bean="Demo-TableLayoutTotaling-Section1"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-TableLayoutTotaling-Example1 start-->
+  <bean id="Demo-TableLayoutTotaling-Section1" parent="Uif-TableCollectionSection"
+        p:layoutManager.numberOfColumns="4">
+    <property name="header.render" value="false"/>
+    <property name="collectionObjectClass" value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="propertyName" value="collection1"/>
+    <property name="layoutManager.generateAutoSequence" value="true"/>
+    <property name="layoutManager.richTable.render" value="true"/>
+
+    <!-- totaling functionality is setup by setting the columnCalculations property; there is a different
+calculation applied to each column here-->
+    <property name="layoutManager.columnCalculations">
+      <list>
+        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field1"/>
+        <bean parent="Uif-ColumnCalculationInfo-Average" p:propertyName="field2"/>
+        <bean parent="Uif-ColumnCalculationInfo-Min" p:propertyName="field3"/>
+        <bean parent="Uif-ColumnCalculationInfo-Max" p:propertyName="field4"/>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4"
+              p:required="true">
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-TableLayoutTotaling-Example1 end-->
+
+  <!-- on key up -->
+  <bean id="Demo-TableLayoutTotaling-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section2" parent="Demo-TableLayoutTotaling-Section1">
+          <property name="header.render" value="false"/>
+          <property name="propertyName" value="collection1_2"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example2 start-->
+          <!-- key up option to make totaling instant! -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:calculateOnKeyUp="true" p:propertyName="field1"/>
+              <bean parent="Uif-ColumnCalculationInfo-Average" p:calculateOnKeyUp="true" p:propertyName="field2"/>
+              <bean parent="Uif-ColumnCalculationInfo-Min" p:calculateOnKeyUp="true" p:propertyName="field3"/>
+              <bean parent="Uif-ColumnCalculationInfo-Max" p:calculateOnKeyUp="true" p:propertyName="field4"/>
+            </list>
+          </property>
+          <!-- ex:Demo-TableLayoutTotaling-Example2 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- some columns -->
+  <bean id="Demo-TableLayoutTotaling-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutTotaling-Example3 start-->
+        <bean id="Demo-TableLayoutTotaling-Section3" parent="Demo-TableLayoutTotaling-Section1">
+          <property name="header.render" value="false"/>
+          <property name="propertyName" value="collection1_3"/>
+          <!-- it is not required for you to have calculations on every column of your table - pick and choose -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field2"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field4"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutTotaling-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- left label -->
+  <bean id="Demo-TableLayoutTotaling-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section4" parent="Demo-TableLayoutTotaling-Section1">
+          <property name="header.render" value="false"/>
+          <property name="propertyName" value="collection1_4"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example4 start-->
+          <!-- force the labels to appear in the left most column -->
+          <property name="layoutManager.renderOnlyLeftTotalLabels" value="true"/>
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field1"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field2"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field3"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field4"/>
+            </list>
+          </property>
+          <!-- ex:Demo-TableLayoutTotaling-Example4 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- left with other options -->
+  <bean id="Demo-TableLayoutTotaling-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section5" parent="Demo-TableLayoutTotaling-Section1">
+          <property name="header.render" value="false"/>
+          <property name="propertyName" value="collection1_5"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example5 start-->
+          <!-- not rendering sequence field -->
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <!-- changing totalLabel - this is the left label -->
+          <property name="layoutManager.totalLabel.labelText" value="Grand Total"/>
+          <!-- turning off per a page totals -->
+          <property name="layoutManager.showPageTotal" value="false"/>
+          <!-- forcing total label to appear only in the left most column -->
+          <property name="layoutManager.renderOnlyLeftTotalLabels" value="true"/>
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field1"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field2"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field3"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field4"/>
+            </list>
+          </property>
+          <!-- ex:Demo-TableLayoutTotaling-Example5 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- multiple calculations, one column-->
+  <bean id="Demo-TableLayoutTotaling-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section6" parent="Demo-TableLayoutTotaling-Section1">
+          <property name="header.render" value="false"/>
+          <property name="propertyName" value="collection1_6"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example6 start-->
+          <!-- all the different calculation types on one column -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field4"/>
+              <!-- demonstration of passing in additional data to calculation function, here the 3 is used to extend
+              average to 3 decimal places, this is done in the js function -->
+              <bean parent="Uif-ColumnCalculationInfo-Average" p:calculationFunctionExtraData="3"
+                    p:propertyName="field4"/>
+              <bean parent="Uif-ColumnCalculationInfo-Min" p:propertyName="field4"/>
+              <bean parent="Uif-ColumnCalculationInfo-Max" p:propertyName="field4"/>
+            </list>
+          </property>
+          <!-- ex:Demo-TableLayoutTotaling-Example6 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- grouping totals -->
+  <bean id="Demo-TableLayoutTotaling-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section7" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="groupedCollection1"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example7 start-->
+          <!-- showing totals for grouped rows by setting showGroupTotal to true -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showPageTotal="false" p:showGroupTotal="true"
+                    p:showTotal="false" p:propertyName="field2"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showPageTotal="false" p:showGroupTotal="true"
+                    p:showTotal="false" p:propertyName="field3"/>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showPageTotal="false" p:showGroupTotal="true"
+                    p:showTotal="false" p:propertyName="field4"/>
+            </list>
+          </property>
+          <!-- grouping rows based on field1 value (last column in this example) -->
+          <property name="layoutManager.groupingPropertyNames">
+            <list>
+              <value>field1</value>
+            </list>
+          </property>
+
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Value 1"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Value 2"/>
+              <bean parent="Uif-InputField" p:propertyName="field4" p:label="Value 3"/>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Group Value"/>
+            </list>
+          </property>
+          <!-- ex:Demo-TableLayoutTotaling-Example7 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- non-clientside value display in total -->
+  <bean id="Demo-TableLayoutTotaling-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section8" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="collection1_8"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example8 start-->
+          <!-- turning off pageTotal and turning off client-side calculations - using a value already preset
+    on the form for the total -->
+          <property name="layoutManager.columnCalculations">
+            <list>
+              <bean parent="Uif-ColumnCalculationInfo-Sum" p:showPageTotal="false"
+                    p:showTotal="true" p:propertyName="field3" p:recalculateTotalClientSide="false">
+                <!-- note the use of SpringEL here -->
+                <property name="totalField.messageText" value="@{#form.fakeTotal}"/>
+              </bean>
+            </list>
+          </property>
+          <!-- ex:Demo-TableLayoutTotaling-Example8 end-->
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Value 1"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Value 2"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Value 3"/>
+            </list>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- custom calculation -->
+  <bean id="Demo-TableLayoutTotaling-Example9" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean id="Demo-TableLayoutTotaling-Section9" parent="Demo-TableLayoutTotaling-Section1">
+          <property name="header.render" value="false"/>
+          <property name="propertyName" value="collection1_9"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example9 start-->
+          <property name="layoutManager.columnCalculations">
+            <list>
+
+              <!-- Using a custom calculation to subtract each value instead of adding them, the
+               function name is subtractValues-->
+              <bean parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="subtractValues"
+                    p:calculateOnKeyUp="true" p:propertyName="field1" p:showPageTotal="false">
+                <property name="totalField.fieldLabel.labelText" value="Subtracted"/>
+              </bean>
+
+              <!-- Using the same function, but this time passing in extra data, the value of
+              calculationFunctionExtraData will always be passed in as the second parameter of the js function
+              (see js code)-->
+              <bean parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="subtractValues"
+                    p:calculationFunctionExtraData="500" p:calculateOnKeyUp="true" p:propertyName="field2"
+                    p:showPageTotal="false">
+                <property name="totalField.fieldLabel.labelText" value="Subtracted"/>
+              </bean>
+
+            </list>
+          </property>
+
+          <!-- turning off per a page totals because it doesn't make sense when subtracting from a static value (as
+           in this example custom function)-->
+          <property name="layoutManager.showPageTotal" value="false"/>
+          <!-- ex:Demo-TableLayoutTotaling-Example9 end-->
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+</beans>

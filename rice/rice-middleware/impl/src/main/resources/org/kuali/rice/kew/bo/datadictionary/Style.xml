@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="Style" parent="Style-parentBean"/>
+
+  <bean id="Style-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.coreservice.impl.style.StyleBo"/>
+    <property name="exporterClass" value="org.kuali.rice.coreservice.impl.style.StyleDataExporter"/>
+    <property name="objectLabel" value="Stylesheet"/>
+    <property name="inquiryDefinition">
+      <ref bean="Style-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Style-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Style-id"/>
+        <ref bean="Style-name"/>
+        <ref bean="Style-xmlContent"/>
+        <ref bean="Style-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Style-id" parent="Style-id-parentBean"/>
+
+  <bean id="Style-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="id"/>
+    <property name="label" value="Id"/>
+  </bean>
+
+  <bean id="Style-name" parent="Style-name-parentBean"/>
+
+  <bean id="Style-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="name"/>
+    <property name="maxLength" value="2000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="name"/>
+    <property name="label" value="Style Name"/>
+  </bean> 
+ 
+   <bean id="Style-xmlContent" parent="Style-xmlContent-parentBean"/>
+
+  <bean id="Style-xmlContent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="xmlContent"/>
+    <property name="maxLength" value="250"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="250"/>
+    </property>
+    <property name="name" value="xmlContent"/>
+    <property name="label" value="XML Content"/>
+  </bean>
+  
+  <bean id="Style-active" parent="Style-active-parentBean"/>
+
+  <bean id="Style-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="active"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property> 
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/> 
+    <property name="summary" value="active"/>
+    <property name="name" value="active"/>
+    <property name="label" value="Active Indicator"/>
+  </bean>
+   
+ 
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="Style-inquiryDefinition" parent="Style-inquiryDefinition-parentBean"/>
+
+  <bean id="Style-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+     	<bean parent="InquirySectionDefinition">
+          <property name="title" value="Style"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>              
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="Style-lookupDefinition" parent="Style-lookupDefinition-parentBean"/>
+
+  <bean id="Style-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>         
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name" p:forceLookup="true"/>
+     	<bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+	  </list>
+    </property>
+    <property name="title" value="Style Lookup"/>
+  </bean>
+</beans>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- Default test data for KEW unit tests -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+		<user>
+			<principalId>p1</principalId>
+			<emplId>p1emplId</emplId>
+			<principalName>principal1</principalName>
+			<givenName>Principal</givenName>
+			<lastName>One</lastName>
+			<emailAddress>p1@kuali.org</emailAddress>
+		</user>
+		<user>
+			<principalId>p2</principalId>
+			<emplId>p2emplId</emplId>
+			<principalName>principal2</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Two</lastName>
+		</user>
+		<user>
+			<principalId>p3</principalId>
+			<emplId>p3emplId</emplId>
+			<principalName>principal3</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Three</lastName>
+		</user>
+		<user>
+			<principalId>p4</principalId>
+			<emplId>p4emplId</emplId>
+			<principalName>principal4</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Four</lastName>
+		</user>
+		<user>
+			<principalId>p5</principalId>
+			<emplId>p5emplId</emplId>
+			<principalName>principal5</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Five</lastName>
+		</user>
+		<user>
+			<principalId>p6</principalId>
+			<emplId>p6emplId</emplId>
+			<principalName>principal6</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Six</lastName>
+		</user>
+		<user>
+			<principalId>p7</principalId>
+			<emplId>p7emplId</emplId>
+			<principalName>principal7</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Seven</lastName>
+		</user>
+		<user>
+			<principalId>p8</principalId>
+			<emplId>p8emplId</emplId>
+			<principalName>principal8</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Eight</lastName>
+		</user>
+		<user>
+			<principalId>p9</principalId>
+			<emplId>p9emplId</emplId>
+			<principalName>principal9</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Nine</lastName>
+		</user>
+		<user>
+			<principalId>p10</principalId>
+			<emplId>p10emplId</emplId>
+			<principalName>principal10</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Ten</lastName>
+		</user>
+	</users>
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+			<id>g9</id>
+			<name>GroupNine</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>Group Nine</description>
+			<type>
+                <namespace>KR-WKFLW</namespace>
+                <name>Document Type, Routing Node &amp; Action Information</name>
+            </type>
+            <attributes>
+                <attribute key="documentTypeName" value="Doc"/>
+                <attribute key="routeNodeName" value="P"/>
+                <attribute key="required" value="false"/>
+                <attribute key="actionDetailsAtRoleMemberLevel" value="false"/>
+            </attributes>
+			<members>
+				<principalName>principal10</principalName>
+			</members>
+		</group>
+		<group>
+			<id>g8</id>
+			<name>GroupEight</name>
+			<namespace>KUALI</namespace>
+			<description>Group Eight</description>
+			<members>
+				<principalName>principal10</principalName>
+			</members>
+		</group>
+		<group>
+			<id>g7</id>
+			<name>GroupSeven</name>
+			<namespace>KUALI</namespace>
+			<description>Group Seven</description>
+			<members>
+				<principalName>principal10</principalName>
+			</members>
+		</group>
+		<group>
+			<id>g6</id>
+			<name>GroupSix</name>
+			<namespace>KUALI</namespace>
+			<description>Group Six</description>
+			<members>
+				<principalName>principal9</principalName>
+			</members>
+		</group>
+		<group>
+			<id>g5</id>
+			<name>GroupFive</name>
+			<namespace>KUALI</namespace>
+			<description>Group Five</description>
+			<members>
+				<principalName>principal8</principalName>
+			</members>
+		</group>
+		<group>
+		    <id>g4</id>
+			<name>GroupFour</name>
+			<namespace>KUALI</namespace>
+			<description>Group Four</description>
+			<active>false</active>
+			<members>
+				<principalName>principal4</principalName>
+			</members>
+		</group>
+		<group>
+		    <id>g3</id>
+			<name>GroupThree</name>
+			<namespace>KUALI</namespace>
+			<description>Group Three</description>
+			<members>
+				<principalName>principal3</principalName>
+				<groupId>g4</groupId>
+			</members>
+		</group>
+		<group>
+		    <id>g2</id>
+			<name>GroupTwo</name>
+			<namespace>KUALI</namespace>
+			<description>Group One</description>
+			<members>
+				<principalName>principal1</principalName>
+				<groupId>g3</groupId>
+			</members>
+		</group>
+		<group>
+		    <id>g1</id>
+			<name>GroupOne</name>
+			<namespace>KUALI</namespace>
+			<description>Group One</description>
+			<members>
+				<principalName>principal2</principalName>
+				<principalName>kr</principalName>
+				<groupId>g2</groupId>
+			</members>
+		</group>
+		<group>
+		    <id>3001</id>
+			<name>TestWorkgroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>TestWorkgroup</description>
+			<members>
+				<principalName>principal1</principalName>
+				<principalName>principal2</principalName>
+				<principalName>principal3</principalName>
+				<principalName>principal4</principalName>
+			</members>
+		</group>
+	</groups>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>TestRuleAttribute</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute</label>
+			<description>Test Rule Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>TestRuleTemplate</name>
+			<description>TestRuleTemplate</description>
+			<attributes>
+				<attribute>
+					<name>TestRuleAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>TestDocumentType</name>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<applicationId>KEW</applicationId>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RouteLevel1" />
+					<requests name="RouteLevel1" nextNode="RouteLevel2" />
+					<requests name="RouteLevel2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+				<requests name="RouteLevel1">
+					<activationType>S</activationType>
+					<routeModule>org.kuali.rice.kew.routemodule.TestRouteModule</routeModule>
+				</requests>
+				<requests name="RouteLevel2">
+					<activationType>P</activationType>
+					<ruleTemplate>TestRuleTemplate</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>TestDocumentType2</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<!-- This is set to KEWNEW for the RouteQueueTest.testGetNextDocumentsWithserviceNamespace() -->
+			<applicationId>KEWNEW</applicationId>
+		</documentType>
+		<documentType>
+			<name>TestDocumentType3</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<docHandler>_blank</docHandler>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>TestDocumentType</documentType>
+            <ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.rule.TestRuleAttribute!TestRole</role>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+		
+</data>

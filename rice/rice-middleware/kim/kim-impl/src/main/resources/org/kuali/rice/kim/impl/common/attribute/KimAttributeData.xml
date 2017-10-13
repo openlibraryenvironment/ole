@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="KimAttributeData" parent="KimAttributeData-parentBean"/>
+
+  <bean id="KimAttributeData-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.impl.common.attribute.KimAttributeDataBo" p:titleAttribute="attributeDataId" p:objectLabel="Attribute Data" p:inquiryDefinition-ref="KimAttributeData-inquiryDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="KimAttributeData-id"/>
+        <ref bean="KimAttributeData-attributeName"/>
+        <ref bean="KimAttributeData-attributeValue"/>
+        <ref bean="KimAttributeData-namespaceCode"/>
+        <ref bean="KimAttributeData-attributeLabel"/>
+        <ref bean="KimAttributeData-active"/>
+        <ref bean="KimAttributeData-componentName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KimAttributeData-id" parent="KimAttributeData-id-parentBean"/>
+  <bean id="KimAttributeData-id-parentBean" parent="AttributeDefinition" abstract="true" p:name="id" p:forceUppercase="true" p:label="Attribute Id" p:shortLabel="Attribute Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+    
+  <bean id="KimAttributeData-attributeName" parent="KimAttributeData-attributeName-parentBean"/>
+  <bean id="KimAttributeData-attributeName-parentBean" parent="AttributeDefinition" abstract="true" p:name="kimAttribute.attributeName" p:label="Attribute Name" p:shortLabel="Attribute Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributeData-attributeValue" parent="KimAttributeData-attributeValue-parentBean"/>
+  <bean id="KimAttributeData-attributeValue-parentBean" parent="AttributeDefinition" abstract="true" p:name="attributeValue" p:label="Attribute Value" p:shortLabel="Attribute Value" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributeData-namespaceCode" parent="KimAttributeData-namespaceCode-parentBean"/>
+  <bean id="KimAttributeData-namespaceCode-parentBean" parent="RoleBo-namespaceCode" abstract="true" p:name="kimAttribute.namespaceCode" p:label="Attribute Namespace Code" p:shortLabel="Attribute Namespace Code">
+  </bean>
+  
+  <bean id="KimAttributeData-attributeLabel" parent="KimAttributeData-attributeLabel-parentBean"/>
+  <bean id="KimAttributeData-attributeLabel-parentBean" parent="AttributeDefinition" abstract="true" p:name="kimAttribute.attributeLabel" p:forceUppercase="true" p:label="Attribute Label" p:shortLabel="Attribute Label" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributeData-active" parent="KimAttributeData-active-parentBean"/>
+  <bean id="KimAttributeData-active-parentBean" parent="AttributeReferenceDummy-activeIndicator" abstract="true" p:name="kimAttribute.active"/>
+  
+  <bean id="KimAttributeData-componentName" parent="KimAttributeData-componentName-parentBean"/>
+  <bean id="KimAttributeData-componentName-parentBean" parent="AttributeDefinition" abstract="true" p:name="kimAttribute.componentName" p:forceUppercase="true" p:label="Component Name" p:shortLabel="Component Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributeData-inquiryDefinition" parent="KimAttributeData-inquiryDefinition-parentBean"/>
+  <bean id="KimAttributeData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Kim Attribute Data Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Kim Attribute Data" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="kimAttribute.attributeName"/>
+        	  <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+        	  <bean parent="FieldDefinition" p:attributeName="kimAttribute.namespaceCode"/>
+        	  <bean parent="FieldDefinition" p:attributeName="kimAttribute.attributeLabel"/>
+        	  <bean parent="FieldDefinition" p:attributeName="kimAttribute.active"/>
+        	  <bean parent="FieldDefinition" p:attributeName="kimAttribute.componentName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>

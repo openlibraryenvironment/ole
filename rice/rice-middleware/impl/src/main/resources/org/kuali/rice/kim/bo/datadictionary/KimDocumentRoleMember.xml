@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DocRoleMember" parent="DocRoleMember-parentBean"/>
+
+  <bean id="DocRoleMember-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.KimDocumentRoleMember" p:titleAttribute="roleMemberId" p:objectLabel="Document Role Member" p:inquiryDefinition-ref="DocRoleMember-inquiryDefinition" p:lookupDefinition-ref="DocRoleMember-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocRoleMember-roleMemberId"/>
+        <ref bean="DocRoleMember-roleId"/>
+        <ref bean="DocRoleMember-memberId"/>
+        <!-- TODO: create entry for this  -->
+        <ref bean="DocRoleMember-memberTypeCode"/>
+        <ref bean="DocRoleMember-memberNamespaceCode"/>
+        <ref bean="DocRoleMember-memberName"/>
+        <ref bean="DocRoleMember-qualifiersToDisplay"/>
+        <ref bean="DocRoleMember-activeFromDate"/>
+        <ref bean="DocRoleMember-activeToDate"/>
+         <ref bean="DocRoleMember-memberFullName"/>
+      </list>
+    </property>
+    
+  </bean>
+ 
+  <bean id="DocRoleMember-roleMemberId" parent="DocRoleMember-roleMemberId-parentBean"/>
+  <bean id="DocRoleMember-roleMemberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleMemberId" p:forceUppercase="true" p:label="Role Member Identifier" p:shortLabel="Role Member Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="DocRoleMember-roleId" parent="DocRoleMember-roleId-parentBean"/>
+  <bean id="DocRoleMember-roleId-parentBean" parent="RoleBo-id" p:name="roleId"/>
+  
+  <bean id="DocRoleMember-memberId" parent="DocRoleMember-memberId-parentBean"/>
+  <bean id="DocRoleMember-memberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberId" p:forceUppercase="true" p:label="Member Identifier" p:shortLabel="Member Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
+  <bean id="DocRoleMember-memberTypeCode" parent="DocRoleMember-memberTypeCode-parentBean"/>
+  <bean id="DocRoleMember-memberTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberTypeCode" p:forceUppercase="true" p:label="Member Type Code" p:shortLabel="Type Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kim.bo.options.MemberTypeValuesFinder"/>
+    </property>
+  </bean>
+
+  <bean id="DocRoleMember-memberNamespaceCode" parent="DocRoleMember-memberNamespaceCode-parentBean"/>
+  <bean id="DocRoleMember-memberNamespaceCode-parentBean" parent="KimAttributes-namespaceCode" abstract="true" p:name="memberNamespaceCode" p:required="false" p:label="Member Namespace"/>
+  
+  <bean id="DocRoleMember-memberName" parent="DocRoleMember-memberName-parentBean"/>
+  <bean id="DocRoleMember-memberName-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberName" p:forceUppercase="false" p:label="Member Name" p:shortLabel="Name" p:maxLength="100" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="DocRoleMember-memberFullName" parent="DocRoleMember-memberFullName-parentBean"/>
+  <bean id="DocRoleMember-memberFullName-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberFullName" p:forceUppercase="false" p:label="Member Full Name" p:shortLabel="Full Name" p:maxLength="100" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+         
+  <bean id="DocRoleMember-qualifiersToDisplay" parent="DocRoleMember-qualifiersToDisplay-parentBean"/>
+  <bean id="DocRoleMember-qualifiersToDisplay-parentBean" parent="AttributeDefinition" abstract="true" p:name="qualifiersToDisplay" p:label="Qualifiers" p:shortLabel="Qualifiers" p:maxLength="40000" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="DocRoleMember-activeFromDate" parent="DocRoleMember-activeFromDate-parentBean"/>
+  <bean id="DocRoleMember-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+    <property name="label" value="Active From Date"/>
+    <property name="shortLabel" value="Active From Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+
+  <bean id="DocRoleMember-activeToDate" parent="DocRoleMember-activeToDate-parentBean"/>
+  <bean id="DocRoleMember-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    <property name="name" value="activeToDate"/>
+    <property name="label" value="Active To Date"/>
+    <property name="shortLabel" value="Active To Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+
+  <bean id="DocRoleMember-inquiryDefinition" parent="DocRoleMember-inquiryDefinition-parentBean"/>
+
+  <bean id="DocRoleMember-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Group Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="roleMemberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocRoleMember-lookupDefinition" parent="DocRoleMember-lookupDefinition-parentBean"/>
+
+  <bean id="DocRoleMember-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Role Member Lookup">
+    <property name="lookupableID" value="kimDocumentRoleMemberLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>roleMemberId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+              <bean parent="FieldDefinition" p:attributeName="roleId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="memberName"/>
+              <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+              <bean parent="FieldDefinition" p:attributeName="roleId"/>
+              <bean parent="FieldDefinition" p:attributeName="roleMemberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="memberName"/>
+              <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="qualifiersToDisplay"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

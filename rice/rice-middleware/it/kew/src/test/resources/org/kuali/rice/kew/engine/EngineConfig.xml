@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>DynamicSubRoleAttribute</name>
+			<className>org.kuali.rice.kew.engine.DynamicSubRoleAttribute</className>
+			<label>Dynamic Sub Role Attribute</label>
+			<description>Dynamic Sub Role Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		<!--  ChartOrgDynamicNodeTest  -->
+		<ruleAttribute>
+			<name>OrgRouting</name>
+			<className>org.kuali.rice.kew.routing.chartorgnode.OrganizationRoutingAttribute</className>
+			<label>Organization Routing</label>
+			<description>Organization Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>WorkgroupNameSearch</name>
+			<className>org.kuali.rice.kew.workgroup.WorkgroupNameXmlAttribute</className>
+			<label>WorkgroupName Search</label>
+			<description>Searching by workgroup Name</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="wrkgrp_nm" title="Workgroup Name">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="not.a.real.package.WorkgroupLookupable">
+					  <fieldConversions>
+					    <fieldConversion lookupFieldName="workgroupName" localFieldName="wrkgrp_nm"/>
+					  </fieldConversions>
+					</lookup>
+					<fieldEvaluation>
+						<xpathexpression>//workgroup_name/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<workgroup_name>
+						<value>%wrkgrp_nm%</value>
+					</workgroup_name>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>ChartOrgDispatchAttribute</name>
+			<className>org.kuali.rice.kew.engine.ChartOrgDispatchAttribute</className>
+			<label>Organization Routing</label>
+			<description>Organization Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+	</ruleAttributes>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SeqDocType</name>
+			<description>SeqDocType</description>
+			<label>SeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>ParallelDocType</name>
+			<description>ParallelDocType</description>
+			<label>ParallelDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Split" />
+					<split name="Split" nextNode="WorkflowDocumentFinal">
+						<branch name="Branch 1">
+							<requests name="Acknowledge1" nextNode="WorkflowDocument2" />
+							<requests name="WorkflowDocument2" nextNode="Join" />
+						</branch>
+						<branch name="Branch 2">
+							<requests name="WorkflowDocument3" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="WorkflowDocumentFinal" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<split name="Split" />
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument3">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+				</requests>
+				<join name="Join" />
+				<requests name="WorkflowDocumentFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>ParallelEmptyDocType</name>
+			<description>ParallelDocType</description>
+			<label>ParallelDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Split" />
+					<split name="Split" nextNode="WorkflowDocumentFinal">
+						<branch name="Branch 1">
+							<simple name="EmptyNode1" nextNode="Join" />
+						</branch>
+						<branch name="Branch 2">
+							<simple name="EmptyNode2" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="WorkflowDocumentFinal" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<split name="Split" />
+				<simple name="EmptyNode1">
+					<activationType>P</activationType>
+					<type>org.kuali.rice.kew.engine.node.InitialNode</type>
+				</simple>
+				<simple name="EmptyNode2">
+					<activationType>P</activationType>
+					<type>org.kuali.rice.kew.engine.AdHocApproversNode</type>
+				</simple>
+				<join name="Join" />
+				<requests name="WorkflowDocumentFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AdHocApproversDocType</name>
+			<parent>ParallelDocType</parent>
+			<description>AdHocApproversDocType</description>
+			<label>AdHocApproversDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Split" />
+					<split name="Split" nextNode="WorkflowDocumentFinal">
+						<branch name="Branch 1">
+							<requests name="WorkflowDocument2" nextNode="AdHocApproversJoin" />
+						</branch>
+						<branch name="Branch 2">
+							<simple name="AdHocJoinPoint" nextNode="AdHocApproversJoin"/>
+						</branch>
+						<join name="AdHocApproversJoin" />
+					</split>
+					<requests name="WorkflowDocumentFinal" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<split name="Split" />
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<simple name="AdHocJoinPoint">
+					<activationType>P</activationType>
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<join name="AdHocApproversJoin">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+					<type>org.kuali.rice.kew.engine.AdHocApproversJoinNode</type>
+				</join>
+				<requests name="WorkflowDocumentFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>DynDocType</name>
+			<description>DynDocType</description>
+			<label>DynDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+		</documentType>
+		<documentType>
+			<name>DynSeqDocType</name>
+			<parent>DynDocType</parent>
+			<description>DynSeqDocType</description>
+			<label>DynSeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" nextNode="DynSeq" />
+					<dynamic name="DynSeq" nextNode="Last" />
+					<requests name="Last" />
+				</routePath>
+				<routePath processName="DynSeq" initialNode="SubRequests">
+					<requests name="SubRequests" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>P</activationType>
+					<ruleTemplate>First</ruleTemplate>
+				</requests>
+				<dynamic name="DynSeq">
+					<type>org.kuali.rice.kew.engine.DynamicRoutingTest$MockSequentialDynamicNode</type>
+				</dynamic>
+				<requests name="SubRequests">
+					<activationType>P</activationType>
+					<ruleTemplate>SubRequests</ruleTemplate>
+				</requests>
+				<requests name="Last">
+					<activationType>P</activationType>
+					<ruleTemplate>Last</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!--
+		<documentType>
+			<name>DynChartOrgDocType</name>
+			<parent>DynDocType</parent>
+			<description>DynSeqDocType</description>
+			<label>DynSeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="ChartOrg" />
+					<dynamic name="ChartOrg" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<dynamic name="ChartOrg">
+          <ruleTemplate>OrgRouting</ruleTemplate>
+					<type>org.kuali.rice.kew.routing.chartorgnode.ChartOrgRoutingNode</type>
+				</dynamic>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>DynChartOrgNestedDocType</name>
+			<parent>DynDocType</parent>
+			<description>DynChartOrgNestedDocType</description>
+			<label>DynChartOrgNestedDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="ChartOrg" />
+					<dynamic name="ChartOrg" />
+				</routePath>
+		        <routePath processName="DynamicDispatch" initialNode="DispatchWorkarea">
+        			<process name="DispatchWorkarea"/>
+		        </routePath>
+	    		<routePath processName="DispatchWorkarea" initialNode="Dispatch Organization Request">
+			    	<requests name="Dispatch Organization Request" nextNode="Dispatch"/>
+	    			<requests name="Dispatch"/>
+			    </routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<dynamic name="ChartOrg">
+          <ruleTemplate>OrgRouting</ruleTemplate>
+					<type>org.kuali.rice.kew.engine.ChartOrgDynamicDispatchNode</type>
+				</dynamic>
+				<process name="DispatchWorkarea"/>
+			    <requests name="Dispatch Organization Request">
+        	        <activationType>P</activationType>
+              		<ruleTemplate>OrgRouting</ruleTemplate>
+			    </requests>
+    			<requests name="Dispatch">
+		    		<activationType>P</activationType>
+    				<ruleTemplate>DispatchTemplate</ruleTemplate>
+		    	</requests>
+			</routeNodes>
+		</documentType>
+		 -->
+		<documentType>
+			<name>SubProcessDocType</name>
+			<description>SubProcessDocType</description>
+			<label>SubProcessDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="MySubProcess" />
+					<process name="MySubProcess" nextNode="Final" />
+					<requests name="Final" />
+				</routePath>
+				<routePath processName="MySubProcess" initialNode="Acknowledge">
+					<requests name="Acknowledge" nextNode="Approve" />
+					<requests name="Approve" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<process name="MySubProcess" />
+				<requests name="Acknowledge">
+					<activationType>P</activationType>
+					<ruleTemplate>Acknowledge</ruleTemplate>
+				</requests>
+				<requests name="Approve">
+					<activationType>P</activationType>
+					<ruleTemplate>Approve</ruleTemplate>
+				</requests>
+				<requests name="Final">
+					<activationType>P</activationType>
+					<ruleTemplate>Final</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SimpleDocType</name>
+			<label>Simple Document Type</label>
+			<postProcessorName>org.kuali.rice.kew.engine.StandardWorkflowEngineTest$TestPostProcessor</postProcessorName>
+			<docHandler>about:blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>EmptyProcessDocType</name>
+			<description>EmptyProcessDocType</description>
+			<label>EmptyProcessDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<active>true</active>
+			<routePaths/>
+		</documentType>
+	</documentTypes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack1Template</name>
+			<description>Acknowledgement 1 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack2Template</name>
+			<description>Acknowledgement 2 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument2Template</name>
+			<description>Workflow Document Template 2</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument3Template</name>
+			<description>Workflow Document Template 3</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocumentFinalTemplate</name>
+			<description>Workflow Document Template Final</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>First</name>
+			<description>First</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>SubRequests</name>
+			<description>SubRequests</description>
+			<attributes>
+				<attribute>
+					<name>DynamicSubRoleAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Last</name>
+			<description>Last</description>
+		</ruleTemplate>
+		<!--  this is for the ChartOrgDynamicNodeTest  -->
+		<ruleTemplate>
+			<name>OrgRouting</name>
+			<description>OrgRouting</description>
+			<attributes>
+				<attribute>
+					<name>OrgRouting</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+		  	<name>DispatchTemplate</name>
+		  	<description>Chart/Org Dispatch Template</description>
+		  	<attributes>
+				<attribute>
+					<name>ChartOrgDispatchAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<!--  sub process templates -->
+		<ruleTemplate>
+			<name>Acknowledge</name>
+			<description>Acknowledge</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Approve</name>
+			<description>Approve</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Final</name>
+			<description>Final</description>
+		</ruleTemplate>
+		<!--  end sub process templates -->
+	</ruleTemplates>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Sequential Node Test Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Sequential Node Ack Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>Ack2Template</ruleTemplate>
+			<description>Sequential Node Ack Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Parallel Node Test Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+            <ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Parallel Node Ack Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+            <ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>Parallel Node Test Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+            <ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+			<description>Parallel Node Test Rule 3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>pmckown</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+			<description>Parallel Node Test Rule Final</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>xqi</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelEmptyDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Parallel Empty Node Test Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelEmptyDocType</documentType>
+            <ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+			<description>Parallel Empty Node Test Rule Final</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>xqi</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--<rule>
+			<documentType>ParallelEmptyDocType2</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Parallel Empty Node Test 2 Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelEmptyDocType2</documentType>
+			<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+			<description>Parallel Empty Node Test 2 Rule Final</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>xqi</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>-->
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>First</ruleTemplate>
+			<description>First</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>SubRequests</ruleTemplate>
+			<description>SubRequests</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.engine.DynamicSubRoleAttribute!DynamicSub</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>Last</ruleTemplate>
+			<description>Last</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!-- for ChartOrgDynamicNodeTest -->
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting BL-CHEM</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>BL</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>CHEM</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting BL-ARSC</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>BL</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>ARSC</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+			<ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting BL-BL</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>BL</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>BL</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting IN-MED</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>IN</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>MED</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting IN-IN</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>IN</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>IN</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>pmckown</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting IU-UNIV</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>IU</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>UNIV</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>natjohns</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>DynDocType</documentType>
+            <ruleTemplate>OrgRouting</ruleTemplate>
+			<description>OrgRouting KO-KO</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>OrgRouting</attribute>
+					<ruleTemplate>OrgRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>KO</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>KO</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--
+		<rule>
+			<documentType>DynChartOrgNestedDocType</documentType>
+			<ruleTemplate>DispatchTemplate</ruleTemplate>
+			<description>Dispatch Role Rule</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.engine.ChartOrgDispatchAttribute!DISPATCH</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		end ChartOrgDynamicNodeTest -->
+		<!--  sub process rules -->
+		<rule>
+			<documentType>SubProcessDocType</documentType>
+            <ruleTemplate>Acknowledge</ruleTemplate>
+			<description>Acknowledge Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SubProcessDocType</documentType>
+            <ruleTemplate>Approve</ruleTemplate>
+			<description>Approve Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SubProcessDocType</documentType>
+            <ruleTemplate>Final</ruleTemplate>
+			<description>Final Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!--  end sub process rules -->
+	</rules>
+</data>

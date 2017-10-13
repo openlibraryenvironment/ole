@@ -1,0 +1,2816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Defs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    
+    <title>Defining Workflow Processes</title>
+    <section>
+        <title>Defining Workflow Processes Using Document Types</title>
+        <para>A Document Type is an object that brings workflow components together into a cohesive
+            unit (routing configuration). One of its primary responsibilities is to define the
+            routing path for a document. The routing path is the process definition for the
+            document. It can consist of various types of nodes that perform certain actions, such as
+            sending action requests to responsible parties, transmitting emails, or splitting the
+            route path into parallel branches. </para>
+        <para>In addition to the routing path, it contains the Post Processor which receives event
+            callbacks from the engine, the DocHandler which is the access point into the client
+            application from the Action List and Access Control for certain actions. It can also
+            define various policies that control how documents of that type are processed by the
+            workflow engine. </para>
+        <para>This document has four parts:<orderedlist>
+                <listitem>
+                    <para>A detailed explanation of the common fields in the <emphasis role="bold"
+                            >Document Type</emphasis> XML definition </para>
+                </listitem>
+                <listitem>
+                    <para>An example of each Document Type with a description of each field in it
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Descriptions of the Document Type <emphasis role="italic"
+                            >policies</emphasis>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>A description of inheritance as applied to Document Types </para>
+                </listitem>
+            </orderedlist></para>
+        <para>There are some common attributes in every <emphasis role="bold">Document
+                Type</emphasis>, but each <emphasis role="bold">Document Type</emphasis> can be
+            customized to provide different functions.<itemizedlist>
+                <listitem>
+                    <para>Document Types </para>
+                </listitem>
+                <listitem>
+                    <para>Document Type Policies</para>
+                </listitem>
+                <listitem>
+                    <para>Inheritance </para>
+                </listitem>
+            </itemizedlist></para>
+        <section>
+            <title>Common Fields in Document Type XML Definition</title>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Common Fields in Document Type XML Definition</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Field</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>The name of the Document Type</entry>
+                            </row>
+                            <row>
+                                <entry>parent</entry>
+                                <entry>The parent Document Type of this Document Type. Each Child
+                                    Document Type inherits the attributes of its parent Document
+                                    Type.</entry>
+                            </row>
+                            <row>
+                                <entry>description</entry>
+                                <entry>The description of the Document Type; its primary
+                                    responsibilities.</entry>
+                            </row>
+                            <row>
+                                <entry>label</entry>
+                                <entry>The label of the Document Type, how it's recognized</entry>
+                            </row>
+                            <row>
+                                <entry>postProcessorName</entry>
+                                <entry>The name of the postProcessor that takes charge of the
+                                    routing for this Document Type</entry>
+                            </row>
+                            <row>
+                                <entry>postprocessor</entry>
+                                <entry>A component that gets called throughout the routing process
+                                    and handles a set of standard events that all eDocs (electronic
+                                    documents) go through.</entry>
+                            </row>
+                            <row>
+                                <entry>authorizer</entry>
+                                <entry>A component that gets called during the routing process to perform authorization
+                                    checks.  Applications can customize this component on a per-doctype basis.</entry>
+                            </row>
+                            <row>
+                                <entry>superUserGroupName</entry>
+                                <entry>The name of a workgroup whose members are the super users of
+                                    this Document Type. Super users of this Document Type can
+                                    execute a super user document search on this Document
+                                    Type.</entry>
+                            </row>
+                            <row>
+                                <entry>blanketApproveGroupName</entry>
+                                <entry>The name of a workgroup whose members have the blanketapprove
+                                    rights over this Document Type.</entry>
+                            </row>
+                            <row>
+                                <entry>defaultExceptionGroupName</entry>
+                                <entry>The name of the workgroup whose members receive an exception
+                                    notice when a document of this Document Type encounters an
+                                    exception in its routing.</entry>
+                            </row>
+                            <row>
+                                <entry>docHandler</entry>
+                                <entry>The DocHandler that handles the routing of this Document
+                                    Type</entry>
+                            </row>
+                            <row>
+                                <entry>active</entry>
+                                <entry>A true or false indicator for the active status of this
+                                    document</entry>
+                            </row>
+                            <row>
+                                <entry>validApplicationStatuses</entry>
+                                <entry>The set of valid application document statuses for this document type.  If this
+                                optional configuration is set, the application document status will only allow the
+                                specified values to be set.</entry>
+                            </row>
+                            <row>
+                                <entry>policies</entry>
+                                <entry>The policies that apply to this Document Type</entry>
+                            </row>
+                            <row>
+                                <entry>policy</entry>
+                                <entry><para>The policy that applies to this Document Type. Use this when
+                                    there is only one policy for the Document Type. </para>
+                                    <para><emphasis role="bold">value</emphasis>: A true or false
+                                        indicator for whether the action for the policy will be
+                                        taken</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry>routingVersion</entry>
+                                <entry><para><emphasis role="italic">This field exists only for backward
+                                        compatibility with older versions of KEW.</emphasis>
+                                    Originally, KEW only supported sequential routing paths (as
+                                    opposed to those with splits and joins). The KEW <emphasis
+                                        role="bold">getDocRouteLevel()</emphasis> API returns an
+                                    integer that represents the numerical step in the routing
+                                    process. This number only has meaning for those documents that
+                                    define sequential routing.
+                                    <itemizedlist>
+                                        <listitem>
+                                                <para>A document with a routingVersion of "1" will
+                                                  keep track of the route level number.</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para> A document with a routingVersion of "2" (the
+                                                  default, unless explicitly defined in the Document
+                                                  Type configuration) will <emphasis role="italic"
+                                                  >NOT</emphasis> keep track of the route level
+                                                  number and an exception will be thrown if code
+                                                  attempts to access that value. <emphasis
+                                                  role="italic">New Document Type definitions do NOT
+                                                  need, and should NOT have, this flag defined.
+                                                  </emphasis></para>
+                                            </listitem>        
+                                    </itemizedlist></para></entry>
+                            </row>
+                            <row>
+                                <entry>routePaths</entry>
+                                <entry>The routing paths for this Document Type</entry>
+                            </row>
+                            <row>
+                                <entry>routePath</entry>
+                                <entry>The routing path for this Document Type. Use this field when
+                                    there is just one routing path for this Document Type.</entry>
+                            </row>
+                            <row>
+                                <entry>routeNode</entry>
+                                <entry>A point or node on the routing path of this Document
+                                    Type</entry>
+                            </row>
+                            <row>
+                                <entry>routeModule</entry>
+                                <entry>The most basic module; it allows KEW to generate Action
+                                    Requests</entry>
+                            </row>
+                            <row>
+                                <entry>start</entry>
+                                <entry>The starting node of this Document Type during
+                                    routing</entry>
+                            </row>
+                            <row>
+                                <entry>requests</entry>
+                                <entry>The requested next node in the routing of this Document
+                                    Type</entry>
+                            </row>
+                            <row>
+                                <entry>activationType</entry>
+                                <entry><para>The activation type of the next node that is requested by
+                                this Document Type. There are two activation types:</para>
+                                    <itemizedlist>
+                                        <listitem><para><emphasis role="bold">P</emphasis>: Parallel:
+                                            Multiple nodes in the routing process are activated at
+                                            the same time</para></listitem>
+                                        <listitem><para><emphasis role="bold">S</emphasis>: Serial or
+                                            Sequential: The nodes in the routing process are
+                                            activated one at a time</para>
+                                        </listitem>
+                                        <listitem><para><emphasis role="bold">R</emphasis>: Priority-Parallel: The 
+                                            multiple nodes with the same priority are activated at the same time 
+                                            before moving to the next priority</para></listitem>
+                                    </itemizedlist></entry>
+                            </row>
+                            <row>
+                                <entry>ruleTemplate</entry>
+                                <entry>The ruleTemplate that applies to the routing node in this
+                                    Document Type</entry>
+                            </row>
+                            <row>
+                                <entry>split</entry>
+                                <entry>The routing path splits into branches and can continue on any
+                                    of them at a split.</entry>
+                            </row>
+                            <row>
+                                <entry>branch</entry>
+                                <entry>One of the branches in the routing path.</entry>
+                            </row>
+                            <row>
+                                <entry>join</entry>
+                                <entry>The point in the routing path where the split branches join
+                                    together.</entry>
+                            </row>
+                            <row>
+                                <entry>process</entry>
+                                <entry>There is a sub-process in the routing path; in other words,
+                                    some nodes in the routing path will activate a
+                                    sub-process.</entry>
+                            </row>
+                            <row>
+                                <entry>simple</entry>
+                                <entry><para>A new node in the routing path</para> 
+                                    <itemizedlist>
+                                        <listitem><para><emphasis role="bold">type</emphasis>: The type of the new routing node</para></listitem>
+                                        <listitem><para><emphasis role="bold">value</emphasis>: The value
+                                            of the new routing node</para></listitem>
+                                        <listitem><para><emphasis role="bold">message</emphasis>: The
+                                            message associated with the new routing node</para></listitem>
+                                        <listitem><para><emphasis role="bold">level</emphasis>: The
+                                            routing level of the new routing node</para></listitem>
+                                        <listitem><para><emphasis role="bold">log</emphasis>: The log name
+                                        of the new routing node</para></listitem>
+                                    </itemizedlist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry>dynamic</entry>
+                                <entry>This changes the node to dynamic when it transitions to the
+                                    next node in the routing path; therefore, the routing path is
+                                    dynamic rather than static.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>Document Types</title>
+            <section>
+                <title>Document Type Examples</title>
+                <para><emphasis role="bold">BlanketApproveTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>BlanketApproveTest&lt;/name>
+    &lt;description>BlanketApproveTest&lt;/description>
+    &lt;label>BlanketApproveTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>DEFAULT_APPROVE&lt;/name>
+            &lt;value>false&lt;/value>
+        &lt;/policy>
+    &lt;/policies>
+
+&lt;/documentType> 
+</programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Blanket Approve Test. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the Blanket Approve function. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the BlanketApproveTest type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is
+                                org.kuali.rice.kew.postprocessor.DefaultPostProcessor. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the TestWorkgroup.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is _blank. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently Active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Policies</emphasis> for this Document Type
+                                contains two policies: The DEFAULT_APPROVE policy is set false by
+                                default. In other words, the default approve action on this type of
+                                document is NOT to approve it. </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para><emphasis role="bold">BlanketApproveSequentialTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>BlanketApproveSequentialTest&lt;/name>
+    &lt;parent>BlanketApproveTest&lt;/parent>
+    &lt;description>BlanketApproveSequentialTest&lt;/description>
+    &lt;label>BlanketApproveSequentialTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW">WorkflowAdmin&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin&lt;/defaultExceptionGroupName>
+
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+            &lt;requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+            &lt;requests name="Acknowledge1" nextNode="Acknowledge2" />
+            &lt;requests name="Acknowledge2" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument2Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge1">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack1Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack2Template&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType> 
+</programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Blanket Approve Sequential Test. There is a sequence of routing
+                                nodes, and no routing node can be skipped. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">parent</emphasis>: The parent Document Type
+                                is BlanketApproveTest. This Document Type inherits the policies that
+                                BlanketApproveTest has. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the Blanket Approve Sequential function. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the blanketApproveSequentialTest type.</para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is
+                                org.kuali.rice.kew.postprocessor.DefaultPostProcessor. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the WorkflowAdmin.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApprove right on this type
+                                of document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the WorkflowAdmin will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is _blank. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routePath</emphasis>: The routing path for
+                                this Document Type is: AdHoc -> WorkflowDocument ->
+                                WorkflowDocument2 -> Acknowledge1 -> Acknowledge2. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routeNode</emphasis>: Based on the
+                                routePath, there are five nodes in the routing of this Document
+                                Type: <itemizedlist>
+                                    <listitem>
+                                        <para>The starting node for this Document Type is AdHoc. On
+                                            the initiation of a document of this type, the
+                                            postProcessor in Kuali Enterprise Workflow (KEW)
+                                            activates the node, AdHoc. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                            WorkflowDocument. On request, the node is activated and
+                                            applies the rules in rule template,
+                                            WorkflowDocumentTemplate. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                            WorkflowDocument2. On request, the node is activated and
+                                            applies the rules in rule template,
+                                            WorkflowDocument2Template. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                            Acknowledge1. On request, the node is activated and
+                                            applies the rules in rule template, Ack1Template.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                            Acknowledge2. On request, the node is activated and
+                                            applies the rules in rule template, Ack2Template.
+                                        </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para>
+                    <figure><title>BlanketApproveSequentialTest Workflow</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KEW_Guide/BlanketApproveSequentialTest.png" scalefit="1" contentdepth="600" />
+                            </imageobject>
+                    </mediaobject>
+                    </figure>
+                </para>
+                <para><emphasis role="bold">BlanketApproveParallelTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>BlanketApproveParallelTest&lt;/name>
+    &lt;parent>BlanketApproveTest&lt;/parent>
+    &lt;description>BlanketApproveParallelTest&lt;/description>
+    &lt;label>BlanketApproveParallelTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" nextNode="Split" />
+            &lt;split name="Split" nextNode="WorkflowDocumentFinal">
+                &lt;branch name="B1">
+                    &lt;requests name="WorkflowDocument2-B1" nextNode="WorkflowDocument3-B1" />
+                    &lt;requests name="WorkflowDocument3-B1" nextNode="Join" />
+                &lt;/branch>
+                &lt;branch name="B2">
+                    &lt;requests name="WorkflowDocument3-B2" nextNode="WorkflowDocument2-B2" />
+                    &lt;requests name="WorkflowDocument2-B2" nextNode="Join" />
+                &lt;/branch>
+                &lt;branch name="B3">
+                    &lt;requests name="WorkflowDocument4-B3" nextNode="Join" />
+                &lt;/branch>
+                &lt;join name="Join" />
+            &lt;/split>
+            &lt;requests name="WorkflowDocumentFinal" nextNode="Acknowledge1" />
+            &lt;requests name="Acknowledge1" nextNode="Acknowledge2" />
+            &lt;requests name="Acknowledge2" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;split name="Split" />
+        &lt;requests name="WorkflowDocument2-B1">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument2Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument2-B2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument2Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument3-B1">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument3Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument3-B2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument3Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument4-B3">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument4Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;join name="Join" />
+        &lt;requests name="WorkflowDocumentFinal">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentFinalTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge1">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack1Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack2Template&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType> 
+</programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Blanket Approve Parallel Test. At some point in the routing, the
+                                route path may split and a node can be skipped if another parallel
+                                node takes action on the document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Parent</emphasis>: The parent Document Type
+                                is BlanketApproveTest. This Document Type inherits the routing that
+                                exists for BlanketApproveTest. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the Blanket Approve Parallel function. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the blanketApproveParallelTest type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is <emphasis role="italic"
+                                    >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the TestWorkgroup.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is <emphasis role="italic">_blank</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routePath</emphasis>: The routing path for
+                                this Document Type is: AdHoc -> WorkflowDocument -> split ->
+                                B1\B2\B3 -> Join -> WorkflowDocumentFinal -> Acknowledge1 ->
+                                Acknowledge2.</para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routeNode</emphasis>: Based on the
+                                routePath, there are six nodes in the routing of this Document Type: <itemizedlist>
+                                    <listitem>
+                                        <para>The starting node for this Document Type is <emphasis
+                                                role="bold">AdHoc</emphasis>. On the initiation of a
+                                            document of this type, the postProcessor in KEW
+                                            activates the node, <emphasis role="bold"
+                                                >AdHoc</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">WorkflowDocument</emphasis>.
+                                            On request, the node is activated and applies the rules
+                                            in rule template, <emphasis role="bold"
+                                                >WorkflowDocumentTemplate</emphasis>. Then, the
+                                            routing path splits into three branches for the next
+                                            node. <itemizedlist>
+                                                <listitem>
+                                                  <para>One branch is B1. On request, the node
+                                                  <emphasis role="bold"
+                                                  >WorkflowDocument2-B1</emphasis> is activated and
+                                                  applies the <emphasis role="bold"
+                                                  >WorkflowDocument2Template</emphasis>. The next
+                                                  node in this branch is <emphasis role="bold"
+                                                  >WorkflowDocument3-B1</emphasis>. On request, the
+                                                  node is activated and applies the <emphasis
+                                                  role="bold">WorkflowDocument3Template</emphasis>.
+                                                  </para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>One branch is B2. On request, the node
+                                                  <emphasis role="bold"
+                                                  >WorkflowDocument3-B2</emphasis> is activated and
+                                                  applies the <emphasis role="bold"
+                                                  >WorkflowDocument3Template</emphasis>. The next
+                                                  node in this branch is <emphasis role="bold"
+                                                  >WorkflowDocument2-B2</emphasis>. On request, the
+                                                  node is activated and applies the <emphasis
+                                                  role="bold">WorkflowDocument2Template</emphasis>.
+                                                  </para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>One branch is B3. On request, the node
+                                                  <emphasis role="bold"
+                                                  >WorkflowDocument4-B3</emphasis> is activated and
+                                                  applies the <emphasis role="bold"
+                                                  >WorkflowDocument4Template</emphasis>. </para>
+                                                </listitem>
+                                            </itemizedlist></para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Then, the routing path joins and the route merges back
+                                            together into one route. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold"
+                                                >WorkflowDocumentFinal</emphasis>. On request, the
+                                            node is activated and applies the rules in rule
+                                            template, <emphasis role="bold"
+                                                >WorkflowDocumentFinalTemplate</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">Acknowledge1</emphasis>. On
+                                            request, the node is activated and applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >Ack1Template</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">Acknowledge2</emphasis>. On
+                                            request, the node is activated and applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >Ack2Template</emphasis>. </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para>
+                    <figure><title>BlanketApproveParallelTest Workflow</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KEW_Guide/BlanketApproveParallelTest.png" scalefit="1" width="100%" />
+                            </imageobject>
+                        </mediaobject>
+                        </figure>
+                </para>
+                <para><emphasis role="bold">NotificationTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>NotificationTest&lt;/name>
+    &lt;description>NotificationTest&lt;/description>
+    &lt;label>NotificationTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="NotifyFirst" />
+            &lt;requests name="NotifyFirst" nextNode="Split" />
+            &lt;split name="Split" nextNode="NotifyFinal">
+                &lt;branch name="LeftBranch">
+                    &lt;requests name="NotifyLeftBranch" nextNode="Join" />
+                &lt;/branch>
+                &lt;branch name="RightBranch">
+                    &lt;requests name="NotifyRightBranch" nextNode="Join" />
+                &lt;/branch>
+                &lt;join name="Join" />
+            &lt;/split>
+            &lt;requests name="NotifyFinal" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="NotifyFirst">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>NotifyFirstTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;split name="Split" />
+        &lt;requests name="NotifyLeftBranch">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>NotifyLeftBranchTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="NotifyRightBranch">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>NotifyRightBranchTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;join name="Join" />
+        &lt;requests name="NotifyFinal">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>NotifyFinalTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType> 
+</programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Notification Test. At some point in the routing, the route path
+                                may split, and a node can be skipped if another notification node
+                                takes action on the document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the notification function. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the NotificationTest type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is <emphasis role="bold"
+                                    >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the TestWorkgroup.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is <emphasis role="bold">_blank</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routePath</emphasis>: The routing path for
+                                this Document Type is: AdHoc -> NotifyFirst -> split ->
+                                LeftBranch\RightBranch -> Join -> NotifyFinal. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routeNode</emphasis>: Based on the
+                                routePath, there are four nodes in the routing of this Document
+                                Type: <itemizedlist>
+                                    <listitem>
+                                        <para>o The starting node for this Document Type is
+                                                <emphasis role="bold">AdHoc</emphasis>. On the
+                                            initiation of a document of this type, the postProcessor
+                                            in KEW activates the node, <emphasis role="bold"
+                                                >AdHoc</emphasis>.</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">NotifyFirst</emphasis>. On
+                                            request, the node is activated and applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >NotifyFirstTemplate</emphasis>. Then the routing
+                                            path splits into two branches for the next node. <itemizedlist>
+                                                <listitem>
+                                                  <para>One branch is <emphasis role="bold"
+                                                  >LeftBranch</emphasis>. On request, the node is
+                                                  activated and applies the <emphasis role="bold"
+                                                  >NotifyLeftBranchTemplate</emphasis>. </para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>One branch is <emphasis role="bold"
+                                                  >RightBranch</emphasis>. On request, the node is
+                                                  activated and applies the <emphasis role="bold"
+                                                  >NotifyRightBranchTemplate</emphasis>. </para>
+                                                </listitem>
+                                            </itemizedlist></para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Then the routing path joins together again. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">NotifyFinal</emphasis>. On
+                                            request, the node is activated and applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >NotifyFinalTemplate</emphasis>
+                                        </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para>
+                    <figure><title>NotificationTest Workflow</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KEW_Guide/NotificationTest.png" scalefit="1" width="100%" />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </para>
+                <para><emphasis role="bold">NotificationTestChild</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>NotificationTestChild&lt;/name>
+    &lt;parent>NotificationTest&lt;/parent>
+    &lt;description>NotificationTest&lt;/description>
+    &lt;label>NotificationTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>SEND_NOTIFICATION_ON_SU_APPROVE&lt;/name>
+            &lt;value>true&lt;/value>
+        &lt;/policy>
+    &lt;/policies>
+&lt;/documentType></programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Notification Test Child. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Parent</emphasis>: The parent Document Type
+                                is NotificationTest. This Document Type inherits the routing that
+                                NotificationTest has. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the Notification function. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the NotificationTest type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is <emphasis role="bold"
+                                    >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the TestWorkgroup.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is <emphasis role="bold">_blank</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Policy</emphasis>: There is only one policy
+                                that applies to this Document Type: SEND_NOTIFICATION_ON_SU_APPROVE.
+                                This policy currently applies to this Document Type. In other words,
+                                a notification will be sent to the designated two users when a
+                                SuperUser approves a document of this type. </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para><emphasis role="bold">BlanketApproveMandatoryNodeTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>BlanketApproveMandatoryNodeTest&lt;/name>
+    &lt;parent>BlanketApproveTest&lt;/parent>
+    &lt;description>BlanketApproveMandatoryNodeTest&lt;/description>
+    &lt;label>BlanketApproveMandatoryNodeTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+            &lt;requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+            &lt;requests name="Acknowledge1" nextNode="Acknowledge2" />
+            &lt;requests name="Acknowledge2" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+            &lt;mandatoryRoute>true&lt;/mandatoryRoute>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument2Template&lt;/ruleTemplate>
+            &lt;mandatoryRoute>true&lt;/mandatoryRoute>
+            &lt;finalApproval>true&lt;/finalApproval>
+        &lt;/requests>
+        &lt;requests name="Acknowledge1">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack1Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack2Template&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType> </programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Blanket Approve Mandatory Node Test. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Parent</emphasis>: The parent Document Type
+                                is BlanketApproveTest. This Document Type inherits the policies that
+                                NotificationTest has. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the Blanket Approve Mandatory Node. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the BlanketApproveMandatoryNodeTest type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is <emphasis role="bold"
+                                    >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the TestWorkgroup.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document.  </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is _blank. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routePath</emphasis>: The routing path for
+                                this Document Type is: AdHoc -> WorkflowDocument ->
+                                WorkflowDocument2 -> Acknowledge1 -> Acknowledge2. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routeNode</emphasis>: Based on the
+                                routePath, there are five nodes in the routing of this Document
+                                Type: <itemizedlist>
+                                    <listitem>
+                                        <para>The starting node for this Document Type is <emphasis
+                                                role="bold">AdHoc</emphasis>. On the initiation of a
+                                            document of this type, the postProcessor in KEW
+                                            activates the node <emphasis role="bold"
+                                                >AdHoc</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">WorkflowDocument</emphasis>.
+                                            On request, the node is activated, applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >WorkflowDocumentTemplate</emphasis>, and sets the
+                                            mandatory route as true. In other words, the document
+                                            must route through this node. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">WorkflowDocument2</emphasis>.
+                                            On request, the node is activated, applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >WorkflowDocument2Template</emphasis>, and sets the
+                                            mandatory route as <emphasis role="bold"
+                                            >true</emphasis>. In other words, the document must
+                                            route through this node. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">Acknowledge1</emphasis>. On
+                                            request, the node is activated and applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >Ack1Template</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">Acknowledge2</emphasis>. On
+                                            request, the node is activated and applies the rules in
+                                            rule template, <emphasis role="bold"
+                                                >Ack2Template</emphasis>. </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <figure><title>Blanket Approve Mandatory Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/KEW_Guide/BlanketApproveMandatoryNodeTest_workflow.png" scalefit="1" contentdepth="600" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">SaveActionEventTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>SaveActionEventTest&lt;/name>
+    &lt;description>SaveActionEventTest&lt;/description>
+    &lt;label>SaveActionEventTest&lt;/label>		&lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>DEFAULT_APPROVE&lt;/name>
+            &lt;value>false&lt;/value>
+        &lt;/policy>
+    &lt;/policies>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType> </programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Save Action Event Test. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the Blanket Approve Mandatory Node. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the SaveActionEventTest type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is <emphasis role="bold"
+                                    >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: The super
+                                users for this Document Type are members of the TestWorkgroup.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is <emphasis role="bold">_blank</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Policies</emphasis> for this Document Type:
+                                The DEFAULT_APPROVE policy is set <emphasis role="bold"
+                                    >false</emphasis> by default. In other words, the default
+                                approve action on this type of document is NOT to approve it.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routePath</emphasis>: The routing path for
+                                this Document Type is: AdHoc -> WorkflowDocument. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routeNode</emphasis>: Based on the
+                                routePath, there are two nodes in the routing of this Document Type: <itemizedlist>
+                                    <listitem>
+                                        <para>The starting node for this Document Type is <emphasis
+                                                role="bold">AdHoc</emphasis>. On the initiation of a
+                                            document of this type, the postProcessor in KEW
+                                            activates the node <emphasis role="bold"
+                                                >AdHoc</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">WorkflowDocument</emphasis>.
+                                            On request, the node is activated and applies the rules
+                                            in rule template <emphasis role="bold"
+                                                >WorkflowDocumentTemplate</emphasis>. </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <figure><title>Save Action Event Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/SaveActionEventTest_workflow.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">SaveActionEventTestNonInitiator</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>SaveActionEventTestNonInitiator&lt;/name>
+    &lt;description>SaveActionEventTest With No Initiator Only Save Required&lt;/description>
+    &lt;label>SaveActionEventTestNonInitiator&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>DEFAULT_APPROVE&lt;/name>
+            &lt;value>false&lt;/value>
+        &lt;/policy>
+        &lt;policy>
+            &lt;name>INITIATOR_MUST_SAVE&lt;/name>
+            &lt;value>false&lt;/value>
+        &lt;/policy>
+    &lt;/policies>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType></programlisting>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">name</emphasis>: This is the Document Type
+                                for Save Action Event Test Non Initiator. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">description</emphasis>: This Document Type
+                                is used to test the saving of an action event by non-initiator.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">label</emphasis>: This Document Type is
+                                recognized as the SaveActionEventTestNonInitiator type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">postProcessorName</emphasis>: The
+                                postProcessor for this Document Type is <emphasis role="bold"
+                                    >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <emphasis role="bold">superUserGroupName</emphasis>: The super users
+                                for this Document Type are members of the TestWorkgroup. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The
+                                members of the TestWorkgroup have blanketApproval right on this type
+                                of document.</para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                                members of the TestWorkgroup will receive an exception notice for
+                                documents of this Document Type. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for
+                                this type of document is <emphasis role="bold">_blank</emphasis>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">active</emphasis>: This Document Type is
+                                currently active. In other words, it is in use. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Policies</emphasis> for this Document Type: <itemizedlist>
+                                    <listitem>
+                                        <para>The DEFAULT_APPROVE policy is set <emphasis
+                                                role="bold">false</emphasis> by default. In other
+                                            words, the default approve action on this type of
+                                            document is NOT to approve it. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The INITIATOR_MUST_SAVE policy is set <emphasis
+                                                role="bold">false</emphasis> by default. In other
+                                            words, the initiator does NOT have to save the document
+                                            for the non-initiator to save the actions on it. </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routePath</emphasis>: The routing path for
+                                this Document Type is: AdHoc -> WorkflowDocument. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">routeNode</emphasis>: Based on the
+                                routePath, there are two nodes in the routing of this Document Type: <itemizedlist>
+                                    <listitem>
+                                        <para>The starting node for this Document Type is <emphasis
+                                                role="bold">AdHoc</emphasis>. On the initiation of a
+                                            document of this type, the postProcessor in KEW
+                                            activates the node <emphasis role="bold"
+                                                >AdHoc</emphasis>. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The next node in the routing for this Document Type is
+                                                <emphasis role="bold">WorkflowDocument</emphasis>.
+                                            On request, the node is activated and applies the rules
+                                            in rule template, <emphasis role="bold"
+                                                >WorkflowDocumentTemplate</emphasis>. </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <figure><title>Save Action Even Test: Non-Initiator</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/KEW_Guide/SaveActionEventTestNonInitiator_workflow.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">TakeWorkgroupAuthorityDoc</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>TakeWorkgroupAuthorityDoc&lt;/name>
+    &lt;description>TakeWorkgroupAuthority Action Test&lt;/description>
+    &lt;label>TakeWorkgroupAuthorityDoc&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>DEFAULT_APPROVE&lt;/name>
+            &lt;value>false&lt;/value>
+        &lt;/policy>
+    &lt;/policies>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkgroupByDocument" />
+            &lt;requests name="WorkgroupByDocument" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkgroupByDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkgroupByDocument&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType> 
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            Take Workgroup Authority Doc. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to decide authorized workgroups by Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as the TakeWorkgroupAuthorityDoc type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: The postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for this
+                            type of document is <emphasis role="bold">_blank</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Policies</emphasis> for this Document Type: The
+                            DEFAULT_APPROVE policy is set <emphasis role="bold">false</emphasis> by
+                            default. In other words, the default approve action on this type of
+                            document is NOT to approve it. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routePath</emphasis>: The routing path for this
+                            Document Type is: AdHoc -> WorkflowDocument. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routeNode</emphasis>: Based on the routePath,
+                            there are two nodes in the routing of this Document Type: <itemizedlist>
+                                <listitem>
+                                    <para>The starting node for this Document Type is <emphasis
+                                            role="bold">AdHoc</emphasis>. On the initiation of a
+                                        document of this type, the postProcessor in KEW activates
+                                        the node <emphasis role="bold">AdHoc</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">WorkflowDocument</emphasis>. On
+                                        request, the node is activated and applies the rules in rule
+                                        template, <emphasis role="bold"
+                                            >WorkflowDocumentTemplate</emphasis>. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+                <figure><title>Take Workgroup Authority</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/TakeWorkgroupAuthorityDoc_workflow.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">MoveSequentialTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>MoveSequentialTest&lt;/name>
+    &lt;parent>BlanketApproveTest&lt;/parent>
+    &lt;description>Move Sequential Test&lt;/description>
+    &lt;label>Move Sequential Test&lt;/label>
+
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" nextNode="WorkflowDocument2" />
+            &lt;requests name="WorkflowDocument2" nextNode="Acknowledge1" />
+            &lt;requests name="Acknowledge1" nextNode="Acknowledge2" />
+            &lt;requests name="Acknowledge2" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument2Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge1">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack1Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="Acknowledge2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>Ack2Template&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType>
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            Move Sequential Test. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Parent</emphasis>: The parent Document Type is
+                            BlanketApproveTest. This Document Type inherits the policies that
+                            BlanketApproveTest has. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to test Move Sequence. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as MoveSequentialTest type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: The postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for this
+                            type of document is <emphasis role="bold">_blank</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routePath</emphasis>: The routing path for this
+                            Document Type is: AdHoc -> WorkflowDocument -> WorkflowDocument2 ->
+                            Acknowledge1 -> Acknowledge2. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routeNode</emphasis>: Based on the routePath,
+                            there are five nodes in the routing of this Document Type: <itemizedlist>
+                                <listitem>
+                                    <para>The starting node for this Document Type is <emphasis
+                                            role="bold">AdHoc</emphasis>. On the initiation of a
+                                        document of this type, the postProcessor in KEW activates
+                                        the node <emphasis role="bold">AdHoc</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">WorkflowDocument</emphasis>. On
+                                        request, the node is activated, applies the rules in rule
+                                        template, <emphasis role="bold"
+                                            >WorkflowDocumentTemplate</emphasis>, and sets the
+                                        mandatory route as <emphasis role="bold">true</emphasis>. In
+                                        other words, the document must route through this node.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">WorkflowDocument2</emphasis>. On
+                                        request, the node is activated, applies the rules in rule
+                                        template, <emphasis role="bold"
+                                            >WorkflowDocument2Template</emphasis>, and sets the
+                                        mandatory route as <emphasis role="bold">true</emphasis>. In
+                                        other words, the document must route through this node.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">Acknowledge1</emphasis>. On
+                                        request, the node is activated and applies the rules in rule
+                                        template, <emphasis role="bold">Ack1Template</emphasis>.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">Acknowledge2</emphasis>. On
+                                        request, the node is activated and applies the rules in rule
+                                        template, <emphasis role="bold">Ack2Template</emphasis>.
+                                    </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+                <figure><title>Move Sequential Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/MoveSequentialTest_workflow.png" scalefit="1" contentdepth="600" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">MoveInProcessTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>MoveInProcessTest&lt;/name>
+    &lt;parent>BlanketApproveTest&lt;/parent>
+    &lt;description>Move In Process Test&lt;/description>
+    &lt;label>Move In Process Test&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="WorkflowDocument" />
+            &lt;requests name="WorkflowDocument" nextNode="MyRadSubProcess" />
+            &lt;process name="MyRadSubProcess" nextNode="WorkflowDocumentFinal" />
+            &lt;requests name="WorkflowDocumentFinal" />
+        &lt;/routePath>
+        &lt;routePath processName="MyRadSubProcess" initialNode="WorkflowDocument2">
+            &lt;requests name="WorkflowDocument2" nextNode="WorkflowDocument3" />
+            &lt;requests name="WorkflowDocument3" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="WorkflowDocument">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;process name="MyRadSubProcess" />
+        &lt;requests name="WorkflowDocument2">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument2Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocument3">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocument3Template&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;requests name="WorkflowDocumentFinal">
+            &lt;activationType>P&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentFinalTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType>
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            Move In Process Test. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Parent</emphasis>: The parent Document Type for
+                            this Document Type is BlanketApproveTest. This Document Type inherits
+                            the policies that BlanketApproveTest has. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to test Move In Process. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as the MoveInProcessTest type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: The postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for this
+                            type of document is <emphasis role="bold">_blank</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routePath</emphasis>: The routing path for this
+                            Document Type is: AdHoc -> WorkflowDocument -> MyRadSub Process ->
+                            WorkflowDocument2 -> WorkflowDocument3 -> WorkflowDocumentFinal. There
+                            is a sub-process MyRadSubProcess in this path. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routeNode</emphasis>: As can be seen from the
+                            routePath, there are five nodes in the routing of this Document Type: <itemizedlist>
+                                <listitem>
+                                    <para>The starting node for this Document Type is <emphasis
+                                            role="bold">AdHoc</emphasis>. On the initiation of a
+                                        document of this type, the postProcessor in KEW activates
+                                        the node <emphasis role="bold">AdHoc</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">WorkflowDocument</emphasis>. On
+                                        request, the node is activated, applies the rules in rule
+                                        template, <emphasis role="bold"
+                                            >WorkflowDocumentTemplate</emphasis>, and initiates a
+                                        sub process MyRadSubProcess. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in MyRadSubProcess for this Document Type is
+                                            <emphasis role="bold">WorkflowDocument2</emphasis>. On
+                                        request, the node is activated and applies the rules in rule
+                                        template, <emphasis role="bold"
+                                            >WorkflowDocument2Template</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in MyRadSubProcess for this Document Type is
+                                            <emphasis role="bold">WorkflowDocument3</emphasis>. O
+                                        the request, the node is activated and applies the rules in
+                                        rule template, <emphasis role="bold"
+                                            >WorkflowDocument3Template</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">WorkflowDocumentFinal</emphasis>.
+                                        On request, the node is activated and applies the rules in
+                                        rule template <emphasis role="bold"
+                                            >WorkflowDocumentFinalTemplate</emphasis>. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+                <figure><title>Move In Process Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/MoveInProcessTest_workflow.png" scalefit="1" contentdepth="600" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">AdhocRouteTest</emphasis></para>
+                <programlisting>&lt;documentType>
+	&lt;name>AdhocRouteTest&lt;/name>
+	&lt;description>AdhocRouteTest&lt;/description>
+	&lt;label>AdhocRouteTest&lt;/label>
+
+	&lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+	&lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+	&lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+	&lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+	&lt;docHandler>_blank&lt;/docHandler>
+	&lt;active>true&lt;/active>
+	&lt;routePaths>
+		&lt;routePath>
+			&lt;start name="AdHoc" nextNode="One" />
+			&lt;requests name="One" />
+		&lt;/routePath>
+	&lt;/routePaths>
+	&lt;routeNodes>
+		&lt;start name="AdHoc">
+			&lt;activationType>P&lt;/activationType>
+		&lt;/start>
+		&lt;requests name="One">
+			&lt;activationType>S&lt;/activationType>
+			&lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+		&lt;/requests>
+	&lt;/routeNodes>
+&lt;/documentType>
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            Adhoc Route Test. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to test Ad Hoc Route. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as the AdhocRouteTest type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: the postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for this
+                            type of document is <emphasis role="bold">_blank</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routePath</emphasis>: The routing path for this
+                            Document Type is: AdHoc -> One. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routeNode</emphasis>: Based on the routePath,
+                            there are two nodes in the routing of this Document Type: <itemizedlist>
+                                <listitem>
+                                    <para>The starting node for this Document Type is <emphasis
+                                            role="bold">AdHoc</emphasis>. On the initiation of a
+                                        document of this type, the postProcessor in KEW activates
+                                        the node <emphasis role="bold">AdHoc</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">One</emphasis>. On request, the
+                                        node is activated by the type <emphasis role="bold"
+                                            >S</emphasis> and applies the rules in rule template,
+                                            <emphasis role="bold"
+                                            >WorkflowDocumentTemplate</emphasis>. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+                <figure><title>Adhoc Route Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/AdhocRouteTest_workflow.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">PreApprovalTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>PreApprovalTest&lt;/name>
+    &lt;description>PreApprovalTest&lt;/description>
+    &lt;label>PreApprovalTest&lt;/label>
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="PreApprovalTestOne" />
+            &lt;requests name="PreApprovalTestOne" />
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;requests name="PreApprovalTestOne">
+            &lt;activationType>S&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+    &lt;/routeNodes>
+&lt;/documentType>
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            PreApprovalTest. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to test Pre-Approval. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as the PreApprovalTest type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: The postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. • docHandler: The Doc Handler for this
+                            type of document is <emphasis role="bold">_blank</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routePath</emphasis>: The routing path for this
+                            Document Type is: AdHoc -> PreApprovalTestOne. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routeNode</emphasis>: Based on the routePath,
+                            there are two nodes in the routing of this Document Type: <itemizedlist>
+                                <listitem>
+                                    <para>The starting node for this Document Type is <emphasis
+                                            role="bold">AdHoc</emphasis>. On the initiation of a
+                                        document of this type, the postProcessor in KEW activates
+                                        the node <emphasis role="bold">AdHoc</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">PreApprovalTestOne</emphasis>. On
+                                        request, the node is activated by the type <emphasis
+                                            role="bold">S</emphasis> and applies the rules in rule
+                                        template, <emphasis role="bold"
+                                            >WorkflowDocumentTemplate</emphasis>. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+                <figure><title>PreApproval Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/PreApprovalTest_workflow.png" scalefit="1" width="100%" contentdepth="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">VariablesTest</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>VariablesTest&lt;/name>
+    &lt;description>VariablesTest&lt;/description>
+    &lt;label>VariablesTest&lt;/label>
+
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;routePaths>
+        &lt;routePath>
+            &lt;start name="AdHoc" nextNode="setStartedVar" />
+            &lt;simple name="setStartedVar" nextNode="setCopiedVar"/>
+            &lt;simple name="setCopiedVar" nextNode="PreApprovalTestOne"/>
+            &lt;requests name="PreApprovalTestOne" nextNode="setEndedVar"/>
+            &lt;simple name="setEndedVar" nextNode="setGoogleVar"/>
+            &lt;simple name="setGoogleVar" nextNode="setXPathVar"/>
+            &lt;simple name="setXPathVar" nextNode="resetStartedVar"/>
+            &lt;simple name="resetStartedVar" nextNode="logNode"/>
+            &lt;simple name="logNode" nextNode="logNode2"/>
+            &lt;simple name="logNode2"/>
+        &lt;/routePath>
+    &lt;/routePaths>
+    &lt;routeNodes>
+        &lt;start name="AdHoc">
+            &lt;activationType>P&lt;/activationType>
+        &lt;/start>
+        &lt;simple name="setStartedVar">
+            &lt;type>org.kuali.rice.kew.engine.node.var.SetVarNode&lt;/type>
+            &lt;name>started&lt;/name>
+            &lt;value>startedVariableValue&lt;/value>
+        &lt;/simple>
+        &lt;simple name="setCopiedVar">
+            &lt;type>org.kuali.rice.kew.engine.node.var.SetVarNode&lt;/type>
+            &lt;name>copiedVar&lt;/name>
+            &lt;value>var:started&lt;/value>
+        &lt;/simple>
+        &lt;requests name="PreApprovalTestOne">
+            &lt;activationType>S&lt;/activationType>
+            &lt;ruleTemplate>WorkflowDocumentTemplate&lt;/ruleTemplate>
+        &lt;/requests>
+        &lt;simple name="setEndedVar">
+            &lt;type>org.kuali.rice.kew.engine.node.var.SetVarNode&lt;/type>
+            &lt;name>ended&lt;/name>
+            &lt;value>endedVariableValue&lt;/value>
+        &lt;/simple>
+        &lt;simple name="setGoogleVar">
+            &lt;type>org.kuali.rice.kew.engine.node.var.SetVarNode&lt;/type>
+            &lt;name>google&lt;/name>
+            &lt;value>url:http://google.com&lt;/value>
+        &lt;/simple>
+        &lt;simple name="setXPathVar">
+            &lt;type>org.kuali.rice.kew.engine.node.var.SetVarNode&lt;/type>
+            &lt;name>xpath&lt;/name>
+            &lt;value>xpath:concat(local-name(//documentContent),$ended)&lt;/value>
+        &lt;/simple>
+        &lt;simple name="resetStartedVar">
+            &lt;type>org.kuali.rice.kew.engine.node.var.SetVarNode&lt;/type>
+            &lt;name>started&lt;/name>
+            &lt;value>aNewStartedVariableValue&lt;/value>
+        &lt;/simple>
+        &lt;simple name="logNode">
+            &lt;type>org.kuali.rice.kew.engine.node.LogNode&lt;/type>
+            &lt;message>var:xpath&lt;/message>
+        &lt;/simple>
+        &lt;simple name="logNode2">
+            &lt;type>org.kuali.rice.kew.engine.node.LogNode&lt;/type>
+            &lt;level>ErRoR&lt;/level>
+            &lt;log>Custom.Logger.Name&lt;/log>
+            &lt;message>THAT'S ALL FOLKS&lt;/message>
+        &lt;/simple>
+    &lt;/routeNodes>
+&lt;/documentType>
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            VariablesTest. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to test Variables. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as the VariablesTest type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: The postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for this
+                            type of document is <emphasis role="bold">_blank</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routePath</emphasis>: The routing path for this
+                            Document Type is: AdHoc -> setStartedVar -> setCopiedVar ->
+                            preApprovalTestOne -> setEndedVar -> setGoogleVar -> setXPathVar ->
+                            resetStartedVar -> logNode -> logNode2. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">routeNode</emphasis>: Based on the routePath,
+                            there are ten nodes in the routing of this Document Type: <itemizedlist>
+                                <listitem>
+                                    <para>The starting node for this Document Type is <emphasis
+                                            role="bold">AdHoc</emphasis>. On the initiation of a
+                                        document of this type, the postProcessor in KEW activates
+                                        the node <emphasis role="bold">AdHoc</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">setStartedVar</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.var.SetVarNode</emphasis>
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its name is <emphasis role="bold"
+                                                  >started</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its value is <emphasis role="bold"
+                                                  >startedVariableValue</emphasis>. </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">setCopiedVar</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.var.SetVarNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its name is <emphasis role="bold"
+                                                  >copiedVar</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>The value that it is copying is var:<emphasis
+                                                  role="bold">started</emphasis>. </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">preApprovalTestOne</emphasis>. On
+                                        request, the node is activated by the type <emphasis
+                                            role="bold">S</emphasis> and applies the rules in rule
+                                        template <emphasis role="bold"
+                                            >WorkflowDocumentTemplate</emphasis>. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">setEndedVar</emphasis>
+                                        <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.var.SetVarNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its name is <emphasis role="bold"
+                                                  >ended</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its value is <emphasis role="bold"
+                                                  >endedVariableValue</emphasis>. </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">setGoogleVar</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.var.SetVarNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its name is <emphasis role="bold"
+                                                  >google</emphasis>. It links to <emphasis
+                                                  role="bold">http://google.com</emphasis>. </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">setXpathVar</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.var.SetVarNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its name is <emphasis role="bold"
+                                                  >xpath</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>It adds <emphasis role="bold"
+                                                  >//documentContent</emphasis> to the current path.
+                                                </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <!-- force a page break here by inserting some blank paragraph tags -->
+                            </itemizedlist><itemizedlist><para/><para/><para/><para/><para/>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">resetStartedVar</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.var.SetVarNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its name is <emphasis role="bold"
+                                                  >started</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>It resets the started node at a new node,
+                                                  <emphasis role="bold"
+                                                  >aNewStartedVariableValue</emphasis>.</para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">logNode</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.LogNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>It sends a message about the xpath of the
+                                                  variables at <emphasis role="bold"
+                                                  >var:xpath</emphasis>. </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                                <listitem>
+                                    <para>The next node in the routing for this Document Type is
+                                            <emphasis role="bold">logNode2</emphasis>. <itemizedlist>
+                                            <listitem>
+                                                <para>Its type is <emphasis role="bold"
+                                                  >org.kuali.rice.kew.engine.node.LogNode</emphasis>.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Its level is <emphasis role="bold"
+                                                  >ErRoR</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>It opens the log <emphasis role="bold"
+                                                  >Custom.Logger.Name</emphasis>. </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>It returns a message <emphasis role="bold"
+                                                  >THAT'S ALL FOLKS</emphasis>. </para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+                <figure><title>Variables Test</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/VariablesTest_workflow.png" scalefit="1" contentdepth="600" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para><emphasis role="bold">SUApproveDocumentNotifications</emphasis></para>
+                <programlisting>&lt;documentType>
+    &lt;name>SUApproveDocumentNotifications&lt;/name>
+    &lt;parent>SUApproveDocument&lt;/parent>
+    &lt;description>SUApproveDocumentNotifications&lt;/description>
+    &lt;label>SUApproveDocumentNotifications&lt;/label>
+
+    &lt;postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor&lt;/postProcessorName>
+    &lt;superUserGroupName namespace="KR-WKFLW" >TestWorkgroup&lt;/superUserGroupName>
+    &lt;blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup&lt;/blanketApproveGroupName>
+    &lt;defaultExceptionGroupName namespace="KR-WKFLW"> TestWorkgroup&lt;/defaultExceptionGroupName>
+    &lt;docHandler>_blank&lt;/docHandler>
+    &lt;active>true&lt;/active>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>SEND_NOTIFICATION_ON_SU_APPROVE&lt;/name>
+            &lt;value>true&lt;/value>
+        &lt;/policy>
+    &lt;/policies>
+&lt;/documentType>
+</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">name</emphasis>: This is the Document Type for
+                            SuperUser Approve Document Notifications. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">description</emphasis>: This Document Type is
+                            used to test the SuperUser Approve Document Notifications. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">label</emphasis>: This Document Type is
+                            recognized as the SUApproveDocumentNotifications type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">postProcessorName</emphasis>: The postProcessor
+                            for this Document Type is <emphasis role="bold"
+                                >org.kuali.rice.kew.postprocessor.DefaultPostProcessor</emphasis>.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">superUserGroupName</emphasis>: The super users
+                            for this Document Type are members of the TestWorkgroup. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">blanketApproveGroupName</emphasis>: The members
+                            of the TestWorkgroup have blanketApproval right on this type of
+                            document. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">defaultExceptionGroupName</emphasis>: The
+                            members of the TestWorkgroup will receive an exception notice for
+                            documents of this Document Type. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">docHandler</emphasis>: The Doc Handler for this
+                            type of document is _blank. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">active</emphasis>: This Document Type is
+                            currently active. In other words, it is in use. </para>
+                    </listitem>
+                    <listitem>
+                        <para>There is just one <emphasis role="bold">policy</emphasis> for this
+                            Document Type: The SEND_NOTIFICATION_ON_SU_APPROVE policy is set true by
+                            default. In other words, notifications will be automatically sent on
+                            SuperUser's approval. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+        <section>
+            <title>Document Type Authorizer</title>
+            <para>The Document Type Authorizer is a component that gets called during the routing process to perform authorization
+                  checks.  Applications can customize this component, for example to introduce custom role qualifiers or permission details,
+                  on a per-doctype basis by registering a custom <programlisting>org.kuali.rice.kew.framework.document.security.DocumentTypeAuthorizer</programlisting>
+                  implementation.
+            </para>
+            <para>The DocumentTypeAuthorizer will be called to make the following checks:
+                <itemizedlist>
+                    <listitem>
+                        <para>canInitiate</para>
+                    </listitem>
+                    <listitem>
+                        <para>canBlanketApprove</para>
+                    </listitem>
+                    <listitem>
+                        <para>canCancel</para>
+                    </listitem>
+                    <listitem>
+                        <para>canRecall</para>
+                    </listitem>
+                    <listitem>
+                        <para>canSave</para>
+                    </listitem>
+                    <listitem>
+                        <para>canRoute</para>
+                    </listitem>
+                    <listitem>
+                        <para>canSuperUserApproveSingleActionRequest</para>
+                    </listitem>
+                    <listitem>
+                        <para>canSuperUserApproveDocument</para>
+                    </listitem>
+                    <listitem>
+                        <para>canSuperUserDisapproveDocument</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Document Type Policies</title>
+            <para>Document Type Policies affect workflow routing behavior.</para>
+            <para>Current Document Type polices:<itemizedlist>
+                    <listitem>
+                        <para>DISAPPROVE </para>
+                    </listitem>
+                    <listitem>
+                        <para>DEFAULT_APPROVE </para>
+                    </listitem>
+                    <listitem>
+                        <para>DOCUMENT_STATUS_POLICY </para>
+                    </listitem>
+                    <listitem>
+                        <para>INITIATOR_MUST_ROUTE </para>
+                    </listitem>
+                    <listitem>
+                        <para>INITIATOR_MUST_SAVE </para>
+                    </listitem>
+                    <listitem>
+                        <para>INITIATOR_MUST_CANCEL </para>
+                    </listitem>
+                    <listitem>
+                        <para>INITIATOR_MUST_BLANKET_APPROVE </para>
+                    </listitem>
+                    <listitem>
+                        <para>LOOK_FUTURE </para>
+                    </listitem>
+                    <listitem>
+                        <para>SEND_NOTIFICATION_ON_SU_APPROVE </para>
+                    </listitem>
+                    <listitem>
+                        <para>SUPPORTS_QUICK_INITIATE </para>
+                    </listitem>
+                    <listitem>
+                        <para>NOTIFY_ON_SAVE </para>
+                    </listitem>
+                    <listitem>
+                        <para>blanketApprovePolicy </para>
+                    </listitem>
+                    <listitem>
+                        <para>ALLOW_SU_POST_PROCESSOR_OVERIDE</para>
+                    </listitem>
+                    <listitem>
+                      <para>NOTIFY_COMPLETED_ON_RETURN</para>
+                    </listitem>
+                    <listitem>
+                      <para>NOTIFY_PENDING_ON_RETURN</para>
+                    </listitem>
+                    <listitem>
+                      <para>RECALL_NOTIFICATION</para>
+                    </listitem>
+                    <listitem>
+                      <para>ALLOW_SU_FINAL_APPROVAL</para>
+                    </listitem>
+                    <listitem>
+                      <para>SEND_NOTIFICATION_ON_SU_DISAPPROVE</para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Document Type Policies defined in the Document Type XML have this
+                structure:</para>
+            <programlisting>&lt;documentType>
+    &lt;name>...&lt;/name>
+    &lt;policies>
+        &lt;policy>
+            &lt;name>DEFAULT_APPROVE&lt;/name>
+            &lt;value>true&lt;/value>
+        &lt;/policy>
+        &lt;policy>
+            &lt;name>LOOK_FUTURE&lt;/name>
+            &lt;value>false&lt;/value>
+        &lt;policy>
+        &lt;policy>
+            &lt;name>DOCUMENT_STATUS_POLICY&lt;/name>
+            &lt;stringValue>APP&lt;/stringValue>
+        &lt;/policy>
+    &lt;/policies>
+&lt;/documentType>
+</programlisting>
+            <section>
+                <title>DISAPPROVE</title>
+                <para>The <emphasis role="bold">DISAPPROVE</emphasis> policy determines whether a
+                    document will discontinue routing (transactions). When a document has been
+                    disapproved, the document initiator and previous approvers will receive notice
+                    of this disapproval action.</para>
+            </section>
+            <section>
+                <title>DEFAULT_APPROVE</title>
+                <para>The <emphasis role="bold">DEFAULT_APPROVE</emphasis> policy determines whether
+                    a document will continue processing with or without any approval requests. If a
+                    document is set to have no approval requests, its put into exception routing.
+                    Then, the document will continue to route to the exception workgroup associated
+                    with the last route node or to the workgroup defined in the <emphasis
+                        role="bold">defaultExceptionWorkgroupname</emphasis>.</para>
+            </section>
+            <section xml:id="policies.documentStatusPolicy" xreflabel="Document Type Policies: DOCUMENT_STATUS_POLICY">
+                <title>DOCUMENT_STATUS_POLICY</title>
+                <para>The <emphasis role="bold">DOCUMENT_STATUS_POLICY</emphasis> policy sets whether
+                    to display the KEW Route Status, the Application Document Status, or Both in the
+                    Route Log.  Valid policy values are: <emphasis role="bold">KEW</emphasis>,
+                    <emphasis role="bold">APP</emphasis>, or <emphasis role="bold">BOTH</emphasis>.
+                </para>
+                <para>The set of valid statuses for a given document type may be defined.  If
+                    defined, only those values are allowed as valid statuses. These will also be used
+                    to populate a multi-select box on the doc search screen if this doc type is
+                    selected (see <xref linkend="documentSearch.applicationDocumentStatus"/>). If not
+                    defined, any string with a length of up to 64 characters may be used, and a text
+                    input field is used on the doc search screen.  An example configuration follows.
+                </para>
+                <programlisting>&lt;validApplicationStatuses>
+    &lt;status>Initiated&lt;/status>
+    &lt;status>Validated&lt;/status>
+    &lt;status>Awaiting Content Aproval&lt;/status>
+    &lt;status>Org Review&lt;/status>
+    &lt;status>Approved&lt;/status>
+    ...
+&lt;/validApplicationStatuses>
+                </programlisting>
+                <para>Additionally, the valid statuses may be grouped into named categories for
+                    display and search purposes.  If defined, these categories will display in doc
+                    search (again, if the document type is selected) under the application document
+                    status multi-select as headings under which the individual statuses are grouped.
+                    These categories can be selected as well, which has an equivalent effect on the
+                    search to individually selecting all of the statuses within the category (see
+                    <xref linkend="documentSearch.applicationDocumentStatus"/>). Note that not all
+                    statuses need be grouped within categories, as demonstrated below by the
+                    "Approved" status below.</para>
+                <programlisting>&lt;validApplicationStatuses>
+    &lt;category name="Pre-Submit">
+        &lt;status>Initiated&lt;/status>
+        &lt;status>Validated&lt;/status>
+    &lt;/category>
+    &lt;category name="In Process">
+        &lt;status>Awaiting Content Aproval&lt;/status>
+        &lt;status>Org Review&lt;/status>
+    &lt;/category>
+    &lt;status>Approved&lt;/status>
+    ...
+&lt;/validApplicationStatuses>
+                </programlisting>
+                <para>In the process definition section, automatic status updates may be assigned to
+                    occur on route node transition.  Please see the section on the routePaths in this
+                    guide.</para>
+            </section>
+            <section>
+                <title>INITIATOR_MUST_ROUTE</title>
+                <para>The <emphasis role="bold">INITIATOR_MUST_ROUTE</emphasis> policy sets the rule
+                    that the user who initiates the document must route it.</para>
+            </section>
+            <section>
+                <title>INITIATOR_MUST_SAVE</title>
+                <para>The <emphasis role="bold">INITIATOR_MUST_SAVE</emphasis> policy sets the rule
+                    that the user who initiated the document will be the only one authorized to
+                        <emphasis role="bold">save</emphasis> the document.</para>
+            </section>
+            <section>
+                <title>INITIATOR_MUST_CANCEL</title>
+                <para>The <emphasis role="bold">INITIATOR_MUST_CANCEL</emphasis> policy sets the
+                    rule that the user who initiated the document will be the only one authorized to
+                        <emphasis role="bold">cancel</emphasis> the document.</para>
+            </section>
+            <section>
+                <title>INITIATOR_MUST_BLANKET_APPROVE</title>
+                <para>The <emphasis role="bold">INITIATOR_MUST_BLANKET_APPROVE</emphasis> policy
+                    sets the rule that the user who initiated the document is the only one
+                    authorized to <emphasis role="bold">blanket approve</emphasis> the
+                    document.</para>
+            </section>
+            <section>
+                <title>LOOK_FUTURE</title>
+                <para>The <emphasis role="bold">LOOK_FUTURE</emphasis> policy determines whether the
+                    document can be brought into a simulated route from the route log. This policy
+                    simulates where the document would end up if it completed the route.</para>
+            </section>
+            <section>
+                <title>SEND_NOTIFICATION_ON_SU_APPROVE</title>
+                <para>The <emphasis role="bold">SEND_NOTIFICATION_ON_SU_APPROVE</emphasis> policy
+                    indicates to KEW that it is to send a notification on SuperUser approval.</para>
+            </section>
+            <section>
+                <title>SUPPORTS_QUICK_INITIATE</title>
+                <para>The <emphasis role="bold">SUPPORTS_QUICK_INITIATE</emphasis> policy indicates
+                    whether the Document Type is displayed on the Quick Links, so that users can
+                    quickly initiate instances of the document.</para>
+            </section>
+            <section>
+                <title>NOTIFY_ON_SAVE</title>
+                <para>The <emphasis role="bold">NOTIFY_ON_SAVE</emphasis> policy indicates whether a
+                    notification should be sent in when a save action is applied to this Document
+                    Type.</para>
+            </section>
+            <section>
+                <title>blanketApprovePolicy</title>
+                <para>The <emphasis role="bold">blanketApprovePolicy</emphasis> policy indicates who
+                    can <emphasis role="bold">blanket approve</emphasis> a workflow document. Its
+                    values are either ANY or NONE. <itemizedlist>
+                        <listitem>
+                            <para>ANY means that anybody can blanket approve the document. </para>
+                        </listitem>
+                        <listitem>
+                            <para>NONE means that no one can blanket approve the document. </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>Alternatively, the configuration of the document can be set up to specify a
+                    blanketApproveWorkgroupName. blanketApproveWorkgroupName indicates that members
+                    of that workgroup can blanket approve the document. You can specify either
+                    blanketApprovePolicy OR blanketApproveWorkgroupName in the Document Type.</para>
+                <para>Since the blanket approve policy is not a true/false policy (like the others),
+                it is specified as an element in the Document Type XML:</para>
+                <programlisting>&lt;documentType>
+    &lt;name>...&lt;/name>
+    .
+    .
+    .
+    &lt;blanketApprovePolicy>NONE&lt;/blanketApprovePolicy>
+&lt;/documentType>
+</programlisting>
+            </section>
+            <section>
+                <title>ALLOW_SU_POST_PROCESSOR_OVERIDE</title>
+                <para>There is currently the ability to override the "Perform Post Processor Logic"
+                    on the "Super User Action on Action Requests" page. This functionality is
+                    configurable by document type and as such allows for inheritance. </para>
+                <para>By default, the ALLOW_SU_POST_PROCESSOR_OVERIDE it's set to true. The checkbox
+                    appears on the super user screen as:</para>
+                <figure><title>Super User Action on Requests</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/super_user_action_on_action_requests.png"
+                                scalefit="1" width="100%"  />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>In order to turn off the post processor check box, you would add this to the
+                documentType definition: </para>
+                <programlisting>&lt;policies>
+    &lt;policy>
+        &lt;name>ALLOW_SU_POSTPROCESSOR_OVERRIDE&lt;/name>
+        &lt;value>false&lt;/value>
+    &lt;/policy>
+&lt;/policies>
+</programlisting>
+            </section>
+            <section>
+                <title>Recall From Routing</title>
+                <para>Three Document Type policies affect Recall behavior. These policies are defined in the respective the DocumentType XML.
+                    
+                    The following two policies apply to Return-To-Previous actions as well as Recall actions:</para>
+                <para><emphasis role="bold">NOTIFY_COMPLETED_ON_RETURN - Default: false</emphasis> toggles whether to notify 
+                    previous router log participants with FYIs when a document is recalled. This does not affect notifications 
+                    to pending approvers which are always sent.</para>
+                <para>Example:</para>
+                <programlisting>
+&lt;policy>
+    &lt;name>NOTIFY_COMPLETED_ON_RETURN&lt;/name>
+    &lt;value>true&lt;/value>
+&lt;/policy>
+                </programlisting>
+                <para><emphasis role="bold">NOTIFY_PENDING_ON_RETURN - Default: true</emphasis> toggles whether to notify pending 
+                    approvers with FYIs when a document is recalled. This does not affect notifications to prior approvers.</para>
+                <para>Example:</para>
+                <programlisting>
+&lt;policy>
+    &lt;name>NOTIFY_PENDING_ON_RETURN&lt;/name>
+    &lt;value>true&lt;/value>
+&lt;/policy>                    
+                </programlisting>
+                <para>The following policy is Recall-specific:</para>
+                <para><emphasis role="bold"></emphasis> RECALL_NOTIFICATION - Default: false/none</para>
+                <para>Example:</para>
+                <programlisting>
+&lt;policy>
+    &lt;name>RECALL_NOTIFICATION&lt;/name>
+    &lt;value>true&lt;/value>
+    &lt;recipients xmlns:r="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule" xmlns:dt="ns:workflow/DocumentType">
+      &lt;r:principalName>quickstart&lt;/r:principalName>
+      &lt;r:user>quickstart&lt;/r:user>
+      &lt;role namespace="KR-SYS" name="Technical Administrator"/>
+    &lt;/recipients>
+&lt;/policy>                    
+                </programlisting>
+            </section>
+
+
+          <section>
+            <title>ALLOW_SU_FINAL_APPROVAL</title>
+            <para>Setting this policy to false disallows Super User approval on final nodes of the document.</para>
+            <programlisting>&lt;policies>
+              &lt;policy>
+              &lt;name>ALLOW_SU_FINAL_APPROVAL&lt;/name>
+              &lt;value>false&lt;/value>
+              &lt;/policy>
+              &lt;/policies>
+            </programlisting>
+          </section>
+
+
+          <section>
+            <title>SEND_NOTIFICATION_ON_SU_DISAPPROVE</title>
+            <para>By default, acknowledgements are not sent on Super User Disapproval like they are for normal Disapprove actions.
+                  This policy can be used to enable sending of acknowledgements upon Super User Disapproval.</para>
+            <programlisting>&lt;policies>
+              &lt;policy>
+              &lt;name>SEND_NOTIFICATION_ON_SU_DISAPPROVE&lt;/name>
+              &lt;value>true&lt;/value>
+              &lt;/policy>
+              &lt;/policies>
+            </programlisting>
+          </section>
+
+
+        </section>
+        <section>
+            <title>Inheritance</title>
+            <para>Document Types can specify a parent Document Type. This allows them to be included
+                in a Document Type hierarchy from which certain behavior can be inherited from their
+                parent Document Type.</para>
+            <section>
+                <title>Inheritable Fields</title>
+                <para>These fields are inherited:<itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">superUserGroupName</emphasis>: Indicates
+                                members of the workgroup who can perform SuperUser actions on the
+                                document </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">blanketApproveGroupName</emphasis>:
+                                Indicates members of the workgroup that can blanket approve the
+                                document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">notificationFromAddress</emphasis>: Sends a
+                                notice to the sender when the transfer of the document is completed.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">messageEntity</emphasis>: A head and body of
+                                the message. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">policies</emphasis>: Indicates a set of
+                                rule(s) applied in the document. For each policy, True means policy
+                                DOES apply, False means policy does NOT apply. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">searchable attributes</emphasis>:
+                                Constraint(s) assigned as the searchable criteria for a document.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">route paths/route nodes</emphasis>:
+                                Designated traveling points before the document reaches its
+                                destination in a routing process. </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>Special notes about inheritance:<orderedlist>
+                        <listitem>
+                            <para><emphasis role="bold">Policies</emphasis>: In the Policies
+                                section, there are multiple Document Type policies
+                                (INITAITOR_MUST_ROUTE, DEFAULT_APPROVE, etc). Each policy can be
+                                overridden on an <emphasis role="bold">individual basis</emphasis>.
+                                In contrast to the route path, there is no need to override the
+                                entire <emphasis role="bold">policies</emphasis> section for a
+                                Document Type. For more detailed information about Document Type
+                                policies, please see Document Type Policies (above) in this
+                                document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Route paths/ route nodes</emphasis>: To
+                                override the route path and route node definitions of a parent
+                                Document Type, you must override ALL route node and route path
+                                definitions. You cannot inherit and use just part of a route path;
+                                it's all or nothing. </para>
+                        </listitem>
+                    </orderedlist></para>
+            </section>
+            <section>
+                <title>Document Type hierarchy and the Rules Engine</title>
+                <para>The Rules Engine follows these rules to determine its rule evaluation set for
+                    a Document Type at a particular node:<orderedlist>
+                        <listitem>
+                            <para>The Rules Engine looks at the Rule Template name of the current
+                                node and selects all rules with that template and that document's
+                                Document Type. It adds those rules to the rule evaluation set.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>If the Document Type has a parent Document Type, it selects all
+                                rules with that template and that parent Document Type and adds
+                                those to the rule evaluation set. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Its repeats step two until it reaches the root of the Document
+                                Type hierarchy. </para>
+                        </listitem>
+                        <listitem>
+                            <para>The final rule evaluation set includes all of these rules. </para>
+                        </listitem>
+                    </orderedlist></para>
+            </section>
+        </section>
+    </section>
+    <section  >
+        <title>Defining Workflow Processes Using PeopleFlow - a new feature in KEW</title>
+        <para>PeopleFlow is our Kuali Rice instantiation of the "maps" concept included in the
+            original Coeus. For all intents and purposes it's a prioritized list of people to send
+            requests to. PeopleFlow gives you a new type of request activation strategy called
+            "priority-parallel" to activate requests generated from a PeopleFlow in the appropriate
+            order. Essentially, it's like a mini people-based workflow that doesn't require you to
+            specify a KEW node in the document type for each individual who might need to approve or
+            be notified. You can define "Stops" in a PeopleFlow, where everything in the same stop
+            proceeds in parallel, but all must be done within the stop before proceeding to the next
+            stop. </para>
+        <para>You can call/execute a PeopleFlow from within a KEW workflow node directly, or you can
+            invoke the Kuali Rules Management System (KRMS) engine from an application and any
+            PeopleFlows that get selected during rule execution, defined in a KRMS agenda, will be
+            called. In this way, you can integrate business rules across applications and workflows. </para>
+        <para>The same PeopleFlow that defines a routing order among a set of persons, groups or
+            roles can be called by KRMS rules, with the KRMS rules defining which type of  request
+            to pass to the PeopleFlow (for example, an "approval" routing action or a
+            "notification").   </para>
+        <para>KRMS is also a new feature in Rice 2.0.  See the KRMS Technical Guide for more
+            information on KRMS.    </para>
+        <para>You can define a PeopleFlow (simple workflow) via a maintenance document.  See the KEW
+            Users' Guide for additional details on defining a PeopleFlow.</para>
+        <section>
+            <title>Technical Information about PeopleFlow</title>
+            <para>(decide what needs to go here -- architecture, data model, api, troubleshooting,
+                etc.?)</para>
+        </section>
+    </section>
+</chapter>

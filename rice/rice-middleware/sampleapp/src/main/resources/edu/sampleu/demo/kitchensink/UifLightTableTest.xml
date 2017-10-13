@@ -1,0 +1,157 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="Demo-LightTable" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Light Table test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Refresh Table" p:refreshId="Demo-LightTableGroup"
+                    p:methodToCall="refresh"/>
+              <ref bean="Demo-LightTableGroup"/>
+              <ref bean="Demo-LightTableGroupEmpty"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-LightTableGroup" parent="Uif-LightTableGroup">
+    <property name="propertyName" value="list6"/>
+    <property name="conditionalRowCssClasses">
+      <map>
+        <entry key="all" value="uif-all"/>
+        <entry key="odd" value="uif-odd"/>
+        <entry key="even" value="uif-even"/>
+        <entry key="@{#line.field4 eq '3'}" value="special"/>
+      </map>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:label="Inquiry" p:propertyName="field3">
+          <property name="inquiry">
+            <bean parent="Uif-Inquiry" p:dataObjectClassName="edu.sampleu.travel.bo.TravelAccount"
+                  p:inquiryParameters="field3:number"/>
+          </property>
+        </bean>
+        <!--<bean parent="Uif-ActionField" p:label="Action Field" p:action.render="@{#index lt 150}" p:action.actionLabel="@{#lp.field1}"
+                p:action.actionScript="alert('You clicked @{#lp.field1}');"/>-->
+        <bean parent="Uif-LinkField" p:label="Action Field" p:link.linkText="Link"
+              p:link.href="@{#ConfigProperties['krad.url']}/uicomponents?methodToCall=start&amp;viewId=UifCompView&amp;field1=@{#lp.field2}"/>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true"/>
+        <bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2" p:render="@{#index lt 150}"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="bfield">
+          <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4">
+          <property name="control">
+            <bean parent="Uif-DropdownControl" p:options-ref="test-options"/>
+          </property>
+        </bean>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Field Group" p:group.validationMessages.render="false">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Action" p:actionLabel="edit"
+                    p:actionScript="alert('You clicked edit for @{#lp.field4}');" p:render="@{#index lt 150}"/>
+              <bean parent="Uif-Action" p:actionLabel="delete"
+                    p:actionScript="alert('You tried to delete @{#index}');"/>
+            </list>
+          </property>
+        </bean>
+        <!--        <bean parent="Uif-ImageField" p:label="Image" p:image.source="@{#ConfigProperties['krad.externalizable.images.url']}ks/@{#index > 100?'icon_btn_add.png':'icon_btn_minus.png'}"/>-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-LightTableGroupEmpty" parent="Demo-LightTableGroup">
+    <property name="propertyName" value="emptyList"/>
+  </bean>
+
+  <bean id="Demo-SlowTable" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="slow Table test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <ref bean="Demo-SlowTableGroup"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-SlowTableGroup" parent="Uif-TableCollectionGroup">
+    <property name="propertyName" value="list6"/>
+    <property name="layoutManager.generateAutoSequence" value="false"/>
+    <property name="layoutManager.renderSequenceField" value="false"/>
+    <property name="layoutManager.richTable.render" value="true"/>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:label="Inquiry" p:propertyName="field3">
+          <property name="inquiry">
+            <bean parent="Uif-Inquiry" p:dataObjectClassName="edu.sampleu.travel.bo.TravelAccount"
+                  p:inquiryParameters="field3:number"/>
+          </property>
+        </bean>
+        <bean parent="Uif-ActionField" p:label="Action Field" p:action.actionLabel="@{#lp.field1}"
+              p:action.actionScript="alert('You clicked @{#lp.field1}');" p:render="@{#index lt 150}"/>
+        <bean parent="Uif-LinkField" p:label="Action Field" p:link.linkText="Link"
+              p:link.href="@{#ConfigProperties['krad.url']}/uicomponents?methodToCall=start&amp;viewId=UifCompView&amp;field1=@{#lp.field2}"/>
+        <bean parent="Uif-DataField" p:label="Field 1" p:propertyName="field1"/>
+        <bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+        <bean parent="Uif-DataField" p:label="Field 3" p:propertyName="field3"/>
+        <bean parent="Uif-DataField" p:label="Field 4" p:propertyName="field4">
+          <!--          <property name="toolTip">
+                      <bean parent="Uif-Tooltip" p:tooltipContent="You got content @{#lp.field1}"/>
+                    </property>-->
+        </bean>
+        <!--        <bean parent="Uif-HorizontalFieldGroup" p:label="Field Group">
+                  <property name="items">
+                    <list>
+                      <bean parent="Uif-Action" p:actionLabel="edit" p:actionScript="alert('You clicked edit for @{#lp.field4}');" />
+                      <bean parent="Uif-Action" p:actionLabel="delete" p:actionScript="alert('You tried to delete @{#index}');"/>
+                    </list>
+                  </property>
+                </bean>-->
+        <!--        <bean parent="Uif-ImageField" p:label="Image" p:image.source="@{#ConfigProperties['krad.externalizable.images.url']}ks/@{#index > 100?'icon_btn_add.png':'icon_btn_minus.png'}"/>-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

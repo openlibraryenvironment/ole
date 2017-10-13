@@ -1,0 +1,235 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- LightTable demo -->
+  <bean id="Demo-LightTable-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoLightTable.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.container.LightTable"/>
+    <property name="docBookAnchor" value="d6813e6638"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-LightTable-Example1"/>
+        <ref bean="Demo-LightTable-Example2"/>
+        <ref bean="Demo-LightTable-Example3"/>
+        <ref bean="Demo-LightTable-Example4"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-LightTable-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Basic DataFields LightTable"
+              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=Demo-LightTable-View1&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-LightTable-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Inquiry, Links, and Actions"
+              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=Demo-LightTable-View2&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-LightTable-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Conditional Render"
+              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=Demo-LightTable-View3&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-LightTable-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Basic Inputs"
+              p:href="@{#ConfigProperties['krad.url']}/uicomponents?viewId=Demo-LightTable-View4&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-LightTable-View1" parent="Uif-FormView">
+    <property name="headerText" value="Light Table test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Refresh Table" p:refreshId="Demo-LightTableGroup1"
+                    p:methodToCall="refresh"/>
+              <ref bean="Demo-LightTableGroup1"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="org.kuali.rice.krad.labs.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-LightTable-View2" parent="Uif-FormView">
+    <property name="headerText" value="Light Table test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Refresh Table" p:refreshId="Demo-LightTableGroup2"
+                    p:methodToCall="refresh"/>
+              <ref bean="Demo-LightTableGroup2"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="org.kuali.rice.krad.labs.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-LightTable-View3" parent="Uif-FormView">
+    <property name="headerText" value="Light Table test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Refresh Table" p:refreshId="Demo-LightTableGroup3"
+                    p:methodToCall="refresh"/>
+              <ref bean="Demo-LightTableGroup3"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="org.kuali.rice.krad.labs.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-LightTable-View4" parent="Uif-FormView">
+    <property name="headerText" value="Light Table test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Refresh Table" p:refreshId="Demo-LightTableGroup4"
+                    p:methodToCall="refresh"/>
+              <ref bean="Demo-LightTableGroup4"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="org.kuali.rice.krad.labs.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <!-- ex:Demo-LightTable-Example1 start-->
+  <bean id="Demo-LightTableGroup1" parent="Uif-LightTableGroup">
+    <property name="propertyName" value="list6"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:label="Field 1" p:propertyName="field1"/>
+        <bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+        <bean parent="Uif-DataField" p:label="Field 3" p:propertyName="field3"/>
+        <bean parent="Uif-DataField" p:label="Field 4" p:propertyName="field4"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-LightTable-Example1 end-->
+
+  <!-- ex:Demo-LightTable-Example2 start-->
+  <bean id="Demo-LightTableGroup2" parent="Uif-LightTableGroup">
+    <property name="propertyName" value="list6"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:label="Inquiry" p:propertyName="field3">
+          <property name="inquiry">
+            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.krad.demo.travel.account.TravelAccount"
+                  p:inquiryParameters="field3:number"/>
+          </property>
+        </bean>
+        <bean parent="Uif-DataField" p:label="Field 1" p:propertyName="field1"/>
+        <bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+        <bean parent="Uif-LinkField" p:label="Field 4" p:link.linkText="@{#lp.field4}"
+              p:link.href="@{#ConfigProperties['krad.url']}/uicomponents?methodToCall=start&amp;viewId=UifCompView&amp;field1=@{#lp.field2}"/>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Field Group" p:group.validationMessages.render="false">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Action" p:actionLabel="edit"
+                    p:actionScript="alert('You clicked edit for line with index @{#index}');"/>
+              <bean parent="Uif-Action" p:actionLabel="delete"
+                    p:actionScript="alert('You tried to delete for line with index @{#index}');"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-LightTable-Example2 end-->
+
+  <!-- ex:Demo-LightTable-Example3 start-->
+  <bean id="Demo-LightTableGroup3" parent="Uif-LightTableGroup">
+    <property name="propertyName" value="list6"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:label="Field 1" p:propertyName="field1"/>
+        <bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+        <bean parent="Uif-DataField" p:label="Field 3" p:propertyName="field3"
+              p:render="@{new Integer(#lp.field4) gt 5}"/>
+        <bean parent="Uif-DataField" p:label="Field 4" p:propertyName="field4"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-LightTable-Example3 end-->
+
+  <!-- ex:Demo-LightTable-Example4 start-->
+  <bean id="Demo-LightTableGroup4" parent="Uif-LightTableGroup">
+    <property name="propertyName" value="list6"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true">
+          <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+          </property>
+        </bean>
+        <bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="bfield">
+          <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4">
+          <property name="control">
+            <bean parent="Uif-DropdownControl" p:options-ref="test-options"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-LightTable-Example4 start-->
+
+</beans>

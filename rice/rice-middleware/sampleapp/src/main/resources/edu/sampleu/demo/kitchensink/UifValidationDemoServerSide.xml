@@ -1,0 +1,60 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Components View (Kitchen Sink)
+  ********************************************************************************************************************
+  -->
+  <bean id="Demo-ValidationServerSide" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+    <property name="headerText" value="Validation Server-side Test View"/>
+    <property name="footer">
+      <bean parent="Uif-FormFooter"/>
+    </property>
+    <property name="entryPageId" value="Demo-ValidationServerSide-Page1"/>
+    <property name="validateClientSide" value="false"/>
+    <property name="viewHelperServiceClass"
+              value="edu.sampleu.demo.kitchensink.UIfComponentsViewHelperServiceImpl"/>
+    <property name="items">
+      <list>
+        <bean id="Demo-ValidationServerSide-Page1" parent="Uif-Page">
+          <property name="items">
+            <list>
+              <ref bean="minMaxSection"/>
+              <ref bean="requiredSection"/>
+              <ref bean="preReqSection"/>
+              <ref bean="mustOccursSection"/>
+              <ref bean="caseConstraintSection"/>
+              <ref bean="regex1"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter version="5.0" xml:id="intro" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/2000/svg"
+         xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <title>What is Kuali Rice?</title>
+
+  <section>
+    <title>Overview and Benefits of Kuali Rice</title>
+
+    <para>Kuali Rice is an open source, module-based, enterprise class, set of integrated middleware
+      products that allow both Kuali and non-Kuali applications to create custom end-user business
+      applications quickly and efficiently. Services are exposed through the Kuali Service Bus (KSB)
+      and can be consumed by other Rice applications.</para>
+
+    <para>Rice employs the Service Oriented Architecture (SOA) concept and is
+    structured with both a server-side piece and a client-side piece. This
+    framework allows end developers to build robust systems with common
+    enterprise workflow functionality and with customizable and configurable
+    user interfaces that have a clean and universal look and feel.</para>
+
+    <para>On the server side, Kuali Rice is implemented as a group of services within a Servlet
+      container. This allows developers to design software that adds dynamic content to web servers
+      using the Java programming language. Servlets are a server side technology that responds to
+      web clients (typically web browsers) through a request/response paradigm.</para>
+
+    <para>On the client side, Kuali Rice has a flexible framework of pieces
+    that can be included in a Rice client application.</para>
+
+    <para>The Rice Standalone Server is built on the client-server model and
+    is provided as a web archive file (WAR). The Standalone version allows
+    client applications to be configured to interface with the Rice
+    server.</para>
+
+    <para>Rice is designed with a modular architecture where each module performs a specific
+      function that offers services to applications. The Rice architecture has six major modules:<itemizedlist>
+        <listitem>
+          <para>Kuali Service Bus (KSB)</para>
+        </listitem>
+        <listitem>
+          <para>Kuali Enterprise Workflow (KEW)</para>
+        </listitem>
+        <listitem>
+          <para>Kuali Enterprise Notification (KEN)</para>
+        </listitem>
+        <listitem>
+          <para>Kuali Identity Management (KIM)</para>
+        </listitem>
+        <listitem>
+          <para>Kuali Rapid Application Development (KRAD)</para>
+        </listitem>
+        <listitem>
+          <para>Kuali Rules Management System (KRMS)</para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>Kuali Nervous System (KNS) is the original development framework which is planned to be
+      deprecated in the next major release of Rice.</para>
+    <note>
+      <para>Development frameworks are not administered from the Rice Standalone Server.</para>
+    </note>
+
+    <para>Rice provides reusable development frameworks that encourages a simplified approach to
+      developing true business functionality in modular applications.</para>
+
+    <para>Application and service developers can focus on solutions to solve business issues rather
+      than on the technology. Rice takes care of complex technical issues so that each application
+      or service that adopts the framework can interoperate with little or no complexity. The
+      framework also simplifies interoperation with services exposed by other applications.</para>
+
+    <para>In addition, Rice supports the sophisticated workflow processes
+    typically required in higher education. It addresses workflow processes
+    that involve human interaction (i.e., approval) as part of the
+    flow.</para>
+
+    <section>
+      <title>Operate Securely</title>
+
+      <para>Rice has built-in security integration with support for data
+      encryption, pluggable authentication, and pluggable
+      authorization.</para>
+    </section>
+  </section>
+</chapter>

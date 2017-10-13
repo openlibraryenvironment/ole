@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_LazyImport" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+            <title>Lazy importing of EDL Styles</title>
+            <para>You can configure Rice to lazily import an eDocLite style into the database on
+                demand by setting a custom configuration parameter.<itemizedlist>
+                    <listitem>
+                        <para>Create a custom stylesheet file, e.g. myricestyle.xml containing a
+                            style with a unique name, e.g. "xyzAppStyle" and store it in a location
+                            that is locally accessible to your application server. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Set a configuration parameter named <emphasis role="keyword"
+                                >edl.style.&lt;style-name></emphasis> with the value being a path to
+                            the file containing your style. Following the example above, you would
+                            name your parameter "edl.style.xyzAppStyle". </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>The stylesheet file could contain a full EDL, or be a standalone
+                EDL style. On first use of that named style by an EDL, the file will be parsed and
+                the named style will be imported into the database. The following example contains
+                just an eDocLite XSL stylesheet:</para>
+            <programlisting linenumbering = "numbered">&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+        &lt;style name="xyzAppStyle">
+            &lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wf="http://xml.apache.org/xalan/java/org.kuali.rice.kew.edoclite.WorkflowFunctions">
+                &lt;!-- your custom stylesheet -->
+            &lt;/xsl:stylesheet>
+        &lt;/style>
+    &lt;/edoclite>
+
+&lt;/data>
+</programlisting>
+            <para>Note that in a default Rice installation (starting in version 1.0.2), the
+                "widgets" style is lazily imported using this mechanism. In
+                common-config-defaults.xml (which is located in the rice-impl jar), the following
+                parameter is defined:</para>
+            <programlisting linenumbering = "numbered">&lt;param name="edl.style.widgets" override="false">classpath:org/kuali/rice/kew/edl/default-widgets.xml&lt;/param></programlisting>
+            <para>If you wanted to override that file, you could define your own parameter in your
+                Rice XML configuration file using the above example as a template, but removing the
+                <emphasis role="keyword">override="false"</emphasis> attribute.</para>
+            <section>
+                <title>Document Type</title>
+                <para>A <emphasis role="keyword">document type</emphasis> defines the workflow
+                    process for an eDocLite. You can create hierarchies where Child document types
+                    inherit attributes of their Parents. At some level, a document type specifies
+                    routing information. The document type definition for our first example follows.
+                    It contains routing information that describes the route paths possible for a
+                    document.</para>
+                <programlisting linenumbering = "numbered">&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>eDoc.Example1Doctype&lt;/name>
+            &lt;parent>eDoc.Example1.ParentDoctype&lt;/parent>
+            &lt;description>eDoc.Example1 Request DocumentType&lt;/description>
+            &lt;label>eDoc.Example1 Request DocumentType&lt;/label>
+            &lt;postProcessorName>org.kuali.rice.kew.edl.EDocLitePostProcessor&lt;/postProcessorName>
+            &lt;superUserGroupName namespace="KUALI">eDoc.Example1.SuperUsers&lt;/superUserGroupName>
+            &lt;blanketApprovePolicy>NONE&lt;/blanketApprovePolicy>
+            &lt;defaultExceptionGroupName namespace="KUALI">eDoc.Example1.defaultExceptions&lt;/defaultExceptionGroupName>
+            &lt;docHandler>${workflow.url}/EDocLite&lt;/docHandler>
+            &lt;active>true&lt;/active>
+            &lt;routingVersion>2&lt;/routingVersion>
+            &lt;routePaths>
+                &lt;routePath>
+                    &lt;start name="Initiated" nextNode="eDoc.Example1.Node1" />
+                    &lt;requests name="eDoc.Example1.Node1" />
+                &lt;/routePath>
+            &lt;/routePaths>
+            &lt;routeNodes>
+                &lt;start name="Initiated">
+                    &lt;activationType>P&lt;/activationType>
+                    &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+                    &lt;finalApproval>false&lt;/finalApproval>
+                &lt;/start>
+                &lt;requests name="eDoc.Example1.Node1">
+                    &lt;activationType>P&lt;/activationType>
+                    &lt;ruleTemplate>eDoc.Example1.Node1&lt;/ruleTemplate>
+                    &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+                    &lt;finalApproval>false&lt;/finalApproval>
+                &lt;/requests>
+            &lt;/routeNodes>
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+                <para>The Parent element refers to a hierarchical order of the document types.
+                    Usually, you create one Root document type with limited but common information.
+                    Then, under that, you create more specific document types. In our example, there
+                    are only two levels.</para>
+                <para>The Root document type definition for our first example:</para>
+                <programlisting linenumbering = "numbered">&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>eDoc.Example1.ParentDoctype&lt;/name>
+            &lt;description>eDoc.Example1 Parent Doctype&lt;/description>
+            &lt;label>eDoc.Example1 Parent Document&lt;/label>
+            &lt;postProcessorName>org.kuali.rice.kew.edl.EDocLitePostProcessor&lt;/postProcessorName>
+            &lt;superUserGroupName namespace="KUALI">eDoc.Example1.SuperUsers&lt;/superUserGroupName>
+            &lt;blanketApprovePolicy>NONE&lt;/blanketApprovePolicy>
+            &lt;docHandler>${workflow.url}/EDocLite&lt;/docHandler>
+            &lt;active>true&lt;/active>
+            &lt;routingVersion>2&lt;/routingVersion>
+            &lt;routePaths />
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+                <para>A Child document type can inherit most element values, although you must
+                    define certain element values, like <emphasis role="keyword"
+                        >postProcessor</emphasis>, for each Child document type.</para>
+                <para>A brief explanation of elements that are not intuitive is below. You can find
+                    additional element explanations by reading the Document Type Guide.</para>
+            </section>
+            <section>
+                <title>Parent DocType</title>
+                <para><emphasis role="keyword">postProcessorName</emphasis> - Use the default, as shown
+                    above, unless special processing is needed. </para>
+                <para><emphasis role="keyword">blanketApprovePolicy</emphasis> – When specified as
+                    NONE, this means that a user cannot click a single button that satisfies
+                    multiple levels of approval. </para>
+                <para><emphasis role="keyword">dochandler</emphasis> - Use the default, as shown above,
+                    so URLs are automatically unique in each environment, based on settings in the
+                    Application Constants (i.e., unique in each Test environment and unique again in
+                    Production). </para>
+                <para><emphasis role="keyword">active</emphasis> - Set this element to <emphasis
+                    role="keyword">false</emphasis> to disable this feature. </para>
+                <para><emphasis role="keyword">routingVersion</emphasis> - Use the default, as shown
+                    above. </para>
+            </section>
+            <section>
+                <title>Child DocType</title>
+                <para><emphasis role="keyword">name</emphasis> - The name value must exactly match the
+                    value in the <emphasis role="italic">EDL Association</emphasis> document type
+                    element. </para>
+                <para><emphasis role="keyword">parent</emphasis> - The parent value must exactly match
+                    the name value of the parent document type. </para>
+                <para><emphasis role="keyword">superUserGroupName</emphasis> - A group of people who
+                    have special privileges that can be defined using the management service that's
+                    part of the KIM module. </para>
+                <para><emphasis role="keyword">defaultExceptionGroupName</emphasis> - A group of people
+                    who address a document of this type when it goes into Exception routing </para>
+                <para><emphasis role="keyword">routePaths</emphasis> and <emphasis role="keyword"
+                        >routePath</emphasis> - The initial elements that summarize the routing path
+                    the document will follow. In our example, an initiator fills out an eDocLite
+                    form. When the initiator submits that form, where it is routed depends on the
+                    value in the <emphasis role="keyword">Campus</emphasis> field. There is only one
+                    destination node in our first example. The submitted form goes to either the IUB
+                    person or the IUPUI person, depending on the selection in the <emphasis
+                        role="keyword">Campus</emphasis> field. </para>
+                <para>In most cases, a workgroup of people is the destination for an EDL form, not a
+                    single person. Workgroups are used as destinations because anyone in the
+                    workgroup can open the document, edit it, and click an <emphasis role="keyword"
+                        >Action</emphasis> button that routes the document to the next node. This
+                    prevents delays when someone is out of the office and a document awaits their
+                    action.</para>
+                <para>When the initiator submits the document, KEW adds that document to the Action
+                    List of the destination person or workgroup. The destination person or workgroup
+                    can then open the document, edit it (if any fields are available for editing),
+                    and click an <emphasis role="keyword">Action</emphasis> button such as <emphasis
+                        role="keyword">Approve</emphasis>, which routes the document onward. In our
+                    case, there is no further destination, so when the destination person or
+                    workgroup approves the document, the document becomes <emphasis role="keyword"
+                        >Final</emphasis> (it is finished). Some real-life examples have ten or more
+                    nodes for approvals or other actions. A document may bypass some of those nodes,
+                    depending on data placed into the form by previous participants. </para>
+                <para><emphasis role="keyword">routeNodes</emphasis>- Redefines the route path. </para>
+                <para><emphasis role="keyword">activationType</emphasis>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">P</emphasis> stands for <emphasis
+                                role="keyword">parallel</emphasis> and is almost always used.
+                                This value makes more sense when considered from a <emphasis
+                                    role="keyword">target node</emphasis> perspective. From that
+                                perspective, it means that if a workgroup of people all received the
+                                document in their Action List, any one, in any order, can approve
+                                it. Once it is approved by anyone in the workgroup, it is routed to
+                                the next node, and KEW removes the document from the Action List of
+                                all the people in the workgroup. activationType </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">S</emphasis> stands for <emphasis
+                                role="keyword">sequential</emphasis> and is reserved for special
+                                cases where rules can specify that two or more people in a workgroup
+                                must take Action on a document, in a specific order, before KEW will
+                                route the document to the next node. </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para><emphasis role="keyword">mandatoryRoute</emphasis> - Use <emphasis role="keyword"
+                        >false</emphasis> unless there is a special condition to solve. When this
+                    parameter is set to <emphasis role="keyword">true</emphasis>, the document goes
+                    into exception routing if an approve request isn't generated by the
+                    ruleTemplate. This means that you are only expecting an <emphasis role="keyword"
+                        >approve</emphasis>, and nothing else. </para>
+                <para><emphasis role="keyword">finalApproval</emphasis> - Use false unless there is a
+                    special condition to solve. When this parm is set to true, the document goes
+                    into exception routing if approves are generated after this route node. This
+                    means this must be the last Action, or it will go into exception routing. (Be
+                    careful, because if this parameter is set to true and a user clicks a Return to
+                    Previous button, then the next action button clicked sends the document into
+                    exception handling.) </para>
+                <para><emphasis role="keyword">requests name</emphasis>= "..." - Defines the name of
+                    the node </para>
+                <para><emphasis role="keyword">ruleTemplate</emphasis> - A named entity type that helps
+                    define which routing rule fires. In our example, the <emphasis role="keyword"
+                        >ruleTemplate</emphasis> name is the same as the <emphasis role="keyword"
+                        >request</emphasis> name. These field values do NOT need to be the same.
+                    They are simply identifiers. </para>
+            </section>
+            <section>
+                <title>Rule Attributes</title>
+                <para>The RuleAttribute is a mechanism that can relate directly to an edl field.
+                    Most rule attributes are of the xml rule attribute type. This type uses an xpath
+                    statement which is used by the workflow engine to match to a rule that fires or
+                    does not fire. </para>
+                <para>In the below example, it can be seen that the edl defined field named 'campus'
+                    and its permissible values are defined. Then in the xpathexpression element
+                    says; when the value in the edl field named 'campus' matches the rule that
+                    contains 'IUB' the rule will fire. Or when the value in the edl field named
+                    'campus' matches the rule that contains 'IUPUI' that rule will fire instead.
+                    Rules firing route a document to a person or a workgroup of people. </para>
+                <para>To make another rule attribute for a different field, clone this one, change
+                    all references to the field 'campus' to your different edl field name. Then cut
+                    and paste in the values section. Then in the edl definition, the new field must
+                    carry the extra syntax 'attributeName='. For example the eld definition for
+                    campus looks like this: </para>
+                <programlisting linenumbering = "numbered">&lt;fieldDef name="campus" title="Campus" workflowType="ALL"></programlisting>
+            </section>
+            <section>
+                <title>Rule Routing</title>
+                <programlisting linenumbering = "numbered">&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        &lt;ruleAttribute>
+            &lt;name>EDL.Campus.Example&lt;/name>
+            &lt;className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute&lt;/className>
+            &lt;label>EDL Campus Routing&lt;/label>
+            &lt;description>EDL School Routing&lt;/description>
+            &lt;type>RuleXmlAttribute&lt;/type>
+            &lt;routingConfig>
+                &lt;fieldDef name="campus" title="Campus" workflowType="ALL">
+                    &lt;display>
+                        &lt;type>select&lt;/type>
+                        &lt;values title="IUB">IUB&lt;/values>
+                        &lt;values title="IUPUI">IUPUI&lt;/values>
+                    &lt;/display>
+                    &lt;validation required="false" />
+                    &lt;fieldEvaluation>
+                        &lt;xpathexpression>//campus = wf:ruledata('campus')&lt;/xpathexpression>
+                    &lt;/fieldEvaluation>
+                &lt;/fieldDef>
+                &lt;xmlDocumentContent>
+                    &lt;campus>%campus%&lt;/campus>
+                &lt;/xmlDocumentContent>
+            &lt;/routingConfig>
+        &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+
+&lt;/data>
+</programlisting>
+                <para>Rule attributes can have a different types such a searchable, but this type
+                    does not have to do with routing. Instead it relates to additional columns that
+                    are displayed in doc search for a particular doc type.</para>
+            </section>
+            <section>
+                <title>Ingestion Order</title>
+                <para>Many components can go in at any time, but it is advisable to follow a pattern
+                    to minimize the conflicts that can occur. A few pieces are co-dependent.<orderedlist>
+                        <listitem>
+                            <para>Basic Components: </para>
+                        </listitem>
+                        <listitem>
+                            <para>Widgets.xml (If changed or not previously in the environment)
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Kim Group(s) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule Attributes </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule Template(s) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Parent Doctype (often no routing so data is more generic, but do
+                                put routing here if children will use common routing.) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Children Doctype(s) (routing defined here or on Parent) </para>
+                        </listitem>
+                        <listitem>
+                            <para>EDL Form </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule routing rule (Used if rules are created; explained later- 1
+                                per parent doctype) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rules (Create or Ingest) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Anything else - Like optional custom Email Stylesheet </para>
+                        </listitem>
+                    </orderedlist></para>
+            </section>
+</chapter>

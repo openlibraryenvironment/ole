@@ -1,0 +1,199 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="Demo-ReadOnlyTestView" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="ReadOnly Test"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" p:render="@{!#view.readOnly}"
+                    p:actionLabel="Make ReadOnly" p:methodToCall="makeReadOnly"/>
+              <ref bean="Demo-ReadOnlySection1"/>
+              <ref bean="Demo-ReadOnlySection2"/>
+              <ref bean="Demo-ReadOnlySection3"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-ReadOnlySection1" p:headerText="Basic Functionality" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field2" p:label="Field 1">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field3" p:label="Field 2">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field4" p:label="Field 3">
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field114" p:label="Field 4">
+          <property name="control">
+            <bean parent="Uif-MultiSelectControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field117" p:label="Radio 1"
+              p:width="auto"
+              p:instructionalText="RadioGroupControl using an optionsFinder">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="bField1" p:label="Checkbox"
+              p:defaultValue="true"
+              p:instructionalText="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by
+            default">
+          <property name="control">
+            <bean parent="Uif-CheckboxControl"
+                  p:checkboxLabel="Checkbox Label"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field115" p:label="Checkboxes 1"
+              p:instructionalText="CheckboxGroupControl using an optionsFinder" p:width="auto"
+              p:readOnlyDisplayReplacement="@{#emptyList(field115)?'No Options Selected':''}">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Date" p:propertyName="date1" p:required="true">
+          <property name="control">
+            <bean parent="Uif-DateControl"/>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-ReadOnlySection2" p:headerText="Advanced Functionality" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field116" p:label="Break Delimiter"
+              p:readOnlyListDisplayType="BREAK">
+          <property name="control">
+            <bean parent="Uif-MultiSelectControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field120" p:label="Alternate Delimiter"
+              p:instructionalText="CheckboxGroupControl using an optionsFinder" p:width="auto"
+              p:readOnlyListDisplayType="DELIMITED" p:readOnlyListDelimiter=" - ">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="stringList1" p:label="Ordered List"
+              p:instructionalText="CheckboxGroupControl using an optionsFinder" p:width="auto"
+              p:readOnlyListDisplayType="OL">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="stringList2" p:label="Unordered List"
+              p:instructionalText="CheckboxGroupControl using an optionsFinder" p:width="auto"
+              p:readOnlyListDisplayType="UL">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-ReadOnlySection3" p:headerText="DataFields of different data types" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+
+        <bean parent="Uif-DataField-LabelTop" p:propertyName="stringList4" p:label="String"
+              p:readOnlyListDisplayType="BREAK">
+        </bean>
+
+        <bean parent="Uif-DataField-LabelTop" p:propertyName="intList" p:label="Integer"
+              p:readOnlyListDisplayType="BREAK">
+        </bean>
+
+        <bean parent="Uif-DataField-LabelTop" p:propertyName="doubleList" p:label="Double"
+              p:readOnlyListDisplayType="BREAK">
+        </bean>
+
+        <bean parent="Uif-DataField-LabelTop" p:propertyName="dateList" p:label="Date"
+              p:readOnlyListDisplayType="BREAK">
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

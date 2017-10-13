@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Group" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group</title>
+    <section>
+      <title>Group Lookup Screen</title>
+      <para>The Group Lookup function provides a quick reference to key Group
+      information.</para>
+
+      <para>You get to this screen by clicking the <emphasis
+      role="bold">Group</emphasis> option in the <emphasis
+      role="bold">Identity</emphasis> section of the <emphasis
+      role="bold">Administration</emphasis> screen.</para>
+
+      <figure>
+        <title>Identity Channel: Group Link</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/select_group_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <figure>
+        <title>Group Lookup</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/group_lookup_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>On the <emphasis role="bold">Group Lookup</emphasis> screen, click
+      the <emphasis role="bold">create new</emphasis> button to go to the
+      <emphasis role="bold">Group Maintenance</emphasis> screen, where you can
+      create a new Group in Rice.</para>
+
+      <para>Conducting a search from the Group Lookup screen returns a list
+      similar to this:</para>
+
+      <figure>
+        <title>Group Lookup: Results</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/group_lookup_results_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>For information on any of the fields above, please refer to the
+      <emphasis role="bold">Group Maintenance</emphasis> section below.</para>
+    </section>
+    <section>
+      <title>Group Inquiry Screen</title>
+
+      <para>This screen provides high-level information about a Group and
+      shows who is assigned to it.</para>
+
+      <para>Click a <emphasis role="bold">Group Request</emphasis> value on
+      the <emphasis role="bold">Action List</emphasis> screen to display the
+      <emphasis role="bold">Group Inquiry</emphasis> page for that
+      Group:</para>
+
+      <figure>
+        <title>Group Inquiry</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/group_inquiry_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <section>
+        <title>Overview Tab</title>
+
+        <para>For information on these fields please refer to the <emphasis
+        role="bold">Group Maintenance</emphasis> section that follows.</para>
+      </section>
+      <section>
+        <title>Assignees Tab</title>
+
+        <para><table frame="none" tabstyle="striped">
+            <title>Group Inquiry: Assignees Attributes</title>
+            <tgroup cols="2">
+              <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+              <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+              <thead>
+                <row>
+                  <entry>Field</entry>
+                  <entry>Description</entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>Type Code</entry>
+                  <entry>The code for the type of this Group member</entry>
+                </row>
+                <row>
+                  <entry>Member Identifier</entry>
+                  <entry>The user ID for the Member</entry>
+                </row>
+                <row>
+                  <entry>Name</entry>
+                  <entry>The user name for the Member</entry>
+                </row>
+                <row>
+                  <entry>Active From Dt</entry>
+
+                  <entry>The effective date of membership in this Group for
+                  this member; if it is blank, membership is valid as soon as
+                  the member is assigned This field is useful when you want to
+                  add a Person, Role, or Group to a Group before he/she/they
+                  should be active in the Group. This might happen, for
+                  example, when you add a new employee before their start
+                  date.</entry>
+                </row>
+                <row>
+                  <entry>Active To Dt</entry>
+
+                  <entry>The termination date of membership for this member;
+                  if blank, the membership does not terminate</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </section>
+    </section>
+    <section>
+      <title>Group Maintenance Document</title>
+
+      <para>The Group document allows you to associate Persons, Roles, or
+      other Groups with each other so you can assign the same role to all
+      Group members.</para>
+
+      <para>Groups have no inherent permissions or responsibilities of their
+      own. Only by associating a Group with a role do the members of that
+      Group become associated with permissions and responsibilities.</para>
+
+      <section>
+        <title>Creating New Groups</title>
+
+        <para>If you are creating a new Group and have clicked the <emphasis role="bold">Create
+          New</emphasis> button on the Group Lookup screen, you will be redirected to the Group
+        creation page. One of the first things to do, if wanting to create a group with a
+        non-default Group Type, is to use the kim type lookup to select a different group type. Once
+        you click on the Type Name in the Overview tab, you will be redirected to a screen like the
+        following:</para>
+
+        <figure>
+          <title>KIM Type Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/Kim_type_lookup_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para><table frame="none" tabstyle="striped">
+            <title>KIM Type Lookup Search Attributes</title>
+            <tgroup cols="2">
+              <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+              <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+              <thead>
+                <row>
+                  <entry>Field</entry>
+                  <entry>Description</entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>Namespace Code</entry>
+
+                  <entry>Optional. Select the code for the application and
+                  module to which this KIM Type pertains.</entry>
+                </row>
+                <row>
+                  <entry>Type Name</entry>
+                  <entry>Optional. Enter the name for this KIM Type.</entry>
+                </row>
+                <row>
+                  <entry>Type Identifier</entry>
+
+                  <entry>Optional. Enter the unique system-assigned Identifier
+                  for this KIM Type.</entry>
+                </row>
+                <row>
+                  <entry>Active Indicator</entry>
+
+                  <entry>Required (defaults to Yes). Change the default
+                  selection to view KIM types that are inactive or to see all
+                  Types (active and inactive).</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+
+        <para><emphasis role="bold">The search results list includes the same
+        fields as the Lookup screen. </emphasis>The search results are
+        displayed below the search fields on the Lookup screen.</para>
+
+        <para>To select the Type you want to use for your new Group, click the
+        return value link for that Type. KIM will copy the Type information to
+        use in creating your new Group.</para>
+      </section>
+      <section>
+        <title>Group Maintenance Document: Layout</title>
+        <para>The Group document includes these tabs:<itemizedlist>
+            <listitem>
+              <para>Document Overview</para>
+            </listitem>
+            <listitem>
+              <para>Overview</para>
+            </listitem>
+            <listitem>
+              <para>Assignees</para>
+            </listitem>
+            <listitem>
+              <para>Ad Hoc Recipients</para>
+            </listitem>
+            <listitem>
+              <para>Route Log</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>The Overview and Assignees tabs are described below. Information
+        on the Ad Hoc Recipients and Route Log tabs can be found in the 
+          <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/Intro_To_Rice.html#frequent_tab">Frequently Used Tabs</link>
+        section of the Introduction to Rice Guide.</para>
+
+        <figure>
+          <title>Group Maintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/group_maintenance_document_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>Overview Tab</title>
+
+          <para>This tab identifies the Group with a unique system-assigned ID
+          number, a namespace, and a name. Each Group also has a Type that
+          specifies any qualifiers that this Group might require.</para>
+
+          <figure>
+            <title>Group Maintenance Document: Group Overview</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/group_overview_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Group Maintenance Document: Group Overview
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Group ID</entry>
+                    <entry>Display-only. The unique system-assigned ID number
+                    that identifies this Group; Rice completes this field when
+                    you submit the document.</entry>
+                  </row>
+                  <row>
+                    <entry>Type Name</entry>
+
+                    <entry><para>Required. The type of attributes that are
+                    associated with this Group. Some Group types, such as the
+                    Default Type, do not require attributes.</para>
+                    <para><emphasis role="bold">Note: </emphasis>When creating
+                    a new Group, you must select the Type before Rice can
+                    generate the document. See the Creating New Groups section
+                    of this document</para></entry>
+                  </row>
+                  <row>
+                    <entry>Group Namespace</entry>
+
+                    <entry>Required. An indicator that associates the Group
+                    with a particular application and module</entry>
+                  </row>
+                  <row>
+                    <entry>Group Name</entry>
+                    <entry>Required. The common descriptive name by which this
+                    Group is known</entry>
+                  </row>
+                  <row>
+                    <entry>Active</entry>
+
+                    <entry>Check this box to indicate that this Group is
+                    active and is a valid choice for assigning to roles.
+                    Uncheck the box to indicate that this Group is inactive
+                    (it is no longer valid when making role
+                    assignments).</entry>
+                  </row>
+                  <row>
+                    <entry>Group Description</entry>
+                    
+                    <entry>Optional. Some text to describe the group.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+        <section>
+          <title>Assignees Tab</title>
+
+          <para>This tab displays the members who belong to this Group. You
+          can also use this tab to add new members or to edit the fields for
+          existing members.</para>
+
+          <para>Note that for members not added to the group on this
+          maintenance document, the "delete" button to remove that member is
+          inactive. If a member's association with a group is past, users
+          should set the "Active To Date" field to the end of the membership;
+          the member will not be an active member of the group after that
+          date.</para>
+
+          <figure>
+            <title>Group Maintenance Document: Assignees Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/assignees_tab_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Group Maintenance Document: Assignees Tab
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>Type Code</entry>
+                    <entry>Required. Select the Type of the member you are
+                    adding to this Group. Group members can be Principals (as
+                    defined on the Person document), Roles, or other
+                    Groups.</entry>
+                  </row>
+                  <row>
+                    <entry>Member Identifier</entry>
+
+                    <entry>Required. Enter the ID that identifies the member
+                    you are adding, or use the lookup to search for and select
+                    a valid Member ID. The lookup directs you to the <emphasis
+                    role="bold">Principal</emphasis>, <emphasis
+                    role="bold">Group</emphasis>, or <emphasis
+                    role="bold">Role</emphasis> lookup, based on your
+                    <emphasis role="bold">Member Type Code</emphasis>
+                    selection.</entry>
+                  </row>
+                  <row>
+                    <entry>Name</entry>
+                    
+                    <entry>Optional. Enter the person name. Clicking on the magnifying glass icon
+                    brings up the Person Lookup screen, where a person may be looked up and, once
+                    located, inserted.</entry>
+                  </row>
+                  <row>
+                    <entry>Active From Date</entry>
+
+                    <entry>Optional. To specify the earliest date on which
+                    this member is to be considered a valid member of this
+                    Group, enter a date in this field.</entry>
+                  </row>
+                  <row>
+                    <entry>Active To Date</entry>
+
+                    <entry><para>Optional. To specify a date on which this
+                    member is no longer to be considered a valid member of
+                    this Group, enter a date in this field. As of this date,
+                    the Member will no longer be considered a member of this
+                    Group.</para> <para><emphasis role="bold">Note:
+                    </emphasis>You cannot delete or inactivate Group members.
+                    To remove a member from a Group, enter an Active To
+                    Date.</para></entry>
+                  </row>
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to add this member to the Group.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+</chapter>

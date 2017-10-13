@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="FiscalOfficerInfo" parent="FiscalOfficerInfo-parentBean"/>
+  <bean id="FiscalOfficerInfo-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+      <list>
+        <ref bean="FiscalOfficerInfo-id"/>
+        <ref bean="FiscalOfficerInfo-userName"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Fiscal Officer"/>
+    <property name="primaryKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="FiscalOfficerInfo-id" parent="FiscalOfficerInfo-id-parentBean"/>
+  <bean id="FiscalOfficerInfo-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Travel Fiscal Officer Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="10"/>
+    </property>
+    <property name="summary" value="Travel Fiscal Officer Id"/>
+    <property name="name" value="id"/>
+    <property name="label" value="Travel Fiscal Officer Id"/>
+    <property name="description" value="Travel Fiscal Officer Id"/>
+  </bean>
+  
+  <bean id="FiscalOfficerInfo-userName" parent="FiscalOfficerInfo-userName-parentBean"/>
+  <bean id="FiscalOfficerInfo-userName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Fiscal Officer User Name"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="summary" value="Fiscal Officer User Name"/>
+    <property name="name" value="userName"/>
+    <property name="label" value="Fiscal Officer User Name"/>
+    <property name="description" value="Fiscal Officer User Name"/>
+  </bean>
+
+  <bean id="FiscalOfficerInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo"/>
+    <property name="maintainableClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfoMaintainableImpl"/>
+    <property name="documentTypeName" value="FiscalOfficerInfoMaintenanceDocument"/>
+    <property name="lockingKeys">
+      <list>
+        <value>userName</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="tabMenu" parent="Uif-TabNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page1" p:actionLabel="Information"/>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page2" p:actionLabel="Accounts"/>
+            </list>
+        </property>
+  </bean>
+
+  <bean id="information" parent="Uif-Disclosure-GridSection">
+      <property name="layoutManager.numberOfColumns" value="2"/>
+      <property name="items">
+        <list>
+          <bean parent="Uif-InputField" p:propertyName="id"/>
+          <bean parent="Uif-InputField" p:propertyName="userName"/>
+        </list>
+      </property>
+      <property name="headerText" value="Fiscal Officer Information"/>
+  </bean>
+    
+  <bean id="accounts" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="3">
+      <property name="headerText" value="Travel Accounts"/>
+      <property name="collectionObjectClass" value="org.kuali.rice.krad.demo.travel.account.TravelAccountInfo"/>
+      <property name="propertyName" value="accounts"/>
+      <property name="instructionalText" value="Travel Accounts for Fiscal Officer"/>
+      <property name="layoutManager.sequencePropertyName" value="number"/>
+      <property name="layoutManager.generateAutoSequence" value ="false"/>
+      <property name="layoutManager.sequenceFieldPrototype">
+        <bean parent="Uif-InputField" p:propertyName="number" p:readOnly="true"/>
+      </property>
+      <property name="items">
+        <list>
+          <bean parent="Uif-InputField" p:propertyName="number"/>
+          <bean parent="Uif-InputField" p:propertyName="name"/>
+          <bean parent="Uif-InputField" p:propertyName="createDate"/>
+        </list>
+      </property>           
+  </bean>   
+  
+<!-- views -->
+
+  <bean id="FiscalOfficerInfo-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Fiscal Officer Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfoInquiryViewHelperServiceImpl" />
+    <property name="items">
+      <list>
+        <ref bean="information" />
+        <ref bean="accounts" />    
+      </list>
+    </property>
+  </bean>
+  
+  <!-- below bean has 'viewName' defined and can be used to show example url when retrieving a view by viewName and dataObjectClassName -->
+  <bean id="FiscalOfficerInfo-InquiryView2" parent="FiscalOfficerInfo-InquiryView">
+  	<property name="viewName" value="FiscalOfficerInfoInquiry2"/>
+    <property name="headerText" value="Fiscal Officer Inquiry 2"/>
+    <property name="entryPageId" value="page1"/>
+	<property name="navigation">
+        <ref bean="tabMenu"/>
+    </property>
+	<property name="singlePageView" value="false"/>
+    <property name="items">
+        <list>
+            <bean parent="Uif-Page" p:id="page1">
+                <property name="items">
+                    <list>
+                        <ref bean="information"/>
+                    </list>
+                </property>
+            </bean>
+            <bean parent="Uif-Page" p:id="page2">
+                <property name="items">
+                    <list>
+                        <ref bean="accounts"/>
+                    </list>
+                </property>
+            </bean>
+        </list>
+    </property>
+  </bean>
+
+  <!-- below bean has an 'id' defined and can be used to show example url when retrieving a view by viewId -->
+  <bean id="FiscalOfficerInfo-InquiryView3" parent="FiscalOfficerInfo-InquiryView">
+    <property name="id" value="FiscalOfficerInfoInquiry3"/>
+    <property name="viewName" value="FiscalOfficerInfoInquiry3"/>
+    <property name="headerText" value="Fiscal Officer Inquiry 3"/>
+  </bean>
+  
+  <bean id="FiscalOfficerInfo-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Fiscal Officer Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo" />
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfoLookupViewHelperServiceImpl" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="userName" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="userName" />
+      </list>
+    </property>
+  </bean>
+  
+  <!-- below bean has no 'id' defined and can be used to show example url when retrieving a view by viewId -->
+  <bean id="FiscalOfficerInfoLookupViewUsername" parent="Uif-LookupView">
+    <property name="viewName" value="FiscalOfficerInfoLookup2"/>
+    <property name="headerText" value="Fiscal Officer Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo" />
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfoLookupViewHelperServiceImpl" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="userName" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="userName" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="FiscalOfficerInfo-LookupView_id" parent="Uif-LookupView">
+    <property name="viewName" value="FiscalOfficerInfoLookup3"/>
+    <property name="headerText" value="Fiscal Officer Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo" />
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfoLookupViewHelperServiceImpl" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="userName" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="FiscalOfficerInfo-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Fiscal Officer Maintenance" />
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfo" />
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.demo.travel.fiscalofficer.FiscalOfficerInfoMaintainableImpl" />
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="id" />
+              <bean parent="Uif-InputField" p:propertyName="userName" />
+            </list>
+          </property>
+          <property name="headerText" value="Fiscal Officer Information" />
+        </bean>
+        <!--
+        <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
+          <property name="title" value="Travel Accounts"/>
+          <property name="collectionObjectClass" value="org.kuali.rice.krad.demo.travel.account.TravelAccountInfo"/>
+          <property name="propertyName" value="accounts"/>
+          <property name="instructionalText" value="Travel Accounts for Fiscal Officer"/>
+          <property name="layoutManager.sequencePropertyName" value="number"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="number"/>
+              <bean parent="Uif-InputField" p:propertyName="name"/>
+              <bean parent="Uif-InputField" p:propertyName="createDate"/>
+            </list>
+          </property>        
+        </bean>
+        -->
+        <bean parent="Uif-MaintenanceStackedCollectionSection">
+            <property name="headerText" value="Fiscal Officer Accounts"/>
+            <property name="collectionObjectClass" value="org.kuali.rice.krad.demo.travel.account.TravelAccountInfo"/>
+            <property name="propertyName" value="accounts"/>
+            <property name="items">
+              <list>
+                <bean parent="Uif-InputField" p:propertyName="number"/>
+                <bean parent="Uif-InputField" p:propertyName="name"/>
+              </list>
+            </property>   
+            <property name="layoutManager.summaryTitle" value="Travel Account"/> 
+            <property name="layoutManager.summaryFields">
+              <list>
+                <value>number</value>
+              </list>
+            </property>
+         </bean>
+      </list>
+    </property>
+  </bean>
+  
+</beans>

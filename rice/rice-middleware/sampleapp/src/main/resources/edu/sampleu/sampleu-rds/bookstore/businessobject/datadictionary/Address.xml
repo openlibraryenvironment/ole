@@ -1,0 +1,178 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <dataObjectEntry id="Address" parent="Address-parentBean"/>
+  <dataObjectEntry abstract="true" dataObjectClass="edu.sampleu.bookstore.bo.Address" id="Address-parentBean"
+                   objectLabel="Address" parent="DataObjectEntry" titleAttribute="addressId">
+    <attributes>
+      <ref bean="Address-id"/>
+      <ref bean="Address-type"/>
+      <ref bean="Address-street1"/>
+      <ref bean="Address-street2"/>
+      <ref bean="Address-city"/>
+      <ref bean="Address-province"/>
+      <ref bean="Address-country"/>
+      <ref bean="Address-activeBean"/>
+    </attributes>
+    <primaryKeys>
+      <value>addressId</value>
+    </primaryKeys>
+  </dataObjectEntry>
+  <attributeDefinition id="Address-id" parent="Address-id-parentBean"/>
+  <attributeDefinition abstract="true" id="Address-id-parentBean" label="Address Id" maxLength="19" name="addressId"
+                       parent="AttributeDefinition" shortLabel="Id">
+    <validChractersConstraint>
+      <numericPatternConstraint parent="NumericPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <hiddenControl parent="Uif-HiddenControl"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Address-type" parent="Address-type-parentBean"/>
+  <attributeDefinition abstract="true" description="Address Type of the Address." id="Address-type-parentBean"
+                       label="Address Type" name="type" parent="AttributeDefinition" shortLabel="Type"
+                       summary="Address Type of the Address.">
+    <control>
+      <selectControl parent="Uif-DropdownControl"/>
+    </control>
+    <optionFinder>
+      <spring:bean class="edu.sampleu.bookstore.document.keyvalue.AddressTypeKeyValues"/>
+    </optionFinder>
+  </attributeDefinition>
+  <attributeDefinition id="Address-street1" parent="Address-street1-parentBean"/>
+  <attributeDefinition abstract="true" id="Address-street1-parentBean" label="Street 1" maxLength="19" name="street1"
+                       parent="AttributeDefinition" shortLabel="Street 1">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="30"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Address-street2" parent="Address-street2-parentBean"/>
+  <attributeDefinition abstract="true" id="Address-street2-parentBean" label="Street 2" maxLength="19" name="street2"
+                       parent="AttributeDefinition" shortLabel="Street 2">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="30"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Address-city" parent="Address-city-parentBean"/>
+  <attributeDefinition abstract="true" id="Address-city-parentBean" label="City" maxLength="100" name="city"
+                       parent="AttributeDefinition" shortLabel="City">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="30"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Address-province" parent="Address-province-parentBean"/>
+  <attributeDefinition abstract="true" id="Address-province-parentBean" label="Province" maxLength="32" name="province"
+                       parent="AttributeDefinition" shortLabel="Province">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="30"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Address-country" parent="Address-country-parentBean"/>
+  <attributeDefinition abstract="true" id="Address-country-parentBean" label="Country" maxLength="25" name="country"
+                       parent="AttributeDefinition" shortLabel="Country">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="17"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="Address-activeBean" parent="Address-activeBean-parentBean"/>
+  <attributeDefinition abstract="true"
+                       description="This attribute is used to describe whether the associated object is active or inactive."
+                       forceUppercase="false" formatterClass="org.kuali.rice.core.web.format.BooleanFormatter"
+                       id="Address-activeBean-parentBean" label="Active Indicator" maxLength="1" name="active"
+                       parent="AttributeDefinition" shortLabel="active" summary="Active Indicator">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <checkboxControl parent="Uif-CheckboxControl"/>
+    </control>
+  </attributeDefinition>
+  <lookupView dataObjectClassName="edu.sampleu.bookstore.bo.Address" headertext="Address Lookup" id="Address-LookupView"
+              parent="Uif-LookupView">
+    <criteriaFields>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="addressType.type"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="city"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="province"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="country"/>
+    </criteriaFields>
+    <resultFields>
+      <inputField parent="Uif-DataField" propertyName="addressId"/>
+      <inputField parent="Uif-DataField" propertyName="addressType.type"/>
+      <inputField parent="Uif-DataField" propertyName="street1"/>
+      <inputField parent="Uif-DataField" propertyName="street2"/>
+      <inputField parent="Uif-DataField" propertyName="city"/>
+      <inputField parent="Uif-DataField" propertyName="province"/>
+      <inputField parent="Uif-DataField" propertyName="country"/>
+    </resultFields>
+  </lookupView>
+  <inquiryView dataObjectClassName="edu.sampleu.bookstore.bo.Address" id="Address-InquiryView" parent="Uif-InquiryView">
+    <items>
+      <group headertext="Address Information" layoutManager.numberOfColumns="2" parent="Uif-Disclosure-GridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="addressId"/>
+          <inputField parent="Uif-InputField" propertyName="addressType.type"/>
+          <inputField parent="Uif-InputField" propertyName="street1"/>
+          <inputField parent="Uif-InputField" propertyName="street2"/>
+          <inputField parent="Uif-InputField" propertyName="city"/>
+          <inputField parent="Uif-InputField" propertyName="province"/>
+          <inputField parent="Uif-InputField" propertyName="country"/>
+        </items>
+      </group>
+    </items>
+  </inquiryView>
+</spring:beans>

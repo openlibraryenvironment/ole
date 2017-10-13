@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="TravelAccountUseRate" parent="TravelAccountUseRate-parentBean"/>
+
+  <bean id="TravelAccountUseRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.krad.demo.travel.account.TravelAccountUseRate"/>
+    <property name="inquiryDefinition">
+      <ref bean="TravelAccountUseRate-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="TravelAccountUseRate-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="Travel Account Use Rate"/>
+    <property name="objectLabel" value="Travel Account Use Rate"/>
+    <property name="attributes">
+      <list>
+        <ref bean="TravelAccountUseRate-id"/>
+        <ref bean="TravelAccountUseRate-number"/>
+        <ref bean="TravelAccountUseRate-rate"/>
+        <ref bean="TravelAccountUseRate-activeFromDate"/>
+        <ref bean="TravelAccountUseRate-activeToDate"/>
+        <ref bean="TravelAccountUseRate-activeAsOfDate"/>
+        <ref bean="TravelAccountUseRate-active"/>
+        <ref bean="TravelAccountUseRate-current"/>
+      </list> 
+    </property>
+    <property name="groupByAttributesForEffectiveDating">
+      <list>
+         <value>number</value>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="TravelAccountUseRate-id" parent="TravelAccountUseRate-id-parentBean"/>
+
+  <bean id="TravelAccountUseRate-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="Id"/>
+    <property name="name" value="id"/>
+    <property name="label" value="Id"/>
+    <property name="description" value="Id"/>
+  </bean>
+
+
+  <bean id="TravelAccountUseRate-number" parent="TravelAccountUseRate-number-parentBean"/>
+
+  <bean id="TravelAccountUseRate-number-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Travel Account Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="Travel Account Number"/>
+    <property name="name" value="number"/>
+    <property name="label" value="Travel Account Number"/>
+    <property name="description" value="Travel Account Number"/>
+  </bean>
+  
+  <bean id="TravelAccountUseRate-rate" parent="TravelAccountUseRate-rate-parentBean"/>
+
+  <bean id="TravelAccountUseRate-rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Rate"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="Rate"/>
+    <property name="name" value="rate"/>
+    <property name="label" value="Rate"/>
+    <property name="description" value="Rate"/>
+  </bean>
+  
+  <bean id="TravelAccountUseRate-activeFromDate" parent="TravelAccountUseRate-activeFromDate-parentBean"/>
+
+  <bean id="TravelAccountUseRate-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+  </bean>
+  
+  <bean id="TravelAccountUseRate-activeToDate" parent="TravelAccountUseRate-activeToDate-parentBean"/>
+
+  <bean id="TravelAccountUseRate-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    <property name="name" value="activeToDate"/>
+  </bean>
+  
+  <bean id="TravelAccountUseRate-activeAsOfDate" parent="TravelAccountUseRate-activeAsOfDate-parentBean"/>
+
+  <bean id="TravelAccountUseRate-activeAsOfDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeAsOfDate">
+    <property name="name" value="activeAsOfDate"/>
+  </bean>
+  
+  <bean id="TravelAccountUseRate-active" parent="TravelAccountUseRate-active-parentBean"/>
+
+  <bean id="TravelAccountUseRate-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  <bean id="TravelAccountUseRate-current" parent="TravelAccountUseRate-current-parentBean"/>
+
+  <bean id="TravelAccountUseRate-current-parentBean" abstract="true" parent="AttributeReferenceDummy-current">
+    <property name="name" value="current"/>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="TravelAccountUseRate-inquiryDefinition" parent="TravelAccountUseRate-inquiryDefinition-parentBean"/>
+
+  <bean id="TravelAccountUseRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="number" />
+              <bean parent="FieldDefinition" p:attributeName="rate" />
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+              <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+              <bean parent="FieldDefinition" p:attributeName="activeAsOfDate" />
+            </list>
+          </property>
+          <property name="title" value=""/>
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="Travel Account Use Rate Inquiry"/>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="TravelAccountUseRate-lookupDefinition" parent="TravelAccountUseRate-lookupDefinition-parentBean"/>
+
+  <bean id="TravelAccountUseRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="number"/>
+        <bean parent="FieldDefinition" p:attributeName="rate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeAsOfDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="current"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="number"/>
+        <bean parent="FieldDefinition" p:attributeName="rate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+      </list>
+    </property>
+    <property name="title" value="Travel Account Use Rate Lookup"/>
+  </bean>
+</beans>

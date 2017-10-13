@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="IdentityManagementPersonDocument" parent="IdentityManagementPersonDocument-parentBean"/>
+
+  <bean id="IdentityManagementPersonDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="documentTypeName" value="IdentityManagementPersonDocument"/>
+    <property name="documentClass" value="org.kuali.rice.kim.document.IdentityManagementPersonDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kim.document.rule.IdentityManagementPersonDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kim.document.authorization.IdentityManagementKimDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase"/>
+    <property name="encryptDocumentDataInPersistentSessionStorage" value="true"/>
+    <!-- <property name="documentTypeCode" value="IMPN" /> -->
+    <property name="allowsCopy" value="true"/>
+    <property name="attributes">
+      <list>
+        <!-- <ref bean="IdentityManagementPersonDocument-campusCode" />
+        <ref bean="IdentityManagementPersonDocument-emailAddress" />
+        <ref bean="IdentityManagementPersonDocument-name" />
+        <ref bean="IdentityManagementPersonDocument-phoneNumber" />
+        -->
+
+        <ref bean="IdentityManagementPersonDocument-documentNumber"/>
+        <ref bean="IdentityManagementPersonDocument-entityId"/>
+        <ref bean="IdentityManagementPersonDocument-password"/>
+        <ref bean="IdentityManagementPersonDocument-univId"/>
+        <ref bean="IdentityManagementPersonDocument-principalId"/>
+        <ref bean="IdentityManagementPersonDocument-principalName"/>
+        <ref bean="IdentityManagementPersonDocument-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: use campus parent bean once imported into Rice -->
+<!--
+  <bean id="IdentityManagementPersonDocument-campusCode" parent="IdentityManagementPersonDocument-campusCode-parentBean" />
+  <bean id="IdentityManagementPersonDocument-campusCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="campusCode"
+        p:forceUppercase="true"
+        p:label="Campus Code"
+        p:shortLabel="Campus Code"
+        p:maxLength="2"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="3" />
+    </property>
+  </bean>
+  <bean id="IdentityManagementPersonDocument-emailAddress" parent="IdentityManagementPersonDocument-emailAddress-parentBean" />
+  <bean id="IdentityManagementPersonDocument-emailAddress-parentBean" parent="AttributeReferenceDummy-emailAddress" abstract="true"
+        p:name="emailAddress"
+        p:forceUppercase="false"
+        p:label="Email Address" />
+-->
+  <bean id="IdentityManagementPersonDocument-entityId" parent="IdentityManagementPersonDocument-entityId-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-entityId-parentBean" parent="AttributeDefinition" abstract="true" p:name="entityId" p:forceUppercase="true" p:label="Entity Id" p:shortLabel="Entity Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-documentNumber" parent="IdentityManagementPersonDocument-documentNumber-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-documentNumber-parentBean" parent="AttributeDefinition" abstract="true" p:name="documentNumber" p:forceUppercase="true" p:label="Document Number" p:shortLabel="Document Number" p:maxLength="14" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-password" parent="IdentityManagementPersonDocument-password-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-password-parentBean" parent="AttributeDefinition" abstract="true" p:name="password" p:forceUppercase="false" p:label="Principal Password" p:shortLabel="Password" p:maxLength="400" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-univId" parent="IdentityManagementPersonDocument-univId-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-univId-parentBean" parent="AttributeDefinition" abstract="true" p:name="univId" p:forceUppercase="true" p:label="University Identification Number" p:shortLabel="University ID" p:maxLength="100" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+<!--
+  <bean id="IdentityManagementPersonDocument-name" parent="IdentityManagementPersonDocument-name-parentBean" />
+  <bean id="IdentityManagementPersonDocument-name-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="name"
+        p:forceUppercase="true"
+        p:label="Name"
+        p:shortLabel="Name"
+        p:maxLength="123"
+        p:required="false" >
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-phoneNumber" parent="IdentityManagementPersonDocument-phoneNumber-parentBean" />
+  <bean id="IdentityManagementPersonDocument-phoneNumber-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="phoneNumber"
+        p:forceUppercase="false"
+        p:label="Phone Number"
+        p:shortLabel="Phone Number"
+        p:maxLength="20"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="PhoneNumberValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+
+
+  <bean id="IdentityManagementPersonDocument-primaryDepartmentCode" parent="IdentityManagementPersonDocument-primaryDepartmentCode-parentBean" />
+  <bean id="IdentityManagementPersonDocument-primaryDepartmentCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="primaryDepartmentCode"
+        p:forceUppercase="true"
+        p:label="Primary Department Code"
+        p:shortLabel="Primary Department Code"
+        p:maxLength="123"
+        p:required="false" >
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-employeeStatusCode" parent="IdentityManagementPersonDocument-employeeStatusCode-parentBean" />
+  <bean id="IdentityManagementPersonDocument-employeeStatusCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="employeeStatusCode"
+        p:forceUppercase="true"
+        p:label="Employee Status Code"
+        p:shortLabel="Employee Status Code"
+        p:maxLength="123"
+        p:required="false" >
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-employeeTypeCode" parent="IdentityManagementPersonDocument-employeeTypeCode-parentBean" />
+  <bean id="IdentityManagementPersonDocument-employeeTypeCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="employeeTypeCode"
+        p:forceUppercase="true"
+        p:label="Employee Type Code"
+        p:shortLabel="Employee Type Code"
+        p:maxLength="123"
+        p:required="false" >
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+  </bean>
+  -->
+  <bean id="IdentityManagementPersonDocument-principalId" parent="IdentityManagementPersonDocument-principalId-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-principalId-parentBean" parent="AttributeDefinition" abstract="true" p:name="principalId" p:forceUppercase="false" p:label="Principal Id" p:shortLabel="Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementPersonDocument-principalName" parent="IdentityManagementPersonDocument-principalName-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-principalName-parentBean" parent="KimBaseBeans-principalName" abstract="true"/>
+
+  <bean id="IdentityManagementPersonDocument-active" parent="IdentityManagementPersonDocument-active-parentBean"/>
+  <bean id="IdentityManagementPersonDocument-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+
+
+</beans>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <disclosure-verticalBoxSection-bean id="UifCompView-FieldGroups">
+    <items>
+      <verticalFieldGroup-bean id="UifCompView-FieldGroup1">
+        <items>
+          <inputField-bean propertyName="field80">
+            <control>
+              <textControl-bean size="5"/>
+            </control>
+          </inputField-bean>
+          <inputField-bean propertyName="field121">
+            <control>
+              <textControl-bean size="21"/>
+            </control>
+          </inputField-bean>
+        </items>
+      </verticalFieldGroup-bean>
+      <horizontalFieldGroup-bean id="UifCompView-FieldGroup2" label="Field Group 2">
+        <items>
+          <inputField-bean fieldLabel.render="false" propertyName="field122">
+            <control>
+              <textControl-bean size="5"/>
+            </control>
+          </inputField-bean>
+          <inputField-bean fieldLabel.render="false" propertyName="field123">
+            <control>
+              <textControl-bean size="21"/>
+            </control>
+          </inputField-bean>
+        </items>
+      </horizontalFieldGroup-bean>
+      <horizontalFieldGroup-bean id="UifCompView-FieldGroup3">
+        <items>
+          <inputField-bean fieldLabel.render="false" propertyName="field124">
+            <control>
+              <textControl-bean size="5"/>
+            </control>
+          </inputField-bean>
+          <primaryActionButton-bean actionLabel="find" actionScript="alert('You clicked a button');"/>
+        </items>
+      </horizontalFieldGroup-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <verticalBoxSection-bean id="UifCompView-MessageFields">
+    <items>
+      <message-bean id="UifCompView-MessageField1"/>
+      <message-bean id="UifCompView-MessageFieldWithExpression"/>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean id="UifCompView-SyntaxHighlighters">
+    <items>
+      <syntaxHighlighter-bean id="UifCompView-SyntaxHighlighter1" sourceCode="@{sourceCodeField}"/>
+      <syntaxHighlighter-bean id="UifCompView-SyntaxHighlighter2" showCopyConfirmation="true"
+                              sourceCode="@{sourceCodeField}"/>
+      <syntaxHighlighter-bean allowCopy="false" id="UifCompView-SyntaxHighlighter3" sourceCode="@{sourceCodeField}"/>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean id="UifCompView-AttributeSecurity">
+    <items>
+      <inputField-bean parent="GenericTextField" propertyName="mField1">
+        <spring:property name="componentSecurity.attributeSecurity">
+          <attributeSecurity-bean mask="true" parent="AttributeSecurity">
+            <maskFormatter>
+              <maskFormatterLiteral-bean literal="*********" parent="MaskFormatterLiteral"/>
+            </maskFormatter>
+          </attributeSecurity-bean>
+        </spring:property>
+      </inputField-bean>
+      <inputField-bean parent="GenericTextField" propertyName="mField2">
+        <spring:property name="componentSecurity.attributeSecurity">
+          <attributeSecurity-bean parent="AttributeSecurity" partialMask="true">
+            <partialMaskFormatter>
+              <maskFormatteSubString-bean maskLength="5" parent="MaskFormatterSubString"/>
+            </partialMaskFormatter>
+          </attributeSecurity-bean>
+        </spring:property>
+      </inputField-bean>
+    </items>
+  </verticalBoxSection-bean>
+  <verticalBoxSection-bean id="UifCompView-ImageFields">
+    <items>
+      <imageField-bean id="UifCompView-ImageField1"
+                       source="@{#ConfigProperties['krad.externalizable.images.url']}pdf.png"/>
+      <imageField-bean cssClasses="kr-photo" fieldLabel.render="false" id="UifCompView-ImageField2"
+                       source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg"/>
+    </items>
+  </verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean id="UifCompView-ActionFields">
+    <items>
+      <actionLink-bean actionScript="alert('You clicked the link');" id="UifCompView-ActionField1"/>
+      <actionLink-bean id="UifCompView-ActionField2" methodToCall="refresh" preSubmitCall="return testPresubmitCall()"/>
+      <actionLink-bean id="UifCompView-ActionField3" methodToCall="refresh"
+                       preSubmitCall="return testPresubmitCall2(this, 'stop')"/>
+      <actionLink-bean ajaxSubmit="false" id="UifCompView-ActionField4" methodToCall="refresh"
+                       preSubmitCall="var valid=true;return valid;"/>
+      <actionLink-bean id="UifCompView-ActionField5" methodToCall="refresh"
+                       successCallback="testSuccessCallback(responseContents)"/>
+      <actionLink-bean id="UifCompView-ActionField6" methodToCall="refresh" performClientSideValidation="true"/>
+      <actionLink-bean errorCallback="testErrorCallback" id="UifCompView-ActionField7" methodToCall="errorCheck"/>
+      <actionLink-bean ajaxSubmit="true" id="UifCompView-ActionField8" methodToCall="redirectCheck"/>
+      <actionLink-bean actionImagePlacement="RIGHT" actionScript="alert('You clicked a button');"
+                       id="UifCompView-ActionField9">
+        <actionImage>
+          <image-bean id="UifCompView-ActionField10"
+                      source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </actionLink-bean>
+      <actionLink-bean actionScript="alert('You clicked a button');" id="UifCompView-ActionField11">
+        <actionImage>
+          <image-bean id="UifCompView-ActionField12"
+                      source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </actionLink-bean>
+      <actionImage-bean actionScript="alert('You clicked a button');" id="UifCompView-ActionField13">
+        <actionImage>
+          <image-bean source="@{#ConfigProperties['krad.externalizable.images.url']}down.png"/>
+        </actionImage>
+      </actionImage-bean>
+      <primaryActionButton-bean actionScript="alert('You clicked a button');" id="UifCompView-ActionField14"/>
+      <primaryActionButton-bean actionImagePlacement="BOTTOM" actionScript="alert('You clicked a button');"
+                                id="UifCompView-ActionField15">
+        <actionImage>
+          <image-bean source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </primaryActionButton-bean>
+      <primaryActionButton-bean actionImagePlacement="TOP" actionScript="alert('You clicked a button');"
+                                id="UifCompView-ActionField16">
+        <actionImage>
+          <image-bean source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </primaryActionButton-bean>
+      <primaryActionButton-bean actionImagePlacement="LEFT" actionScript="alert('You clicked a button');"
+                                id="UifCompView-ActionField17">
+        <actionImage>
+          <image-bean source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </primaryActionButton-bean>
+      <primaryActionButton-bean actionImagePlacement="RIGHT" actionScript="alert('You clicked a button');"
+                                id="UifCompView-ActionField18">
+        <actionImage>
+          <image-bean source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </primaryActionButton-bean>
+      <primaryActionButton-bean actionScript="alert('You clicked a button');">
+        <actionImage>
+          <image-bean id="UifCompView-ActionField19"
+                      source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </primaryActionButton-bean>
+      <primaryActionButton-bean disabled="true" id="UifCompView-ActionField20" methodToCall="foo"/>
+      <actionField-bean id="UifCompView-ActionField21" methodToCall="foo">
+        <actionImage>
+          <image-bean id="UifCompView-ActionField22"
+                      source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+        </actionImage>
+      </actionField-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <verticalBoxSection-bean id="UifCompView-LinkFields">
+    <items>
+      <linkField-bean href="http://www.kuali.org" id="UifCompView-LinkField1"/>
+      <linkField-bean href="http://www.kuali.org" id="UifCompView-LinkField2" target="_blank">
+        <lightBox>
+          <lightBox-bean/>
+        </lightBox>
+      </linkField-bean>
+      <linkGroup-bean groupBeginDelimiter="[" groupEndDelimiter="]" id="UifCompView-LinkField3" linkSeparator="|">
+        <items>
+          <actionLink-bean actionScript="alert('You clicked the link');" id="UifCompView-LinkField4"/>
+          <actionLink-bean actionScript="alert('You clicked the link');" id="UifCompView-LinkField5"/>
+          <actionLink-bean actionScript="alert('You clicked the link');" id="UifCompView-LinkField6"/>
+        </items>
+      </linkGroup-bean>
+    </items>
+  </verticalBoxSection-bean>
+  <listSubSection-bean headertext="Accordion Item 1" id="UifCompView-SubList1">
+    <layoutManager>
+      <orderedListLayout-bean/>
+    </layoutManager>
+    <items>
+      <message-bean messageText="Item 1"/>
+      <message-bean messageText="Item 2"/>
+      <message-bean messageText="Item 3"/>
+    </items>
+  </listSubSection-bean>
+  <listSubSection-bean headertext="Accordion Item 2" id="UifCompView-SubList2">
+    <layoutManager>
+      <orderedListLayout-bean/>
+    </layoutManager>
+    <items>
+      <message-bean messageText="Item 1"/>
+      <message-bean messageText="Item 2"/>
+      <message-bean messageText="Item 3"/>
+    </items>
+  </listSubSection-bean>
+  <disclosure-verticalBoxSection-bean id="UifCompView-OtherFields">
+    <items>
+      <accordionSection-bean id="UifCompView-Accordion1">
+        <items>
+          <spring:ref bean="UifCompView-SubList1"/>
+          <spring:ref bean="UifCompView-SubList2"/>
+        </items>
+      </accordionSection-bean>
+      <listSection-bean id="UifCompView-List1">
+        <items>
+          <message-bean messageText="Item 1"/>
+          <message-bean messageText="Item 2"/>
+          <message-bean messageText="Item 3"/>
+        </items>
+      </listSection-bean>
+      <listSection-bean id="UifCompView-List2">
+        <layoutManager>
+          <orderedListLayout-bean/>
+        </layoutManager>
+        <items>
+          <message-bean messageText="Item 1"/>
+          <message-bean messageText="Item 2"/>
+          <message-bean messageText="Item 3"/>
+        </items>
+      </listSection-bean>
+      <tabSection-bean id="UifCompView-OtherField1" tabsWidget.position="BOTTOM">
+        <items>
+          <group-bean parent="UifCompView-TextFields3"/>
+          <group-bean parent="UifCompView-TextAreas"/>
+        </items>
+      </tabSection-bean>
+      <treeSection-bean id="UifCompView-OtherField2" propertyName="tree1"/>
+      <treeSection-bean id="UifCompView-OtherField3" propertyName="tree2">
+        <defaultNodePrototype>
+          <nodePrototype-bean>
+            <labelPrototype>
+              <message-bean/>
+            </labelPrototype>
+            <dataGroupPrototype>
+              <verticalBoxGroup-bean style="margin-left: 2em;">
+                <items>
+                  <horizontalFieldGroup-bean>
+                    <items>
+                      <inputField-bean fieldLabel.cssClasses="labelTop" id="UifCompView-OtherField4"
+                                       labelPlacement="TOP" propertyName="field1" required="true"/>
+                      <inputField-bean fieldLabel.cssClasses="labelTop" id="UifCompView-OtherField5"
+                                       labelPlacement="TOP" propertyName="field2" required="true"/>
+                      <inputField-bean fieldLabel.cssClasses="labelTop" id="UifCompView-OtherField6"
+                                       labelPlacement="TOP" propertyName="field3" required="true"/>
+                      <inputField-bean fieldLabel.cssClasses="labelTop" id="UifCompView-OtherField7"
+                                       labelPlacement="TOP" propertyName="field4" required="true"/>
+                    </items>
+                  </horizontalFieldGroup-bean>
+                </items>
+              </verticalBoxGroup-bean>
+            </dataGroupPrototype>
+          </nodePrototype-bean>
+        </defaultNodePrototype>
+      </treeSection-bean>
+      <iFrame-bean height="550px" source="http://www.kuali.org" width="800px"/>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <disclosure-horizontalBoxSection-bean id="UifCompView-ScrollableGroups">
+    <items>
+      <disclosure-verticalBoxSubSection-bean id="UifCompView-ScrollableGroup1" width="30%">
+        <scrollpane>
+          <scrollpane-bean height="100px"/>
+        </scrollpane>
+        <items>
+          <message-bean id="UifCompView-ScrollableGroup2"/>
+          <inputField-bean propertyName="field80">
+            <control>
+              <textControl-bean size="5"/>
+            </control>
+          </inputField-bean>
+          <message-bean id="UifCompView-ScrollableGroup3"/>
+        </items>
+      </disclosure-verticalBoxSubSection-bean>
+      <verticalBoxGroup-bean id="UifCompView-ScrollableGroup4" width="30%">
+        <scrollpane>
+          <scrollpane-bean height="100px"/>
+        </scrollpane>
+        <items>
+          <message-bean id="UifCompView-ScrollableGroup5"/>
+          <inputField-bean propertyName="field80">
+            <control>
+              <textControl-bean size="5"/>
+            </control>
+          </inputField-bean>
+          <message-bean id="UifCompView-ScrollableGroup6"/>
+        </items>
+      </verticalBoxGroup-bean>
+    </items>
+  </disclosure-horizontalBoxSection-bean>
+</spring:beans>

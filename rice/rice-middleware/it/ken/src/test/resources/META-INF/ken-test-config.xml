@@ -1,0 +1,49 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- loaded by the KEN base unit test...just delegates to the "common-config-test-locations" xml (and alt.build location for CI) -->
+<config>
+    <param name="environment" override="false">${environment}</param>
+    <param name="module.name">ken</param>
+    <param name="application.id">KEN</param>
+
+    <param name="config.location">classpath:META-INF/test-config-defaults.xml</param>
+    <param name="transaction.timeout">36000</param>
+
+    <param name="version">once-upon-a-time in unit tests</param>
+
+    <param name="test.mode">true</param>
+    <param name="ken.test.mode">true</param>
+    <param name="use.clearDatabaseLifecycle">true</param>
+    <param name="use.kewXmlmlDataLoaderLifecycle">true</param>
+    <param name="use.sqlDataLoaderLifecycle">true</param>
+
+    <param name="workflow.url">http://localhost:9912/${app.context.name}/kew</param>
+    <param name="application.url">http://localhost:9912/${app.context.name}</param>
+    <param name="serviceServletUrl">http://localhost:9912/${app.context.name}/remoting/</param>
+
+    <param name="notification.quartz.autostartup">false</param>
+    <param name="kcb.messaging.synchronous">true</param>
+    <param name="message.delivery">synchronous</param>
+  <!--
+    <param name="message.persistence">false</param>
+    -->
+    <param name="Routing.ImmediateExceptionRouting">true</param>
+
+    <param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
+    <param name="config.location">${alt.config.location}</param>
+</config>

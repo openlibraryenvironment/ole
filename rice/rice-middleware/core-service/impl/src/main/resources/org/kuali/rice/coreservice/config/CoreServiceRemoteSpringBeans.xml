@@ -1,0 +1,84 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <import resource="classpath:org/kuali/rice/coreservice/config/_CoreServiceCommonSpringBeans.xml"/>
+
+  <bean id="rice.coreService.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+    <property name="cacheManager" ref="coreServiceLocalCacheManager" />
+  </bean>
+
+  <bean id="rice.coreService.remote.import" abstract="true" lazy-init="true"
+        class="org.kuali.rice.core.api.resourceloader.LazyResourceFactoryBean"
+        p:serviceNamespace-ref="rice.coreService.serviceNamespace"/>
+
+  <bean id="parameterRepositoryService" parent="rice.coreService.remote.import"
+            p:serviceName="parameterRepositoryService"
+            p:objectType="org.kuali.rice.coreservice.api.parameter.ParameterRepositoryService"/>
+
+  <bean id="namespaceService" parent="rice.coreService.remote.import"
+            p:serviceName="namespaceService"
+            p:objectType="org.kuali.rice.coreservice.api.namespace.NamespaceService"/>
+
+  <bean id="componentService" parent="rice.coreService.remote.import"
+            p:serviceName="componentService"
+            p:objectType="org.kuali.rice.coreservice.api.component.ComponentService"/>
+
+  <bean id="styleRepositoryService" parent="rice.coreService.remote.import"
+            p:serviceName="styleRepositoryService"
+            p:objectType="org.kuali.rice.coreservice.api.style.StyleRepositoryService"/>
+
+  <bean id="parameterService" class="org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl">
+    <property name="parameterRepositoryService" ref="parameterRepositoryService"/>
+    <property name="kualiModuleService" ref="rice.coreService.import.kualiModuleService"/>
+    <property name="applicationId" value="${application.id}"/>
+  </bean>
+
+  <bean id="styleService" class="org.kuali.rice.coreservice.impl.style.StyleServiceImpl">
+    <property name="styleRepositoryService" ref="styleRepositoryService" />
+  </bean>
+
+  <bean id="coreServiceServerModuleConfiguration"
+        class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <property name="namespaceCode" value="KR-CR"/>
+    <property name="dataSourceName" value="coreServiceDataSource"/>
+    <property name="initializeDataDictionary" value="true"/>
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:org/kuali/rice/coreservice/web/namespace/Namespace.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterType.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/component/Component.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/parameter/Parameter.xml</value>
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.coreservice.</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="coreServiceServerModule" class="org.kuali.rice.coreservice.impl.service.CoreServiceRemoteModuleService">
+    <property name="moduleConfiguration" ref="coreServiceServerModuleConfiguration"/>
+    <property name="kualiModuleService" ref="rice.coreService.import.kualiModuleService"/>
+  </bean>
+</beans>

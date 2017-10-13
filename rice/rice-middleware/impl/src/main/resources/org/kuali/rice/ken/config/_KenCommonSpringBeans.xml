@@ -1,0 +1,56 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+  <util:constant id="rice.ken.serviceNamespace" static-field="org.kuali.rice.ken.api.KenApiConstants$Namespaces.KEN_NAMESPACE_2_0"/>
+
+  <bean id="rice.ken.propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+	</bean>
+
+  <bean id="rice.ken.import.serviceBus"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="rice.ksb.serviceBus"/>
+  </bean>
+
+  <bean id="kenServiceExporter"
+        class="org.kuali.rice.ksb.api.bus.support.PropertyConditionalServiceBusExporter"
+        abstract="true">
+    <property name="serviceBus" ref="rice.ken.import.serviceBus"/>
+  </bean>
+
+  <bean id="kenService" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
+    <property name="serviceNameSpaceURI" ref="rice.ken.serviceNamespace"/>
+    <property name="jaxWsService" value="true"/>
+    <property name="priority" value="3"/>
+    <property name="retryAttempts" value="0"/>
+    <property name="busSecurity" value="${ken.soapExposedService.jaxws.security}"/>
+    <property name="serviceVersion" value="${rice.version}"/>
+    <property name="servicePath" value="#{ T(org.kuali.rice.ken.api.KenApiConstants).SERVICE_PATH_SOAP }"/>
+  </bean>
+
+
+</beans>
+

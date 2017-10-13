@@ -1,0 +1,76 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+
+  <param name="krad.url" override="false">${application.url}/kr-krad</param>
+  <param name="krad.lookup.url" override="false">${krad.url}/lookup</param>
+  <param name="krad.inquiry.url" override="false">${krad.url}/inquiry</param>
+  <param name="rice.server.krad.url" override="false">${rice.server.url}/kr-krad</param>
+  <param name="rice.server.krad.lookup.url" override="false">${rice.server.krad.url}/lookup</param>
+  <param name="krad.externalizable.images.url" override="false">${application.url}/krad/images/</param>
+
+  <!-- Indicates whether KRAD should run in dev mode, impacts things like using full script/css files instead of minified -->
+  <param name="rice.krad.dev.mode" override="false">false</param>
+
+  <param name="attachments.directory" override="false">${java.io.tmpdir}/${environment}/attachments</param>
+  <param name="attachments.pending.directory" override="false">${attachments.directory}/pending</param>
+
+  <!-- Reloading Dictionary Config -->
+  <param name="reload.data.dictionary.classes.dir" override="false">target/classes</param>
+  <param name="reload.data.dictionary.source.dir" override="false">src/main/resources</param>
+  <param name="reload.data.dictionary.interval" override="false">3000</param>
+
+  <param name="load.data.dictionary" override="false">true</param>=
+ 	<param name="validate.data.dictionary" override="false">true</param>
+ 	<param name="validate.data.dictionary.ebo.references" override="false">true</param>
+  <param name="validate.views.onbuild" override="false">false</param>
+
+  <!-- indicates whether messages from an external repository should bea loaded for data dictionary beans. Enable if
+  external messages are being used for dictionary text. Disable if external messages are not, or to improve startup
+  time in development -->
+  <param name="load.dictionary.external.messages" override="false">true</param>
+
+  <param name="maxNumberOfSessionForms" override="false">10</param>
+  <param name="krad.schema.classes">META-INF/krad_schemaclasses.xml</param>
+
+  <!-- list of resource bundle names (full qualified classnames) for application messages (default namespace
+   of KUALI), for messages associated with a namespace use the resourceBundleName configuration on the
+   corresponding ModuleDefinition -->
+  <param name="resourceBundleNames" override="false">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param>
+
+  <param name="krad.ehcache.config.location" override="false">classpath:org/kuali/rice/krad/config/krad.ehcache.xml</param>
+
+  <param name="rice.krad.componentPublishing.enabled" override="false">false</param>
+  <param name="rice.krad.componentPublishing.delay" override="false">15000</param>
+
+  <!-- validation patterns -->
+  <param name="validationPatternRegex.date" override="false">(19|2[0-9])[0-9]{2}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])</param>
+  <param name="validationPatternRegex.noWhitespace" override="false">\\S+</param>
+  <param name="validationPatternRegex.time12" override="false">(1[0-2]|0?[1-9]):([0-5][0-9])(:[0-5][0-9])?</param>
+  <param name="validationPatternRegex.time24" override="false">(2[0-3]|1[0-9]|0?[0-9]):([0-5][0-9])(:[0-5][0-9])?</param>
+  <param name="validationPatternRegex.url" override="false">(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*</param>
+  <param name="validationPatternRegex.timestamp" override="false">(19|2[0-9])[0-9]{2}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])\\s+[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]+</param>
+  <param name="validationPatternRegex.emailAddress" override="false">[A-Za-z0-9][A-Za-z0-9_.\-]*[A-Za-z0-9]@([A-Za-z0-9][A-Za-z0-9_-]*\\.)+[A-Za-z]{2,}</param>
+  <param name="validationPatternRegex.floatingPoint" override="false">([0-9]*\\.)?[0-9]+</param>
+  <param name="validationPatternRegex.javaClass" override="false">[A-Za-z_$][_$a-zA-Z0-9]*(\\.[_$a-zA-Z0-9]+)*</param>
+  <param name="validationPatternRegex.month" override="false">(0?[1-9]|1[012])</param>
+  <param name="validationPatternRegex.year" override="false">(16|17|18|19|20|21)[0-9]{2}</param>
+  <param name="validationPatternRegex.zipcode" override="false">[0-9]{5}(\-[0-9]{4})?</param>
+  <param name="validationPatternRegex.phoneNumber" override="false">[0-9]{3}\-[0-9]{3}\-[0-9]{4}</param>
+
+</config>

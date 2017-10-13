@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="RuleBaseValues" parent="RuleBaseValues-parentBean"/>
+
+  <bean id="RuleBaseValues-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.kew.rule.RuleBaseValues"/>
+    <property name="exporterClass" value="org.kuali.rice.kew.export.DataExporter"/>
+    <property name="inquiryDefinition">
+      <ref bean="RuleBaseValues-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="RuleBaseValues-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="Rule"/>
+    <property name="attributes">
+      <list>
+        <ref bean="RuleBaseValues-id"/>
+        <ref bean="RuleBaseValues-previousRuleId"/>
+        <ref bean="RuleBaseValues-documentId"/>
+
+        <ref bean="RuleBaseValues-name"/>
+        <ref bean="RuleBaseValues-documentTypeName"/>
+        <ref bean="RuleBaseValues-docTypeName"/>
+        <ref bean="RuleBaseValues-documentTypeId"/>
+        <ref bean="RuleBaseValues-ruleTemplateId"/>
+        <ref bean="RuleBaseValues-ruleTemplate.name"/>
+        <ref bean="RuleBaseValues-description"/>
+        <ref bean="RuleBaseValues-fromDateValue"/>
+        <ref bean="RuleBaseValues-toDateValue"/>
+        <ref bean="RuleBaseValues-forceAction"/>
+        <ref bean="RuleBaseValues-active"/>
+        <ref bean="RuleBaseValues-groupReviewerName"/>
+        <ref bean="RuleBaseValues-groupReviewerNamespace"/>
+        <ref bean="RuleBaseValues-personReviewer"/>
+        <ref bean="RuleBaseValues-personReviewerType"/>
+        <ref bean="RuleBaseValues-delegateRule"/>
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="personResponsibilities" p:label="Persons" p:shortLabel="Persons" p:elementLabel="Person"/>
+        <bean parent="CollectionDefinition" p:name="groupResponsibilities" p:label="Groups" p:shortLabel="Groups" p:elementLabel="Group"/>
+        <bean parent="CollectionDefinition" p:name="roleResponsibilities" p:label="Roles" p:shortLabel="Roles" p:elementLabel="Role"/>
+
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="groupBo"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="groupReviewerName" p:targetName="name"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="groupReviewerNamespace" p:targetName="namespaceCode"/>
+            </list>
+          </property>
+        </bean>
+      
+		<bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="previousVersion"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="previousRuleId" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+   
+		<bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="personImpl"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="personReviewer" p:targetName="principalName"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="personReviewer" p:targetName="principalName"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="documentType"/>
+          <property name="primitiveAttributes">
+            <list>
+    		  <!-- FIXME: RICE MODULARITY -->
+    		  <!-- after configurer work app fails to start up with this relationship across modules -->
+              <!-- <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentType.documentTypeId" p:targetName="documentTypeId"/>-->
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="documentType.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="ruleTemplate"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="ruleTemplateId" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="ruleTemplate.name" p:targetName="name"/>
+            </list>
+          </property>
+
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="RuleBaseValues-id" parent="RuleBaseValues-id-parentBean"/>
+
+  <bean id="RuleBaseValues-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="id"/>
+    <property name="label" value="Rule Id"/>
+  </bean>
+
+
+  <bean id="RuleBaseValues-previousRuleId" parent="RuleBaseValues-previousRuleId-parentBean"/>
+
+  <bean id="RuleBaseValues-previousRuleId-parentBean" abstract="true" parent="RuleBaseValues-id">
+    <property name="shortLabel" value="previousRuleId"/>
+    <property name="name" value="previousRuleId"/>
+    <property name="label" value="Previous Rule"/>
+  </bean> 
+
+  <bean id="RuleBaseValues-documentId" parent="DocumentSearchCriteria-documentId"/>
+
+  <bean id="RuleBaseValues-documentId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="documentId"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="documentId"/>
+    <property name="label" value="Document Id"/>
+  </bean>
+
+  <bean id="RuleBaseValues-name" parent="RuleBaseValues-name-parentBean"/>
+
+  <bean id="RuleBaseValues-name-parentBean" abstract="true" parent="AttributeDefinition">
+
+    <property name="shortLabel" value="Name"/>
+
+    <property name="maxLength" value="256"/>
+    <property name="validationPattern">
+ 
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="name"/>
+    <property name="label" value="Name"/>
+  </bean>
+
+  <bean id="RuleBaseValues-ruleTemplateId" parent="RuleBaseValues-ruleTemplateId-parentBean"/>
+
+  <bean id="RuleBaseValues-ruleTemplateId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Rule Template Id"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="ruleTemplateId"/>
+    <property name="label" value="Rule Template Id"/>
+  </bean>
+
+  <bean id="RuleBaseValues-ruleTemplate.name" parent="RuleBaseValues-ruleTemplate.name-parentBean"/>
+
+  <bean id="RuleBaseValues-ruleTemplate.name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Rule Template"/>
+    <property name="maxLength" value="256"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <!-- <bean parent="TextControlDefinition"
+            p:size="30" />-->
+      <bean parent="LookupReadonlyControlDefinition"/>
+    </property>
+    <property name="name" value="ruleTemplate.name"/>
+    <property name="label" value="Rule Template"/>
+  </bean>
+
+  <bean id="RuleBaseValues-groupReviewerName" parent="RuleBaseValues-groupReviewerName-parentBean"/>
+
+  <bean id="RuleBaseValues-groupReviewerName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Group Reviewer"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="groupReviewerName"/>
+    <property name="label" value="Group Reviewer Name"/>
+  </bean>
+
+  <bean id="RuleBaseValues-groupReviewerNamespace" parent="RuleBaseValues-groupReviewerNamespace-parentBean"/>
+
+  <bean id="RuleBaseValues-groupReviewerNamespace-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Group Reviewer Namespace"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="groupReviewerNamespace"/>
+    <property name="label" value="Group Reviewer Namespace"/>
+  </bean>
+
+  <bean id="RuleBaseValues-personReviewer" parent="RuleBaseValues-personReviewer-parentBean"/>
+
+  <bean id="RuleBaseValues-personReviewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Person Reviewer"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="personReviewer"/>
+    <property name="label" value="Person Reviewer"/>
+  </bean>
+
+  <bean id="RuleBaseValues-personReviewerType" parent="RuleBaseValues-personReviewerType-parentBean"/>
+
+  <bean id="RuleBaseValues-personReviewerType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Person Reviewer Type"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorPersonSearchTypeValuesFinder" p:includeKeyInLabel="true"/>
+    </property>
+    <property name="name" value="personReviewerType"/>
+    <property name="label" value="Person Reviewer Type"/>
+  </bean>
+
+  <bean id="RuleBaseValues-delegateRule" parent="RuleBaseValues-delegateRule-parentBean"/>
+
+  <bean id="RuleBaseValues-delegateRule-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Person Reviewer Type"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.DelegateRuleValuesFinder" p:includeKeyInLabel="true"/>
+    </property>
+    <property name="name" value="delegateRule"/>
+    <property name="label" value="Delegate Rule"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="RuleBaseValues-documentTypeName" parent="RuleBaseValues-documentTypeName-parentBean"/>
+
+  <bean id="RuleBaseValues-documentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Document Type"/>
+    <property name="maxLength" value="256"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="documentType.name"/>
+    <property name="label" value="Document Type"/>
+  </bean>
+
+  <bean id="RuleBaseValues-docTypeName" parent="RuleBaseValues-docTypeName-parentBean"/>
+
+  <bean id="RuleBaseValues-docTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Document Type"/>
+    <property name="maxLength" value="256"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="docTypeName"/>
+    <property name="label" value="Document Type"/>
+  </bean>
+
+  <bean id="RuleBaseValues-documentTypeId" parent="RuleBaseValues-documentTypeId-parentBean"/>
+
+  <bean id="RuleBaseValues-documentTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Document Type Id"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="documentType.documentTypeId"/>
+    <property name="label" value="Document Type Id"/>
+  </bean>
+
+  <bean id="RuleBaseValues-description" parent="RuleBaseValues-description-parentBean"/>
+
+  <bean id="RuleBaseValues-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="2000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="60"/>
+    </property>
+  </bean>
+
+  <bean id="RuleBaseValues-fromDateValue" parent="RuleBaseValues-fromDateValue-parentBean"/>
+
+  <bean id="RuleBaseValues-fromDateValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fromDateValue"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="From Date"/>
+    <property name="shortLabel" value="From Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewDateObjectFormatter"/>
+  </bean>
+
+  <bean id="RuleBaseValues-toDateValue" parent="RuleBaseValues-toDateValue-parentBean"/>
+
+  <bean id="RuleBaseValues-toDateValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="toDateValue"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="To Date"/>
+    <property name="shortLabel" value="To Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewDateObjectFormatter"/>
+  </bean>
+
+  <bean id="RuleBaseValues-active" parent="RuleBaseValues-active-parentBean"/>
+
+  <bean id="RuleBaseValues-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="RuleBaseValues-forceAction" parent="RuleBaseValues-forceAction-parentBean"/>
+
+  <bean id="RuleBaseValues-forceAction-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="forceAction"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Force Action"/>
+    <property name="shortLabel" value="Force Action"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+  </bean>
+
+
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="RuleBaseValues-inquiryDefinition" parent="RuleBaseValues-inquiryDefinition-parentBean"/>
+
+  <bean id="RuleBaseValues-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Rule Inquiry"/>
+    <property name="inquirableClass" value="org.kuali.rice.kew.rule.bo.RuleBaseValuesInquirableImpl"/>
+    <property name="inquirySections">
+      <list>
+     	<bean parent="InquirySectionDefinition">
+          <property name="title" value="Rule"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+   
+              <bean parent="FieldDefinition" p:attributeName="id" p:noInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="previousRuleId"/>
+              <bean parent="FieldDefinition" p:attributeName="documentId"/>
+
+              <bean parent="FieldDefinition" p:attributeName="documentType.name"/>
+              <bean parent="FieldDefinition" p:attributeName="ruleTemplate.name"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="fromDateValue"/>
+              <bean parent="FieldDefinition" p:attributeName="toDateValue"/>
+              <bean parent="FieldDefinition" p:attributeName="forceAction"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Rule Attributes"/>
+          <property name="numberOfColumns" value="1"/>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Person Responsibilities"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="personResponsibilities"/>
+                <property name="businessObjectClass" value="org.kuali.rice.kew.rule.PersonRuleResponsibility"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="principalName"/>
+                    <bean parent="FieldDefinition" p:attributeName="actionRequestedCd"/>
+                    <bean parent="FieldDefinition" p:attributeName="priority"/>
+                  </list>
+                </property>
+                <property name="summaryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="principalName"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Group Responsibilities"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="groupResponsibilities"/>
+                <property name="businessObjectClass" value="org.kuali.rice.kew.rule.GroupRuleResponsibility"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="name"/>
+                    <bean parent="FieldDefinition" p:attributeName="actionRequestedCd"/>
+                    <bean parent="FieldDefinition" p:attributeName="priority"/>
+                  </list>
+                </property>
+                <property name="summaryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="name"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Role Responsibilities"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="roleResponsibilities"/>
+                <property name="businessObjectClass" value="org.kuali.rice.kew.rule.RoleRuleResponsibility"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="approvePolicy"/>
+                    <bean parent="FieldDefinition" p:attributeName="roleName"/>
+                    <bean parent="FieldDefinition" p:attributeName="actionRequestedCd"/>
+                    <bean parent="FieldDefinition" p:attributeName="priority"/>
+                  </list>
+                </property>
+                <property name="summaryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="roleName"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="RuleBaseValues-lookupDefinition" parent="RuleBaseValues-lookupDefinition-parentBean"/>
+
+  <bean id="RuleBaseValues-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="ruleBaseValuesLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:noDirectInquiry="true" p:attributeName="documentType.name"/>
+        <bean parent="FieldDefinition" p:noDirectInquiry="true" p:attributeName="ruleTemplate.name"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:noDirectInquiry="true" p:attributeName="groupReviewerNamespace"/>
+        <bean parent="FieldDefinition" p:noDirectInquiry="true" p:attributeName="groupReviewerName"/>
+		<bean parent="FieldDefinition" p:noDirectInquiry="true" p:attributeName="personReviewer"/>
+        <bean parent="FieldDefinition" p:attributeName="personReviewerType"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <!-- <bean parent="FieldDefinition"
+              p:attributeName="delegateRule"/>-->
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="ruleTemplate.name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="documentType.name"/>
+        <bean parent="FieldDefinition" p:attributeName="delegateRule"/>
+      </list>
+    </property>
+    <property name="title" value="Rule Lookup"/>
+  </bean>
+</beans>

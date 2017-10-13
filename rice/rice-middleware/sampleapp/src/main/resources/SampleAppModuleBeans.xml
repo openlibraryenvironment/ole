@@ -1,0 +1,250 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+  <bean id="sampleAppModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <property name="namespaceCode" value="KR-SAP"/>
+    <property name="initializeDataDictionary" value="true"/>
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:edu/sampleu/travel/datadictionary/FiscalOfficer.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/TravelAccount.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/TravelRequestDocument.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/SampleAppAttributes.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/AttachmentSample.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/AttachmentSampleMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/MultiAttachmentSample.xml</value>
+        <value>classpath:edu/sampleu/travel/datadictionary/MultiAttachmentSampleMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/travel/uif/TravelAccountInquiry.xml</value>
+        <value>classpath:edu/sampleu/travel/uif/TravelAccountLookup.xml</value>
+        <value>classpath:edu/sampleu/travel/uif/TestKNSInquiries.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/BookType.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/BookOrder.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/Account.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/Address.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/Book.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/Author.xml</value>
+        <value>classpath:edu/sampleu/bookstore/businessobject/datadictionary/BSAddressType.xml</value>
+        <value>classpath:edu/sampleu/bookstore/document/datadictionary/AddressTypeMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/bookstore/document/datadictionary/AuthorMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/bookstore/document/datadictionary/BookMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/bookstore/document/datadictionary/BookOrderDocument.xml</value>
+        <value>classpath:edu/sampleu/bookstore/document/datadictionary/BookTypeMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/demo/course/UifStudentDefinitions.xml</value>
+        <value>classpath:edu/sampleu/demo/course/CourseOfferingView.xml</value>
+        <value>classpath:edu/sampleu/demo/registration/RegistrationView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP2.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP3.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP4.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP5.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP6.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP7.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP8.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewP9.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewPx10.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifComponentsViewPx11.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifLightTableTest.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifValidationDemoServerSide.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifStateBasedValidation.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifRowDetailsDemo.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifBreadcrumbTestViews.xml</value>
+        <value>classpath:edu/sampleu/demo/layout/UifLayoutView.xml</value>
+        <value>classpath:edu/sampleu/demo/layout/UifStandardLayout.xml</value>
+        <value>classpath:edu/sampleu/demo/layout/UifValidationLayout.xml</value>
+        <value>classpath:edu/sampleu/demo/layout/UifGeneratedFields.xml</value>
+        <value>classpath:edu/sampleu/demo/auth/TestOpenAuthView.xml</value>
+        <value>classpath:edu/sampleu/demo/data/DataAttributesView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/ConfigurationTestView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/ConfigurationTestView-ProgressiveRender.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/ConfigurationTestView-Help.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/DialogTestView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/ConfigurationTestView-Collections.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/CollectionsM2Test.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/ConfigurationTestView-Quickfinder.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/RichMessagesView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/ClientDisableView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifReadOnlyTestView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifCollectionGrouping.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifCollectionTotaling.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/UifGuestUserView.xml</value>
+        <value>classpath:edu/sampleu/demo/kitchensink/TrainingApplicationView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/address/AddressTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/affiliation/AffiliationTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/citizenship/CitizenshipStatusLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/email/EmailTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/entity/EntityTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/external/ExternalIdentifierTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/name/NameTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/phone/PhoneTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/type/KimTypeLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/employment/EmploymentStatusInquiryView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/employment/EmploymentStatusLookupView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/employment/EmploymentTypeInquiryView.xml</value>
+        <value>classpath:edu/sampleu/kim/api/identity/employment/EmploymentTypeLookupView.xml</value>
+
+        <!-- KEW -->
+        <value>classpath:edu/sampleu/kew/uif/RuleAttributeInquiry.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/RuleAttributeLookup.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/RuleTemplateInquiry.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/RuleTemplateLookup.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/StyleLookup.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/StyleInquiry.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/DocumentTypeMaintenanceDocument.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/DocumentTypeLookup.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/DocumentTypeInquiry.xml</value>
+        <value>classpath:edu/sampleu/kew/uif/StatsView.xml</value>
+
+        <!-- DummyLogin -->
+        <value>classpath:org/kuali/rice/krad/login/DummyLoginView.xml</value>
+      </list>
+    </property>
+    <property name="databaseRepositoryFilePaths">
+      <list>
+        <value>OJB-repository-sampleapp.xml</value>
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>edu.sampleu.travel</value>
+        <value>edu.sampleu.bookstore</value>
+        <value>edu.sampleu.demo</value>
+        <value>edu.sampleu.kew.krad</value>
+      </list>
+    </property>
+    <property name="resourceBundleNames">
+      <list>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewResources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP2Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP3Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP4Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP5Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP6Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP7Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP8Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewP9Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewPx10Resources</value>
+        <value>edu.sampleu.demo.kitchensink.UifComponentsViewPx11Resources</value>
+        <value>edu.sampleu.demo.course.UifStudentDefinitionsResources</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="sampleAppModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+    <property name="moduleConfiguration" ref="sampleAppModuleConfiguration"/>
+  </bean>
+
+  <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+    <property name="localServiceName" value="SampleAppContext"/>
+  </bean>
+
+  <bean id="configurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="kualiConfigurationService"/>
+  </bean>
+
+  <bean id="campusAgendaTypeService" class="edu.sampleu.krms.impl.CampusAgendaTypeService">
+    <property name="configurationService" ref="configurationService"/>
+  </bean>
+
+  <bean id="rice.ksb.serviceBus"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="rice.ksb.serviceBus"/>
+  </bean>
+
+  <bean id="sampleAppPeopleFlowTypeService"
+        class="org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl"/>
+
+  <bean id="sampleAppPeopleFlowTypeService.exporter"
+        class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+        p:serviceBus-ref="rice.ksb.serviceBus"
+        p:callbackService-ref="sampleAppPeopleFlowTypeService"
+        p:localServiceName="sampleAppPeopleFlowTypeService"
+        p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/>
+
+  <bean id="testActionTypeService" class="org.kuali.rice.krms.impl.type.ActionTypeServiceBase"/>
+
+  <bean id="sampleAppContainsOperatorService" class="edu.sampleu.krms.impl.ContainsOperator"/>
+
+  <bean id="sampleAppContainsOperatorService.exporter"
+        class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+        p:serviceBus-ref="rice.ksb.serviceBus"
+        p:callbackService-ref="sampleAppContainsOperatorService"
+        p:serviceNameSpaceURI="KR-SAP"
+        p:localServiceName="sampleAppContainsOperatorService"
+        p:serviceInterface="org.kuali.rice.krms.api.repository.operator.CustomOperator"/>
+
+  <bean id="dataTableRestServiceTest" class="edu.sampleu.demo.kitchensink.DataTableRestServiceTestImpl"/>
+
+  <bean id="DataTableRestServiceTest" class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+    <property name="serviceNameSpaceURI" value="KR-SAP"/>
+    <property name="service" ref="dataTableRestServiceTest"/>
+    <property name="resourceClass"
+              value="edu.sampleu.demo.kitchensink.DataTableRestServiceTestImpl"/>
+    <property name="localServiceName" value="dataTableRestServiceTest"/>
+  </bean>
+
+  <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <property name="serviceBus" ref="rice.ksb.serviceBus"/>
+    <property name="serviceDefinition" ref="DataTableRestServiceTest"/>
+  </bean>
+
+  <bean id="testSuggestService" class="edu.sampleu.demo.TestSuggestServiceImpl"/>
+
+  <bean id="testAttributeQueryService" class="edu.sampleu.demo.TestAttributeQueryServiceImpl"/>
+
+</beans>
+

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+      <group>
+        <name>NWG1</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NWG1</description>
+        <members>
+          <principalName>ewestfal</principalName>
+          <principalName>rkirkend</principalName>
+        </members>
+      </group>
+      <group>
+        <name>NWG2</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NWG2</description>
+        <members>
+          <principalName>jhopf</principalName>
+          <principalName>bmcgough</principalName>
+        </members>
+      </group>
+      <group>
+        <name>NWGNested1</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NWGNested1</description>
+        <members>
+          <principalName>natjohns</principalName>
+          <groupName>
+            <name>NWG1</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+        </members>
+      </group>
+      <group>
+        <name>NWGNested2</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NWGNested1</description>
+        <members>
+          <principalName>pmckown</principalName>
+          <groupName>
+            <name>NWG2</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+          <groupName>
+            <name>NWGNested1</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+        </members>
+      </group>
+
+      <group>
+        <name>NestedWGDupe4</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NestedWGDupe4</description>
+        <members>
+          <principalName>xqi</principalName>
+          <principalName>jitrue</principalName>
+          <principalName>ewestfal</principalName>
+        </members>
+      </group>
+      <group>
+        <name>NestedWGDupe2</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NestedWGDupe2</description>
+        <members>
+          <principalName>ewestfal</principalName>
+          <principalName>bmcgough</principalName>
+          <principalName>rkirkend</principalName>
+          <groupName>
+            <name>NestedWGDupe4</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+        </members>
+      </group>
+      <group>
+        <name>NestedWGDupe3</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NestedWGDupe3</description>
+        <members>
+          <principalName>jhopf</principalName>
+          <principalName>rkirkend</principalName>
+          <groupName>
+            <name>NestedWGDupe4</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+        </members>
+      </group>
+      <group>
+        <name>NestedWGDupe1</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>NestedWGDupe1</description>
+        <members>
+          <principalName>ewestfal</principalName>
+          <principalName>rkirkend</principalName>
+          <groupName>
+            <name>NestedWGDupe2</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+          <groupName>
+            <name>NestedWGDupe3</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+        </members>
+      </group>
+
+  </groups>
+</data>

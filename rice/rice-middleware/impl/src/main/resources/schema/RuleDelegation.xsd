@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:rc="ns:workflow/Rule"
+        targetNamespace="ns:workflow/Rule"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2009 The Kuali Foundation.
+
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl1.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Rule Delegation schema
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="resource:Rule"/>
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+
+  <element name="ruleDelegations">
+    <complexType>
+      <sequence>
+        <element name="ruleDelegation" type="rc:RuleDelegationType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 A set of rule delegates
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="RuleDelegationType">
+    <sequence>
+      <element name="parentResponsibility" type="rc:ParentResponsibilityType">
+        <annotation>
+          <documentation>Defines the responsibility from which this rule delegate is delegating</documentation>
+        </annotation>
+      </element>
+      <element name="delegationType" type="rc:DelegationTypeType">
+        <annotation>
+          <documentation>The type of delegate</documentation>
+        </annotation>
+      </element>
+      <element name="rule" type="rc:RuleType">
+        <annotation>
+          <documentation>The rule definition for this delegate</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="ParentResponsibilityType">
+    <sequence>
+      <choice>
+        <element name="responsibilityId" type="long">
+      	  <annotation>
+      		<documentation>The id of the rule responsibility from which to delegate</documentation>
+      	  </annotation>
+      	</element>
+      	<sequence>
+    	  <element name="parentRuleName" type="c:ShortStringType">
+      	    <annotation>
+      		  <documentation>The name of the parent rule from which to delegate</documentation>
+      	    </annotation>
+      	  </element>
+      	  <choice>
+      	  
+      	    <element name="principalId" type="c:ShortStringType">
+        	  <annotation>
+        		<documentation>The principal id of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+            
+        	<element name="principalName" type="c:ShortStringType">
+        	  <annotation>
+        		<documentation>The principal name of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+
+            <element name="groupId" type="c:ShortStringType">
+              <annotation>
+        		<documentation>The of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+
+            <element name="groupName" type="rc:GroupNameType">
+              <annotation>
+        		<documentation>The group name of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+
+            <element name="roleName" type="c:ShortStringType">
+           	  <annotation>
+        		<documentation>The role name of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+            
+            <element name="role" type="c:ShortStringType">
+           	  <annotation>
+        		<documentation>The role declaration of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+      	  </choice>
+      	</sequence>
+      </choice>
+    </sequence>
+  </complexType>
+
+  <simpleType name="DelegationTypeType">
+    <restriction base="string">
+      <!-- Primary -->
+      <enumeration value="P"/>
+      <!-- Secondary -->
+      <enumeration value="S"/>
+    </restriction>
+  </simpleType>
+
+</schema>

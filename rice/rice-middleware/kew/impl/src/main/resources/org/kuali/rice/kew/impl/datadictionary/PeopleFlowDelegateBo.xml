@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  
+
+  <bean id="PeopleFlowDelegate" parent="PeopleFlowDelegate-parentBean"/>
+  <bean id="PeopleFlowDelegate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kew.impl.peopleflow.PeopleFlowDelegateBo"/>
+    <property name="titleAttribute" value="memberId"/>
+    <property name="objectLabel" value="People Flow Delegate"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PeopleFlowDelegate-memberId"/>
+        <ref bean="PeopleFlowDelegate-memberTypeCode"/>
+        <ref bean="PeopleFlowDelegate-delegationTypeCode"/>
+        <ref bean="PeopleFlowDelegate-actionRequestPolicyCode"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="person">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId"
+                    p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true"
+                    p:sourceName="memberName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="person.name"
+                    p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="group">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId"
+                    p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true"
+                    p:sourceName="memberName" p:targetName="name"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="group.namespaceCode"
+                    p:targetName="namespaceCode"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="role">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId"
+                    p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true"
+                    p:sourceName="memberName" p:targetName="name"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="role.namespaceCode"
+                    p:targetName="namespaceCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PeopleFlowDelegate-memberId" parent="PeopleFlowDelegate-memberId-parentBean"/>
+  <bean id="PeopleFlowDelegate-memberId-parentBean" abstract="true" parent="PeopleFlowMember-memberId"/>
+
+  <bean id="PeopleFlowDelegate-memberTypeCode" parent="PeopleFlowDelegate-memberTypeCode-parentBean"/>
+  <bean id="PeopleFlowDelegate-memberTypeCode-parentBean" abstract="true" parent="PeopleFlowMember-memberTypeCode"/>
+
+  <bean id="PeopleFlowDelegate-delegationTypeCode" parent="PeopleFlowDelegate-delegationTypeCode-parentBean"/>
+  <bean id="PeopleFlowDelegate-delegationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="delegationTypeCode"/>
+    <property name="label" value="Delegation Type Code"/>
+    <property name="shortLabel" value="Delegation Type"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="optionsFinderClass" value="org.kuali.rice.kew.impl.peopleflow.DelegationTypeValuesFinder"/>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="Delegation type (primary or secondary) for the delegate"/>
+    <property name="description" value="Delegation type (primary or secondary) for the delegate"/>
+  </bean>
+
+  <bean id="PeopleFlowDelegate-actionRequestPolicyCode" parent="PeopleFlowDelegate-actionRequestPolicyCode-parentBean"/>
+  <bean id="PeopleFlowDelegate-actionRequestPolicyCode-parentBean" abstract="true"
+        parent="PeopleFlowMember-actionRequestPolicyCode"/>
+
+</beans>

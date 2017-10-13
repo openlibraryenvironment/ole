@@ -1,0 +1,1449 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="view_types" xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns="http://docbook.org/ns/docbook" version="5.0">
+  <title>View Types</title>
+  <section>
+    <title>What are View Types?</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>View Type Indexing</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>Lookup View Type</title>
+    <section>
+      <title>Lookup View</title>
+      <para>Lookups are used to list sets of data objects of a specific data object class.  This
+        might be used as the initial entry point from the application portal in order to list
+        existing documents for view, edit, or copy.  Or, it might be used inside of a document to
+        make an association to reference data (e.g. to assign a member to a group).  In both cases,
+        the same Lookup View is being used. </para>
+      <para>To create a document-specific lookup view, the Uif-LookupView is extended.  The
+        Uif-LookupView consists of two distinct sections, the criteria section and the result
+        section. </para>
+      <figure>
+        <title>Lookup View</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/lookupView.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Extending a lookup from the Uif-LookupView not only provides a standard look, but it
+        also removes the burden of creating the individual sections by simply specifying the
+        criteria and result fields.  </para>
+      <programlisting linenumbering = "numbered">
+&lt;bean id="BookLookupView" parent="Uif-LookupView"&gt;
+&lt;property name="title" value="Book Lookup" /&gt;
+&lt;property name="dataObjectClassName" value="org.gutenberg.catalog.BookBo" /&gt;
+&lt;property name="lookupCriteria" /&gt;
+&lt;list&gt;
+&lt;bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" /&gt;
+&lt;bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" /&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+&lt;property name="resultFields"&gt;
+&lt;list&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="id" /&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="title" /&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="numOfPages" /&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+&lt;/bean&gt;
+      </programlisting>
+      <para>As usual, we give the lookup bean a unique ID.  The title property will contain the
+        header text of our lookup.  We assign the business object that will be returned by this
+        lookup via the dataObjectClassName property.  The lookupCriteria property is a list of
+        LookupCriteriaAttributeFields.  These specify the fields by which we can narrow the
+        results.  Finally, we specify what fields should appear in the result via the resultFields
+        property.  To specify these fields, use the Uif-DataFields property. </para>
+    </section>
+    <section>
+      <title>Lookupable and LookupableImpl</title>
+      <para>For lookups, the Lookupable interface needs to be implemented in conjunction with
+        extending the ViewHelperService.  In most cases, the out-of-the-box implementation
+        LookupableImpl is sufficient.  If customization of the lookup view rendering lifecycle is
+        needed, the LookupableImpl can be extended and the necessary methods overridden. </para>
+      <para>If we implement our own Lookupable, we specify this in the viewHelperServiceClass
+        property of the view. </para>
+      <programlisting linenumbering = "numbered">&lt;property name="viewHelperServiceClass" value="org.gutenberg.catalog.BookLookupableImpl" /&gt;
+      </programlisting>
+    </section>
+    <section>
+      <title>LookupSearchService</title>
+      <para>The LookupService is responsible for the data retrieval.  The default
+        implementation that is delivered out-of-the-box is LookupServiceImpl.  This provides
+        a generic search mechanism for business objects.
+      </para>
+    </section>
+    <section>
+      <title>Lookup Action and Form</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>Customizing the Lookup View</title>
+      <para>The sorting of the result set can be customized with the defaultSortAttributeName
+        property, which specifies the sort key and the defaultSortAscending property, which reverses
+        the sorting order. </para>
+      <section>
+        <title>Adding Action URLs</title>
+        <para>The resultsActionsField property contains the field with the actions that are
+          available on each line of the result such as edit, copy and delete. 
+        </para>
+        <para>The resultsReturnField property contains the field with the available actions
+          for returning the results to a previous screen.
+        </para>
+      </section>
+      <section>
+        <title>Changing Layout for the Results</title>
+        <para>Coming Soon!</para>
+        <!-- TODO: Add content here.
+        -->
+      </section>
+    </section>
+  </section>
+  <section>
+    <title>Inquiry View Type</title>
+    <section>
+      <title>Inquiry View</title>
+      <para>The inquiry view is the read-only view used to display detailed information of data
+        objects.  Fields on documents, lookups, and other inquiries may have an inquiry link to
+        display the details of these linked data objects. For example, we might have an inquiry link
+        on a book title that will bring up the inquiry view of that book with the book's details
+        such as author, summary, number of pages, etc. </para>
+      <para>To create a document-specific inquiry view, the Uif-InquiryView is extended. </para>
+      <programlisting linenumbering = "numbered">
+&lt;bean id="BookInquiryView" parent="Uif-InquiryView"&gt;
+&lt;property name="title" value="Book Inquiry" /&gt;
+&lt;property name="dataObjectClassName" value="org.gutenberg.catalog.BookBo" /&gt;
+&lt;property name="items" /&gt;
+&lt;list&gt;
+&lt;bean parent="Uif-GridSection" /&gt;
+&lt;property name="layoutManager.numberOfColumns" value="2" /&gt;
+&lt;property name="items"&gt;
+&lt;list&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="id" /&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="title" /&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="numOfPages" /&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+&lt;/bean&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+&lt;/bean&gt;
+      </programlisting>
+      <para>We identify the inquiry view by assigning a unique ID. The title property will contain
+        the header text of our inquiry. We specify the business object that will be displayed by
+        this inquiry with the dataObjectClassName property. With the items property, we can specify
+        one or more groups that will make up the inquiry page. Here, we choose a simple two column
+        grid layout with Uif-InputFields that will display the label in the first column and the
+        value in the second. </para>
+    </section>
+    <section>
+      <title>Inquirable and InquirableImpl</title>
+      <para>For inquiries, the Inquiry interface needs to be implemented in conjunction with
+        extending the ViewHelperService.  In most cases the out-of-the-box implementation
+        InquirableImpl is sufficient.  If customization of the inquiry view rendering lifecycle is
+        needed, the InquirableImpl can be extended, and the necessary methods overridden. </para>
+      <para>If we implement our own Inquirable, we specify this in the viewHelperServiceClass
+        property of the view. </para>
+      <programlisting linenumbering = "numbered">&lt;property name="viewHelperServiceClass" value="org.gutenberg.catalog.BookInquirableImpl" /&gt;
+      </programlisting>
+    </section>
+    <section>
+      <title>Customizing the Inquiry View</title>
+      <para>The inquiry view doesn't restrict us to the label-value grid layout.  You can choose any
+        group layout, and introduce nested groups and sections.  You also have all widgets at your
+        disposal, which will be displayed in their read-only state. </para>
+      <para>If your view contains a field that creates an inquiry link to the same data object, you
+        most likely want to suppress this to avoid unnecessary recursive inquiries that might
+        confuse the user.  To do so, set the enableAutoInquiry property to false. </para>
+      <programlisting linenumbering = "numbered">&lt;bean parent="Uif-InputField" p:propertyName="title" p:enableAutoInquiry="false" /&gt;
+      </programlisting>
+    </section>
+  </section>
+  <section>
+    <title>Maintenance View Type</title>
+    <section>
+      <title>Maintenance Document Entry</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>Maintenance View</title>
+      <para>The Maintenance View is used to create, maintain and display a data object.</para>
+      <figure>
+        <title>Maintenance View</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/maintenanceView.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <programlisting linenumbering = "numbered">
+&lt;bean id="BookMaintenanceView" parent="Uif-MaintenanceView"&gt;
+&lt;property name="title" value="Book Maintenance" /&gt;
+&lt;property name="dataObjectClassName" value="org.gutenberg.catalog.BookBo" /&gt;
+&lt;property name="items" /&gt;
+&lt;list&gt;
+&lt;bean parent="Uif-GridSection" /&gt;
+&lt;property name="layoutManager.numberOfColumns" value="2" /&gt;
+&lt;property name="items"&gt;
+&lt;list&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="id" /&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="title" /&gt;
+&lt;bean parent="Uif-DataField" p:propertyName="numOfPages" /&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+&lt;/bean&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+&lt;/bean&gt;
+      </programlisting>
+      <para>We identify the Maintenance View by a unique Id, and assign the heading for the
+        maintenance screen to the title property.  The dataObjectClassName specifies the data object
+        for which we are creating the maintenance view.  For a simple layout, we choose the two
+        column Uif-GridSection layout, and specify the data object fields in it. </para>
+    </section>
+    <section>
+      <title>Comparable and Maintenance Edit</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>Maintainable and MaintainableImpl</title>
+      <para>For maintainables, the Maintainable interface needs to be implemented in conjunction
+        with extending the ViewHelperService.  In most cases, the out-of-the-box implementation
+        MaintainableImpl is sufficient.  If customization of the inquiry view rendering lifecycle is
+        needed, the MaintainableImpl can be extended, and the necessary methods overridden. </para>
+      <para>If we implement our own Maintainable, we specify this in the viewHelperServiceClass
+        property of the view. </para>
+      <programlisting linenumbering = "numbered">
+&lt;property name="viewHelperServiceClass" value="org.gutenberg.catalog.BookMaintainableImpl" /&gt;
+      </programlisting>
+    </section>
+    <section>
+      <title>Maintenance Action and Form</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>The Maintenance Lifecycle</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section>
+        <title>Maintenance Locking</title>
+        <para>Since our application can be used by multiple users we need to worry about
+          somebody else starting to edit our document while it is being routed through
+          workflow.  If we would allow this then that user might override our changes with
+          theirs.  To prevent such a thing from happening we lock the maintenance document
+          on its fields that uniquely identify the document.  Often these fields are the
+          primary keys of the data object.
+        </para>
+        <programlisting linenumbering = "numbered">
+&lt;bean id="BookMaintenanceDocument" parent="uifMaintenanceDocumentEntry"&gt;
+ ...
+&lt;property name="lockingKeys" &gt;
+&lt;list&gt;
+&lt;value&gt;id&lt;/value&gt;
+&lt;/list&gt;
+&lt;/property&gt;
+ ...
+&lt;/bean&gt;
+        </programlisting>
+      </section>
+    </section>
+    <section>
+      <title>Customizing Maintenance Documents</title>
+      <para>With the Maintenance document, we aren't restricted to the two column grid layout.  You
+        can choose any group layout, and introduce nested groups and sections.  All the widgets can
+        be used. </para>
+    </section>
+  </section>
+  <section>
+    <title>Transactional View Type</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+    <section>
+      <title>Document Objects and Mappings</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section>
+        <title>Workflow Post Processing</title>
+        <para>Coming Soon!</para>
+        <!-- TODO: Add content here.
+        -->
+      </section>
+    </section>
+    <section>
+      <title>Transactional Document Entry</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>Document View</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>Document Action and Form Base</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>The Document Service</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>Document Authorizer and Presentation Controller</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+  </section>
+  <section>
+    <title>Request Setting of Fields to Read-Only</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>Writing Business Rules</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>Notes and Attachments</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>Creating a New View Type</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>KIM Primer</title>
+    <para>Kuali Identity Management is the component of Rice which deals with actors within an
+      application.  The vast majority of system actors for an application are, sensibly enough,
+      users.  However, KIM was designed to handle non-user actors as well: people who are not
+      actors, but still interact with the system such as university applicants or visiting speakers,
+      faculty and staff throughout the university (whether they use the application or not), and
+      even the application itself.  Marshaling all of this information and using it to grant actors
+      abilities to use the application and be notified of its effects is at the heart of what KIM
+      does. </para>
+    <para>Keeping track of this information may seem to be an order of the highest complexity,
+      but it can be understood as consisting of a mere six high level objects.  First, there
+      are the system actors themselves, which KIM labels as "entities".  Entities with the
+      ability  to authenticate within the system - i.e., application users - are termed
+      "principals".  Multiple principals can be collected together and treated as a whole into
+      two major units of conglomeration: "groups" and "roles".  Finally, principals within a
+      role can be granted a "permission" - the ability to carry out an action within the
+      application; and they can be given a "responsibility" - a notification and opportunity
+      to act upon actions others have taken within the application.  (Permissions should seem
+      fairly intuitive since they were covered earlier.)  This primer will work its way
+      through the first five of these concepts in turn.  Responsibilities will be covered in
+      more detail in the <link linkend="KEWPrimer">KEW primer</link>.
+    </para>
+    <section>
+      <title>
+        <emphasis role="bold">Entities</emphasis>
+      </title>
+      <para>Once again, system actors are known as "entities" in KIM terminology.  Entities can
+        interact or be acted upon the system in any number of ways.  Most "entities" will represent
+        people, though there are some entities which represent applications (known as "system
+        entities") to be associated with the acts of application itself, or other applications. 
+        These are rarer cases - typically, there's a handful of system entities known by an
+        application, but large numbers of "person" entities. </para>
+      <para>Since most entities represent people, there's a staggering amount of information
+        about entities which KIM can manage.  Entities can be associated with multiple
+        addresses, so that home, work, and other addresses can be stored.  The same is true
+        of phone numbers and e-mail addresses.  Entities can have residency, citizenship,
+        and visa information stored for them.  Employment information and institutional
+        affiliations can be stored for any entity.  If a person in a system wants to limit
+        access to any of this information, privacy preferences can be stored for that
+        person's entity record.  Entity records can store a complex amount of information
+        about a person's name.  And if all of that wasn't enough, KIM provides a way to
+        create generic entity attributes for an application, so that an application can
+        store extra values, which it itself defines, about the entity.
+      </para>
+      <para>Entities managed by KIM are typically maintained through the Person Identity Management
+        document.  However, since it's very common for institutions to already have an identity
+        management system in place, maintenance of KIM information can be overridden via a new
+        implementation of org.kuali.rice.kim.api.identity.IdentityService.  Institutions looking to
+        override that service should check on Rice collaboration lists; there's a good chance that
+        implementations geared towards specific technologies already exist.  At least one Kuali
+        Community created IdentityService implementation - for LDAP - comes packaged with Rice. </para>
+      <para>There is one other important piece of information which KIM manages about that very
+        special subset of entities who use the system: principal information.  A principal is an
+        entity - person or system - which can authenticate into a system, and then act within the
+        system.  Principals have a special id (which may be equal to the entity id, depending on how
+        each institution implements KIM) and a "principal name" - the username for the user in the
+        system. </para>
+      <para>Just as entity management can be overridden through the IdentityService, web
+        authentication can be overridden via org.kuali.rice.kim.api.identity.AuthenticationService. 
+        Again, there's a high likelihood that common authentication options already have
+        implementations; ask Rice collaboration lists. </para>
+    </section>
+    <section>
+      <title>
+        <emphasis role="bold">Groups and Roles</emphasis>
+      </title>
+      <para>As useful as it is to have information on all of those various entities, the biggest
+        interaction an application has with them is to treat them as users: to allow authentication
+        of principals, and then grant those principals permission to perform certain actions within
+        the system, as well as the responsibility to view actions which have occurred within the
+        system.  And, of course, granting all of that principal by principal would get tedious
+        quickly and difficult to manage to boot.  Therefore, KIM provides two ways to collect
+        principals together so that principals with similar rights within the application can be
+        treated as a whole.  Once again, KIM offers two main forms of collecting principals: groups
+        and roles.  Roles are terribly important: permissions and responsibilities are only assigned
+        to roles.  Groups, though, tend to be a more intuitive concept and therefore a better
+        starting place. </para>
+      <para>Groups are simply a collection of principals and other groups.  Together, each
+        principal or group collected into the parent group are known as "members".  A group
+        has a unique group id to identify it as well as a unique module namespace and group
+        name combination.  A group can also have an optional description.  There's one other
+        twist with groups, but for now, this definition will suffice: a collection of member
+        principals and groups with two unique identifiers: a system assigned group id and a
+        user-assigned module namespace and name.
+      </para>
+      <para>Of course, such a concept hardly originated with KIM; the KIM code for groups is
+        actually based on older code which was part of KEW.  Furthermore, just like with entities
+        and principals, KIM supports other sources of group data, such as the open source Grouper
+        project or Microsoft Active Directory Services.  Group data is accessed through an
+        implementation of org.kuali.rice.kim.api.group.GroupService.  Rice comes with an
+        implementation of GroupService which holds group information in the KIM database but once
+        again, other implementations for popular group services, such as Active Directory Services
+        or Grouper, are almost certainly available in the Kuali community. </para>
+      <para>At first glance, roles likely will not seem that different from groups.  Roles also have
+        members, which can be principals, groups, or other roles.  (Note: groups cannot have roles
+        as members.)  Roles have a system assigned role id, but are better known by the unique
+        combination of a module namespace and role name.  They even have descriptions.  And yet,
+        roles have the power to be associated with permissions and responsibilities; the only way
+        groups have a similar power is to be a member of a role.  What then makes roles so special? 
+        Unlike groups, roles can provide further information about the principals within them: a
+        role can differentiate among its members.  Because of that, roles typically model certain
+        authorities within the university system. </para>
+      <para>For instance, let's say a Rice application is being written for a state university with
+        nineteen child campuses among the state.  Let's say furthermore that each campus has a
+        collection of people whose job it is to administrate financial aid for students.  That could
+        be modeled as nineteen groups, one for each campus in the state.  But in KIM, a better
+        modeling would be to create one role, which, for the purposes of this example, will have the
+        module namespace KS-SA, and the role name Financial Administrator.  All the financial
+        administrators for each of the nineteen campuses would become members of this role: but each
+        membership would also keep track of which campus the member is associated with.  Groups
+        cannot do that, and this is why KIM roles are so much more powerful than KIM groups. </para>
+      <para>How, then, does this differentiation among members which occurs in roles, work?  The
+        next section takes that question up. </para>
+    </section>
+    <section>
+      <title>
+        <emphasis role="bold">Roles: Differentiating among principals</emphasis>
+      </title>
+      <para>A concept which occurs throughout KIM is that of an attribute.  If that term
+        sounds reminiscent of attributes in the rest of KRAD, it should: an attribute is
+        simply a field which holds a particular data value.  In KIM, attributes are used to
+        provide particular details about KIM data, such as a role membership.  For example,
+        with our KS-SA Financial Administrator example above, the attribute would be
+        "campusCode" - that's the value used to differentiate between the members of the
+        role.  Attributes which apply to role members are known as "role qualifiers".
+      </para>
+      <para>However, a role is not associated with an attribute directly - it is associated
+        with one or more attributes through a KIM type.  A KIM type is just that: a
+        collection of one or more KIM attributes.  KIM types also define matching behavior -
+        because, as will be seen during the discussion of permissions, KIM spends a lot of
+        time matching data from one KIM entity (such as a permission or responsibility) with
+        data of another KIM entity (typically a role membership).  A closer look at that
+        process will be covered in the section on KIM permissions.
+      </para>
+      <para>Now, roles do not need to associate with any attributes - though, because an application
+        needs roles to assign to permission and responsibilities, attributeless roles still exist
+        within applications.  Those roles have a KIM type of KUALI Default (which, unsurprisingly,
+        has a unique id of "1").  In this case, when members are added to role via, say, the Role
+        Identity Management document, there are no qualifiers to assign. The below screen shot shows
+        assignment of members with no qualifiers using the Role document. </para>
+      <figure>
+        <title>Role Screen</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/roleScreen.png" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>However, if a role is associated with a KIM type which has attributes, then the
+        ability to qualify a role membership with the attributes.  Attributes in a type may
+        be either required - meaning that all members (save for member roles) will have to
+        have some value for that attribute - or not.  Any system data can potentially be
+        used as an attribute for a KIM type; it all comes down to the needs of the
+        application. The next Screen Shot shows assignment with qualifiers.
+      </para>
+      <figure>
+        <title>Role Screen, Qualifiers</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/roleScreenQualifiers.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Types are really at the heart of how KIM handles permissions and responsibilities
+        and they will be covered again, in more detail, in the section on
+        Permissions.
+      </para>
+      <para>Astute observers may have noticed that KIM Groups can be assigned types as well. 
+        Again, what's the difference with roles?  With roles, the type differentiates the
+        memberships.  With groups, the type simply provides more information about the
+        group.  For instance, the KFS application has a Group type which allows an
+        organization (identified by the composite key of chart of accounts code and
+        organization code) with a group.  All members in a Group so typed have the _same_
+        organization associated, whereas in a role, each member can be different.  Groups
+        use types merely for description - which, in practice, means a lot of Groups use
+        KUALI Default as the type and do not use this extra description at all.
+      </para>
+      <para>While most roles have members associated through the Person Identity Management
+        and Role Identity Management documents, there are a class of roles which do not have
+        members assigned: derived roles.  Derived roles are so called because they derive
+        their membership data from other data objects in the system.  For instance, in KFS,
+        there is a derived role called KFS-SYS Fiscal Officer.  Memberships of this role are
+        controlled by special data on the KFS-COA Account data object.  Again, these roles
+        are fairly rare but do show off the power of KIM types and what kind of data they
+        can access.
+      </para>
+    </section>
+    <section>
+      <title>
+        <emphasis role="bold">Permissions</emphasis>
+      </title>
+      <para>Using KIM permissions, an application developer can effectively permit or bar
+        users from accessing certain portions of the application.  KIM's type system,
+        alluded to in the section on roles, provides a way to build highly generic
+        permissions, meaning that a developer can generate a permission to allow or deny
+        almost any conceivable action within the application.
+      </para>
+      <para>In Rice 2, a number of useful permissions are already defined.  Earlier portions
+        of this text covered some of the permissions which KRAD provides.  Other permissions
+        include the ability to initiate a document, the ability to route or blanket approve
+        a document, the ability to add members to a role or group, even the ability to grant
+        a permission or responsibility.
+      </para>
+      <para>How does KIM allow such a variety of permissions to exist?  The answer once again
+        returns to KIM attributes and KIM types.  Every permission has a template associated
+        with it, which means that all permissions which grant initiation of documents share
+        a single template.  Like so many KIM objects, each template has a unique synthetic
+        key as well as a unique combination of namespace and name - so for the document
+        initiation permissions, the template is always KR-SYS Initiate Document.  KR-IDM
+        Grant Permission is the template for all permissions which allow users to grant
+        permission. The Permission inquiry view is shown below.
+      </para>
+      <figure>
+        <title>Permission Inquiry</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/permissionInquiry.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Each permission template is backed by a KIM type, which again is a collection of
+        one or more KIM attributes.  For instance, the KR-SYS Initiate Document permission
+        template's KIM type is KR-SYS Document Type (Permission) and it has one KIM
+        attribute associated with it - a document type.  Therefore, each permission
+        associated with the KR-SYS Initiate Document permission template should have a
+        certain document type associated.  Other KIM permission types include types which
+        handle namespaces, component names, and even generic data.
+      </para>
+      <para>Just as with roles, there's a permission template which wraps the KUALI Default
+        KIM type - this permission template is also called KUALI Default.  This permission
+        template allows no extra attributes and is typically used for unique,
+        application-specific permissions.
+      </para>
+      <para>Each permission created, therefore, has a template associated with it.  It also is
+        given a unique synthetic id, and a unique namespace and name combination. 
+        Permissions typically also have descriptions associated them.
+      </para>
+      <para>Finally, permissions can be associated with roles.  This is done via the Role
+        Identity Management document.  Once a permission is actively associated with a role,
+        then all members of that role potentially have the ability to carry out the
+        permitted act.
+      </para>
+      <para>Potentially - and this is where the power of roles kicks in.  Let's say a user is
+        about to carry out a generic action - to initiate a Role Identity Management
+        document.  When that action occurs, KRAD automatically calls
+        org.kuali.rice.kim.api.permission.PermissionService#isAuthorizedByTemplate.  That
+        method takes in a number of parameters: the principal id of the user attempting to
+        carry out the action; the namespace code and name of the permission template to
+        check; and then two Map&lt;String, String&gt; parameters - permissionDetails and
+        qualification.
+      </para>
+      <para>The permissionDetails parameter helps KIM find the correct permission.  In the
+        case of the KR-SYS Initiate Document check, KRAD will have already populated that
+        map with an attribute name ("documentTypeName") and value for the document which
+        will be initiated.  KIM then looks through permissions which use the KR-SYS Initiate
+        Document check and it uses the matching behavior of the associated KIM permission
+        type (specifically, the performPermissionMatches method) to find a permission which
+        matches for the Role Identity Management document.  Because permission templates can
+        have a customized type, the KIM permission type for KR-SYS Initiate Document does
+        some special behavior: it traverses up the KEW document type hierarchy (to be
+        covered more fully in the KEW primer) to find an appropriate permission - basically
+        meaning that if an application developer has wisely arranged all application
+        document types into a hierarchy, permissions need not be specified for every single
+        document.  Other permission KIM types perform matching services such as handling
+        namespace wildcards.  And of course, application developers can create their own
+        permission type roles.
+      </para>
+      <para>Once a permission has been found, KIM looks up the roles associated with those
+        permissions and their types.  KIM sends the qualifier map to the role types of the
+        matching roles.  The KIM type for each role takes the qualifier map that was passed
+        to it and attempts to match each member's role qualifications.  If the qualifier map
+        is empty, then typically all members are passed back as matching - though some KIM
+        role types override that behavior.  If qualifier attributes have been passed in,
+        then the KIM role type determines if each member matches and only passes back the
+        matching members.
+      </para>
+      <para>KRAD sends generic role qualifiers to every KIM permission call that it makes. 
+        More specific role qualifiers can be sent to KIM via View configuration, through a
+        map passed into the componentSecurity property on a Field.
+      </para>
+      <para>In short, this means that based on data within a KRAD screen, certain members of
+        the role will be able to perform certain actions but not others.  For instance,
+        every member of our KS-SA Financial Administrator role may have permission to view
+        reports on cross-university financial aid grants, those same members will only be
+        able to change the financial aid status of a student if the student takes classes
+        primarily on their campus.  Qualified roles and permissions provide an incredibly
+        powerful way to granularly limit access to certain portions of the application with
+        a minimum of configuration.
+      </para>
+      <para>KRAD will generally add permission details and qualifier values that are
+        generically appropriate to the call.  However, authorizers and KRAD configuration
+        often allow the addition of more values - this can be especially important when
+        adding qualifiers.  Also, even though KRAD will automatically make permission calls
+        in certain cases, there is nothing to prevent the application developer from making
+        their own permission calls in the code.  Calls based on template should call the
+        aforementioned
+        org.kuali.rice.kim.api.permission.PermissionService#isAuthorizedByTemplate.  If the
+        template is KUALI Default - one of those highly specific application permissions -
+        then the appropriate permission check would go through
+        org.kuali.rice.kim.api.permission.PermissionService#isAuthorized.
+      </para>
+      <para>The last major object of KRAD - responsibilities - will be covered early on in the
+        KEW Primer.
+      </para>
+    </section>
+  </section>
+  <section xml:id="KEWPrimer">
+    <title>KEW Primer</title>
+    <para>Versions of what is now Kuali Enterprise Workflow existed before the first Kuali
+      application was even written.  Why?  Because enterprise applications find it highly
+      useful to tie into a system which can route application content among various users,
+      where that content can be acknowledged, approved, or disapproved.  KEW provides an
+      elegant and highly configurable way to route such content.  Furthermore, as different
+      foundation applications have produced more and more byzantine routing requirements, as
+      systems such as KIM have become part of Rice, as institutions have tied non-Rice-based
+      application development platforms to the KEW document framework, KEW has proven itself
+      deeply adaptable, ready to handle any challenging routing situation.
+    </para>
+    <para>That flexibility derives from the fact that KEW has one major conceptual entity: the
+      document, but then provides myriad ways to route that entity.  This primer will examine
+      what documents are, cover two different routing mechanisms which KEW provides, and
+      finally look at some of the other support that KEW gives documents.  This primer will
+      not be an exhaustive study of KEW's capabilities, but it should get developers started
+      in understanding how KEW works.
+    </para>
+    <section>
+      <title>
+        <emphasis role="bold">Documents and Document Types</emphasis>
+      </title>
+      <para>Any application content which can be routed among users is considered a "document".  KEW
+        associates each document with a header and with content.  Content is encrypted information
+        about the document in an XML format.  The exact vocabulary and contents of that XML is
+        entirely up to the application, though KRAD provides some ways to generate that XML
+        automatically.  A document's header gives the document a unique identification number (the
+        "document number" or "document header ID") and associates the document with a document
+        type.  Every document has to be associated with a document type, and that document type
+        provides routing information and KEW configuration for all documents of that type. </para>
+      <para>KEW exports document types through the Document Type lookup as XML, and can read in XML
+        configuration for document types in the same vocabulary through the legendary "ingester".
+         All of this means that most developers find it easiest to understand a document through its
+        XML representation.  Here's an example from KFS: the Vendor maintenance document. </para>
+      <programlisting linenumbering = "numbered">
+        &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+        &lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="ns:workflow resource:WorkflowData"&gt;
+        &lt;documentTypes xmlns="ns:workflow/DocumentType"
+        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType"&gt;
+        &lt;documentType&gt;
+        &lt;name&gt;PVEN&lt;/name&gt;
+        &lt;parent&gt;VEND&lt;/parent&gt;
+        &lt;description /&gt;
+        &lt;label&gt;Vendor&lt;/label&gt;
+        &lt;helpDefinitionURL&gt;default.htm?turl=WordDocuments%2Fvendor2.htm&lt;/helpDefinitionURL&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;routingVersion&gt;2&lt;/routingVersion&gt;
+        &lt;routePaths&gt;
+        &lt;routePath&gt;
+        &lt;start name="AdHoc" nextNode="RequiresApproval" /&gt;
+        &lt;split name="RequiresApproval"&gt;
+        &lt;branch name="True"&gt;
+        &lt;role name="Management" nextNode="Initiator" /&gt;
+        &lt;role name="Initiator" nextNode="Join" /&gt;
+        &lt;/branch&gt;
+        &lt;branch name="False"&gt;
+        &lt;simple name="Do Nothing" nextNode="Join" /&gt;
+        &lt;/branch&gt;
+        &lt;join name="Join" /&gt;
+        &lt;/split&gt;
+        &lt;/routePath&gt;
+        &lt;/routePaths&gt;
+        &lt;routeNodes&gt;
+        &lt;start name="AdHoc" /&gt;
+        &lt;split name="RequiresApproval"&gt;
+        &lt;type&gt;org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode&lt;/type&gt;
+        &lt;/split&gt;
+        &lt;role name="Management"&gt;
+        &lt;qualifierResolverClass&gt;org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver&lt;/qualifierResolverClass&gt;
+        &lt;/role&gt;
+        &lt;role name="Initiator"&gt;
+        &lt;qualifierResolverClass&gt;org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver&lt;/qualifierResolverClass&gt;
+                &lt;/role&gt;
+                 &lt;join name="Join" /&gt;
+                &lt;simple name="Do Nothing"&gt;
+        &lt;type&gt;org.kuali.rice.kew.engine.node.NoOpNode&lt;/type&gt;
+        &lt;/simple&gt;
+        &lt;/routeNodes&gt;
+        &lt;/documentType&gt;
+        &lt;/documentTypes&gt;
+        &lt;/data&gt;
+      </programlisting>
+      <para>There's a great deal to notice about this example, but it does break into three
+        major parts: information about the document type at the top; the route paths next;
+        and finally, the route nodes.
+      </para>
+      <para>The document information is fairly straight forward.  Every document type has a name. 
+        (KFS makes all of its document names four characters long.  Other foundation projects
+        eschewed that practice.)  Every document can have a description and if the document is a
+        transactional document, then the document should have a label associated with it - the page
+        will blow up otherwise.  A help definition can be associated with the whole of the document,
+        which is useful if the help content for the application is at document-level granularity;
+        KRAD will provide finer grained help options than that but an overall discussion of the
+        document may still be helpful.  Naturally, a new document type would be set to
+        &lt;active&gt; and it's good practice to use routingVersion of 2; routingVersion of 1 is far
+        legacy concept. </para>
+      <para>A special note about a document type's parent.  PVEN's parent document type is "VEND",
+        KFS's Vendor Module Complex Maintenance Document.  Having a parent means that the document
+        type inherits all of what the parent document type defines - unless the document type
+        defines the value itself.  For instance, if PVEN had not defined the routePaths and
+        routeNodes sections, then it would have inherited that routing trail and notes from the VEND
+        document type.  There's a number of other document type elements - some of which will be
+        covered later - which PVEN is inheriting from either VEND or one of its parent document
+        types.  Applications which attempt to use KIM based routing are highly recommended to place
+        all of their documents into a single document hierarchy: one with a single root, parentless
+        document type.  That is (as will be covered in more detail in the section on
+        responsibilities) responsibilities follow document type hierarchies, and having a single
+        hierarchy means that nodes reused among several different documents can have KIM
+        responsibilities created at a higher level at the hierarchy and shared among all
+        descendants. </para>
+      <para>When thinking about route paths and route nodes, it might be useful to think of a
+        board game.  Most board games have a path that player's pieces must go through in a
+        specific order.  Route paths work precisely like that: they describe the paths (it's
+        very rare to have more than one) that a document will follow as it routes from user
+        to user.  Route nodes describes the points where the document can "land", just like
+        each spot within the path in the board game.  Every node which is listed in the
+        routePaths section must have a corresponding definition in the routeNodes
+        section.
+      </para>
+      <para>Just a note to get out of the way: yes, multiple routePaths can be defined for a
+        single document.  The author of this primer has not seen a use case for that
+        functionality.
+      </para>
+      <para>routePaths defines several different kinds of nodes.  In the PVEN example, we see
+        several different types: start, split, branch, join, role, and simple. </para>
+      <para>Every document needs to start at a "start" node.  The document is not routed to
+        anyone at this point; it's simply beginning its journey of - if all goes well -
+        approval.  Having a common name for all start nodes in each document type in a given
+        application is a pretty good idea.  Note that the start is associated with another
+        "start" in the routeNodes section.
+      </para>
+      <para>A split defines branches where a document can traverse multiple branches but skip
+        others.  As many branches as required by application needs can be defined.  For the
+        sake of this discussion, though, let's investigate a very simple branching mechanism
+        in KFS. 
+      </para>
+      <para>First, every split also has a corresponding routeNode element.  This routeNode
+        element defines a type: org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode. 
+        Every split node needs to have a type defined for it which implements
+        org.kuali.rice.kew.engine.node.SplitNode. That interface has one method associated
+        with it: process, which takes in a RouteContext and RouteHelper objects and returns
+        a SplitResult.  The RouteContext includes both the document type header and the
+        document content for the document; the RouteHelper has methods to examine nodes.  An
+        org.kuali.rice.kew.engine.node.SplitResult basically wraps a List of which branches
+        the given document should follow - again, there's a possibility that it could, in
+        parallel, follow multiple branches.
+      </para>
+      <para>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode will only follow one
+        branch at a time - either the branch named true "True" or the branch named "False". 
+        It queries a special method on KFS documents which returns a Boolean; the value of
+        the Boolean determines the branch the document will follow.  Simplicity works
+        wonderfully for a lot of applications, but of course any required logic can be
+        implemented for a split node.
+      </para>
+      <para>Branches are fairly simple.  They do not even have corresponding nodes in the
+        routeNodes section!  Do remember, though, to make sure the branch names match up
+        exactly - case and all - with the names returned in the SplitResult.  Also, every
+        split node needs to have a corresponding join node to join the branches back when
+        the document is finished routing through the split logic.  Joins do have
+        corresponding nodes in the routeNodes section.  If a document has multiple split
+        nodes and each, as it should, has a join, each join must have a unique name within
+        the document type.
+      </para>
+      <para>If the PVEN routes to the "False" branch, it goes to a simple node.  That simple
+        node has a corresponding definition in the routeNodes, where it too is given a type:
+        org.kuali.rice.kew.engine.node.NoOpNode.  That NoOpNode is an implementation of the
+        org.kuali.rice.kew.engine.node.SimpleNode interface.  Just like the SplitNode
+        interface, the SimpleNode interface has one method, process, and it even takes in
+        the same parameters.  It returns a SimpleResult, which merely notes whether the
+        processing of the node is complete or not.  The NoOpNode does nothing, but
+        SimpleNodes generally are used for when a document must be automatically processed
+        at some point (though a PostProcessor - like the doRouteLevelChanged and
+        doRouteStatusChanged method hooks in every KRAD document - provide an alternate and
+        preferred way of carrying out such work).  Like joins, every simple node must have a
+        unique name within the document type.
+      </para>
+      <para>That leaves role and the strange qualifierResolverClass - and what those are will
+        remain unresolved until KIM responsibilities get full coverage.  There are also
+        other kinds of nodes which will be covered within the primer as well.
+      </para>
+      <para>Document types can define other things as well.  The two biggest definitions not
+        yet discussed are rule attributes - and those will get full coverage later -  and
+        policies.  Policies are simply KEW options that a document can turn on or off.  For
+        example, if no action requests are generated for a document, then is that document
+        automatically approved?  That can be controlled via the DEFAULT_APPROVE policy. 
+        Does a document need to be routed by its initiator or by any user which has access? 
+        That's controlled by the INITIATOR_MUST_ROUTE policy.  An enumeration of all policy
+        options can be found in org.kuali.rice.kew.doctype.DocumentTypePolicyEnum.
+      </para>
+      <para>This has been a lot of discussion about document types - but the document hasn't
+        routed to any users yet!  Again, there are two major ways that KEW provides to route
+        documents to people: KIM responsibilities and KEW rules.  The primer will cover
+        responsibilities first.
+      </para>
+    </section>
+    <section>
+      <title>
+        <emphasis role="bold">KIM and KEW together: Responsibilities</emphasis>
+      </title>
+      <para>Time, at last, to cover the sixth and final major conceptual entity from KIM:
+        responsibilities.  A responsibility is a mapping of a KIM role to a KEW document
+        type routeNode, with a description of the action required at that node.  When a
+        document type is routed to a user, that user typically has one of three sets of
+        actions - either they can approve or disapprove the document; they can acknowledge
+        the document; or they can "FYI" the document.  (Like so much about KEW in this
+        primer, this is something of a gross simplification; it's called a "primer" for a
+        reason.)  When a user has received a request to either approve or disapprove a
+        document, the document cannot go to the next routeNode until all of the proper
+        approvals have been made - and if one disapproval is made on the document, the
+        document is effectively dead and goes no further (KEW can be a fairly cutthroat
+        board game).  With an acknowledge request, the document travels to the next
+        routeNode and may even go to "processed" state - but it will not be a "final"
+        document until every user acknowledges it.  An FYI request works similarly, with the
+        variation that a user can clear FYI's in the action list - an FYI'd user need not
+        even open the document.  The KIM responsibility brings all of this together: the KIM
+        role, the KEW document type node, and information about the action the user gets to
+        take on the document.
+      </para>
+      <para>Much like permissions, KIM responsibilities are tied to a KIM type - and therefore
+        a number of attributes - through a "responsibility template".  However, unlike
+        permissions, there's really only two responsibility templates which KEW comes with:
+        KR-WKFLW Review and KR-WKFLW Resolve Exception.  Yes, new templates can be created
+        for responsibilities but, whereas permissions can be used in a number of contexts
+        throughout an application necessitating a need for multiple permission templates,
+        the number of contexts where responsibilities get invoked is pretty limited. 
+        KR-WKFLW Review routes a document to members of a role - i.e., it does pretty much
+        what KEW is out there to do.  KR-WKFLW Resolve Exception is invoked in cases where
+        an exception occurs on a document during post-processing; when this occurs to a
+        document, it seems wise to send it to a special group of support personnel to try to
+        figure out what went wrong on the document.
+      </para>
+      <para>Given that, the vast majority of responsibilities set up for an application use
+        the KR-WKFLW Review template.  That template has five qualifiers associated with it,
+        though in 99% of the cases, only four of those qualifiers are defined.
+      </para>
+      <para>The first is the documentTypeName - the name of the document type that the
+        responsibility applies to.  Remember that responsibilities are aware of parents of
+        document types, and therefore, if a responsibility is assigned to a document type
+        with many descendants, all descendants could possibly make use of that
+        responsibility.  Again: when using KIM responsibilities, it is wise to arrange all
+        document types in an application in a hierarchy with a single, root parent-less
+        document type.
+      </para>
+      <para>The second is the routeNodeName.  This name should match the name given the role
+        on the document type definition - for instance, from the example above "Management"
+        or "Initiator".  This name must be exactly the name specified on the document type;
+        these names are case sensitive.
+      </para>
+      <para>The next responsibility attribute is "required".  This is assigned either "true"
+        or "false" (that's case sensitive too).  If a responsibility has "true" for its
+        "required" value, then it is expected that when a document routes to that node,
+        action requests will be generated.  If action requests are not generated, then the
+        document goes to KR-WKFLW Resolve Exception routing - it's a dead document which
+        needs be resuscitated.
+      </para>
+      <para>Next is the "actionDetailsAtRoleMemberLevel" attribute which again is "true" or
+        "false".  Most responsibilities have a single action - approve, acknowledge, or FYI
+        - defined for the whole role.  However, in some special cases, it is useful for each
+        member of a role to have a different choice - one gets to approve, one gets an FYI. 
+        This attribute enables that and the KIM Role Identity Management document handles
+        assigning actions on a member by member basis.
+      </para>
+      <para>The final attribute, rarely used, is the qualifierResolverProvidedIdentifier
+        attribute.  Trust the author on this one - the use of this attribute is far beyond
+        the scope of this primer.
+      </para>
+      <para>A responsibility also has a unique system generated id and a unique namespace and name
+        combination, as well as an optional (but often useful) description. </para>
+      <para>On KIM's Role Identity Management document, responsibilities can be associated with
+        roles.    There's an extra twist to assigning a responsibility to a role: the actions
+        described for the role must be described as well.  This includes the approve versus
+        acknowledge versus FYI choice and a couple others.  There's a choice of whether the first in
+        the role to act on the document will act for the entire role, or whether every member of the
+        role must make that action on the document.  There's a priority choice which can be left
+        blank but which will be respected - lower numbers will get higher priorities and roles with
+        those lower priorities will get a chance to act on the document before it enters the lower
+        priority role members' action lists.  Finally, there's the choice of whether to force the
+        action or not.  If a user has already approved a document, and that user is a member of the
+        role where the document is now routing, does the user need to look at the document and
+        approve again?  If force required is checked, then yes: someone in the role needs to approve
+        again.  If force required is not checked, then the user's previous approval will count as
+        approval for the current responsibility. </para>
+      <para>Responsibilities are pretty simple to set up then - but there's one lingering
+        question.  The power of roles is that members within a role can be differentiated
+        between each other.  How do responsibilities differentiate between members of the
+        role?  The answer to that question is back in the document type definition where the
+        role node was set up:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;role name="Initiator"&gt;
+        &lt;qualifierResolverClass&gt;org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver&lt;/qualifierResolverClass&gt;
+        &lt;/role&gt;
+      </programlisting>
+      <para>A qualifier resolver pulls values from the document to feed into the role and find
+        only qualified members.  KEW provides a number of qualifier resolvers (and the
+        org.kuali.rice.kew.role.QualifierResolver interface so that applications can define
+        their own).  This primer will cover the two most popular qualifier resolvers:
+        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver and the
+        org.kuali.rice.kew.role.XPathQualifierResolver.
+      </para>
+      <para>The DataDictionaryQualifierResolver is tightly integrated with the KRAD
+        framework.  When trying to read qualifiers for a role at a responsibility node, it
+        looks to two sources: a KRAD document, which it pulls via KRAD's DocumentService,
+        and the data dictionary entry for that KRAD document.  Specifically, it looks for a
+        property on the document called workflowAttributes.  The workflowAttributes handles
+        both how to index the document for file searching - covered later - and how to send
+        qualifiers to roles at nodes.  Here's an example of the routing configuration for a
+        document, a data dictionary bean definition which will be passed to the
+        documentEntry's workflowAttribute's property:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;bean id="RequisitionDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"&gt;
+        &lt;property name="routingTypeDefinitions"&gt;
+        &lt;map&gt;
+        &lt;entry key="Organization" value-ref="RoutingType-RequisitionDocument-Organization"/&gt;
+        &lt;entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount"/&gt;
+        &lt;entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/&gt;
+        &lt;entry key="AccountingOrganizationHierarchy"
+        value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/&gt;
+        &lt;entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/&gt;
+        &lt;!-- no qualifiers for separation of duties --&gt;
+        &lt;/map&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>routingTypeDefinitions is a map which associates keys - route level names (again,
+        case sensitive!) - to a bean of type
+        org.kuali.rice.krad.datadictionary.RoutingTypeDefinition.  If a document routes to a
+        node with no qualified roles, then there does not need to be a map entry for that
+        point.  A sample of a RoutingTypeDefinition bean looks like this:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;bean id="RoutingType-RequisitionDocument-Organization"
+        class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition"&gt;
+        &lt;property name="routingAttributes"&gt;
+        &lt;list&gt;
+        &lt;ref bean="RoutingAttribute-chartOfAccountsCode" /&gt;
+                    &lt;ref bean="RoutingAttribute-organizationCode" /&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;property name="documentValuePathGroups"&gt;
+        &lt;list&gt;
+        &lt;bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup"&gt;
+        &lt;property name="documentValues"&gt;
+        &lt;list&gt;
+        &lt;value&gt;chartOfAccountsCode&lt;/value&gt;
+        &lt;value&gt;account.organizationCode&lt;/value&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>There are two properties in need of description.  The routingAttributes property
+        expects a List of attributes in the order that the values will be collected.  This
+        basically sets the names of the qualification attributes sent to KIM.  The
+        documentValuePathGroups property takes a list of DocumentValuePathGroup objects
+        which describe the property paths, relative to the document, to pull values from. 
+        In this case, the qualifier resolver will get a copy of the document via
+        DocumentService; it will read getChartOfAccountsCode() and associate the value with
+        the key "chartOfAccountsCode" in the property set and then it will read the value of
+        getAccount() and read the value of getOrganizationCode() from the result of the
+        first call and associate that with the qualifier key "organizationCode".  This
+        qualification will then be sent to KIM and only role members who match that
+        qualification will have the document routed to them.
+      </para>
+      <para>RoutingTypeDefinitions also handle collection definitions.  The following bean
+        uses a DocumentCollectionPath bean definition to loop over a collection returned
+        from the document by the method getAccountsForAwardRouting(); for each value in that
+        collection, it will read the value of getContractsAndGrantsAccountResponsibilityId()
+        and associate it with the key contractsAndGrantsAccountResponsibilityId; a new
+        qualification will be generated for every item returned by the
+        getAccountsForAwardRouting() method.
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;bean id="RoutingType-PurchasingDocument-Award"
+        class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition"&gt;
+        &lt;property name="routingAttributes"&gt;
+            &lt;list&gt;
+        &lt;bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute"&gt;
+        &lt;property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId" /&gt;
+                    &lt;/bean&gt;                                    
+            &lt;/list&gt;
+          &lt;/property&gt;
+          &lt;property name="documentValuePathGroups"&gt;
+            &lt;list&gt;
+        &lt;bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup"&gt;
+                       &lt;property name="documentCollectionPath"&gt;
+                        &lt;bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath"&gt;
+        &lt;property name="collectionPath" value="accountsForAwardRouting" /&gt;
+                                &lt;property name="documentValues"&gt;
+        &lt;list&gt;
+        &lt;value&gt;contractsAndGrantsAccountResponsibilityId&lt;/value&gt;
+                                &lt;/list&gt;
+                                &lt;/property&gt;
+                        &lt;/bean&gt;  
+                      &lt;/property&gt;
+        &lt;/bean&gt;
+        &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>Applications which use KRAD documents will probably find it very simple to get the
+        qualifiers they need at certain routing nodes via this mechanism.
+      </para>
+      <para>The alternative popular qualifier resolver is
+        org.kuali.rice.kew.role.XPathQualifierResolver.  This qualifier uses the XML
+        generated by KRAD at the time of document routing and runs XPath expressions against
+        it to find the qualifiers to pass to KIM for role resolution.
+      </para>
+      <para>Before looking into how to configure XPathQualifierResolver, the concept of
+        RuleAttributes must be introduced.  A "rule attribute" is simply a KEW entity which
+        helps handle serialized XML document content, typically through configurable XML. 
+        There are a number of different rule attribute types: rule validations, email
+        notifications, document search customization options, and rule qualifiers.  Here is
+        a configuration of a rule attribute for an XPathQualifierResolver:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="ns:workflow resource:WorkflowData"&gt;
+        &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute"
+        xsi:schemaLocation="ns:workflow/RuleAttribute RuleAttribute"&gt;
+        &lt;ruleAttribute&gt;
+        &lt;name&gt;RoleRouteModule-TestXPathQualifierResolver&lt;/name&gt;
+        &lt;className&gt;org.kuali.rice.kew.role.XPathQualifierResolver&lt;/className&gt;
+        &lt;label&gt;RoleRouteModule-TestXPathQualifierResolver&lt;/label&gt;
+        &lt;description&gt;RoleRouteModule-TestXPathQualifierResolver&lt;/description&gt;
+                    &lt;type&gt;QualifierResolver&lt;/type&gt;
+                    &lt;resolverConfig&gt;
+        &lt;baseXPathExpression&gt;/xmlData/chartOrg&lt;/baseXPathExpression&gt;
+        &lt;qualifier name="chart"&gt;
+        &lt;xPathExpression&gt;./chart&lt;/xPathExpression&gt;
+        &lt;/qualifier&gt;
+        &lt;qualifier name="org"&gt;
+        &lt;xPathExpression&gt;./org&lt;/xPathExpression&gt;
+        &lt;/qualifier&gt;
+        &lt;/resolverConfig&gt;
+        &lt;/ruleAttribute&gt;
+        &lt;/ruleAttributes&gt;
+        &lt;/data&gt;
+      </programlisting>
+      <para>If rule attributes seem reminiscent of document types, with names, labels, and
+        descriptions, that's helpful - those attributes work much the same as they do on
+        document types.  RuleAttributes have more though.  They have the class name of the
+        rule attribute - which for XPathQualifierResolvers is conveniently always
+        org.kuali.rice.kew.role.XPathQualifierResolver.  There are several different types
+        of rule attributes; the type for qualifier resolvers is always QualifierResolver. 
+        And then there's a resolverConfig.  This is the configurable XML part of the rule
+        attribute; it maps XPath expressions which pull values from the serialized XML and
+        matches them with qualifier attribute names.  It sets a base XPath expression and
+        then uses that to get values for the specific XPath expressions.  The assumption
+        here is that the document has been serialized as so:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;?xml version="1.0" ?&gt;
+        &lt;xmlData&gt;
+        &lt;chartOrg&gt;
+        &lt;chart&gt;UA&lt;/chart&gt;
+        &lt;org&gt;TAR&lt;/org&gt;
+        &lt;/chartOrg&gt;
+        &lt;chartOrg&gt;
+            &lt;chart&gt;UA&lt;/chart&gt;
+            &lt;org&gt;MUS&lt;/org&gt;
+          &lt;/chartOrg&gt;
+        &lt;/xmlData&gt;
+      </programlisting>
+      <para>A qualifier set will be generated for each &lt;chartOrg&gt; tag that the XPath
+        expressions find.  The qualifier has a name attribute, which will act as the key to
+        the value within the qualifier.
+      </para>
+      <para>The document type then uses this attribute, not via the qualifierResolverClassName
+        tag but rather the qualifierResolver tag in the document type:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;role name="Role1"&gt;
+        &lt;activationType&gt;P&lt;/activationType&gt;
+        &lt;qualifierResolver&gt;RoleRouteModule-TestQualifierResolver&lt;/qualifierResolver&gt;
+        &lt;/role&gt;
+      </programlisting>
+      <para>Applications making use of the XPathQualifierResolver are advised to investigate
+        the use of org.kuali.rice.krad.datadictionary.WorkflowProperties beans in data
+        dictionary entries for transactional documents.  This bean, passed in to the entry
+        via the workflowProperties property, limits the size of the XML that KRAD serializes
+        the document into.  KRAD's default XML serialization of transactional documents can
+        lead to huge amounts of data being serialized needlessly.  Maintenance documents
+        generally do not have this problem.
+      </para>
+      <para>There are ways to do routing in KEW which do not use KIM responsibilities or roles
+        at all, through RuleXMLAttributes.  Coverage of these can be found in the KEW
+        technical reference guide published at http://kuali.org/rice/documentation/
+      </para>
+    </section>
+    <section>
+      <title>
+        <emphasis role="bold">Document Searching</emphasis>
+      </title>
+      <para>There is
+        one other major topic to cover about documents and types: how to provide ways for
+        users to search for them.  As KEW processes documents, it "indexes" that document
+        for search values, so that users can more easily find that unique document later. 
+        When a user goes to find a document and they choose a specific document type, they
+        will get fields specific to that document type which help find documents of that
+        type more quickly. A custom doc search is shown below.
+      </para>
+      <figure>
+        <title>Custom Doc Search</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/customDocSearch.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>There are two fairly simple ways that KRAD provides to do searchable
+        attribute indexing.  The first is through the SearchableXMLAttribute.  This is set
+        up as a rule attribute, just as the configuration for the XPathQualifierResolver
+        was:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="ns:workflow resource:WorkflowData"&gt;
+        &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute"
+        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute"&gt;
+            &lt;ruleAttribute&gt;
+        &lt;name&gt;GivenNameSearchableAttribute&lt;/name&gt;
+        &lt;className&gt;org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute&lt;/className&gt;
+                    &lt;label&gt;Search Attribute for Given Name&lt;/label&gt;
+                    &lt;description&gt;You're reading these code examples very, very closely&lt;/description&gt;
+                    &lt;type&gt;SearchableXmlAttribute&lt;/type&gt;
+                    &lt;searchingConfig&gt;
+                       &lt;fieldDef name="givenname" title="First name"&gt;
+                         &lt;display&gt;
+                        &lt;type&gt;text&lt;/type&gt;
+                         &lt;/display&gt;
+                         &lt;visibility&gt;
+        &lt;column visible="true"/&gt;
+                         &lt;/visibility&gt;
+                        &lt;fieldEvaluation&gt;
+        &lt;xpathexpression&gt;//person/givenname/value&lt;/xpathexpression&gt;
+                         &lt;/fieldEvaluation&gt;
+                       &lt;/fieldDef&gt;
+        &lt;/searchingConfig&gt;
+        &lt;/ruleAttribute&gt;
+        &lt;/ruleAttributes&gt;
+        &lt;/data&gt;
+      </programlisting>
+      <para>With searchable attributes, remember that there are
+        two instructions which the search attribute needs to know about: how to draw the
+        field to search for the document on the screen and how to find the value of the
+        field on the document.  The search attribute above does that in the
+        searchingConfig.  The fieldDef tag explains how to draw the field for the search: it
+        will be a text box, and it will be visible in the search results.  Inside the
+        fieldDef tag is the fieldEvaluation tag.  That declares an XPath expression which
+        will be run - not at all surprisingly - against the document's serialized XML header
+        content.  As the document is processed, that value will be read and stored, and
+        document searches will be carried out against that indexed field.
+      </para>
+      <para>Of
+        course, this is a rule attribute and therefore certain fields must be filled out in
+        the declaration.  Every XML searchable attribute uses the type
+        SearchableXMLAttribute.  The className should always be
+        org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute - this is the
+        class which uses the fieldDef definition to index and render the field in the
+        document search.  And of course, every searchable attribute needs a name.  The label
+        and description are optional but often useful.
+      </para>
+      <para>This attribute then can
+        be associated with a document type, through the attributes tag.
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="ns:workflow resource:WorkflowData"&gt;
+          &lt;documentTypes xmlns="ns:workflow/DocumentType"
+        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType"&gt;
+            &lt;documentType&gt;
+              &lt;name&gt;PersonDocument&lt;/name&gt;
+                    &lt;parent&gt;KualiDocument&lt;/parent&gt;
+                    &lt;attributes&gt;
+        &lt;attribute&gt;
+        &lt;name&gt;GivenNameSearchableAttribute&lt;/name&gt;
+                      &lt;/attribute&gt;
+                    &lt;/attributes&gt;
+        &lt;/documentType&gt;
+          &lt;/documentTypes&gt;
+        &lt;/data&gt;
+      </programlisting>
+      <para>If there's a searchable attribute which uses XPath
+        expressions to find values in serialized document content, surely then there must be
+        a searchable attribute which reads in a KRAD document from the database and uses the
+        data dictionary to figure out what values to index and how to search against them. 
+        Such a hypothesis turns out to be completely correct: there exists
+        org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute.  It is
+        defined as follows:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;ruleAttribute&gt;
+        &lt;name&gt;DataDictionarySearchableAttribute&lt;/name&gt;
+          &lt;className&gt;
+        org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute
+          &lt;/className&gt;
+          &lt;label&gt;Data Dictionary Searchable Attribute&lt;/label&gt;
+          &lt;type&gt;SearchableAttribute&lt;/type&gt;
+        &lt;/ruleAttribute&gt;
+      </programlisting>
+      <para>It is part of a WorkflowAttributes bean,
+        which is injected to the workflowAttributes property of a document's data dictionary
+        entry.  The declaration looks like this:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;bean id="PersonDocument-workflowAttributes" parent="WorkflowAttributes"&gt;
+          &lt;property name="searchingTypeDefinitions"&gt;
+            &lt;list&gt;
+              &lt;bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition"&gt;
+                &lt;property name="searchingAttribute"&gt;
+                  &lt;bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute"&gt;
+                    &lt;property name="businessObjectClassName" value="edu.sampleu.simpleapp.businessobject.Person"/&gt;
+                    &lt;property name="attributeName" value="givenname"/&gt;
+                  &lt;/bean&gt;
+                &lt;/property&gt;
+                &lt;property name="documentValues"&gt;
+                  &lt;list&gt;
+                    &lt;value&gt;person.givenname&lt;/value&gt;
+                  &lt;/list&gt;
+                &lt;/property&gt;
+              &lt;/bean&gt;
+            &lt;/list&gt;
+          &lt;/property&gt;
+        &lt;/bean&gt;
+      </programlisting>
+      <para>Whereas routingTypeDefinitions are a map which map
+        from a routeNodeName to a definition, searchingTypeDefinitions are simply a List of
+        SearchingTypeDefinition beans.  Much like the SearchingXMLAttribute, KEW needs two
+        pieces of information: how to draw the field on the search screen and how to find a
+        value for that field.  The searchingAttribute property answers the question of how
+        to draw the field.  It takes in a SearchingAttribute bean which has a
+        businessObjectClassName and an attribute name on that business object class.  To
+        draw the field, it looks at the data dictionary entry for the given business object
+        and draws its KRAD attribute - a fairly familiar scenario by now.  The
+        documentValues property takes in a list of property paths to look for values in the
+        document.  In this case, DataDictionarySearchableAttribute will retrieve a copy of
+        the document from DocumentService and then call getPerson() against it; if that does
+        not return null, it will call getGivenname() on the Person business object and store
+        that value.
+      </para>
+      <para>This searchable attribute would have been set up in the document type as
+        follows:
+      </para>
+      <programlisting linenumbering = "numbered">
+        &lt;data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="ns:workflow resource:WorkflowData"&gt;
+        &lt;documentTypes xmlns="ns:workflow/DocumentType"
+        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType"&gt;
+             &lt;documentType&gt;
+              &lt;name&gt;PersonDocument&lt;/name&gt;
+                    &lt;parent&gt;KualiDocument&lt;/parent&gt;
+                    &lt;attributes&gt;
+                    &lt;attribute&gt;
+        &lt;name&gt;DataDictionarySearchableAttribute&lt;/name&gt;
+                      &lt;/attribute&gt;
+                    &lt;/attributes&gt;
+            &lt;/documentType&gt;
+          &lt;/documentTypes&gt;
+        &lt;/data&gt;
+      </programlisting>
+      <para>Again, barely the surface of KEW's document searching
+        capabilities has been scratched.  Unique SearchAttribute classes can be created and
+        there are ways to customize the results returned on the document search screen in a
+        lot of different ways.  Further details can once again be found in the KEW technical
+        reference guide.
+      </para>
+      <para>This primer has been only a short tour of the amazing
+        power that Kuali Enterprise Workflow puts in the hands of application developers. 
+        Even though there's a great deal of power there, most developers get the hang of KEW
+        configuration pretty quickly.  Enterprise applications can leverage the power of
+        KRAD, KEW, and KIM together to provide the support for a powerful and robust
+        enterprise application system.
+      </para>
+    </section>
+  </section>
+  
+  <section>
+    <title>Message View Type</title>
+    <section>
+      <title>Message View</title>
+      <para>The Message View is a simple view for displaying an application message, such as an
+        error or other interruption that is encountered during processing of a request. </para>
+      <para>This view type provides two custom properties. The <code>messageText</code> property
+        holds the text for the message to display. In addtion, the <code>message</code> property
+        holds the message component that will be used to render the message. This component can be
+        used to alter the default CSS properties and other configuration if necessary. Other common
+        view properties, such as footer, can be specified if desired. Usually however this view
+        simply displays a message.</para>
+      <para>The base bean definition for the message view has an id of <code>Uif-MessageView
+        </code>and is shown below:</para>
+      <para>
+        <programlisting linenumbering = "numbered">  &lt;bean id="Uif-MessageView" parent="Uif-MessageView-parentBean"/>
+  &lt;bean id="Uif-MessageView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.MessageView" parent="Uif-FormView">
+    &lt;property name="page">
+      &lt;bean parent="Uif-Page"/>
+    &lt;/property>
+    &lt;property name="message">
+      &lt;bean parent="Uif-Message">
+        &lt;property name="cssClasses">
+          &lt;list merge="true">
+            &lt;value>uif-applicationMessage&lt;/value>
+          &lt;/list>
+        &lt;/property>
+      &lt;/bean>
+    &lt;/property>
+    &lt;property name="persistFormToSession" value="false"/>
+    &lt;property name="breadcrumbs.render" value="false"/>
+  &lt;/bean></programlisting>
+      </para>
+      <para>Like any bean definition in the UIF, this default can be overridden. For example it
+        might be useful to add actions to the view footer.</para>
+      <para>The message view is different from other view types in how it is used. We don't request
+        a message view from a URL, but instead it is given in response to another request. For
+        example, one use of the message view within KRAD is for locked modules. A module can be
+        locked for maintenance through the System Parameters table. When a module is locked, no
+        views associated with that module can be accessed unless the user has been granted
+        permission (through KIM) to do so. If the user does not have permission they are given an
+        error stating the given module is locked. </para>
+      <para>To enforce the module locked checking an interceptor is used to determine the module for
+        a request and check its locked status. If the module is locked, the request is then
+        redirected to the module locked controller which will display the message view with the
+        module locked message.</para>
+      <para>In this case, we could create a view definition that extends Uif-MessageView and sets
+        the message text with the module locked message. Then instead of returning the view that was
+        requested, return the view for our custom message view. However this would be a bit
+        inconvenient to do for every such message we have in the application. Therefore KRAD allows
+        you to call a helper method on <code>UifControllerBase</code> that will get an instance of
+        the default message view, and set the custom message text through code. The following
+        demonistrates using the helper method for the module locked example: </para>
+      <para>
+        <programlisting linenumbering = "numbered">    /**
+     * Retrieves the module locked message test from a system parameter and then returns the message view
+     */
+    @RequestMapping(value = "/module-locked")
+    public ModelAndView moduleLocked(@ModelAttribute("KualiForm") UifFormBase form,
+            @RequestParam(value = MODULE_PARAMETER, required = true) String moduleNamespaceCode) {
+        ParameterService parameterSerivce = CoreFrameworkServiceLocator.getParameterService();
+        
+        String messageParamComponentCode = KRADConstants.DetailTypes.ALL_DETAIL_TYPE;
+        String messageParamName = KRADConstants.SystemGroupParameterNames.OLTP_LOCKOUT_MESSAGE_PARM;
+        String lockoutMessage = parameterSerivce.getParameterValueAsString(moduleNamespaceCode,
+                messageParamComponentCode, messageParamName);
+
+        if (StringUtils.isBlank(lockoutMessage)) {
+            String defaultMessageParamName = KRADConstants.SystemGroupParameterNames.OLTP_LOCKOUT_DEFAULT_MESSAGE;
+            lockoutMessage = parameterSerivce.getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
+                    messageParamComponentCode, defaultMessageParamName);
+        }
+        
+        return getMessageView(form, "Module Locked", lockoutMessage);
+    }</programlisting>
+      </para>
+      
+      <para>Notice the return call. This is invoked the helper method named
+          <code>getMessageView</code> which takes as parameters the UIF form instance, view header
+        (can be blank), and the message text. As stated above this constructs the message view and
+        performs the standard <code>getUifModelAndView</code> return. The following screenshot shows
+        the resulting message view.</para>
+      
+      <figure>
+        <title>Message View</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/messageView.png" contentwidth="470"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      
+    </section>
+  </section>
+</chapter>

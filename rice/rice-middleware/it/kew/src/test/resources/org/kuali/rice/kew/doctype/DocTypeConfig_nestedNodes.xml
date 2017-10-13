@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate1</name>
+			<description>RuleTemplate1</description>
+		</ruleTemplate>
+    <ruleTemplate allowOverwrite="true">
+      <name>RuleTemplate2</name>
+      <description>RuleTemplate2</description>
+    </ruleTemplate>
+    <ruleTemplate allowOverwrite="true">
+      <name>RuleTemplate3</name>
+      <description>RuleTemplate3</description>
+    </ruleTemplate>
+    <ruleTemplate allowOverwrite="true">
+      <name>RuleTemplate4</name>
+      <description>RuleTemplate4</description>
+    </ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>TestDoubleNodeDocumentType</name>
+			<description>TestDoubleNodeDocumentType</description>
+			<label>TestDoubleNodeDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">${test.doctype.workgroup}</superUserGroupName>
+			<docHandler>${test.base.url}/_blank</docHandler>
+            <helpDefinitionURL>/_help</helpDefinitionURL>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">${test.doctype.workgroup}</defaultExceptionGroupName>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Split1" />
+					<split name="Split1" nextNode="Split2">
+						<branch name="Left">
+							<requests name="RuleTemplate1" nextNode="RuleTemplate2" />
+              <requests name="RuleTemplate2" nextNode="Join" />
+						</branch>
+						<branch name="Right">
+              <split name="InnerSplit" nextNode="Join">
+                <branch name="Left">
+                  <requests name="RuleTemplate1" nextNode="RuleTemplate3" />
+                  <requests name="RuleTemplate3" nextNode="JoinInner" />
+                </branch>
+                <branch name="Right">
+                  <simple name="RuleTemplate4" nextNode="JoinInner" />
+                </branch>
+                <join name="JoinInner" />
+              </split>
+						</branch>
+						<join name="Join" />
+					</split>
+					<split name="Split2">
+						<branch name="Left">
+							<requests name="RuleTemplate1" nextNode="RuleTemplate3" />
+              <requests name="RuleTemplate3" nextNode="Join" />
+						</branch>
+						<branch name="Right">
+							<simple name="NoOp1" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="RuleTemplate1">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate1</ruleTemplate>
+				</requests>
+        <requests name="RuleTemplate2">
+          <activationType>S</activationType>
+          <ruleTemplate>RuleTemplate2</ruleTemplate>
+        </requests>
+        <requests name="RuleTemplate3">
+          <activationType>S</activationType>
+          <ruleTemplate>RuleTemplate3</ruleTemplate>
+        </requests>
+        <requests name="RuleTemplate4">
+          <activationType>S</activationType>
+          <ruleTemplate>RuleTemplate4</ruleTemplate>
+        </requests>
+        <split name="InnerSplit">
+          <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+        </split>
+				<split name="Split1">
+					<type>org.kuali.rice.kew.server.TestSplitNode</type>
+				</split>
+				<split name="Split2">
+					<type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+				</split>
+				<simple name="NoOp1">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<join name="Join"/>
+        <join name="JoinInner"/>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>TestDoubleNodeDocumentType</documentType>
+			<ruleTemplate>RuleTemplate1</ruleTemplate>
+			<description>RuleTemplate1 TestDoubleNodeDocumentType</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>TestDoubleNodeDocumentType</documentType>
+			<ruleTemplate>RuleTemplate2</ruleTemplate>
+			<description>RuleTemplate2 TestDoubleNodeDocumentType</description>
+			<forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>user2</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+    <rule>
+      <documentType>TestDoubleNodeDocumentType</documentType>
+      <ruleTemplate>RuleTemplate3</ruleTemplate>
+      <description>RuleTemplate3 TestDoubleNodeDocumentType</description>
+      <forceAction>true</forceAction>
+      <responsibilities>
+        <responsibility>
+          <principalName>user3</principalName>
+          <actionRequested>A</actionRequested>
+          <priority>1</priority>
+        </responsibility>
+      </responsibilities>
+    </rule>
+  <rule>
+    <documentType>TestDoubleNodeDocumentType</documentType>
+    <ruleTemplate>RuleTemplate4</ruleTemplate>
+    <description>RuleTemplate4 TestDoubleNodeDocumentType</description>
+    <forceAction>true</forceAction>
+    <responsibilities>
+      <responsibility>
+        <principalName>user4</principalName>
+        <actionRequested>A</actionRequested>
+        <priority>1</priority>
+      </responsibility>
+    </responsibilities>
+  </rule>
+</rules>
+</data>

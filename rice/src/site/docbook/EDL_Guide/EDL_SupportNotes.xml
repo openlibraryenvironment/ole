@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_SupportNotes" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>eDocLite Support Notes</title>
+    <para></para>
+    <section><title>eDocLite Supporting Material</title>
+        <para><itemizedlist>
+            <listitem>
+                <para>The Notes section of widgets allows notes to be saved and attachments to be uploaded/removed while the document is editable. An Application Constant called <emphasis role="keyword">saveAttachments</emphasis> must be set to true before the attachments portion of the Notes will render. 
+                Application Constants can be accessed from the main workflow menu, near the same location where the Ingester link appears. I believe the server must be restarted to invoke Application Constant changes.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                Route Paths describe the flow of the document between various individuals or groups. Each Route path has a further description called a routeNode.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Route Nodes: <simplelist>
+                        <member>activationType should be P for parallel, rather than S for sequential. 
+                            S forces sequential routing which means that if a document is sent to two different nodes, it will only appear in the action list in of the first, and the second will only see it after the first has approved it.</member>
+                        <member>Each Route Node other than the first has a <emphasis role="keyword">ruleTemplate</emphasis> element.</member>
+                        <member>Rule Templates define rules for a node.</member>
+                        <member>They may have 0-n* number of rule attributes. No attributes means to go ahead and route document to next node if approved.</member>
+                    </simplelist>
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    In a Rule Template zero to N number of rule attributes can be listed. For EDocLite there are two types of rule attributes: Searchable (used for searching not used for routing), and RuleXmlAttribute (used to drive workflow engine to determine where the form should be routed). We will focus on the Xml type. Use the admin menu 'Rule Attribute'  to report on it. To be used, Rule Attributes must be defined in the EDL after the <emphasis role="keyword">&lt;fieldDef</emphasis>. For example: <emphasis role="keyword">&lt;fieldDef attributeName="UGSRemonstranceFiled" name="remonstranceFiled" title="Remonstrance Filed?"></emphasis>        
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Fields that can participate in a Rule Attribute are often drop down selection fields but do not have to be.    
+                </para>
+            </listitem>
+            <listitem>
+                <para> It is important to understand how the workflow engine figures out where to
+                        route a document. For each Route Node defined for the doctype: <itemizedlist>
+                            <listitem>
+                                <para>The name of the rule template is used to access the rule
+                                    template. If the rule Template contains a rule attribute name
+                                    then the rule attribute is accessed.</para>
+                            </listitem>
+                            <listitem>
+                                <para>The rule attribute usually contains an <emphasis role="keyword">xpathexpression</emphasis>
+                                    element. The left side of the equals sign accesses the form
+                                    value of this field.</para>
+                            </listitem>
+                            <listitem>
+                                <para>On the right side of the equals sign: The java workflow engine
+                                    access each rule (keyed by doctype + rule template) and attempts
+                                    to match the rule data to the form data. If no match is found,
+                                    the workflow engine skips this route node. If a match is found
+                                    the rule tells the workflow engine what workgroup to route the
+                                    document to.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If the rule template does NOT contain any rule attributes,
+                                    then all forms stop at this node (referred to as
+                                    'AUTO-STOP').</para>
+                            </listitem>
+                        </itemizedlist>
+                    </para>
+            </listitem>
+            <listitem>
+                <para>To review what rules exist for a doctype one can find them in the Main Menu tab under the Workflow section. The link to click is <emphasis role="keyword">Quicklinks</emphasis>. 
+                    For the doctype that carries the route paths, click search. Then without adding any other info click search. If further info is required for the page - you will be told so. There is likely a rule that is active for the doctype/ruletemplate combination. A report on that rule will show the 'Reviewer' which normally is a workgroup where the document should be routed.</para>
+            </listitem>
+            <listitem>
+                <para>When changing a Rule Template, like adding another rule attribute, inactivate existing rules first because old rules do NOT automatically deactivate. In the route log of a document, one can examine the rules (by id number) that fired. This is one way to identify if old rules that are not expected or desired to fire are in fact firing.</para>
+            </listitem>
+            <listitem>
+                <para>To change a rule template<simplelist>
+                    <member>export the xml, modify it accordingly, then add an attribute to the
+                                    <emphasis role="keyword">&lt;ruleTemplate></emphasis> making it
+                                look like: <emphasis role="keyword">&lt;ruleTemplate
+                                    allowOverwrite="true" ></emphasis>. This is a safety feature,
+                                because when a template is changed the rules behind it are affected.
+                                Note that the schema definition file is named RuleTemplate.xsd in
+                                Eclipse; which describes what is valid for the xml construct. If you
+                                added a rule attribute to the template, validate the rule attribute
+                                exists, or create it new if you must.</member>
+                    <member>Next you would create the routing rule(s) for the modified doctype/ruleTemplate.</member>
+                </simplelist></para>
+            </listitem>
+            <listitem>
+                <para>RuleAttributes can also be used for verification purposes by associating them with a java method. Unique code can be written to perform the logic to do the validation (usually involves hitting a database).  See class workflowAttribute -> method validateClientRoutingData.</para>
+            </listitem>
+        </itemizedlist>
+        </para>
+    </section>
+</chapter>

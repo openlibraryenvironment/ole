@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate>
+      <name>DFAC.AffirmativeActionOfficer.AdHoc</name>
+      <description>DFAC Affirmative Action Officer Optional AdHoc Routing</description>
+      <attributes>
+        <attribute>
+          <name>DFAC.AffirmativeActionOfficerAdHocNetworkIdRoleAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>DFAC.ViceChancellorforAcademicAffairsandDeanOfFaculties.AdHoc</name>
+      <description>DFAC Vice Chancellor Optional AdHoc Routing</description>
+      <attributes>
+        <attribute>
+          <name>DFAC.ViceChancellorforAcademicAffairsandDeanOfFacultiesAdHocNetworkIdRoleAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>InitiatorRoleAcknowledgement</name>
+      <description>OAA Initiator Acknowledgement</description>
+      <attributes>
+        <attribute>
+          <name>InitiatorAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>AffirmativeActionOfficer</name>
+      <description>Office Of Affirmative Action Officer</description>
+      <attributes>
+        <attribute>
+          <name>DFAC.CampusAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>OfficeOfAffirmativeAction-SchoolAcknowledgementRouting</name>
+      <description>Office Of Affirmative Action - School Acknowledgement Routing</description>
+      <attributes>
+        <attribute>
+          <name>DFAC.CampusAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>ViceChancellorforAcademicAffairsandDeanOfFaculties</name>
+      <description>Office Of Affirmative Action Officer</description>
+      <attributes>
+        <attribute>
+          <name>DFAC.CampusAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>OfficeOfAffirmativeAction-SchoolRouting</name>
+      <description>Office Of Affirmative Action - School Routing</description>
+      <attributes>
+        <attribute>
+          <name>DFAC.CampusAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>
+

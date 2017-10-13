@@ -1,0 +1,94 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- AlphaNumericPatternConstraint demo -->
+  <bean id="Demo-AlphaNumericPatternConstraint-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoAlphaNumericPatternConstraint.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.datadictionary.validation.constraint.AlphaNumericPatternConstraint"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-AlphaNumericPatternConstraint-Example1"/>
+        <ref bean="Demo-AlphaNumericPatternConstraint-Example2"/>
+        <ref bean="Demo-AlphaNumericPatternConstraint-Example3"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-AlphaNumericPatternConstraint-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-AlphaNumericPatternConstraint-Example1 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField1"
+              p:constraintText="AlphaNumeric only">
+          <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-AlphaNumericPatternConstraint-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Flags -->
+  <bean id="Demo-AlphaNumericPatternConstraint-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-AlphaNumericPatternConstraint-Example2 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField2"
+              p:constraintText="AlphaNumeric with whitespace allowed">
+          <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint" p:allowWhitespace="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField3"
+              p:constraintText="AlphaNumeric with commas and colon allowed">
+          <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint" p:allowComma="true" p:allowColon="true"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-AlphaNumericPatternConstraint-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- with basic punctuation -->
+  <bean id="Demo-AlphaNumericPatternConstraint-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-AlphaNumericPatternConstraint-Example3 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField4"
+              p:constraintText="AlphaNumeric with basic punctuation allowed">
+          <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericWithBasicPunc"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-AlphaNumericPatternConstraint-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

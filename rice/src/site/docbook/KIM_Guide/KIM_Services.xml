@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Services" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Services</title>
+
+    <para>KIM provides several service APIs with which client applications
+    should interact. These are:<itemizedlist>
+        <listitem>
+          <para><emphasis
+          role="bold">org.kuali.rice.kim.api.role.RoleService</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis
+          role="bold">org.kuali.rice.kim.api.group.GroupService</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis
+          role="bold">org.kuali.rice.kim.api.identity.IdentityService</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis
+          role="bold">org.kuali.rice.kim.permission.PermissionService</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis
+          role="bold">org.kuali.rice.kim.responsibility.ResponsibilityService</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis
+          role="bold">org.kuali.rice.kim.service.PersonService</emphasis></para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>These services act as client-side facades to the underlying KIM data
+    and provide important features such as caching.</para>
+
+    <para>In the next few sections we will look in-depth at these services.
+    However, for more details, please see the javadocs for these services and
+    the services they delegate to.</para>
+
+    <section>
+      <title>Using the Services</title>
+
+      <para>All KIM clients should retrieve service instances using the KIM
+      service locator class <emphasis
+      role="bold">KimApiServiceLocator</emphasis>. This class contains static
+      methods to retrieve the appropriate Spring bean for the service. An
+      example of retrieving the <emphasis
+      role="bold">IdentityService</emphasis> service is:</para>
+
+      <programlisting>IdentityService idmSvc = KimApiServiceLocator.getIdentityService();</programlisting>
+
+      <para>You would use a similar mechanism for retrieving references to the
+      other KIM services.</para>
+    </section>
+
+    <section>
+      <title>IdentityService</title>
+
+      <para>The <emphasis role="bold">IdentityService</emphasis> is one of the
+      services the client applications will interact with most
+      frequently.</para>
+
+      <para>The <emphasis role="bold">IdentityService</emphasis> contains
+      service methods that allow for the retrieval, creation, and updating of
+      entity information.</para>
+
+      <para>Additionally, it also provides caching for the retrieval methods
+      to help increase the performance of service calls for the client
+      application.</para>
+
+      <section>
+        <title>Retrieving Principal Information</title>
+
+        <para>To retrieve the principal ID for a user, use the <emphasis
+        role="bold">getPrincipalByPrincipalName</emphasis> method:</para>
+
+        <programlisting>Principal info = identityService.getPrincipalByPrincipalName(principalName);</programlisting>
+
+        <para>Note that KIM, by default, stores principal names in lower case;
+        the PRNCPL_NM column of KRIM_PRNCPL_T must store values in lower case.
+        If your institution's existing identity systems do not handle
+        lowercase principal names, then there are three points to override
+        that setting:</para>
+
+        <para><orderedlist>
+            <listitem>
+              <para><emphasis
+              role="bold">org.kuali.rice.kim.impl.identity.IdentityServiceImpl</emphasis>
+              method <emphasis
+              role="bold">getPrincipalByPrincipalName</emphasis> lowercases
+              the principal name sent in; depending on how principals were
+              integrated into the system it may not need to. Note that
+              <emphasis role="bold">IdentityServiceImpl</emphasis> method
+              <emphasis
+              role="bold">getPrincipalByPrincipalNameAndPassword</emphasis>
+              does not lowercase the principal name automatically.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis
+              role="bold">org.kuali.rice.kim.lookup.PersonLookableHelperServiceImpl</emphasis>
+              method <emphasis role="bold">getSearchResults</emphasis> also
+              automatically lowercases any principal name sent in; that
+              behavior may also need to be changed</para>
+            </listitem>
+
+            <listitem>
+              <para>Finally, the file <emphasis role="bold">{Rice
+              home}/impl/src/main/resources/org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</emphasis>
+              hold the data dictionary attribute templates for principal name
+              as <emphasis role="bold">KimBaseBeans-principalName</emphasis>.
+              The <emphasis role="bold">forceUppercase</emphasis> attribute is
+              set to false by default, but perhaps should be overridden to
+              true, to force uppercase principal names.</para>
+            </listitem>
+          </orderedlist></para>
+
+        <para>Once these three points have been overridden, you'll be able to
+        use uppercase principal names.</para>
+      </section>
+
+      <section>
+        <title>Retrieving Entity Default Information</title>
+
+        <para>To retrieve the default information for an entity, use one of
+        the getEntityDefaultInfo methods:</para>
+
+        <programlisting>EntityDefault infoByEntityId = identityService.getEntityDefault(entityId);
+
+EntityDefault infoByPrincipalId = identityService.getEntityDefaultByPrincipalId(principalId);</programlisting>
+      </section>
+
+      <section>
+        <title>Retrieving Reference Information</title>
+
+        <para>To retrieve information about a type or status code, use the
+        getter for that type.</para>
+
+        <para>Types in KIM are:<itemizedlist>
+            <listitem>
+              <para>Address type</para>
+            </listitem>
+
+            <listitem>
+              <para>Affiliation type</para>
+            </listitem>
+
+            <listitem>
+              <para>Citizenship status</para>
+            </listitem>
+
+            <listitem>
+              <para>Email type</para>
+            </listitem>
+
+            <listitem>
+              <para>Employment status</para>
+            </listitem>
+
+            <listitem>
+              <para>Employment type</para>
+            </listitem>
+
+            <listitem>
+              <para>Entity name type</para>
+            </listitem>
+
+            <listitem>
+              <para>Entity type</para>
+            </listitem>
+
+            <listitem>
+              <para>External identifier type</para>
+            </listitem>
+
+            <listitem>
+              <para>Phone type</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>For instance, to retrieve information on an address type
+        code:</para>
+
+        <programlisting>CodedAttribute addressType = identityService.getAddressType(code);</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>GroupService</title>
+
+      <section>
+        <title>Retrieving Group Membership Information</title>
+
+        <para>To retrieve a list of all groups in which a particular user is a
+        member, use the <emphasis role="bold">getGroupsForPrincipal</emphasis>
+        method:</para>
+
+        <programlisting>List&lt;Group&gt; groups = groupService.getGroupsByPrincipalId(principalId);</programlisting>
+
+        <para>To determine if a user is a member of a particular group, use
+        the <emphasis role="bold">isMemberOfGroup</emphasis> method:</para>
+
+        <programlisting>if (groupService.isMemberOfGroup(principalId, groupId)) {
+    // Do something special
+}</programlisting>
+
+        <para>To get a list of all members of a group, use the <emphasis
+        role="bold">getMemberPrincipalIds</emphasis> method:</para>
+
+        <programlisting>List&lt;String&gt; members = groupService.getMemberPrincipalIds(groupId);</programlisting>
+      </section>
+
+      <section>
+        <title>Retrieving Group Information</title>
+
+        <para>To retrieve information about a group, use the <emphasis
+        role="bold">getGroup</emphasis> or <emphasis
+        role="bold">getGroupByNamespaceCodeAndName</emphasis> methods,
+        depending on whether you know the group's ID or name:</para>
+
+        <programlisting>Group info = groupService.getGroup(groupId);
+Group info = groupService.getGroupByNamespaceCodeAndName(namespaceCode, groupName);</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>PermissionService</title>
+
+      <section>
+        <title>Checking Permission</title>
+
+        <para>To determine if a user has been granted a permission, without
+        considering role qualifications, use the <emphasis
+        role="bold">hasPermission</emphasis> method:</para>
+
+        <programlisting>if (permissionService.hasPermission(principalId, namespaceCode, permissionName)) {
+    // Do the action
+}
+</programlisting>
+
+        <para>To determine if a user has been granted a permission, use the
+        <emphasis role="bold">isAuthorized</emphasis> method:</para>
+
+        <programlisting>if (permissionService.isAuthorized(principalId, namespaceCode, permissionName, qualification)) {
+    // Do the action
+}
+</programlisting>
+      </section>
+
+      <section>
+        <title>Retrieving Permission Information</title>
+
+        <para>To retrieve a list of principals granted a permission (including
+        any delegates), use the <emphasis
+        role="bold">getPermissionAssignees</emphasis> method:</para>
+
+        <programlisting>List&lt;Assignee&gt; people = permissionService.getPermissionAssignees(namespaceCode,
+ permissionName, qualification);
+</programlisting>
+
+        <para>To retrieve a list of permissions granted to a principal, use
+        the <emphasis role="bold">getAuthorizedPermissions</emphasis>
+        method:</para>
+
+        <programlisting>List&lt;Permission&gt; perms = permissionService.getAuthorizedPermissions(principalId,
+ namespaceCode, permissionName, qualification);
+</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>ResponsibilityService</title>
+
+      <section>
+        <title>Checking Responsibility</title>
+
+        <para>To determine if a user has a responsibility, use the <emphasis
+        role="bold">hasResponsibility</emphasis> method:</para>
+
+        <programlisting>if (responsibilityService.hasResponsibility(principalId, namespaceCode, responsibilityName, qualification)) {
+    // Do the action
+
+}
+</programlisting>
+      </section>
+
+      <section>
+        <title>Retrieving Responsibility Information</title>
+
+        <para>To retrieve a list of roles associated with a responsibility,
+        use the <emphasis role="bold">getRoleIdsForResponsibility</emphasis>
+        method:</para>
+
+        <programlisting>List&lt;String&gt; roleIds = responsibilityService.getRoleIdsForResponsibility(responsibilityId);</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>AuthenticationService</title>
+
+      <section>
+        <title>Checking Authentication</title>
+
+        <para>The <emphasis role="bold">AuthenticationService</emphasis> is
+        somewhat different than the other services. The <emphasis
+        role="bold">AuthenticationService</emphasis> is not typically deployed
+        remotely (unlike the <emphasis role="bold">IdentityService</emphasis>,
+        <emphasis role="bold">GroupService</emphasis>, etc.).</para>
+
+        <para>Instead, the role of this service is simply to extract the
+        authenticated user's principal name from the <emphasis
+        role="bold">HttpServletRequest</emphasis> and inform the client-side
+        development framework (typically, the KNS) about this information. KIM
+        itself does not implement full authentication services, but rather
+        relies on other implementations (such as CAS or Shibboleth) to provide
+        this functionality.</para>
+
+        <para>The client application can then establish a local session to
+        store the information about the principal that authenticated. This
+        will typically be used in subsequent calls to the KIM services, such
+        as making authorization checks for the principal.</para>
+
+        <para>The reference implementation of the <emphasis
+        role="bold">AuthenticationService</emphasis> simply extracts the
+        REMOTE_USER parameter from the request and presents that as the
+        principal name. This is often sufficient for many authentication
+        providers that are available. However, if necessary this reference
+        implementation can be overridden.</para>
+
+        <para>There is only a single method on the <emphasis
+        role="bold">IdentityManagementService</emphasis> related to
+        authentication.</para>
+
+        <programlisting>String principalName = authenticationService.getPrincipalName(request);</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>RoleService</title>
+
+      <para>In KIM, Roles are used as a way to associate principals, groups
+      and other roles with permissions and responsibilities. It is therefore
+      not a common or recommended practice to query for whether or not a
+      principal is a member of a Role for the purposes of logic in a client
+      application. It is recommended to use permissions and the <emphasis
+      role="bold">isAuthorized</emphasis> check to perform this sort of
+      logic.</para>
+
+      <para>However, in some cases, querying for this information may be
+      desirable. Or, in even more common cases, one may want to use an API to
+      add or remove members from a Role. These kinds of operations are the
+      responsibility of the <emphasis
+      role="bold">RoleManagementService</emphasis>. Like the <emphasis
+      role="bold">IdentityManagementService</emphasis>, this service is a
+      façade which provides caching and delegates to underlying services.
+      Specifically, it delegates to:<itemizedlist>
+          <listitem>
+            <para>RoleService</para>
+          </listitem>
+        </itemizedlist></para>
+
+      <section>
+        <title>Checking Role Assignment</title>
+
+        <para>To determine if a role is assigned to a principal, use the
+        <emphasis role="bold">principalHasRole</emphasis> method:</para>
+
+        <programlisting>if (roleService.principalHasRole(principalId, roleIds, qualifications)) {
+    // Do something
+}</programlisting>
+      </section>
+
+      <section>
+        <title>Retrieving Role Information</title>
+
+        <para>To retrieve information on a role, use the <emphasis
+        role="bold">getRole</emphasis> or <emphasis
+        role="bold">getRoleByName</emphasis> method:</para>
+
+        <programlisting>Role info = roleService.getRole(roleId);
+Role info = roleService.getRoleByNamespaceCodeAndName(namespaceCode, roleName);             </programlisting>
+
+        <para>To retrieve the list of principal IDs assigned to a role, use
+        the <emphasis role="bold">getRoleMemberPrincipalIds</emphasis>
+        method:</para>
+
+        <programlisting>Collection&lt;String&gt; principals = roleService.getRoleMemberPrincipalIds(namespaceCode, roleName, qualifications);</programlisting>
+      </section>
+
+      <section>
+        <title>Updating Role Membership</title>
+
+        <para>To assign a principal to a role, use the <emphasis
+        role="bold">assignPrincipalToRole</emphasis> method:</para>
+
+        <programlisting>roleService.assignPrincipalToRole(principalId, namespaceCode, roleName, qualifications);</programlisting>
+
+        <para>To remove a principal from a role, use the <emphasis
+        role="bold">removePrincipalFromRole</emphasis> method:</para>
+
+        <programlisting>roleService.removePrincipalFromRole(principalId, namespaceCode, roleName, qualifications);</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>Person Service</title>
+
+      <para>The <emphasis role="bold">PersonService</emphasis> is used to
+      aggregate <emphasis role="bold">Entity</emphasis> and <emphasis
+      role="bold">Principal</emphasis> data into a data structure called a
+      <emphasis role="bold">Person</emphasis>. A person is essentially a
+      flattened collection of the various attributes on an entity (name,
+      address, principal id, principal name, etc). This is intended to allow
+      client applications to more easily interact with the data in the
+      underlying KIM data model for entities and principals.</para>
+
+      <section>
+        <title>Retrieving Personal Information</title>
+
+        <para>To retrieve information on a person by principal ID, use the
+        <emphasis role="bold">getPerson</emphasis> method:</para>
+
+        <programlisting>Person person = perSvc.getPerson(principalId);</programlisting>
+
+        <para>To retrieve information on a person by principal name, use the
+        <emphasis role="bold">getPersonByPrincipalName</emphasis>
+        method:</para>
+
+        <programlisting>Person person = perSvc.getPersonByPrincipalName(principalName);</programlisting>
+
+        <para>In order to search for people by a given set of criteria you can
+        use the <emphasis role="bold">findPeople</emphasis> method:</para>
+
+        <programlisting>List&lt;Person&gt; people = perSvc.findPeople(criteria);</programlisting>
+
+        <para>In this case, criteria is a <emphasis
+        role="bold">java.util.Map&lt;String, String&gt;</emphasis> which
+        contains key-value pairs. The key is the name of the Person property
+        to search on, while the value is the value to search for.</para>
+      </section>
+    </section>
+</chapter>

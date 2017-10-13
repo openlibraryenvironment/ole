@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+<edl name="edl_xml" title="New Course Request">
+			<security>not sure what goes here...</security>
+			<eventNotificationURL>http://localhost:8080/en-dev/snoop.jsp</eventNotificationURL>
+            <createInstructions>** Fill out the new Course Request.</createInstructions>
+			<instructions>** Review the Course Request.</instructions>
+			<fieldDef attributeName="DepartmentAttribute" name="department" title="Department">
+				<value/>
+				<display>
+					<type>select</type>
+					<values title="African American/African Diaspora Studies">AAAD COAS</values>
+					<values title="African Studies">AFRI COAS</values>
+					<values title="American Studies">AMST COAS</values>
+					<values title="Ancient Studies">ANCS COAS</values>
+					<!--  
+					<values title="JS-ERROR">JS-ERROR</values>
+					<values title="ATTRIB-ERROR">ATTRIB-ERROR</values>
+					-->
+				</display>
+				<validation required="false"/>
+				    <!-- accept a valid department, OR ATTRIB-ERROR, to force an attribute error 
+					<regex>AAAD COAS|AFRI COAS|AMST COAS|ANCS COAS|ATTRIB-ERROR</regex>-->
+					<!-- define a JS message that makes it clear there was a client-side JS validation error 
+					<message>[JS] Please choose a valid department (AAAD COAS|AFRI COAS|AMST COAS|ANCS COAS|ATTRIB-ERROR)</message>
+				</validation>
+				-->
+			</fieldDef>
+			<fieldDef name="creditType" title="Check Appropriate Boxes">
+				<value>undergraduateCredit</value>
+				<display>
+					<type>radio</type>
+					<values title="Undergraduate credit">undergraduateCredit</values>
+					<values title="Graduate credit">graduateCredit</values>
+					<values title="Professional credit">professionCredit</values>
+				</display>
+			</fieldDef>
+			<fieldDef name="academicSubjectCode" title="Academic Subject Code">
+				<display>
+					<type>text</type>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="courseNumber" title="Course Number (must be cleared with University Enrollment Services)">
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>4</value>
+					</meta>
+				</display>
+				<validation required="true">
+					<regex>\\D\\d\\d\\d?</regex>
+					<message>Course Number must be of for A123</message>
+				</validation>
+			</fieldDef>
+			<fieldDef name="instructor" title="Instructor">
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>4</value>
+					</meta>
+				</display>
+				<validation>
+				    <!-- test that a validation with no regex and not-required, is not enforced -->
+					<message>[JS] Javascript SHOULD NOT enforce instructor to be specified</message>
+				</validation>
+			</fieldDef>
+			<fieldDef name="courseTitle" title="Course Title">
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>4</value>
+					</meta>
+				</display>
+			</fieldDef>
+			<fieldDef name="courseTitleAbbreviation" title="Course Title Abbreviation (32 Characters including spaces)">
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>4</value>
+					</meta>
+				</display>
+			</fieldDef>
+			<fieldDef name="courseOfferTimeline" title="First time this course is to be offered (Semester/Year)">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="creditHoursFixed" title="Credit Hours: Fixed at">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="creditHoursVariableFrom" title="or Variable from">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="creditHoursVariableTo" title="to">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="courseGradedSFOnly" title="Is this course to be graded S-F (only)?">
+				<value>yes</value>
+				<display>
+					<type>radio</type>
+					<values title="Yes">yes</values>
+					<values title="No">no</values>
+				</display>
+			</fieldDef>
+			<fieldDef name="variableTitleApproveRequested" title="Is variable title approval being requested?">
+				<value>yes</value>
+				<display>
+					<type>radio</type>
+					<values title="Yes">yes</values>
+					<values title="No">no</values>
+				</display>
+			</fieldDef>
+			<fieldDef name="courseDescription" title="Course Description (not to exceed 50 words) for Bulletin publication">
+				<display>
+					<type>textarea</type>
+					<meta>
+						<name>cols</name>
+						<value>50</value>
+					</meta>
+					<meta>
+						<name>rows</name>
+						<value>5</value>
+					</meta>
+				</display>
+				<!-- JS doesn't like this regex. TODO: figure it out later
+				<validation required="true">
+					<regex>\\b{0,5}</regex>
+					<message>This is a maximum of 50 words</message>				
+				</validation>
+				-->
+			</fieldDef>
+			<fieldDef name="lectureContactHoursFixed" title="Lecture Contact Hours: Fixed at">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="lectureContactHoursVariableFrom" title="or Variable from">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="lectureContactHoursVariableTo" title="to">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="nonlectureContactHoursFixed" title="Non-Lecture Contact Hours: Fixed at">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="nonlectureContactHoursVariableFrom" title="or Variable from">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="nonlectureContactHoursVariableTo" title="to">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="estimatedEnrollment" title="Estimated enrollment">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="estimatedEnrollmentPercentGradStudents" title="Estimated enrollment percent expected to be graduate students">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="schedulingFrequency" title="Frequency of Schedule">
+				<display>
+					<type>text</type>
+				</display>
+			</fieldDef>
+			<fieldDef name="requiredForMajors" title="Will this course be required for majors?">
+				<value>yes</value>
+				<display>
+					<type>radio</type>
+					<values title="Yes">yes</values>
+					<values title="No">no</values>
+				</display>
+			</fieldDef>
+			<fieldDef name="courseJustification" title="Justification for new course">
+				<display>
+					<type>textarea</type>
+					<meta>
+						<name>cols</name>
+						<value>50</value>
+					</meta>
+					<meta>
+						<name>rows</name>
+						<value>5</value>
+					</meta>
+				</display>
+			</fieldDef>
+			<fieldDef name="readingMaterialsAvailable" title="Are the necessary reading materials currently available in the appropriate library?">
+				<value>yes</value>
+				<display>
+					<type>radio</type>
+					<values title="Yes">yes</values>
+					<values title="No">no</values>
+				</display>
+			</fieldDef>
+			<fieldDef name="courseOutline" title="Please append a complete outline of the proposed course, and indicate instructor (if known), textbooks, and other materials.">
+				<display>
+					<type>textarea</type>
+					<meta>
+						<name>cols</name>
+						<value>50</value>
+					</meta>
+					<meta>
+						<name>rows</name>
+						<value>5</value>
+					</meta>					
+				</display>
+			</fieldDef>
+			<fieldDef name="courseOverlapExplanation" title="If this course overlaps with existing courses, please explain with which courses it overlaps and whether this overlap is necessary, desirable, or unimportant">
+				<display>
+					<type>textarea</type>
+					<meta>
+						<name>cols</name>
+						<value>50</value>
+					</meta>
+					<meta>
+						<name>rows</name>
+						<value>5</value>
+					</meta>					
+				</display>
+			</fieldDef>
+			<fieldDef name="overlapDepts" title="A copy of every new course proposal must be submitted to departments, schools, or divisions in which there may be overlap of the new course with existing courses or areas of strong concern, with instructions that they send comments directly to the originating Curriculum Committee.  Please append a list of departments, schools, or divisions thus consulted.">
+				<display>
+					<type>textarea</type>
+					<meta>
+						<name>cols</name>
+						<value>50</value>
+					</meta>
+					<meta>
+						<name>rows</name>
+						<value>5</value>
+					</meta>					
+				</display>
+			</fieldDef>
+</edl>
+<association>
+			<docType>edl</docType>
+			<definition>edl_xml</definition>
+			<style>Default</style>
+			<active>true</active>
+		</association>
+	</edoclite>
+</data>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_SSProtocols" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Details of Supported Service Protocols</title>
+    
+    <section>
+        <title>Java Rice Client</title>
+        
+        <section>
+            <title>As Consumer</title>
+            
+            <para>If configured for the KSB, a Java Rice Client can invoke any
+                service in the KSB Registry using these protocols:<orderedlist>
+                    <listitem>
+                        <para>Synchronously <itemizedlist>
+                            <listitem>
+                                <para>SOAP WS p2p using KSB Spring configuration</para>
+                            </listitem>
+                            
+                            <listitem>
+                                <para>Java call if it is within the same JVM</para>
+                            </listitem>
+                            
+                            <listitem>
+                                <para>Spring HTTP Remoting</para>
+                            </listitem>
+                        </itemizedlist></para>
+                    </listitem>
+                    
+                    <listitem>
+                        <para>Asynchronously <itemizedlist>
+                            <listitem>
+                                <para>Messaging Queues – As a Consumer, a Java Rice Client
+                                    can invoke a one-shot deal for calling a KSB-registered
+                                    service asynchronously</para>
+                            </listitem>
+                            
+                            <listitem>
+                                <para>Java, SOAP, Spring HTTP Remoting</para>
+                            </listitem>
+                            
+                            <listitem>
+                                <para>Messaging Topics - As a Consumer listening to a
+                                    topic, the Java Rice Client will receive a broadcast
+                                    message</para>
+                            </listitem>
+                        </itemizedlist></para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        
+        <section>
+            <title>As Producer</title>
+            
+            <para>You can register Spring-defined services in the KSB Registry
+                through the KSB Configurer. Consumers can call these services as
+                described in other sections.</para>
+        </section>
+    </section>
+    
+    <section>
+        <title>Any Java Client</title>
+        
+        <section>
+            <title>As Consumer</title>
+            
+            <para>A <emphasis role="bold">Java Client</emphasis>, regardless of
+                whether or not it's a Rice Client configured for the KSB, can invoke
+                any web service:<orderedlist>
+                    <listitem>
+                        <para>As a SOAP WS p2p using a straight-up WS call through CXF,
+                            Axis, etc. If the external web service is not registered on the
+                            KSB, the Java client must discover the service on its
+                            own.</para>
+                    </listitem>
+                    
+                    <listitem>
+                        <para>Through Java if they are within the same JVM</para>
+                    </listitem>
+                    
+                    <listitem>
+                        <para>Through Spring HTTP Remoting; you must know the endpoint
+                            URL of the service.</para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        
+        <section>
+            <title>As Producer</title>
+            
+            <orderedlist>
+                <listitem>
+                    <para>Currently, you can't leverage the KSB and its registry for
+                        exposing any of its services. It is possible to bring up the
+                        registry and register services without the rest of the KSB.</para>
+                </listitem>
+                
+                <listitem>
+                    <para>A Java Client can expose its web services directly using
+                        XFire (CXF), Axis, etc.</para>
+                </listitem>
+                
+                <listitem>
+                    <para>You can bring up only the registry for discovery. However,
+                        the registry can't be a 'service;' it can only be a piece of code
+                        talking to a database.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+    
+    <section>
+        <title>Non-Java/Non-Rice Client</title>
+        
+        <section>
+            <title>As Consumer</title>
+            
+            <para>A <emphasis role="bold">non-Java/non-Rice Client</emphasis> that
+                knows nothing about the KSB or its registry can only invoke web
+                services synchronously using:<itemizedlist>
+                    <listitem>
+                        <para>SOAP WS p2p using straight-up WS call through native
+                            language-specific WS libs</para>
+                    </listitem>
+                    
+                    <listitem>
+                        <para>Discovery cannot be handled by leveraging the KSB Registry
+                            at this time.</para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        
+        <section>
+            <title>As Producer</title>
+            
+            <orderedlist>
+                <listitem>
+                    <para>Currently cannot register services on KSB in registry</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Can still produce services, but they can't be called
+                        leveraging the KSB; clients need to discover and invoke the
+                        services directly (on their own).</para>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+    
+    <section>
+        <title>KSB Registry as a Service</title>
+        
+        <para>As of the 2.0 version of Rice, the ServiceRegistry is now itself a
+            service. In order to bring the registry online for the client
+            application, the application needs to configure a URL similar to the
+            following:</para>
+        
+        <programlisting linenumbering = "numbered">&lt;param name="rice.ksb.registry.serviceUrl"&gt;http://localhost:8080/kr-dev/remoting/serviceRegistrySoap&lt;/param&gt;</programlisting>
+        
+        <para>Currently, this connector is only configured to understand a SOAP
+            interface to the service registry which is secured by digital
+            signatures. This is the only type of interface to the registry that the
+            standalone server currently publishes. Additionally, only a single URL
+            to the registry can be configured at the current time. If someone wants
+            to do load balancing amongst potential registry endpoints, then a
+            hardware or software load balancer could be configured to do
+            this.</para>
+    </section>
+</chapter>

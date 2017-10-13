@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<xs:schema version="1.0" targetNamespace="http://rice.kuali.org/xsd/kim/group" xmlns:tns="http://rice.kuali.org/xsd/kim/group" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:import schemaLocation="Core-1.0.3.xsd"/>
+  
+  <xs:element name="groups" type="tns:Groups"/>
+  
+  <xs:complexType name="Groups">
+    <xs:sequence>
+      <xs:element name="group" type="tns:Group" form="qualified" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="group" type="tns:Group"/>
+
+  <xs:element name="member" type="tns:Member"/>
+
+    <xs:complexType name="Group">
+    <xs:sequence>
+      <xs:element name="groupId" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="groupName" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="groupDescription" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="active" type="xs:boolean" form="qualified"/>
+      <xs:element name="kimTypeId" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="namespaceCode" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="attributes" type="tns:AttributeSetListType" form="qualified" minOccurs="0"/>
+      <xs:element name="members" form="qualified" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:member" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AttributeSetListType">
+    <xs:sequence>
+      <xs:element name="attribute" type="attributeEntry" form="qualified" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Member">
+    <xs:sequence>
+      <xs:element name="memberId" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="memberTypeCode" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="activeFromDate" type="xs:string" form="qualified" minOccurs="0"/>
+      <xs:element name="activeToDate" type="xs:string" form="qualified" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:attribute name="key" type="xs:string"/>
+
+  <xs:attribute name="value" type="xs:string"/>
+</xs:schema>
+

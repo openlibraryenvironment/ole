@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DocGroup" parent="DocGroup-parentBean"/>
+
+  <bean id="DocGroup-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.PersonDocumentGroup" p:titleAttribute="groupId" p:objectLabel="Person Group" p:inquiryDefinition-ref="DocGroup-inquiryDefinition" p:lookupDefinition-ref="DocGroup-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocGroup-groupId"/>
+        <ref bean="DocGroup-kimTypeId"/>
+        <ref bean="DocGroup-groupName"/>
+        <ref bean="DocGroup-namespaceCode"/>
+        <ref bean="DocGroup-active"/>
+        <ref bean="DocGroup-activeFromDate"/>
+        <ref bean="DocGroup-activeToDate"/>
+        <ref bean="DocGroup-kimGroupType.name"/>
+      </list>
+    </property>
+    
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="kimGroupType"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="kimTypeId" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="kimGroupType.name" p:targetName="name"/>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="kimGroupType.serviceName" p:targetName="serviceName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    
+  </bean>
+ 
+   <bean id="DocGroup-groupId" parent="DocGroup-groupId-parentBean"/>
+  <bean id="DocGroup-groupId-parentBean" parent="AttributeDefinition" abstract="true" p:name="groupId" p:forceUppercase="true" p:label="Group" p:shortLabel="Group" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="DocGroup-kimTypeId" parent="DocGroup-kimTypeId-parentBean"/>
+  <bean id="DocGroup-kimTypeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="kimTypeId" p:forceUppercase="true" p:label="Type" p:shortLabel="Type" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
+  <bean id="DocGroup-groupName" parent="DocGroup-groupName-parentBean"/>
+  <bean id="DocGroup-groupName-parentBean" parent="AttributeDefinition" abstract="true" p:name="groupName" p:forceUppercase="true" p:label="Name" p:shortLabel="Name" p:maxLength="80" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="12"/>
+    </property>
+  </bean>
+  
+    <bean id="DocGroup-namespaceCode" parent="DocGroup-namespaceCode-parentBean"/>
+  <bean id="DocGroup-namespaceCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="namespaceCode" p:forceUppercase="true" p:label="Namespace Code" p:shortLabel="Namespace Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="12"/>
+    </property>
+  </bean>
+  
+  
+     <bean id="DocGroup-active" parent="DocGroup-active-parentBean"/>
+  <bean id="DocGroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+
+  <bean id="DocGroup-activeFromDate" parent="DocGroup-activeFromDate-parentBean"/>
+  <bean id="DocGroup-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+    <property name="label" value="Active From Date"/>
+    <property name="shortLabel" value="Active From Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+
+  <bean id="DocGroup-activeToDate" parent="DocGroup-activeToDate-parentBean"/>
+  <bean id="DocGroup-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    <property name="name" value="activeToDate"/>
+    <property name="label" value="Active To Date"/>
+    <property name="shortLabel" value="Active To Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+
+
+
+    <bean id="DocGroup-kimGroupType.name" parent="DocGroup-kimGroupType.name-parentBean"/>
+
+  <bean id="DocGroup-kimGroupType.name-parentBean" abstract="true" parent="KimType-name">
+    <property name="name" value="kimGroupType.name"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Type"/>
+  </bean>
+   
+ <bean id="DocGroup-kimGroupType.kimTypeServiceName" parent="DocGroup-kimGroupType.kimTypeServiceName-parentBean"/>
+
+  <bean id="DocGroup-kimGroupType.kimTypeServiceName-parentBean" abstract="true" parent="KimType-kimTypeServiceName">
+    <property name="name" value="kimGroupType.serviceName"/>
+    <property name="label" value="Service Name"/>
+    <property name="shortLabel" value="Service Name"/>
+  </bean>
+  
+  <bean id="DocGroup-inquiryDefinition" parent="DocGroup-inquiryDefinition-parentBean"/>
+
+  <bean id="DocGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Group Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="groupId"/>
+              <bean parent="FieldDefinition" p:attributeName="groupName"/>
+              <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocGroup-lookupDefinition" parent="DocGroup-lookupDefinition-parentBean"/>
+
+  <bean id="DocGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Group Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>groupId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="groupId"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="groupId"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

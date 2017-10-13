@@ -1,0 +1,1049 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Components View (Kitchen Sink)
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView" parent="Uif-FormView" p:additionalCssClasses="testClass1,testClass2">
+    <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+      <list>
+        <bean parent="Uif-BreadcrumbItem">
+          <property name="label" value="Home"/>
+          <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+        </bean>
+      </list>
+    </property>
+    <property name="breadcrumbs.usePathBasedBreadcrumbs" value="true"/>
+    <property name="stickyHeader" value="true"/>
+    <property name="stickyBreadcrumbs" value="true"/>
+    <property name="topGroup">
+      <bean parent="Uif-VerticalBoxGroup" p:style="background:#000;
+width: 100%;
+color:#FFF;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="Top Group Content @{viewId}-@{pageId}" p:style="font-size: 18px; display:block; padding-left:20px;"
+                    p:additionalCssClasses="addTestClass">
+              <property name="cssClasses">
+                <list merge="true">
+                  <value>mergeTestClass</value>
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="header.areaTitleText" value="[color='red']KRAD[/color] Kitchen Sink (areaText)"/>
+    <property name="header.metadataText" value="Metadata Text"/>
+    <property name="header.rightGroup">
+      <bean parent="Uif-HorizontalBoxGroup" p:style="background-color:#f2f2f2;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="RightGroup Content" />
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="header.lowerGroup">
+      <bean parent="Uif-VerticalBoxGroup" p:style="background-color: #f2f2f2;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="lowerGroup content"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="header.upperGroup">
+      <bean parent="Uif-HorizontalBoxGroup" p:style="background-color:#f2f2f2;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="upperGroup content"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="breadcrumbItem.siblingBreadcrumbComponent">
+      <bean parent="Uif-InputField" p:label="Navigate to" p:propertyName="viewId">
+        <property name="control">
+          <bean parent="Uif-DropdownControl">
+            <property name="options">
+              <list>
+                <bean parent="Uif-KeyValueLocation" p:key="UifCompView" p:value="Uif Components View"
+                      p:location.viewId="UifCompView"
+                      p:location.controllerMapping="/uicomponents"/>
+                <bean parent="Uif-KeyValueLocation" p:key="ConfigurationTestView" p:value="Configuration Test View"
+                      p:location.viewId="ConfigurationTestView"
+                      p:location.controllerMapping="/uicomponents"/>
+                <bean parent="Uif-KeyValueLocation" p:key="RichMessagesView" p:value="Rich Messages View"
+                      p:location.viewId="RichMessagesView"
+                      p:location.controllerMapping="/uicomponents"/>
+                <bean parent="Uif-KeyValueLocation" p:key="Demo-ReadOnlyTestView" p:value="ReadOnly Test View"
+                      p:location.viewId="Demo-ReadOnlyTestView"
+                      p:location.controllerMapping="/uicomponents"/>
+                <bean parent="Uif-KeyValueLocation" p:key="ClientDisableView" p:value="Client Disable View"
+                      p:location.viewId="ClientDisableView"
+                      p:location.controllerMapping="/uicomponents"/>
+              </list>
+            </property>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="help">
+      <bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/"/>
+    </property>
+    <property name="entryPageId" value="UifCompView-Page1"/>
+    <property name="navigation">
+      <ref bean="UifCompView-Menu"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="UifCompView-Page1" parent="UifCompViewPageWithFooter">
+          <property name="help">
+            <bean parent="Uif-Help">
+              <property name="helpDefinition">
+                <bean parent="HelpDefinition" p:parameterNamespace="KR-SAP" p:parameterName="TEST_PARAM"
+                      p:parameterDetailType="TEST_COMPONENT"/>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <ref bean="UifCompView-AnchorLinks"/>
+              <ref bean="UifCompView-TextFields"/>
+              <ref bean="UifCompView-DateFields"/>
+              <ref bean="UifCompView-SelectFields"/>
+              <ref bean="UifCompView-OtherControls"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink1"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page2" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="UifCompView-FieldGroups"/>
+              <ref bean="UifCompView-MessageFields"/>
+              <ref bean="UifCompView-SyntaxHighlighters"/>
+              <ref bean="UifCompView-AttributeSecurity"/>
+              <ref bean="UifCompView-ImageFields"/>
+              <ref bean="UifCompView-ActionFields"/>
+              <ref bean="UifCompView-LinkFields"/>
+              <ref bean="UifCompView-OtherFields"/>
+              <ref bean="UifCompView-ScrollableGroups"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink2"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page3" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="minMaxSection"/>
+              <ref bean="requiredSection"/>
+              <ref bean="preReqSection"/>
+              <ref bean="mustOccursSection"/>
+              <ref bean="caseConstraintSection"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink3"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page4" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="regex1"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink4"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page5" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="prog1"/>
+              <ref bean="prog2"/>
+              <ref bean="prog3"/>
+              <ref bean="Uif-CollectionRefresh"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink5"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page6" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="lookups1"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink6"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page7" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <bean parent="Uif-PrimaryActionButton" id="Page7ActionButton"
+                    p:methodToCall="genCollectionServerMessages"/>
+              <ref bean="collection1"/>
+              <ref bean="collection2"/>
+              <ref bean="collection6"/>
+              <ref bean="collection3"/>
+              <ref bean="collection4"/>
+              <ref bean="collection5"/>
+              <ref bean="UifCompView-CollectionList"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink7"/>
+            </list>
+          </property>
+          <property name="header">
+            <bean parent="Uif-EditablePageHeader"/>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page8" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="Demo-ButtonLevels"/>
+              <ref bean="Demo-HeaderLevels"/>
+              <ref bean="Demo-Disclosure-HeaderLevels"/>
+              <ref bean="Demo-HeaderGroups"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink8"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page9" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="UifCompView-SecureGroupView"/>
+              <ref bean="UifCompView-SecureGroupEdit"/>
+              <ref bean="UifCompView-SecureFields"/>
+              <ref bean="UifCompView-SecureFieldGroups"/>
+              <ref bean="UifCompView-SecureActions"/>
+              <ref bean="UifCompView-SecureWidgets"/>
+              <ref bean="UifCompView-SecureLineView"/>
+              <ref bean="UifCompView-SecureLineEdit"/>
+              <ref bean="UifCompView-SecureLineFields"/>
+              <ref bean="UifCompView-SecureLineActions"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink9"/>
+            </list>
+          </property>
+          <property name="componentSecurity.viewAuthz" value="true"/>
+        </bean>
+
+        <bean id="UifCompView-Page10" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="remotableFieldsGroup"/>
+              <ref bean="remotableFieldsCollection"/>
+              <ref bean="miscGroup"/>
+              <ref bean="toolTipGroup"/>
+              <ref bean="UifCompDataTable"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink10"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean id="UifCompView-Page11" parent="UifCompViewPageWithFooter">
+          <property name="items">
+            <list>
+              <ref bean="UifCompView-EventsIntroGroup"/>
+              <ref bean="UifCompView-WindowEventsGroup"/>
+              <ref bean="UifCompView-MouseEventsGroup"/>
+              <ref bean="UifCompView-KeyEventsGroup"/>
+              <bean parent="Uif-JumpToTopLink" id="TopLink11"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="additionalScriptFiles">
+      <list merge="true">
+        <value>scripts/sampleapp.js</value>
+      </list>
+    </property>
+    <property name="viewHelperServiceClass"
+              value="edu.sampleu.demo.kitchensink.UIfComponentsViewHelperServiceImpl"/>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="UifCompViewPageWithFooter" parent="Uif-Page">
+    <property name="breadcrumbItem.siblingBreadcrumbComponent">
+      <bean parent="Uif-InputField" p:propertyName="pageId">
+        <property name="control">
+          <bean parent="Uif-OptionListControl">
+            <property name="options">
+              <list>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page1"
+                      p:value="Input Fields and Controls"
+                      p:location.pageId="UifCompView-Page1"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page2" p:value="Other Fields"
+                      p:location.pageId="UifCompView-Page2"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page3" p:value="Validation"
+                      p:location.pageId="UifCompView-Page3"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page4" p:value="Validation - Regex"
+                      p:location.pageId="UifCompView-Page4"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page5" p:value="Progressive Disclosure"
+                      p:location.pageId="UifCompView-Page5"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page6" p:value="Lookups, etc"
+                      p:location.pageId="UifCompView-Page6"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page7" p:value="Collections"
+                      p:location.pageId="UifCompView-Page7"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page8" p:value="Button/Header Levels"
+                      p:location.pageId="UifCompView-Page8"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page9" p:value="Authorization"
+                      p:location.pageId="UifCompView-Page9"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page10" p:value="Other Examples"
+                      p:location.pageId="UifCompView-Page10"/>
+                <bean parent="UifCompView-KeyValueLocation" p:key="UifCompView-Page11" p:value="Event Examples"
+                      p:location.pageId="UifCompView-Page11"/>
+              </list>
+            </property>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FormFooter"/>
+    </property>
+    <property name="stickyFooter" value="true"/>
+  </bean>
+
+  <bean id="UifCompView-KeyValueLocation" parent="Uif-KeyValueLocation">
+    <property name="location.viewId" value="UifCompView"/>
+    <property name="location.controllerMapping" value="/uicomponents"/>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Components View Menu
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-Menu" parent="Uif-MenuNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HeaderTwo" id="UifCompView-Header1"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation1" p:navigateToPageId="UifCompView-Page1"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation2" p:navigateToPageId="UifCompView-Page2"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation3" p:navigateToPageId="UifCompView-Page3"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation4" p:navigateToPageId="UifCompView-Page4"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation5" p:navigateToPageId="UifCompView-Page5"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation6" p:navigateToPageId="UifCompView-Page6"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation7" p:navigateToPageId="UifCompView-Page7"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation8" p:navigateToPageId="UifCompView-Page8"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation9" p:navigateToPageId="UifCompView-Page9"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation10" p:navigateToPageId="UifCompView-Page10"/>
+        <bean parent="Uif-NavigationActionLink" id="UifCompView-Navigation11" p:navigateToPageId="UifCompView-Page11"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Anchors Link Group
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-AnchorLinks" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-JumpToBottomLink" id="UifCompView-Header2"/>
+        <bean id="ActionLinkField_JumpToField119" parent="Uif-ActionLink"
+              p:actionScript="jumpToElementByName('field119');"/>
+        <bean id="ActionLinkField_FocusOnField107" parent="Uif-ActionLink"
+              p:actionScript="focusOnElementByName('field107');"/>
+        <bean id="ActionLinkField_FocusOnIdMyDate" parent="Uif-ActionLink"
+              p:actionScript="focusOnElementById('myDate_control');"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Text Fields Section
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-TextFields" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="disclosure.ajaxRetrievalWhenOpened" value="true"/>
+    <property name="disclosure.defaultOpen" value="false"/>
+    <property name="items">
+      <list>
+        <bean parent="UifCompView-TextFields1"/>
+        <bean parent="UifCompView-TextFields2"/>
+        <bean parent="UifCompView-TextFields3"/>
+        <bean parent="UifCompView-PasswordFields"/>
+        <bean parent="UifCompView-TextAreas"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Text Controls 1
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-TextFields1" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:labelPlacement="TOP"
+              p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field100" p:labelPlacement="TOP"
+              p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="true">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field101" p:defaultValue="val" p:fieldLabel.renderColon="true">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Text Controls 2
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-TextFields2" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" id="UifCompView-Field102" p:propertyName="field102" p:labelPlacement="LEFT">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" id="UifCompView-Field102B" p:propertyName="field102" p:labelPlacement="RIGHT">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field103" p:labelPlacement="TOP"
+              p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field104" p:labelPlacement="TOP"
+              p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field105" p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Text Controls 3
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-TextFields3" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field106" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field107" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="60"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field108" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="30" p:textExpand="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field109" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="30" p:disabled="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field112" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false" p:uppercaseValue="true">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="30"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+********************************************************************************************************************
+                                         UIF Comp - Password Control
+********************************************************************************************************************
+-->
+  <bean id="UifCompView-PasswordFields" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field140" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-PasswordControl" p:size="30"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field141" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-PasswordControl" p:size="15" p:maxLength="10"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field142" p:labelPlacement="TOP"
+              p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-PasswordControl" p:size="30" p:disabled="true"/>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - TextArea Controls
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-TextAreas" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field110" p:labelPlacement="TOP"
+              p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field111"
+              p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl" p:rows="10" p:cols="50" p:textExpand="true"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Date Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-DateFields" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="date1" p:required="true">
+          <property name="control">
+            <bean parent="Uif-DateControl"/>
+          </property>
+        </bean>
+
+        <bean id="myDate" parent="Uif-InputField-LabelTop" p:propertyName="date2" p:required="false">
+          <property name="control">
+            <bean parent="Uif-DateControl">
+              <property name="datePicker.templateOptions">
+                <map>
+                  <entry key="showOn" value="button"/>
+                  <entry key="constrainInput" value="false"/>
+                  <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                  <entry key="buttonImageOnly" value="true"/>
+                  <entry key="showAnim" value="fadeIn"/>
+                  <entry key="showButtonPanel" value="true"/>
+                  <entry key="changeMonth" value="true"/>
+                  <entry key="changeYear" value="true"/>
+
+                  <entry key="numberOfMonths" value="1"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean id="date3" parent="Uif-InputField-LabelTop" p:propertyName="field132" p:required="false">
+          <property name="control">
+            <bean parent="Uif-DateControl">
+              <property name="datePicker.templateOptions">
+                <map>
+                  <entry key="showOn" value="button"/>
+                  <entry key="dateFormat" value="mm-dd-y"/>
+                  <entry key="constrainInput" value="false"/>
+                  <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                  <entry key="buttonImageOnly" value="true"/>
+                  <entry key="showAnim" value="fadeIn"/>
+                  <entry key="showButtonPanel" value="true"/>
+                  <entry key="changeMonth" value="true"/>
+                  <entry key="changeYear" value="true"/>
+                  <entry key="numberOfMonths" value="1"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean id="myDate4" parent="Uif-InputField-LabelTop" p:propertyName="field133" p:required="false">
+          <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint"/>
+          </property>
+          <property name="control">
+            <bean parent="Uif-DateControl">
+              <property name="datePicker.templateOptions">
+                <map>
+                  <entry key="showOn" value="button"/>
+                  <entry key="dateFormat" value="mm-dd-yy"/>
+                  <entry key="constrainInput" value="false"/>
+                  <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                  <entry key="buttonImageOnly" value="true"/>
+                  <entry key="showAnim" value="fadeIn"/>
+                  <entry key="showButtonPanel" value="true"/>
+                  <entry key="changeMonth" value="true"/>
+                  <entry key="changeYear" value="true"/>
+                  <entry key="numberOfMonths" value="1"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean id="myDate4B" parent="Uif-InputField-LabelTop" p:propertyName="date4" p:required="false">
+          <property name="control">
+            <bean parent="Uif-DateControl">
+              <property name="datePicker.templateOptions">
+                <map>
+                  <entry key="showOn" value="button"/>
+                  <entry key="dateFormat" value="mm-dd-yy"/>
+                  <entry key="constrainInput" value="false"/>
+                  <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                  <entry key="buttonImageOnly" value="true"/>
+                  <entry key="showAnim" value="fadeIn"/>
+                  <entry key="showButtonPanel" value="true"/>
+                  <entry key="changeMonth" value="true"/>
+                  <entry key="changeYear" value="true"/>
+                  <entry key="numberOfMonths" value="1"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean id="myDate5" parent="Uif-InputField-LabelTop" p:propertyName="date5" p:required="false">
+          <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint"/>
+          </property>
+          <property name="control">
+            <bean parent="Uif-DateControl">
+              <property name="datePicker.templateOptions">
+                <map>
+                  <entry key="showOn" value="button"/>
+                  <entry key="constrainInput" value="true"/>
+                  <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                  <entry key="buttonImageOnly" value="true"/>
+                  <entry key="showAnim" value="fadeIn"/>
+                  <entry key="showButtonPanel" value="true"/>
+                  <entry key="changeMonth" value="true"/>
+                  <entry key="changeYear" value="true"/>
+                  <entry key="numberOfMonths" value="1"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="date6">
+          <property name="control">
+            <bean parent="Uif-DateControl">
+              <property name="datePicker.templateOptions">
+                <map>
+                  <entry key="showOn" value="both"/>
+                  <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                  <entry key="buttonImageOnly" value="true"/>
+                  <entry key="showAnim" value="fadeIn"/>
+                  <entry key="showButtonPanel" value="true"/>
+                  <entry key="changeMonth" value="true"/>
+                  <entry key="changeYear" value="true"/>
+                  <entry key="numberOfMonths" value="2"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="date7">
+          <property name="control">
+            <bean parent="Uif-DateControl" p:disabled="true"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Select Fields
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-SelectFields" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="UifCompView-Checkboxes"/>
+        <bean parent="UifCompView-RadioButtons"/>
+        <bean parent="UifCompView-OtherSelects"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Checkboxes
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-Checkboxes" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="bField1" p:defaultValue="true">
+          <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field114" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field115" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Option 1"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Option 2"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Option 3"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field116" p:width="auto" p:defaultValue="2">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl" p:disabled="true">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Option 1"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Option 2"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Option 3"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Radio Buttons
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-RadioButtons" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field117" p:label="Radio 1" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field118" p:label="Radio 2" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Radio 1"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Radio 2"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Other Selects
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-OtherSelects" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field119" p:width="auto" p:defaultValue="4">
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field120" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-MultiSelectControl" p:size="3" p:options-ref="test-options"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label='Dropdown Navigation' p:instructionalText="Navigate on dropdown selection"
+              p:width="auto">
+          <property name="control">
+            <bean parent="Uif-DropdownControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyValueLocation" p:key="1" p:value="" p:location.href=""/>
+                  <bean parent="Uif-KeyValueLocation" p:key="2" p:value="Kuali.org"
+                        p:location.href="http://www.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="3" p:value="Jira"
+                        p:location.href="https://jira.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="4" p:value="Rich Messages View"
+                        p:location.viewId="RichMessagesView"
+                        p:location.controllerMapping="/uicomponents"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Dropdown Nav" p:instructionalText="Backed by a custom KeyValuesFinder"
+              p:width="auto" p:defaultValue="4">
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValueLocations" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label='Nav Option List'>
+          <property name="control">
+            <bean parent="Uif-OptionListControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyValueLocation" p:key="2" p:value="Kuali.org"
+                        p:location.href="http://www.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="3" p:value="Jira"
+                        p:location.href="https://jira.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="4" p:value="Rich Messages View"
+                        p:location.viewId="RichMessagesView"
+                        p:location.controllerMapping="/uicomponents"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Option List Nav - UrlInfo configured" p:propertyName="pageId">
+          <property name="control">
+            <bean parent="Uif-OptionListControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyValueLocation" p:key="UifCompView-Page1" p:value="Input Fields and Controls"
+                        p:location.viewId="UifCompView" p:location.pageId="UifCompView-Page1"
+                        p:location.controllerMapping="/uicomponents"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="UifCompView-Page2" p:value="Other Fields"
+                        p:location.viewId="UifCompView" p:location.pageId="UifCompView-Page2"
+                        p:location.controllerMapping="/uicomponents"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="UifCompView-Page3" p:value="Validation"
+                        p:location.viewId="UifCompView" p:location.pageId="UifCompView-Page3"
+                        p:location.controllerMapping="/uicomponents"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label='OptionList 2 selection' p:instructionalText="Backed by a list property,
+        showing only values that match those in that property"
+              p:propertyName="stringList3">
+          <property name="control">
+            <bean parent="Uif-OptionListControl">
+              <property name="showOnlySelected" value="true"/>
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyValueLocation" p:key="String1" p:value="Kuali.org"
+                        p:location.href="http://www.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="3" p:value="Jira"
+                        p:location.href="https://jira.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="String2" p:value="Rich Messages View"
+                        p:location.viewId="RichMessagesView"
+                        p:location.controllerMapping="/uicomponents"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label='1 Selection' p:instructionalText="Backed by a simple property,
+                showing only the value that matches"
+              p:propertyName="mField1">
+          <property name="control">
+            <bean parent="Uif-OptionListControl">
+              <property name="showOnlySelected" value="true"/>
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Dont Show"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="SecretInfo555" p:value="Show This!"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Dont Show"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <util:list id="test-options">
+    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select 1"/>
+    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Select 2"/>
+    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Select 3"/>
+    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Select 4"/>
+    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Select 5"/>
+  </util:list>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Comp - Other Controls
+  ********************************************************************************************************************
+  -->
+  <bean id="UifCompView-OtherControls" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="fileUpload">
+          <property name="control">
+            <bean parent="Uif-FileControl" p:size="30"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" id="UifCompView-TestPerson-PrincipalName"
+              p:propertyName="testPerson.principalName">
+          <property name="control">
+            <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="testPersonId"
+                  p:personNamePropertyName="testPerson.name"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field131">
+          <property name="control">
+            <bean parent="Uif-SpinnerControl"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field132">
+          <property name="control">
+            <bean parent="Uif-SpinnerControl">
+              <property name="spinner">
+                <bean parent="Uif-Spinner">
+                  <property name="templateOptions">
+                    <map merge="true">
+                      <entry key="start" value="5"/>
+                      <entry key="step" value="25"/>
+                      <entry key="max" value="2500"/>
+                      <entry key="numberFormat" value="C"/>
+                      <entry key="culture" value="en-GB"/>
+                    </map>
+                  </property>
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field140">
+          <property name="control">
+            <bean parent="Uif-SpinnerControl">
+              <property name="spinner">
+                <bean parent="Uif-Spinner">
+                  <property name="templateOptions">
+                    <map merge="true">
+                      <entry key="start" value="0.01"/>
+                      <entry key="step" value="0.01"/>
+                      <entry key="numberFormat" value="n"/>
+                      <entry key="culture" value="en-EN"/>
+                    </map>
+                  </property>
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>

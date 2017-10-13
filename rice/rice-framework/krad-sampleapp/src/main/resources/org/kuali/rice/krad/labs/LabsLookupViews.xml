@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="LabsLookup-DefaultView" parent="Uif-LookupView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="viewName" value="LabsLookup-DefaultView"/>
+    <property name="headerText" value="Lookup Sample"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.account.TravelAccount"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="number"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccount"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="createDate" p:ranged="true"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="foId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="number"/>
+        <bean parent="Uif-DataField" p:propertyName="name"/>
+        <bean parent="Uif-DataField" p:propertyName="subAccount"/>
+        <bean parent="Uif-DataField" p:propertyName="createDate"/>
+        <bean parent="Uif-DataField" p:propertyName="foId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-ResultsLimitView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-ResultsLimitView"/>
+    <property name="headerText"
+              value="Lookup Sample with Results Limit  (2 for typical lookup, 4 for multiple lookup)"/>
+    <property name="resultSetLimit" value="2"/>
+    <property name="multipleValuesSelectResultSetLimit" value="4"/>
+  </bean>
+
+  <bean id="LabsLookup-AlwaysMultipleValuesSelectView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-AlwaysMultipleValuesSelectView"/>
+    <property name="headerText" value="Lookup Sample - Multiple Value Specified in View (will return return 5 rows)"/>
+    <property name="multipleValuesSelectResultSetLimit" value="5"/>
+    <property name="multipleValuesSelect" value="true"/>
+  </bean>
+
+  <bean id="LabsLookup-UseResultsLimitOnParentView" parent="LabsLookup-ResultsLimitView">
+    <property name="viewName" value="LabsLookup-UseResultsLimitOnParentView"/>
+    <property name="headerText"
+              value="Lookup Sample with Results Limit on Parent View  (2 for typical lookup, 4 for multiple lookup)"/>
+  </bean>
+
+  <bean id="LabsLookup-HeadingsView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-HeadingsView"/>
+    <property name="headerText" value="Lookup Sample with Headings"/>
+
+    <property name="header.upperGroup">
+      <bean parent="Uif-HeaderUpperGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="Upper Group of headerText"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+
+    <property name="header.rightGroup">
+      <bean parent="Uif-HeaderRightGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="Right Group of headerText"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+
+    <property name="header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="Lower Group of headerText"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+
+    <property name="page.header.lowerGroup.items">
+      <list merge="true">
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Custom Button"
+              p:actionScript="alert('JavaScript triggered action.')"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-ConditionalCriteriaView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-ConditionalCriteriaView"/>
+    <property name="headerText" value="Lookup Sample with Conditional Criteria Field"/>
+
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="number"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccount"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="createDate" p:ranged="true"
+              p:required="@{#dp.lookupCriteria['number'] == 'a1'}"
+              p:readOnly="@{#dp.lookupCriteria['number'] == 'a2'}"
+              p:render="@{#dp.lookupCriteria['number'] != 'a3'}"/>
+      </list>
+    </property>
+
+    <property name="header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="[b]*[/b] Enter the value &quot;a1&quot; into the
+                [b]Travel Account Number[/b] criteria field to make the [b]Date Created[/b] criteria a required. [br/]
+                [b]*[/b] Enter the value &quot;a2&quot; into the [b]Travel Account Number[/b] criteria field to make
+                the [b]Date Created[/b] a read only. [br/]
+                [b]*[/b] Enter the value &quot;a3&quot; into the [b]Travel Account Number[/b] criteria field to hide
+                the [b]Date Created[/b] criteria."/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-CriteriaFooterView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-CriteriaFooterView"/>
+    <property name="headerText" value="Lookup Sample with create-new button in the criteria footer"/>
+    <property name="criteriaGroup.footer">
+      <bean parent="Uif-LookupCriteriaFooter">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-PrimaryActionButton" p:methodToCall="createNew" p:actionLabel="create new"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-NoSearchButtonsView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-NoSearchButtonsView"/>
+    <property name="headerText" value="Lookup Sample without Search Buttons"/>
+    <property name="renderSearchButtons" value="false"/>
+  </bean>
+
+  <bean id="LabsLookup-HideCriteriaView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-HideCriteriaView"/>
+    <property name="headerText" value="Lookup Sample without the search criteria rendered"/>
+    <property name="renderLookupCriteria" value="false"/>
+  </bean>
+
+  <bean id="LabsLookup-MultipleColumnsCriteriaView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-MultipleColumnsCriteriaView"/>
+    <property name="headerText" value="Lookup Sample where criteria is using multiple columns"/>
+    <property name="criteriaGroup.layoutManager.numberOfColumns" value="4"/>
+  </bean>
+
+  <bean id="LabsLookup-DisabledWildcardsView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-DisabledWildcardsView"/>
+    <property name="headerText" value="Lookup Sample where wildcards and operators are disabled"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="number" p:disableWildcardsAndOperators="true"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccount"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="createDate" p:ranged="true"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="foId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-QuickfinderDisabledView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-QuickfinderDisabledView"/>
+    <property name="headerText" value="Lookup Sample with quickfinder disabled"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="number"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccount"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="createDate" p:ranged="true"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="foId" p:enableAutoQuickfinder="false"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-DirectInquiryDisabledView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-DirectInquiryDisabledView"/>
+    <property name="headerText" value="Lookup Sample with direct inquiry disabled"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="number" p:enableAutoDirectInquiry="false"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccount"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="createDate" p:ranged="true"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="foId" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-InquiryDisabledView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-InquiryDisabledView"/>
+    <property name="headerText" value="Lookup Sample with inquiry disabled"/>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="number" p:enableAutoInquiry="false"/>
+        <bean parent="Uif-DataField" p:propertyName="name"/>
+        <bean parent="Uif-DataField" p:propertyName="subAccount"/>
+        <bean parent="Uif-DataField" p:propertyName="createDate"/>
+        <bean parent="Uif-DataField" p:propertyName="foId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="LabsLookup-DefaultSortView" parent="LabsLookup-DefaultView">
+    <property name="viewName" value="LabsLookup-DefaultSortView"/>
+    <property name="headerText" value="Lookup Sample with default sort"/>
+    <property name="defaultSortAscending" value="false"/>
+    <property name="defaultSortAttributeNames">
+      <list>
+        <value>foId</value>
+        <value>number</value>
+      </list>
+    </property>
+  </bean>
+
+</beans>

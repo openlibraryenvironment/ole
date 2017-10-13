@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <!--
+
+      Copyright 2005-2012 The Kuali Foundation
+
+      Licensed under the Educational Community License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl2.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+  -->
+  <bean id="KimAttributes" parent="KimAttributes-parentBean"/>
+
+  <bean id="KimAttributes-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.rice.kim.bo.impl.KimAttributes" p:objectLabel="KIM Attributes">
+    <property name="attributes">
+      <list>
+        <ref bean="KimAttributes-methodToCall"/>
+        <ref bean="KimAttributes-beanName"/>
+        <ref bean="KimAttributes-actionClass"/>
+        <ref bean="KimAttributes-namespaceCode"/>
+        <ref bean="KimAttributes-componentName"/>
+        <ref bean="KimAttributes-propertyName"/>
+        <ref bean="KimAttributes-existingRecordsOnly"/>
+        <ref bean="KimAttributes-createdBySelfOnly"/>
+        <ref bean="KimAttributes-attachmentTypeCode"/>
+        <ref bean="KimAttributes-collectionItemTypeCode"/>
+        <ref bean="KimAttributes-editMode"/>
+        <ref bean="KimAttributes-parameterName"/>
+        <ref bean="KimAttributes-campusCode"/>
+        <ref bean="KimAttributes-documentTypeName"/>
+        <ref bean="KimAttributes-actionRequestCd"/>
+        <ref bean="KimAttributes-routeStatusCode"/>
+        <ref bean="KimAttributes-routeNodeName"/>
+        <ref bean="KimAttributes-appDocStatus"/>
+        <ref bean="KimAttributes-roleName"/>
+        <ref bean="KimAttributes-permissionName"/>
+        <ref bean="KimAttributes-responsibilityName"/>
+        <ref bean="KimAttributes-groupName"/>
+        <ref bean="KimAttributes-required"/>
+        <ref bean="KimAttributes-actionDetailsAtRoleMemberLevel"/>
+        <ref bean="KimAttributes-documentNumber"/>
+        <ref bean="KimAttributes-sectionId"/>
+        <ref bean="KimAttributes-kimTypeId"/>
+        <ref bean="KimAttributes-qualifierResolverProvidedIdentifier"/>
+        <ref bean="KimAttributes-viewId"/>
+        <ref bean="KimAttributes-actionEvent"/>
+        <ref bean="KimAttributes-collectionPropertyName"/>
+        <ref bean="KimAttributes-fieldId"/>
+        <ref bean="KimAttributes-groupId"/>
+        <ref bean="KimAttributes-widgetId"/>
+        <ref bean="KimAttributes-actionId"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="campus">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="code"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="namespace">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="namespaceCode" p:targetName="code"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="component">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="namespaceCode" p:targetName="namespaceCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="componentName" p:targetName="code"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="parameter">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="namespaceCode" p:targetName="namespaceCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="componentName" p:targetName="componentCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="parameterName" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="documentType">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeName" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-campusCode" parent="Campus-code">
+    <property name="required" value="false"/>
+    <property name="name" value="campusCode"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder"
+            p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-namespaceCode" parent="Namespace-code" p:name="namespaceCode"/>
+  <bean id="KimAttributes-componentName" parent="Component-code" p:name="componentName"/>
+  <bean id="KimAttributes-roleName" parent="RoleBo-name" p:name="roleName"/>
+  <bean id="KimAttributes-groupName" parent="Group-name" p:name="groupName"/>
+  <bean id="KimAttributes-documentNumber" parent="DocumentHeader-documentNumber"/>
+  <bean id="KimAttributes-parameterName" parent="Parameter-name" p:name="parameterName"/>
+
+  <bean id="KimAttributes-existingRecordsOnly" parent="KimAttributes-existingRecordsOnly-parentBean"/>
+  <bean id="KimAttributes-existingRecordsOnly-parentBean" abstract="true"
+        parent="AttributeReferenceDummy-genericBoolean" p:name="existingRecordsOnly" p:label="Existing Records Only"
+        p:shortLabel="Existing Records Only"/>
+
+  <bean id="KimAttributes-createdBySelfOnly" parent="KimAttributes-createdBySelfOnly-parentBean"/>
+  <bean id="KimAttributes-createdBySelfOnly-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"
+        p:name="createdBySelfOnly" p:label="Created By Self Only" p:shortLabel="Created By Self Only"/>
+
+  <bean id="KimAttributes-attachmentTypeCode" parent="KimAttributes-attachmentTypeCode-parentBean"/>
+  <bean id="KimAttributes-attachmentTypeCode-parentBean" parent="Attachment-attachmentTypeCode"/>
+
+  <bean id="KimAttributes-required" parent="KimAttributes-required-parentBean"/>
+  <bean id="KimAttributes-required-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"
+        p:name="required" p:label="Required" p:shortLabel="Required"/>
+
+  <bean id="KimAttributes-actionDetailsAtRoleMemberLevel"
+        parent="KimAttributes-actionDetailsAtRoleMemberLevel-parentBean"/>
+  <bean id="KimAttributes-actionDetailsAtRoleMemberLevel-parentBean" abstract="true"
+        parent="AttributeReferenceDummy-genericBoolean" p:name="actionDetailsAtRoleMemberLevel"
+        p:label="Action Details At Role Member Level" p:shortLabel="Action Details At Role Member Level"/>
+
+  <!-- Should be converted to use KEW once it's converted to use the KNS -->
+  <bean id="KimAttributes-actionRequestCd" parent="KimAttributes-actionRequestCd-parentBean"/>
+  <bean id="KimAttributes-actionRequestCd-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="actionRequestCd" p:forceUppercase="true" p:label="Action Request Code"
+        p:shortLabel="Action Request Code" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.kew.actionrequest.bo.ActionRequestCodeValuesFinder"
+            p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-methodToCall" parent="KimAttributes-methodToCall-parentBean"/>
+  <bean id="KimAttributes-methodToCall-parentBean" parent="AttributeDefinition" abstract="true" p:name="methodToCall"
+        p:forceUppercase="false" p:label="Method To Call" p:shortLabel="Method To Call" p:maxLength="2000"
+        p:required="true">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-beanName" parent="KimAttributes-beanName-parentBean"/>
+  <bean id="KimAttributes-beanName-parentBean" parent="AttributeDefinition" abstract="true" p:name="beanName"
+        p:forceUppercase="false" p:label="Bean Name" p:shortLabel="Bean Name" p:maxLength="80" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-actionClass" parent="KimAttributes-actionClass-parentBean"/>
+  <bean id="KimAttributes-actionClass-parentBean" parent="AttributeDefinition" abstract="true" p:name="actionClass"
+        p:forceUppercase="false" p:label="Action Class" p:shortLabel="Action Class" p:maxLength="200"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-propertyName" parent="KimAttributes-propertyName-parentBean"/>
+  <bean id="KimAttributes-propertyName-parentBean" parent="AttributeDefinition" abstract="true" p:name="propertyName"
+        p:forceUppercase="false" p:label="Property Name" p:shortLabel="Property Name" p:maxLength="255"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-collectionItemTypeCode" parent="KimAttributes-collectionItemTypeCode-parentBean"/>
+  <bean id="KimAttributes-collectionItemTypeCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="collectionItemTypeCode" p:forceUppercase="true" p:label="Collection Item Type Code"
+        p:shortLabel="Collection Item Type Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-editMode" parent="KimAttributes-editMode-parentBean"/>
+  <bean id="KimAttributes-editMode-parentBean" parent="AttributeDefinition" abstract="true" p:name="editMode"
+        p:forceUppercase="false" p:label="Edit Mode" p:shortLabel="Edit Mode" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-documentTypeName" parent="KimAttributes-documentTypeName-parentBean"/>
+  <bean id="KimAttributes-documentTypeName-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="documentTypeName" p:forceUppercase="false" p:label="Document Type Name"
+        p:shortLabel="Document Type Name" p:maxLength="255" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+  </bean>
+
+  <!-- Should be converted to use KEW once it's converted to use the KNS -->
+  <bean id="KimAttributes-routeStatusCode" parent="KimAttributes-routeStatusCode-parentBean"/>
+  <bean id="KimAttributes-routeStatusCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="routeStatusCode" p:forceUppercase="true" p:label="Route Status Code" p:shortLabel="Route Status Code"
+        p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <!-- Should be converted to use KEW once it's converted to use the KNS -->
+  <bean id="KimAttributes-routeNodeName" parent="KimAttributes-routeNodeName-parentBean"/>
+  <bean id="KimAttributes-routeNodeName-parentBean" parent="AttributeDefinition" abstract="true" p:name="routeNodeName"
+        p:forceUppercase="false" p:label="Route Node Name" p:shortLabel="Route Node Name" p:maxLength="40"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-appDocStatus" parent="KimAttributes-appDocStatus-parentBean"/>
+  <bean id="KimAttributes-appDocStatus-parentBean" parent="AttributeDefinition" abstract="true" p:name="appDocStatus"
+        p:forceUppercase="false" p:label="Application Document Status" p:shortLabel="App Doc Status" p:maxLength="255"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <!-- Should be converted to use PermissionBo.xml once created -->
+  <bean id="KimAttributes-permissionName" parent="KimAttributes-permissionName-parentBean"/>
+  <bean id="KimAttributes-permissionName-parentBean" parent="PermissionBo-name" abstract="true" p:name="permissionName"
+        p:required="false">
+  </bean>
+
+  <!-- Should be converted to use Responsibility.xml once created -->
+  <bean id="KimAttributes-responsibilityName" parent="KimAttributes-responsibilityName-parentBean"/>
+  <bean id="KimAttributes-responsibilityName-parentBean" parent="Responsibility-name" abstract="true"
+        p:name="responsibilityName" p:required="false">
+  </bean>
+
+  <bean id="KimAttributes-sectionId" parent="KimAttributes-sectionId-parentBean"/>
+  <bean id="KimAttributes-sectionId-parentBean" parent="AttributeDefinition" abstract="true" p:name="sectionId"
+        p:forceUppercase="false" p:label="Section Id" p:shortLabel="Section Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+  <bean id="KimAttributes-kimTypeId" parent="KimType-kimTypeId">
+    <property name="name" value="kimTypeId"/>
+  </bean>
+
+  <bean id="KimAttributes-qualifierResolverProvidedIdentifier"
+        parent="KimAttributes-qualifierResolverProvidedIdentifier-parentBean"/>
+  <bean id="KimAttributes-qualifierResolverProvidedIdentifier-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="qualifierResolverProvidedIdentifier" p:forceUppercase="false"
+        p:label="Qualifier Resolver Provided Identifier" p:shortLabel="Qual. Res. Prov. Id." p:maxLength="40"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-viewId" parent="KimAttributes-viewId-parentBean"/>
+  <bean id="KimAttributes-viewId-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="viewId" p:forceUppercase="false" p:label="View Id" p:shortLabel="View Id" p:maxLength="250"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-actionEvent" parent="KimAttributes-actionEvent-parentBean"/>
+  <bean id="KimAttributes-actionEvent-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="actionEvent" p:forceUppercase="false" p:label="Action Event" p:shortLabel="Act Event" p:maxLength="100"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-collectionPropertyName" parent="KimAttributes-collectionPropertyName-parentBean"/>
+  <bean id="KimAttributes-collectionPropertyName-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="collectionPropertyName" p:forceUppercase="false" p:label="Collection Name" p:shortLabel="Coll Nm"
+        p:maxLength="150" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-fieldId" parent="KimAttributes-fieldId-parentBean"/>
+  <bean id="KimAttributes-fieldId-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="fieldId" p:forceUppercase="false" p:label="Field Id" p:shortLabel="Field Id"
+        p:maxLength="250" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-groupId" parent="KimAttributes-groupId-parentBean"/>
+  <bean id="KimAttributes-groupId-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="groupId" p:forceUppercase="false" p:label="Group Id" p:shortLabel="Group Id"
+        p:maxLength="250" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-widgetId" parent="KimAttributes-widgetId-parentBean"/>
+  <bean id="KimAttributes-widgetId-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="widgetId" p:forceUppercase="false" p:label="Widget Id" p:shortLabel="Widget Id"
+        p:maxLength="250" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="KimAttributes-actionId" parent="KimAttributes-actionId-parentBean"/>
+  <bean id="KimAttributes-actionId-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="actionId" p:forceUppercase="false" p:label="Action Id" p:shortLabel="Action Id"
+        p:maxLength="250" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+</beans>

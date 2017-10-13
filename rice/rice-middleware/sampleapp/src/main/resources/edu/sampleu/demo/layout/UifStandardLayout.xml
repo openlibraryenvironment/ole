@@ -1,0 +1,514 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <bean id="Demo-StandardLayout" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+    <property name="headerText" value="View Title"/>
+    <property name="entryPageId" value="Demo-StandardLayout-SectionsPage"/>
+    <property name="navigation">
+      <ref bean="Demo-StandardLayout-NavMenu"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="Demo-StandardLayout-SectionsPage" parent="Uif-Page" p:headerText="Page Title">
+          <property name="header.lowerGroup">
+            <bean parent="Uif-LinkGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-ActionLink"
+                        p:actionScript="alert('You clicked the link');" p:actionLabel="Link 1"/>
+                  <bean parent="Uif-ActionLink"
+                        p:actionScript="alert('You clicked the link');" p:actionLabel="Link 2"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <ref bean="Demo-StandardLayout-Section1"/>
+              <ref bean="Demo-StandardLayout-Section2"/>
+              <ref bean="Demo-StandardLayout-Section3"/>
+            </list>
+          </property>
+        </bean>
+        <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="Uif-Page" p:headerText="Page Title">
+          <property name="items">
+            <list>
+              <ref bean="Demo-StandardLayout-CollectionSection1"/>
+              <ref bean="Demo-StandardLayout-CollectionSection2"/>
+              <ref bean="Demo-StandardLayout-Section4"/>
+            </list>
+          </property>
+        </bean>
+        <bean id="Demo-StandardLayout-CssGridPage" parent="Uif-Page" p:headerText="Css Grid Page">
+          <property name="items">
+            <list>
+              <ref bean="Demo-StandardLayout-FixedCssGridSection1"/>
+              <ref bean="Demo-StandardLayout-FixedCssGridSection2"/>
+              <ref bean="Demo-StandardLayout-FluidCssGridSection1"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-NavMenu" parent="Uif-MenuNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HeaderTwo" p:headerText="Navigation Title"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Demo-StandardLayout-SectionsPage"
+              p:actionLabel="Standard Sections"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Demo-StandardLayout-CollectionSectionsPage"
+              p:actionLabel="Collection Sections"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Demo-StandardLayout-CssGridPage"
+              p:actionLabel="Css Grid"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section1" parent="Uif-VerticalBoxSection" p:disclosure.render="true">
+    <property name="headerText" value="Section 1 Title"/>
+    <property name="instructionalText" value="Fields are direct children of this section"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field1" p:label="Field 1">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field2" p:label="Field 2">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section2" parent="Uif-VerticalBoxSection" p:disclosure.render="true">
+    <property name="headerText" value="Section 2 Title"/>
+    <property name="instructionalText" value="SubSections are direct children of this Section"/>
+    <property name="items">
+      <list>
+        <ref bean="Demo-StandardLayout-Section2-SubSection1"/>
+        <ref bean="Demo-StandardLayout-Section2-SubSection2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section2-SubSection1" parent="Uif-HorizontalBoxSubSection">
+    <property name="headerText" value="SubSection 2.1 Title"/>
+    <property name="instructionalText" value="Uses a Uif-HorizontalBoxSubSection for its fields"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field3" p:label="Field 3">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field4" p:label="Field 4">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field5" p:label="Field 5">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section2-SubSection2" parent="Uif-GridSubSection">
+    <property name="headerText" value="SubSection 2.2 Title"/>
+    <property name="instructionalText" value="Uses a Uif-GridSubSection for its fields"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field6" p:label="Field 6">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="field7" p:label="Field 7">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section3" parent="Uif-VerticalBoxSection">
+    <property name="headerText" value="Section 3 Title"/>
+    <property name="instructionalText"
+              value="A mixture of Fields, Groups, and Sections with a more complex layout:
+              2 fields as direct section items, a horizontal group of 2 fields (also part of the section),
+              1 SubSection: with 1 field and 2 fields within a grid group"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field8" p:label="Field 8">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field9" p:label="Field 9">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field10" p:label="Field 10">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field11" p:label="Field 11">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <ref bean="Demo-StandardLayout-Section3-SubSection1"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section3-SubSection1" parent="Uif-VerticalBoxSubSection">
+    <property name="headerText" value="SubSection 3.1 Title"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field12" p:label="Field 12">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-GridGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field13" p:label="Field 13">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:propertyName="field14" p:label="Field 14">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-CollectionSection1" parent="Uif-StackedCollectionSection">
+    <property name="headerText"
+              value="Section 1 Title"/>
+    <property name="useServerPaging" value="true"/>
+    <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+    <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
+    <property name="layoutManager.lineGroupPrototype.disclosure.ajaxRetrievalWhenOpened" value="true"/>
+    <property name="instructionalText"
+              value="Uif-StackedCollectionSection with an overridden layout manager (Uif-StackedCollectionLayout-WithBoxItems)
+               that uses box instead of grid"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="layoutManager">
+      <bean parent="Uif-StackedCollectionLayout-WithBoxItems"/>
+    </property>
+    <property name="addLineActions">
+      <list>
+        <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="SELF"/>
+      </list>
+    </property>
+    <property name="layoutManager.summaryTitle" value="Collection Item Title"/>
+    <property name="layoutManager.summaryFields" value="field1"/>
+    <property name="propertyName" value="list1"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field1" p:label="Field 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field2" p:label="Field 2"
+              p:required="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-CollectionSection2" parent="Uif-StackedCollectionSection">
+    <property name="headerText"
+              value="Section 2 Title"/>
+    <property name="instructionalText"
+              value="Uif-StackedCollectionSection with Uif-Disclosure-TableSubCollection-WithinSection (note the postfix)"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="useServerPaging" value="true"/>
+    <property name="addLineActions">
+      <list>
+        <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="NEXT_INPUT"/>
+      </list>
+    </property>
+    <property name="layoutManager.summaryTitle" value="Collection Item Title"/>
+    <property name="layoutManager.summaryFields" value="field1"/>
+    <property name="propertyName" value="list4"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+              p:required="true"/>
+      </list>
+    </property>
+    <property name="subCollections">
+      <list>
+        <ref bean="Demo-StandardLayout-CollectionSection2-SubCollection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-CollectionSection2-SubCollection"
+        parent="Uif-Disclosure-TableSubCollection-WithinSection">
+    <property name="headerText" value="SubCollection Title"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="layoutManager.sequencePropertyName" value="field1"/>
+    <property name="layoutManager.generateAutoSequence" value="false"/>
+    <property name="layoutManager.sequenceFieldPrototype">
+      <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+    </property>
+    <property name="layoutManager.numberOfColumns" value="4"/>
+    <property name="propertyName" value="subList"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Field Group">
+          <property name="group.validationMessages.displayMessages" value="false"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+                    p:required="true" p:constraintText="Type A to make subfield 2 appear"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+                    p:required="true" p:progressiveRender="@{#lp.field1 eq 'A'}"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="field3" p:label="SubField 3"
+              p:required="true" p:constraintText="Change to refresh subfield 4"/>
+        <bean parent="Uif-InputField" p:propertyName="field4" p:label="SubField 4"
+              p:required="true" p:refreshWhenChangedPropertyNames="#lp.field3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-Section4" parent="Uif-VerticalBoxSection">
+    <property name="headerText" value="Section 3 Title"/>
+    <property name="instructionalText" value="Section with 2 fields and a collection SubSection"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field15" p:label="Field 1">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field16" p:label="Field 2">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <ref bean="Demo-StandardLayout-CollectionSubSection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-CollectionSubSection" parent="Uif-StackedCollectionSubSection">
+    <property name="headerText"
+              value="SubSection Title"/>
+    <property name="instructionalText"
+              value="Collection as a SubSection"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="layoutManager.summaryTitle" value="Collection Item Title"/>
+    <property name="layoutManager.summaryFields" value="field1"/>
+    <property name="propertyName" value="list5"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+              p:required="true"/>
+      </list>
+    </property>
+    <property name="subCollections">
+      <list>
+        <ref bean="Demo-StandardLayout-CollectionSubSection-SubCollection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-CollectionSubSection-SubCollection" parent="Uif-StackedSubCollection-WithinSubSection">
+    <property name="headerText" value="SubCollection Title"/>
+    <property name="instructionalText"
+              value="SubCollection with postfix -withinSubSection *Important*"/>
+    <property name="collectionObjectClass"
+              value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="layoutManager.summaryTitle" value="SubCollection Item Title"/>
+    <property name="layoutManager.summaryFields" value="field1"/>
+    <property name="propertyName" value="subList"/>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field3" p:label="SubField 3"
+              p:required="true"/>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-FixedCssGridSection1" parent="Uif-FixedCssGridSection">
+    <property name="headerText" value="Fixed Css Grid"/>
+    <property name="layoutManager.defaultItemColSpan" value="3"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field1" p:label="Field 1">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field2" p:label="Field 2">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field3" p:label="Field 3">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field4" p:label="Field 4">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field5" p:label="Field 5">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field6" p:label="Field 6">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-FixedCssGridSection2" parent="Uif-FixedCssGridSection">
+    <property name="headerText" value="Fixed Css Grid"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:colSpan="6" p:propertyName="field13" p:label="Field 1">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:colSpan="6" p:propertyName="field14" p:label="Field 2">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field15" p:label="Field 3">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:colSpan="4" p:propertyName="field16" p:label="Field 4">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:colSpan="4" p:propertyName="field17" p:label="Field 5">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:colSpan="4" p:propertyName="field18" p:label="Field 6">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-FluidCssGridSection1" parent="Uif-FluidCssGridSection">
+    <property name="headerText" value="Fluid Css Grid"/>
+    <property name="layoutManager.defaultItemColSpan" value="2"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field7" p:label="Field 1">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field8" p:label="Field 2">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field9" p:label="Field 3">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field10" p:label="Field 4">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field11" p:label="Field 5">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field12" p:label="Field 6">
+          <property name="control">
+            <bean parent="Uif-TextControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

@@ -1,0 +1,315 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate allowOverwrite="true">
+      <name>Testing.LongRoutePath.Template</name>
+      <description>ESI Testing Long Route Path Rule Template</description>
+    </ruleTemplate>
+  </ruleTemplates>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>Testing.LongRoutePathWithoutBranches</name>
+      <description>Testing long routing path</description>
+      <label>Test Long Route Path</label>
+      <postProcessorName>
+        org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor
+      </postProcessorName>
+      <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="node0" nextNode="node1"/>
+          <requests name="node1" nextNode="node2"/>
+          <requests name="node2" nextNode="node3"/>
+          <simple name="node3" nextNode="node4"/>
+          <requests name="node4" nextNode="node5"/>
+          <simple name="node5" nextNode="node6"/>
+          <requests name="node6" nextNode="node7"/>
+          <simple name="node7" nextNode="node8"/>
+          <requests name="node8" nextNode="node9"/>
+          <simple name="node9" nextNode="node10"/>
+          <requests name="node10" nextNode="node11"/>
+          <simple name="node11" nextNode="node12"/>
+          <requests name="node12" nextNode="node13"/>
+          <requests name="node13" nextNode="node14"/>
+          <simple name="node14" nextNode="node15"/>
+          <requests name="node15" nextNode="node16"/>
+          <simple name="node16" nextNode="node17"/>
+          <requests name="node17" nextNode="node18"/>
+          <simple name="node18" nextNode="node19"/>
+          <requests name="node19" nextNode="node20"/>
+          <simple name="node20" nextNode="node21"/>
+          <requests name="node21" nextNode="node22"/>
+          <simple name="node22" nextNode="node23"/>
+          <requests name="node23" nextNode="node24"/>
+          <simple name="node24" nextNode="node25"/>
+          <requests name="node25" nextNode="node26"/>
+          <simple name="node26" nextNode="node27"/>
+          <requests name="node27" nextNode="node28"/>
+          <simple name="node28" nextNode="node29"/>
+          <requests name="node29" nextNode="node30"/>
+          <simple name="node30" nextNode="node31"/>
+          <requests name="node31" nextNode="node32"/>
+          <simple name="node32" nextNode="node33"/>
+          <requests name="node33" nextNode="node34"/>
+          <simple name="node34" nextNode="node35"/>
+          <requests name="node35" nextNode="node36"/>
+          <simple name="node36" nextNode="node37"/>
+          <requests name="node37" nextNode="node38"/>
+          <simple name="node38" nextNode="node39"/>
+          <requests name="node39" nextNode="node40"/>
+          <simple name="node40" nextNode="node41"/>
+          <requests name="node41" nextNode="node42"/>
+          <simple name="node42" nextNode="node43"/>
+          <requests name="node43" nextNode="node44"/>
+          <simple name="node44"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="node0">
+          <activationType>P</activationType>
+        </start>
+        <requests name="node1">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="node2">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node3">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node4">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node5">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node6">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node7">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node8">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node9">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node10">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node11">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node12">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="node13">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node14">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node15">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node16">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node17">
+          <activationType>S</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node18">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node19">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node20">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node21">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node22">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node23">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node24">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node25">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node26">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node27">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node28">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node29">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node30">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node31">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node32">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node33">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node34">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node35">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node36">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node37">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node38">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node39">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node40">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node41">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node42">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="node43">
+          <activationType>P</activationType>
+          <ruleTemplate>Testing.LongRoutePath.Template</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <simple name="node44">
+          <activationType>P</activationType>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

@@ -1,0 +1,68 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- DataTable demo -->
+  <bean id="Demo-DataTable-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoDataTable.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.element.DataTable"/>
+    <property name="docBookAnchor" value=""/>
+    <property name="exampleSize" value="LARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-DataTable-Example1"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-DataTable-Example1"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DataTable-Example1 start-->
+        <bean parent="Uif-DataTable"
+            p:ajaxSource="@{#ConfigProperties['serviceServletUrl']}dataTableRestServiceTest/TableData">
+          <property name="richTable.templateOptions">
+            <map merge="true">
+              <entry key="aoColumns"
+                     value="[
+                          {'sTitle':'Course Id', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Course Name', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Credits', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Subject', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Dept', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Professor', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Days', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Fee', 'bSortable':true, 'bSearchable':false},
+                          {'sTitle':'Min Credits', 'bSortable':true, 'bSearchable':false}
+                            ]"/>
+              <entry key="'bScrollInfinite'" value="true"/>
+              <entry key="'bScrollCollapse'" value="true"/>
+              <entry key="'sScrollY'" value="200px"/>
+            </map>
+          </property>
+        </bean>
+        <!-- ex:Demo-DataTable-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

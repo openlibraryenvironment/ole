@@ -1,0 +1,240 @@
+
+
+.uif-navigationMenu-wrapper {
+	display: block;
+	float: left;
+	width: 200px;
+	z-index: 16;
+}
+.uif-navigationMenu-wrapper li a i {
+	vertical-align: top;
+	/* [disabled]background-image: url('../images/glyphicons-halflings-white.png');
+*/
+	opacity: .5;
+	margin-top: 2px;
+}
+.uif-navigationMenu-wrapper > ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px 0 0;
+	border-bottom: none;
+}
+
+
+
+
+
+.uif-navigationMenu-wrapper > ul > li {
+	display: block;
+	color: #d1d0d0 !important;
+	background-color: #ffffff;
+	background-image: url(../images/border.png);
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #fff;
+	border-bottom-color: #ddd;
+	position: relative;
+	background-repeat: repeat-y;
+	background-position: right;
+}
+
+
+
+
+
+
+
+.uif-navigationMenu-wrapper > ul > li:hover {
+	border-top-color: #8C012C;
+}
+.uif-navigationMenu-wrapper > ul > li.open {
+	background: #aa003e;
+	background-image: url(../images/active-small.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	border-top-color: #8C012C;
+}
+.uif-navigationMenu-wrapper > ul > li.open [class^="cus-"], .uif-navigationMenu-wrapper > ul > li.open [class*=" cus-"] {
+	background-image: url("../images/icons-custom-white.png");
+}
+.uif-navigationMenu-wrapper > ul > li:hover [class^="cus-"], .uif-navigationMenu-wrapper > ul > li:hover [class*=" cus-"] {
+	background-image: url("../images/icons-custom-white.png");
+}
+.uif-navigationMenu-wrapper > ul > li.active [class^="cus-"], .uif-navigationMenu-wrapper > ul > li:active [class*=" cus-"] {
+	background-image: url("../images/icons-custom-white.png");
+}
+.uif-navigationMenu-wrapper > ul > li.active {
+	background: #aa003e;
+	background-image: url(../images/active-small.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	border-top-color: #8C012C;
+}
+.uif-navigationMenu-wrapper > ul > li.active a {
+	color: #FFF;
+}
+.uif-navigationMenu-wrapper > ul > li > a {
+	display: block;
+	color: #000000;
+	padding-top: 6px;
+	padding-right: 0;
+	padding-bottom: 6px;
+	padding-left: 15px;
+	text-decoration: none;
+}
+.uif-navigationMenu-wrapper > ul > li.open > a {
+	color: #ffffff;
+	text-shadow: 0 1px 1px #333 !important;
+	background-image: url(../images/active-small.png), none;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.uif-navigationMenu-wrapper > ul > li > a:hover {
+	background-color: #aa003e;
+	color: #ffffff;
+	text-shadow: 0 1px 1px #333 !important;
+	background-image: url(../images/active-small.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.uif-navigationMenu-wrapper > ul > li > a > i {
+	margin-right: 10px;
+}
+.uif-navigationMenu-wrapper > ul > li.active > a {
+	background: url("../images/leftnav-active-small.png") no-repeat scroll right center transparent !important;
+}
+.uif-navigationMenu-wrapper > ul > li > a > .label {
+	margin: 0 20px 0 0;
+	float: right;
+	padding: 3px 5px 2px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5) inset, 0 1px 0 rgba(255,255,255,0.2);
+	background-color: #333333;
+}
+.uif-navigationMenu-wrapper > ul ul {
+	display: none;
+	margin: 0;
+	padding: 0;
+	/* [disabled]box-shadow: 0 0 3px rgba(0,0,0,0.5) inset;
+*/
+	border-top: 1px solid #ddd;
+	background-color: #FFF;
+	list-style: none;
+}
+.uif-navigationMenu-wrapper > ul li.open ul {
+	display: block;
+}
+.uif-navigationMenu-wrapper > ul > li.open.submenu > a {
+	border-bottom: none;
+}
+.uif-navigationMenu-wrapper > ul > li.open.active.submenu > a {
+	border-bottom: 1px solid #2A2A2A;
+}
+.uif-navigationMenu-wrapper > ul ul li {
+	padding-left: 0px;
+}
+.uif-navigationMenu-wrapper > ul ul li a {
+	color: #777777;
+	display: block;
+	padding-top: 6px;
+	padding-right: 0;
+	padding-bottom: 6px;
+	padding-left: 50px;
+	font-size: 12px;
+}
+.uif-navigationMenu-wrapper > ul ul li a {
+	display: block;
+	color: #777777;
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+	padding-top: 6px;
+	padding-right: 12px;
+	padding-bottom: 6px;
+	padding-left: 25px;
+}
+.uif-navigationMenu-wrapper > ul ul li:first-child a {
+	border-top: 0;
+}
+.uif-navigationMenu-wrapper > ul ul li:last-child a {
+	border-bottom: 0;
+}
+.uif-navigationMenu-wrapper > ul ul li a {
+	text-decoration: none;
+	background-image: url(../images/border.png);
+	background-repeat: repeat-y;
+	background-position: right;
+}
+.uif-navigationMenu-wrapper > ul ul li.active a {
+	color: #000;
+	font-weight: bold;
+}
+.uif-navigationMenu-wrapper > ul ul li a:hover {
+	background-color: #272727;
+}
+.uif-navigationMenu-wrapper > ul ul li.active a:hover {
+	background-color: #ffe5e5;
+}
+.uif-navigationMenu-wrapper > ul ul li.active > a {
+	background-attachment: scroll;
+	background-color: #ffe5e5;
+	background-image: url(../images/active-small.png), url(../images/border.png);
+	background-repeat: no-repeat, repeat-y;
+	background-position: right center, right;
+}
+.uif-navigationMenu-wrapper > ul ul li a:hover {
+	background-color: #FFF;
+	background-image: url(../images/active-small.png), url(../images/border.png);
+	background-repeat: no-repeat, repeat-y;
+	background-position: right center, right;
+}
+.uif-navigationMenu-wrapper > ul > li.nopointer > a {
+	background-image: none;
+	background-color: #000;
+}
+
+
+
+
+
+
+
+
+
+// temporary
+
+
+
+.uif-navigationMenu-wrapper > ul > li.uif-navigationItem-current {
+	background: #aa003e;
+	background-image: url(../images/active-small.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	border-top-color: #8C012C;
+}
+.uif-navigationMenu-wrapper > ul > li.uif-navigationItem-current a {
+	color: #FFF;
+}
+
+.uif-navigationMenu-wrapper > ul > li.open.uif-navigationItem-current.submenu > a {
+	border-bottom: 1px solid #2A2A2A;
+}
+
+.uif-navigationMenu-wrapper > ul ul li.uif-navigationItem-current a {
+	color: #000;
+	font-weight: bold;
+}
+
+.uif-navigationMenu-wrapper > ul ul li.uif-navigationItem-current a:hover {
+	background-color: #ffe5e5;
+}
+.uif-navigationMenu-wrapper > ul ul li.uif-navigationItem-current > a {
+	background-attachment: scroll;
+	background-color: #ffe5e5;
+	background-image: url(../images/active-small.png), url(../images/border.png);
+	background-repeat: no-repeat, repeat-y;
+	background-position: right center, right;
+}
+
+
+

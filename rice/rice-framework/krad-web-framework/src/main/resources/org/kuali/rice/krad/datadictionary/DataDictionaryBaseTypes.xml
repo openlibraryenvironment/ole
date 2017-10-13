@@ -1,0 +1,379 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="WorkflowProperties" class="org.kuali.rice.krad.datadictionary.WorkflowProperties"
+        abstract="true"/>
+
+  <bean id="ReferenceDefinition" class="org.kuali.rice.krad.datadictionary.ReferenceDefinition"
+        abstract="true"/>
+
+  <bean id="HelpDefinition" class="org.kuali.rice.krad.datadictionary.HelpDefinition"
+        abstract="true"/>
+
+  <bean id="uifTransactionalDocumentEntry"
+        class="org.kuali.rice.krad.datadictionary.TransactionalDocumentEntry"
+        abstract="true"/>
+
+  <bean id="SupportAttributeDefinition"
+        class="org.kuali.rice.krad.datadictionary.SupportAttributeDefinition"
+        abstract="true"/>
+
+  <bean id="WorkflowProperty" class="org.kuali.rice.krad.datadictionary.WorkflowProperty"
+        abstract="true"/>
+
+  <bean id="AttributeDefinition" class="org.kuali.rice.krad.datadictionary.AttributeDefinition"
+        abstract="true"/>
+
+  <bean id="ComplexAttributeDefinition" class="org.kuali.rice.krad.datadictionary.ComplexAttributeDefinition"
+        abstract="true"/>
+
+  <bean id="WorkflowPropertyGroup" class="org.kuali.rice.krad.datadictionary.WorkflowPropertyGroup"
+        abstract="true"/>
+
+  <bean id="PrimitiveAttributeDefinition"
+        class="org.kuali.rice.krad.datadictionary.PrimitiveAttributeDefinition"
+        abstract="true"/>
+
+  <bean id="MaskFormatterSubString"
+        class="org.kuali.rice.krad.datadictionary.mask.MaskFormatterSubString"
+        abstract="true"/>
+
+  <bean id="SortDefinition" class="org.kuali.rice.krad.datadictionary.SortDefinition"
+        abstract="true"/>
+
+  <bean id="RelationshipDefinition"
+        class="org.kuali.rice.krad.datadictionary.RelationshipDefinition"
+        abstract="true"/>
+
+  <bean id="uifBusinessObjectEntry" class="org.kuali.rice.krad.datadictionary.BusinessObjectEntry"
+        abstract="true"/>
+
+  <bean id="DataObjectEntry" class="org.kuali.rice.krad.datadictionary.DataObjectEntry"
+        abstract="true"/>
+
+  <!-- TODO: BusinessObjectEntry needs to be removed or moved to KRAD -->
+  <bean id="BusinessObjectEntry" class="org.kuali.rice.kns.datadictionary.BusinessObjectEntry"
+        abstract="true"/>
+
+  <bean id="Mask" class="org.kuali.rice.krad.datadictionary.mask.Mask"
+        abstract="true"/>
+
+  <bean id="MaskFormatterLiteral"
+        class="org.kuali.rice.krad.datadictionary.mask.MaskFormatterLiteral"
+        abstract="true"/>
+
+  <bean id="CollectionDefinition" class="org.kuali.rice.krad.datadictionary.CollectionDefinition"
+        abstract="true"/>
+
+  <bean id="uifMaintenanceDocumentEntry" class="org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry"
+        abstract="true">
+    <property name="maintainableClass" value="org.kuali.rice.krad.maintenance.MaintainableImpl"/>
+    <property name="dataObjectClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentBase"/>
+    <property name="businessRulesClass" value="org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase"/>
+  </bean>
+
+  <bean id="InactivationBlockingDefinition"
+        class="org.kuali.rice.krad.datadictionary.InactivationBlockingDefinition"
+        abstract="true"/>
+
+  <bean id="ExternalizableAttributeDefinitionProxy"
+        class="org.kuali.rice.krad.datadictionary.ExternalizableAttributeDefinitionProxy"
+        abstract="true"/>
+
+  <bean id="AttributeSecurity" class="org.kuali.rice.krad.datadictionary.AttributeSecurity"
+        abstract="true"/>
+
+  <bean id="WorkflowAttributes" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes"
+        abstract="true"/>
+
+  <bean id="SearchingAttribute" class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+        abstract="true"/>
+
+  <bean id="RoutingAttribute" class="org.kuali.rice.krad.datadictionary.RoutingAttribute"
+        abstract="true"/>
+
+  <bean id="SearchingTypeDefinition"
+        class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition"
+        abstract="true"/>
+
+  <bean id="RoutingTypeDefinition" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition"
+        abstract="true"/>
+
+  <bean id="DocumentValuePathGroup"
+        class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup"
+        abstract="true"/>
+
+  <bean id="DocumentCollectionPath"
+        class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath"
+        abstract="true"/>
+
+  <bean id="DataDictionaryBeanOverride" class="org.kuali.rice.krad.datadictionary.impl.BeanOverrideImpl"
+        abstract="true">
+    <property name="beanName" value=""/>
+    <property name="fieldOverrides">
+      <list/>
+    </property>
+  </bean>
+
+  <bean id="FieldOverrideForValueReplace"
+        class="org.kuali.rice.krad.datadictionary.impl.FieldOverrideForValueReplaceImpl" abstract="true">
+    <property name="propertyName" value=""/>
+    <property name="value" value=""/>
+  </bean>
+
+  <bean id="FieldOverrideForListElementDelete"
+        class="org.kuali.rice.krad.datadictionary.impl.FieldOverrideForListElementDeleteImpl" abstract="true">
+    <property name="propertyNameForElementCompare" value="name"/>
+    <property name="propertyName" value=""/>
+    <property name="element" value=""/>
+  </bean>
+
+  <bean id="FieldOverrideForListElementInsert"
+        class="org.kuali.rice.krad.datadictionary.impl.FieldOverrideForListElementInsertImpl" abstract="true">
+    <property name="propertyNameForElementCompare" value="name"/>
+    <property name="propertyName">
+      <null/>
+    </property>
+    <property name="element">
+      <null/>
+    </property>
+    <property name="insertAfter">
+      <null/>
+    </property>
+    <property name="insertBefore">
+      <null/>
+    </property>
+  </bean>
+
+  <bean id="FieldOverrideForListElementReplace"
+        class="org.kuali.rice.krad.datadictionary.impl.FieldOverrideForListElementReplaceImpl" abstract="true">
+    <property name="propertyNameForElementCompare" value="name"/>
+    <property name="propertyName">
+      <null/>
+    </property>
+    <property name="element">
+      <null/>
+    </property>
+    <property name="replaceWith">
+      <null/>
+    </property>
+  </bean>
+
+  <!--StateMapping-->
+  <bean id="StateMapping"
+        abstract="true"
+        p:statePropertyName="state"
+        class="org.kuali.rice.krad.datadictionary.state.StateMappingBase"/>
+
+  <bean id="WorkflowStateMapping"
+          abstract="true"
+          p:statePropertyName="document.documentHeader.workflowDocument.status.code"
+          class="org.kuali.rice.krad.datadictionary.state.StateMappingBase">
+    <property name="states">
+      <list>
+        <value>I</value>
+        <value>S</value>
+        <value>R</value>
+        <value>P</value>
+        <value>F</value>
+      </list>
+    </property>
+    <property name="customClientSideValidationStates">
+      <map>
+        <entry key="I" value="R"/>
+      </map>
+    </property>
+    <property name="stateNameMessageKeyMap">
+      <map>
+        <entry key="I" value="state.workflow.initiated"/>
+        <entry key="S" value="state.workflow.saved"/>
+        <entry key="R" value="state.workflow.enroute"/>
+        <entry key="P" value="state.workflow.processed"/>
+        <entry key="F" value="state.workflow.final"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="UTF8AnyCharacterPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.UTF8AnyCharacterPatternConstraint" />
+  <!--Constraints-->
+  <bean id="ValidCharactersConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint"/>
+
+  <!-- Begin Character Level Constraints -->
+
+  <bean id="AlphaNumericPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.AlphaNumericPatternConstraint"/>
+
+  <bean id="AlphaPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.AlphaPatternConstraint"/>
+
+  <bean id="AnyCharacterPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.AnyCharacterPatternConstraint"/>
+
+  <bean id="CharsetPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.CharsetPatternConstraint"/>
+
+  <bean id="NumericPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.NumericPatternConstraint"/>
+
+  <bean id="AlphaNumericWithBasicPunc" parent="AlphaNumericPatternConstraint"
+        abstract="true" p:allowWhitespace="true" p:allowQuestionMark="true" p:allowExclaimation="true"
+        p:allowPeriod="true" p:allowParenthesis="true" p:allowDoubleQuote="true" p:allowApostrophe="true"
+        p:allowForwardSlash="true" p:allowDash="true" p:allowColon="true" p:allowSemiColon="true"/>
+
+  <bean id="AlphaWithBasicPunc" parent="AlphaPatternConstraint"
+        abstract="true" p:allowWhitespace="true" p:allowQuestionMark="true" p:allowExclaimation="true"
+        p:allowPeriod="true" p:allowParenthesis="true" p:allowDoubleQuote="true" p:allowApostrophe="true"
+        p:allowForwardSlash="true" p:allowDash="true" p:allowColon="true" p:allowSemiColon="true"/>
+
+  <bean id="NumericWithOperators" parent="NumericPatternConstraint"
+        abstract="true" p:allowWhitespace="true" p:allowAsterisk="true" p:allowPlus="true"
+        p:allowPeriod="true" p:allowParenthesis="true" p:allowForwardSlash="true" p:allowDash="true"
+        p:allowEquals="true"/>
+
+  <!-- End Character Level Constraints -->
+  <!-- Begin Field Level Constraints -->
+
+  <bean id="FixedPointPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.FixedPointPatternConstraint"
+        p:messageKey="validation.fixedPoint"/>
+
+  <bean id="IntegerPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.IntegerPatternConstraint"
+        p:messageKey="validation.integer"/>
+
+  <bean id="DatePatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.DatePatternConstraint"
+        p:messageKey="validation.date"/>
+
+  <bean id="BasicDatePatternConstraint" parent="DatePatternConstraint"
+        abstract="true">
+    <property name="allowedFormats">
+      <list>
+        <value>MM/dd/yy</value>
+        <value>MM/dd/yyyy</value>
+        <value>MM-dd-yy</value>
+        <value>MM-dd-yyyy</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="FloatingPointPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.FloatingPointPatternConstraint"
+        p:messageKey="validation.floatingPoint" p:patternTypeKey="validationPatternRegex.floatingPoint"/>
+
+  <bean id="PhoneNumberPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.phoneNumber" p:patternTypeKey="validationPatternRegex.phoneNumber"/>
+
+  <bean id="TimePatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.time12" p:patternTypeKey="validationPatternRegex.time12"/>
+
+  <bean id="Time24HPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.time24" p:patternTypeKey="validationPatternRegex.time24"/>
+
+  <bean id="UrlPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.url" p:patternTypeKey="validationPatternRegex.url"/>
+
+  <bean id="NoWhitespacePatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.noWhitespace" p:patternTypeKey="validationPatternRegex.noWhitespace"/>
+
+  <bean id="JavaClassPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.javaClass" p:patternTypeKey="validationPatternRegex.javaClass"/>
+
+  <bean id="EmailAddressPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.emailAddress" p:patternTypeKey="validationPatternRegex.emailAddress"/>
+
+  <bean id="TimestampPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.timestamp" p:patternTypeKey="validationPatternRegex.timestamp"/>
+
+  <bean id="YearPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.year" p:patternTypeKey="validationPatternRegex.year"/>
+
+  <bean id="MonthPatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.month" p:patternTypeKey="validationPatternRegex.month"/>
+
+  <bean id="ZipcodePatternConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        p:messageKey="validation.zipcode" p:patternTypeKey="validationPatternRegex.zipcode"/>
+
+  <!-- End Field Level Constraints -->
+
+  <bean id="MustOccurConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.MustOccurConstraint"/>
+
+  <bean id="CaseConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.CaseConstraint"/>
+
+  <bean id="WhenConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.WhenConstraint"/>
+
+  <bean id="PrerequisiteConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.PrerequisiteConstraint"/>
+
+  <bean id="SimpleConstraint"
+        abstract="true"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.SimpleConstraint"/>
+
+  <bean id="RequiredConstraint"
+        abstract="true"
+        parent="SimpleConstraint"
+        p:required="true"/>
+  
+</beans>
+

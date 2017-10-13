@@ -1,0 +1,69 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <businessObjectEntry id="BookstoreKimAttributes" parent="BookstoreKimAttributes-parentBean"/>
+  <businessObjectEntry abstract="true" businessObjectClass="edu.sampleu.bookstore.bo.BookstoreKimAttributes"
+                       id="BookstoreKimAttributes-parentBean" objectLabel="Bookstore KIM Attributes"
+                       parent="KimAttributes">
+    <attributes>
+      <ref bean="KimAttributes-bookTypeCode"/>
+    </attributes>
+    <relationships>
+      <relationshipDefinition objectAttributeName="bookType" parent="RelationshipDefinition">
+        <primitiveAttributes>
+          <primitiveAttributeDefinition parent="PrimitiveAttributeDefinition" sourceName="bookTypeCode"
+                                        targetName="typeCode"/>
+        </primitiveAttributes>
+      </relationshipDefinition>
+    </relationships>
+  </businessObjectEntry>
+  <attributeDefinition id="KimAttributes-bookTypeCode" name="bookTypeCode" parent="BookType-typeCode" required="false">
+    <oldControl>
+      <spring:bean parent="SelectControlDefinition">
+        <spring:property name="businessObjectClass" value="edu.sampleu.bookstore.bo.BookType"/>
+        <spring:property name="includeBlankRow" value="true"/>
+        <spring:property name="includeKeyInLabel" value="false"/>
+        <spring:property name="keyAttribute" value="typeCode"/>
+        <spring:property name="labelAttribute" value="name"/>
+        <spring:property name="valuesFinderClass"
+                         value="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"/>
+      </spring:bean>
+    </oldControl>
+    <control>
+      <textControl parent="Uif-TextControl" size="10"/>
+    </control>
+  </attributeDefinition>
+</spring:beans>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="RoleDocumentDelegationMemberQualifier" parent="RoleDocumentDelegationMemberQualifier-parentBean"/>
+	
+	<!-- KULRICE-8096: Data Mapping Field Definition, Business Object Component Lookup - Namespace Duplications -->
+	<bean id="RoleDocumentDelegationMemberQualifier-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMemberQualifier" p:titleAttribute="attrDataId" p:objectLabel="Role Delegation Member Qualifier">
+		<property name="inquiryDefinition">
+			<ref bean="RoleDocumentDelegationMemberQualifier-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="RoleDocumentDelegationMemberQualifier-lookupDefinition"/>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="RoleDocumentDelegationMemberQualifier-attrDataId"/>
+				<ref bean="RoleDocumentDelegationMemberQualifier-delegationMemberId"/>
+				<ref bean="RoleDocumentDelegationMemberQualifier-kimTypId"/>
+				<ref bean="RoleDocumentDelegationMemberQualifier-kimAttrDefnId"/>
+				<ref bean="RoleDocumentDelegationMemberQualifier-attrVal"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="RoleDocumentDelegationMemberQualifier-attrDataId" parent="RoleDocumentDelegationMemberQualifier-attrDataId-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-attrDataId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="attrDataId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Attr Data Id"/>
+		<property name="shortLabel" value="Attr Data Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Attr Data Id"/>
+		<property name="description" value="Attr Data Id"/>
+	</bean>
+
+	<bean id="RoleDocumentDelegationMemberQualifier-delegationMemberId" parent="RoleDocumentDelegationMemberQualifier-delegationMemberId-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-delegationMemberId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="delegationMemberId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Delegation Member Id"/>
+		<property name="shortLabel" value="Delegation Member Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Target Primary Key"/>
+		<property name="description" value="Target Primary Key"/>
+	</bean>
+
+	<bean id="RoleDocumentDelegationMemberQualifier-kimTypId" parent="RoleDocumentDelegationMemberQualifier-kimTypId-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-kimTypId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kimTypId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Kim Typ Id"/>
+		<property name="shortLabel" value="Kim Typ Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Kim Typ Id"/>
+		<property name="description" value="Kim Typ Id"/>
+	</bean>
+
+	<bean id="RoleDocumentDelegationMemberQualifier-kimAttrDefnId" parent="RoleDocumentDelegationMemberQualifier-kimAttrDefnId-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-kimAttrDefnId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kimAttrDefnId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Kim Attr Defn Id"/>
+		<property name="shortLabel" value="Kim Attr Defn Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Kim Attr Defn Id"/>
+		<property name="description" value="Kim Attr Defn Id"/>
+	</bean>
+
+	<bean id="RoleDocumentDelegationMemberQualifier-attrVal" parent="RoleDocumentDelegationMemberQualifier-attrVal-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-attrVal-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="attrVal"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Attr Val"/>
+		<property name="shortLabel" value="Attr Val"/>
+		<property name="maxLength" value="400"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Attr Val"/>
+		<property name="description" value="Attr Val"/>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="RoleDocumentDelegationMemberQualifier-inquiryDefinition" parent="RoleDocumentDelegationMemberQualifier-inquiryDefinition-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Attr Data Id"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Attr Data Id"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+							<bean parent="FieldDefinition" p:attributeName="delegationMemberId"/>
+							<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+							<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+							<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="RoleDocumentDelegationMemberQualifier-lookupDefinition" parent="RoleDocumentDelegationMemberQualifier-lookupDefinition-parentBean"/>
+	<bean id="RoleDocumentDelegationMemberQualifier-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Doc Role Qualifier Lookup"/>
+		
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="delegationMemberId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+				<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="delegationMemberId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+				<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+			</list>
+		</property>
+	</bean>
+</beans>

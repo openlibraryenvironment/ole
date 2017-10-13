@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+    Community License, Version 2.0 (the "License"); you may not use this file 
+    except in compliance with the License. You may obtain a copy of the License 
+    at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+    law or agreed to in writing, software distributed under the License is distributed 
+    on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+    express or implied. See the License for the specific language governing permissions 
+    and limitations under the License. -->
+
+  <bean id="Company" parent="Company-parentBean" />
+  <bean id="Company-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass"
+      value="org.kuali.rice.krad.datadictionary.validation.Company" />
+    <property name="titleAttribute" value="id" />
+    <property name="objectLabel" value="Course" />
+    <property name="primaryKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="Company-id" />
+        <ref bean="Company-name" />
+
+        <!-- Test employee details person birthdate override -->
+        <ref bean="Company-mainContact.employeeDetails.birthDate" />
+
+      </list>
+    </property>
+    <property name="complexAttributes">
+      <list>
+        <ref bean="Company-mainContact" />
+        <ref bean="Company-mainAddress" />
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition">
+          <property name="dataObjectClass" value="org.kuali.rice.krad.datadictionary.validation.Employee" />
+          <property name="name" value="employees" />
+          <property name="shortLabel" value="Employees" />
+          <property name="minOccurs" value="2" />
+          <property name="maxOccurs" value="2" />
+        </bean>
+        <bean parent="CollectionDefinition">
+          <property name="dataObjectClass" value="java.lang.String" />
+          <property name="name" value="slogans" />
+          <property name="shortLabel" value="Slogans" />
+          <property name="minOccurs" value="2" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Company-id" parent="Company-id-parentBean" />
+  <bean id="Company-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="shortLabel" value="Id" />
+    <property name="summary" value="Unique company id" />
+    <property name="label" value="Id" />
+    <property name="description" value="Unique identifer assigned by the system" />
+    <property name="minLength" value="1" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+  </bean>
+
+  <bean id="Company-name" parent="Company-name-parentBean" />
+  <bean id="Company-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="shortLabel" value="Name" />
+    <property name="summary" value="Name of company" />
+    <property name="label" value="Name" />
+    <property name="description" value="Name of company" />
+    <property name="minLength" value="1" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+  </bean>
+
+  <bean id="Company-mainContact" parent="Company-mainContact-parentBean" />
+  <bean id="Company-mainContact-parentBean" abstract="true"
+    parent="ComplexAttributeDefinition">
+    <property name="name" value="mainContact" />
+    <property name="shortLabel" value="Main Contact" />
+    <property name="summary" value="The company's main contact person" />
+    <property name="label" value="Main Contact" />
+    <property name="description" value="Main contact of Company" />
+    <property name="dataObjectEntry" ref="Employee" />
+  </bean>
+
+  <bean id="Company-mainAddress" parent="Company-mainAddress-parentBean" />
+  <bean id="Company-mainAddress-parentBean" abstract="true"
+    parent="ComplexAttributeDefinition">
+    <property name="name" value="mainAddress" />
+    <property name="shortLabel" value="Address" />
+    <property name="summary" value="Address of the company" />
+    <property name="label" value="address" />
+    <property name="description" value="Company's Address" />
+    <property name="required" value="true" />
+    <property name="dataObjectEntry" ref="Address" />
+  </bean>
+
+  <bean id="Company-mainContact.employeeDetails.birthDate"
+    parent="Company-mainContact.employeeDetails.birthDate-parentBean" />
+  <bean id="Company-mainContact.employeeDetails.birthDate-parentBean"
+    abstract="true" parent="Person-birthDate">
+    <property name="name" value="mainContact.employeeDetails.birthDate" />
+    <property name="required" value="false" />
+  </bean>
+
+</beans>  

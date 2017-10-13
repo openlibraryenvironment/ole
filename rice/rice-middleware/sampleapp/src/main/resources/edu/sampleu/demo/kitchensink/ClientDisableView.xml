@@ -1,0 +1,354 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="ClientDisableView" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Client-side Disable"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="items">
+            <list>
+              <ref bean="Demo-DisableSection1"/>
+              <ref bean="Demo-DisableSection2"/>
+              <ref bean="Demo-DisableSection3"/>
+              <ref bean="Demo-DisableSection4"/>
+              <ref bean="Demo-DisableSection5"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FormFooter"/>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <bean id="Demo-DisableSection1" p:headerText="Basic Functionality" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field118" p:label="Choose" p:width="auto"
+              p:instructionalText="Click option to disable and enable">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="enable" p:value="Enable"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="disable" p:value="Disable"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field2">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#form.field118 eq 'disable'}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field3">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl" p:disabled="@{#form.field118 eq 'disable'}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field3" p:label="Field 3">
+          <property name="control">
+            <bean parent="Uif-DropdownControl" p:disabled="@{#form.field118 eq 'disable'}"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field114" p:label="Field 4">
+          <property name="control">
+            <bean parent="Uif-MultiSelectControl" p:disabled="@{#form.field118 eq 'disable'}"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field117" p:label="Radio 1"
+              p:width="auto"
+              p:instructionalText="RadioGroupControl using an optionsFinder">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl" p:disabled="@{#form.field118 eq 'disable'}"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="bField1" p:label="Checkbox"
+              p:defaultValue="true"
+              p:instructionalText="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by
+            default">
+          <property name="control">
+            <bean parent="Uif-CheckboxControl" p:disabled="@{#form.field118 eq 'disable'}"
+                  p:checkboxLabel="Checkbox Label"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field115" p:label="Checkboxes 1"
+              p:instructionalText="CheckboxGroupControl using an optionsFinder" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{#form.field118 eq 'disable'}"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Action Button"
+              p:actionScript="alert('You clicked a button');"
+              p:disabled="@{#form.field118 eq 'disable'}"/>
+
+        <bean parent="Uif-ActionLink" p:actionLabel="Action Link" p:actionScript="alert('You clicked a Link');"
+              p:disabled="@{#form.field118 eq 'disable'}"/>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-DisableSection2" p:headerText="Enable/Disable OnChange" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Enable Button OnChange">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field50">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Action Button"
+                    p:actionScript="alert('You clicked a button');"
+                    p:disabled="true"
+                    p:enabledWhenChangedPropertyNames="field50"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Disable Button OnChange">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field51">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Action Button"
+                    p:actionScript="alert('You clicked a button');"
+                    p:disabled="false"
+                    p:disabledWhenChangedPropertyNames="field51"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-DisableSection3" p:headerText="evaluateDisabledOnKeyUp Flag" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Enable Control onKeyUp">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field52">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:propertyName="field54">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:disabled="true" p:enabledWhenChangedPropertyNames="field52"
+                        p:evaluateDisabledOnKeyUp="true"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Type disable">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field53" p:instructionalText="Type disable to disable
+                      the first button onKeyUp and the second button onChange - demonstrated for side by side comparison">
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Action Button (keyUp)"
+                    p:actionScript="alert('You clicked a button');"
+                    p:evaluateDisabledOnKeyUp="true"
+                    p:disabled="@{#form.field53 eq 'disable'}"/>
+              <bean parent="Uif-PrimaryActionButton" p:actionLabel="Action Button (change)"
+                    p:actionScript="alert('You clicked a button');"
+                    p:disabled="@{#form.field53 eq 'disable'}"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-DisableSection4" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+    <property name="headerText" value="In Collections"/>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="propertyName" value="list1"/>
+    <property name="layoutManager.sequencePropertyName" value="field1"/>
+    <property name="layoutManager.generateAutoSequence" value ="false"/>
+    <property name="layoutManager.sequenceFieldPrototype">
+      <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Disable/Enable" p:propertyName="field1" p:required="true">
+          <property name="control">
+            <bean parent="Uif-DropdownControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="enable" p:value="Enable"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="disable" p:value="Disable"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#lp.field1 eq 'disable'}"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"
+              p:constraintText="Disabled when field2 is 10">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#lp.field1 eq 'disable' or #lp.field2 eq '10'}"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="addLineActions">
+      <list>
+        <bean parent="Uif-AddLineAction" p:disabled="true">
+          <property name="enabledWhenChangedPropertyNames">
+            <list>
+              <value>#lp.field2</value>
+              <value>#lp.field3</value>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-DisableSection5" p:headerText="Disabled for List backed fields/properties" p:instructionalText="Some
+  examples are not client-side examples in this section (testing purposes)"
+        parent="Uif-HorizontalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field90" p:defaultValue="course">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="course" p:value="Course or a course placeholder"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="general" p:value="General placeholder"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:propertyName="field91">
+          <property name="control">
+            <bean parent="Uif-TextControl">
+              <property name="watermarkText" value="e.g. BIOL 180"/>
+              <property name="maxLength" value="11"/>
+              <property name="disabled" value="@{#form.field90 NE 'course'}"/>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="stringList2" p:label="Checkboxes 1"
+              p:instructionalText="Make selections to disable the following controls" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field10" p:label="TestField"
+              p:constraintText="Disabled when Option 1 is selected">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#listContains(stringList2, 1)}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field11" p:label="TestField"
+              p:constraintText="Disabled when Option 2 and Option 3 is selected">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#listContains(stringList2, {'2','3'})}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field12" p:label="TestField"
+              p:constraintText="Disabled when no options selected">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#emptyList(stringList2)}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field13" p:label="TestField"
+              p:constraintText="Disabled when property 'list2' has toString(overridden at the object level)
+                      values: 'ABCD' and '1234'.  This has no js/client equivalent functionality.">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#listContains(list2, {'ABCD','1234'})}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field14" p:label="TestField"
+              p:constraintText="Disabled when property 'intList' has value 1 and 4 ">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#listContains(intList, {1,4})}"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="field14" p:label="TestField"
+              p:constraintText="Disabled when property 'doubleList' has value 2.2 and 3.3 ">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:disabled="@{#listContains(doubleList, {2.2,3.3})}"/>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_sending" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <title>KEN: Sending a Notification</title>
+    <para>The Kuali Enterprise Notification system (KEN) provides for a way to programmatically
+        send a notification. An application may construct a notification using the KEN web
+        service API.</para>
+    <para>Alternatively, users can use the user interface (UI) to send notifications.</para>
+    <warning><para>When you send a notification, KEN generates a document for every person you send it to. So if
+            you send it to a work group or a role with n members, you'll instantaneously create n
+            number of workflow documents. Some workgroups or roles may have a huge number of members
+            so this feature needs to be taken into consideration.</para></warning>
+    <section>
+        <title>Send a Notification Using the Web Service API</title>
+        <para>To send a notification using the web service API, the notification must be
+            constructed as an XML document that validates against a schema for a specific
+            Content Type. For more detail, see the Notifications documentation. </para>
+        <para>To validate your notification XML, you must construct the XSD schema filename. To
+            construct this file name, append the Content Type value to <emphasis role="italic"
+                >ContentType</emphasis>. </para>
+        <para>For example, if you create a new Content Type for a library book overdue
+            notification, then the <emphasis role="italic">contentType</emphasis> element value
+            should be <emphasis role="italic">OverdueNotice</emphasis> and the schema file you
+            created for validation of the notification XML should be <emphasis role="bold"
+                >ContentTypeOverdueNotice.xsd</emphasis>. This XML schema should be declared as
+            a namespace in the <emphasis role="bold">content</emphasis> element of the
+            notification XML. Out of the box, KEN comes with <emphasis role="italic"
+                >Simple</emphasis> and <emphasis role="italic">Event</emphasis> Content
+            Types.</para>
+    </section>
+    <section>
+    <title>Send a Notification Using the UI</title>
+    <para>To send a notification via the user interface (UI), start at the Administration tab. 
+        </para>
+        <para>
+        <figure><title>Notification Window</title>
+        <mediaobject>
+            <imageobject>
+               <imagedata fileref="../images/KEN_Guide/notification_window.png" scalefit="1" width="100%" contentdepth="100%" />
+            </imageobject>
+        </mediaobject>
+        </figure>
+        In the Notification section there are 3 options:
+        <itemizedlist>
+            <listitem><para>Send Simple Notification</para></listitem>
+            <listitem><para>Send Event Notification</para></listitem>
+            <listitem><para>Manage Content Types</para></listitem>
+        </itemizedlist></para>
+        <para>Each of these options will be examined in the following sub sections.</para>
+        <section>
+            <title>Send Simple Notification</title>
+            <para>
+                <figure><title>Send Simple Notification</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEN_Guide/send_simple.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                Upon hitting <emphasis role="keyword">submit</emphasis>, any errors or a message "Notification(s) sent" will appear just above the dialog box.</para>
+            <para>To see the notification message that was sent, in this example, to the user "admin", after logging into the system as admin, click on the <emphasis role="keyword">action list</emphasis> button. 
+                Since the list is sorted in ascending date created order, you will find the message at the bottom of the list.
+                <figure><title>Action List 1</title><mediaobject><imageobject><imagedata fileref="../images/KEN_Guide/action_list1.png" scalefit="1" width="100%" contentdepth="100%"></imagedata></imageobject></mediaobject></figure>
+            </para>
+        </section>
+        <section>
+            <title>Send Event Notification</title>
+            <para>
+                <figure><title>Send Event Notification</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEN_Guide/event_notification.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                Upon hitting <emphasis role="keyword">submit</emphasis>, any errors or a message "Notification(s) sent" will appear just above the dialog box.</para>
+            <para>To see the notification message that was sent, in this example, to the user "admin", after logging into the system as admin, click on the <emphasis role="keyword">action list</emphasis> button. 
+                Since the list is sorted in ascending date created order, you will find the message at the bottom of the list.
+            </para><note><para>The action requested in this case is <emphasis role="bold">acknowledge</emphasis> instead of FYI. </para></note>
+                <figure><title>Action List 2</title><mediaobject><imageobject><imagedata fileref="../images/KEN_Guide/action_list2.png" scalefit="1" width="100%" contentdepth="100%"></imagedata></imageobject></mediaobject></figure>
+            <para>
+                Clicking on <emphasis role="keyword">Show</emphasis> will display additional information about the event as in the figure below.
+                <figure><title>Show Event Detail</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEN_Guide/event_detail.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                Clicking the <emphasis role="keyword">acknowledge</emphasis> button removes the event item from the action list, and places it in the Outbox for the user. 
+                Alternatively, clicking the <emphasis role="keyword">take actions</emphasis> button will take all the outstanding appropriate action for each item in the Action List. 
+                Clicking the <emphasis role="keyword">Outbox</emphasis> link will display the item there, as shown below. From here, the user can select the <emphasis role="keyword">Delete Item</emphasis> checkbox and click the <emphasis role="keyword">delete selected items</emphasis> button to remove it.
+                <figure><title>Outbox</title><mediaobject><imageobject><imagedata fileref="../images/KEN_Guide/outbox.png" scalefit="1" width="100%" contentdepth="100%"></imagedata></imageobject></mediaobject></figure>
+            </para>
+        </section>
+        <section>
+            <title>Manage Content Types</title>
+            <para>
+                Clicking on the Manage Content Types link brings up the following screen.
+                <figure><title>Content Type Manager</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEN_Guide/content_menu.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </para>
+            <para>Clicking on the <emphasis role="keyword">Update</emphasis> next to the <emphasis role="keyword">Simple</emphasis> entry 
+                brings up the following screen where XSD and XSL content may be updated.
+                <figure><title>Simple Content Type</title><mediaobject><imageobject><imagedata fileref="../images/KEN_Guide/content_simple.png" scalefit="1" width="100%" contentdepth="100%"></imagedata></imageobject></mediaobject></figure>
+            </para>
+            <para>Clicking on the <emphasis role="keyword">Update</emphasis> next to the <emphasis role="keyword">Event</emphasis> entry 
+                brings up the following screen where XSD and XSL content may be updated.
+                <figure><title>Event Content Type</title><mediaobject><imageobject><imagedata fileref="../images/KEN_Guide/content_event.png" scalefit="1" width="100%" contentdepth="100%"></imagedata></imageobject></mediaobject></figure>
+            </para>
+            <para>Clicking on the <emphasis role="keyword">Add New Content Type</emphasis> above the
+                table brings up the following screen where the new content type, its description,
+                namespace, and its associated XSD and XSL content may be added. <figure>
+                    <title>New Content Type</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEN_Guide/content_type_new.png"
+                                scalefit="1" width="100%" contentdepth="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title>Web Service URL</title>
+        <para>By default, the Notification Web Service API may be accessed at: <link
+            xlink:href="http://yourlocalip:8080/remoting/soap/ken/v2_0/sendNotificationService"
+            >http://yourlocalip:8080/remoting/soap/ken/v2_0/sendNotificationService</link></para>
+        <para>A WSDL may be obtained using the following URL: <link
+            xlink:href="http://yourlocalip:8080/remoting/soap/ken/v2_0/sendNotificationService?wsdl"
+            >http://yourlocalip:8080/remoting/soap/ken/v2_0/sendNotificationService?wsdl</link></para>
+        <note><para>In the URLs above, replace yourlocalip with the hostname where KEN is deployed.</para></note>
+    </section>
+    <section>
+        <title>Exposed Web Services</title>
+        <para>Initially, KEN exposes a web service method to send a notification. The <emphasis
+            role="italic">sendNotification</emphasis> method is a simple String In/String
+            Out method. It accepts one parameter (<emphasis role="italic"
+                >notificationMessageAsXml</emphasis>) and returns a notificationResponse as a
+            String. For the format of the response, see the <emphasis role="italic"><link linkend="notif_response">Notification
+                Response</link></emphasis> section of this document.</para>
+        <section>
+            <title>Calling the <emphasis role="italic">sendNotification</emphasis> Service from
+                JAVA</title>
+            <para>First, create a String that includes the XML content for the notification, as
+                described in the <link linkend="notif_content">Message Content</link> section of this document. In the
+                following example code, the XML representation of the notification is read as a
+                file from the file system in the main method, and the code calls the <emphasis
+                    role="italic">MySendNotification</emphasis> method to invoke the
+                Notification web service. </para>
+            <para>A SOAP style web services binding stub is available in the <emphasis
+                role="bold">notification.jar</emphasis> file. </para>
+            <para>You may use this code as a template for sending a notification using the web
+                service:</para>
+            <programlisting>package edu.cornell.library.notification;
+
+
+import org.apache.commons.io.IOUtils;
+import org.kuali.notification.client.ws.stubs.NotificationWebServiceSoapBindingStub;
+
+
+import java.io.IOException;
+
+import java.io.InputStream;
+import java.net.URL;
+
+
+public class MyNotificationWebServiceClient   {
+  private final  static String WEB_SERVICE_URL = "http://localhost:8080/notification/services/Notification";
+
+  public static void MySendNotification(String notificationMessageAsXml) throws Exception {
+    URL url = new URL(WEB_SERVICE_URL);
+    NotificationWebServiceSoapBindingStub stub = new NotificationWebServiceSoapBindingStub(url, null);
+    String responseAsXml = stub.sendNotification(notificationMessageAsXml);
+    // do something useful with the response
+    System.out.println(responseAsXml);
+  }
+
+  public static void main(String[] args) {
+    InputStream notificationXML = MyNotificationWebServiceClient.class.getResourceAsStream("webservice_notification.xml");
+    String notificationMessageAsXml = "";
+    try {
+      notificationMessageAsXml = IOUtils.toString(notificationXML);
+    } catch (IOException ioe) {
+      throw new RuntimeException("Error loading webservice_notification.xml");
+    }
+
+    try {
+      MySendNotification(notificationMessageAsXml);
+    } catch (Exception ioe) {
+      throw new RuntimeException("Error running webservice");
+    }
+  }
+
+}
+</programlisting>
+        </section>
+    </section>
+</chapter>

@@ -1,0 +1,178 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- Action demo -->
+  <bean id="Demo-Action-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoAction.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.element.Action"/>
+    <property name="docBookAnchor" value="d6813e6638"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-Action-Example1"/>
+        <ref bean="Demo-Action-Example2"/>
+        <ref bean="Demo-Action-Example3"/>
+        <ref bean="Demo-Action-Example4"/>
+        <ref bean="Demo-Action-Example5"/>
+        <ref bean="Demo-Action-Example6"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-Action-Example1"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Action-Example1 start-->
+        <bean parent="Uif-ActionLink" p:actionLabel="Action Link"
+              p:actionScript="alert('You clicked the link');"/>
+        <!-- ex:Demo-Action-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Pre submit -->
+  <bean id="Demo-Action-Example2"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Action-Example2 start-->
+        <bean parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:actionLabel="Pre submit returning true Link"
+              p:preSubmitCall="alert('Pre submit call was invoked, returning true');return true;"/>
+
+        <bean parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:actionLabel="Pre submit returning false Link"
+              p:preSubmitCall="alert('Pre submit call was invoked, returning false');return false;"/>
+        <!-- ex:Demo-Action-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Success Callback -->
+  <bean id="Demo-Action-Example3"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Action-Example3 start-->
+        <bean parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:actionLabel="Action Link success callback"
+              p:successCallback="alert('Refresh called successfully')"/>
+        <!-- ex:Demo-Action-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Validation -->
+  <bean id="Demo-Action-Example4"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="InputField 1"
+              p:propertyName="inputField1" p:required="true"/>
+        <!-- ex:Demo-Action-Example4 start-->
+        <bean parent="Uif-ActionLink" p:methodToCall="refresh"
+              p:actionLabel="Action Link with clientside validation"
+              p:performClientSideValidation="true"/>
+        <!-- ex:Demo-Action-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Images -->
+  <bean id="Demo-Action-Example5"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Action-Example5 start-->
+        <bean parent="Uif-ActionLink" p:actionLabel="Action Link with left image"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-ActionLink" p:actionLabel="Action Link with right image"
+              p:actionImagePlacement="RIGHT"
+              p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-Action-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Buttons -->
+  <bean id="Demo-Action-Example6"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Action-Example6 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="button"
+              p:id="ST-DemoButton" p:actionScript="alert('You clicked a button');"/>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Image BOTTOM"
+              p:actionImagePlacement="BOTTOM"
+              p:id="ST-DemoButtonImageBottom" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Image TOP"
+              p:actionImagePlacement="TOP"
+              p:id="ST-DemoButtonImageTop" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Image LEFT"
+              p:actionImagePlacement="LEFT"
+              p:id="ST-DemoButtonImageLeft" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Image RIGHT"
+              p:actionImagePlacement="RIGHT"
+              p:id="ST-DemoButtonImageRight" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton"
+              p:id="ST-DemoButtonImageOnly" p:actionScript="alert('You clicked a button');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Image Only button"
+                  p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Disabled Button"
+              p:id="ST-DemoButtonDisabled" p:methodToCall="foo" p:disabled="true"/>
+
+        <!-- ex:Demo-Action-Example6 end-->
+      </list>
+    </property>
+  </bean>
+</beans>

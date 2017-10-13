@@ -1,0 +1,1069 @@
+/**
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*********** General styles *****************************************************/
+
+.demo-sampleAppView {
+    min-height: 600px;
+}
+
+.demo-sampleAppView .uif-pageContentWrapper {
+    margin-left: 0;
+}
+
+.demo-sampleAppPage {
+    margin-right: 0;
+}
+
+.ui-accordion-header-icon {
+    display: none;
+}
+
+
+.ui-widget-content a {
+    color: #1150b0/*{fcContent}*/;
+}
+
+/*********** Home styles *******************************************************/
+.demo-sampleAppHomeView {
+    margin-bottom: -8px;
+}
+
+.demo-sampleAppHomeView .uif-pageHeader {
+    display: none;
+}
+
+.demo-sampleAppHomeView .demo-sampleAppPage {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding-top: 0;
+}
+
+.demo-sampleAppHomeView h2, .demo-sampleAppHomeView h3 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 1.7em;
+}
+
+.demo-sampleAppHome-splashWrapper {
+    background-image: url("../images/back-splash.png");
+    color: #FFFFFF;
+}
+
+.demo-sampleAppHome-splashContent, .demo-sampleAppHome-detailsSection, .demo-sampleAppHome-testimonialsContent {
+    margin-left: auto;
+    margin-right: auto;
+    width: 940px;
+}
+
+.demo-sampleAppHome-splashContent {
+    height: 300px;
+}
+
+.demo-sampleAppHome-splashContent h3 {
+    padding-top: 30px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: orange;
+    width: 430px;
+}
+
+.demo-sampleAppHome-splashContent .uif-instructionalMessage {
+    width: 430px;
+}
+
+.demo-tryItButton {
+    font-size: 1.1em;
+    border-radius: 4px;
+    padding: 9px 14px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #faa732;
+    *background-color: #f89406;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbb450), to(#f89406));
+    background-image: -webkit-linear-gradient(top, #fbb450, #f89406);
+    background-image: -o-linear-gradient(top, #fbb450, #f89406);
+    background-image: linear-gradient(to bottom, #fbb450, #f89406);
+    background-image: -moz-linear-gradient(top, #fbb450, #f89406);
+    background-repeat: repeat-x;
+    border-color: #f89406 #f89406 #ad6704;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr = '#fffbb450', endColorstr = '#fff89406', GradientType = 0);
+    filter: progid:dximagetransform.microsoft.gradient(enabled = false);
+    margin-top: 20px;
+}
+
+.demo-tryItButton:hover, .demo-tryItButton:focus {
+    background: #f89406 none;
+}
+
+.demo-mainGraphic {
+    background-image: url("../images/splashGraphic1.png");
+    height: 299px;
+    margin-left: 465px;
+    margin-top: -105px;
+    position: absolute;
+    width: 475px;
+}
+
+.demo-sampleAppHome-detailsSection h3 {
+    margin-top: 20px;
+}
+
+.demo-sampleAppHome-detailsSection .uif-boxLayoutVerticalItem {
+    margin-bottom: 0;
+}
+
+.demo-sampleAppHome-sellingPoint {
+    width: 300px;
+    margin-bottom: 0;
+}
+
+.demo-sampleAppHome-sellingPoint h4 {
+    color: #9F0132;
+    font-size: 1.3em;
+    margin-bottom: .6em;
+}
+
+.demo-sampleAppHome-sellingPoint .uif-instructionalMessage {
+    font-size: 1em;
+    margin-bottom: 0;
+    padding-left: 64px;
+    min-height: 64px;
+    background-position: left top;
+    background-repeat: no-repeat;
+
+}
+
+.demo-sampleAppHome-sellingPoint#KradSampleAppHome-Point2 .uif-instructionalMessage {
+    background-image: url("../images/sellingPoints-image1.png");
+}
+
+.demo-sampleAppHome-sellingPoint#KradSampleAppHome-Point1 .uif-instructionalMessage {
+    background-image: url("../images/sellingPoints-image2.png");
+}
+
+.demo-sampleAppHome-sellingPoint#KradSampleAppHome-Point4 .uif-instructionalMessage {
+    background-image: url("../images/sellingPoints-image3.png");
+}
+
+.demo-sampleAppHome-sellingPoint#KradSampleAppHome-Point3 .uif-instructionalMessage {
+    background-image: url("../images/sellingPoints-image4.png");
+}
+
+.demo-sampleAppHome-sellingPoint#KradSampleAppHome-Point6 .uif-instructionalMessage {
+    background-image: url("../images/sellingPoints-image5.png");
+}
+
+.demo-sampleAppHome-sellingPoint#KradSampleAppHome-Point5 .uif-instructionalMessage {
+    background-image: url("../images/sellingPoints-image6.png");
+}
+
+.demo-sampleAppHome-testimonialsWrapper {
+    background-image: url(../images/sectionShadow.png);
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-color: #F6F6F6;
+    padding-bottom: 10px;
+}
+
+.demo-sampleAppHome-testimonialsWrapper {
+    margin: 0;
+    padding: 0;
+    height: 160px;
+    margin-top: 25px;
+}
+
+.demo-sampleAppHome-testimonialsContent {
+    position: relative;
+}
+
+.demo-sampleAppHome-testimonialsContent h3 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.demo-sampleAppHome-testimonialsContent .uif-listGroup ul li {
+    border-bottom: 1px dotted #CCCCCC;
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-style: italic;
+}
+
+/*********** Component Library home *******************************************************/
+
+.demo-componentLibHome .demo-sampleAppPage {
+    padding-top: 25px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+.demo-componentLibHome .demo-sampleAppPage h2, div#ComponentLibraryHome .demo-sampleAppPage h3 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+.demo-componentLibHome .demo-sampleAppPage .uif-instructionalMessage {
+    font-size: 1em;
+}
+
+.demo-componentLibHome .demo-sampleAppPage ul.uif-listLayout {
+    margin-left: 1em;
+}
+
+.demo-componentLibHome .demo-sampleAppPage ul.uif-listLayout li {
+    list-style: disc inside;
+}
+
+.demo-componentLibHome .demo-sampleAppPage h3 {
+    background-image: url("../images/sprite-navIcons.png");
+    background-position: left top;
+    background-repeat: no-repeat, no-repeat;
+    background-color: transparent;
+    padding-left: 24px;
+    padding-top: 5px;
+}
+
+.demo-componentLibHome .demo-sampleAppPage div#ComponentLibraryHome-New h3 {
+    background-image: none;
+    padding-left: 0px;
+    padding-top: 0px;
+}
+
+/*********** Component Library styles *****************************************************/
+
+.demo-componentLibView .uif-viewHeader {
+    display: none;
+}
+
+.demo-componentLibView {
+    margin-left: auto;
+    margin-right: auto;
+    width: 940px;
+    margin-top: -7px;
+}
+
+.demo-componentLibView .demo-sampleAppPage {
+    padding-top: 25px;
+}
+
+.demo-componentLibView  .demo-sampleAppPage .uif-pageHeader {
+    min-height: 60px;
+}
+
+.demo-componentLibView .demo-sampleAppPage .uif-pageHeader select {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    width: 220px;
+}
+
+.uif-page > .uif-header-contentWrapper{
+    position: relative;
+}
+
+.uif-page > .uif-header-contentWrapper > .uif-header{
+    position: static;
+}
+
+.demo-componentLibView .demo-sampleAppPage > .uif-pageHeader > h2 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.demo-componentLibView > .uif-viewContentWrapper > .uif-pageContentWrapper {
+    float: left;
+    margin-left: 256px;
+    width: 700px;
+}
+
+/** Component Exhibit *********************************************************************/
+
+#ComponentLibrary-TabGroup{
+    margin-left: -5px;
+}
+
+#ComponentLibrary-TabGroup_tabs {
+    width: 100%;
+}
+
+#ComponentLibrary-TabGroup_tabs > div.ui-tabs-panel {
+    min-height: 200px;
+    overflow: hidden;
+    width: 72%;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    padding: 12px;
+    float: left;
+}
+
+#ComponentLibrary-TabGroup_tabList {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 20px;
+    position: absolute;
+    right: 0px;
+    width: 170px;
+}
+
+#ComponentLibrary-TabGroup_tabList .uif-validationImage {
+    display: none !important;
+}
+
+#ComponentLibrary-TabGroup_tabList li {
+    border-style: none !important;
+    padding-bottom: 2px;
+    padding-left: 16px;
+    padding-top: 2px;
+    margin-top: 0;
+    background-image: url("../images/widgetNavDivider.png");
+    background-position: 12px 0;
+    background-repeat: no-repeat;
+    margin-left: -14px;
+    border-radius: 0;
+    text-shadow: none;
+    text-decoration: none;
+    box-shadow: none;
+}
+
+#ComponentLibrary-TabGroup_tabList li:last-child{
+    background-image: url("../images/widgetNavDivider.png"), url("../images/widgetNavDivider.png");
+    background-position: 12px 0, 12px bottom;
+    background-repeat: no-repeat, no-repeat;
+}
+
+#ComponentLibrary-TabGroup_tabList li.ui-state-active {
+    background-color: #FFFFFF;
+    background-image: url("../images/widgetNavBorder.png"), url("../images/widgetNavBorder.png"), url("../images/widgetNavCorner.png");
+    background-position: 1px top, -2px bottom, left center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    border-style: none;
+    border-right: 1px solid #FFBC04 !important;
+    position: relative;
+    cursor: pointer !important;
+}
+
+#ComponentLibrary-TabGroup_tabList a:focus{
+    outline: thin dotted #333333;
+    outline-offset: -2px;
+}
+
+#ComponentLibrary-TabGroup_tabList a {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.85em;
+    color: #666666;
+    background: transparent !important;
+    padding: 0;
+    margin: 0;
+    line-height: 20px;
+    width: 100%;
+}
+
+#ComponentLibrary-TabGroup_tabList li.ui-state-active a {
+    color: black;
+}
+
+.demo-noTabs > div.ui-tabs > ul.ui-tabs-nav {
+    display: none;
+}
+
+.demo-noTabs > #ComponentLibrary-TabGroup_tabs > div.ui-tabs-panel {
+    width: 675px;
+    float: left;
+}
+
+
+#ComponentLibrary-TabGroup_tabList .ui-widget-header { background: none}
+
+
+
+
+.ui-widget-header {
+
+    background: #ffffff /*{bgColorHeader}*/ url("");
+
+}
+
+
+
+
+
+.demo-xLargeLibraryView > .uif-viewContentWrapper > .uif-pageContentWrapper{
+    width: 940px;
+    margin: 20px;
+}
+
+.demo-xLargeLibraryView div#Uif-Navigation{
+    display: none;
+}
+
+.demo-xLargeLibraryView .demo-noTabs > #ComponentLibrary-TabGroup_tabs > div.ui-tabs-panel{
+    width: 916px;
+}
+
+.demo-componentLibView .uif-pageHeader .uif-header-upperGroup{
+    display: none;
+}
+
+.demo-xLargeLibraryView .uif-pageHeader .uif-header-upperGroup{
+    display: block;
+    position: absolute;
+    top: -25px;
+}
+
+/**** Source code viewer *********************************************************/
+
+#ComponentLibrary-AdditionalCodeViewer1, #ComponentLibrary-AdditionalCodeViewer2{
+    display: none;
+}
+
+.demo-componentLibView .demo-sampleAppPage > div > .uif-syntaxHighlighter h3 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.demo-componentLibView .demo-sampleAppPage > div > .uif-syntaxHighlighter ol {
+    font-size: 12px;
+}
+
+/*********** Component Library Navigation *****************************************************/
+
+.demo-componentLibView .uif-viewContentWrapper {
+    margin-left: -20px;
+}
+
+.demo-componentLibView > .uif-viewContentWrapper > #Uif-Navigation {
+    float: left;
+    margin-left: 20px;
+    width: 220px;
+    background-image: url("../images/navShadow.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    min-height: 500px;
+    padding-bottom: 24px;
+    padding-top: 40px;
+}
+
+
+
+.demo-componentLibNav .ui-accordion-header {
+
+    background-image: url("../images/sprite-navIcons.png"), url("../images/navDivider.png");
+    background-position: left top;
+    background-repeat: no-repeat, no-repeat;
+    background-color: transparent;
+    border: medium none;
+    color: #666666;
+    cursor: pointer;
+    padding-bottom: 4px;
+    padding-left: 24px;
+    padding-top: 6.5px;
+    border: none;
+    border-radius: 0px;
+    text-decoration: none;
+}
+
+.demo-componentLibNav {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+
+.demo-componentLibNav .ui-accordion-header:hover {
+    text-decoration: none;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Elements'] > .ui-accordion-header,
+div#ComponentLibraryHome-Elements h3 {
+    background-position: 0 -258px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Controls'] > .ui-accordion-header,
+div#ComponentLibraryHome-Controls h3 {
+    background-position: 0 -192px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Fields'] > .ui-accordion-header,
+div#ComponentLibraryHome-Fields h3 {
+    background-position: 0 -324px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Containers'] > .ui-accordion-header,
+div#ComponentLibraryHome-Containers h3 {
+    background-position: 0 -126px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-LayoutManagers'] > .ui-accordion-header,
+div#ComponentLibraryHome-LayoutManagers h3 {
+    background-position: 0 -456px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Widgets'] > .ui-accordion-header,
+div#ComponentLibraryHome-Widgets h3 {
+    background-position: 0 -654px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Navigation'] > .ui-accordion-header,
+div#ComponentLibraryHome-Navigation h3 {
+    background-position: 0 -522px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-CollectionFeatures'] > .ui-accordion-header,
+div#ComponentLibraryHome-CollectionFeatures h3 {
+    background-position: 0 -60px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-Validation'] > .ui-accordion-header,
+div#ComponentLibraryHome-Validation h3 {
+    background-position: 0 -588px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-ClientResponsiveness'] > .ui-accordion-header,
+div#ComponentLibraryHome-ClientResponsiveness h3 {
+    background-position: 0 6px, 0 0;
+}
+
+[data-tabfor='ComponentLibrary-Nav-GeneralFeatures'] > .ui-accordion-header,
+div#ComponentLibraryHome-GeneralFeatures h3 {
+    background-position: 0 -390px, 0 0;
+}
+
+.demo-componentLibNav-subList {
+    padding: 0 !important;
+    background: none;
+}
+
+.demo-componentLibNav-subList > ul {
+    background-image: url("../images/navDivider.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    margin: 0;
+}
+
+.demo-componentLibNav-subList > ul > li {
+    list-style-image: url("../images/navBullet.png");
+    list-style-type: none;
+    margin-left: 36px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.demo-componentLibNav-subList a {
+    color: #666666;
+    vertical-align: middle;
+}
+
+/*********** Component Details Section/tabs *****************************************************/
+
+.demo-detailsGroup {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.demo-detailsGroup a {
+    color: #A30234 !important;
+}
+
+.demo-detailsGroup a:hover {
+    color: #A30234 !important;
+}
+
+.demo-detailsGroup p {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.demo-detailsGroup h3, .demo-detailsGroup h4 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background: none;
+}
+
+.demo-detailsGroup h3 img.uif-disclosure-image[alt="collapse"] {
+    background: url("../images/collapse-black.png") no-repeat scroll 0 0 transparent;
+}
+
+.demo-detailsGroup h3 img.uif-disclosure-image[alt="expand"] {
+    background: url("../images/expand-black.png") no-repeat scroll 0 0 transparent;
+}
+
+/**** All tab styles are done with important because difficulty to override from themes ***/
+
+.demo-componentDetailsTabs > div.ui-tabs > ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.demo-componentDetailsTabs > div.ui-tabs > ul > li {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 40px 0 0 !important;
+    box-shadow: none !important;
+}
+
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-active {
+    background: transparent !important;
+    border-bottom: 3px solid #CCC !important;
+    margin-bottom: -3px !important;
+}
+
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-default > a {
+    padding: 0 !important;
+    font-size: 18px !important;
+    color: #999 !important;
+    text-shadow: none !important;
+}
+
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-hover > a,
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-hover,
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-focus > a,
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-focus {
+    color: #999 !important;
+    background: transparent !important;
+}
+
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-active > a,
+.demo-componentDetailsTabs > div.ui-tabs > ul > li.ui-state-active.ui-state-hover > a {
+    background: transparent !important;
+    color: black !important;
+}
+
+.demo-componentDetailsTabs >  div.ui-tabs > .ui-tabs-panel {
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-top: 1px solid #CCC !important;
+    padding: 12px 0 0 0 !important;
+}
+
+/*********** Documentation tab *************************************************************/
+
+.demo-docLinks {
+    background-color: #F6F6F6;
+    border: 1px solid #CCCCCC;
+    display: block;
+    float: right;
+    height: 4em;
+    margin: 0 0 1em 1em;
+    padding: 1em;
+    width: 11em;
+}
+
+a.demo-documentationLink {
+    display: block;
+}
+
+.demo-schemaIdDocTable {
+    border-collapse: collapse;
+}
+
+.demo-schemaIdDocTable th {
+    font-weight: bold;
+    background-color: #F6F6F6;
+    border: 1px solid #CCCCCC;
+}
+
+.demo-schemaIdDocTable td {
+    border: 1px solid #CCCCCC;
+}
+
+.demo-propertyItem {
+    position: relative;
+}
+
+.demo-propertyName {
+    background-color: #F6F6F6;
+    padding: 5px 0 5px 5px;
+    border: 1px solid #CCCCCC;
+    font-size: 1.1em;
+}
+
+.demo-propertyType {
+    font-style: italic;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 6px;
+}
+
+.demo-propertyType a {
+    color: #A30234;
+    text-decoration: underline;
+}
+
+.demo-propertyDesc {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: .8em;
+}
+
+/*********** Application Header *****************************************************/
+
+.demo-appHeader {
+    background-color: black;
+    height: 56px;
+    width: 100%;
+}
+
+.demo-brand {
+    float: left;
+}
+
+.demo-brandLogo {
+    width: 170px;
+    height: 69px;
+    background-image: url(../images/logo.png);
+    position: absolute;
+    top: 0px;
+}
+
+.demo-headerFooterContainer {
+    width: 940px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.demo-appNavigation {
+    float: right;
+}
+
+.demo-appHeader .demo-appNavigation > li {
+    float: left;
+    text-transform: uppercase;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+
+.demo-appHeader .demo-appNavigation > li > a {
+    padding-top: 17px;
+    padding-right: 21px;
+    padding-bottom: 17px;
+    padding-left: 21px;
+    color: #999;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    display: block;
+    text-decoration: none;
+}
+
+.demo-appHeader .demo-appNavigation > li > a:hover,
+.demo-appHeader .demo-appNavigation > li > a:focus,
+.demo-appHeader .demo-appNavigation > li > a.active {
+    color: white;
+    text-decoration: none;
+}
+
+/*********** Application Footer *****************************************************/
+
+.demo-appFooter {
+    background: none repeat scroll 0 0 #000000;
+    color: #FFFFFF;
+    height: 64px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    display: none;
+}
+
+.demo-appFooter .demo-foundationInfo {
+    background-image: url("../images/logo-kuali.png");
+    background-position: 0 14px;
+    background-repeat: no-repeat;
+    padding-bottom: 22px;
+    padding-left: 40px;
+    padding-top: 22px;
+}
+
+.demo-appFooter .demo-poweredBy {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #999999;
+    font-size: 14px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.demo-appFooter a {
+    color: #999999;
+}
+
+.demo-appFooter a:hover {
+    color: #FFFFFF;
+}
+
+.demo-thirdTier {
+    background: #780126;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzc4MDEyNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhMzAyMzQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #780126 0%, #a30234 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #780126), color-stop(100%, #a30234));
+    background: -webkit-linear-gradient(top, #780126 0%, #a30234 100%);
+    background: -o-linear-gradient(top, #780126 0%, #a30234 100%);
+    background: -ms-linear-gradient(top, #780126 0%, #a30234 100%);
+    background: linear-gradient(to bottom, #780126 0%, #a30234 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#780126', endColorstr = '#a30234', GradientType = 0);
+    color: #FFFFFF;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    display: none;
+}
+
+.demo-thirdTier h2 {
+    font-size: 27px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: normal;
+}
+
+.demo-kradDescription {
+    width: 420px;
+    float: left;
+    margin-right: 20px;
+}
+
+.demo-kradDescription .demo-blurb {
+    color: #CCC;
+}
+
+.demo-thirdTier .demo-contactInfo ul li a {
+    background-image: url("../images/sprite-stayInTouch.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    padding-left: 22px;
+    padding-top: 8px;
+}
+
+.demo-thirdTier a#KradSampleAppHome-UserGroupLink {
+    background-position: 0 -190px;
+}
+
+.demo-thirdTier a#KradSampleAppHome-KualiGroupsLink {
+    background-position: 0 -190px;
+}
+
+.demo-thirdTier a#KradSampleAppHome-TweetLink {
+    background-position: 0 -126px;
+}
+
+.demo-thirdTier a#KradSampleAppHome-BugLink {
+    background-position: 0 8px;
+}
+
+.demo-thirdTier a#KradSampleAppHome-CollabLink {
+    background-position: 0 -58px;
+}
+
+.demo-contactInfo {
+    width: 240px;
+    float: left;
+    margin-right: 20px;
+}
+
+.demo-thirdTier ul li {
+    margin-bottom: 12px;
+}
+
+.demo-thirdTier ul li {
+    border-bottom: 1px dotted #A45971;
+    padding-bottom: 8px;
+    padding-top: 0;
+}
+
+.demo-thirdTier a {
+    color: lightGray !important;
+}
+
+.demo-tweets {
+    width: 240px;
+    float: left;
+
+}
+
+.tweet_text {
+    color: #888888;
+}
+
+.demo-thirdTier .tweet_list, .demo-thirdTier .tweet_even {
+    background-color: transparent;
+}
+
+.demo-tweets > div {
+    color: #CCC;
+}
+
+/*********** Demo view styles **********************************************************************/
+.demo-kradSampleAppDemo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 940px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
+}
+
+.demo-kradSampleAppDemo a {
+    color: #A30234;
+    font-weight: bold;
+}
+
+.demo-kradSampleAppDemo h2 {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.7em;
+}
+
+.demo-kradSampleAppDemo .uif-instructionalMessage {
+    max-width: 940px;
+    font-size: 1em;
+}
+
+.demo-demoRow {
+    margin-bottom: 10px;
+    margin-left: -20px;
+}
+
+.demo-demoGroup {
+    background-color: #F6F6F6;
+    background-position: 0 6px;
+    background-repeat: no-repeat;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px 3px 3px 3px;
+    min-height: 80px;
+    padding: 6px 6px 6px 76px;
+    width: 215px;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+.demo-demoGroup .uif-boxLayoutVerticalItem {
+    margin-bottom: 0;
+}
+
+.demo-demoGroup[data-type="inquiry"] {
+    background-image: url("../images/demo-inquiry.png");
+}
+
+.demo-demoGroup[data-type="maintenanceNew"] {
+    background-image: url("../images/demo-new.png");
+}
+
+.demo-demoGroup[data-type="maintenanceEdit"] {
+    background-image: url("../images/demo-edit.png");
+}
+
+.demo-demoGroup[data-type="lookup"] {
+    background-image: url("../images/demo-lookup.png");
+}
+
+/* example specific css */
+
+div#Demo-InputField-View div#ComponentLibrary-TabGroup_tabs > .ui-tabs-panel{
+    min-height: 290px;
+}
+
+div#Demo-RichMessages-View div#ComponentLibrary-TabGroup_tabs > .ui-tabs-panel{
+    min-height: 360px;
+}
+
+div#Demo-Suggest-View div#ComponentLibrary-TabGroup_tabs > .ui-tabs-panel{
+    min-height: 300px;
+}
+
+div#Demo-Breadcrumbs-View div#ComponentLibrary-TabGroup_tabs > .ui-tabs-panel{
+    min-height: 300px;
+}
+
+div#Demo-TableLayoutDetails-View input[type="text"], div#Demo-TableLayoutTotaling-View input[type="text"],
+div#Demo-TableLayoutGrouping-View input[type="text"]{
+    width: 10em;
+}
+
+div#Demo-BoxLayoutManager-View .demo-borderBottom{
+    border-bottom: 1px solid green !important;
+    padding-bottom: 5px;
+}
+
+.demo-outlineItem{
+    background-color: rgba(173,216,230, 0.4);
+    border: 1px dotted white;
+}
+
+.demo-outlineGroup{
+    border: 1px dashed gray;
+}
+
+.demo-sampleAppView .uif-pageContentWrapper{
+    padding: 0;
+}
+
+.demo-sampleAppView .uif-viewHeader{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.demo-even {
+    background-color: #00CC66;
+}
+
+.demo-odd {
+    background-color: #00CCFF;
+}
+
+.demo-border {
+    border: 1px solid black;
+    margin: -1px;
+    margin-left: -21px;
+}
+
+.demo-border > div[class*="span"] {
+    border-right: 1px solid black;
+    margin-right: -1px;
+}
+
+table.dataTable tr.demo-all {
+    color: white;
+    font-weight: bold;
+}
+
+table.dataTable tr.demo-all td {
+    background-color: transparent !important;
+}
+
+table.dataTable tr.demo-even {
+    background-color: #00CC66;
+}
+
+table.dataTable tr.demo-odd {
+    background-color: #00CCFF;
+}
+
+table.dataTable tr.demo-index2 {
+    background-color: #F4E271;
+}
+
+table.dataTable tr.demo-rowCondition {
+    font-style: italic;
+}
+
+

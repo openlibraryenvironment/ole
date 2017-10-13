@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoleMemberBo" parent="RoleMemberBo-parentBean"/>
+
+  <bean id="RoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.rice.kim.impl.role.RoleMemberBo" p:titleAttribute="id"
+        p:objectLabel="Role Member" p:inquiryDefinition-ref="RoleMemberBo-inquiryDefinition"
+        p:lookupDefinition-ref="RoleMemberBo-lookupDefinition">
+    <!--<property name="exporterClass" value="org.kuali.rice.kim.impl.jaxb.KimImporterAndExporter" />-->
+    <property name="attributes">
+      <list>
+        <ref bean="RoleMemberBo-roleId"/>
+        <ref bean="RoleMemberBo-id"/>
+        <ref bean="RoleMemberBo-memberId"/>
+        <!-- TODO: create entry for this  -->
+        <ref bean="RoleMemberBo-typeCode"/>
+        <ref bean="RoleMemberBo-activeFromDate"/>
+        <ref bean="RoleMemberBo-activeToDate"/>
+      </list>
+    </property>
+
+  </bean>
+
+  <bean id="RoleMemberBo-roleId" parent="RoleMemberBo-roleId-parentBean"/>
+  <bean id="RoleMemberBo-roleId-parentBean" parent="RoleBo-id" p:name="roleId"/>
+
+  <bean id="RoleMemberBo-id" parent="RoleMemberBo-id-parentBean"/>
+  <bean id="RoleMemberBo-id-parentBean" parent="AttributeDefinition" abstract="true" p:name="id"
+        p:forceUppercase="true" p:label="Role Member Identifier" p:shortLabel="Role Member Identifier" p:maxLength="40"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="RoleMemberBo-memberId" parent="RoleMemberBo-memberId-parentBean"/>
+  <bean id="RoleMemberBo-memberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberId"
+        p:forceUppercase="true" p:label="Member Identifier" p:shortLabel="Member Identifier" p:maxLength="40"
+        p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="RoleMemberBo-typeCode" parent="RoleMemberBo-typeCode-parentBean"/>
+  <bean id="RoleMemberBo-typeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="typeCode"
+        p:forceUppercase="true" p:label="Member Type Code" p:shortLabel="Type Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.kim.bo.options.MemberTypeValuesFinder"/>
+    </property>
+    <property name="optionsFinderClass" value="org.kuali.rice.kim.bo.options.MemberTypeValuesFinder"/>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+  </bean>
+
+  <bean id="RoleMemberBo-activeFromDate" parent="RoleMemberBo-activeFromDate-parentBean"/>
+  <bean id="RoleMemberBo-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+    <property name="label" value="Active From Date"/>
+    <property name="shortLabel" value="Active From Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+
+  <bean id="RoleMemberBo-activeToDate" parent="RoleMemberBo-activeToDate-parentBean"/>
+  <bean id="RoleMemberBo-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    <property name="name" value="activeToDate"/>
+    <property name="label" value="Active To Date"/>
+    <property name="shortLabel" value="Active To Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+
+  <bean id="RoleMemberBo-inquiryDefinition" parent="RoleMemberBo-inquiryDefinition-parentBean"/>
+
+  <bean id="RoleMemberBo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+        p:title="Person Group Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDateValue"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDateValue"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RoleMemberBo-lookupDefinition" parent="RoleMemberBo-lookupDefinition-parentBean"/>
+
+  <bean id="RoleMemberBo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition"
+        p:title="Role Member Lookup">
+    <property name="lookupableID" value="roleMemberImplLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>id</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="roleId" p:readOnly="true"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="memberId"/>
+        <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDateValue"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDateValue"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="roleId"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="memberId"/>
+        <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDateValue"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDateValue"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

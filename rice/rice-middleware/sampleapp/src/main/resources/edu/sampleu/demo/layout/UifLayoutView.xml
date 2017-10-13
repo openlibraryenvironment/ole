@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Layout View
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="stickyHeader" value="true"/>
+    <property name="headerText" value="Layout View"/>
+    <property name="entryPageId" value="UifLayoutView-Page1"/>
+    <property name="navigation">
+      <ref bean="UifLayoutView-Menu"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="UifLayoutView-Page1" p:headerText="Basic Layouts - Box">
+          <property name="items">
+            <list>
+              <ref bean="UifLayoutView-BoxSection1"/>
+              <ref bean="UifLayoutView-BoxSection2"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Page" p:id="UifLayoutView-Page2" p:headerText="Nested Layouts - Box">
+          <property name="items">
+            <list>
+              <ref bean="UifLayoutView-BoxHorizontalNestedVertical"/>
+              <ref bean="UifLayoutView-BoxVerticalNestedHorizontal"/>
+              <ref bean="UifLayoutView-BoxNestedControls"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Page" p:id="UifLayoutView-Page3" p:headerText="Basic Layout - Grid">
+          <property name="items">
+            <list>
+              <ref bean="gridGroup-1"/>
+              <ref bean="gridGroup-2"/>
+              <ref bean="gridGroup-3"/>
+              <ref bean="gridGroup-4"/>
+              <ref bean="gridGroup-5"/>
+
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Page" p:id="UifLayoutView-Page4" p:headerText="Nested Layouts - Grid">
+          <property name="items">
+            <list>
+              <ref bean="gridGroupNested-1"/>
+              <ref bean="gridGroupNested-2"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-Page" p:id="UifLayoutView-Page5" p:headerText="Table Layouts - MultiRow">
+          <property name="items">
+            <list>
+              <ref bean="tableLayoutMultiRow-1"/>
+              <ref bean="tableLayoutMultiRow-2"/>
+              <!--              <ref bean="tableLayoutMultiRow-3"/>-->
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Layout View Menu
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-Menu" parent="Uif-TabNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="UifLayoutView-Page1"
+              p:actionLabel="Basic Layouts - Box"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="UifLayoutView-Page2"
+              p:actionLabel="Nested Layouts - Box"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="UifLayoutView-Page3"
+              p:actionLabel="Basic Layouts - Grid"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="UifLayoutView-Page4"
+              p:actionLabel="Nested Layouts - Grid"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="UifLayoutView-Page5"
+              p:actionLabel="Table Layouts - MultiRow"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="TextAreaTestField" parent="Uif-InputField"
+        abstract="true" p:label="Field Label" p:labelPlacement="TOP"
+        p:instructionalText="Instructions Instructions Instructions" p:constraintText="Constraint text"
+        p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false"
+        p:required="true">
+    <property name="control">
+      <bean parent="Uif-TextAreaControl" p:textExpand="true" p:rows="5"
+            p:cols="40" p:watermarkText="Text Here..."/>
+    </property>
+  </bean>
+
+  <bean id="TestInputField" parent="Uif-InputField-LabelTop" abstract="true" p:label="Field Label" p:required="true"
+        p:instructionalText="Instructions Instructions Instructions" p:constraintText="Constraint text">
+    <property name="control">
+      <bean parent="Uif-TextControl" p:size="30" p:watermarkText="Enter Data"/>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Layout View Box Layout Vertical
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxSection1" parent="Uif-Disclosure-VerticalBoxSection"
+        p:layoutManager.orientation="VERTICAL">
+    <property name="headerText" value="Box Layout Vertical"/>
+    <property name="instructionalText" value="Items are rendered one after another vertically down the page"/>
+    <property name="items">
+      <list>
+        <bean parent="TestInputField" p:propertyName="field1"/>
+        <bean parent="TestInputField" p:propertyName="field2"/>
+        <bean parent="TestInputField" p:propertyName="field3"/>
+        <bean parent="TestInputField" p:propertyName="field4"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Layout View Box Layout Horizontal
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxSection2" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="headerText" value="Box Layout Horizontal"/>
+    <property name="instructionalText"
+              value="Items are rendered horizontally to fill the available room, then wrap down. Adjust the window size to see the wrapping"/>
+    <property name="items">
+      <list>
+        <bean parent="UifLayoutView-BoxHorizontal1"/>
+        <bean parent="UifLayoutView-BoxHorizontal2"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Layout View Box Layout 1
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxHorizontal1" parent="Uif-HorizontalBoxSection">
+    <property name="headerText" value="Box Layout 3 Across"/>
+    <property name="items">
+      <list>
+        <bean parent="TestInputField" p:propertyName="field5"/>
+        <bean parent="TestInputField" p:propertyName="field6"/>
+        <bean parent="TestInputField" p:propertyName="field7"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           UIF Layout View Box Layout 2
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxHorizontal2" parent="Uif-HorizontalBoxSection">
+    <property name="headerText" value="Box Layout 8 Across"/>
+    <property name="items">
+      <list>
+        <bean parent="TestInputField" p:propertyName="field13"/>
+        <bean parent="TestInputField" p:propertyName="field14"/>
+        <bean parent="TestInputField" p:propertyName="field15"/>
+        <bean parent="TestInputField" p:propertyName="field16"/>
+        <bean parent="TestInputField" p:propertyName="field17"/>
+        <bean parent="TestInputField" p:propertyName="field18"/>
+        <bean parent="TestInputField" p:propertyName="field19"/>
+        <bean parent="TestInputField" p:propertyName="field20"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                       UIF Layout View Box Layout Horizontal with Nested Vertical Groups
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxHorizontalNestedVertical" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="headerText" value="Box Layout Horizontal with Nested Vertical Groups"/>
+    <property name="instructionalText"
+              value="Box layouts are nested with different orientations to form complex layouts. Here groups with vertical orientation are nested within horizontal group."/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field1"/>
+              <bean parent="TestInputField" p:propertyName="field2"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field3"/>
+              <bean parent="TestInputField" p:propertyName="field4"/>
+              <bean parent="TestInputField" p:propertyName="field5"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field6"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                       UIF Layout View Box Layout Vertical with Nested Horizontal Groups
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxVerticalNestedHorizontal" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="headerText" value="Box Layout Vertical with Nested Horizontal Groups"/>
+    <property name="instructionalText"
+              value="In this case we have nested groups with horizontal orientation inside a vertically orientated group."/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field7"/>
+              <bean parent="TestInputField" p:propertyName="field8"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field9"/>
+              <bean parent="TestInputField" p:propertyName="field10"/>
+              <bean parent="TestInputField" p:propertyName="field11"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field12"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                       UIF Layout View Box Layout Nested with Various Controls
+  ********************************************************************************************************************
+  -->
+  <bean id="UifLayoutView-BoxNestedControls" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="headerText" value="Box Layout Nested with Various Controls"/>
+    <property name="instructionalText"
+              value="Here box layouts are nested more than one level and we are using various controls and label placement."/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field13" p:label="Field Label">
+                <property name="control">
+                  <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-HorizontalBoxGroup"
+                    p:layoutManager.itemStyleClasses="boxLayoutHorizontalItem-tight">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField" p:propertyName="bField1" p:label="Field Label">
+                      <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-InputField" p:propertyName="bField2" p:label="Field Label">
+                      <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-InputField" p:propertyName="bField3" p:label="Field Label">
+                      <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                      </property>
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+
+              <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Select All"
+                          p:actionScript="alert('You clicked a button');"/>
+                    <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Select None"
+                          p:actionScript="alert('You clicked a button');"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-HorizontalBoxGroup"
+                    p:layoutManager.itemStyleClasses="boxLayoutHorizontalItem-tight">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField" p:propertyName="field14" p:label="Field Label">
+                      <property name="control">
+                        <bean parent="Uif-TextControl" p:size="15"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Action"
+                          p:actionScript="alert('You clicked a button');"/>
+                  </list>
+                </property>
+              </bean>
+
+              <bean parent="Uif-HorizontalBoxGroup"
+                    p:layoutManager.itemStyleClasses="boxLayoutHorizontalItem-tight">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField" p:propertyName="field15" p:label="Field Label">
+                      <property name="control">
+                        <bean parent="Uif-TextControl" p:size="4"/>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-Message" p:messageText="* message here"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field16" p:label="Field Label">
+                <property name="control">
+                  <bean parent="Uif-DropdownControl"/>
+                </property>
+                <property name="optionsFinder">
+                  <bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="field17" p:label="Field Label">
+                      <property name="control">
+                        <bean parent="Uif-DateControl" p:size="30"/>
+                      </property>
+                    </bean>
+                    <bean parent="TestInputField" p:propertyName="field18"/>
+                    <bean parent="TestInputField" p:propertyName="field19"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--  <bean id="horizontalWithVerticalGroups-2" parent="Uif-VerticalBoxSection"
+    p:layoutManager.orientation="HORIZONTAL">
+    <property name="headerText" value="Section Title"/>
+    <property name="instructionalText" value="Horizontal layout with 3 vertical groupings"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+    <list>
+    <bean parent="vertical-Section1"/>
+    <bean parent="vertical-Section1"/>
+    <bean parent="vertical-Section1"/>
+    </list>
+    </property>
+    </bean>-->
+
+  <!--  <bean id="verticalWithHorizontalGroups-1" parent="Uif-VerticalBoxSection"
+    p:layoutManager.orientation="HORIZONTAL">
+    <property name="headerText" value="Section Title"/>
+    <property name="instructionalText" value="Vertical layout with 2 horizontal groupings"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+    <list>
+    <bean parent="horizontal-Section2"/>
+    <bean parent="horizontal-Section3"/>
+    </list>
+    </property>
+    </bean>-->
+
+  <bean id="gridGroup-1" parent="Uif-GridSection">
+    <property name="headerText" value="Section Title"/>
+    <property name="instructionalText" value="GroupGridLayout default settings"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+      <list>
+        <bean parent="TestInputField" p:propertyName="field25"/>
+        <bean parent="TextAreaTestField" p:propertyName="field26"/>
+        <bean parent="TestInputField" p:propertyName="field27"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="gridGroup-2" parent="Uif-GridSection">
+    <property name="headerText" value="Section Title"/>
+    <property name="layoutManager.numberOfColumns" value="4"/>
+    <property name="instructionalText" value="GroupGridLayout number of columns = 4"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+      <list>
+        <bean parent="TestInputField" p:propertyName="field28"/>
+        <bean parent="TextAreaTestField" p:propertyName="field29"/>
+        <bean parent="TestInputField" p:propertyName="field30"/>
+        <bean parent="TextAreaTestField" p:propertyName="field31"/>
+        <bean parent="TestInputField" p:propertyName="field32"/>
+        <bean parent="TextAreaTestField" p:propertyName="field33"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="gridGroup-3" parent="Uif-GridSection">
+    <property name="headerText" value="Section Title"/>
+    <property name="layoutManager.numberOfColumns" value="4"/>
+    <property name="instructionalText"
+              value="GroupGridLayout number of columns = 4, fields have colspan settings"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+      <list>
+        <bean parent="TestInputField" p:propertyName="field34"/>
+        <bean parent="TextAreaTestField" p:propertyName="field35"/>
+        <bean parent="TestInputField" p:instructionalText="Colspan 2"
+              p:propertyName="field36" p:colSpan="2" p:fieldLabel.colSpan="2"/>
+        <bean parent="TextAreaTestField" p:instructionalText="Colspan 3"
+              p:propertyName="field37" p:colSpan="3" p:fieldLabel.colSpan="1"/>
+        <bean parent="TestInputField" p:instructionalText="Colspan 2"
+              p:propertyName="field38" p:colSpan="2" p:fieldLabel.colSpan="2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="gridGroup-4"
+        parent="Uif-GridGroup"
+        p:title="Title"
+        p:instructionalText="GridGroup Layout number of columns 2"
+        p:layoutManager.numberOfColumns="2"
+        p:layoutManager.renderAlternatingHeaderColumns="false"
+        p:width="85%">
+    <property name="items">
+      <list>
+        <bean parent="Uif-VerticalBoxSection" p:rowSpan="5">
+          <property name="items">
+            <list>
+              <bean parent="TextAreaTestField" p:propertyName="field35" p:instructionalText="RowSpan 5"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+  <bean id="gridGroup-5"
+        parent="Uif-GridGroup"
+        p:title="Title"
+        p:instructionalText="GridGroup Layout number of columns 3 and multiple rowspans and colspans"
+        p:layoutManager.numberOfColumns="3"
+        p:layoutManager.renderAlternatingHeaderColumns="false"
+        p:width="85%">
+    <property name="items">
+      <list>
+        <bean parent="Uif-VerticalBoxSection" p:rowSpan="2">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34" p:instructionalText="RowSpan 2"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection" p:rowSpan="3">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34" p:instructionalText="RowSpan 3"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34" p:instructionalText="ColSpan 2"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="TestInputField" p:propertyName="field34"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="gridGroupNested-1" parent="Uif-GridSection">
+    <property name="headerText" value="Section Title"/>
+    <property name="layoutManager.numberOfColumns" value="2"/>
+    <property name="instructionalText"
+              value="GroupGridLayout 2 columns with two nested groups"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+      <list>
+        <bean parent="gridGroup-1"/>
+        <bean parent="gridGroup-1"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="gridGroupNested-2" parent="Uif-GridSection">
+    <property name="headerText" value="Section Title"/>
+    <property name="instructionalText"
+              value="GroupGridLayout default settings, 2 nested groups"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="cssClasses" value="group_header"/>
+    <property name="items">
+      <list>
+        <bean parent="gridGroup-2"/>
+        <bean parent="gridGroup-3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="tableLayoutMultiRow-1" parent="Uif-VerticalBoxGroup">
+    <property name="items">
+      <list>
+        <bean id="collection1-generated" parent="Uif-Disclosure-TableCollectionSection"
+              p:layoutManager.numberOfColumns="2" p:layoutManager.suppressLineWrapping="false">
+          <property name="headerText" value="Collection Group - 10 items"/>
+          <property name="instructionalText"
+                    value="This is a table based layout of a collection.Number of columns is 2 and collection line size is 4 - CollectionGroupTableLayout"/>
+          <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+          <property name="propertyName" value="list1generated"/>
+          <property name="layoutManager.sequencePropertyName" value="field1"/>
+          <property name="layoutManager.generateAutoSequence" value="false"/>
+          <property name="layoutManager.sequenceFieldPrototype">
+            <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+          </property>
+          <property name="layoutManager.richTable.render" value="false"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2" p:required="true"
+                    p:constraintText="Requires Field 1 be filled out">
+                <property name="dependencyConstraints">
+                  <list>
+                    <bean parent="PrerequisiteConstraint" p:propertyName="field1"/>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3" p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="bfield" p:label="SubField 4"
+                    p:required="true">
+                <property name="control">
+                  <bean parent="Uif-CheckboxControl">
+                    <property name="onChangeScript" value="alert('checkbox clicked')"/>
+                  </bean>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="tableLayoutMultiRow-2" parent="Uif-VerticalBoxGroup">
+    <property name="items">
+      <list>
+        <bean id="collection2-generated" parent="Uif-Disclosure-TableCollectionSection"
+              p:layoutManager.numberOfColumns="3" p:layoutManager.suppressLineWrapping="false">
+          <property name="headerText" value="Collection Group - 10 items"/>
+          <property name="instructionalText"
+                    value="This is a table based layout of a collection.Number of columns is 3 and collection line size is 4 - CollectionGroupTableLayout"/>
+          <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+          <property name="propertyName" value="list1generated"/>
+          <property name="layoutManager.sequencePropertyName" value="field1"/>
+          <property name="layoutManager.generateAutoSequence" value="false"/>
+          <property name="layoutManager.sequenceFieldPrototype">
+            <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+          </property>
+          <property name="layoutManager.richTable.render" value="false"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2" p:required="true"
+                    p:constraintText="Requires Field 1 be filled out">
+                <property name="dependencyConstraints">
+                  <list>
+                    <bean parent="PrerequisiteConstraint" p:propertyName="field1"/>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3" p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="bfield" p:label="SubField 4"
+                    p:required="true">
+                <property name="control">
+                  <bean parent="Uif-CheckboxControl">
+                    <property name="onChangeScript" value="alert('checkbox clicked')"/>
+                  </bean>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO this example no longer works -->
+
+  <!--  <bean id="tableLayoutMultiRow-3" parent="Uif-VerticalBoxGroup">
+      <property name="items">
+        <list>
+          <bean id="collection3-generated" parent="Uif-Disclosure-TableCollectionSection"
+                p:layoutManager.numberOfColumns="3" p:layoutManager.suppressLineWrapping="false">
+            <property name="headerText" value="Collection Group - 10 items"/>
+            <property name="instructionalText"
+                      value="This is a table based layout of a collection.Number of columns is 3 and collection line size is 4 - CollectionGroupTableLayout"/>
+            <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+            <property name="propertyName" value="list1generated"/>
+            <property name="layoutManager.sequencePropertyName" value="field1"/>
+            <property name="layoutManager.generateAutoSequence" value ="false"/>
+            <property name="layoutManager.sequenceFieldPrototype">
+              <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+            </property>
+            <property name="layoutManager.richTable.render" value="false"/>
+            <property name="items">
+              <list>
+                <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true" p:colSpan="2"
+                      p:instructionalText="Field1 has a colspan of 2"/>
+                <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2" p:required="true"
+                      p:constraintText="Requires Field 1 be filled out">
+                  <property name="dependencyConstraints">
+                    <list>
+                      <bean parent="PrerequisiteConstraint" p:propertyName="field1"/>
+                    </list>
+                  </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3" p:required="true" p:rowSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="bfield" p:label="SubField 4"
+                      p:required="true">
+                  <property name="control">
+                    <bean parent="Uif-CheckboxControl">
+                      <property name="onChangeScript" value="alert('checkbox clicked')"/>
+                    </bean>
+                  </property>
+                </bean>
+              </list>
+            </property>
+          </bean>
+        </list>
+      </property>
+    </bean>-->
+</beans>

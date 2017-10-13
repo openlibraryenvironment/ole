@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>ChartOrgDataAttribute</name>
+      <label>ChartOrgDataAttribute</label>
+      <className>org.kuali.workflow.workgroup.TestChartOrgDataAttribute</className>
+      <type>ExtensionAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+  <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+    <group>
+      <name>WGWithExtData</name>
+      <type>
+        <name>ChartOrgWorkgroup</name>
+        <namespace></namespace>
+      </type>
+      <attributes>
+        <attribute key="chart" value="BL"/>
+        <attribute key="org" value="BUS"/>
+        <!-- <extension attribute="ChartOrgDataAttribute">
+          <data key="chart">BL</data>
+          <data key="org">BUS</data>
+        </extension>-->
+      </attributes>
+      <members>
+        <principalName>user3</principalName>
+      </members>
+    </group>
+  </groups>
+</data>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DocRole" parent="DocRole-parentBean"/>
+
+  <bean id="DocRole-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.PersonDocumentRole" p:titleAttribute="roleId" p:objectLabel="Person Role" p:inquiryDefinition-ref="DocRole-inquiryDefinition" p:lookupDefinition-ref="DocRole-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocRole-roleId"/>
+        <ref bean="DocRole-kimTypeId"/>
+        <ref bean="DocRole-roleName"/>
+        <ref bean="DocRole-namespaceCode"/>
+        <ref bean="DocRole-kimRoleType.name"/>
+        <ref bean="DocRole-kimRoleType.kimTypeServiceName"/>
+      </list>
+    </property>
+    
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="kimRoleType"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="kimTypeId" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="kimRoleType.name" p:targetName="name"/>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="kimRoleType.serviceName" p:targetName="serviceName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    
+    
+  </bean>
+ 
+   <bean id="DocRole-roleId" parent="DocRole-roleId-parentBean"/>
+  <bean id="DocRole-roleId-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleId" p:forceUppercase="true" p:label="Role" p:shortLabel="Role" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+  
+  <bean id="DocRole-kimTypeId" parent="DocRole-kimTypeId-parentBean"/>
+  <bean id="DocRole-kimTypeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="kimTypeId" p:forceUppercase="true" p:label="Type" p:shortLabel="Type" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
+  <bean id="DocRole-roleName" parent="DocRole-roleName-parentBean"/>
+  <bean id="DocRole-roleName-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleName" p:forceUppercase="true" p:label="Name" p:shortLabel="Name" p:maxLength="80" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+    <bean id="DocRole-kimRoleType.name" parent="DocRole-kimRoleType.name-parentBean"/>
+
+  <bean id="DocRole-kimRoleType.name-parentBean" abstract="true" parent="KimType-name">
+    <property name="name" value="kimRoleType.name"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Type"/>
+  </bean>
+   
+   
+  <bean id="DocRole-namespaceCode" parent="DocRole-namespaceCode-parentBean"/>
+  <bean id="DocRole-namespaceCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="namespaceCode" p:forceUppercase="true" p:label="Namespace Code" p:shortLabel="Namespace Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+   
+   
+   
+<bean id="DocRole-kimRoleType.kimTypeServiceName" parent="DocRole-kimRoleType.kimTypeServiceName-parentBean"/>
+
+  <bean id="DocRole-kimRoleType.kimTypeServiceName-parentBean" abstract="true" parent="KimType-kimTypeServiceName">
+    <property name="name" value="kimRoleType.serviceName"/>
+    <property name="label" value="Service Name"/>
+    <property name="shortLabel" value="Service Name"/>
+  </bean>
+  
+  
+  <bean id="DocRole-inquiryDefinition" parent="DocRole-inquiryDefinition-parentBean"/>
+
+  <bean id="DocRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Role Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="roleId"/>
+              <bean parent="FieldDefinition" p:attributeName="roleName"/>
+              <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocRole-lookupDefinition" parent="DocRole-lookupDefinition-parentBean"/>
+
+  <bean id="DocRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Role Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>roleId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="roleId"/>
+        <bean parent="FieldDefinition" p:attributeName="roleName"/>
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="roleId"/>
+        <bean parent="FieldDefinition" p:attributeName="roleName"/>
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

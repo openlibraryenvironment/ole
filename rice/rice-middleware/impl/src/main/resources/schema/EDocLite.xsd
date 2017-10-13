@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns:ed="ns:workflow/EDocLite"
+        targetNamespace="ns:workflow/EDocLite"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+ 
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+ 
+      http://www.opensource.org/licenses/ecl1.php
+ 
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      EDocLite content schema
+    </documentation>
+  </annotation>
+
+  <!-- defined this in a separate file for clarity -->
+  <include schemaLocation="resource:EDocLiteDef"/>
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+  <import namespace="http://www.w3.org/1999/XSL/Transform" schemaLocation="resource:schema-for-xslt20"/>
+
+  <!-- root workgroups element made up of workgroups type -->
+  <element name="edoclite">
+    <complexType>
+      <sequence>
+	    <element ref="ed:edl" minOccurs="0" maxOccurs="unbounded"/>
+	    
+        <element name="style" type="ed:StyleType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 The XSLT stylesheet for this EDL.	
+        		</documentation>
+        	</annotation>
+        </element>
+        <element name="association" type="ed:AssociationType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 Defines the association between an edl, style, and documentType.
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="AssociationType">
+    <all>
+      <element name="docType" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 The type of the document in the routing process.
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="definition" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 the deinitaion for the association type.
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="style" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The style uses for the association type.
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="active" type="boolean" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The indicator of whether the association type is in use or not.
+      		</documentation>
+      	</annotation>
+      </element>
+    </all>
+  </complexType>
+
+  <complexType name="StyleType">
+    <sequence>
+      <element ref="xsl:stylesheet" minOccurs="1">
+      	<annotation>
+      		<documentation>
+             Reference source for the style type.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+    <attribute name="name" type="c:ShortStringType" use="required">
+    	<annotation>
+    		<documentation>
+    		 Name of the style type.
+    		</documentation>
+    	</annotation>
+    </attribute>
+  </complexType>
+</schema>

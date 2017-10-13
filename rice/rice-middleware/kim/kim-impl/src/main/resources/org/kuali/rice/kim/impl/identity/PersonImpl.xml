@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  
+
+  <bean id="PersonImpl" parent="PersonImpl-parentBean"/>
+
+  <bean id="PersonImpl-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.rice.kim.impl.identity.PersonImpl" p:titleAttribute="principalId"
+        p:objectLabel="Person" p:inquiryDefinition-ref="PersonImpl-inquiryDefinition"
+        p:lookupDefinition-ref="PersonImpl-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="PersonImpl-campusCode"/>
+        <ref bean="PersonImpl-emailAddress"/>
+        <ref bean="PersonImpl-entityId"/>
+        <ref bean="PersonImpl-firstName"/>
+        <ref bean="PersonImpl-lastName"/>
+        <ref bean="PersonImpl-middleName"/>
+        <ref bean="PersonImpl-name"/>
+        <ref bean="PersonImpl-phoneNumber"/>
+        <ref bean="PersonImpl-principalId"/>
+        <ref bean="PersonImpl-principalName"/>
+        <ref bean="PersonImpl-primaryDepartmentCode"/>
+        <ref bean="PersonImpl-employeeStatusCode"/>
+        <ref bean="PersonImpl-employeeTypeCode"/>
+        <ref bean="PersonImpl-employeeId"/>
+        <ref bean="PersonImpl-active"/>
+        <ref bean="PersonImpl-lookupRoleName"/>
+        <ref bean="PersonImpl-lookupRoleNamespaceCode"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <!-- 
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="campus"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="code"/>
+                </list>
+              </property>
+            </bean>
+          -->
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="employeeStatus"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="employeeStatusCode" p:targetName="code"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="employeeType"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="employeeTypeCode" p:targetName="code"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: use campus parent bean once imported into Rice -->
+  <bean id="PersonImpl-campusCode" parent="PersonImpl-campusCode-parentBean"/>
+  <bean id="PersonImpl-campusCode-parentBean" parent="Campus-code" abstract="true" p:name="campusCode"
+        p:required="false">
+  </bean>
+
+  <bean id="PersonImpl-emailAddress" parent="PersonImpl-emailAddress-parentBean"/>
+  <bean id="PersonImpl-emailAddress-parentBean" parent="AttributeReferenceDummy-emailAddress" abstract="true"
+        p:name="emailAddress" p:forceUppercase="false" p:label="Email Address"/>
+
+  <bean id="PersonImpl-entityId" parent="PersonImpl-entityId-parentBean"/>
+  <bean id="PersonImpl-entityId-parentBean" parent="KimBaseBeans-entityId" abstract="true"/>
+
+  <bean id="PersonImpl-firstName" parent="PersonImpl-firstName-parentBean"/>
+  <bean id="PersonImpl-firstName-parentBean" parent="AttributeDefinition" abstract="true" p:name="firstName"
+        p:forceUppercase="false" p:label="First Name" p:shortLabel="First Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-lastName" parent="PersonImpl-lastName-parentBean"/>
+  <bean id="PersonImpl-lastName-parentBean" parent="AttributeDefinition" abstract="true" p:name="lastName"
+        p:forceUppercase="false" p:label="Last Name" p:shortLabel="Last Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-middleName" parent="PersonImpl-middleName-parentBean"/>
+  <bean id="PersonImpl-middleName-parentBean" parent="AttributeDefinition" abstract="true" p:name="middleName"
+        p:forceUppercase="false" p:label="Middle Name" p:shortLabel="Middle Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-name" parent="PersonImpl-name-parentBean"/>
+  <bean id="PersonImpl-name-parentBean" parent="AttributeDefinition" abstract="true" p:name="name"
+        p:forceUppercase="false" p:label="Name" p:shortLabel="Name" p:maxLength="123" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-phoneNumber" parent="PersonImpl-phoneNumber-parentBean"/>
+  <bean id="PersonImpl-phoneNumber-parentBean" parent="AttributeDefinition" abstract="true" p:name="phoneNumber"
+        p:forceUppercase="false" p:label="Phone Number" p:shortLabel="Phone Number" p:maxLength="20" p:required="false">
+    <property name="validationPattern">
+      <bean parent="PhoneNumberValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-primaryDepartmentCode" parent="PersonImpl-primaryDepartmentCode-parentBean"/>
+  <bean id="PersonImpl-primaryDepartmentCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="primaryDepartmentCode" p:forceUppercase="true" p:label="Primary Department Code"
+        p:shortLabel="Primary Department Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-employeeStatusCode" parent="PersonImpl-employeeStatusCode-parentBean"/>
+  <bean id="PersonImpl-employeeStatusCode-parentBean" parent="EmploymentStatus-employmentStatusCode" abstract="true"
+        p:name="employeeStatusCode" p:required="false"/>
+
+  <bean id="PersonImpl-employeeTypeCode" parent="PersonImpl-employeeTypeCode-parentBean"/>
+  <bean id="PersonImpl-employeeTypeCode-parentBean" parent="EmploymentType-employmentTypeCode" abstract="true"
+        p:name="employeeTypeCode" p:required="false"/>
+
+  <bean id="PersonImpl-employeeId" parent="PersonImpl-employeeId-parentBean"/>
+  <bean id="PersonImpl-employeeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="employeeId"
+        p:forceUppercase="true" p:label="Employee ID" p:shortLabel="Emp ID" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="12"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-principalId" parent="PersonImpl-principalId-parentBean"/>
+  <bean id="PersonImpl-principalId-parentBean" parent="KimBaseBeans-principalId" abstract="true"/>
+
+  <bean id="PersonImpl-principalName" parent="PersonImpl-principalName-parentBean"/>
+  <bean id="PersonImpl-principalName-parentBean" parent="KimBaseBeans-principalName" abstract="true"/>
+
+  <bean id="PersonImpl-active" parent="PersonImpl-active-parentBean"/>
+
+  <bean id="PersonImpl-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+  <bean id="PersonImpl-lookupRoleName" parent="AttributeDefinition" p:name="lookupRoleName" p:forceUppercase="false"
+        p:label="Role Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-lookupRoleNamespaceCode" parent="AttributeDefinition" p:name="lookupRoleNamespaceCode"
+        p:forceUppercase="false" p:label="Role Namespace Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-inquiryDefinition" parent="PersonImpl-inquiryDefinition-parentBean"/>
+
+  <bean id="PersonImpl-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+        p:title="Person Impl Inquiry" p:inquirableClass="org.kuali.rice.kim.inquiry.PersonInquirableImpl">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="principalName"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="firstName"/>
+              <bean parent="FieldDefinition" p:attributeName="middleName"/>
+              <bean parent="FieldDefinition" p:attributeName="lastName"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
+              <bean parent="FieldDefinition" p:attributeName="entityId"/>
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="emailAddress"/>
+              <bean parent="FieldDefinition" p:attributeName="phoneNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+              <bean parent="FieldDefinition" p:attributeName="employeeStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="employeeTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-lookupDefinition" parent="PersonImpl-lookupDefinition-parentBean"/>
+
+  <bean id="PersonImpl-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Person Lookup">
+    <property name="lookupableID" value="kimPersonLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>principalName</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="entityId"/>
+        <bean parent="FieldDefinition" p:attributeName="firstName"/>
+        <bean parent="FieldDefinition" p:attributeName="middleName"/>
+        <bean parent="FieldDefinition" p:attributeName="lastName"/>
+        <bean parent="FieldDefinition" p:attributeName="emailAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="phoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeId"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupRoleNamespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupRoleName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="principalName" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="entityId" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeId"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- KRAD Conversion -->
+
+  <bean id="PersonImpl-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Person Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.kim.impl.identity.PersonImpl"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kim.inquiry.PersonInquirableImpl"/>
+    <property name="Items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="principalName"/>
+              <bean parent="Uif-InputField" p:propertyName="name"/>
+              <bean parent="Uif-InputField" p:propertyName="firstName"/>
+              <bean parent="Uif-InputField" p:propertyName="middleName"/>
+              <bean parent="Uif-InputField" p:propertyName="lastName"/>
+              <bean parent="Uif-InputField" p:propertyName="principalId"/>
+              <bean parent="Uif-InputField" p:propertyName="entityId"/>
+              <bean parent="Uif-InputField" p:propertyName="campusCode"/>
+              <bean parent="Uif-InputField" p:propertyName="emailAddress"/>
+              <bean parent="Uif-InputField" p:propertyName="phoneNumber"/>
+              <bean parent="Uif-InputField" p:propertyName="primaryDepartmentCode"/>
+              <bean parent="Uif-InputField" p:propertyName="employeeStatusCode"/>
+              <bean parent="Uif-InputField" p:propertyName="employeeTypeCode"/>
+              <bean parent="Uif-InputField" p:propertyName="active"/>
+            </list>
+          </property>
+          <property name="title" value="Person Attributes"/>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PersonImpl-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Person Lookup"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.kim.impl.identity.PersonImpl"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kim.impl.identity.PersonLookupableImpl" />
+    <property name="defaultSortAttributeNames" value="principalName"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="entityId"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="firstName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="middleName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="emailAddress"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="phoneNumber"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="employeeId"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campusCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryDepartmentCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="employeeStatusCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="employeeTypeCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lookupRoleNamespaceCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lookupRoleName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="principalId"/>
+        <bean parent="Uif-DataField" p:propertyName="principalName"/>
+        <bean parent="Uif-DataField" p:propertyName="name"/>
+        <bean parent="Uif-DataField" p:propertyName="entityId"/>
+        <bean parent="Uif-DataField" p:propertyName="campusCode"/>
+        <bean parent="Uif-DataField" p:propertyName="primaryDepartmentCode"/>
+        <bean parent="Uif-DataField" p:propertyName="employeeId"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

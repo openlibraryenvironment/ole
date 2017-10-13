@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Uif-SaveAction" parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+        p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"
+        p:loadingMessageText="Saving..." p:clearDirtyOnAction="true" p:id="usave"/>
+
+  <bean id="Uif-BackAction" parent="Uif-SecondaryActionButton" p:methodToCall="back"
+        p:actionLabel="&lt; Back" p:performDirtyValidation="true"/>
+
+  <bean id="Uif-CancelAction" parent="Uif-ActionLink" p:methodToCall="cancel"
+        p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="ucancel"/>
+
+  <bean id="Uif-CheckFormAction" parent="Uif-SecondaryActionButton" p:methodToCall="checkForm"
+        p:actionLabel="Check Form" p:loadingMessageText="Checking Form..." p:id="ucheck"/>
+
+  <bean id="Uif-AddLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+        p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+        p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"/>
+
+  <bean id="Uif-DeleteLineAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine"
+        p:actionLabel="delete"
+        p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+        p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+        p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
+        p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}"/>
+
+  <bean id="Uif-SaveLineAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveLine" p:actionLabel="save"
+        p:render="@{#collectionGroup.renderSaveLineActions}" p:disabled="@{!isAddedCollectionItem(#line)}"
+        p:performClientSideValidation="true" p:id="@{#collectionGroup.id}_save@{#lineSuffix}"
+        p:onClickScript="writeCurrentPageToSession(this);">
+    <property name="cssClasses">
+      <list>
+        <value>uif-saveLineAction</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine"
+        p:actionLabel="Add Line" p:actionEvent="addBlankLine" p:id="@{#collectionGroup.id}_add"/>
+
+  <bean id="Uif-AddViaLightBoxAction" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add Line"/>
+
+  <bean id="Uif-ToggleRowDetailsAction" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Open/Close Row Details"
+        p:actionScript="toggleRowDetails(this);"/>
+
+  <bean id="Uif-ExpandDetailsAction" parent="Uif-ActionLink" p:actionLabel="Details">
+    <property name="cssClasses">
+      <list>
+        <value>uif-detailsAction</value>
+      </list>
+    </property>
+    <property name="actionParameters">
+      <map>
+        <entry key="lineIndex" value="@{#index}"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="Uif-ExpandDetailsImageAction" parent="Uif-ActionLink">
+    <property name="cssClasses">
+      <list>
+        <value>uif-detailsAction</value>
+      </list>
+    </property>
+    <property name="dataAttributes">
+      <map merge="true">
+        <entry key="swap" value="true"/>
+      </map>
+    </property>
+    <property name="actionParameters">
+      <map>
+        <entry key="lineIndex" value="@{#index}"/>
+      </map>
+    </property>
+    <property name="actionImage">
+      <bean parent="Uif-Image" p:altText="Details"
+            p:source="@{#ConfigProperties['krad.externalizable.images.url']}details_open.png"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-JumpToTopLink" parent="Uif-ActionLink" p:actionScript="jumpToTop();"
+        p:actionLabel="Top">
+    <property name="cssClasses">
+      <list>
+        <value>uif-jumpToTopLink</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-JumpToBottomLink" parent="Uif-ActionLink" p:actionScript="jumpToBottom();"
+        p:actionLabel="Bottom">
+    <property name="cssClasses">
+      <list>
+        <value>uif-jumpToBottomLink</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-ExpandDisclosuresButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="expandDisclosures();"
+        p:actionLabel="Expand All">
+    <property name="cssClasses">
+      <list>
+        <value>uif-expandDisclosuresButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-CollapseDisclosuresButton" parent="Uif-SecondaryActionButton-Small"
+        p:actionScript="collapseDisclosures();"
+        p:actionLabel="Collapse All">
+    <property name="cssClasses">
+      <list>
+        <value>uif-collapseDisclosuresButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-ShowInactiveCollectionItemsButton" parent="Uif-SecondaryActionButton-Small"
+        p:methodToCall="refresh" p:actionLabel="show inactive" p:refreshId="@{#collectionGroup.id}"
+        p:preSubmitCall="setComponentState('@{#collectionGroup.id}','inactive', true);return true;">
+    <property name="cssClasses">
+      <list>
+        <value>uif-showInactiveCollectionItemsButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-HideInactiveCollectionItemsButton" parent="Uif-SecondaryActionButton-Small"
+        p:methodToCall="refresh" p:actionLabel="hide inactive" p:refreshId="@{#collectionGroup.id}"
+        p:preSubmitCall="setComponentState('@{#collectionGroup.id}','inactive', false);return true;">
+    <property name="cssClasses">
+      <list>
+        <value>uif-hideInactiveCollectionItemsButton</value>
+      </list>
+    </property>
+  </bean>
+
+</beans>

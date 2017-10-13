@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="PropositionParameterBo" parent="PropositionParameterBo-parentBean"/>
+  <bean id="PropositionParameterBo-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.PropositionParameterBo"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PropositionParameterBo-id"/>
+        <ref bean="PropositionParameterBo-propId"/>
+        <ref bean="PropositionParameterBo-value"/>
+        <ref bean="PropositionParameterBo-parameterType"/>
+        <ref bean="PropositionParameterBo-sequenceNumber"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Proposition Paramter"/>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PropositionParameterBo-id" parent="PropositionParameterBo-id-parentBean"/>
+  <bean id="PropositionParameterBo-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Parameter Id"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+    <property name="name" value="id"/>
+    <property name="label" value="Proposition Parameter Id"/>
+  </bean>  
+  
+  <bean id="PropositionParameterBo-propId" parent="PropositionParameterBo-propId-parentBean"/>
+  <bean id="PropositionParameterBo-propId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Prop Id"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="20"/>
+    </property>
+    <property name="name" value="propId"/>
+    <property name="label" value="Proposition Id"/>
+  </bean>  
+  
+  <bean id="PropositionParameterBo-value" parent="PropositionParameterBo-value-parentBean"/>
+  <bean id="PropositionParameterBo-value-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Value"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="value"/>
+    <property name="label" value="Value"/>
+  </bean>
+    
+  <bean id="PropositionParameterBo-parameterType" parent="PropositionParameterBo-parameterType-parentBean"/>
+  <bean id="PropositionParameterBo-parameterType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Type Code"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="parameterType"/>
+    <property name="label" value="Parameter Type Code"/>
+  </bean>
+    
+  <bean id="PropositionParameterBo-sequenceNumber" parent="PropositionParameterBo-sequenceNumber-parentBean"/>
+  <bean id="PropositionParameterBo-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Sequence"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="5"/>
+    </property>
+    <property name="name" value="sequenceNumber"/>
+    <property name="label" value="Sequence Number"/>
+  </bean>
+    
+<!--   
+    
+  <bean id="PropositionParameterBo-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Proposition Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionParameterBo" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupInputField" p:propertyName="id" />
+        <bean parent="LookupInputField" p:propertyName="description" />
+        <bean parent="LookupInputField" p:propertyName="ruleId" />
+        <bean parent="LookupInputField" p:propertyName="typeId" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="id" />
+        <bean parent="Uif-DataField" p:propertyName="description" />
+        <bean parent="Uif-DataField" p:propertyName="ruleId" />
+        <bean parent="Uif-DataField" p:propertyName="typeId" />
+        <bean parent="Uif-DataField" p:propertyName="propositionTypeCode" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PropositionParameterBo-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Rule Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionParameterBo"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+        <list>
+					  <bean parent="Uif-Disclosure-GridSection">
+					      <property name="layoutManager.numberOfColumns" value="2"/>
+					      <property name="items">
+					        <list>
+					          <bean parent="Uif-InputField" p:propertyName="id"/>
+					          <bean parent="Uif-InputField" p:propertyName="description"/>
+					          <bean parent="Uif-InputField" p:propertyName="ruleId"/>
+					          <bean parent="Uif-InputField" p:propertyName="typeId"/>
+					          <bean parent="Uif-InputField" p:propertyName="propositionTypeCode"/>
+					        </list>
+					      </property>
+					      <property name="headerText" value="Proposition Attributes"/>
+					  </bean>
+        </list>
+    </property>
+  </bean>
+ -->  
+
+</beans>

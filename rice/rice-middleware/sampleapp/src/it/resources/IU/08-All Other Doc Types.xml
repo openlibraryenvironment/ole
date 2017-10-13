@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>SignatoryActivationDeactivation</name>
+      <description>University Graduate School - Signatory Activation Deactivation</description>
+      <label> Signatory Activation Deactivation</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="DepartmentChair" />
+          <requests name="DepartmentChair" nextNode="SchoolDean" />
+          <requests name="SchoolDean" nextNode="DeanOfFaculty" />
+          <requests name="DeanOfFaculty" nextNode="SES" />
+          <requests name="SES" nextNode="Sig.Final" />
+          <requests name="Sig.Final" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="DepartmentChair">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOffice-Department</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="SchoolDean">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOffice-SchoolRouting</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="DeanOfFaculty">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOffice-Dean of Faculty</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="SES">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOffice-SES</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Sig.Final">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOffice1</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CommitteeChange.Doctype</name>
+      <description> Change of Research Committee</description>
+      <label>CommitteeChange.Doctype</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor</postProcessorName>
+      <superUserGroupName namespace="COMMITTEE">Committee.SuperUsers</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+      <reportingGroupName namespace="COMMITTEE">Committee.Reporting.Workgroup</reportingGroupName>
+      <defaultExceptionGroupName namespace="COMMITTEE">Committee.SuperUsers</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>UnivIDSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>lastNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>firstNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept1SearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept2SearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="Committee.Department1a" />
+          <requests name="Committee.Department1a" nextNode="Committee.Department2a" />
+          <requests name="Committee.Department2a" nextNode="SimpleSplit" />
+          <split name="SimpleSplit" nextNode="Committee.Department1b">
+            <branch name="Branch1">
+              <requests name="Committee.Member1" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch2">
+              <requests name="Committee.Member2" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch3">
+              <requests name="Committee.Member3" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch4">
+              <requests name="Committee.Member4" nextNode="SimpleJoin" />
+            </branch>
+            <join name="SimpleJoin" />
+          </split>
+          <requests name="Committee.Department1b" nextNode="Committee.Department2b" />
+          <requests name="Committee.Department2b" nextNode="Committee" />
+          <requests name="Committee" nextNode="Committee.InitatorFYI" />
+          <requests name="Committee.InitatorFYI" nextNode="Committee.Department1FYI" />
+          <requests name="Committee.Department1FYI" nextNode="Committee.Department2FYI" />
+          <requests name="Committee.Department2FYI" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Committee.Department1a">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department1a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department2a">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department2a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <split name="SimpleSplit" />
+        <requests name="Committee.Member1">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member1</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="SimpleJoin" />
+        <requests name="Committee.Member2">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member2</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Member3">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member3</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Member4">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member4</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department1b">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department1b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department2b">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department2b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>true</finalApproval>
+        </requests>
+        <requests name="Committee.InitatorFYI">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.InitatorFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department1FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department1FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department2FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department2FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>Committee.Doctype</name>
+      <description> Nomination of Research Committee</description>
+      <label>Committee.Doctype</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor</postProcessorName>
+      <superUserGroupName namespace="COMMITTEE">Committee.SuperUsers</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+      <reportingGroupName namespace="COMMITTEE">Committee.Reporting.Workgroup</reportingGroupName>
+      <defaultExceptionGroupName namespace="COMMITTEE">Committee.SuperUsers</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>UnivIDSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>lastNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>firstNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept1SearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept2SearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="Committee.Department1a" />
+          <requests name="Committee.Department1a" nextNode="Committee.Department2a" />
+          <requests name="Committee.Department2a" nextNode="SimpleSplit" />
+          <split name="SimpleSplit" nextNode="Committee.Department1b">
+            <branch name="Branch1">
+              <requests name="Committee.Member1" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch2">
+              <requests name="Committee.Member2" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch3">
+              <requests name="Committee.Member3" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch4">
+              <requests name="Committee.Member4" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch5">
+              <requests name="Committee.Member5" nextNode="SimpleJoin" />
+            </branch>
+            <branch name="Branch6">
+              <requests name="Committee.Member6" nextNode="SimpleJoin" />
+            </branch>
+            <join name="SimpleJoin" />
+          </split>
+          <requests name="Committee.Department1b" nextNode="Committee.Department2b" />
+          <requests name="Committee.Department2b" nextNode="Committee" />
+          <requests name="Committee" nextNode="Committee.InitatorFYI" />
+          <requests name="Committee.InitatorFYI" nextNode="Committee.Department1FYI" />
+          <requests name="Committee.Department1FYI" nextNode="Committee.Department2FYI" />
+          <requests name="Committee.Department2FYI" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Committee.Department1a">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department1a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department2a">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department2a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <split name="SimpleSplit" />
+        <requests name="Committee.Member1">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member1</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="SimpleJoin" />
+        <requests name="Committee.Member2">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member2</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Member3">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member3</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Member4">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member4</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Member5">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member5</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Member6">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.Member6</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department1b">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department1b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department2b">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department2b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>true</finalApproval>
+        </requests>
+        <requests name="Committee.InitatorFYI">
+          <activationType>P</activationType>
+          <ruleTemplate>Committee.InitatorFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department1FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department1FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Committee.Department2FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>Committee.Department2FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PhDDefense</name>
+      <description>PhD Defense Announcement</description>
+      <label>PhDDefenseAnnouncement</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor</postProcessorName>
+      <superUserGroupName namespace="PHDDEFENSE">BL.PhDDefense.SuperUser</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+      <reportingGroupName namespace="PHDDEFENSE">PhDDefense.Reporting</reportingGroupName>
+      <defaultExceptionGroupName namespace="PHDDEFENSE">BL.PhDDefense.SuperUser</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>UnivIDSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>lastNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>firstNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept1SearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept2SearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="PhDDefense.FYI" />
+          <requests name="PhDDefense.FYI" nextNode="PhDDefense.Department1a" />
+          <requests name="PhDDefense.Department1a" nextNode="PhDDefense.Optional.NetId1a" />
+          <requests name="PhDDefense.Optional.NetId1a" nextNode="PhDDefense.Optional.NetId1b" />
+          <requests name="PhDDefense.Optional.NetId1b" nextNode="PhDDefense.Department1b" />
+          <requests name="PhDDefense.Department1b" nextNode="PhDDefense.Department2a" />
+          <requests name="PhDDefense.Department2a" nextNode="PhDDefense.Optional.NetId2a" />
+          <requests name="PhDDefense.Optional.NetId2a" nextNode="PhDDefense.Optional.NetId2b" />
+          <requests name="PhDDefense.Optional.NetId2b" nextNode="PhDDefense.Department2b" />
+          <requests name="PhDDefense.Department2b" nextNode="PhDDefense.Verify" />
+          <requests name="PhDDefense.Verify" nextNode="PhDDefense.PhDRecorder" />
+          <requests name="PhDDefense.PhDRecorder" nextNode="PhDDefense.InitiatorFYI" />
+          <requests name="PhDDefense.InitiatorFYI" nextNode="PhDDefense.Department1FYI" />
+          <requests name="PhDDefense.Department1FYI" nextNode="PhDDefense.Department2FYI" />
+          <requests name="PhDDefense.Department2FYI" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="PhDDefense.FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Department1a">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Department1a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Optional.NetId1a">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDDefense.NetId1a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Optional.NetId1b">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDDefense.NetId1b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Department1b">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Department1b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Department2a">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Department2a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Optional.NetId2a">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDDefense.NetId2a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Optional.NetId2b">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDDefense.NetId2b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Department2b">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Department2b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Verify">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Verify</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.PhDRecorder">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.PhDRecorder</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>true</finalApproval>
+        </requests>
+        <requests name="PhDDefense.InitiatorFYI">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDDefense.InitiatorFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Department1FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Department1FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDDefense.Department2FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDDefense.Department2FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>MAAdvancedDegree</name>
+      <description>MA App and Rec for Advanced Degree</description>
+      <label>MA App and Rec for Advanced Degree</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor</postProcessorName>
+      <superUserGroupName namespace="MAAdvDeg">MAAdvDeg.Super</superUserGroupName>
+      <blanketApproveGroupName namespace="MAAdvDeg">MAAdvDeg.Super</blanketApproveGroupName>
+      <reportingGroupName namespace="MAAdvDeg">MAAdvDeg.Reporting.Workgroup</reportingGroupName>
+      <defaultExceptionGroupName namespace="MAAdvDeg">MAAdvDeg.Super</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>UnivIDSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>lastNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>firstNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>MAAdvDegDeptSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>MAAdvDegMajorSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>MAAdvDegDualDegSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="MAAdvDeg.FYI" />
+          <requests name="MAAdvDeg.FYI" nextNode="MAAdvDeg.Major1" />
+          <requests name="MAAdvDeg.Major1" nextNode="MAAdvDeg.Department1" />
+          <requests name="MAAdvDeg.Department1" nextNode="MAAdvDeg.Major2" />
+          <requests name="MAAdvDeg.Major2" nextNode="MAAdvDeg.Department2" />
+          <requests name="MAAdvDeg.Department2" nextNode="MAAdvDeg.1" />
+          <requests name="MAAdvDeg.1" nextNode="MAAdvDeg.DualDegree" />
+          <requests name="MAAdvDeg.DualDegree" nextNode="MAAdvDeg.2" />
+          <requests name="MAAdvDeg.2" nextNode="MAAdvDeg.IUPUIFYI" />
+          <requests name="MAAdvDeg.IUPUIFYI" nextNode="MAAdvDeg.MajorFYI" />
+          <requests name="MAAdvDeg.MajorFYI" nextNode="MAAdvDeg.DeptFYI" />
+          <requests name="MAAdvDeg.DeptFYI" nextNode="MAAdvDeg.InitiatorFYI" />
+          <requests name="MAAdvDeg.InitiatorFYI" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="MAAdvDeg.FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.Major1">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.Major1</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.Department1">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.Department1</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.Major2">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.Major2</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.Department2">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.Department2</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.1">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.1</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.DualDegree">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.DualDegree</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.2">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.2</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>true</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.IUPUIFYI">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.IUPUIFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.MajorFYI">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.MajorFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.DeptFYI">
+          <activationType>S</activationType>
+          <ruleTemplate>MAAdvDeg.DeptFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="MAAdvDeg.InitiatorFYI">
+          <activationType>P</activationType>
+          <ruleTemplate>MAAdvDeg.InitatorFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+   </documentTypes>
+</data>

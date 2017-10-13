@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter version="5.0" xml:id="technical_architecture"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/1999/xhtml"
+         xmlns:ns4="http://www.w3.org/2000/svg"
+         xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Technical Overview</title>
+
+  <section>
+    <title>Architectural Diagram</title>
+
+    <para>This is a high-level picture of what an Enterprise Deployment of
+    Rice might look like. This diagram includes representations of various
+    client applications interacting with the Rice standalone server:</para>
+
+    <figure>
+      <title>Kuali Rice ${pom.version} Architectural Diagram</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../images/architecture.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+
+  <section>
+    <title>Modules</title>
+
+    <para>Kuali Rice has six core modules, linked together by the Kuali
+    Service Bus (KSB):<orderedlist>
+        <listitem>
+          <para>KSB (Kuali Service Bus )</para>
+
+          <para>Kuali Service Bus is a simple service bus geared toward easy
+          service integration in an SOA.</para>
+        </listitem>
+
+        <listitem>
+          <para>KEW (Kuali Enterprise Workflow)</para>
+
+          <para>Kuali Enterprise Workflow provides a common routing and
+          approval engine that facilitates the automation of business
+          processes across the enterprise. KEW was specifically designed to
+          address the requirements of higher education, so it is particularly
+          well suited for routing mediated transactions across departmental
+          boundaries.</para>
+        </listitem>
+
+        <listitem>
+          <para>KEN (Kuali Enterprise Notification)</para>
+
+          <para>Kuali Enterprise Notification acts as a enabler for all
+          university business-related communications by allowing end-users and
+          other systems to push informative messages to the campus community
+          in a secure and consistent manner.</para>
+        </listitem>
+
+        <listitem>
+          <para>KIM (Kuali Identity Management)</para>
+
+          <para>Kuali Identity Management provides central management features
+          for person identity characteristics, groups, roles, permissions, and
+          their relationships to each other. All integration with KIM is
+          accomplished using simple and consistent service APIs (Java or Web
+          Service). KIM is built like all of the Kuali applications with
+          Spring at its core, so that you can implement your own Identity
+          Management (IdM) solutions behind the Service APIs. This provides
+          you with the option to override the reference service
+          implementations with your own to integrate with other Identity and
+          Access Management systems at your enterprise.</para>
+        </listitem>
+
+        <listitem>
+          <para>KNS (Kuali Nervous System)/KRAD</para>
+
+          <para>Kuali Nervous System/KRAD is a software development framework
+          that enables developers to quickly build business applications in an
+          efficient and agile fashion. KNS is an abstracted layer of "glue"
+          code that provides developers easy integration with the other Rice
+          components.</para>
+        </listitem>
+
+        <listitem>
+          <para>KRMS (Kuali Rules Management System)</para>
+
+          <para>Kuali Rules Management System is a new module of Kuali Rice
+          that allows business rules that were previously coded within
+          electronic documents or applications to be externalized into a rules
+          repository with its own set of user interfaces. Removing this
+          critical logic from being coded into the document allows for the
+          maintenance of rules in a fashion that does not require application
+          deployment or development for updates. In addition to the rules, a
+          new routing option called PeopleFlow has been introduced to provide
+          a streamlined way to view and update routing actions without having
+          to have a deep understanding the KEW and its user interfaces or the
+          impact changes may incur.</para>
+        </listitem>
+      </orderedlist></para>
+  </section>
+
+  <section>
+    <title>Module Architecture</title>
+
+    <para>Kuali Rice is designed to run in a clustered environment and can be
+    run on virtual machines.</para>
+
+    <section>
+      <title>KSB (Kuali Service Bus)</title>
+
+      <para>The Kuali Service Bus (KSB) is a lightweight service bus designed
+      so developers can quickly develop and deploy services for remote and
+      local consumption. You deploy services to the bus either using the
+      Spring tool or programmatically. Services must be named when they are
+      deployed to the bus. Services are acquired from the bus using their
+      name.</para>
+
+      <para>At the heart of the KSB is a service registry. This registry is a
+      listing of all services available for consumption on the bus. The
+      registry provides the bus with the information necessary to achieve load
+      balancing, failover, and more.</para>
+
+      <figure>
+        <title>Kuali Service Bus</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KSB_Guide/kuali_service_bus.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <section>
+        <title>KSB Features</title>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Transactional Asynchronous
+            Messaging</emphasis> – Call services asynchronously to support a
+            'fire and forget' model of calling services. Messaging
+            participates in any existing JTA transactions (messages are not
+            sent until the current running transaction is committed and are
+            not sent if the transaction is rolled back). This increases the
+            performance of service-calling code because it does not wait for a
+            response.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Synchronous Messaging</emphasis> -
+            Call any service on the bus using a request-response
+            paradigm.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Queue Style Messaging</emphasis> -
+            Execute Java services using message queues. When a message is sent
+            to a queue, only one of the services listening for messages on the
+            queue is given the message.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Topic Style Messaging</emphasis> -
+            Execute Java services using messaging topics. When a message is
+            sent to a topic, all services listening for messages on the topic
+            receive the message.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Quality of Service</emphasis> - This
+            KSB feature determines how queues and topics handle messages with
+            problems. Time-to-live is supported, giving the message a
+            configured amount of time to be handled successfully before
+            exception handling is invoked for that message type. Messages can
+            be given a specified number of retry attempts before exception
+            handling is invoked. An increasing delay separates each calling.
+            Exception handlers can be registered with each queue and topic for
+            custom behavior when messages fail and Quality of Service limits
+            have been reached.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Discovery</emphasis> - Automatically
+            discover services along the bus by service name. You do not need
+            end-point URLs to connect to services.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Reliability</emphasis> - Should
+            problems arise, messages sent to services via queues or
+            synchronous calls automatically fail-over to any other services
+            bound to the same name on the bus. Services that are not available
+            are removed from the bus until they come back online, at which
+            time they will be rediscovered for messaging.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Persisted Callback</emphasis> - Send
+            callback objects with any message. These objects will be called
+            each time a service is "requested." This provides a mechanism to
+            pass along a message. In this way, deployed services can
+            communicate back to a "callback registrant," such as an
+            application registering a callback, with application data even as
+            that data is moving through the system.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Primitive Business Activity
+            Monitoring</emphasis> - If turned on, each call to every service,
+            including the parameters passed into that service, is
+            recorded.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Spring-Based Integration</emphasis> -
+            KSB is designed with Spring-based integration in mind. For
+            example, you might make an existing Spring-based POJO available
+            for remote asynchronous calls.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Programmatic Integration</emphasis> -
+            If you do not use Spring configuration, you can configure KSB
+            programmatically. Services can also be added and removed from the
+            bus programmatically at runtime.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Bean Based Services</title>
+
+        <para>Typically, KSB programming is centered on exposing
+        Spring-configured beans to other calling code using a number of
+        different protocols. Using this paradigm, the client developer and the
+        organization can rapidly build and consume services.</para>
+      </section>
+
+      <section>
+        <title>Overview of Supported Service Protocols</title>
+
+        <para><figure>
+            <title>Supported Service Protocols</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/KSB_Guide/supported_service_protocols.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure> <note>
+            <para>This drawing is conceptual and not representative of true
+            deployment architecture.</para>
+          </note></para>
+
+        <para>Essentially, the KSB is a registry with service-calling behavior
+        on the client end (for Java clients). All policies and behaviors
+        (aysnc vs. sync) are coordinated on the client.</para>
+
+        <para>KSB offers clients some very attractive messaging features:
+        <itemizedlist>
+            <listitem>
+              <para>Synchronization of message sending with currently running
+              transaction (In other words, all messages sent during a
+              transaction are ONLY sent if the transaction is successfully
+              committed.)</para>
+            </listitem>
+
+            <listitem>
+              <para>Failover: If a call to a service comes back with a 404 (or
+              various other network-related errors), the client will try to
+              call other services of the same name on the bus. This is for
+              both sync and async calls.</para>
+            </listitem>
+
+            <listitem>
+              <para>Load balancing: Clients will round-robin call services of
+              the same name on the bus. Proxy instances are, however, bound to
+              single machines. This is useful if you want to keep a line of
+              communication open to a single machine for long periods of
+              time</para>
+            </listitem>
+
+            <listitem>
+              <para>Topics and Queues: Used for controlling the execution of
+              services</para>
+            </listitem>
+
+            <listitem>
+              <para>Persistent messages: When using message persistence, a
+              message cannot be lost. It will be persisted until it is
+              sent.</para>
+            </listitem>
+
+            <listitem>
+              <para>Message Driven Service Execution: Bind standard JavaBean
+              services to messaging queues for message-driven beans</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+    </section>
+
+    <section>
+      <title>KEW (Kuali Enterprise Workflow)</title>
+
+      <para>The Kuali Enterprise Workflow (KEW) is a content-based routing
+      engine. To enter the routing process, a user creates a document from a
+      process definition and submits it to the workflow engine for routing.
+      The engine then makes routing decisions based on the XML content of the
+      document.</para>
+
+      <para>KEW is built for educational institutions to use for business
+      transactions in the form of electronic documents that require approval
+      from multiple parties. For example, these types of transactions are
+      capably handled with KEW:<itemizedlist>
+          <listitem>
+            <para>Transfer funds</para>
+          </listitem>
+
+          <listitem>
+            <para>Hire and terminate employees</para>
+          </listitem>
+
+          <listitem>
+            <para>Complete and approve timesheets</para>
+          </listitem>
+
+          <listitem>
+            <para>Drop a course</para>
+          </listitem>
+        </itemizedlist></para>
+
+      <section>
+        <title>KEW Features</title>
+
+        <para>KEW is a set of services, APIs, and GUIs with these
+        features:<itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Action List</emphasis> for each
+              user, also known as a user's work list</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Document searching</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Route log</emphasis>: Document audit
+              trail</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Flexible process
+              definition</emphasis>: Splits, joins, parallel branches,
+              sub-processes, dynamic process generation</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Rules engine</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Email notification</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Notes and
+              attachments</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para>Wide array of <emphasis role="bold">pluggable
+              components</emphasis> to customize routing and other pieces of
+              the system</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">eDocLite</emphasis>: Framework for
+              creating simple documents quickly</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Plugin architecture</emphasis>:
+              Packaging and deployment of application plugins or deployment of
+              routing components to the Rice standalone server at
+              runtime</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+    </section>
+
+    <section>
+      <title>KEN (Kuali Enterprise Notification)</title>
+
+      <para>Kuali Enterprise Notification (KEN) acts as a broker for all
+      university business-related communications by allowing end-users and
+      other systems to push informative messages to the campus community in a
+      secure and consistent manner. All notifications process asynchronously
+      and are delivered to a single list where other messages such as
+      workflow-related items (KEW action items) also reside. In addition,
+      end-users can configure their profile to have certain types of messages
+      delivered to other end-points such as email, mobile phones, etc.</para>
+
+      <section>
+        <title>Why Use KEN?</title>
+
+        <orderedlist>
+          <listitem>
+            <para>Easily leverage its functionality through the KSB or over
+            SOAP</para>
+          </listitem>
+
+          <listitem>
+            <para>Access a full list of archives and logs so that you can
+            easily find messages that were sent in the past</para>
+          </listitem>
+
+          <listitem>
+            <para>Eliminate sifting through your email inbox to find what you
+            need</para>
+          </listitem>
+
+          <listitem>
+            <para>It guarantees delivery of messages, even to large numbers of
+            recipients</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
+      <section>
+        <title>KEN Features</title>
+
+        <para><emphasis role="bold">A Single List for All
+        Notifications:</emphasis> Find the things you have to do, things you
+        want to know about, and things you need to know about. This includes
+        workflow items from KEW, all in one place.</para>
+
+        <para><emphasis role="bold">Eliminate Email Pains:</emphasis> Don't
+        sift through piles of spam to find that one thing you need to do. You
+        control who uses KEN, so there is no spam.</para>
+
+        <para><emphasis role="bold">Flexible Content Types: </emphasis>No core
+        programming is needed to customize the fields and data for a
+        notification. You may use XML, XSD, and XSL to dynamically extend,
+        validate, and render new content types.</para>
+
+        <para><emphasis role="bold">Multiple Integration
+        Interfaces:</emphasis> Use KEN's Java services and web services
+        (exposed on the KSB) to send messages from one system to another, or
+        use the Rice generic message-sending form (with workflow built in) to
+        send messages by hand.</para>
+
+        <para><emphasis role="bold">Audit Trail:</emphasis> Track exactly who
+        received a notification and when they received it.</para>
+
+        <para><emphasis role="bold">Multiple Ways to Notify:</emphasis> All
+        messages are sent to a user's notification list; however, users can
+        also choose to have "ticklers" sent to their email inboxes, their
+        mobile phones, and more. You can also build pluggable "ticklers" using
+        the KEN framework.</para>
+
+        <para><emphasis role="bold">Robust Searching and List
+        Capabilities:</emphasis> Search for notifications by multiple fields
+        such as priority, type, senders, and more. Save searches for later,
+        and take actions on your notifications right from your list.</para>
+
+        <para><emphasis role="bold">Security:</emphasis> Basic authorization
+        comes out of the box along with single-sign-on. In addition, web
+        service calls support SSL transport encryption and digital signing
+        using X.509 certificates. KEN also allows you to build your own
+        security plugins.</para>
+
+        <para><emphasis role="bold">User and Group Management:</emphasis>
+        Basic user and group management are provided, along with hooks for
+        customizing KEN to point at other identity management systems, such as
+        LDAP.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>KIM (Kuali Identity Management)</title>
+
+      <para>The Kuali Identity Management (KIM) provides identity and access
+      management services to Rice and other applications. All KIM services are
+      available on the service bus with both SOAP and Java serialization
+      endpoints. KIM provides a service layer and a set of GUIs that you can
+      use to maintain identity information.</para>
+
+      <figure>
+        <title>KIM Architecture Diagram</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KIM_architecture.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <section>
+        <title>KIM Features</title>
+
+        <para>KIM provides a reference implementation of services. It also
+        allows customization and/or replacement to facilitate integration with
+        institutional services or other third-party identity management
+        solutions. This allows the core KIM services to be overridden
+        piecemeal. For example, you can override the Identity Service, but
+        keep the Role Service.</para>
+
+        <para>KIM consists of these services, which encompass its API:
+        <itemizedlist>
+            <listitem>
+              <para>services: <itemizedlist>
+                  <listitem>
+                    <para>IdentityService</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>GroupService</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>PermissionService</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>RoleService</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>ResponsibilityService</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>AuthenticationService</para>
+                  </listitem>
+                </itemizedlist></para>
+            </listitem>
+
+            <listitem>
+              <para>A permission service that evaluates permissions: KIM
+              provides plug points for implementing custom logic for
+              permission checking, such as permission checks based on
+              hierarchical data.</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>A more detailed visual of the KIM architecture:</para>
+
+        <figure>
+          <title>KIM Architecture Detail</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KIM_architecture_detailed.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+
+    <section>
+      <title>KNS (Kuali Nervous System)</title>
+
+      <para>The Kuali Nervous System (KNS) is the core of the Kuali Rice
+      system. It embraces a document- centric (business process) model that
+      uses workflow as a central concept. It is also the web application
+      development framework for Rice and is the core technical module in Rice,
+      leveraging reusable code components to provide functionality.</para>
+
+      <figure>
+        <title>Kuali Nervous System</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KNS.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <section>
+        <title>What is KNS?</title>
+
+        <para>The Kuali Nervous System is a:<itemizedlist>
+            <listitem>
+              <para>Framework to enforce consistency</para>
+            </listitem>
+
+            <listitem>
+              <para>Means to adhere to development standards and architectural
+              principles</para>
+            </listitem>
+
+            <listitem>
+              <para>Stable core for efficient development</para>
+            </listitem>
+
+            <listitem>
+              <para>Means of reducing the amount of code written through code
+              re-use</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+
+      <section>
+        <title>KNS Architectural Diagram</title>
+
+        <para>The KNS architecture provides a number of important services
+        that are vital to the overall operation and effectiveness of the
+        system.</para>
+
+        <figure>
+          <title>KIM Architecture Detail</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/KNS_architecture.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title>Physical Architecture Overview</title>
+
+    <section>
+      <title>Production Platform</title>
+
+      <para>Since the builders of the Rice platform constructed it on open
+      source technologies, your scale and use of Rice software determine the
+      layout of the logical and physical hardware you need to support your
+      implementation. Below are several conceptual models for implementation
+      of Rice that are certainly not end solutions. Your solution depends on
+      your implementation scale and budget.</para>
+
+      <section>
+        <title>Production Platform</title>
+
+        <para>The production platform that you deploy for your implementation
+        can vary quite widely. The first example, the most basic platform
+        structure, would be the most economical solution in terms of hardware.
+        The Tomcat server can serve up all web service and HTTP requests and
+        store all content. (Of course, you could load-balance multiple Tomcat
+        servers across machines.) A picture of the logical structure:</para>
+
+        <figure>
+          <title>Conceptual Production Architecture, example 1</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/conceptual_production_architecture1.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>For this architecture, we recommend this minimum:<itemizedlist>
+            <listitem>
+              <para>Server running Tomcat container: Minimum 2 GB main
+              memory</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>The next example has you offload the web requests and content to
+        an Apache HTTP server in front of the Tomcat server:</para>
+
+        <figure>
+          <title>Conceptual Production Architecture, example 1</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/conceptual_production_architecture2.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>For this architecture, we recommend this minimum:<itemizedlist>
+            <listitem>
+              <para>Server running Apache: Minimum 1 GB main memory</para>
+            </listitem>
+
+            <listitem>
+              <para>Server running Tomcat container: Minimum 2 GB main
+              memory</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>And finally, the recommended solution, where the focus of the
+        environment structure is based upon maximal scaling for the Rice
+        application:</para>
+
+        <figure>
+          <title>Recommended Conceptual Production Architecture</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/recommended_conceptual_production_architecture.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>For this architecture, we recommend this minimum:<itemizedlist>
+            <listitem>
+              <para>Load Balancer</para>
+            </listitem>
+
+            <listitem>
+              <para>Each server running Apache: Minimum 1 GB main
+              memory</para>
+            </listitem>
+
+            <listitem>
+              <para>Each server running Tomcat container: Minimum 2 GB main
+              memory</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Development Platform</title>
+
+      <para>The most basic platform for development has the Tomcat container
+      and a MySQL server running on the same machine as your development
+      tools:</para>
+
+      <figure>
+        <title>Recommended Conceptual Production Architecture</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/conceptual_development_platform.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>The best option is to use the Tomcat container to serve up web
+      service and HTTP requests. This has the least number of software layers
+      between your development/debugging/IDE environment and the Tomcat
+      container.</para>
+    </section>
+  </section>
+</chapter>

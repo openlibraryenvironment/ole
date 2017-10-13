@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:ed="ns:workflow/EDocLite"
+        targetNamespace="ns:workflow/EDocLite"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl1.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      EDocLite definition schema
+    </documentation>
+  </annotation>
+
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+
+  <element name="edl">
+    <complexType>
+      <sequence>
+
+        <element name="config" type="ed:ConfigType" minOccurs="0">
+          <annotation>
+            <documentation>
+              Defines optional parameters for the EDL document.
+            </documentation>
+          </annotation>
+        </element>
+
+        <element name="security" type="c:LongStringType" minOccurs="0">
+        	<annotation>
+        		<documentation>
+        		 Defines security for the EDL document.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="eventNotificationURL" type="c:LongStringType" minOccurs="0">
+        	<annotation>
+        		<documentation>
+        		 http URL to send post processor events to.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="createInstructions" type="c:LongStringType" minOccurs="0">
+        	<annotation>
+        		<documentation>
+        		 The creation instructions for the EDL.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="instructions" type="c:LongStringType" minOccurs="0">
+        	<annotation>
+        		<documentation>
+        		 The general instructions to render at the top of an EDL.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="validations" type="ed:ValidationsType" minOccurs="0"/>
+
+        <element name="attributes" type="ed:AttributeType" minOccurs="0"/>
+
+        <element name="javascript" type="string" minOccurs="0"/>
+
+        <element name="fieldDef" type="ed:FieldType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 Defines a field on an EDL.
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+
+      <attribute name="name" type="c:ShortStringType" use="required">
+      </attribute>
+
+      <attribute name="title" type="c:ShortStringType">
+      </attribute>
+
+    </complexType>
+  </element>
+
+  <complexType name="ConfigType">
+    <sequence>
+      <element name="param" type="ed:ParamType" minOccurs="0"
+               maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="AttributeType">
+    <sequence>
+      <element name="attribute" type="ed:GlobalAttributeType" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="GlobalAttributeType">
+    <sequence>
+      <element name="field" type="ed:AttributeFieldType" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+    <attribute name="name" type="c:ShortStringType" use="required"/>
+
+  </complexType>
+
+  <complexType name="AttributeFieldType">
+     <attribute name="edlField" type="c:ShortStringType" use="required"/>
+     <attribute name="attributeField" type="c:ShortStringType" use="required"/>
+  </complexType>
+
+  <complexType name="ValidationsType">
+    <sequence>
+      <element name="validation" type="ed:GlobalValidationType" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="GlobalValidationType">
+    <sequence>
+      <element name="expression" type="c:MandatoryLongStringType"/>
+      <element name="message" type="c:MandatoryLongStringType"/>
+    </sequence>
+    <attribute name="type" type="c:ShortStringType" use="required"/>
+    <attribute name="key" type="c:ShortStringType"/>
+  </complexType>
+
+  <complexType name="FieldType">
+    <sequence>
+
+      <element name="value" type="c:LongStringType" minOccurs="0">
+        <annotation>
+        	<documentation xml:lang="en">
+         	 Value of the field type.
+        	</documentation>
+        </annotation>
+      </element>
+
+      <element name="display">
+        <complexType>
+          <sequence>
+            <element name="type" type="ed:TypeType">
+            	<annotation>
+            		<documentation>
+            		 The type for the display.
+            		</documentation>
+            	</annotation>
+            </element>
+
+            <element name="meta" type="ed:MetaType" minOccurs="0" maxOccurs="unbounded">
+            	<annotation>
+            		<documentation>
+            		 Additional information about the field.
+            		</documentation>
+            	</annotation>
+            </element>
+
+            <element name="values" type="ed:ValuesType" minOccurs="0" maxOccurs="unbounded">
+            	<annotation>
+            		<documentation>
+            		 Value of the display.
+            		</documentation>
+            	</annotation>
+            </element>
+            
+            <element name="valuesGroup" type="ed:ValuesGroupType" minOccurs="0" maxOccurs="unbounded">
+            	<annotation>
+            		<documentation>
+            			Represents a group of values identified by a key.
+            		</documentation>
+            	</annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="lookup" minOccurs="0" maxOccurs="1">
+        <complexType>
+          <sequence>
+            <element name="businessObjectClassName" type="c:LongStringType" minOccurs="1" maxOccurs="1"/>
+            <element name="lookupParameters" type="c:LongStringType" minOccurs="0" maxOccurs="1"/>
+            <element name="fieldConversions" type="c:LongStringType" minOccurs="0" maxOccurs="1"/>
+            <element name="lookupReadOnly" type="c:ShortStringType" minOccurs="0" maxOccurs="1"/>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="validation" type="ed:ValidationType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Validation to execute for the field.
+      		</documentation>
+      	</annotation>
+      </element>
+
+
+    </sequence>
+    <attribute name="name" type="c:ShortStringType" use="required"/>
+    <attribute name="title" type="c:LongStringType"/>
+    <attribute name="attributeName" type="c:ShortStringType"/>
+  </complexType>
+
+  <simpleType name="TypeType">
+    <restriction base="string">
+      <!-- TODO: implement selection boxes -->
+      <enumeration value="text"/>
+      <enumeration value="textarea"/>
+      <enumeration value="radio"/>
+      <enumeration value="checkbox"/>
+      <enumeration value="select"/>
+      <enumeration value="select_refresh"/>
+      <enumeration value="networkId"/>
+      <enumeration value="workgroupName"/>
+      <enumeration value="universityId"/>
+      <enumeration value="hidden"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="ParamType">
+    <simpleContent>
+      <extension base="c:MayBeEmptyShortStringType">
+        <attribute name="name" type="string">
+          <annotation>
+            <documentation>
+              Name of the Param Type
+            </documentation>
+          </annotation>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="MetaType">
+    <sequence>
+      <element name="name" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 Name of the Meta Type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="value" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 Value of the Meta Type.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="ValuesType">
+    <simpleContent>
+      <extension base="c:MayBeEmptyShortStringType">
+        <attribute name="title" type="string">
+        	<annotation>
+        		<documentation>
+        		 Title of the values type
+        		</documentation>
+        	</annotation>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="ValuesGroupType">
+  	<sequence>
+  	  <element name="dependsOn" type="ed:DependsOnType" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            Indicates that the display of this Values Group depends on the value in another field.
+          </documentation>
+        </annotation>
+      </element> 
+      <element name="values" type="ed:ValuesType" minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            Values of the values group.
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="DependsOnType">
+    <sequence>
+      <element name="field" type="ed:DependsOnFieldType" minOccurs="1" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  
+  <complexType name="DependsOnFieldType">
+    <simpleContent>
+      <extension base="c:ShortStringType">
+        <attribute name="name" type="string" use="required">
+        	<annotation>
+        		<documentation>
+        		 Name of the field
+        		</documentation>
+        	</annotation>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="ValidationType">
+    <sequence>
+      <element name="regex" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A regular expression to execute to validate the field.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="customValidator" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A custom javascript function to execute to validate the field.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="message" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A message associated with the node created.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+    <attribute name="required" type="boolean">
+    	<annotation>
+    		<documentation>
+    		 Boolean indicating whether the validation is require or not.
+    		</documentation>
+    	</annotation>
+    </attribute>
+  </complexType>
+
+</schema>

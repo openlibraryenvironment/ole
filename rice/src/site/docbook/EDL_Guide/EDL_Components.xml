@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_Components" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+            <title>Components</title>
+            <section>
+                <title>Field Definitions</title>
+                <para>You need to define eDocLite fields to capture data that is passed to the
+                    server for storage. </para>
+                <para>Key Information about eDocLite fields:<itemizedlist>
+                        <listitem>
+                            <para>Save eDocLite data fields as key value pairs in two columns of a
+                                single database table. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Use the xml element name as the key. </para>
+                        </listitem>
+                        <listitem>
+                            <para>You do not need to make any database-related changes when building
+                                eDocLite web applications. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Store documents by document number. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Make all field names unique within a document type. </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>The code example below focuses on the EDL section of the eDocLite form
+                    definition. The file Edoclite.xsd found in source under the
+                    impl/src/main/resources/schema/ directory describes the xml rules for this
+                    section.</para>
+                <para>Note that the first few lines proceeding <emphasis role="keyword">&lt;edl
+                        name="eDoc.Example1.Form"</emphasis> relate to namespace definitions. These
+                    are common across all eDocLites, so this guide does not discuss them. </para>
+                <para>In this example, any XML markup that has no value shown or that is not
+                    explained offers options that are not important at this time.</para>
+                <programlisting linenumbering = "numbered">&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;edoclite xmlns="ns:workflow/eDocLite " xsi:schemaLocation="ns:workflow/eDocLite  resource:eDocLite ">
+
+    &lt;edl name="eDoc.Example1.Form" title="Example 1">
+        &lt;security />
+        &lt;createInstructions>** Questions with an asterisk are required.&lt;/createInstructions>
+        &lt;instructions>** Questions with an asterisk are required.&lt;/instructions>
+        &lt;validations />
+        &lt;attributes />
+        &lt;fieldDef name="userName" title="Full Name">
+            &lt;display>
+                &lt;type>text&lt;/type>
+                &lt;meta>
+                    &lt;name>size&lt;/name>
+                    &lt;value>40&lt;/value>
+                &lt;/meta>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;message>Please enter your full name&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="rqstDate" title="Requested Date of Implementation:">
+            &lt;display>
+                &lt;type>text&lt;/type>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;regex>^[0-1]?[0-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$&lt;/regex>
+                &lt;message>Enter a valid date in the format mm/dd/yyyy.&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="requestType" title="Request Type:">
+            &lt;display>
+                &lt;type>radio&lt;/type>
+                &lt;values title="New">New&lt;/values>
+                &lt;values title="Modification">Modification&lt;/values>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;message>Please select a request type.&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef attributeName="EDL.Campus.Example" name="campus" title="Campus:">
+            &lt;display>
+                &lt;type>select&lt;/type>
+                &lt;values title="IUB">IUB&lt;/values>
+                &lt;values title="IUPUI">IUPUI&lt;/values>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;message>Please select a campus.&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="description" title="Description of Request:">
+            &lt;display>
+                &lt;type>textarea&lt;/type>
+                &lt;meta>
+                    &lt;name>rows&lt;/name>
+                    &lt;value>5&lt;/value>
+                &lt;/meta>
+                &lt;meta>
+                    &lt;name>cols&lt;/name>
+                    &lt;value>60&lt;/value>
+                &lt;/meta>
+                &lt;meta>
+                    &lt;name>wrap&lt;/name
+                    &lt;value>hard&lt;/value>
+                &lt;/meta>
+            &lt;/display>
+            &lt;validation required="false" />
+        &lt;/fieldDef>
+        &lt;fieldDef name="fundedBy" title="My research/sponsored program work is funded by NIH or NSF.">
+            &lt;display>
+                &lt;type>checkbox&lt;/type>
+                &lt;values title="My research/sponsored program work is funded by NIH or NSF.">nihnsf&lt;/values
+            &lt;/display>
+        &lt;/fieldDef>
+        &lt;fieldDef name="researchHumans" title="My research/sponsored program work involves human subjects.">
+            &lt;display>
+                &lt;type>checkbox&lt;/type>
+                &lt;values title="My research/sponsored program work involves human subjects.">humans&lt;/values>
+            &lt;/display>
+        &lt;/fieldDef>
+    &lt;/edl>
+    &lt;/eDocLite>
+&lt;/data></programlisting>
+                <para>In the EDL XML file, field definition is embodied in the <emphasis role="keyword"
+                    >edl</emphasis> element. This element has a <emphasis role="keyword"
+                        >name</emphasis> attribute that is used to identify this file as a
+                    definition of an EDL form. It often has a <emphasis role="keyword">title</emphasis>
+                    for display purposes.</para>
+                <para>Examination of this code shows that <itemizedlist>
+                        <listitem>
+                            <para>Individual fields have names, titles, and types. The types closely
+                                match html types. </para>
+                        </listitem>
+                        <listitem>
+                            <para>You can easily use simple validation attributes and sub-attributes
+                                to ensure that a field is entered if required and that an
+                                appropriate error message is presented if no value is provided by
+                                the web user. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Regular expressions enhance the edit criteria without using custom
+                                JavaScript. (There are several ways that you can invoke custom
+                                JavaScript for a field, but they are not shown in this example.)
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>An important field named campus has syntax that defines the value
+                                used to drive the routing destination. (In more complex documents,
+                                several fields are involved in making the routing decision.) </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+                <title>XSLT Style Sheet</title>
+                <para>The next section of the EDL XML file is the XSLT style sheet. It renders the
+                    EDL that the browser will present and contains logic to determine how data is
+                    rendered to the user.</para>
+                <para>A major workhorse of the XSLT code is contained in a style sheet library
+                    called <emphasis role="keyword">widgets.xml</emphasis>. In the example below, it's
+                    included in the style sheet using an <emphasis role="keyword"
+                        >xsl:include</emphasis> directive.</para>
+                <para>Workflow Java classes have API's that offer methods that supply valuable
+                    information to the XSLT style sheet logic. XML allows you to interrogate the
+                    current value of <emphasis role="keyword">EDL</emphasis>-defined fields, and it
+                    provides a variety of built-in functions.</para>
+                <para>Together, these helpers allow the eDocLite style sheet programmer to focus on
+                    rendering fields and titles using library (widget) calls and to perform
+                    necessary logic using the constructs built into the XML language(<emphasis
+                        role="keyword">if</emphasis>, <emphasis role="keyword">choose…when</emphasis>,
+                    etc.).</para>
+                <para>This is the area of eDocLite development that takes the longest and is the
+            most tedious. Much of what the eDocLite style sheet programmer writes focuses on are:
+            which fields and titles appear, in what order, to which users, and whether the fields
+            are <emphasis role="keyword">readOnly</emphasis>, <emphasis role="keyword"
+                >editable</emphasis>, or <emphasis role="keyword">hidden</emphasis>.</para>
+                <para>Below is the style sheet section of the EDL XML form for our example. It
+                    contains embedded comments.</para>
+                <programlisting linenumbering = "numbered">&lt;!-- widgets is simply more xslt that contains common functionality that greatly simplifies html rendering 
+It is somewhat complicated but does not require changes or full understanding unless enhancements are required.  -->
+&lt;xsl:include href="widgets" />
+&lt;xsl:output indent="yes" method="html" omit-xml-declaration="yes" version="4.01" />
+
+&lt;!-- variables in the current version of xslt cannot be changed once set. Below they are set to various values often fed by java classes or to
+values contained in workflow xml. Not all of these are used in this form but are shown because often they can be useful
+The ones prefixed with my-class are methods that are exposed by workflow to eDocLite .-->
+&lt;xsl:variable name="actionable" select="/documentContent/documentState/actionable" />
+&lt;xsl:variable name="docHeaderId" select="/documentContent/documentState/docId" />
+&lt;xsl:variable name="editable" select="/documentContent/documentState/editable" />
+&lt;xsl:variable name="globalReadOnly" select="/documentContent/documentState/editable != 'true'" />
+&lt;xsl:variable name="docStatus" select="//documentState/workflowDocumentState/status" />
+&lt;xsl:variable name="isAtNodeInitiated" select="my-class:isAtNode($docHeaderId, 'Initiated')" />
+&lt;xsl:variable name="isPastInitiated" select="my-class:isNodeInPreviousNodeList('Initiated', $docHeaderId)" />
+&lt;xsl:variable name="isUserInitiator" select="my-class:isUserInitiator($docHeaderId)" />
+&lt;!-- &lt;xsl:variable name="workflowUser" select="my-class:getWorkflowUser().authenticationUserId().id()" /> This has a unique implementation at IU -->
+&lt;xsl:param name="overrideMain" select="'true'" />
+
+&lt;!-- mainForm begins here. Execution of stylesheet begins here. It calls other templates which can call other templates.
+Position of templates beyond this point do not matter. -->
+&lt;xsl:template name="mainForm">
+    &lt;html xmlns="">
+        &lt;head>
+            &lt;script language="javascript" />
+            &lt;xsl:call-template name="htmlHead" />
+        &lt;/head>
+        &lt;body onload="onPageLoad()">
+            &lt;xsl:call-template name="errors" />
+            &lt;!-- the header is useful because it tells the user whether they are in 'Editing' mode or 'Read Only' mode. -->
+            &lt;xsl:call-template name="header" />
+            &lt;xsl:call-template name="instructions" />
+            &lt;xsl:variable name="formTarget" select="'eDocLite '" />
+            &lt;!-- validateOnSubmit is a javascript function (file: edoclite1.js) which supports edoclite forms and can be somewhat complicated 
+                 but does not
+ require modification unless enhancements are required. -->
+            &lt;form action="{$formTarget}" enctype="multipart/form-data" id="edoclite" method="post" onsubmit="return validateOnSubmit(this)">
+                &lt;xsl:call-template name="hidden-params" />
+                &lt;xsl:call-template name="mainBody" />
+                &lt;xsl:call-template name="notes" />
+                &lt;br />
+                &lt;xsl:call-template name="buttons" />
+                &lt;br />
+            &lt;/form>
+            &lt;xsl:call-template name="footer" />
+        &lt;/body>
+    &lt;/html>
+&lt;/xsl:template>
+
+&lt;!-- mainBody template begins here. It calls other templates which can call other templates. Position of templates do not matter. -->
+&lt;xsl:template name="mainBody">
+    &lt;!-- to debug, or see values of previously created variables, one can use the following format.
+         for example, uncomment the following line to see value of $docStatus. It will be rendered at the top of the main body form. -->
+    &lt;!-- $docStatus=&lt;xsl:value-of select="$docStatus" /> -->
+    &lt;!-- rest of this all is within the form table -->
+    &lt;table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="80%">
+        &lt;tr>
+            &lt;td align="left" border="3" class="thnormal" colspan="1">
+&lt;br />
+&lt;h3>
+My Page
+&lt;br />
+EDL EDoclite Example
+&lt;/h3>
+&lt;br />
+&lt;/td>
+            &lt;td align="center" border="3" class="thnormal" colspan="2">
+&lt;br />
+&lt;h2>eDocLite Example 1 Form&lt;/h2>&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="headercell5" colspan="100%">
+&lt;b>User Information&lt;/b>
+&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'userName'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+                &lt;font color="#ff0000">*&lt;/font>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'userName'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="headercell5" colspan="100%">
+&lt;b>Other Information&lt;/b>
+&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'rqstDate'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+                &lt;font color="#ff0000">*&lt;/font>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'rqstDate'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'campus'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+                &lt;font color="#ff0000">*&lt;/font>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'campus'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'description'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'description'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal" colspan="2">
+&lt;b>(Check all that apply)&lt;/b>
+&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="datacell" colspan="2">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'fundedBy'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+                &lt;br />
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'researchHumans'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+                &lt;br />
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="headercell1" colspan="100%">
+&lt;b>Supporting Materials&lt;/b>&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal" colspan="100%">Use the Create Note box below to attach supporting materials to your request. Notes may be added with or without attachments. Click the red 'save' button on the right.&lt;/td>
+        &lt;/tr>
+    &lt;/table>
+    &lt;br xmlns="" />
+&lt;/xsl:template>
+&lt;xsl:template name="nbsp">
+    &lt;xsl:text disable-output-escaping="yes">&amp;amp;nbsp;&lt;/xsl:text>
+&lt;/xsl:template>
+&lt;/xsl:stylesheet>
+&lt;/style>
+</programlisting>
+                <para>The beginning portion of this style sheet defines some XSL variables that are
+                    often useful to drive logic choices. For simplicity, this example uses very
+                    little logic. </para>
+                <para>The <emphasis role="keyword">isPastInitiated</emphasis> variable drives whether
+                    a user-defined EDL field renders readOnly or not. </para>
+                <para>The <emphasis role="keyword">mainform</emphasis> often serves to call some
+                    common widget templates that add canned functionality. The <emphasis
+                        role="keyword">mainform</emphasis> then calls the <emphasis role="keyword"
+                        >mainBody</emphasis> template, which creates the html to render the
+                    EDL-defined fields. The <emphasis role="keyword">mainform</emphasis> then
+                    (optionally) calls the notes, buttons, and footer templates.</para>
+                <para>The majority of your programming effort goes into the <emphasis role="keyword"
+                    >mainBody</emphasis>, where calls to <emphasis role="keyword"
+                        >widget_render</emphasis> generate much of the field-specific title and
+                    value information. Various options can be passed into <emphasis role="keyword"
+                        >widgets_render</emphasis> to allow client events to be executed. The
+                    <emphasis role="keyword">mainBody</emphasis> is usually one or more html
+                    tables and sometimes makes calls to programmer-defined sub-templates. The XSLT
+                    stylesheet generates the HTML rendered by the browser.</para>
+                <para>The main and repeating theme of the example involves calling <emphasis
+                    role="keyword">widget_render</emphasis> with the title of an EDL field,
+                    followed by calling <emphasis role="keyword">widget_render</emphasis> again with
+                    the input field. Widgets are a wrapper for XSLT stylesheets that offer the
+                    ability to create HTML. Parameters offer different ways to render HTML when
+                    making calls to widgets. Note that the variable value <emphasis role="keyword"
+                        >$isPastInitiated</emphasis> is passed as a parameter to widgets_render so
+                    that the html <emphasis role="keyword">readOnly</emphasis> attribute is generated
+                    when the form is passed the initiator's node.</para>
+            </section>
+</chapter>

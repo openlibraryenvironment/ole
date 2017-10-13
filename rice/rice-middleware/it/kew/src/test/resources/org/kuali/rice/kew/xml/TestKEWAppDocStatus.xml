@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+     <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+         <ruleAttribute>
+            <name>DestinationAttribute</name>
+            <className>edu.sampleu.travel.workflow.DestinationRuleAttribute</className>
+            <label>Department of Prudence Routing</label>
+            <description>Department of Prudence Routing</description>
+            <applicationId>TRAVEL</applicationId>
+            <type>RuleAttribute</type>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>EmployeeAttribute</name>
+            <className>edu.sampleu.travel.workflow.EmployeeAttribute</className>
+            <label>Employee Routing</label>
+            <description>Employee Routing</description>
+            <applicationId>TRAVEL</applicationId>
+            <type>RuleAttribute</type>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>AccountAttribute</name>
+            <className>edu.sampleu.travel.workflow.AccountAttribute</className>
+            <label>Account Routing</label>
+            <description>Account Routing</description>
+            <applicationId>TRAVEL</applicationId>
+            <type>RuleAttribute</type>
+        </ruleAttribute>
+ 	</ruleAttributes>
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>TravelRequest-DestinationRouting</name>
+            <description>Destination Routing</description>
+            <attributes>
+                <attribute>
+                    <name>DestinationAttribute</name>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>TravelRequest-TravelerRouting</name>
+            <description>Traveler Routing</description>
+            <attributes>
+                <attribute>
+                    <name>EmployeeAttribute</name>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>TravelRequest-SupervisorRouting</name>
+            <description>Supervisor Routing</description>
+            <attributes>
+                <attribute>
+                    <name>EmployeeAttribute</name>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>TravelRequest-AccountRouting</name>
+            <description>Travel Account Routing</description>
+            <attributes>
+                <attribute>
+                    <name>AccountAttribute</name>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+    </ruleTemplates>
+    
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	    <documentType>
+    	  <name>TestAppDocStatusDoc1</name>
+	      <label>Test Status Doc 1</label>
+    	  <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+	      <docHandler>_blank</docHandler>
+    	  <superUserWorkgroupName>KR-WKFLW:BlanketApproveWorkgroup</superUserWorkgroupName>
+	      <blanketApprovePolicy>NONE</blanketApprovePolicy>
+    	  <defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<active>true</active>
+		    <routePaths>
+        		<routePath>
+          			<start name="AdHoc" />
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc">
+        	  		<activationType>P</activationType>
+		        </start>
+      		</routeNodes>
+    	</documentType>
+        <documentType>
+            <name>TestAppDocStatusDoc2</name>
+            <description>Create a test document</description>
+            <label>Test Status Doc 2</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+            <docHandler>_blank</docHandler>
+            <validApplicationStatuses>
+            	<status>Approval In Progress</status>
+            	<status>Submitted</status>
+            	<status>Pending</status>
+            	<status>Completed</status>
+            	<status>Approved</status>
+            	<status>Rejected</status>
+            </validApplicationStatuses>
+            <policies>
+              <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+              </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="DestinationApproval" nextAppDocStatus="Approval in Progress"/>
+                    <requests name="DestinationApproval" nextNode="TravelerApproval" nextAppDocStatus="Submitted"/>
+                    <requests name="TravelerApproval" nextNode="SupervisorApproval" />
+                    <requests name="SupervisorApproval" nextNode="AccountApproval" />
+                    <requests name="AccountApproval" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+                <requests name="DestinationApproval">
+                    <ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
+                </requests>
+                <requests name="TravelerApproval">
+                    <ruleTemplate>TravelRequest-TravelerRouting</ruleTemplate>
+                </requests>
+                <requests name="SupervisorApproval">
+                    <ruleTemplate>TravelRequest-SupervisorRouting</ruleTemplate>
+                </requests>
+                <requests name="AccountApproval">
+                    <ruleTemplate>TravelRequest-AccountRouting</ruleTemplate>
+                </requests>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>TestAppDocStatusDoc3</name>
+            <description>Create a test document</description>
+            <label>Test Status Doc 3</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+            <docHandler>_blank</docHandler>
+            <policies>
+              <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+              </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="DestinationApproval" />
+                    <requests name="DestinationApproval"/>
+                    <requests name="AccountApproval" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+                <requests name="DestinationApproval">
+                    <ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
+                </requests>
+                <requests name="AccountApproval">
+                    <ruleTemplate>TravelRequest-AccountRouting</ruleTemplate>
+                </requests>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+          <name>TestAppDocStatusDoc4</name>
+          <description>Create a test document</description>
+          <label>Test Status Doc 4</label>
+          <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+          <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+          <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+          <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+          <docHandler>_blank</docHandler>
+          <validApplicationStatuses>
+            <status>bogus1</status>
+            <category name="IN PROGRESS">
+              <status>Approval In Progress</status>
+              <status>Submitted</status>
+              <status>Pending</status>
+            </category>
+            <status>bogus2</status>
+            <category name="PROCESSED">
+              <status>Completed</status>
+              <status>Approved</status>
+              <status>Rejected</status>
+            </category>
+            <status>bogus3</status>
+          </validApplicationStatuses>
+          <policies>
+            <policy>
+              <name>DOCUMENT_STATUS_POLICY</name>
+              <stringValue>app</stringValue>
+            </policy>
+          </policies>
+          <routePaths>
+            <routePath>
+              <start name="Initiated" nextNode="DestinationApproval" nextAppDocStatus="Approval in Progress"/>
+              <requests name="DestinationApproval" nextNode="TravelerApproval" nextAppDocStatus="Submitted"/>
+              <requests name="TravelerApproval" nextNode="SupervisorApproval" />
+              <requests name="SupervisorApproval" nextNode="AccountApproval" />
+              <requests name="AccountApproval" />
+            </routePath>
+          </routePaths>
+          <routeNodes>
+            <start name="Initiated">
+              <activationType>P</activationType>
+            </start>
+            <requests name="DestinationApproval">
+              <ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
+            </requests>
+            <requests name="TravelerApproval">
+              <ruleTemplate>TravelRequest-TravelerRouting</ruleTemplate>
+            </requests>
+            <requests name="SupervisorApproval">
+              <ruleTemplate>TravelRequest-SupervisorRouting</ruleTemplate>
+            </requests>
+            <requests name="AccountApproval">
+              <ruleTemplate>TravelRequest-AccountRouting</ruleTemplate>
+            </requests>
+          </routeNodes>
+        </documentType>
+
+    </documentTypes>
+</data>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="rice.kew.workflowDocumentActionService.exporter" parent="kewServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.workflowDocumentActionsService"/>
+        </property>
+        <property name="localServiceName" value="workflowDocumentActionsService"/>
+        <property name="busSecurity" value="${rice.kew.workflowDocumentActionsService.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.actionListCustomizationHandlerService.exporter" parent="kewServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.actionListCustomizationHandlerService"/>
+        </property>
+        <property name="localServiceName" value="actionListCustomizationHandlerService"/>
+        <property name="busSecurity" value="${rice.kew.actionListCustomizationHandlerService.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.documentSearchCustomizationHandlerService.exporter" parent="kewServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.documentSearchCustomizationHandlerService"/>
+        </property>
+        <property name="localServiceName" value="documentSearchCustomizationHandlerService"/>
+        <property name="busSecurity" value="${rice.kew.documentSearchCustomizationHandlerService.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.documentSecurityHandlerService.exporter" parent="kewServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.documentSecurityHandlerService"/>
+        </property>
+        <property name="localServiceName" value="documentSecurityHandlerService"/>
+        <property name="busSecurity" value="${rice.kew.documentSecurityHandlerService.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.ruleValidationAttributeExporterService.exporter" parent="kewServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.ruleValidationAttributeExporterService"/>
+        </property>
+        <property name="localServiceName" value="ruleValidationAttributeExporterService"/>
+        <property name="busSecurity" value="${rice.kew.ruleValidationAttributeExporterService.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.workflowRuleAttributeHandlerService.exporter" parent="kewServiceExporter" lazy-init="false">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.workflowRuleAttributeHandlerService"/>
+        </property>
+        <property name="localServiceName" value="workflowRuleAttributeHandlerService"/>
+        <property name="busSecurity" value="${rice.kew.workflowRuleAttributeHandlerService.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.documentProcessingQueue.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.documentProcessingQueue"/>
+        </property>
+        <property name="localServiceName" value="documentProcessingQueue"/>
+        <property name="priority" value="5"/>
+        <property name="messageExceptionHandler"
+                  value="org.kuali.rice.kew.messaging.exceptionhandling.DocumentMessageExceptionHandler"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.documentOrchestrationQueue.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.documentOrchestrationQueue"/>
+        </property>
+        <property name="localServiceName" value="documentOrchestrationQueue"/>
+        <property name="priority" value="4"/>
+        <property name="messageExceptionHandler"
+                  value="org.kuali.rice.kew.messaging.exceptionhandling.DocumentMessageExceptionHandler"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.backdoorRestrictionPermissionTypeService.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="backdoorRestrictionPermissionTypeService"/>
+        </property>
+        <property name="localServiceName" value="backdoorRestrictionPermissionTypeService"/>
+        <property name="priority" value="10"/>
+        <property name="messageExceptionHandler"
+                  value="org.kuali.rice.kew.messaging.exceptionhandling.DocumentMessageExceptionHandler"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.documentAttributeIndexingQueue.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.documentAttributeIndexingQueue"/>
+        </property>
+        <property name="localServiceName" value="documentAttributeIndexingQueue"/>
+        <property name="busSecurity" value="${rice.kew.documentAttributeIndexingQueue.secure}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.documentRefreshQueue.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.documentRefreshQueue"/>
+        </property>
+        <property name="localServiceName" value="documentRefreshQueue"/>
+        <property name="priority" value="10"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.rolePokerQueue.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.rolePokerQueue"/>
+        </property>
+        <property name="localServiceName" value="rolePokerQueue"/>
+        <property name="priority" value="10"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.actionInvocationQueue.exporter" parent="kewServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kewService">
+        <property name="service">
+          <ref bean="rice.kew.actionInvocationQueue"/>
+        </property>
+        <property name="localServiceName" value="actionInvocationQueue"/>
+        <property name="priority" value="10"/>
+        <property name="messageExceptionHandler"
+                  value="org.kuali.rice.kew.messaging.exceptionhandling.DocumentMessageExceptionHandler"/>
+      </bean>
+    </property>
+  </bean>
+
+</beans>

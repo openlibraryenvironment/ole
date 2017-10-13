@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_AcqInvServices" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Acquiring and Invoking Services Deployed on KSB</title>
+
+    <section>
+      <title>Service invocation overview</title>
+
+      <para><orderedlist>
+          <listitem>
+            <para>Acquired and called directly<itemizedlist>
+                <listitem>
+                  <para>Automatic Failover</para>
+                </listitem>
+
+                <listitem>
+                  <para>No Persistence</para>
+                </listitem>
+
+                <listitem>
+                  <para>Direct call - Request/Response</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Acquired and called through the MessageHelper <itemizedlist>
+                <listitem>
+                  <para>Automatic Failover</para>
+                </listitem>
+
+                <listitem>
+                  <para>Message Persistence</para>
+                </listitem>
+
+                <listitem>
+                  <para>KSB Exception Messaging</para>
+                </listitem>
+
+                <listitem>
+                  <para>Callback Mechanisms</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+        </orderedlist></para>
+
+      <para>In the examples below, notice that the <emphasis
+      role="bold">client code is unaware of the protocol with which the
+      underlying service is deployed</emphasis>. Given a connector for a given
+      protocol and a compatible service definition, you could move a service
+      to different protocols as access needs change without affecting
+      dependent client code.</para>
+    </section>
+
+    <section>
+      <title>Acquiring and invoking a service directly</title>
+
+      <para>The easiest way to call a service is to grab it and invoke it
+      directly. This uses a direct request/response pattern and what you see
+      is what you get. You will wait for the processing the call takes on the
+      other side plus the cost of the remote connection time. Any exceptions
+      thrown will come across the wire in a protocol-acceptable way.</para>
+
+      <para>This code acquires a SOAP-based service and calls it:</para>
+
+      <programlisting>QName serviceName = new QName("testNameSpace", "soap-repeatTopic");
+
+SOAPService soapService = (SOAPService) GlobalResourceLoader.getService(serviceName);
+soapService.doTheThing("hello");</programlisting>
+
+      <para>The SOAPService interface needs to be in the client classpath and
+      bindable to the WSDL. The easiest way to achieve this in Java is to
+      create a bean that is exported as a SOAP service. This is the
+      server-side service declaration in a Spring file:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+  ...
+  &lt;property name="services"&gt;
+    &lt;list&gt;
+        &lt;bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"&gt;
+            &lt;property name="service"&gt;
+              &lt;ref bean="soapService" /&gt;
+            &lt;/property&gt;
+            &lt;property name="localServiceName" value="soap-repeatTopic" /&gt;
+            &lt;property name="serviceNameSpaceURI" value="testNameSpace" /&gt;
+            &lt;property name="priority" value="3" /&gt;
+            &lt;property name="queue" value="false" /&gt;
+            &lt;property name="retryAttempts" value="1" /&gt;
+        &lt;/bean&gt;
+        ...
+    &lt;/list&gt;
+  &lt;/property&gt;
+&lt;/bean&gt; </programlisting>
+
+      <para>This declaration exposes the bean soapService on the bus as a SOAP
+      available service. The Web Service Definition Language is available at
+      the serviceServletUrl + serviceNameSpaceURI + localServiceName +
+      ?wsdl.</para>
+
+      <para>This next code snippet acquires and calls a Java base
+      service:</para>
+
+      <programlisting>EchoService echoService = (EchoService)GlobalResourceLoader.getService(new QName("TestCl1", "echoService"));
+String echoValue = "echoValue";
+String result = echoService.echo(echoValue);</programlisting>
+
+      <para>Again, the interface is all that is required to make the call.
+      This is the server-side service declaration that deploys a bean using
+      Spring's HttpInvoker as the underlying transport:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+  ...
+  &lt;property name="services"&gt;
+    &lt;list&gt;
+        &lt;bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"&gt;
+            &lt;property name="service" ref="echoService" /&gt;
+            &lt;property name="serviceInterface" value="org.kuali.rice.ksb.messaging.remotedservices.EchoService" /&gt;
+            &lt;property name="localServiceName" value="soap-echoService" /&gt;
+            &lt;property name="busSecurity" value="false"&gt;&lt;/property&gt;
+        &lt;/bean&gt;
+        ...
+    &lt;/list&gt;
+  &lt;/property&gt;
+&lt;/bean&gt; </programlisting>
+
+      <para>Below is a description of each property on the ServiceDefinition
+      (JavaServiceDefinition and SOAPServiceDefinition):</para>
+
+      <para><table frame="none" tabstyle="striped">
+          <title>Properties of the ServiceDefinition</title>
+
+          <tgroup cols="4">
+            <colspec colname="c1" colnum="1" colwidth="0.8*"/>
+
+            <colspec colname="c2" colnum="2" colwidth="0.3*"/>
+
+            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+
+            <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+
+            <thead>
+              <row>
+                <entry>property</entry>
+
+                <entry>required</entry>
+
+                <entry>default</entry>
+
+                <entry>description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>busSecurity</entry>
+
+                <entry>no</entry>
+
+                <entry>yes (JavaServiceDefinition), no
+                (SOAPServiceDefinition)</entry>
+
+                <entry>For Java-based services, message is digitally signed
+                before calling the service and verified at the node hosting
+                the service. For SOAP services, WSS4J is used to digitally
+                sign the SOAP request/response in accordance with the WS
+                Security specification. More info on Bus Security
+                here.</entry>
+              </row>
+
+              <row>
+                <entry>localServiceName</entry>
+
+                <entry>yes</entry>
+
+                <entry>none</entry>
+
+                <entry>The local name of the QName that makes up the complete
+                service name.</entry>
+              </row>
+
+              <row>
+                <entry>messageExceptionHandler</entry>
+
+                <entry>no</entry>
+
+                <entry>DefaultMessageExceptionHandler</entry>
+
+                <entry>Name of the MessageExceptionHandler that is called when
+                a service call fails. This is called after the retryAttempts
+                or millisToLive policy of the service or Node has been
+                met.</entry>
+              </row>
+
+              <row>
+                <entry>millisToLive</entry>
+
+                <entry>no</entry>
+
+                <entry>none</entry>
+
+                <entry>Used instead of retryAttempts. Only considered in case
+                of error when invoking service. Defines how long the message
+                should continue to be tried before being put into KSB
+                Exception Messaging.</entry>
+              </row>
+
+              <row>
+                <entry>priority</entry>
+
+                <entry>no</entry>
+
+                <entry>5</entry>
+
+                <entry>Only applies when asynchronous messaging is enabled.
+                The lower the priority is, the sooner the message will be
+                executed. For example, if 100 <emphasis role="italic">priority
+                10</emphasis> messages are waiting for invocation and a
+                <emphasis role="italic">priority 5</emphasis> message is sent,
+                the <emphasis role="italic">priority 5</emphasis> message will
+                be executed first.</entry>
+              </row>
+
+              <row>
+                <entry>queue</entry>
+
+                <entry>no</entry>
+
+                <entry>true</entry>
+
+                <entry><para>If <emphasis role="italic">true</emphasis>, the
+                service will behave like a queue in that there is only one
+                real service call when a message is sent. </para><para>If
+                <emphasis role="italic">false</emphasis>, the service will
+                behave like a topic. All beans bound to the service name will
+                be sent a message when a message is sent to the service.
+                </para><para>Use queues for operations you only want to happen
+                once (for example, to route a document). Use topics for
+                notifications across a cluster (for example, to invalidate
+                cache entry).</para></entry>
+              </row>
+
+              <row>
+                <entry>retryAttempts</entry>
+
+                <entry>no</entry>
+
+                <entry>7</entry>
+
+                <entry>Determines the number of times a service can be invoked
+                before being put into KSB Exception Messaging (the error
+                state)</entry>
+              </row>
+
+              <row>
+                <entry>service</entry>
+
+                <entry>yes</entry>
+
+                <entry>none</entry>
+
+                <entry>The bean to be exposed for invocation on the
+                bus</entry>
+              </row>
+
+              <row>
+                <entry>serviceEndPoint</entry>
+
+                <entry>no</entry>
+
+                <entry>serviceServletUrl + serviceName</entry>
+
+                <entry>This can be explicitly set to create an alternate
+                service end point, different from the one the bus
+                automatically creates.</entry>
+              </row>
+
+              <row>
+                <entry>serviceName</entry>
+
+                <entry>yes</entry>
+
+                <entry>serviceNameSpaceURI + localServiceName</entry>
+
+                <entry>If <emphasis role="italic">localServiceName</emphasis>
+                and <emphasis role="italic">serviceNameSpaceURI</emphasis> are
+                omitted, the QName of the service. This can be used instead of
+                the <emphasis role="italic">localServiceName</emphasis> and
+                <emphasis role="italic">serviceNameSpaceURI</emphasis>
+                convenience methods.</entry>
+              </row>
+
+              <row>
+                <entry>serviceNameSpaceURI</entry>
+
+                <entry>no</entry>
+
+                <entry>messageEntity property or message.entity config param
+                is used</entry>
+
+                <entry>The namespaceURI of the QName that makes up the
+                complete service name. If set to "" (blank string) the
+                property is NOT included in the construction of the QName
+                representing the service and the service name will just be the
+                localServiceName with no namespace.</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+    </section>
+
+    <section>
+      <title>Acquiring and invoking a service using messaging</title>
+
+      <para>To make a call to a service through messaging, acquire the service
+      by its name using the MessageHelper:</para>
+
+      <programlisting>QName serviceName = new QName("testAppsSharedQueue", "sharedQueue");
+
+KEWSampleJavaService testJavaAsyncService = (KEWSampleJavaService) KsbApiServiceLocator.getMessageHelper().getServiceAsynchronously(serviceName);
+</programlisting>
+
+      <para>At this point, the testJavaAsyncService can be called like a
+      normal JavaBean:</para>
+
+      <programlisting>testJavaAsyncService.invoke(new ClientAppServiceSharedPayloadObj("message content", false));</programlisting>
+
+      <para>Because this is a queue, a single message is sent to one of the
+      beans bound to the service name <emphasis role="italic">new
+      QName("testAppsSharedQueue", "sharedQueue")</emphasis>. That 'message'
+      is the call 'invoke' and it takes a ClientAppServiceSharedPayloadObj.
+      Typically, messaging is done asynchronously. Messages are sent when the
+      currently running JTA transaction is committed - that is, the messaging
+      layer automatically synchronizes with the current transaction. So, using
+      JTA, even though the above is coded in line with code, invocation is
+      normally delayed until the transaction surrounding the logic at runtime
+      is committed.</para>
+
+      <para>When not using JTA, the message is sent asynchronously (by a
+      different thread of execution), but it's sent ASAP.</para>
+
+      <para>To review, the requirements to use a service that is exposed to
+      the bus on a different machine are:<orderedlist>
+          <listitem>
+            <para>The service name</para>
+          </listitem>
+
+          <listitem>
+            <para>The interface to which to cast the returned service proxy
+            object</para>
+          </listitem>
+
+          <listitem>
+            <para>The ExceptionMessageHandler required by the service in case
+            invocation fails</para>
+          </listitem>
+        </orderedlist></para>
+
+      <note>
+        <para>Typically, service providers give clients a JAR with this
+        content or organizations maintain a JAR with this content.</para>
+      </note>
+
+      <para>To complete the example: Below is the Spring configuration used to
+      expose this service to the bus. This is taken from the file <emphasis
+      role="italic">TestClient1SpringBeans.xml</emphasis>:</para>
+
+      <programlisting linenumbering = "numbered">&lt;!-- bean declaration --&gt;
+&lt;bean id="sharedQueue" class=" org.kuali.rice.ksb.testclient1.ClientApp1SharedQueue" /&gt;
+
+&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+  ...
+  &lt;property name="services"&gt;
+    &lt;list&gt;
+        &lt;bean class=" org.kuali.rice.ksb.messaging.JavaServiceDefinition"&gt;
+            &lt;property name="service" ref="sharedQueue" /&gt;
+            &lt;property name="localServiceName" value="sharedQueue" /&gt;
+            &lt;property name="serviceNameSpaceURI" value="testAppsSharedQueue" /&gt;
+        &lt;/bean&gt;
+        &lt;... more .../&gt;
+    &lt;/list&gt;
+  &lt;/property&gt;
+&lt;/bean&gt; </programlisting>
+
+      <para>This is located in the Spring file of the application exposing the
+      service (in other words, the location in which the actual invocation
+      will occur). The client does not need a Spring configuration to invoke
+      the service.</para>
+
+      <para>There are two messaging call paradigms, called <emphasis
+      role="italic">Topics</emphasis> and <emphasis
+      role="italic">Queues</emphasis>. When any number of services is declared
+      a Topic, then those services are invoked at least once or multiple
+      times. If any number of services is declared a Queue, then one and only
+      one service name will be invoked.</para>
+    </section>
+
+    <section>
+      <title>Getting responses from service calls made with messaging</title>
+
+      <para>You can use Callback objects to get responses from service calls
+      made using messaging. Acquiring a service for use with a
+      Callback:</para>
+
+      <programlisting>QName serviceName = new QName("TestCl1", "testXmlAsyncService");
+SimpleCallback callback = new SimpleCallback();
+KSBXMLService testXmlAsyncService = (KSBXMLService) KsbApiServiceLocator.getMessageHelper().getServiceAsynchronously(serviceName, callback);
+
+testXmlAsyncService.invoke("message content");</programlisting>
+
+      <para>When the service is invoked asynchronously, the
+      AsynchronousCallback object's (the SimpleCallback class above) callback
+      method is called.</para>
+
+      <para>When message persistence is turned on, this object is serialized
+      with any method call made through the messaging API. Take into
+      consideration that this object (and the result of a method call) may
+      survive machine restart and therefore it's recommended that you NOT
+      depend on certain transient in-memory resources.</para>
+    </section>
+</chapter>

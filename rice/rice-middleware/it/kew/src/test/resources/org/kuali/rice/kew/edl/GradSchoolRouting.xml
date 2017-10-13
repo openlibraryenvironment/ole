@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+    <ruleAttribute>
+      <name>DepartmentAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>Department Routing</label>
+      <description>Department Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="department" title="Department" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="American Studies">American Studies</values>
+            <values title="dept1">dept1</values>
+            <values title="dept2">dept2</values>
+          </display>
+          <validation required="true">
+            <message>[Attrib] Department must be specified</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>//department = wf:ruledata('department')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <department>%department%</department>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+
+    <ruleAttribute>
+      <name>SchoolAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>School/Division Routing</label>
+      <description>School/Division Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="school" title="School/Division" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="COAS">COAS</values>
+            <values title="Business">Business</values>
+            <values title="Education">Education</values>
+          </display>
+          <validation required="true">
+            <regex>COAS|Business|Education</regex>
+            <message>[Attrib] School must be a valid school (COAS, Business, Education)</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>//school = wf:ruledata('school')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <school>%school%</school>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+
+  </ruleAttributes>
+
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+
+    <ruleTemplate allowOverwrite="true">
+      <name>UniversityGraduateSchoolOfficeSchoolRoutingDelegation</name>
+      <description>University Graduate School Office - School Routing Delegation</description>
+      <attributes>
+        <attribute>
+          <name>SchoolAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+
+    <ruleTemplate allowOverwrite="true">
+      <name>UniversityGraduateSchoolOfficeSchoolRouting</name>
+      <description>University Graduate School Office - School Routing</description>
+      <delegationTemplate>UniversityGraduateSchoolOfficeSchoolRoutingDelegation</delegationTemplate>
+      <attributes>
+        <attribute>
+          <name>SchoolAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+
+    <ruleTemplate allowOverwrite="true">
+      <name>UniversityGraduateSchoolOfficeDepartmentRoutingDelegation</name>
+      <description>University Graduate School Office - Department Routing Delegation</description>
+      <attributes>
+        <attribute>
+          <name>DepartmentAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+
+    <ruleTemplate allowOverwrite="true">
+      <name>UniversityGraduateSchoolOfficeDepartmentRouting</name>
+      <description>University Graduate School Office - Department Routing</description>
+      <delegationTemplate>UniversityGraduateSchoolOfficeDepartmentRoutingDelegation</delegationTemplate>
+      <attributes>
+        <attribute>
+          <name>DepartmentAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+
+    <ruleTemplate allowOverwrite="true">
+      <name>UniversityGraduateSchoolOfficeRouting</name>
+      <description>University Graduate School Office Routing</description>
+    </ruleTemplate>
+
+  </ruleTemplates>
+
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>NewCourseRequest</name>
+      <description>Create a New Graduate Course</description>
+      <label>New Course Request</label>
+      <postProcessorName>org.kuali.rice.kew.edoclite.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+      <docHandler>http://localhost:8080/en-dev/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="Department" />
+          <requests name="Department" nextNode="School" />
+          <requests name="School" nextNode="UGS" />
+          <requests name="UGS" />
+        </routePath>
+      </routePaths>
+
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+        </start>
+        <requests name="Department">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOfficeDepartmentRouting</ruleTemplate>
+        </requests>
+        <requests name="School">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOfficeSchoolRouting</ruleTemplate>
+        </requests>
+        <requests name="UGS">
+          <activationType>S</activationType>
+          <ruleTemplate>UniversityGraduateSchoolOfficeRouting</ruleTemplate>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+
+  <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+
+    <rule>
+      <documentType>NewCourseRequest</documentType>
+      <ruleTemplate>UniversityGraduateSchoolOfficeRouting</ruleTemplate>
+      <description>GradSchoolRouting doc routing rule</description>
+      <forceAction>false</forceAction>
+      <!--
+      <ruleExtensions>
+        <ruleExtension>
+          <attribute>ChartOrg</attribute>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <ruleExtensionValues>
+            <ruleExtensionValue>
+              <key>fin_coa_cd</key>
+              <value>KU</value>
+            </ruleExtensionValue>
+            <ruleExtensionValue>
+              <key>org_cd</key>
+              <value>KOOL</value>
+            </ruleExtensionValue>
+          </ruleExtensionValues>
+        </ruleExtension>
+      </ruleExtensions>
+      -->
+      <responsibilities>
+        <responsibility>
+          <groupName namespace="">Group1</groupName>
+          <actionRequested>A</actionRequested>
+          <priority>1</priority>
+        </responsibility>
+      </responsibilities>
+    </rule>
+  </rules>
+
+  <edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+    <edl name="NewCourseRequest" title="New Course Request">
+      <security>not sure what goes here...</security>
+      <eventNotificationURL>http://localhost:8686/en-dev/snoop.jsp</eventNotificationURL>
+      <instructions>Fill out the new Course Request.</instructions>
+
+      <fieldDef name="school" title="School/Division" attributeName="SchoolAttribute">
+        <value></value>
+        <display>
+          <type>select</type>
+          <values title="COAS">COAS</values>
+          <values title="Business">Business</values>
+          <values title="Education">Education</values>
+          <values title="JS-ERROR">JS-ERROR</values>
+          <values title="ATTRIB-ERROR">ATTRIB-ERROR</values>
+        </display>
+        <validation required="true">
+          <regex>COAS|Business|Education|ATTRIB-ERROR</regex>
+          <message>[JS] Please choose a valid school (COAS|Business|Education|ATTRIB-ERROR)</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="department" title="Department" attributeName="DepartmentAttribute">
+        <value></value>
+        <display>
+          <type>select</type>
+          <values title="American Studies">American Studies</values>
+          <values title="dept1">dept1</values>
+          <values title="dept2">dept2</values>
+        </display>
+        <validation>
+          <message>[JS] Javascript does not enforce department to be specified</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="creditType" title="Check Appropriate Boxes">
+        <value>undergraduateCredit</value>
+        <display>
+          <type>radio</type>
+          <values title="Undergraduate credit">undergraduateCredit</values>
+          <values title="Graduate credit">graduateCredit</values>
+          <values title="Professional credit">professionCredit</values>
+        </display>
+        <validation required="true">
+          <message>[JS] Credit type must be specified</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="academicSubjectCode" title="Academic Subject Code">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="courseNumber" title="Course Number (must be cleared with University Enrollment Services)">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>101|202|303</regex>
+        </validation>
+      </fieldDef>
+      <fieldDef name="instructor" title="Instructor">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>4</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="courseTitle" title="Course Title">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>4</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="courseTitleAbbreviation" title="Course Title Abbreviation (32 Characters including spaces)">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>4</value>
+          </meta>
+        </display>
+      </fieldDef>
+    </edl>
+
+    <association>
+      <docType>NewCourseRequest</docType>
+      <definition>NewCourseRequest</definition>
+      <active>true</active>
+    </association>
+
+  </edoclite>
+</data>

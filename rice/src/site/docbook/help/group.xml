@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="group" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>Group</title>
+    </info>
+    <para>Administration > Identity > Identity > Group</para>
+    <para>The Group document allows you to associate persons, roles or other groups with each other
+        in order to assign the same role to all group members.</para>
+    <para>Groups have no inherent permissions or responsibilities of their own. Only by associating
+        a group with a role do the members of that group become associated with permissions and
+        responsibilities.</para>
+    <section>
+        <title>Document Layout</title>
+        <para>The Group document includes <emphasis role="bold">Document Overview</emphasis>,
+                <emphasis role="bold">Overview,</emphasis>
+            <emphasis role="bold">Attributes</emphasis> and <emphasis role="bold"
+                >Assignees</emphasis> tabs.</para>
+        <para><figure><title>Group document</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/group_layout.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+    </section>
+    <section>
+        <title>Overview Tab</title>
+        <para>This tab identifies the group with a unique system-assigned ID number, a namespace and
+            a name. Each group also has a type that specifies any qualifiers that this group might
+            require.</para>
+        <para><figure><title>Group Overview tab</title><mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/group_overview.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Overview tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Group ID</entry>
+                        <entry>Display-only. The unique system-assigned ID number that identifies this
+                            group. The system completes this field when you submit the
+                            document.</entry>
+                    </row>
+                    <row>
+                        <entry>Type Name</entry>
+                        <entry><para>Required. The type of attributes that will be associated with this group. Some group types,
+                                such as the Default Type, require no attributes to be
+                                collected.</para><para>When creating a new group, you must select the Type before the system can generate the
+                                    document. </para></entry>
+                    </row>
+                    <row>
+                        <entry>Group Namespace</entry>
+                        <entry>Required. An indicator that associates the group with a particular
+                            application and module.</entry>
+                    </row>
+                    <row>
+                        <entry>Group Name</entry>
+                        <entry>Required. The common descriptive name by which this group is known.</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Check this box to indicate that this Group is active and is a valid
+                            choice for assigning to roles. Uncheck the box to indicate that this
+                            group is inactive (no longer valid when making role assignments).</entry>
+                    </row>
+                    <row>
+                        <entry>Group Description</entry>
+                        <entry>An optional explaination of the group's need and use.</entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+
+    </section>
+    <section>
+        <title>Assignees Tab</title>
+        <para>This tab contains the members who belong to this group. It can also be used to add new
+            members or edit the values associated with existing members.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/group_assignees.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Assignees tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Type Code</entry>
+                        <entry>Required. Select the type of member you are adding to this group. Group
+                            members can be principals (as defined on the Person document), roles or
+                            other groups. </entry>
+                    </row>
+                    <row>
+                        <entry>Member Identifier</entry>
+                        <entry>Required. Enter the ID that identifies the member you are adding or use
+                            the lookup to search for and select a valid Member ID. The lookup
+                            directs you to the <emphasis role="bold">Principal</emphasis>, <emphasis
+                                role="bold">Group</emphasis> or <emphasis role="bold"
+                                >Role</emphasis> lookup based on your Member Type Code
+                            selection.</entry>
+                    </row>
+                    <row>
+                        <entry>Name</entry>
+                        <entry>Display only. Displays the name of the member you've selected.</entry>
+                    </row>
+                    <row>
+                        <entry>Active From Date</entry>
+                        <entry>Optional. To specify the earliest date on which this member is to be
+                            considered a valid member of this group, enter a From Date.</entry>
+                    </row>
+                    <row>
+                        <entry>Active To Date</entry>
+                        <entry><para>Optional. To specify a date on which this member is no longer to be considered a valid member
+                                of this group, enter a To Date.</para><para>Note that you cannot delete or inactivate group members. To remove a member from a group enter
+                                an Active To Date.</para></entry>
+                    </row>
+                    <row>
+                        <entry>Actions</entry>
+                        <entry>Click the <emphasis role="bold">Add</emphasis> button to add this member
+                            to the group.</entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+</chapter>

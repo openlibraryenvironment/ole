@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>
+			TestAttribute_ForRuleTem</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>TestAttribute_ForRuleTem</label>
+			<description>TestAttribute_ForRuleTemg</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="testAttr" title="testAttr" workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<!-- enforce attrib-level validation -->
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-before(//testAttr, ' ')) = wf:ruledata('testAttr')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<department>%department%</department>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>		
+		
+
+	</ruleAttributes>
+	
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+                 xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+
+    <ruleTemplate allowOverwrite="true">
+      <name>KualiAccountTemplate_test1</name>
+      <description>Kuali Account Template Test</description>
+      <attributes>
+        <attribute>
+          <name> TestAttribute_ForRuleTem  </name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_DocLink" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Document Link</title>
+    <section>
+        <title>Document Link Features</title>
+        <para>KEW provides an option for linking documents and BOs that are functionally
+            related. The link between related documents is created and removed in a double link
+            double delete fashion, which means: when a link is added/deleted from 1 document to
+            another document, a link in the reverse direction is also added/deleted, this
+            feature will guarantee that searching for linked documents can be done from either
+            side of the link. Using this option, client applications can link documents by using
+            document link API.</para>
+    </section>
+    <section>
+        <title>Document Link API</title>
+        <para>Document link API is exposed to the client through WorkflowDocument interface,
+            below is the summary of the api: <orderedlist>
+                <listitem>
+                    <para>get all links to orgn doc </para>
+                    <para>public List&lt;DocumentLinkDTO> getLinkedDocumentsByDocId(Long id)
+                        throws WorkflowException </para>
+                </listitem>
+                <listitem>
+                    <para>get the link from orgn doc to a specific doc </para>
+                    <para>public DocumentLinkDTO getLinkedDocument(DocumentLinkDTO docLinkVO)
+                        throws WorkflowException </para>
+                </listitem>
+                <listitem>
+                    <para>add a link by id </para>
+                    <para>public void addLinkedDocument(DocumentLinkDTO docLinkVO) throws
+                        WorkflowException </para>
+                </listitem>
+                <listitem>
+                    <para>remove all links to this doc as orgn doc </para>
+                    <para>public void removeLinkedDocuments(Long docId) throws WorkflowException
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>remove the link to the specific doc </para>
+                    <para>public void removeLinkedDocument(DocumentLinkDTO docLinkVO) throws
+                        WorkflowException </para>
+                </listitem>
+            </orderedlist></para>
+    </section>
+    <section>
+        <title>Document Link API Example</title>
+        <para>It is pretty straightforward to use this api, below are some examples:<orderedlist>
+            <listitem>
+                <para>To add a link </para>
+                <programlisting>WorkflowDocument doc = new WorkflowDocument(…);
+
+DocumentLinkDTO testDocLinkVO = new DocumentLinkDTO()
+testDocLinkVO.setOrgnDocId(Long.valueOf(5000));
+
+testDocLinkVO.setDestDocId(Long.valueOf(6000));
+doc.addLinkedDocument(testDocLinkVO);                                                             </programlisting>
+            </listitem>
+            <listitem>
+                <para>To retrieve all links to a document </para>
+                <programlisting>List&lt;DocumentLinkDTO> links2 = doc.getLinkedDocumentsByDocId(Long.valueOf(5000));    </programlisting>
+            </listitem>
+            <listitem>
+                <para>To remove a link </para>
+                <programlisting>doc.removeLinkedDocument(testDocLinkVO);</programlisting>
+            </listitem>
+        </orderedlist></para>
+    </section>
+</chapter>

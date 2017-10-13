@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>DFAC_OAASearchStatusInformalOfferSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>DFAC_OAA Search Status InformalOffer Approval Search Attribute</label>
+      <description>DFAC_OAA Search Status InformalOffer Approval Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="informalOffer" title="Were there informal Offers?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">yes</values>
+            <values title="No">no</values>
+            <values title="Either" />
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='informalOffer']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC.CampusAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>DFAC.CampusAttribute</label>
+      <description>DFAC-OAA Campus Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="campus" title="campus" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="Select">Select</values>
+            <values title="(BL) Bloomington">BL</values>
+            <values title="(CO) Columbus">CO</values>
+            <values title="(EA) East Richmond">EA</values>
+            <values title="(FW) Fort Wayne">FW</values>
+            <values title="(IN) Indianapolis">IN</values>
+            <values title="(KO) Kokomo">KO</values>
+            <values title="(NW) Northwest-Gary">NW</values>
+            <values title="(SB) South Bend">SB</values>
+            <values title="(SE) Southeast-New Albany">SE</values>
+          </display>
+          <validation required="false">
+            <message>Please select an campus.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>//campus = wf:ruledata('campus')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <campus>%campus%</campus>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC.CampusSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>DFAC Campus Search Attribute</label>
+      <description>DFAC Campus Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="campus" title="Campus" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="(BL) Bloomington">BL</values>
+            <values title="(CO) Columbus">CO</values>
+            <values title="(EA) East Richmond">EA</values>
+            <values title="(FW) Fort Wayne">FW</values>
+            <values title="(IN) Indianapolis">IN</values>
+            <values title="(KO) Kokomo">KO</values>
+            <values title="(NW) Northwest-Gary">NW</values>
+            <values title="(SB) South Bend">SB</values>
+            <values title="(SE) Southeast-New Albany">SE</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='campus']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC.SchoolAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>DFAC School Routing</label>
+      <description>DFAC School Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="school" title="School" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="Select" />
+            <!-- Bloomington School Section Starts Here -->
+            <values title="---BL Schools---">%-BL</values>
+            <values title="ADM-BL">ADM-BL</values>
+            <values title="ARSC-BL">ARSC-BL</values>
+            <values title="ASDV-BL">ASDV-BL</values>
+            <values title="BUS-BL">BUS-BL</values>
+            <values title="CCCS-BL">CCCS-BL</values>
+            <values title="CYOP-UA">CYOP-UA</values>
+            <values title="EDUC-BL">EDUC-BL</values>
+            <values title="EXEC-BL">EXEC-BL</values>
+            <values title="HPER-BL">HPER-BL</values>
+            <values title="INFO-BL">INFO-BL</values>
+            <values title="JOUR-BL">JOUR-BL</values>
+            <values title="LAWS-BL">LAWS-BL</values>
+            <values title="LIBR-BL">LIBR-BL</values>
+            <values title="MUS-BL">MUS-BL</values>
+            <values title="OPT-BL">OPT-BL</values>
+            <values title="RCEN-BL">RCEN-BL</values>
+            <values title="RUAD-BL">RUAD-BL</values>
+            <values title="SCS-BL">SCS-BL</values>
+            <values title="SLIS-BL">SLIS-BL</values>
+            <values title="SPEA-BL">SPEA-BL</values>
+            <values title="SSER-BL">SSER-BL</values>
+            <values title="UITS-BL">UITS-BL</values>
+            <values title="VPFA-BL">VPFA-BL</values>
+            <values title="VPUE-BL">VPUE-BL</values>
+            <!-- NW School Section Starts Here -->
+            <values title="---NW Schools---">%-NW</values>
+            <values title="AA-NW">AA-NW</values>
+            <values title="CHHS-NW">CHHS-NW</values>
+            <values title="COAS-NW">COAS-NW</values>
+            <values title="LIBR-NW">LIBR-NW</values>
+            <values title="SOBE-NW">SOBE-NW</values>
+            <values title="SOE-NW">SOE-NW</values>
+            <!-- KOSchool Section Starts Here -->
+            <values title="---KO Schools---">%-KO</values>
+            <values title="ACAD-KO">ACAD-KO</values>
+            <values title="AHLT-KO">AHLT-KO</values>
+            <values title="ARSC-KO">ARSC-KO</values>
+            <values title="BUS-KO">BUS-KO</values>
+            <values title="CHOF-KO">CHOF-KO</values>
+            <values title="CTSD-KO">CTSD-KO</values>
+            <values title="EDUC-KO">EDUC-KO</values>
+            <values title="NURS-KO">NURS-KO</values>
+            <values title="SPEA-KO">SPEA-KO</values>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>//school = wf:ruledata('school')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <school>%school%</school>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC.SchoolSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>DFAC School Search Attribute</label>
+      <description>DFAC School Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="school" title="School" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <!-- Bloomington School Section Starts Here -->
+            <values title="---BL Schools---">%-BL</values>
+            <values title="ADM-BL">ADM-BL</values>
+            <values title="ARSC-BL">ARSC-BL</values>
+            <values title="ASDV-BL">ASDV-BL</values>
+            <values title="BUS-BL">BUS-BL</values>
+            <values title="CCCS-BL">CCCS-BL</values>
+            <values title="EDUC-BL">EDUC-BL</values>
+            <values title="EXEC-BL">EXEC-BL</values>
+            <values title="HPER-BL">HPER-BL</values>
+            <values title="INFO-BL">INFO-BL</values>
+            <values title="JOUR-BL">JOUR-BL</values>
+            <values title="LAWS-BL">LAWS-BL</values>
+            <values title="LIBR-BL">LIBR-BL</values>
+            <values title="MUS-BL">MUS-BL</values>
+            <values title="OPT-BL">OPT-BL</values>
+            <values title="RCEN-BL">RCEN-BL</values>
+            <values title="RUAD-BL">RUAD-BL</values>
+            <values title="SCS-BL">SCS-BL</values>
+            <values title="SLIS-BL">SLIS-BL</values>
+            <values title="SPEA-BL">SPEA-BL</values>
+            <values title="SSER-BL">SSER-BL</values>
+            <values title="UITS-BL">UITS-BL</values>
+            <values title="VPFA-BL">VPFA-BL</values>
+            <values title="VPUE-BL">VPUE-BL</values>
+            <!-- NW School Section Starts Here -->
+            <values title="---NW Schools---">%-NW</values>
+            <values title="AA-NW">AA-NW</values>
+            <values title="CHHS-NW">CHHS-NW</values>
+            <values title="COAS-NW">COAS-NW</values>
+            <values title="LIBR-NW">LIBR-NW</values>
+            <values title="SOBE-NW">SOBE-NW</values>
+            <values title="SOE-NW">SOE-NW</values>
+            <!-- KOSchool Section Starts Here -->
+            <values title="---KO Schools---">%-KO</values>
+            <values title="ACAD-KO">ACAD-KO</values>
+            <values title="AHLT-KO">AHLT-KO</values>
+            <values title="ARSC-KO">ARSC-KO</values>
+            <values title="BUS-KO">BUS-KO</values>
+            <values title="CHOF-KO">CHOF-KO</values>
+            <values title="CTSD-KO">CTSD-KO</values>
+            <values title="EDUC-KO">EDUC-KO</values>
+            <values title="NURS-KO">NURS-KO</values>
+            <values title="SPEA-KO">SPEA-KO</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='school']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC.ViceChancellorforAcademicAffairsandDeanOfFacultiesAdHocNetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>ViceChancellor AdHoc Network Id</label>
+      <description>ViceChancellor AdHoc Network Id Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>ViceChancellorAdHoc</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC.AffirmativeActionOfficerAdHocNetworkIdRoleAttribute</name>
+      <className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute</className>
+      <label>AffirmativeActionOfficer AdHoc Network Id</label>
+      <description>AffirmativeActionOfficer AdHoc Network Id Role Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <configuration>
+        <xmlElementLabel>AffirmativeActionOfficerAdHoc</xmlElementLabel>
+      </configuration>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLDepartmentSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department Search Attribute</label>
+      <description>Department Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department1" title="Department" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <!--<searchDefinition autoWildcardLocation="suffixonly" />-->
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='department1']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>InitiatorAttribute</name>
+      <className>org.kuali.rice.kew.rule.InitiatorRoleAttribute</className>
+      <label>Initiator Role Attribute</label>
+      <description>Initiator Role Attribute</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLOAASearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>DepartmentSearchAttribute</label>
+      <description>DepartmentSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="oaa" title="OAA#" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <!--<searchDefinition autoWildcardLocation="suffixonly" />-->
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='oaa']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>DFAC_OAASearchStatusInformalOfferSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>DFAC_OAA Search Status InformalOffer Approval Search Attribute</label>
+      <description>DFAC_OAA Search Status InformalOffer Approval Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="informalOffer" title="Were there informal Offers?" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="Yes">yes</values>
+            <values title="No">no</values>
+            <values title="Either" />
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='informalOffer']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLSchoolAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>EDL School Routing</label>
+      <description>EDL School Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="school" title="School" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="ADM">ADM</values>
+            <values title="ARSC">ARSC</values>
+            <values title="ASDV">ASDV</values>
+            <values title="BUS">BUS</values>
+            <values title="CCCS">CCCS</values>
+            <values title="EDUC">EDOC</values>
+            <values title="EXEC">EXEC</values>
+            <values title="HPER">HPER</values>
+            <values title="INFO">INFO</values>
+            <values title="JOUR">JOUR</values>
+            <values title="LAWS">LAWS</values>
+            <values title="LIBR">LIBR</values>
+            <values title="MUS">MUS</values>
+            <values title="OPT">OPT</values>
+            <values title="RCEN">RCEN</values>
+            <values title="RUAD">RUAD</values>
+            <values title="SCS">SCS</values>
+            <values title="SLIS">SLIS</values>
+            <values title="SPEA">SPEA</values>
+            <values title="SSER">SSER</values>
+            <values title="UITS">UITS</values>
+            <values title="VPFA">VPFA</values>
+            <values title="VPUE">VPUE</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>//school = wf:ruledata('school')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <school>%school%</school>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLSchoolSearchAttribute</name>
+      <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>Department Search Attribute</label>
+      <description>Department Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="school" title="School" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values title="" />
+            <values title="ADM">ADM</values>
+            <values title="ARSC">ARSC</values>
+            <values title="ASDV">ASDV</values>
+            <values title="BUS">BUS</values>
+            <values title="DFAC">DFAC</values>
+            <values title="EDUC">EDOC</values>
+            <values title="EXEC">EXEC</values>
+            <values title="HPER">HPER</values>
+            <values title="INFO">INFO</values>
+            <values title="JOUR">JOUR</values>
+            <values title="LAWS">LAWS</values>
+            <values title="LIBR">LIBR</values>
+            <values title="MUS">MUS</values>
+            <values title="OPT">OPT</values>
+            <values title="RCEN">RCEN</values>
+            <values title="SCS">SCS</values>
+            <values title="SLIS">SLIS</values>
+            <values title="SPEA">SPEA</values>
+            <values title="SSER">SSER</values>
+            <values title="UITS">UITS</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//version[@current='true']/field[@name='school']/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLExpectedStartDateSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>EDL Expected Start Date Search Attribute</label>
+      <description>EDL Expected Start Date Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="expectedStartDate" title="Expected Start Date" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <!--<searchDefinition autoWildcardLocation="suffixonly" />-->
+          <fieldEvaluation>
+            <xpathexpression>normalize-space(substring-before(//expectedStartDate, ' '))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLSalaryGradeSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>EDL Salary Grade Search Attribute</label>
+      <description>EDL Salary Grade Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="rank" title="Salary Grade" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <!--<searchDefinition autoWildcardLocation="suffixonly" />-->
+          <fieldEvaluation>
+            <xpathexpression>normalize-space(substring-before(//rank, ' '))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>EDLTotalApplicantsSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>EDL Total Applicants Search Attribute</label>
+      <description>EDL Total Applicants Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="totalApplicants" title="Total Applicants">
+          <display>
+            <type>text</type>
+          </display>
+          <!--<searchDefinition autoWildcardLocation="suffixonly" />-->
+          <fieldEvaluation>
+            <xpathexpression>normalize-space(substring-before(//totalApplicants, ' '))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute> 
+    <ruleAttribute>
+      <name>EDLTotalAMFsReceievedSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>EDL Total AMFs Received Search Attribute</label>
+      <description>EDL Total AMFs Received Search Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="totalAMFsReceived" title="Total AMFs Received">
+          <display>
+            <type>text</type>
+          </display>
+          <!--<searchDefinition autoWildcardLocation="suffixonly" />-->
+          <fieldEvaluation>
+            <xpathexpression>normalize-space(substring-before(//totalAMFsReceived, ' '))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>
+

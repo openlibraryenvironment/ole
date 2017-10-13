@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+            <name>HierarchyDocType</name>
+            <description>HierarchyDocType</description>
+            <label>HierarchyDocType</label>
+            <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>_blank</docHandler>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <active>true</active>
+            <routePaths>
+                <routePath>
+                    <start name="initial" nextNode="hierarchy" />
+                    <dynamic name="hierarchy" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="initial">
+                    <activationType>P</activationType>
+                </start>
+                <dynamic name="hierarchy">
+                    <type>org.kuali.rice.kew.engine.node.hierarchyrouting.HierarchyRoutingNode</type>
+                    <hierarchyProvider>org.kuali.rice.kew.engine.node.hierarchyrouting.SimpleHierarchyProvider</hierarchyProvider>
+                    <ruleSelector>Named</ruleSelector>
+                    <ruleName>NodeInstanceRecipientRule</ruleName>
+                </dynamic>
+            </routeNodes>
+        </documentType>
+	</documentTypes>
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    <rule>
+            <name>NodeInstanceRecipientRule</name>
+            <documentType>HierarchyDocType</documentType>
+            <description>NodeInstanceRecipientRule mandatory description</description>
+            <expression type="BSF:groovy">
+                /* generates responsibility based on node instance state
+                   filled in by the hierarchyroutingnode/hierarchyprovider */
+                import org.kuali.rice.kew.rule.*
+                import org.kuali.rice.kew.engine.node.*
+                import org.kuali.rice.kim.api.group.*
+                import org.kuali.rice.kim.api.identity.principal.*
+                import org.kuali.rice.kim.api.services.*
+                import org.kuali.rice.kew.api.KewApiConstants
+                import org.kuali.rice.kew.service.KEWServiceLocator
+
+                print 'NodeInstanceRecipientRule is executing...'
+
+                NodeState recipState = routeContext.getNodeInstance().getNodeState("recipient")
+                if (recipState == null)
+                    throw new RuntimeException("No recipient state specified")
+
+                NodeState typeState = routeContext.getNodeInstance().getNodeState("type");
+                if (typeState == null)
+                    throw new RuntimeException("No type state specified")
+
+                org.kuali.rice.kew.api.rule.RuleResponsibility.Builder responsibility = org.kuali.rice.kew.api.rule.RuleResponsibility.Builder.create()
+                responsibility.setResponsibilityId(KewApiConstants.MACHINE_GENERATED_RESPONSIBILITY_ID)
+                responsibility.setActionRequestedCd("A")
+                String recipient = recipState.getValue()
+
+                if (typeState.getValue().equalsIgnoreCase("user")) {
+                    Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(recipient);
+                    if (principal == null) {
+                        throw new RuntimeException("Could not locate principal for given network id: " + recipient);
+                    }
+                    println "Generating principal responsibility: " + recipient
+                    responsibility.setPrincipalId(principal.getPrincipalId())
+                    responsibility.setUsingPrincipal(true)
+                    //responsibility.setRuleResponsibilityType(KewApiConstants.RULE_RESPONSIBILITY_WORKFLOW_ID)
+                } else {
+                	Group group = KimApiServiceLocator.getIdentityManagementService().getGroupByName("KUALI", recipient);
+                    if (group == null) {
+                        throw new RuntimeException("Could not locate group: " + recipient);
+                    }
+                    println "Generating group responsibility: " + recipient
+                    responsibility.setGroupID(group.getGroupId());
+                    responsibility.setUsingGroup(true);
+                    //responsibility.setRuleResponsibilityType(KewApiConstants.RULE_RESPONSIBILITY_WORKGROUP_ID)
+                }
+
+                return new RuleExpressionResult(rule, true, responsibility.build())
+            </expression>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility><user>user2</user></responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+</data>

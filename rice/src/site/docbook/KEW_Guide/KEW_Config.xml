@@ -1,0 +1,2436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Config" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>KEW Configuration</title>
+        <section>
+            <title>KEW Integration Options</title>
+            <para>The following integration options are available to applications integrating with KEW:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Embedded</emphasis> - The KEW engine is embedded
+                            into a Java application. The Standalone Rice Server is required. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Bundled</emphasis> - Same as Embedded mode except
+                            that the entire KEW web application is also embedded into the Java
+                            application. The Standalone Rice Server is not required. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Remote Java Client</emphasis> – A Java client is
+                            used which relies on the service bus to communicate with a Standalone Rice
+                            Server's KEW services. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Thin Java Client</emphasis> - A thin Java client is
+                            used which communicates with a Standalone Rice Server over remote service
+                            calls. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Web Services</emphasis> - Interacts directly with
+                            web services on a Standalone Rice Server.</para> 
+                    </listitem>
+            </itemizedlist></para>
+            <para><table frame="none" tabstyle="striped">
+                <title>Advantages/Disadvantages of KEW Integration Options</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Integration Option</entry>
+                            <entry>Advantages</entry>
+                            <entry>Disadvantages</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Embedded</entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Integration of database transactions between client
+                                                application and embedded KEW (via JTA) </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Performance - Embedded client talks directly to
+                                                database </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>No need for application plug-ins on the server </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Great for Enterprise deployment, there is still a
+                                                single shared Standalone Rice web application but
+                                                scalability is increased because of multiple Workflow
+                                                Engines </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Can only be used by Java clients </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>More library dependencies than the Thin Client model
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Requires client application to establish connections
+                                                to Kuali Rice database </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                        </row>
+                        <row>
+                            <entry>Bundled</entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>All the advantages of Embedded Mode </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> No need to deploy a standalone Rice server </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Ideal for development or "quickstart" applications
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Application can be bundled with Rice for ease of
+                                                development/distribution </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Can switch to Embedded Mode for deployment in an
+                                                Enterprise environment </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Not desirable for Enterprise deployment where more
+                                                than one application is integrated with Rice and KEW
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>More library dependencies than the Thin Client model
+                                                and Embedded Mode (additional web libraries) </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                        </row>
+                        <row>
+                            <entry>Remote Java Client</entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Relatively simple configuration </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Client can access more external KEW services from the
+                                                Standalone Rice Server than the Thin Java Client, and
+                                                yet the client does not need to have an embedded KEW
+                                                engine </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Requires client application to be KSB-enabled, unlike
+                                                the Thin Java Client</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Cannot be used by KNS-enabled client applications
+                                            </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                        </row>
+                        <row>
+                            <entry>Thin Java Client</entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Relatively simple configuration </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Fewer Library Dependencies </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>No transactional integration between client and server
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Plug-ins must be deployed to the server if custom
+                                                routing components are needed </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                        </row>
+                        <row>
+                            <entry>Web Services</entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Any language which supports web services can be used
+                                            </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>No transactional integration between client and server
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Plug-ins must be deployed to the server if custom
+                                                routing components are needed </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Web Services can be slower than other integration
+                                                options </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></para>                
+            <section>
+                <title>Standalone Server</title>
+                <para>To effectively use any of the KEW integration modes besides bundled, a
+                    Standalone Rice Server will need to be deployed.</para>
+            </section>
+            <section>
+                <title>Embedded Deployment Diagram</title>
+                <para>Here is a diagram illustrating what a sample embedded deployment might look
+                    look.</para>
+                <para>
+                    <figure>
+                        <title>Embedded Deployment Diagram example</title>
+                        <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/KEW_Guide/kew_embedded_deployment2.png"
+                                        scalefit="1" width="100%" contentdepth="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                    </figure>
+                </para>
+            </section>
+        </section>    
+        <section>
+            <title>Bundling the KEW Application</title>
+            <section>
+                <title>web.xml</title>
+                <para><emphasis role="bold">Bundled</emphasis> mode is the same as <emphasis
+                        role="italic">embedded</emphasis> mode except that the client application
+                    embeds the entire Kuali Rice system within it (including the web application).
+                    The embedding of the web application portion is accomplished by utilizing Struts
+                    Modules. </para>
+                <para>Configuration is the same as <emphasis role="italic">embedded</emphasis> mode,
+                    with the exception of loading the web application portions in the <emphasis
+                        role="bold">web.xml</emphasis>:</para>
+                <programlisting>&lt;filter>
+    &lt;filter-name>UserLoginFilter&lt;/filter-name>
+    &lt;filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter&lt;/filter-class>
+
+&lt;/filter>
+
+
+&lt;filter-mapping>
+    &lt;filter-name>UserLoginFilter&lt;/filter-name>
+    &lt;servlet-name>action&lt;/servlet-name>
+&lt;/filter-mapping>
+
+
+
+&lt;servlet>
+    &lt;servlet-name>action&lt;/servlet-name>
+    &lt;servlet-class>org.apache.struts.action.ActionServlet&lt;/servlet-class>
+    .. other struts configuration if applicable
+    &lt;init-param>
+        &lt;param-name>config/en&lt;/param-name>
+        &lt;param-value>/en/WEB-INF/struts-config.xml&lt;/param-value>
+    &lt;/init-param>
+    &lt;load-on-startup>0&lt;/load-on-startup>
+&lt;/servlet>
+
+
+&lt;servlet>
+    &lt;servlet-name>remoting&lt;/servlet-name>
+    &lt;servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet&lt;/servlet-class>
+    &lt;load-on-startup>1&lt;/load-on-startup>
+&lt;/servlet>
+
+
+
+&lt;servlet>
+    &lt;servlet-name>export&lt;/servlet-name>
+    &lt;servlet-class>org.kuali.rice.kew.export.web.ExportServlet&lt;/servlet-class>
+&lt;/servlet>
+
+
+&lt;servlet>
+    &lt;servlet-name>attachment&lt;/servlet-name>
+    &lt;servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet&lt;/servlet-class>
+&lt;/servlet>
+
+
+
+&lt;servlet>
+    &lt;servlet-name>edoclite&lt;/servlet-name>
+    &lt;servlet-class>org.kuali.rice.kew.edl.EDLServlet&lt;/servlet-class>
+&lt;/servlet>
+
+
+
+&lt;servlet-mapping>
+    &lt;servlet-name>remoting&lt;/servlet-name>
+    &lt;url-pattern>/remoting/*&lt;/url-pattern>
+&lt;/servlet-mapping>
+
+
+&lt;servlet-mapping>
+    &lt;servlet-name>action&lt;/servlet-name>
+    &lt;url-pattern>*.do&lt;/url-pattern>
+&lt;/servlet-mapping>
+
+&lt;servlet-mapping>
+
+
+    &lt;servlet-name>export&lt;/servlet-name>
+    &lt;url-pattern>/export/*&lt;/url-pattern>
+&lt;/servlet-mapping>
+
+
+&lt;servlet-mapping>
+  
+    &lt;servlet-name>attachment&lt;/servlet-name>
+    &lt;url-pattern>/en/attachment/*&lt;/url-pattern>
+&lt;/servlet-mapping>
+
+
+&lt;servlet-mapping>
+    &lt;servlet-name>edoclite&lt;/servlet-name>
+    &lt;url-pattern>/en/EDocLite&lt;/url-pattern>
+&lt;/servlet-mapping>
+</programlisting>
+                <para><emphasis role="bold">org.kuali.rice.krad.web.filter.UserLoginFilter</emphasis> – This
+                    filter is used to assist the KEW bundled web application in determining who the
+                    authenticated user is. Specifically, the login filter invokes the KIM identity
+                    management service to determine the identity of the authenticated user. </para>
+                <para>Typically, a previously executed filter will challenge the user on entry to a
+                    Rice web page for their authentication credentials using CAS or some other form
+                    of single sign on (SSO) authentication system.</para>
+                <para>For development and testing purposes, Rice provides a simple filter
+                    implementation that will present a simple sign on screen. This screen displays
+                    only a single login entry field and submit button. The user can enter their
+                    username (no password) and press the submit button, and the system authenticates
+                    the user for entry into the system.</para>
+                <para>This can be configured as follows in the <emphasis role="bold"
+                        >web.xml</emphasis>: </para>
+                <programlisting>&lt;filter>
+    &lt;filter-name>LoginFilter&lt;/filter-name>
+    &lt;filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter&lt;/filter-class>
+
+&lt;/filter>
+
+
+
+&lt;filter-mapping>
+    &lt;filter-name>LoginFilter&lt;/filter-name>
+    &lt;servlet-name>action&lt;/servlet-name>
+&lt;/filter-mapping>
+</programlisting>
+                <para>and in the <emphasis role="bold">rice-config.xml</emphasis>:</para>
+                <programlisting>&lt;param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter&lt;/param>
+&lt;param name="filtermapping.login.1">/*&lt;/param>
+</programlisting>
+                <para><emphasis role="bold">org.apache.struts.action.ActionServlet </emphasis>- The
+                    Struts servlet which loads the KEW Struts module. The module name should be
+                    'en'. Struts only allows a single Action Servlet so if you are using Struts in
+                    your application, all of your Struts modules will need to be configured using
+                    the init-param elements in this servlet definition.</para>
+                <para><emphasis role="bold"
+                        >org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</emphasis> - A
+                    servlet which dispatches http requests for the Kuali Service Bus (see KSB
+                    documentation for more details). The servlet mapping here should correspond to
+                    the <emphasis role="bold">serviceServletUrl</emphasis> configuration parameter
+                    for the KSBConfigurer.</para>
+                <para><emphasis role="bold">org.kuali.rice.kew.export.web.ExportServlet</emphasis> -
+                    serves exports of lookup results as XML files</para>
+                <para><emphasis role="bold"
+                        >org.kuali.rice.kew.notes.web.AttachmentServlet</emphasis> - serves
+                    attachments that have been attached to documents using the KEW Notes and
+                    Attachments framework</para>
+                <para><emphasis role="bold">org.kuali.rice.kew.edl.EDLServlet</emphasis> - The
+                    servlet used to interact with eDocLite documents. See eDocLite documentation for
+                    more information.</para>
+            </section>
+            <section>
+                <title>Bundled Deployment Diagram</title>
+                <figure>
+                    <title>Bundled deployment diagram</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/bundled_deployment_diagram.png" scalefit="1" width="100%" contentdepth="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                    </figure>
+            </section>
+        </section>
+        <section>
+            <title>Using the Remote Java Client</title>
+            <para>Along with the previous embedded configurations, KEW also allows for Remote Java
+                Clients, which communicate with KEW services that are available on the service bus.
+                Configuration of the remote client is similar to that of the embedded client, except
+                that no embedded KEW engine gets set up; instead, the client relies on the service
+                bus for accessing the KEW services of the Standalone Rice Server.</para>
+            <caution>
+                <para>Limitations of Remote KEW Java Clients: </para>
+                <para>At present, KNS-enabled Java clients cannot be used as Remote KEW Java Clients. </para>
+            </caution>
+        </section>
+        <section>
+            <title>Using the Thin Java Client</title>
+            <para>In addition to the embedded configurations discussed previously, KEW also provides
+                a thin java client which can be used to talk directly to two KEW services exposed on
+                the service bus. </para>
+            <para>These KEW services are:<itemizedlist>
+                    <listitem>
+                        <para>WorkflowDocumentService - provides methods for creating, loading,
+                            approving and querying documents </para>
+                    </listitem>
+                    <listitem>
+                        <para>WorkflowUtilityService - provides methods for querying for various
+                            pieces of information about the KEW system </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Additionally, access to two KIM services is required, as Principal and Group
+                information is needed to use many of the methods in the KEW services above.</para>
+            <para>These KIM services are:<itemizedlist>
+                    <listitem>
+                        <para>kimIdentityService - provides methods to query for Principal and
+                            Entity information </para>
+                    </listitem>
+                    <listitem>
+                        <para>kimGroupService - provides methods to query for Group information
+                        </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Of course, this configuration requires Standalone Rice Server deployment. The
+                workflow engine deployed within Standalone Rice Server is used for processing
+                documents that integrate using a thin client.</para>
+            <para>These services are exposed on the KSB as Java services, meaning they use Java
+                Serialization over HTTP to communicate. Optionally, the KEW services can also be
+                secured to provide access to only those callers with authorized digital signatures
+                (note that secure access is required for the KIM services). In order to configure
+                the thin client, the following configuration properties need to be defined.</para>
+            <section>
+                <title>Required Thin Client Configuration Properties</title>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Required Thin Client Configuration Properties</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property </entry>
+                                    <entry>Description </entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>encryption.key</entry>
+                                    <entry>The secret key used by the encryption service; Must match
+                                        the setting on the standalone server</entry>
+                                </row>
+                                <row>
+                                    <entry>keystore.alias </entry>
+                                    <entry>Alias of the application's key within the
+                                        keystore</entry>
+                                </row>
+                                <row>
+                                    <entry>keystore.file </entry>
+                                    <entry>Path to the application's keystore file</entry>
+                                </row>
+                                <row>
+                                    <entry>keystore.password </entry>
+                                    <entry>Password to the keystore and the key with the configured
+                                        alias</entry>
+                                </row>
+                                <row>
+                                    <entry>workflowdocument.javaservice.endpoint</entry>
+                                    <entry>Endpoint URL for the Workflow Document service </entry>
+                                </row>
+                                <row>
+                                    <entry>workflowutility.javaservice.endpoint </entry>
+                                    <entry>Endpoint URL for the Workflow Utility service</entry>
+                                </row>
+                                <row>
+                                    <entry>identity.javaservice.endpoint</entry>
+                                    <entry>Endpoint URL for the KIM identity service</entry>
+                                </row>
+                                <row>
+                                    <entry>group.javaservice.endpoint</entry>
+                                    <entry>Endpoint URL for the KIM group service</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+                <note><para>It is simplest to use an identical keystore file and configuration in your thin client
+                        application to that on your standalone server.</para></note>
+            </section>
+            <section>
+                <title>Optional Thin Client Configuration Properties</title>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Optional Thin Client Configuration Properties</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property </entry>
+                                    <entry>Description </entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>secure.workflowdocument.javaservice.endpoint </entry>
+                                    <entry>true/false value indicating if endpoint is secured
+                                        (defaults to true); Must match the setting on the standalone
+                                        server</entry>
+                                </row>
+                                <row>
+                                    <entry>secure.workflowutility.javaservice.endpoint </entry>
+                                    <entry>true/false value indicating if endpoint is secured
+                                        (defaults to true); Must match the setting on the standalone
+                                        server</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Thin Client Spring Configuration</title>
+                <para>Here is the Spring configuration for a thin client in <emphasis role="bold"
+                        >ThinClientSpring.xml</emphasis>:</para>
+                <programlisting>&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+&lt;beans>
+    &lt;!-- point Rice to the file containing your configuration params -->
+    &lt;!-- which should include a parameter setting kew.mode to "THIN" -->
+    &lt;bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
+        &lt;property name="configLocations">
+            &lt;list>
+                &lt;value>classpath: yourThinClientApp-config.xml&lt;/value>
+            &lt;/list>
+        &lt;/property>
+    &lt;/bean>
+    &lt;!-- Pull your configuration params out as Properties -->
+    &lt;bean id="configProperties" 
+class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        &lt;property name="targetObject" ref="config" />
+        &lt;property name="targetMethod" value="getProperties" />
+    &lt;/bean>
+    &lt;!-- expose configuration params to Spring -->
+    &lt;bean class=
+"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        &lt;property name="properties" ref="configProperties" />
+    &lt;/bean>
+    &lt;!-- The RiceConfigurer that sets up thin client mode -->
+    &lt;bean id="rice" class="org.kuali.rice.kew.config.KEWConfigurer">
+        &lt;!-- inject the "config" bean into our configurer -->
+        &lt;property name="rootConfig" ref="config" />
+    &lt;/bean>
+&lt;/beans>  
+</programlisting><para>For more details on configuring Rice for a thin client, please see the Intro to Rice Guide
+    in the Implementation Details section, the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/Intro_To_Rice.html#thin_client">Thin Client Implementation</link> sub-section.</para>
+            </section>
+            <section>
+                <title>Endpoint URLs</title>
+                <para>Since KEW and KIM use the KSB to expose their services, the endpoint URLs are
+                    the same as those exported by the KSB.</para>
+                <para>An example configuration for these might be:</para>
+                <programlisting>&lt;param name=
+"workflowdocument.javaservice.endpoint">http://yourlocalip/kr-dev/remoting/WorkflowDocumentActionsService&lt;/param>
+&lt;param name=
+"workflowutility.javaservice.endpoint">http://yourlocalip/kr-dev/remoting/WorkflowUtilityService&lt;/param>
+&lt;param name=
+"identity.javaservice.endpoint">http://yourlocalip/kr-dev/remoting/kimIdentityService&lt;/param>
+&lt;param name=
+"group.javaservice.endpoint">http://yourlocalip/kr-dev/remoting/kimGroupService&lt;/param>
+</programlisting>
+            </section>
+            <section>
+                <title>Thin Client Deployment Diagram</title>
+                <para>Here is a diagram showing what a thin client deployment might look
+                    like.</para>
+                <figure>
+                    <title>Thin client deployment diagram</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/thin_client_deployment_diagram.png" scalefit="1" width="100%" contentdepth="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+        <section>
+            <title>Picture of an Enterprise Deployment</title>
+            <para>As can be seen from the various integration options described, a KEW Enterprise
+                Deployment (and Kuali Rice in general) might very well be a distributed environment
+                with multiple systems communicating with each other.</para>
+            <para>The diagram below shows what a typical Enterprise deployment of Kuali Rice might
+                look like.</para>
+            <figure>
+                <title>Typical enterprise deployment of Kuali Rice</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/enterprise_deployment.png" scalefit="1" width="100%" contentdepth="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>KEW Core Parameters</title>
+            <para>The display below includes those basic set of parameters for <emphasis role="bold"
+                    >rice-config.xml</emphasis> as the minimal parameters to startup the Rice
+                software. These parameters are a beginning reference to you for modification to your
+                    <emphasis role="bold">rice-config.xml</emphasis>. </para>
+            <note><para>Please verify that your application.url and database username/password are set
+                correctly.</para></note>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>KEW Core Parameters</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Core </entry>
+                                <entry>Description</entry>
+                                <entry>Examples\Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>workflow.url </entry>
+                                <entry>URL to the KEW web module (i.e., ${application.url}/en) </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>plugin.dir </entry>
+                                <entry>Directory from which plugins will be loaded </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>attachment.dir.location </entry>
+                                <entry>Directory where attachments will be stored </entry>
+                                <entry/>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>As a minimum, you must enable the dummy login filter by adding these lines to the
+            rice-config.xml file for default login screen:</para>
+            <programlisting>&lt;param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter&lt;/param>
+&lt;param name="filtermapping.login.1">/*&lt;/param>
+</programlisting>
+        </section>
+        <section>
+            <title>KEW Configuration Properties</title>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>KEW Configuration Properties</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="0.8*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.2*"/>
+                        <thead>
+                            <row>
+                                <entry>Property </entry>
+                                <entry>Description </entry>
+                                <entry>Default</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>actionlist.outbox</entry>
+                                <entry>Determines if the KEW actionlist "outbox" (i.e., the actions
+                                    already completed) will be viewable by users of the Rice
+                                    application.</entry>
+                                <entry>false</entry>
+                            </row>
+                            <row>
+                                <entry>actionlist.outbox.default.preference.on</entry>
+                                <entry>Determines if the KEW actionlist "outbox" is the default mode
+                                    for viewing the action list.</entry>
+                                <entry>false</entry>
+                            </row>
+                            <row>
+                                <entry>base.url </entry>
+                                <entry>Base URL under which Action List and other KEW screens can be
+                                    found</entry>
+                                <entry>Example: if your action list URL is <link
+                                        xlink:href="http://yourlocalip/en/ActionList.do"
+                                        >http://yourlocalip/en/ActionList.do</link>, set this
+                                    property to <link xlink:href="http://yourlocalip/"
+                                        >http://yourlocalip/</link></entry>
+                            </row>
+                            <row>
+                                <entry>client.protocol </entry>
+                                <entry>Same as clientProtocol property on KEWConfigurer, this
+                                    property can be configured in either place </entry>
+                                <entry>embedded </entry>
+                            </row>
+                            <row>
+                                <entry>data.xml.root.location</entry>
+                                <entry>The temporary location of files being processed by the KEW
+                                    XmlPollingService</entry>
+                                <entry>${java.io.tmpdir}/${environment}/kew/xml</entry>
+                            </row>
+                            <row>
+                                <entry>document.lock.timeout</entry>
+                                <entry>Used by the Oracle database platform to determine how long
+                                    database locks on the document header are used</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>email.reminder.lifecycle.enabled</entry>
+                                <entry>If true, turns on timed job to send out regular e-mails to
+                                    remind users of actions still waiting in their action
+                                    list</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>extra.classes.dir</entry>
+                                <entry>Directory where classes for KEW plugins are located</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>extra.lib.dir</entry>
+                                <entry>Directory where libraries for KEW plugins are located</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>kew.mode</entry>
+                                <entry>The mode that KEW will run in; choices are "local",
+                                    "embedded", "remote", or "thin"</entry>
+                                <entry>local</entry>
+                            </row>
+                            <row>
+                                <entry>kew.url</entry>
+                                <entry>The base URL of KEW services and pages</entry>
+                                <entry>${application.url}/kew</entry>
+                            </row>
+                            <row>
+                                <entry>plugin.dir </entry>
+                                <entry>Directory to load plugins from if the Plugin Registry is
+                                    enabled </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>plugin.registry.enabled </entry>
+                                <entry>If set to true, then the Plugin Registry will be enabled and
+                                    any available plugins will be loaded (see Workflow Plugin Guide) </entry>
+                                <entry>false</entry>
+                            </row>
+                            <row>
+                                <entry>attachment.dir.location </entry>
+                                <entry>When using the attachments system, this is the directory
+                                    where attachments will be stored</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>data.xml.loaded.location </entry>
+                                <entry>Directory path where the XML Loader will store successfully
+                                    loaded XML files </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>data.xml.pending.location </entry>
+                                <entry>Directory path where the XML Loader will look for files to
+                                    ingest </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>data.xml.pollIntervalSecs </entry>
+                                <entry>Interval in seconds that the XML Loader will poll the pending
+                                    directory for new XML files to load</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>data.xml.problem.location </entry>
+                                <entry>Directory path where the XML Loader will put XML files it
+                                    failed to load </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>datasource.platform </entry>
+                                <entry>The fully qualified class name of an implementation of the
+                                    org.kuali.rice.core.database.platform.Platform interface</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>default.note.class </entry>
+                                <entry>The fully qualified class name of the default implementation
+                                    of org.kuali.rice.kew.notes.CustomNoteAttribute to use for the
+                                    Notes system </entry>
+                                <entry>org.kuali.rice.kew.notes.CustomNoteAttributeImpl </entry>
+                            </row>
+                            <row>
+                                <entry>edl.config.loc </entry>
+                                <entry>Location to load the EDocLite component configuration from </entry>
+                                <entry>classpath:META-INF/EDLConfig.xml </entry>
+                            </row>
+                            <row>
+                                <entry>embedded.server </entry>
+                                <entry>Indicates if an embedded instance is supposed to behave like
+                                    a standalone server. See additional notes below under
+                                    embedded.server</entry>
+                                <entry>false </entry>
+                            </row>
+                            <row>
+                                <entry>Identity.useRemoteServices </entry>
+                                <entry><para>Configuration parameter that governs whether a number of
+                                    common identity services (user and group service) are exported
+                                    or retrieved via the bus. If this flag is set to true then:</para>
+                                    <orderedlist>
+                                        <listitem>
+                                            <para>user and group service will NOT be published the
+                                                bus, and </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>CoreResourceLoader will short-circuit the resource
+                                                loader stack lookup and go directly to the bus to
+                                                obtain these services, circumventing any beans that
+                                                may be defined by local modules. </para>
+                                        </listitem>
+                                    </orderedlist></entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>initialDelaySecs </entry>
+                                <entry>Delay in seconds after system starts up to begin the XML
+                                    Loader polling </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>rice.kew.enableKENNotification</entry>
+                                <entry>Determines if KCB notifications should be sent for KEW events
+                                    when Action Item events occur</entry>
+                                <entry>true</entry>
+                            </row>
+                            <row>
+                                <entry>rice.kew.struts.config.files</entry>
+                                <entry>The struts-config.xml configuration file that the KEW portion
+                                    of the Rice application will use</entry>
+                                <entry>/kew/WEB-INF/struts-config.xml</entry>
+                            </row>
+                            <row>
+                                <entry>workflow.documentsearch.base.url</entry>
+                                <entry>The URL for the document search page</entry>
+                                <entry>${workflow.url}/DocumentSearch.do?docFormKey=88888888&amp;amp;returnLocation=${application.url}/portal.do&amp;amp;hideReturnLink=true</entry>
+                            </row>
+                            <row>
+                                <entry>xml.pipeline.lifecycle.enabled</entry>
+                                <entry>If set to true, will poll a directory for new Rice
+                                    configuration XML and ingest any new XML placed in that
+                                    directory</entry>
+                                <entry>false</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <section>
+                <title>The 'embedded.server' Parameter</title>
+                <para>If embedded.server parameter is enabled (set to true), then two additional
+                    features will be loaded when KEW is started:<orderedlist>
+                        <listitem>
+                            <para>XML Loader </para>
+                        </listitem>
+                        <listitem>
+                            <para>Email Reminders </para>
+                        </listitem>
+                    </orderedlist></para>
+                <para>The XML Loader will poll a directory for XML files to ingest into the system
+                    (as configured by the data.xml.* properties).</para>
+                <para>The Email Reminders will handle sending Daily and Weekly batch emails for
+                    users that have their preferences set accordingly.</para>
+            </section>
+            <section>
+                <title>The 'datasource.platform' Parameter</title>
+                <para>KEW requires and uses the database platform implementation in order to
+                    function. These may be implemented differently for each support database
+                    management system. </para>
+                <para>The current functional implementations of this platform are:<itemizedlist>
+                        <listitem>
+                            <para>org.kuali.rice.core.framework.persistence.platform.OraclePlatform </para>
+                        </listitem>
+                        <listitem>
+                            <para>org.kuali.rice.core.framework.persistence.platform.Oracle9iPlatform (deprecated
+                                and just an alias for the OraclePlatform) </para>
+                        </listitem>
+                        <listitem>
+                            <para>org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+                <title>Custom Servlet Filters</title>
+                <para>When running a Standalone Rice Server, you may want to implement your own
+                    filters for authentication purposes. The system comes with a special filter that
+                    will read filter definitions and mappings from the configuration system. </para>
+                <para>The Bootstrap Filter is a generic filter that is applied to all web requests,
+                    which then delegates to any filters and are setup through the default
+                    configuration. This mechanism allows registration of institution-specific
+                    filters without the necessity of modifying the web application configuration
+                    file (/WEB-INF/web.xml) within the standalone webapp.</para>
+                <para>Filter syntax is as follows:</para>
+                <programlisting>&lt;param name="filter.filter name.class">class name of filter&lt;/param></programlisting>
+                <para>filter name is an arbitrary name for your filter:</para>
+                <programlisting>&lt;param name="filter.myfilter.class">edu.institution.organization.MyFilter&lt;/param></programlisting>
+                <para>Any number of configuration parameters may be defined for a given filter as
+                    follows:</para>
+                <programlisting>&lt;param name="filter.filter name.filter param name">filter param value&lt;/param></programlisting>
+                <para>For example:</para>
+                <programlisting>&lt;param name="filter.myfilter.color">red&lt;/param>
+
+&lt;param name="filter.myfilter.shape">square&lt;/param>
+</programlisting>
+                <para>For custom filters to be invoked, they must first be mapped to requests. That
+                    is done via the filter mapping parameter:</para>
+                <programlisting>&lt;param name="filtermapping.filter name.optional order index">path matching expression&lt;/param></programlisting>
+                <para><emphasis role="italic">filter name</emphasis> is the name of your previously
+                    defined filter, <emphasis role="italic">optional order index</emphasis> is an
+                    optional integer used to specify the position of the filter in the invocation
+                    order, and <emphasis role="italic">path matching expression</emphasis> is a
+                    Servlet-specification-compatible url pattern. </para>
+                <programlisting>&lt;param name="filtermapping.myfilter.1">/special/path/&lt;/param></programlisting>
+                <para>If an order index is not specified, it is assumed to be 0. Filters with
+                    equivalent order are ordered arbitrarily with relation to each other (not in
+                    order of filter or mapping definition). A full example follows:</para>
+                <programlisting>&lt;param name="filter.myfilter.class">edu.institution.organization.MyFilter&lt;/param>
+
+&lt;param name="filter.myfilter.color">red&lt;/param>
+
+&lt;param name="filter.myfilter.shape">square&lt;/param>
+&lt;param name="filter.securityfilter.class">edu.institution.organization.SecurityFilter&lt;/param>
+
+&lt;param name="filter.securityfilter.secretKey">abracadabra&lt;/param>
+
+&lt;param name="filter.compressionfilter.class">edu.institution.organization.CompressionFilter&lt;/param>
+&lt;param name="filter.compressionfilter.compressLevel">5&lt;/param>
+&lt;param name="filtermapping.securityfilter.1">/secure/&lt;/param>
+
+&lt;param name="filtermapping.myfilter.2">/special/path/&lt;/param>
+
+&lt;param name="filtermapping.compressionfilter.3">/*&lt;/param>
+</programlisting>
+            </section>
+        </section>
+        <section>
+            <title>Email Configuration</title>
+            <para>KEW can send emails to notify users about items in their Action List (depending on
+                user preferences). Email in KEW uses the JavaMail library. In order to configure
+                email, you will need to configure the appropriate JavaMail properties. A list of
+                those properties can be found at the end of the page at the following url: <link
+                    xlink:href="http://java.sun.com/products/javamail/javadocs/javax/mail/package-summary.html"
+                    >http://java.sun.com/products/javamail/javadocs/javax/mail/package-summary.html</link></para>
+            <para>In addition to these standard JavaMail properties, you can also set the following
+                optional properties to configure simple SMTP authentication.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Optional Properties to Configure Simple SMTP Authentication</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Property </entry>
+                                <entry>Description </entry>
+                                <entry>Examples/Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>mail.transport.protocol</entry>
+                                <entry>The protocol used to sending mail</entry>
+                                <entry>smtp</entry>
+                            </row>
+                            <row>
+                                <entry>mail.smtp.host</entry>
+                                <entry>This is the host name of the SMTP</entry>
+                                <entry>smtp.secureserver.net</entry>
+                            </row>
+                            <row>
+                                <entry>mail.smtp.username </entry>
+                                <entry>The username used for access to the SMTP server </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>mail.smtp.password </entry>
+                                <entry>The password used for access to the SMTP server </entry>
+                                <entry/>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>Of course, if the authentication required by your mail server is beyond the
+                abilities of the above configuration, it is possible to override the <emphasis
+                    role="italic">enEmailService</emphasis> loaded by the KEW module and implement a
+                custom email service. </para>
+            <para>In order for KEW to send out emails, several steps need to be done. In order to
+                have KEW send out any emails, the "SEND_EMAIL_NOTIFICATION_IND" KNS System Parameter
+                needs to be set to 'Y'. For emails to real people, the environment code must be set
+                to 'prd'. If this is not set to 'prd', an email can still be sent out to a test
+                address. This test address is set by the KNS System Parameter,
+                "EMAIL_NOTIFICATION_TEST_ADDRESS". Emails sent in a test system will only be sent to
+                the address specified by the EMAIL_NOTIFICATION_TEST_ADDRESS. The "from" address may
+                also be set with a System Parameter. To do this, set the "FROM_ADDRESS" System
+                Parameter to the email address you want the KEW emails sent from. If the
+                FROM_ADDRESS parameter doesn't exist or isn't set, it will default to
+                "admin@localhost".</para>
+        </section>
+        <section>
+            <title>Periodic Email Reminders</title>
+            <para>KEW can send emails on a nightly or weekly basis to remind users about items in
+                their Action List (depending on user preferences). The following set of parameters
+                configures whether the processes to send these reminders will run, and at what
+                time(s) of day they will do so.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Configuration Parameters for Email Reminders</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Property </entry>
+                                <entry>Description </entry>
+                                <entry>Examples/Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>email.reminder.lifecycle.enabled</entry>
+                                <entry>Enable periodic KEW reminder emails</entry>
+                                <entry>true</entry>
+                            </row>
+                            <row>
+                                <entry>dailyEmail.active</entry>
+                                <entry>Enable daily reminder emails</entry>
+                                <entry>true</entry>
+                            </row>
+                            <row>
+                                <entry>dailyEmail.cronExpression</entry>
+                                <entry>Configures the schedule on which the daily reminder emails
+                                    are sent – see org.quartz.CronExpression, org.quartz.CronTrigger
+                                    for information about the format for this parameter</entry>
+                                <entry>0 0 1 * * ?</entry>
+                            </row>
+                            <row>
+                                <entry>weeklyEmail.active</entry>
+                                <entry>Enable weekly reminder emails</entry>
+                                <entry>true</entry>
+                            </row>
+                            <row>
+                                <entry>weeklyEmail.cronExpression</entry>
+                                <entry>Configures the schedule on which the weekly reminder emails
+                                    are sent – see org.quartz.CronExpression, org.quartz.CronTrigger
+                                    for information about the format for this parameter</entry>
+                                <entry>0 0 2 ? * 2</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+    <section>
+        <title>Email Customization</title>
+        <para>KEW provides default email template for Action List notification messages that are
+            sent. However, it is also possible to customize this either globally or on a Document
+            Type by Document Type basis.</para>
+        <para>There are two ways to customize Action List emails:<orderedlist>
+            <listitem>
+                <para>Configure a CustomEmailAttribute </para>
+            </listitem>
+            <listitem>
+                <para>Creating a custom XSLT Stylesheet </para>
+            </listitem>
+        </orderedlist></para>
+        <para>To accomplish this, you must write a <emphasis role="italic"
+            >CustomEmailAttribute</emphasis> and configure it on the appropriate <emphasis
+                role="italic">DocumentType</emphasis>.</para>
+        <section>
+            <title>Configure a CustomEmailAttribute</title>
+            <para>The <emphasis role="italic">CustomEmailAttribute</emphasis> interface provides two
+                methods for adding custom content to both the subject and the body.</para>
+            <programlisting>public String getCustomEmailSubject();
+
+public String getCustomEmailBody();
+</programlisting>
+            <para>Note that each of these values is appended to the end of either the subject or the
+                body of the email. The rest of the email still uses the standard email
+                content.</para>
+            <para>Also, when implementing one of these components, the document is made available to
+                you as a <emphasis role="bold">RouteHeaderDTO</emphasis> and the action request
+                related to the notification is made available as an <emphasis role="bold"
+                    >ActionRequestDTO</emphasis>.</para>
+            <para>Once you have implemented the CustomEmailAttribute, you need to make it available
+                to the KEW engine (either deployed in a plugin or available on the classpath when
+                running embedded KEW).</para>
+            <section>
+                <title>Document Type Configuration</title>
+                <para>Once you make the email attribute component available to KEW, you need to
+                    configure it on the Document Type.</para>
+                <para>First, define the attribute:</para>
+                <programlisting>&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        &lt;ruleAttribute>
+            &lt;name>MyCustomEmailAttribute&lt;/name>
+            &lt;className>my.package.MyCustomEmailAttribute&lt;/className>
+            &lt;label>MyCustomEmailAttribute&lt;/label>
+            &lt;description>My Custom Email Attribute&lt;/description>
+            &lt;type>EmailAttribute&lt;/type>
+        &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+&lt;/data>
+</programlisting>
+                <para>Next, update the Document Type definition to include the attribute:</para>
+                <programlisting>&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>MyDocType&lt;/name>
+            &lt;label>My Document Type&lt;/label>
+            &lt;postProcessorName>...&lt;/postProcessorName>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>MyCustomEmailAttribute&lt;/name>
+                &lt;/attribute>
+            &lt;/attributes>
+            &lt;routePaths>
+                ...
+            &lt;/routePaths>
+            &lt;routeNodes>
+                ...
+            &lt;/routeNodes>
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+                <para>These should be ingested using the XML Ingester. See Importing Files to KEW
+                    for more information on using the XML Ingester.</para>
+            </section>
+        </section>
+        <section>
+            <title>Create a Custom XSLT Style Sheet</title>
+            <section>
+                <title>Global Email Customization</title>
+                <para>A more convenient way to customize email content declaratively is to replace
+                    the global email XSLT style sheet in Rice. Do this by ingesting an XSLT style
+                    sheet with the name <emphasis role="italic">kew.email.style</emphasis>. This
+                    style sheet should take input of this format for reminder emails:</para>
+                <programlisting>&lt;!-- root element sent depends on email content requested by the system -->
+&lt;immediateReminder|dailyReminder|weeklyReminder actionListUrl="url to ActionList" preferencesUrl="url to Preferences" 
+applicationEmailAddress="configured KEW email address" env="KEW environment string (dev/test/prd)">
+  
+    &lt;user> &lt;!-- the principal who received the request -->
+        &lt;name>...&lt;/name>
+        &lt;principalName>...&lt;/principalName>
+        &lt;principalId>...&lt;/principalId>
+        &lt;firstName>...&lt;/firstName>
+        &lt;lastName>...&lt;/lastName>
+        &lt;emailAddress>...&lt;/emailAddress>
+        ...
+    &lt;/user>
+    &lt;actionItem>
+        &lt;!-- one top-level actionItem element sent for each ActionItem; for immediate email reminders, there will only ever be one; for daily and weekly reminders, there may be several -->
+           
+        &lt;!-- custom subject content produced by the CustomEmailAttribute associated with the DocumentType of this ActionItem, if any -->
+        &lt;customSubject>...&lt;/customSubject>
+ 
+        &lt;!-- custom body content produced by the CustomEmailAttribute associated with the DocumentType of this ActionItem, if any -->
+        &lt;customBody>...&lt;/customBody>
+    
+        &lt;actionItem> &lt;!-- the actual ActionItem -->
+            &lt;principalId>...&lt;/principalId>
+            &lt;groupId>...&lt;/groupId>
+            &lt;routeHeaderId>...&lt;/routeHeaderId>
+            &lt;actionRequestId>...&lt;/actionRequestId>
+            &lt;docTitle>...&lt;/docTitle>
+            &lt;actionItemId>...&lt;/actionItemId>
+            &lt;roleName>...&lt;/roleName>
+            &lt;dateAssigned>...&lt;/dateAssigned>
+            &lt;actionRequestCd>...&lt;/actionRequestCd>
+            &lt;docHandlerURL>...&lt;/docHandlerURL>
+            &lt;recipientTypeCode>...&lt;/recipientTypeCode>
+            &lt;actionRequestLabel>...&lt;/actionRequestLabel>
+            &lt;delegationType>...&lt;/delegationType>
+            &lt;docName>...&lt;/docName>
+            &lt;docLabel>...&lt;/docLabel>
+        &lt;/actionItem>
+        &lt;actionItemPerson> &lt;!-- see "user" element at the top, simliar content -->
+        ...
+        &lt;/actionItemPerson>
+        &lt;actionItemPrincipalId>...&lt;/actionItemPrincipalId>
+        &lt;actionItemPrincipalName>...&lt;/actionItemPrincipalName>
+
+        &lt;doc> &lt;!-- the RouteHeader associated with this ActionItem -->
+            &lt;routeHeaderId>...&lt;/routeHeaderId>
+            &lt;docTitle>...&lt;/docTitle>
+            &lt;docContent>...&lt;/docContent>
+            &lt;initiatorWorkflowId>...&lt;/initiatorWorkflowId>
+            &lt;documentTypeId>...&lt;/documentTypeId>
+            &lt;docRouteStatusLabel>...&lt;/docRouteStatusLabel>
+            &lt;docRouteStatus>...&lt;/docRouteStatus>
+            &lt;createDate>...&lt;/createDate>
+            ...
+        &lt;/doc>
+        &lt;docInitiator>
+            &lt;principalName>...&lt;/principalName>
+            &lt;principalId>...&lt;/principalId>
+            &lt;entityId>...&lt;/entityId>
+        &lt;/docInitiator>
+        &lt;documentType> &lt;!-- DocumentType -->
+            &lt;name>...&lt;/name>
+            &lt;label>...&lt;/label>
+            &lt;description>...&lt;/description>
+            &lt;serviceNamespace>...&lt;/serviceNamespace>
+            &lt;notificationFromAddress>...&lt;/notificationFromAddress>
+            &lt;docHandlerUrl>...&lt;/docHandlerUrl>
+            &lt;documentTypeId>...&lt;/documentTypeId>
+            ...
+    &lt;/actionItem>
+
+&lt;/immediateReminder|dailyReminder|weeklyReminder></programlisting>
+                <para>This format is used for feedback emails:</para>
+                <programlisting>&lt;!-- feedback form -->
+&lt;feedback actionListUrl="url to ActionList" preferencesUrl="url to Preferences" applicationEmailAddress="configured KEW email address" env="KEW environment string (dev/test/prd)">
+    &lt;networkId>...&lt;/networkId>
+    &lt;lastName>...&lt;/lastName>
+    &lt;routeHeaderId>...&lt;/routeHeaderId>
+    &lt;documentType>...&lt;/documentType>
+    &lt;userEmail>...&lt;/userEmail>
+    &lt;phone>...&lt;/phone>
+    &lt;timeDate>...&lt;/timeDate>
+    &lt;edenCategory>...&lt;/edenCategory>
+    &lt;comments>
+        ...
+    &lt;/comments>
+    &lt;pageUrl>...&lt;/pageUrl>
+    &lt;firstName>...&lt;/firstName>
+    &lt;exception>...&lt;/exception>
+    &lt;userName>...&lt;/userName>
+&lt;/feedback></programlisting>
+                <para>In both cases, the output generated by the style sheet must be like
+                    this:</para>
+                <programlisting>&lt;email>
+    &lt;subject>... subject here ...&lt;/subject>
+    &lt;body>... body here ...&lt;/body>
+&lt;/email></programlisting>
+                <para>You must then upload the custom style sheet into the style service using the
+                    standard KEW XML ingestion mechanism:</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+&lt;styles xmlns="ns:workflow/Style" xsi:schemaLocation="ns:workflow/Style resource:Style">
+    &lt;style name="kew.email.style">
+ &lt;!-- A custom global email reminder stylesheet -->
+        &lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            &lt;xsl:strip-space elements="*"/>
+            &lt;xsl:template match="immediateReminder">               
+                ...
+            &lt;/xsl:template>
+            &lt;xsl:template match="dailyReminder">
+                ...
+            &lt;/xsl:template>
+            &lt;xsl:template match="weeklyReminder">
+                ...
+            &lt;/xsl:template>
+            &lt;xsl:template match="feedback">
+                ...
+            &lt;/xsl:template>
+        &lt;/xsl:stylesheet>
+    &lt;/style>
+&lt;/styles></programlisting>
+                <para>The global style sheet should handle all email content requests. You can use
+                    the standard <emphasis role="italic">include</emphasis> syntax to import an
+                    existing style sheet that may implement defaults.</para>
+            </section>
+            <section>
+                <title>DocumentType-Specific Email Customization</title>
+                <para>You can also customize immediate reminder email content on a per-DocumentType
+                    basis. To do so, define a custom email style sheet name on the DocumentType
+                    definition:</para>
+                <programlisting>...
+    &lt;documentType>
+        &lt;name>SomeDoc&lt;/name>
+        &lt;description>a document with customized reminder email&lt;/description>
+            ...
+        &lt;emailStylesheet>somedoc.custom.email.style&lt;/emailStylesheet>
+            ...
+    &lt;/documentType>
+...
+</programlisting>
+                <para>Then, upload a corresponding style sheet with a matching name, as
+                    above.</para>
+            </section>
+        </section>
+    </section>
+        <section>
+            <title>Workflow Preferences Configuration</title>
+            <para>Workflow users have the ability to update their preferences by going to the "User
+                Preferences" page. The default values for many of these preferences can now be
+                configured.</para>
+            <para>For example, institutions will commonly override the default action list email
+                preference. By default it's set to "immediate," but it can be configured to "no",
+                "daily", "weekly", or "immediate." The user will still be able to override the
+                defaults on their User Preferences screen.</para>
+            <para>Here a list of workflow preferences that can be configured:</para>
+            <programlisting>&lt;!-- Default Option for Action List User Preferences. -->
+
+&lt;param name="userOptions.default.color">white&lt;/param>
+&lt;!-- email options: no, daily, weekly, immediate -->
+&lt;param name="userOptions.default.email" >immediate&lt;/param>
+&lt;param name="userOptions.default.notifyPrimary" >yes&lt;/param>
+&lt;param name="userOptions.default.notifySecondary" >no&lt;/param>
+&lt;param name="userOptions.default.openNewWindow" >yes&lt;/param>
+&lt;param name="userOptions.default.actionListSize" >10&lt;/param>
+&lt;param name="userOptions.default.refreshRate" >15&lt;/param>
+&lt;param name="userOptions.default.showActionRequired" >yes&lt;/param>
+
+&lt;param name="userOptions.default.showDateCreated" >yes&lt;/param>
+&lt;param name="userOptions.default.showDocumentType" >yes&lt;/param>
+&lt;param name="userOptions.default.showDocumentStatus" >yes&lt;/param>
+&lt;param name="userOptions.default.showInitiator" >yes&lt;/param>
+&lt;param name="userOptions.default.showDelegator" >yes&lt;/param>
+&lt;param name="userOptions.default.showTitle" >yes&lt;/param>
+&lt;param name="userOptions.default.showWorkgroupRequest" >yes&lt;/param>
+&lt;param name="userOptions.default.showClearFYI" >yes&lt;/param>
+&lt;param name="userOptions.default.showLastApprovedDate" >no&lt;/param>
+&lt;param name="userOptions.default.showCurrentNode" >no&lt;/param>
+&lt;param name="userOptions.default.useOutBox" >yes&lt;/param>
+&lt;!-- delegatorFilterOnActionList: "Secondary Delegators on Action List Page" or "Secondary Delegators only on Filter Page" -->
+&lt;param name="userOptions.default.delegatorFilterOnActionList" >Secondary Delegators on Action List Page&lt;/param>
+&lt;param name="userOptions.default.primaryDelegatorFilterOnActionList" >Primary Delegates on Action List Page&lt;/param>
+</programlisting>
+        </section>
+        <section>
+            <title>Outbox Configuration</title>
+            <para>The <emphasis role="bold">Outbox</emphasis> is a standard feature on the <emphasis
+                    role="bold">Action List</emphasis> and is visible to the user in the UI by
+                default. When the Outbox is turned on, users can access it from the Outbox hyperlink
+                at the top of the Action List.</para>
+            <para>The Outbox is implemented by heavily leveraging existing Action List code. When an
+                    <emphasis role="bold">Action Item</emphasis> is deleted from the Action Item
+                table as the result of a user action, the item is stored in the <emphasis
+                    role="bold">KEW_OUT_BOX_ITM_T</emphasis> table, using the <emphasis role="bold"
+                    >org.kuali.rice.kew.actionitem.OutboxItemActionListExtension</emphasis> object.
+                This object is an extension of the <emphasis role="bold"
+                    >ActionItemActionListExtension</emphasis>. The separate object exists to provide
+                a bean for OJB mapping.</para>
+            <para>The Workflow Preferences determine if the Outbox is visible and functioning for
+                each user. The preference is called <emphasis role="bold">Use Outbox</emphasis>. In
+                addition, you can configure the Outbox at the KEW level using the parameter
+                tag:</para>
+            <programlisting>&lt;param name="actionlist.outbox">true&lt;/param></programlisting>
+            <para>When the Outbox is set to <emphasis role="italic">false</emphasis>, the preference
+                for individual users to configure the Outbox is turned off. By default, the Outbox
+                is set to true at the KEW level. You can turn the Outbox off (to hide it from users)
+                by setting the property below to <emphasis role="italic">false</emphasis>:</para>
+            <programlisting>&lt;param name="actionlist.outbox.default.preference.on">false&lt;/param></programlisting>
+            <para>This provides backwards compatibility with applications that used earlier versions
+                of KEW. </para>
+            <para>Notes on the Outbox: <itemizedlist>
+                    <listitem>
+                        <para>Actions on saved documents are not displayed in the Outbox. </para>
+                    </listitem>
+                    <listitem>
+                        <para>The Outbox responds to all saved Filters and Action List Preferences.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>A unique instance of a document only exists in the Outbox. If a user
+                            has a document in the Outbox and that user takes action on the document,
+                            then the original instance of that document remains in the Outbox.
+                        </para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Implementing KEW at your institution</title>
+            <para>In addition to the previous discussion of KEW configuration, there are a few other
+                aspects relevant to implementing KEW at your institution.</para>
+            <section>
+                <title>Bootstrap data</title>
+                <para>Because the operation of parts of KEW is dependent on a set of Document Types
+                    and Attributes being available within the system, there is some bootstrap XML
+                    that you will want to import. The easiest way to do this is to import the files
+                    in the following locations using the XML Ingester:<itemizedlist>
+                        <listitem>
+                            <para>kns/src/main/config/xml/RiceSampleAppWorkflowBootstrap.xml </para>
+                        </listitem>
+                        <listitem>
+                            <para>kew/src/main/config/bootstrap/edlstyle.xml </para>
+                        </listitem>
+                        <listitem>
+                            <para>kew/src/main/config/bootstrap/widgets.xml </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>These files include the following:<itemizedlist>
+                        <listitem>
+                            <para>Application constants: cluster-wide configuration settings </para>
+                        </listitem>
+                        <listitem>
+                            <para>Core document types and rules: a few primordial document types and
+                                rules are required for the system to function </para>
+                        </listitem>
+                        <listitem>
+                            <para>Default "eDocLite" styles: these are required if you wish to use
+                                eDocLite </para>
+                        </listitem>
+                        <listitem>
+                            <para>Default admin user and workgroup: these are depended upon (at the
+                                moment) by the core document types and rules, as well as referred to
+                                by the default application constants </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>Application constants you may want to change:<itemizedlist>
+                        <listitem>
+                            <para>Config.Application.AdminUserList: this should be set to a
+                                space-delimited set of administrative user names </para>
+                        </listitem>
+                        <listitem>
+                            <para>Workflow.AdminWorkgroup: this should be set to an institutional
+                                admin workgroup; if the default KEW workgroup service is used, this
+                                can be left to the default, WorkflowAdmin </para>
+                        </listitem>
+                        <listitem>
+                            <para> Config.Mailer.FromAddress: this should be changed to an address
+                                specific to your institution, e.g. kew@your-university.edu </para>
+                        </listitem>
+                        <listitem>
+                            <para>HelpDeskActionList.helpDeskActionListName: set to an workgroup at
+                                your institution </para>
+                        </listitem>
+                        <listitem>
+                            <para>ApplicationContext: set to the context path of the KEW
+                                application, if it differs from the environment default, e.g.
+                                "en-prod" instead of "en-prd" </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>In the core document types and rules config, you will need to change:<itemizedlist>
+                        <listitem>
+                            <para>superUserWorkgroupName, blanketApproveWorkgroupName, and
+                                exceptionWorkgroup: should be set to the administrative group at
+                                your institution. If you are using the default workgroup service,
+                                this can be left as WorkgroupAdmin </para>
+                        </listitem>
+                        <listitem>
+                            <para>ensure all docHandler elements, if they specify a URL, specify:
+                                "${base.url}/en-dev/Workgroup.do?methodToCall=docHandler", and
+                                ensure that the base.url config parameter is specified in your
+                                configuration (as mentioned above) </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+        <title>KEW Routing Components and Configuration Guide</title>
+        <para>KEW has several components that you can use to configure routing. Typically a single
+            application will write a set of these components for reuse across multiple Document
+            Types. These components are wired together using an XML configuration file that you need
+            to import into KEW. See Importing XML Files to KEW for more information. </para>
+        <para>This document looks at defining the routing components available in KEW and how to use
+            these components to make a cohesive routing setup.<itemizedlist>
+                <listitem>
+                    <para><emphasis role="bold">RouteModule</emphasis> - The most basic module; it
+                        allows KEW to generate Action Requests </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RuleAttribute</emphasis> - A component that fits
+                        into KEW's rule system. These rules are used to build routing paths for
+                        documents. They function for users across the organization and for multiple
+                        applications. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">XML RuleAttribute</emphasis> – Similar in
+                        functionality to a RuleAttribute but built using XML only </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">RoleAttribute</emphasis> - A component that fits
+                        into KEW's rule system, but which is a pointer to outside data. See Built-in
+                        Roles and Nodes for more information on implementing a RoleAttribute.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">PostProcessor</emphasis> - A component that gets
+                        called throughout the routing process and handles a set of standard events
+                        that all eDocs (electronic documents) go through. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">DocumentType Authorizer</emphasis> - A component that gets
+                        called during the routing process to perform authorization checks.  Applications
+                        can customize this component on a per-doctype basis.</para>
+                </listitem>
+            </itemizedlist></para>
+        <para>These components are contained in a Document Type that is defined in XML. A Document
+            Type is the prototype for eDocs. Below is the Document Type configuration that explains
+            how KEW uses the eDoc rule:</para>
+        <programlisting>&lt;?XML version="1.0" encoding="UTF-8"?>
+&lt;data XMLns="ns:workflow" XMLns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes XMLns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>YOURSERVICE-DOCS.RuleDocument&lt;/name>
+            &lt;parent>YOURSERVICE-DOCS&lt;/parent>
+            &lt;description>Add/Modify Workflow rules&lt;/description>
+            &lt;label>Add/Modify Workflow rules&lt;/label>
+            &lt;postProcessorName>your.package.routetemplate.RulePostProcessor&lt;/postProcessorName>
+            &lt;authorizer>your.package.CustomDocumentTypeAuthorizer&lt;/authorizer>
+            &lt;superUserGroupName>WorkflowAdmin&lt;/superUserGroupName>
+            &lt;blanketApproveGroupName>IU-WORKFLOW-RULE-BLANKET-APPROVERS&lt;/blanketApproveGroupName>
+            &lt;defaultExceptionGroupName>YOUR_EXCEPTION_TEAM&lt;/defaultExceptionGroupName>
+            &lt;docHandler>https://yourlocalIP/en-prd/Rule.do?methodToCall=docHandler&lt;/docHandler>
+            &lt;notificationFromAddress>...@yourEmailServerIP.edu&lt;/notificationFromAddress>
+            &lt;active>true&lt;/active>
+            &lt;routingVersion>1&lt;/routingVersion>
+            &lt;routePaths>
+                &lt;routePath>
+                    &lt;start name="Adhoc Routing" nextNode="Rule routing Route Level" />
+                    &lt;requests name="Rule routing Route Level" />
+                &lt;/routePath>
+            &lt;/routePaths>
+            &lt;routeNodes>
+                &lt;start name="Adhoc Routing">
+                    &lt;activationType>S&lt;/activationType>
+                    &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+                    &lt;finalApproval>false&lt;/finalApproval>
+                &lt;/start>
+                &lt;requests name="Rule routing Route Level">
+                    &lt;activationType>S&lt;/activationType>
+                    &lt;ruleTemplate>RuleRoutingTemplate&lt;/ruleTemplate>
+                    &lt;mandatoryRoute>true&lt;/mandatoryRoute>
+                    &lt;finalApproval>false&lt;/finalApproval>
+                &lt;/requests>
+            &lt;/routeNodes>
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+        <section>
+            <title>Configuration Steps</title>
+            <para>Let's go through the configuration step-by-step and explain what all the pieces
+                mean:</para>
+            <section>
+                <title>DocumentTypeName Definition</title>
+                <programlisting>&lt;name>YOURSERVICE-DOCS.RuleDocument&lt;/name>
+&lt;parent>YOURSERVICE-DOCS&lt;/parent>
+&lt;description>Add/Modify Workflow rules&lt;/description>
+&lt;label>Add/Modify Workflow rules&lt;/label>
+</programlisting>
+                <para>The section above defines the Document Type's name, its <emphasis role="bold"
+                        >parent</emphasis>, <emphasis role="bold">description</emphasis>, and
+                        <emphasis role="bold">label</emphasis>. The <emphasis role="bold"
+                        >name</emphasis> is used by the client application's API to communicate with
+                    KEW. Here is a sample of code from the client application's API communicating
+                    with KEW:</para>
+                <programlisting>WorkflowDocument document = new WorkflowDocument(new NetworkIdVO("username"), "DocumentTypeName");
+document.routeDocument("user inputted annotation");
+</programlisting>
+                <para>The above code will route a document in KEW. <itemizedlist>
+                        <listitem>
+                            <para>The string <emphasis role="bold">DocumentTypeName</emphasis>
+                                exists in KEW and you define it using the <emphasis role="bold"
+                                    >&lt;name></emphasis> element. </para>
+                        </listitem>
+                        <listitem>
+                            <para>The <emphasis role="bold">parent</emphasis> element gives the
+                                Document Type a parent Document Type. Use this for inheritance of
+                                routing configuration and policies. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Description</emphasis> is defined as shown.
+                                The document's <emphasis role="italic">Description</emphasis> is
+                                displayed on the Document Type report. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Label</emphasis> is typically the
+                                forward-facing name for the Document Type. The label is displayed to
+                                the user when an eDoc is in their Action List and they use it when
+                                they search for an eDoc using DocSearch. </para>
+                        </listitem>
+                    </itemizedlist></para>                
+            </section>
+            <section>
+                <title>PostProcessor Class</title>
+                <programlisting>&lt;postProcessorName>your.package.routetemplate.RulePostProcessor&lt;/postProcessorName></programlisting>
+                <para>The element above determines which class to use for the PostProcessor for this
+                    particular Document Type. This component receives event notifications as eDocs
+                    travel through routing.</para>
+            </section>
+            <section>
+                <title>DocumentTypeAuthorizer Class</title>
+                <programlisting>&lt;authorizer>your.package.CustomDocumentTypeAuthorizer&lt;/authorizer></programlisting>
+                <para>The element above determines which class to use for the DocumentType Authorizer for this
+                    particular Document Type. This component performs authorization checks as the eDoc travels through routing.</para>
+            </section>
+            <section>
+                <title>Managed Workgroups</title>
+                <programlisting>&lt;superUserWorkgroupName>WorkflowAdmin&lt;/superUserWorkgroupName>
+&lt;blanketApproveWorkgroupName>WorkgroupBlanketApprovers&lt;/blanketApproveWorkgroupName>
+
+&lt;defaultExceptionWorkgroupName>WorkflowAdmin&lt;/defaultExceptionWorkgroupName>
+</programlisting>
+                <para>This section sets KEW managed workgroups in several roles in the Document
+                    Type. <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">SuperUserWorkgroupName</emphasis> defines
+                                the workgroup that determines whether a person is allowed to take
+                                Super User Actions on a document through the Super User interface.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>The content of element <emphasis role="bold"
+                                    >blanketApproveWorkgroupName</emphasis> determines which people
+                                have access to blanket approve a document. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">defaultExceptionWorkgroup</emphasis>
+                                determines to which workgroup to send an eDoc of this type if it
+                                goes into exception routing. This is an optional element. You can
+                                also define Exception Workgroups with a route node. </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+                <title>docHandler</title>
+                <programlisting>&lt;docHandler>https://yourlocalIP/en-prd/Rule.do?methodToCall=docHandler&lt;/docHandler></programlisting>
+                <para>The docHandler tells KEW where to forward users when they click an eDoc link.
+                    See Document Search for more information. </para>
+            </section>
+            <section>
+                <title>notificationFromAddress</title>
+                <programlisting>&lt;notificationFromAddress>...@yourEmailServerIP&lt;/notificationFromAddress></programlisting>
+                <para>When KEW sends an email notification to a user regarding a document of this
+                    type, the From address on the message is the address specified here. This is
+                    helpful because users will often reply to the messages they receive from KEW,
+                    and this allows their responses to go to an appropriate address for the Document
+                    Type. This is an optional element. If it is not defined here, KEW uses the
+                    default From address. See the Installation Guide for more detail.</para>
+            </section>
+            <section>
+                <title>active</title>
+                <programlisting>&lt;active>true&lt;/active></programlisting>
+                <para>Use active to define the activeness of a Document Type. KEW does not allow
+                    anyone to create eDocs of an inactive Document Type.</para>
+            </section>
+            <section>
+                <title>routePaths</title>
+                <programlisting>&lt;routePaths>
+    &lt;routePath>
+        &lt;start name="Adhoc Routing" nextNode="Rule routing Route Level" />
+        &lt;requests name="Rule routing Route Level" />
+    &lt;/routePath>
+&lt;/routePaths>
+</programlisting>
+                <para>The above defines the path an eDoc will travel as it progresses through its
+                    life. <emphasis role="bold">Start</emphasis> and <emphasis role="bold"
+                        >Requests</emphasis> are some of the standard node types used. There is only
+                    one stop each eDoc must make as it travels through workflow. The eDoc starts at
+                    the step <emphasis role="bold">Adhoc Routing</emphasis> and then progresses to
+                    the request node named <emphasis role="bold">Rule routing Route
+                    Level</emphasis>. </para>
+                <para>Additionally, an automatic progression of the application document status may
+                    be configured to occur on route node transition with the addition of the
+                    nextAppDocStatus attribute in the elements of a routePath:</para>
+                <programlisting>&lt;routePaths>
+    &lt;routePath>
+        &lt;start name="Initiated" nextNode="DestinationApproval" nextAppDocStatus="Approval in Progress"/>
+        &lt;requests name="DestinationApproval" nextNode="TravelerApproval" nextAppDocStatus="Submitted"/>
+        &lt;requests name="TravelerApproval" nextNode="SupervisorApproval" />
+        &lt;requests name="SupervisorApproval" nextNode="AccountApproval" />
+        &lt;requests name="AccountApproval" />
+    &lt;/routePath>
+&lt;/routePaths>
+                </programlisting>
+                <para>This section only defines the path the eDocs will travel, and optionally the
+                    application document status transitions. The nodes themselves are defined below.</para>
+            </section>
+            <section>
+                <title>Node Definition XML</title>
+                <programlisting>&lt;routeNodes>
+    &lt;start name="Adhoc Routing">
+        &lt;activationType>S&lt;/activationType>
+        &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+        &lt;finalApproval>false&lt;/finalApproval>
+    &lt;/start>
+    &lt;requests name="Rule routing Route Level">
+        &lt;activationType>S&lt;/activationType>
+        &lt;ruleTemplate>RuleRoutingTemplate&lt;/ruleTemplate>
+        &lt;mandatoryRoute>true&lt;/mandatoryRoute>
+        &lt;finalApproval>false&lt;/finalApproval>
+    &lt;/requests>
+&lt;/routeNodes>
+</programlisting>
+                <para>This is the node definition XML. This determines certain behaviors each node
+                    can have. </para>
+                <para><emphasis role="bold">Activation Type</emphasis> determines if Approve
+                    requests are activated all at once or one at a time. Any given requests node can
+                    generate multiple rules that can then generate multiple requests. The
+                    ActivationType value specifies if <emphasis role="italic">all</emphasis> action
+                    requests generated for <emphasis role="italic">all</emphasis> fired rules are
+                    activated immediately (P = <emphasis role="italic">parallel</emphasis>
+                    activation), or if the set of action requests generated by each rule are
+                    activated one after the other, according to rule order (S = <emphasis
+                        role="italic">sequential</emphasis> activation).  However, to activate
+                    requests starting with those with the smallest priority <emphasis role="italic">and</emphasis>
+                    to active all those requests in parallel the activation type of (R = <emphasis 
+                    role="italic">priority-parallel</emphasis> activation).
+                    Once all requests are approved, then the next priority will be activated.  This
+                    is essentially a hybrid of the traditional sequential and parallel activation
+                    types.  Activation type is only relevant when multiple rules are
+                    generated.</para>
+                <para>
+                    <figure>
+                    <title>Parallel and Sequential Activation Types</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KEW_Guide/activation_type2.png" scalefit="1" width="100%"  />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </para>
+                <para>
+                    <figure>
+                        <title>Parallel-Priority Activation Type</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KEW_Guide/pp_activation_type2.png" scalefit="1" width="100%"  />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </para>
+                <para>The <emphasis role="bold">mandatoryRoute</emphasis> key determines if it's
+                    mandatory to generate approval requests. If a route node is <emphasis
+                        role="italic">mandatory</emphasis> and it doesn't generate an <emphasis
+                        role="italic">approve</emphasis> request, the document is put in exception
+                    routing. </para>
+                <para>The <emphasis role="bold">finalapproval</emphasis> key determines if this node
+                    should be the last node that has an <emphasis role="italic">approve</emphasis>
+                    request. If approvals are generated after this step, the document is thrown into
+                    exception routing. </para>
+                <para>Finally, there is a request node named <emphasis role="italic">Rule routing
+                        Route Level</emphasis> with a key called <emphasis role="bold"
+                        >ruleTemplate</emphasis>. This is our hook into the rule system for
+                    KEW:</para>
+                <programlisting>&lt;ruleTemplate>RuleRoutingTemplate&lt;/ruleTemplate></programlisting>
+                <para>And this is our hook into a route module:</para>
+                <programlisting>&lt;routeModule>package.your.ARouteModule&lt;/routeModule></programlisting>
+                <para>KEW contacts the route module when the document enters that route node and the
+                    route module returns Action Requests for KEW to deliver.</para>
+            </section>
+            <section>
+                <title>Rule Attributes</title>
+                <para>If the application integrating with KEW is using Rules to contain the routing
+                    data and <emphasis role="bold">RuleAttributes</emphasis> for document
+                    evaluation, then the routing configuration requires more XML. Below is an XML
+                    snippet that defines <emphasis role="bold">RuleAttribute</emphasis>; this is
+                    written in Java.</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleAttributes XMLns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        &lt;ruleAttribute>
+            &lt;name>RuleRoutingAttribute&lt;/name>
+            &lt;className>org.kuali.rice.kew.rule.RuleRoutingAttribute&lt;/className>
+            &lt;label>RuleRoutingAttribute&lt;/label>
+            &lt;description>RuleRoutingAttribute&lt;/description>
+            &lt;type>RuleAttribute&lt;/type>
+        &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+&lt;/data>
+</programlisting>
+                <para>The above defines a <emphasis role="bold">RuleAttribute</emphasis> called
+                        <emphasis role="italic">RuleRoutingAttribute</emphasis>. <emphasis
+                        role="italic">RuleRoutingAttribute</emphasis> maps to the Java class
+                        <emphasis role="bold"
+                        >org.kuali.rice.kew.rule.RuleRoutingAttribute</emphasis>. The <emphasis
+                        role="italic">type</emphasis> of this attribute is a <emphasis role="bold"
+                        >RuleAttribute</emphasis>; essentially this means the RuleAttribute's
+                    behavior is determined in a Java class. There are also RuleAttributes made
+                    entirely from XML, but programming attributes is outside the scope of this
+                    Guide. </para>
+            </section>
+            <section>
+                <title>Rule Templates</title>
+                <para>Finally, we need to tie the <emphasis role="bold">RuleAttribute</emphasis> to
+                    the Document Type. This is done using the <emphasis role="bold"
+                        >RuleTemplate</emphasis> and it is defined using XML. The <emphasis
+                        role="bold">RuleTemplate</emphasis> schema below provides further
+                    explanation:</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleTemplates XMLns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        &lt;ruleTemplate>
+            &lt;name>RuleRoutingTemplate&lt;/name>
+            &lt;description>RuleRoutingTemplate&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>RuleRoutingAttribute&lt;/name>
+                    &lt;required>true&lt;/required>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+    &lt;/ruleTemplates>
+&lt;/data>
+</programlisting>
+                <note><para>Notice that the name of this RuleTemplate, <emphasis role="italic"
+                        >RuleRoutingTemplate</emphasis>, matches the name given in the <emphasis
+                        role="bold">ruleTemplate</emphasis> element in the Document Type route node
+                    declaration. Also, notice that the <emphasis role="bold"
+                        >RuleAttribute</emphasis> made above is referenced in the <emphasis
+                        role="bold">RuleTemplate</emphasis> above in the <emphasis role="italic"
+                        >attributes</emphasis> section.</para></note>
+                <programlisting>&lt;attributes>
+    &lt;attribute>
+        &lt;name>RuleRoutingAttribute&lt;/name>
+        &lt;required>true&lt;/required>
+    &lt;/attribute>
+&lt;/attributes>
+</programlisting>
+                <para>The <emphasis role="bold">RuleTemplate</emphasis> is the join between
+                        <emphasis role="bold">RuleAttributes</emphasis> and Document Types. In this
+                    way, we can reuse the same attribute declaration (and therefore Java logic)
+                    across Document Types.</para>
+                <para>Once the XML, condensed into a single file, is uploaded into KEW, eDocs of
+                    this type can be created and routed from a client application. </para>
+                <para>All the content in the code examples above is aggregated into a single file
+                    below with a single surrounding data tag:</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        &lt;ruleAttribute>
+            &lt;name>RuleRoutingAttribute&lt;/name>
+            &lt;className>org.kuali.rice.kew.rule.RuleRoutingAttribute&lt;/className>
+            &lt;label>foo&lt;/label>
+            &lt;description>foo&lt;/description>
+            &lt;type>RuleAttribute&lt;/type>
+        &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+    &lt;ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        &lt;ruleTemplate>
+            &lt;name>RuleRoutingTemplate&lt;/name>
+            &lt;description>RuleRoutingTemplate&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>RuleRoutingAttribute&lt;/name>
+                    &lt;required>true&lt;/required>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+    &lt;/ruleTemplates>
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>EDENSERVICE-DOCS.RuleDocument&lt;/name>
+            &lt;parent>EDENSERVICE-DOCS&lt;/parent>
+            &lt;description>Add/Modify Workflow rules&lt;/description>
+            &lt;label>Add/Modify Workflow rules&lt;/label>
+            &lt;postProcessorName>org.kuali.rice.kew.postprocessor.RulePostProcessor&lt;/postProcessorName>
+            &lt;superUserGroupName namespace=KR-WKFLW">WorkflowAdmin&lt;/superUserGroupName>
+            &lt;blanketApproveGroupName namespace=KR-WKFLW">WorkflowAdmin&lt;/blanketApproveGroupName>
+            &lt;defaultExceptionGroupName>&lt;/defaultExceptionGroupName>
+            &lt;docHandler>https://yourlocalIP/en-prd/Rule.do?methodToCall=docHandler&lt;/docHandler>
+            &lt;active>true&lt;/active>
+            &lt;routingVersion>1&lt;/routingVersion>
+            &lt;routePaths>
+                &lt;routePath>
+                    &lt;start name="Adhoc Routing" nextNode="Rule routing Route Level" />
+                    &lt;requests name="Rule routing Route Level" />
+                &lt;/routePath>
+            &lt;/routePaths>
+            &lt;routeNodes>
+                &lt;start name="Adhoc Routing">
+                    &lt;activationType>S&lt;/activationType>
+                    &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+                &lt;/start>
+                &lt;requests name="Workflow Document Routing">
+                    &lt;activationType>S&lt;/activationType>
+                    &lt;ruleTemplate>RuleRoutingTemplate&lt;/ruleTemplate>
+                    &lt;mandatoryRoute>true&lt;/mandatoryRoute>
+                &lt;/requests>
+            &lt;/routeNodes>
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+            </section>
+        </section>
+        <section>
+            <title>Routing Rules</title>
+            <para>There is a separate User Guide on how to use the Rule UI. This will show you how
+                to create a Rule as well as modify and delete.</para>
+        </section>
+        <section>
+            <title>InitiatorRoleAttribute</title>
+            <para><emphasis role="italic">InitiatorRoleAttribute</emphasis> is a RoleAttribute that
+                exposes an INITIATOR abstract role that resolves to the initiator of the
+                document.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>InitiatorRoleAttribute</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>InitiatorRoleAttribute</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.rule</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.rule.InitiatorRoleAttribute</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>RoutedByUserRoleAttribute</title>
+            <para><emphasis role="italic">RoutedByUserRoleAttribute</emphasis> is a RoleAttribute
+                that exposes the user who routed the document.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>RoutedByUserRoleAttribute</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>RoutedByUserRoleAttribute</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.rule</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.rule.RoutedByUserRoleAttribute</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>NoOpNode</title>
+            <para><emphasis role="italic">NoOpNode </emphasis> is a SimpleNode implementation that
+                is a code structure example, but has no functionality.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>NoOpNode</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>NoOpNode</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.engine.node</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.engine.node.NoOpNode</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>RequestActivationNode</title>
+            <para><emphasis role="italic">RequestActivationNode</emphasis> is a SimpleNode that
+                activates any requests on it. It returns true when there are no more requests that
+                require activation.</para>
+            <para>In <emphasis role="italic">RequestActivationNode</emphasis>, the <emphasis
+                    role="italic">activateRequests</emphasis> method activates the Action Requests
+                that are pending at this route level of the document. The requests are processed by
+                Priority and then by Request ID. The requests are activated implicitly according to
+                the route level.</para>
+            <para>Acknowledgement Requests do not cause processing to stop. Only Action Requests for
+                Approval or Completion cause processing to stop at the current document's route
+                level. Inactive requests at a lower level cause a routing exception.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>RequestActivationNode</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>RequestActivationNode</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.engine.node</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.engine.node.RequestActivationNode</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>NetworkIdRoleAttribute</title>
+            <para><emphasis role="italic">NetworkIdRoleAttribute</emphasis> is a RoleAttribute that
+                routes the request to a NetworkID specified in the document content.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>NetworkIdRoleAttribute</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>NetworkIdRoleAttribute</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.engine.node</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.engine.node.NetworkIdRoleAttribute</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        <section><title>Using NetworkIdRoleAttribute for Dynamic Routing</title>
+          <para>The RoleAttribute component in KEW allows for routing to a dynamically generated list of principals
+            or groups. However, in order to do this a Java class which implements the RoleAttribute interface must be
+            created. This is fairly simple for Java applications, but it can be painful when integrating with non-Java
+            applications.</para>
+          <para>Thankfully, the NetworkIdRoleAttribute class is an implementation of RoleAttribute which is provided
+            out of the box.  This allows users to specify in XML format who the document should be routed to.</para>
+          <section>
+            <title>Setting up a Document Type to use NetworkIdRoleAttribute</title>
+            <para>There is some KEW setup involved in order to utilize this functionality.  The following steps assume
+              an existing Document Type is already in place:</para>
+            <orderedlist>
+              <listitem>
+                <para><emphasis role="bold">Create a "Rule Attribute" in KEW which uses the
+                  org.kuali.rice.kew.rule.NetworkIdRoleAttribute class.</emphasis></para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow
+                  resource:WorkflowData">
+    &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute
+                  resource:RuleAttribute">
+         &lt;ruleAttribute>
+             &lt;name>Name.Of.My.NetworkIdRoleAttribute&lt;/name>
+             &lt;className>org.kuali.rice.kew.rule.NetworkIdRoleAttribute&lt;/className>
+             &lt;label>My Label&lt;/label>
+             &lt;description>My Description&lt;/description>
+             &lt;type>RuleXmlAttribute&lt;/type>
+             &lt;configuration>
+                 &lt;xmlElementLabel>myNetworkId&lt;/xmlElementLabel>
+                 &lt;roleNameLabel>My Role Name&lt;/roleNameLabel>
+                 &lt;groupTogether>true&lt;/groupTogether>
+             &lt;/configuration>
+         &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+&lt;/data></programlisting>
+                <para>There are a few areas where the configuration could be changed in this rule attribute</para>
+                <itemizedlist>
+                  <listitem>
+                    <para><emphasis role="bold">name</emphasis> - The attribute should be named so that it can be
+                      identified as belonging to this particular application.</para>
+                  </listitem>
+                  <listitem>
+                    <para><emphasis role="bold">label and description</emphasis> - This can be anything to better
+                      describe the rule attribute</para>
+                  </listitem>
+                  <listitem>
+                    <para><emphasis role="bold">xmlElementLabel</emphasis> - This will tell the attribute how it can
+                      match XML for the incoming document to determine which xml elements represent the people the
+                      document should be routed to</para>
+                  </listitem>
+                  <listitem>
+                    <para><emphasis role="bold">roleNameLabel</emphasis> - This will show up as a label in the route
+                      log next to the requests that have been generated</para>
+                  </listitem>
+                  <listitem>
+                    <para><emphasis role="bold">groupTogether</emphasis> - Indicates whether or not all people should
+                      be grouped together for the purpose of a "first approve" role.  This defaults to false.</para>
+                  </listitem>
+                </itemizedlist>
+              </listitem>
+              <listitem>
+                <para><emphasis role="bold">Create a "Rule Template" in KEW which uses the attribute previously
+                  created.</emphasis>  As with rule attribute, the name and description can be customized
+                  as desired. </para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow
+                  resource:WorkflowData">
+    &lt;ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate
+                  resource:RuleTemplate">
+        &lt;ruleTemplate>
+            &lt;name>Name.Of.My.NetworkIdRuleTemplate&lt;/name>
+            &lt;description>My Description&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>Name.Of.My.NetworkIdRoleAttribute&lt;/name>
+                    &lt;required>true&lt;/required>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+    &lt;/ruleTemplates>
+&lt;/data></programlisting>
+              </listitem>
+              <listitem>
+                <para><emphasis role="bold">Create a "Routing Rule" in KEW using the Rule Template that was created in
+                  the previous step.</emphasis></para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow
+                  resource:WorkflowData">
+    &lt;rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        &lt;rule>
+            &lt;documentType>My.DocumentType.Name&lt;/documentType>
+            &lt;ruleTemplate>Name.Of.My.NetworkIdRuleTemplate&lt;/ruleTemplate>
+            &lt;description>My Network Id routing rule&lt;/description>
+            &lt;responsibilities>
+                &lt;responsibility>
+                    &lt;role>org.kuali.rice.kew.rule.NetworkIdRoleAttribute!networkId&lt;/role>
+                    &lt;approvePolicy>F&lt;/approvePolicy>
+                    &lt;actionRequested>A&lt;/actionRequested>
+                    &lt;priority>1&lt;/priority>
+                &lt;/responsibility>
+            &lt;/responsibilities>
+        &lt;/rule>
+    &lt;/rules>
+&lt;/data></programlisting>
+              <para>There are a few areas where the configuration could be changed in this rule:</para>
+              <itemizedlist>
+                <listitem>
+                  <para><emphasis role="bold">documentType </emphasis> - This is the document type the rule should
+                    apply to.</para>
+                </listitem>
+                <listitem>
+                  <para><emphasis role="bold">ruleTemplate</emphasis> - Use the name of the rule template previously
+                    created</para>
+                </listitem>
+                <listitem>
+                  <para><emphasis role="bold">description </emphasis> - This can be anything to better describe the
+                    rule</para>
+                </listitem>
+                <listitem>
+                  <para><emphasis role="bold">approvePolicy </emphasis> -  'F' if only one member of the role
+                    should approve or 'A' if all members of the role to approve</para>
+                </listitem>
+                <listitem>
+                  <para><emphasis role="bold">actionRequested </emphasis> - 'A' is Approve, 'K' is Acknowledge, and 'F'
+                    is FYI</para>
+                </listitem>
+              </itemizedlist>
+              </listitem>
+              <listitem>
+                <para><emphasis role="bold">Update the Document Type definition to add the "Route Node" configured
+                  to point at this node. </emphasis> Here is an example document type:</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+   &lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow
+                  resource:WorkflowData">
+      &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType
+                  resource:DocumentType">
+          &lt;documentType>
+              &lt;name>My.DocumentType.Name&lt;/name>
+              ...
+              &lt;routePaths>
+                  &lt;routePath>
+                      &lt;start name="AdHoc" nextNode="My.NetworkId.Node" />
+                      &lt;requests name="My.NetworkId.Node"/>
+                  &lt;/routePath>
+              &lt;/routePaths>
+              &lt;routeNodes>
+                  &lt;start name="AdHoc">
+                      &lt;activationType>P&lt;/activationType>
+                  &lt;/start>
+                  &lt;requests name="My.NetworkId.Node">
+                      &lt;activationType>P&lt;/activationType>
+                      &lt;ruleTemplate>Name.Of.My.NetworkIdRuleTemplate&lt;/ruleTemplate>
+                  &lt;/requests>
+              &lt;/routeNodes>
+          &lt;/documentType>
+      &lt;/documentTypes>
+   &lt;/data></programlisting>
+                <para>There are a few areas where the configuration could be changed in this document type:</para>
+                <itemizedlist>
+                  <listitem>
+                    <para><emphasis role="bold">name</emphasis> - This is the name of the document type</para>
+                  </listitem>
+                  <listitem>
+                    <para><emphasis role="bold">nextNode and requests name</emphasis> - Set this to something that
+                      describes who the document will be routed to (i.e. supervisor, administrator, etc.</para>
+                  </listitem>
+                  <listitem>
+                    <para><emphasis role="bold">ruleTemplate</emphasis> - Use the name of the rule template
+                      previously created </para>
+                  </listitem>
+                </itemizedlist>
+              </listitem>
+            </orderedlist>
+          </section>
+          <section>
+          <title>Using the KEW API to Route the Document</title>
+          <para>Once the document type has been set up, the KEW api can be used to set the appropriate XML on the
+            document.  Many of the operations include the ability to pass a DocumentContentUpdate.  In this example,
+            the 'applicationContent' should be set to look like the following.  In this case myNetworkId is the name
+            of the xmlElementLabel that was defined in the first step of creating the rule attribute.</para>
+          <programlisting>&lt;NetworkIdRoleAttribute>
+    &lt;myNetworkId>dev1&lt;/myNetworkId>
+    &lt;myNetworkId>dev2&lt;/myNetworkId>
+    &lt;myNetworkId>dev3&lt;/myNetworkId>
+    ...
+&lt;/NetworkIdRoleAttribute></programlisting>
+          </section>
+        </section>
+        </section>
+        <section>
+            <title>UniversityIdRoleAttribute</title>
+            <para><emphasis role="italic">UniversityIdRoleAttribute</emphasis> is a RoleAttribute
+                that routes requests to an Empl ID specified in the document content.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>UniversityIdRoleAttribute</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>UniversityIdRoleAttribute</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.engine.node</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.engine.node.UniversityIdRoleAttribute</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>SetVarNode</title>
+            <para><emphasis role="italic">SetVarNode</emphasis> is a SimpleNode that allows you to
+                set document variables.</para>
+            <para>The definition of <emphasis role="italic">SetVarnode</emphasis> takes these
+                configuration parameter elements:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Name</emphasis>: The name of the variable to set
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Value</emphasis>: The value to which to set the
+                            variable. This value is parsed according to Property/PropertyScheme
+                            syntax. The default <emphasis role="italic">PropertyScheme</emphasis> is
+                                <emphasis role="italic">LiteralScheme</emphasis>, which evaluates
+                            the value simply as a literal; it won't do anything but return the
+                            value. </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>SetVarNode</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Address</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Class</entry>
+                                <entry>SetVarNode</entry>
+                            </row>
+                            <row>
+                                <entry>Package</entry>
+                                <entry>org.kuali.rice.kew.engine.node.var</entry>
+                            </row>
+                            <row>
+                                <entry>Full</entry>
+                                <entry>org.kuali.rice.kew.engine.node.var.SetVarNode</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+    </section>
+            <section>
+                <title>Routing Configuration using KIM Responsibilities</title>
+                <para>In addition to routing workflow based on users and workgroups using routing rules, you
+                    can also route workflow based on KIM responsibilities. This allows you to utilize group
+                    membership and role assignments to manage who is permitted to perform approvals.</para>
+                <section>
+                    <title>Route Node Definition</title>
+                    <para>In review, you define a rule-based routing node with XML similar to:</para>
+                    <programlisting>&lt;requests name="Rule routing Route Level">
+    &lt;activationType>S&lt;/activationType>
+    &lt;ruleTemplate>RuleRoutingTemplate&lt;/ruleTemplate>
+    &lt;mandatoryRoute>true&lt;/mandatoryRoute>
+    &lt;finalApproval>false&lt;/finalApproval>
+&lt;/requests></programlisting>
+                    <para>A routing node that uses KIM responsibilities can replace a rule-based routing
+                        node. You define it with XML similar to:</para>
+                    <programlisting>&lt;role name="Purchasing">
+    &lt;qualifierResolverClass>
+org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+&lt;/qualifierResolverClass>
+    &lt;activationType>P&lt;/activationType>
+&lt;/role>           </programlisting>
+                    <section>
+                        <title>Node Name</title>
+                        <para>You name the routing node with the name attribute, just like for a rule-based
+                            routing node.</para>
+                    </section>    
+                    <section>
+                        <title>Qualifier Resolver</title>
+                        <para>The qualifier resolver finds any qualifiers that need to be used while
+                            matching the responsibility. You can specify it in either of two ways:<itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold"
+                                        >&lt;qualifierResolver>name&lt;/qualifierResolver></emphasis>
+                                        names a rule attribute which identifies the class to use </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold"
+                                        >&lt;qualifierResolverClass>class.name&lt;/qualifierResolverClass></emphasis>
+                                        provides the fully-qualified name of the Java class to use </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </section>
+                    <section>
+                        <title>Other Options</title>
+                        <para>You can specify <emphasis role="bold"
+                            >&lt;responsibilityTemplateName>name&lt;/responsibilityTemplateName></emphasis>
+                            to identify the responsibility template to use. This option is not usually used
+                            since all of the responsibilities provided with KIM use a template named
+                            <emphasis role="bold">Review</emphasis>.</para>
+                        <para>You can specify <emphasis role="bold"
+                            >&lt;namespace>name&lt;/namespace></emphasis> to identify the name space for
+                            the responsibility. This option is usually not used since all of the
+                            responsibilities provided with KIM use a name space of <emphasis role="bold"
+                                >KR-WKFLW</emphasis>.</para>
+                    </section>
+                </section>
+                <section>
+                    <title>Matching Routing Nodes to Responsibilities</title>
+                    <para>The KIM responsibility template <emphasis role="bold">Review</emphasis> defines
+                        two details:<itemizedlist>
+                            <listitem>
+                                <para>The name of the document type </para>
+                            </listitem>
+                            <listitem>
+                                <para>The name of the routing node </para>
+                            </listitem>
+                        </itemizedlist></para>
+                    <para>When you define a responsibility in KIM using this template, you specify a value
+                        for each of these details. When a document is routed using responsibility-based
+                        routing nodes, KIM receives the type of the document being routed and the name of
+                        the node; it then locates any responsibilities which have the same routing node name
+                        and either the same document type name or the name of a parent document type (all
+                        the way up to the top of the hierarchy). The list of people who gets the request
+                        consists of anyone who has been assigned a role with any of the matching
+                        responsibilities.</para>
+                </section>
+            </section>
+        </section>
+</chapter>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<settings xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <!--
+    This is the recommended Maven settings.xml file to use when building the Rice source code.
+    Point Maven to this file via the "-s" command line argument OR
+    copy it to ~/.m2/settings.xml where Maven will find it automatically
+  -->
+
+  <!--
+    Create a mirror for "*" so Maven will download all artifacts via Kuali's Nexus cluster
+
+    Kuali's Nexus proxies Maven Central and also provides access to a handful of artifacts
+    Maven Central does not have
+  -->
+  <mirrors>
+    <mirror>
+      <id>kuali.public</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+    </mirror>
+  </mirrors>
+</settings>

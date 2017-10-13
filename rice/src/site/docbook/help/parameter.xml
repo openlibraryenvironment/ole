@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="parameter" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>Parameter</title>
+    </info>
+    <para>Administration > Configuration > Parameter</para>
+    <para>The Parameter document is used to define parameters and business rules in  Rice and Rice
+        Applications. A specific value of a parameter can vary based on what the parameter is used
+        to define. Some parameters create business rules. These rules create restrictions and
+        enforce valid values and combinations on various document types or batch processes. Other
+        parameters simply define institution-specific values not defined elsewhere in Rice and Rice
+        Applications. The value may, for example, be text that Rice and Rice Applications are to
+        display in a given location or it may be a simple yes or no value to turn an option on or
+        off.</para>
+    <para>Only members of the KR-SYS Technical Administrator or suitable application roles can
+        create or edit Parameter documents.</para>
+    <para>The Parameter document does not route for approval.</para>
+    <section>
+        <title>Document Layout</title>
+        <para><figure><title>Parameter document</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/parameter_document.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <para>The Parameter document includes the <emphasis role="bold">Edit Parameter</emphasis>
+            tab. This tab is where you define the modules, type, rules, and description of the
+            parameters.</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Edit Parameter tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Namespace Code</entry>
+                        <entry>Required. Select the appropriate Namespace code for the parameter from
+                            the <emphasis role="bold">Namepsace Code</emphasis> list or search for
+                            it from the lookup.</entry>
+                    </row>
+                    <row>
+                        <entry>Component </entry>
+                        <entry>Required. Enter the parameter component code or search for it from the
+                                <emphasis role="bold">Parameter Component</emphasis> lookup.</entry>
+                    </row>
+                    <row>
+                        <entry>Application ID</entry>
+                        <entry>Required. Enter the application namespace to identify the application to
+                            which this parameter applies. Note that the same parameter can have
+                            different values for different applications.</entry>
+                    </row>
+                    <row>
+                        <entry>Parameter Name</entry>
+                        <entry>Required. Enter the name of the parameter being defined.</entry>
+                    </row>
+                    <row>
+                        <entry>Parameter Value</entry>
+                        <entry>Required. Enter the value for the parameter. The nature of a given
+                            parameter determines what form the parameter value should take. In some
+                            cases it is text for a  user to view or it could be a value such as an
+                            account number or an object code. In cases where multiple values are
+                            allowed they should be separated by a semi-colon. Consult with technical
+                            resources if you are unsure what format a specific parameter value
+                            should take.</entry>
+                    </row>
+                    <row>
+                        <entry>Parameter Description</entry>
+                        <entry>Required. Describe the purpose and usage of the parameter. The
+                            description is used for a documentation purpose.</entry>
+                    </row>
+                    <row>
+                        <entry>Parameter Type Code</entry>
+                        <entry><para>Required. Select the parameter type code from the <emphasis role="bold">Parameter
+                                    Type</emphasis> list or search for it from the lookup.</para><para>Default types include:</para><para>System Configuration: Used to establish institution values not specific to validation.</para><para>Document Validation: Used to establish business rules for documents.</para></entry>
+                    </row>
+                    <row>
+                        <entry>Parameter Constraint Code</entry>
+                        <entry>Required. Select <emphasis role="bold">Allowed</emphasis> if the
+                            parameter is to allow the defined parameter value within an application.
+                            Select <emphasis role="bold">Denied </emphasis>if the parameter is to
+                            deny the defined parameter value within the application. Consult with
+                            technical resources if you are unsure of the appropriate constraint code
+                            for a given parameter.</entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+</chapter>

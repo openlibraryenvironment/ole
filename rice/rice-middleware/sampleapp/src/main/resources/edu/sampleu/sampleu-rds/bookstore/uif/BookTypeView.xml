@@ -1,0 +1,57 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <formView entryPageId="page1" formClass="org.kuali.rice.kns.web.struts.form.InquiryForm"
+            headertext="Book Type Inquiry" id="BookType-InquiryView" parent="Uif-FormView">
+    <navigation>
+      <ref bean="testViewMenu"/>
+    </navigation>
+    <items>
+      <pageGroup id="page1" parent="Uif-Disclosure-Page">
+        <items>
+          <ref bean="BookType-InquiryView-Section1"/>
+        </items>
+      </pageGroup>
+    </items>
+  </formView>
+  <group fieldBindByNamePrefix="dataObject" headertext="Book Type" id="BookType-InquiryView-Section1"
+         instructionalText="A Book Type." parent="Uif-Disclosure-GridSection">
+    <items>
+      <inputField parent="Uif-InputField" propertyName="typeCode"/>
+      <inputField parent="Uif-InputField" propertyName="name"/>
+      <inputField parent="Uif-InputField" propertyName="description"/>
+    </items>
+  </group>
+</spring:beans>

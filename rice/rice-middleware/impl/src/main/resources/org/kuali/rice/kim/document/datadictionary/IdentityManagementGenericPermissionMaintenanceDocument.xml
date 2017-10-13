@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="GenericPermissionMaintenanceDocument" parent="GenericPermissionMaintenanceDocument-parentBean"/>
+
+  <bean id="GenericPermissionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.kim.impl.permission.GenericPermissionBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.kim.document.GenericPermissionMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="GenericPermissionMaintenanceDocument-Main"/>
+        <ref bean="GenericPermissionMaintenanceDocument-Details"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+    
+    <property name="allowsNewOrCopy" value="true"/>
+    <property name="documentTypeName" value="IdentityManagementGenericPermissionMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kim.document.rule.GenericPermissionMaintenanceDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.rice.kim.document.authorization.GenericPermissionMaintenanceDocumentPresentationController" />
+    <property name="workflowProperties">
+      <ref bean="GenericPermissionMaintenanceDocument-workflowProperties"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="GenericPermissionMaintenanceDocument-Main" parent="GenericPermissionMaintenanceDocument-Main-parentBean"/>
+
+  <bean id="GenericPermissionMaintenanceDocument-Main-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="id"
+            p:unconditionallyReadOnly="true" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:noLookup="true" p:name="templateId"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="namespaceCode"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="name" />
+        <bean parent="MaintainableFieldDefinition" p:required="false" p:name="description"/>
+        <bean parent="MaintainableFieldDefinition" p:required="true" p:name="active" p:defaultValue="Y" />
+      </list>
+    </property>
+    <property name="id" value="Main"/>
+    <property name="title" value="Permission Info"/>
+  </bean>
+
+  <bean id="GenericPermissionMaintenanceDocument-Details" parent="GenericPermissionMaintenanceDocument-Details-parentBean"/>
+
+  <bean id="GenericPermissionMaintenanceDocument-Details-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:required="false" p:name="detailValues"/>
+      </list>
+    </property>
+    <property name="id" value="Details"/>
+    <property name="title" value="Permission Details"/>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="GenericPermissionMaintenanceDocument-workflowProperties" parent="GenericPermissionMaintenanceDocument-workflowProperties-parentBean"/>
+
+  <bean id="GenericPermissionMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+              <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

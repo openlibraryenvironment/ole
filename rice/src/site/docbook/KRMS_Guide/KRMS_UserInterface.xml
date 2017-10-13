@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KRMS_UserInterface" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <title>The KRMS User Interface</title>
+    <section>
+        <title>KRMS Agenda Editor</title>
+        <para>Rules in KRMS are placed into ordered sets called Agendas. The order of the Rules
+            in an Agenda determines the sequencing: which rule gets evaluated first, second and
+            so on. The Agenda also enables you to include conditional branching logic between
+            Rules. </para>
+        <para>In turn, Agendas are created in Contexts, which may represent any categories that are
+            relevant within your institution. For example, they could correspond to document types
+            or business processes or any other categories. In some university environments, the
+            following might be relevant contexts: Awards, Proposals, IRB reviews, Course
+            co-requisites, Course pre-requisites, Student plan evaluations, and so on. </para>
+        <para>Each Context contains its own agendas, and each Agenda contains its own rules. Rules
+            aren't shared across agendas (though you can copy/paste them, in which case they become
+            unique Rule instances), and Agendas aren't shared across Contexts. There is no Context
+            hierarchy; that is, Agendas and Rules can't be inherited across contexts within any sort
+            of hierarchy. </para>
+        <para>See below for a view of the Agenda Editor in KRMS.</para>
+        <para>
+            <figure>
+                <title>KRMS Agenda Editor</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRMS_Guide/KRMS-Agenda.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para>Rules in the Agenda can be selected by clicking on them. The order and conditional
+            logic within the agenda can be manipulated by selecting rules and clicking the
+            buttons on the toolbar above the Rules. Clicking on the <emphasis role="keyword">Add Rule</emphasis> button on the
+            Agenda Editor screen will take you to the Rule Editor with a new blank Rule, and
+            selecting a Rule and clicking on the <emphasis role="keyword">Edit Rule</emphasis> button will open that existing Rule
+            in the Rule Editor.</para>
+        <para>And see below for an example of how attributes can be progressively rendered in
+                KRMS. In this example, the selected context, "Context 1", requires the selection of
+                a type, and the selected type, "CampusAgendaType", requires some additional
+                attributes, that are not required by all types. These are shown to the end user only
+                when required. This is an example of KRAD's progressive disclosure capability: </para>
+            <para>
+                <figure>
+                    <title>KRMS Agenda Editor with additional attributes displayed</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KRMS_Guide/KRMS-AgendaEditorWithAttributes.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </para>
+    </section>
+    <section>
+        <title>KRMS Rule Editor</title>
+        <para>See below for views of editing a Rule from an Agenda in KRMS.</para>
+        <para>
+            <figure>
+                <title>KRMS Rules Editor</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRMS_Guide/KRMS-Rule1.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para>And below is the same Rule but scrolled down further on the page to show the
+            Action configuration as well.  In this example, when the logical proposition for
+            this rule is satisfied (when it is true), the rule will call a <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KEW_Guide.html#peopleflow_ug_kew">PeopleFlow</link> to route a
+            request to it.</para>
+        <para>
+            <figure>
+                <title>KRMS proposition and PeopleFlow Action</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRMS_Guide/KRMS-Rule2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para>You can add Simple Propositions via <emphasis role="keyword">add</emphasis>, or Compound Propositions via <emphasis role="keyword">add
+            parent</emphasis>.  Simple Propositions are configured with a Term and a user-supplied value
+            to compare it with.</para>
+    </section>
+</chapter>

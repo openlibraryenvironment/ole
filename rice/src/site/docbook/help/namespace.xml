@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="namespace" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>Namespace</title>
+    </info>
+    <para>Administration > Configuration > Namespace</para>
+    <para>The Namespace document allows you to add new or maintain existing namespace codes.
+        Namespace codes are used to identify various pieces of functionality and generally
+        correspond to large functional areas. The namespaces in an applications base data normally
+        take the form of a Kuali application followed by one of that application's modules. For
+        example the KFS Purchasing /Accounts Payable module would be associated with the namespace
+        KFS-PURAP.</para>
+    <para>This document can only be initiated by members of the KR-SYS Technical Administrator role
+        or a suitable application role and does not route for approval.</para>
+    <section>
+        <title>Document Layout</title>
+        <para><figure><title>Namespace document</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/namespace_document.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <para>The Namespace document contains the <emphasis role="bold">Edit Namespace</emphasis>
+            tab.</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Edit Namespace tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Namespace</entry>
+                        <entry>Required. Enter the namespace code for this namespace. The convention
+                            for most namespaces is application abbreviation and module abbreviation
+                            separated by a dash (KFS-PURAP, KR-WKFLW, etc.)</entry>
+                    </row>
+                    <row>
+                        <entry>Namespace Name</entry>
+                        <entry>Required. A longer text description for this namespace code.</entry>
+                    </row>
+                    <row>
+                        <entry>Application ID</entry>
+                        <entry>Optional. An additional namespace identifier which identifies which
+                            application should recognize this namespace code. This is generally only
+                            used in instances where the regular namespace code is not enough to make
+                            an attribute unique. This attribute is normally used directly on the
+                            Parameter document and not assigned specifically to a namespace on this
+                            table.</entry>
+                    </row>
+                    <row>
+                        <entry>Active Indicator</entry>
+                        <entry>Required. Leave checked to indicate that this namespace is active and
+                            can be associated with permissions, responsibilities, roles and Kuali
+                            data elements organized by namespace. Uncheck the box to inactivate this
+                            namespace and make it an invalid choice.</entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+</chapter>

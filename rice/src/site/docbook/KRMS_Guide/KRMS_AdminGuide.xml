@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KRMS_AdminGuide" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        <title>KRMS Administration Guide</title>
+        <para>(work in progress - content tdb.  The below preface is patterned after the KEW TRG -
+            what will admins need to administer for KRMS?  I've put in some placeholder
+            content-topics for a TOC skeleton.)</para>
+        <para>This guide provides information on administering a Kuali Rules Management System
+            (KRMS) installation. Out of the box, KRMS comes with a default setup that works well in
+            development and test environments. However, when moving to a production environment,
+            this setup requires adjustments. This document discusses basic administration as well as
+            instructions for working with some of KRMS' administration tools.</para>
+        <section>
+            <title>Initial Set up tasks</title>
+            <para>In this section we cover the types of tasks you'll need to do as a one-time setup
+                at your institute in order for you and others to be able to define KRMS agendas for
+                use by applications.</para>
+            <section>
+                <title>What do I have to install so that people can use KRMS?</title>
+                <para/>
+            </section>
+            <section>
+                <title>What do I have to create or customize so that people can work with business
+                    contexts, agendas, and rules?</title>
+                <para>Below are the constructs you will need to point to or create for your
+                    institute:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Use existing Namespaces or set up Namespaces for KRMS </para>
+                    </listitem>
+                    <listitem>
+                        <para>Use an existing Agenda Type service or set up an Agenda Type service
+                            for KRMS </para>
+                    </listitem>
+                    <listitem>
+                        <para>Use existing Types or set up Types for KRMS </para>
+                    </listitem>
+                    <listitem>
+                        <para>Use existing Contexts or configure new Contexts for KRMS </para>
+                    </listitem>
+                    <listitem>
+                        <para>Specify Terms</para>
+                    </listitem>
+                    <listitem>
+                        <para>Create Term Resolvers</para>
+                    </listitem>
+                    <listitem>
+                        <para>Create Parameterized Terms</para>
+                    </listitem>
+                    <listitem>
+                      <para>Create Custom Operators</para>
+                    </listitem>
+                </itemizedlist>
+                <para>Below are the instructions for doing these tasks.</para>
+                <section>
+                    <title>Point to or Set up Namespaces</title>
+                    <para>You can use existing Namespaces or set up additional Namespaces specifically for KRMS use.
+                      Namespaces are used throughout Rice, the
+                      From the Administration tab of the Rice portal in the Configuration section you'll see the
+                      link to the Namespace lookup, from which you can view existing or create new namespaces.</para>
+                </section>
+                <section>
+                    <title>Point to or Set up an Agenda Type service for KRMS</title>
+                    <para>You can use an existing Agenda Type service or set up an Agenda Type
+                        service specifically for KRMS (include information on how to do both of
+                        these).</para>
+                    <para>For example, below is a snippet of Spring configuration for defining an
+                      Agenda Type service.  The first bean definition configures the service implementation instance.
+                      The class being referenced implements the <emphasis role="bold">AgendaTypeService</emphasis>
+                      interface.  The second bean definition exports the service to the service bus, which is required
+                      when the client application is running remotely to a Rice standalone server.  It is being
+                      exported here to the <emphasis role="bold">KR-SAP</emphasis> namespace with the
+                      service name <emphasis role="bold">campusAgendaTypeService</emphasis>:</para>
+                    <para>
+                        <programlisting linenumbering = "numbered">&lt;bean id="campusAgendaTypeService"
+      class="edu.sampleu.krms.impl.CampusAgendaTypeService">
+    &lt;property name="configurationService" ref="configurationService"/>
+&lt;/bean>
+
+&lt;bean id="campusAgendaTypeService.exporter"
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:serviceBus-ref="rice.ksb.serviceBus"
+      p:callbackService-ref="campusAgendaTypeService"
+      p:serviceNameSpaceURI="KR-SAP"
+      p:localServiceName="campusAgendaTypeService"
+      p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
+                        </programlisting>
+                    </para>
+                </section>
+                <section>
+                    <title>Point to or Set up the Types for KRMS</title>
+
+                    <para>Below is example SQL code to insert the Type into the Agenda Type
+                        service -- be sure to replace the content of the 2nd parenthetical
+                        expressions in each of the following examples with your defined
+                        values:</para>
+                    <para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>First,  add the Type(s) itself: </para>
+                                <para>insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv,
+                                    ver_nbr) values (<emphasis role="italic">'T6', 'Campus Agenda',
+                                        'KRMS_TEST', 'campusAgendaTypeService', 'Y',
+                                    1</emphasis>);</para>
+                            </listitem>
+                            <listitem>
+                                <para>Next, add the campus attribute(s) to the Campus Agenda Type: </para>
+                                <para>insert into krms_attr_defn_t (ATTR_DEFN_ID, NM, NMSPC_CD, LBL,
+                                    CMPNT_NM, DESC_TXT) values (<emphasis role="italic">'Q9901',
+                                        'Campus', 'KRMS_TEST', 'campus label', null, 'the campus
+                                        which this agenda is valid for'</emphasis>); </para>
+                                <para>insert into krms_typ_attr_t (TYP_ATTR_ID, SEQ_NO, TYP_ID,
+                                    ATTR_DEFN_ID) values (<emphasis role="italic">'T6A', 1, 'T6',
+                                        'Q9901'</emphasis>);</para>
+                            </listitem>
+                        </itemizedlist>
+                    </para>
+                </section>
+                <section>
+                    <title>Point to or Set up Contexts for KRMS</title>
+                    <para>You can use existing Contexts or configure new Contexts for KRMS. There is
+                        graphical user interface support for configuring a new Context, through a
+                        maintenance page. For example, in the Rice demo / sample application, on the
+                        Main menu page, under KRMS Rules, select the Context Lookup. </para>
+                    <para><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-rules-section-in-portal.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>You can search for existing Contexts or create a new one. To create a new
+                        one, select "Create New" at the top right on the context lookup page:</para>
+                    <para><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-Context-lookup-page.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>The resulting Context Maintenance screen enables you to define a new
+                        Context. The Context ID must be unique:</para>
+                    <para><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-Context-maintenance-page.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>After creating your Context(s), you must 1) set "CampusAgendaType" as
+                        valid*,  2) set "Route to PeopleFlow" action as valid* for them, and 3) make
+                        the Type(s) you created valid for your Context(s).  See the following
+                        examples, and replace the content of each of the 2nd parenthetical
+                        expressions with your defined values:</para>
+                    <para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>insert into krms_cntxt_vld_agenda_t (cntxt_vld_agenda_id,
+                                    cntxt_id, agenda_typ_id, ver_nbr) values (<emphasis role="italic">'agendaid', 'contextid', 'agendatypeid',
+                                        version#</emphasis>);</para>
+                            </listitem>
+                            <listitem>
+                                <para>insert into krms_cntxt_vld_actn_t (cntxt_vld_actn_id,
+                                    cntxt_id, actn_typ_id, ver_nbr) values (<emphasis role="italic">'agendaid', 'contextid', 'agendatypeid',
+                                        version#</emphasis>);</para>
+                            </listitem>
+                            <listitem>
+                                <para>insert into krms_cntxt_vld_agenda_t (cntxt_vld_agenda_id,
+                                    cntxt_id, agenda_typ_id, ver_nbr) values (<emphasis role="italic">''agendaid', 'contextid', 'agendatypeid',
+                                        version#</emphasis>);    </para>
+                            </listitem>
+                        </itemizedlist>
+                    </para>
+                </section>
+                <section>
+                    <title>Specify the Terms for KRMS</title>
+                    <para>You can point to existing terms or specify new terms for KRMS (include
+                        information on how to do both of these).</para>
+                    <para>To specify newTerms, you will probably want to first create term
+                        categories.   See the following examples, and replace the content of each of
+                        the 2nd parenthetical expressions with your defined values:</para>
+                    <para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Example - Generic Workflow Properties</para>
+                            </listitem>
+                            <listitem>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>insert into krms_ctgry_t (ctgry_id, nm, nmspc_cd, ver_nbr)
+                                            values (<emphasis role="italic">'CAT02', 'Workflow Document
+                                                Properties', 'KR-SAP', '1'</emphasis>);</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </listitem>    
+                            <listitem>
+                                <para>Example - Travel Account Properties</para>
+                            </listitem>
+                            <listitem>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>insert into krms_ctgry_t (ctgry_id, nm, nmspc_cd, ver_nbr)
+                                            values (<emphasis role="italic">'CAT03', 'Travel Account
+                                                Properties', 'KR-SAP', '1'</emphasis>);</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </listitem>    
+                        </itemizedlist>
+                    </para>
+                    <para>And next, you can use existing Terms or configure new Terms for KRMS.
+                        There is graphical user interface support for configuring a new Term,
+                        through a maintenance page. For example, in the Rice demo / sample
+                        application, on the Main menu page, under KRMS Rules, select the Term
+                        Specification Lookup and, after completing that, select the Term Lookup. </para>
+                    <para><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-rules-section-in-portal.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>You can search for existing Term Specifications and Terms or create new
+                        ones. To create a new one, select "Create New" at the top right on the term
+                        specification lookup page or copy and then  modify an existing one.  See
+                        example Term Specification Lookup screen below:</para>
+                    <para><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-term-specification-lookup-screen.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>If you copy an existing term specification, be sure to give it a new and
+                        unique name before you change and save or submit it.  Below is a view of the
+                        term specification screen showing the types of attributes you can associate
+                        with it.</para>
+                    <para><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-term-specification-creation-screen.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>After creating your term specifications (your categories of terms), you
+                        can use the Term Lookup screen to add or create new terms.  See the example
+                        Term Lookup screen below:</para>
+                    <para>
+                        <figure>
+                            <title>Term Lookup screen example</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-term-lookup-screen2.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                    </mediaobject>
+                    </figure>
+                    </para>
+                    <para>If you copy an existing term, be sure to change the name to a new and
+                        unique term before you save or submit it.  Below is a view of the term
+                        specification screen showing the types of attributes you can associate with
+                        it.</para>
+                    <para>
+                    <figure>
+                        <title>Term specification screen example</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KRMS_Guide/KRMS-term-specification-creation-screen.png"  scalefit="1" width="100%" contentdepth="100%" />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    </para>
+                </section>
+                <!-- Commenting out until content is added
+                <section>
+                    <title>Create Term Resolvers</title>
+                    <para>(Need to document this)</para>
+                    
+                </section>
+                <section>
+                    <title>Create Parameterized Terms</title>
+                    <para>(Need to document this)</para>
+                </section>
+                -->
+              <section>
+                <title>Create Custom Operators</title>
+                <para>Custom Operators give additional flexibility and power by allowing you to expand
+                  the kinds of logical propositions that can be expressed.  For example, you could add a
+                  "matches" operator that would allow wildcarding instead of requiring strict string
+                  equality.</para>
+                <para>Custom Operators leverage a executable component that is loaded through a
+                  <emphasis role="bold">FunctionTypeService</emphasis>.  The Custom Operator implementation
+                  references that service indirectly by providing a <emphasis role="bold">FunctionDefinition</emphasis>
+                  to the system that
+                  identifies the name of the function and the service that provides it in executable form.</para>
+                <para>Adding a Custom Operator to KRMS requires:
+                  <itemizedlist>
+                    <listitem>
+                      <para>development of a Java class implementing several methods</para>
+                    </listitem>
+                    <listitem>
+                      <para>Spring configuration to wire it up and export it to the service bus</para>
+                    </listitem>
+                    <listitem>
+                      <para>the addition of some database rows in the KRMS schema to configure the KRMS type and make
+                      it usable from some Contexts.</para>
+                    </listitem>
+                  </itemizedlist>
+                  This process is outlined below.</para>
+                <para>The Java class must implement the
+                  <emphasis role="bold">org.kuali.rice.krms.api.repository.operator.CustomOperator</emphasis>
+                  interface, which has just two methods.  The first of those methods,
+                  <emphasis role="italic">getOperatorFunctionDefinition</emphasis>, provides the
+                  <emphasis role="bold">FunctionDefinition</emphasis> that the engine will use to find the
+                  <emphasis role="bold">FunctionTypeService</emphasis>.  The second method,
+                  <emphasis role="italic">validateOperandClasses</emphasis>, performs simple validation
+                  of the arguments based on their declared Java types.
+                </para>
+                <para>It will be most convenient to implement
+                  <emphasis role="bold">org.kuali.rice.krms.framework.type.FunctionTypeService</emphasis>
+                  as well with your custom operator service class.  In that case, you will need to implement a third
+                  method, <emphasis role="italic">loadFunction</emphasis>, that provides back the executable form for
+                  the function.  An example of a Custom Operator that implements both can be found in the Rice sample
+                  application module, the class name being
+                  <emphasis role="bold">edu.sampleu.krms.impl.ContainsOperator</emphasis>.
+                </para>
+                <para>Here is the Spring configuration for this Custom Operator.  The first bean definition wires up
+                  the service implementation instance.  The second bean definition exports the service to the service
+                  bus.  It is being exported here to the <emphasis role="bold">KR-SAP</emphasis> namespace with the
+                  service name <emphasis role="bold">sampleAppContainsOperatorService</emphasis>:
+                  <programlisting>&lt;bean id="sampleAppContainsOperatorService"
+  class="edu.sampleu.krms.impl.ContainsOperator"/>
+
+&lt;bean id="sampleAppContainsOperatorService.exporter"
+        class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+        p:serviceBus-ref="rice.ksb.serviceBus"
+        p:callbackService-ref="sampleAppContainsOperatorService"
+        p:serviceNameSpaceURI="KR-SAP"
+        p:localServiceName="sampleAppContainsOperatorService"
+        p:serviceInterface="org.kuali.rice.krms.api.repository.operator.CustomOperator"/>
+                  </programlisting>
+                </para>
+                <para>
+                  The remainder of the work is done in the database in three discrete parts:
+                  <itemizedlist>
+                    <listitem>
+                      <para>Identify the Custom Operator on the service bus as a KRMS type</para>
+                    </listitem>
+                    <listitem>
+                      <para>Flag our custom operator as usable within Context of a certain type.</para>
+                    </listitem>
+                    <listitem>
+                      <para>Specify some metadata about our executable function.</para>
+                    </listitem>
+                  </itemizedlist>
+                </para>
+                <para>
+                  First, we identify our custom operator as a KRMS type by creating an entry in the KRMS_TYP_T table.
+                  You will not want to use this SQL directly, rather you will want to change the values as appropriate.
+                  The significance of the columns and how you will want them set will be discussed below.
+                  <programlisting> insert into KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR)
+    values ('OPERATOR-KRMS-TYPE-ID', 'contains operator', 'KR-SAP', 'sampleAppContainsOperatorService', 'Y', 1);
+                  </programlisting>
+                  <table frame="none" tabstyle="striped">
+                    <title>Columns being inserted into KRMS_TYP_T</title>
+                    <tgroup cols="2">
+                      <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                      <colspec colname="c2" colnum="2" colwidth="4.0*"/>
+                      <thead>
+                        <row>
+                          <entry>Column</entry>
+                          <entry>Description</entry>
+                        </row>
+                      </thead>
+                      <tbody>
+                        <row>
+                          <entry>TYP_ID</entry>
+                          <entry>
+                            the primary key column for the KRMS_TYP_T table.  You will want to set it to a
+                            unique value, one that will not collide with a value from the KRMS_TYP_S sequence in the
+                            future.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>NM</entry>
+                          <entry>
+                            the name of the type service, for descriptive purposes.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>NMSPC_CD</entry>
+                          <entry>
+                            the namespace code that the service is exported to the bus within.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>SRVC_NM</entry>
+                          <entry>
+                            the name that the service is exported to the bus with.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>ACTV</entry>
+                          <entry>
+                            the active status of your type, you'll want to set this to 'Y'.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>VER_NBR</entry>
+                          <entry>
+                            used for optimistic locking, you'll want to set this to '1'.
+                          </entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
+                  Note that the <emphasis role="bold">FunctionDefinition</emphasis> returned by your service will need
+                  to agree with the values configured here.  You can achieve that dynamically by loading it with the
+                  FunctionBoService using the service namespace and name.
+                </para>
+                <para>
+                  Next we will create the type-type relation that will make your Custom Operator usable within a certain
+                  Context.  Again, you will not want to use this SQL directly, rather you will want to change the values
+                  as appropriate.  The significance of the columns and how you will want them set will be discussed
+                  below.
+                  <programlisting>insert into KRMS_TYP_RELN_T (TYP_RELN_ID, FROM_TYP_ID, TO_TYP_ID, RELN_TYP, SEQ_NO)
+          values ('A-UNIQUE-ID', 'CONTEXT-TYPE-ID', 'OPERATOR-KRMS-TYPE-ID', 'A', 1);
+                  </programlisting>
+                  <table frame="none" tabstyle="striped">
+                    <title>Columns being inserted into KRMS_TYP_RELN_T</title>
+                    <tgroup cols="2">
+                      <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                      <colspec colname="c2" colnum="2" colwidth="4.0*"/>
+                      <thead>
+                        <row>
+                          <entry>Column</entry>
+                          <entry>Description</entry>
+                        </row>
+                      </thead>
+                      <tbody>
+                        <row>
+                          <entry>TYP_RELN_ID</entry>
+                          <entry>
+                            the primary key column for the KRMS_TYP_RELN_T table.  You will want to set it
+                            to a unique value, one that will not collide with a value from the KRMS_TYP_RELN_S sequence in
+                            the future.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>FROM_TYP_ID</entry>
+                          <entry>
+                            The TYP_ID value from your Context.  The custom operator will be available in
+                            any Contexts having this TYP_ID.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>TO_TYP_ID</entry>
+                          <entry>
+                            the TYP_ID value you used when creating your KRMS type in the previous step.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>RELN_TYP</entry>
+                          <entry>
+                            the type of relationship, which you should set to 'A' indicating that usage is
+                            allowed.
+                          </entry>
+                        </row>
+                        <row>
+                          <entry>SEQ_NO</entry>
+                          <entry>
+                            Used for order of presentation in some other cases.  Set this to 1.
+                          </entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
+                </para>
+              </section>
+              <para>
+                Finally we will configure our function definition:
+                <programlisting>insert into KRMS_FUNC_T
+            (FUNC_ID, NMSPC_CD, NM, DESC_TXT, RTRN_TYP, TYP_ID, ACTV, VER_NBR)
+          values
+            ('A-UNIQUE-ID', 'KR-SAP', 'contains', 'descr...', 'java.lang.Boolean', 'OPERATOR-KRMS-TYPE-ID', 'A', 1);
+                </programlisting>
+                <table frame="none" tabstyle="striped">
+                  <title>Columns being inserted into KRMS_FUNC_T</title>
+                  <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="4.0*"/>
+                    <thead>
+                      <row>
+                        <entry>Column</entry>
+                        <entry>Description</entry>
+                      </row>
+                    </thead>
+                    <tbody>
+                      <row>
+                        <entry>FUNC_ID</entry>
+                        <entry>
+                          the primary key column for the KRMS_FUNC_T table.  You will want to set it to a
+                          unique value, one that will not collide with a value from the KRMS_FUNC_S sequence in the
+                          future.
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>NMSPC_CD</entry>
+                        <entry>
+                          the code for the namespace that your function belongs in.  Technically, this doesn't have to
+                          match that of the corresponding service, but in most cases it makes sense for it to do so.
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>NM</entry>
+                        <entry>
+                          the name of the function, which is used to identify the custom operator in the user
+                          interface.  This is what will show up in the operator selector widget.
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>DESC_TXT</entry>
+                        <entry>
+                          some descriptive text about the function.
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>RTRN_TYP</entry>
+                        <entry>
+                          the Java type of your function return value, set this to 'java.lang.Boolean'.
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>TYP_ID</entry>
+                        <entry>
+                          the TYP_ID value for your FunctionTypeService (which will, if you implement both
+                          interfaces in one class, be the same as for your CustomOperator service).
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>ACTV</entry>
+                        <entry>
+                          the active status of your function, you'll want to set this to 'Y'.
+                        </entry>
+                      </row>
+                      <row>
+                        <entry>VER_NBR</entry>
+                        <entry>
+                          used for optimistic locking, you'll want to set this to '1'.
+                        </entry>
+                      </row>
+                    </tbody>
+                  </tgroup>
+                </table>
+              </para>
+              <para>With that configuration complete, you should be able to see the new operator available when
+                editing propositions for any Agenda whose Context has the type that we configured our type-type
+                relation with in the second SQL step.
+              </para>
+            </section>
+            
+            <section>
+                <title>Do I have to define permissions or approval processes so that people can
+                    create and maintain KRMS agendas and rules?</title>
+                <para>The answer is yes.  To set up Permissions for creating and maintaining
+                    agendas, you can use the maintenance screens for identities and for
+                    role/group/permission/responsibility-type that are available on the
+                    Administration tab in the Kuali Rice portal:</para>
+                <para><itemizedlist xml:id="internal-source-marker_0.6076412396925063">
+                        <listitem>
+                            <para>First, in the Kuali Rice portal, go to the Administration tab, and
+                            in the Identity category, select "Permission". Create a new permission:
+                            give it a unique Permission name and select the namespace you'd like to
+                            associate it with. For example, give it the name 'Maintain KRMS Agenda'
+                            and select the appropriate namespace.</para>
+                            <para><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/KRMS_Guide/KRMS-Identity-permission-creation-screen.png"  scalefit="1" width="100%" contentdepth="100%" />
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                        </listitem>
+                        <listitem>
+                            <para>Next, add that permission to a role that your agenda-maintaining
+                                user has.  You can do that through the Kuali Rice portal, by going
+                                to the Administration tab, and in the Identity category, select
+                                "Role".  You can search for the role you just created (in the
+                                example above,  'Maintain KRMS Agenda', and select to edit
+                                it.</para><para><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/KRMS_Guide/KRMS-permission-search.png"  scalefit="1" width="100%" contentdepth="100%" />
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                            <para>Add the individuals you would like to this role, so that they will
+                            have the permissions needed to create and maintain agendas and rules.
+                            Click on the <emphasis role="keyword">edit</emphasis> action to bring up the following screen to add the
+                            individuals to this role. </para>
+                            <para><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/KRMS_Guide/KRMS-exmpl---role-maintenance-edit-screen.png"  scalefit="1" width="100%" contentdepth="100%" />
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                        </listitem>
+                    </itemizedlist>Alternatively, you could set up these permissions via code - see
+                    SQL server code examples below: </para>
+                
+                    
+                            <para><code>insert into krim_role_perm_id_s values (null);</code></para>
+                       
+                            <para><code>insert into krim_role_perm_t (role_perm_id, role_id, perm_id,
+                                actv_ind, ver_nbr, obj_id) values ((select max(id) from
+                                krim_role_perm_id_s), &lt;YOUR_ROLE_ID>, &lt;YOUR_PERMISSION_ID>,
+                                'Y', 1, uuid());</code></para>
+                        
+                
+            </section>
+            <!--
+            <section>
+                <title>(Other? Anything we have to do to setup integration/interaction with KEW?
+                    KIM? KEN? KOM? PeopleFlow? with other service bus?)</title>
+                <para/>
+            </section>
+            -->
+        </section>
+        <!--
+        <section>
+            <title>Ongoing Maintenance tasks</title>
+            <para>(add information here)</para>
+        </section>
+        <section>
+            <title>Troubleshooting and diagnostics</title>
+            <para>(add information here)</para>
+        </section>
+        <section>
+            <title>Optimizing performance</title>
+            <para>Content TBD.  For example, would logging alternatives affect performance?  Are
+                there selectable levels of KRMS execution logging?  Etc., etc..</para>
+        </section>
+        -->
+</chapter>

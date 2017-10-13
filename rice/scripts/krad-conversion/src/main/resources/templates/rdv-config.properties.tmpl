@@ -1,0 +1,66 @@
+# # # # Related To Rice Dictionary Validator: Start
+ ## Program constants (do not change)
+ delimiter=,
+
+## Whether the RDO is being displayed in the system console or in the Kuali Tooling GUI
+## Unless running from the complete Rice Tools application set the value to false
+## Allowed Values = true, false
+utilities.interface.gui=true
+
+# List of files to be loaded every time the validator is ran
+ricedictionaryvalidator.corefiles=classpath\\:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml,\\
+                                  classpath\\:org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml,\\
+                                  classpath\\:org/kuali/rice/krad/bo/datadictionary/AttributeReferenceDummy.xml,\\
+                                  classpath\\:org/kuali/rice/krad/bo/datadictionary/AttributeReferenceElements.xml,\\
+                                  classpath\\:org/kuali/rice/krad/bo/datadictionary/BusinessObjectAttributeEntry.xml,\\
+                                  classpath\\:org/kuali/rice/krad/bo/datadictionary/DocumentHeader.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifActionDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifViewPageDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifGroupDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifMaintenanceDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifDocumentDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifInquiryDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifLookupDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifIncidentReportDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifFieldDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifControlDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifRiceDefinitions.xml,\\
+                                  classpath\\:org/kuali/rice/krad/uif/UifElementDefinitions.xml
+# How should the results of the validation be displayed
+## Accepted values = gui, file, console
+ricedictionaryvalidator.display.method=console
+
+ricedictionaryvalidator.xmlfiles=${springBeanFiles.join(',')}
+
+# File to write the results too if the output method is file
+ricedictionaryvalidator.display.method.file=
+
+# Should the number of errors be shown
+## Accepted values = true, false
+ricedictionaryvalidator.display.errors=true
+
+# Should the number of warnings be shown
+## Accepted values = true, false
+ricedictionaryvalidator.display.warnings=true
+
+# Should the messages for the errors be shown
+## Accepted values = true, false
+ricedictionaryvalidator.display.errors.messages=true
+
+# Should the messages for the warnings be shown
+## Accepted values = true, false
+ricedictionaryvalidator.display.warnings.messages=true
+
+# Should the related xml files be shown
+## Accepted values = true, false
+ricedictionaryvalidator.display.xmlfiles=false
+
+# Should the validator fail the validation if a warning is detected
+## Accepted values = true, false
+ricedictionaryvalidator.failonwarning=false
+
+# # # # Related To Rice Dictionary Validator: End

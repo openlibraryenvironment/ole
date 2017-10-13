@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/location/config/_LocationCommonSpringBeans.xml" />
+  <import resource="classpath:org/kuali/rice/location/config/_LocationOjbSpringBeans.xml" />
+  <import resource="classpath:org/kuali/rice/location/config/_LocationLocalServiceBusSpringBeans.xml" />
+
+  <!-- the distributed cache manager that calls into the locationCacheAdminService on the ksb -->
+  <bean id="locationDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+    <property name="cacheManager" ref="locationLocalCacheManager" />
+    <property name="serviceName" value="{http://rice.kuali.org/location/v2_0}locationCacheAdminService" />
+  </bean>
+
+  <bean id="rice.location.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+    <property name="cacheManager" ref="locationDistributedCacheManager" />
+  </bean>
+
+  <!-- caching end -->
+
+  <bean id="dataDictionaryService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="dataDictionaryService" />
+  </bean>
+
+  <bean id="persistenceServiceOjb"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="persistenceServiceOjb" />
+  </bean>
+
+  <bean id="rice.location.import.parameterService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="parameterService" />
+  </bean>
+
+  <bean id="locationModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+  <property name="namespaceCode" value="KR-NS"/>
+    <property name="dataSourceName" value="locationDataSource"/>
+    <property name="initializeDataDictionary" value="true"/>
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <property name="persistenceService" ref="persistenceServiceOjb"/>
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:org/kuali/rice/location/web/campus/Campus.xml</value>
+        <value>classpath:org/kuali/rice/location/web/campus/CampusType.xml</value>
+        <value>classpath:org/kuali/rice/location/web/country/Country.xml</value>
+        <value>classpath:org/kuali/rice/location/web/county/County.xml</value>
+        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCode.xml</value>
+        <value>classpath:org/kuali/rice/location/web/state/State.xml</value>
+        <value>classpath:org/kuali/rice/location/web/campus/CampusMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/location/web/campus/CampusTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/location/web/country/CountryMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/location/web/county/CountyMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/location/web/state/StateMaintenanceDocument.xml</value>
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.location.</value>
+      </list>
+    </property>
+    <property name="externalizableBusinessObjectImplementations">
+      <map>
+        <entry key="org.kuali.rice.location.framework.country.CountryEbo"
+               value="org.kuali.rice.location.impl.country.CountryBo"/>
+        <entry key="org.kuali.rice.location.framework.state.StateEbo"
+               value="org.kuali.rice.location.impl.state.StateBo"/>
+        <entry key="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
+               value="org.kuali.rice.location.impl.postalcode.PostalCodeBo"/>
+        <entry key="org.kuali.rice.location.framework.county.CountyEbo"
+               value="org.kuali.rice.location.impl.county.CountyBo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusEbo"
+               value="org.kuali.rice.location.impl.campus.CampusBo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusTypeEbo"
+               value="org.kuali.rice.location.impl.campus.CampusTypeBo"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="locationServerModule" class="org.kuali.rice.location.service.impl.LocationModuleService">
+    <property name="moduleConfiguration" ref="locationModuleConfiguration"/>
+    <property name="kualiModuleService" ref="rice.location.import.kualiModuleService"/>
+  </bean>
+
+  <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="businessObjectService"/>
+  </bean>
+
+  <bean id="rice.location.import.criteriaLookupService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="criteriaLookupService"/>
+  </bean>
+
+  <bean id="postalCodeService" class="org.kuali.rice.location.impl.postalcode.PostalCodeServiceImpl">
+    <property name="businessObjectService" ref="businessObjectService"/>
+    <property name="criteriaLookupService" ref="rice.location.import.criteriaLookupService"/>
+  </bean>
+
+  <bean id="countyService" class="org.kuali.rice.location.impl.county.CountyServiceImpl">
+    <property name="businessObjectService" ref="businessObjectService"/>
+    <property name="criteriaLookupService" ref="rice.location.import.criteriaLookupService"/>
+  </bean>
+
+  <bean id="stateService" class="org.kuali.rice.location.impl.state.StateServiceImpl">
+    <property name="businessObjectService" ref="businessObjectService"/>
+    <property name="criteriaLookupService" ref="rice.location.import.criteriaLookupService"/>
+  </bean>
+
+  <bean id="countryService" class="org.kuali.rice.location.impl.country.CountryServiceImpl">
+    <property name="businessObjectService" ref="businessObjectService"/>
+    <property name="parameterService" ref="rice.location.import.parameterService"/>
+    <property name="criteriaLookupService" ref="rice.location.import.criteriaLookupService"/>
+  </bean>
+
+  <bean id="campusService" class="org.kuali.rice.location.impl.campus.CampusServiceImpl">
+    <property name="businessObjectService" ref="businessObjectService"/>
+    <property name="criteriaLookupService" ref="rice.location.import.criteriaLookupService"/>
+  </bean>
+
+  <bean id="campusGroupTypeService" class="org.kuali.rice.location.impl.campus.CampusGroupTypeServiceImpl"/>
+
+  <bean id="campusRoleService" class="org.kuali.rice.location.impl.campus.CampusRoleTypeServiceImpl"/>
+
+</beans>

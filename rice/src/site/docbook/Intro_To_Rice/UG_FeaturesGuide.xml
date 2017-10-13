@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+--> 
+<chapter xml:id="UG_FeaturesGuide" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>High-Level Features Guide</title>
+    <para>This document is planned as a high level overview of what the various modules of Rice have to 
+        offer. For a more in depth view please refer to the User's Guide or Technical Guide that we also 
+        provide. If you don't already have a Rice environment to use, please visit this site to download 
+        the latest version of Rice for yourself.</para>
+        <section>
+            <title>Nervous System (KNS)</title>
+            <para>The Kuali Nervous System (KNS) is a software development framework aimed at allowing 
+                developers to quickly build web-based business applications in an efficient and agile 
+                fashion. KNS is an abstracted layer of "glue" code that provides developers easy integration 
+                with the other Rice components. In this scope, KNS provides features to developers for 
+                dynamically generating user interfaces that allow end users to search, view details about 
+                records, interact electronically with business processes, and much more. KNS adds visual, 
+                functional, and architectural consistency to any system that is built with it, helping to 
+                ensure easier and more efficient maintainability of your software.</para>
+        </section>
+        <section>
+            <title>Service Bus (KSB)</title>
+            <para>Kuali Service Bus (KSB) is a simple service bus geared towards easy service integration in 
+                a SOA architecture. In a world of difficult to use service bus products KSB focuses on ease 
+                of use and integration.</para>
+        </section>
+        <section>
+            <title>Workflow (KEW)</title>
+            <para>Kuali Enterprise Workflow provides a common routing and approval engine that facilitates 
+                the automation of electronic processes across the enterprise. The workflow product was built 
+                by and for higher education, so it is particularly well suited to route mediated transactions 
+                across departmental boundaries. Workflow facilitates distribution of processes out into the 
+                organizations to eliminate paper processes and shadow feeder systems. In addition to 
+                facilitating routing and approval workflow can also automate process-to-process related flows. 
+                Each process instance is assigned a unique identifier that is global across the organization. 
+                Workflow keeps a permanent record of all processes and their participants for auditing 
+                purposes.</para>
+            <section>
+                <title>Important Features of KEW</title>
+                <itemizedlist>
+                    <listitem><para>Flexiable Routing</para>
+                    <itemizedlist>
+                        <listitem><para>Nodes</para></listitem>
+                        <listitem><para>By Document</para></listitem>
+                        <listitem><para>Actions</para></listitem>
+                        <listitem><para>Delegation</para></listitem>                        
+                    </itemizedlist></listitem>
+                    <listitem><para>Action List - regardless of what application is using KEW, a single action 
+                        list is used as a single point for a user to get access to any documents requiring 
+                        their attention.</para>
+                    </listitem>
+                    <listitem><para>Filters and Preferences - users level tools are provided to allow a user to 
+                        quickly filter their action list or to setup presentation preferences for setting up a 
+                        personalized feel to their list.</para>
+                    </listitem>
+                    <listitem><para>eDocLite - eDocLite is a framework for developing and getting form based 
+                        electronic documents, backed by a flexible workflow, out to users in a rapid fashion</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            
+            <section>
+                <title>Important Features of PeopleFlow</title>
+                <para>PeopleFlow is a new feature in Rice 2.0, that enables simple routing of
+                actions and notifications based on business rules.  PeopleFlow can be integrated
+                with enterprise-wide workflow management in KEW, or can be used without KEW, with
+                the Kuali Rules Management System (KRMS) engine that is also new in Rice 2.0.  This
+                offers a light-weight way to manage business rules and routing across applications.  </para>
+            </section>
+            
+        </section>
+        <section>
+            <title>Notification (KEN)</title>
+            <para>Kuali Enterprise Notification (KEN) acts as a broker for all university business related 
+                communications by allowing end-users and other systems to push informative messages to the campus 
+                community in a secure and consistent manner. All notifications are processed asynchronously and are 
+                delivered to a single list where other messages such as workflow related items (KEW action items) 
+                also reside. In addition, end-users can configure their profile to have certain types of messages 
+                delivered to other end points such as email, mobile phones, etc.</para>
+            <section>
+                <title>Important Features of KEN</title>
+                <itemizedlist>
+                    <listitem><para>Channels - A channel is a stream used to organize notifications by topic or audience. 
+                    These channels can be self-subscribed to by the user or pushed out automatically to users.</para>
+                    </listitem>
+                    <listitem><para>Priority - each notification is given a priority of importance to determine how the 
+                        notification is presented.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>            
+        </section>
+        <section>
+            <title>Identity Management (KIM)</title>
+            <para>Kuali Identity Management (KIM) provides central identity and access management services. 
+                It also provides management features for Identity, Groups, Roles, Permissions, and their 
+                relationships with each other. All integration with KIM is through a simple and consistent 
+                service API (Java or Web Services). The services are implemented as a general-purpose solution 
+                that could be leveraged by both Kuali and non-Kuali applications alike.
+            </para>
+            <para>Furthermore, the KIM services are architected in such a way to allow for the reference 
+                implementations to be swapped out for custom implementations that integrate with other 3rd 
+                party Identity and Access Management solutions. The various services can be swapped out 
+                independently of each other. For example, many institutions may have a directory solution 
+                for identity, but may not have a central group or permission system. In cases like this, the 
+                Identity Service implementation can be replaced while the reference implementations for the 
+                other services can remain intact.
+            </para>
+        </section> 
+        <section>
+            <title>Rules Management System (KRMS)</title>
+            <para>Kuali Rule Management System (KRMS) is a common rules engine for defining decision logic, commonly 
+                refereed to as business rules. KRMS facilities the creation and maintenance of rules outside of an 
+                application for rapid update and flexible implementation that can be shared across applications.</para>
+            <section>
+                <title>Important Features of KRMS</title>
+                <itemizedlist>
+                    <listitem><para>Includes a repository for storing business rules in a database, accessible remotely 
+                    via web services</para></listitem>
+                    <listitem><para>Provides user interface that sits on top of the rule repository and allows for authoring 
+                    of business rules</para></listitem>
+                    <listitem><para>UI contains numerous plug points and ability to allow for custom attributes and data 
+                        elements to be collected during rule authoring (i.e. associating organizational codes with business 
+                        rules, etc.)</para></listitem>    
+                    <listitem><para>An execution engine which can be embedded inside of the client application but which loads 
+                    rules for execution from the remote rule repository</para></listitem>
+                    <listitem><para>The ability to plug in other sources for business rules into the KRMS execution model</para>
+                    </listitem>
+                    <listitem><para>The business rule model supports the following concepts</para>
+                    <itemizedlist>
+                        <listitem><para>Business Rule - decision logic that is used by an operational system, consists of a 
+                        "condition" and an "action"</para></listitem>
+                        <listitem><para>Condition - made of multiple propositions that evaluate to true or false, combined using 
+                        Boolean algebra (such as AND, OR, NOT)</para></listitem>
+                        <listitem><para>Proposition - a function that evaluates to true or false, potentially made up of term 
+                        evaluations or custom functions</para></listitem>
+                        <listitem><para>Term - defines a piece of business data that can be used in the construction of proposition 
+                        (i.e. student GPA, account number, salary, etc.)</para></listitem>
+                        <listitem><para>Action - is executed when a rule evaluates to true, can contain any arbitrary logic which 
+                        (i.e. route an approval request, raise a validation message, send a notification, etc.)</para></listitem>
+                        <listitem><para>Agenda - an execution plan for a set of rules</para></listitem>
+                        <listitem><para>Context - contains multiple agendas and business rules, typically tied to some logical module 
+                            or component of an application (i.e. a context containing agendas and business rules or Proposal 
+                            Development in Kuali Coeus)</para></listitem>
+                    </itemizedlist></listitem>
+                    <listitem><para>The execution engine is invoked by passing context and agenda selection criteria (which it will 
+                    use to go to the remote rule repository and load the appropriate rules) as well as a set of "facts"</para>
+                    <itemizedlist>
+                        <listitem><para>a fact is a value for an instance of a term (i.e. "student id" might be the term but "student 
+                            id = 123456" is a fact)</para></listitem>
+                    </itemizedlist></listitem>
+                    <listitem><para>In general, the majority of KRMS is pluggable as well, there are features built in for what we are 
+                        calling "term resolution" where certain terms can be derived based on values for other terms/facts that are 
+                        supplied to the rule execution engine.</para></listitem>
+                    <listitem><para>Has built-in integration with KEW at the moment for doing routing rules these integrations though 
+                        are built in using the standard "Action" capability that KRMS provides, so you can really integrate it with 
+                        anything through the use of custom actions</para></listitem>
+                </itemizedlist>
+            </section>
+        </section>  
+        <section>
+            <title>Rapid Application Development (KRAD)</title>
+            <para>New for Rice 2.0, Kuali Rapid Application Development (KRAD) is a framework that eases the development of 
+                enterprise web applications by providing reusable solutions and tooling that enables developers to build in 
+                a rapid and agile fashion. KRAD is a complete framework for web developers that provides infrastructure in 
+                all the major areas of an application (client, business, and data), and integrates with other modules of the 
+                Rice middleware project. In future releases, KNS will be absorbed into and replaced by KRAD.</para>
+            <section>
+                <title>Important Features of KRAD</title>
+                <itemizedlist>
+                    <listitem><para>User Interface Framework (UIF) components</para>
+                        <itemizedlist>
+                            <listitem><para>Built upon a rich JQuery library of standards that, among other items, includes
+                            </para>
+                            <itemizedlist>
+                                <listitem><para>Light-boxes</para></listitem>
+                                <listitem><para>Messages and Notifications</para></listitem>
+                                <listitem><para>Progressive Dsiclosure</para></listitem>
+                                <listitem><para>Client Side Validation</para></listitem>
+                                <listitem><para>Table Tools</para></listitem>
+                                <listitem><para>Themes</para></listitem>
+                                <listitem><para>AJAX Enabled Fields</para></listitem>                                
+                            </itemizedlist></listitem>
+                            <listitem><para>More UI Flexibility</para>
+                            <itemizedlist>
+                                <listitem><para>No longer limited to the "vertical" tab layouts of KNS</para></listitem>
+                            </itemizedlist></listitem>
+                            <listitem><para>Improved Configuration and Tooling</para></listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem><para>Inquiries</para>
+                    </listitem>
+                    <listitem><para>Lookups</para>
+                    </listitem>
+                    <listitem><para>Maintenance Documents</para>
+                    </listitem>           
+                    <listitem><para>Transactional</para>
+                    </listitem>                  
+                    <listitem><para>Web MVC</para>
+                    </listitem>            
+                    <listitem><para>Rules</para>
+                    </listitem>          
+                    <listitem><para>Data Dictionary Enhancements</para>
+                        <itemizedlist>
+                            <listitem><para>Min, Max, Valid Characters</para></listitem>
+                            <listitem><para>Conditional Constraints</para></listitem>
+                            <listitem><para>Custom Constraints</para></listitem>
+                            <listitem><para>Lookup Constraints</para></listitem>
+                        </itemizedlist>
+                    </listitem> 
+                    <listitem><para>Business objects</para>
+                    </listitem>                     
+                    <listitem><para>Improved Accessibility of Rice and its components</para>
+                    </listitem>                               
+                </itemizedlist>
+            </section> 
+        </section>        
+</chapter>

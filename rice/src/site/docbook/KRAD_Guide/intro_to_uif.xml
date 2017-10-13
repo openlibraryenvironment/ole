@@ -1,0 +1,2578 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="intro_to_uif" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Introduction to the UIF</title>
+    <section>
+        <title>Overview of the UIF </title>
+        <para>The KRAD User Interface Framework (UIF) allows application developers to rapidly
+            create rich and powerful user interfaces. KRAD builds on concepts of the KNS (Kuali
+            Nervous System) and the KS (Kuali Student) UIF to create a framework capable of
+            generating modern Web 2.0 interfaces with a simple declarative configuration. In the
+            next few chapters, we will explore the architecture and features of the UIF, and also
+            see some of the exciting possibilities for future growth!</para>
+        <para>As mentioned in 'A Need for KNS Version 2', the KRAD effort was spawned based on the
+            need to expand the current Rice development framework for meeting requirements of the
+            Kuali Student project. Although the Rice KNS module has many great concepts that had
+            worked well up to date, it was determined that in order to meet the new requirements and
+            to continue making overall improvements, portions of the framework would need to be
+            redesigned and rewritten. The majority of this work focused on UI generation, with some
+            enhancements to other feature areas of the KNS. The following lists the primary goals of
+            this effort:</para>
+        <section>
+            <title>UIF Goal: Rich UI Support</title>
+            <para>Over the past few years, web-based user interfaces have taken off. Many of these
+                technologies have leveraged browser-based JavaScript and Cascading Style Sheets to
+                create impressive effects or to radically increase interactivity by communicating
+                with a web-server in between the normal request/response page cycle. Because of
+                these huge advances, today's web application users have much higher expectations of
+                interactivity.</para>
+            <para>The KRAD UIF aims to allow the development of rich web interfaces by offering a
+                variety of rich components and behavior. This includes components like lightbox,
+                suggest boxes, menu/tabs, and grid (table) features. Some of the 'behavioral'
+                features include partial page refreshes, progressive disclosure, client-side
+                validation, and AJAX queries. This is just a subset of the way that richer user
+                interface functionality is offered by KRAD. Chapters 8 and 11 cover these features
+                and more in detail. </para>
+        </section>
+        <section>
+            <title> UIF Goal: More Layout Flexibility </title>
+            <para>One of the features of the Nervous System users pick up on quickly is the fact
+                that so many screens can be generated purely through configuration. A business
+                object lookup and inquiry, as well as the screen for maintenance documents: all can
+                be generated entirely from an XML file. Freeing developers from having to concern
+                themselves with the particulars of the HTML generation for these screens makes the
+                user interface of Kuali applications more consistent, to say nothing of the boost to
+                developer productivity it gives.</para>
+            <para>However, there were other screens which could not be so easily generated.
+                Transactional documents depended on perhaps several JSP files, supported by
+                hierarchies of traditional taglets. Non-document screens had to be coded in JSP as
+                well. The KNS provided a standard library of taglets - such as documentPage, tab,
+                htmlControlAttribute, and so on - which eased the development task a bit, but the
+                hard fact was that developers still had to spend much more time coding these pages. </para>
+            <para>It should therefore be of little surprise that one of KRAD's major goals is
+                improving this situation. If transactional documents and non-document screens could
+                make use of the Rich UI support through configuration, that would make it much
+                easier to develop these incredibly important pieces of functionality.</para>
+            <para>However, as any KNS developer knows, transactional documents are much more
+                flexible than lookups or maintenance documents. Maintenance documents are almost
+                always stacks of two or four columns, perhaps broken up by a standard sub-collection
+                interface. Conversely, a transactional document can look like practically
+                anything.</para>
+        </section>
+        <section>
+            <title> UIF Goal:  Easy to Customize and Extend </title>
+            <para>We have all had the experience of working with development frameworks to meet some
+                special need that the framework did not provide 'out of the box'. In many cases,
+                this is a painful process, requiring the developer to get inside the 'black box' and
+                figure out many intricate details of the framework. Furthermore, once a solution is
+                found, it might require we modify the core of the framework, causing maintenance and
+                upgrade issues.</para>
+            <para>Similar issues were encountered when using the Rice KNS framework. In particular,
+                the use of tags was problematic, in that there was no way to customize tag logic
+                without breaking the upgrade path. In addition, the objects used for UI modeling
+                were not extensible or customizable without modifying the Rice code. Therefore, an
+                important goal for the UIF is to allow new UI features to be added, and current
+                features to be modified without modifying Rice code. As we will see later, this is
+                accomplished using a component framework and the power of Spring bean
+                configuration.</para>
+        </section>
+        <section>
+            <title>UIF Goal: Improved Configuration and Tooling</title>
+            <para>A lot of user feedback about the Kuali Nervous System centered on the repetitive
+                tasks of setting up configuration. Every business object has an object-relational
+                mapping and an entry in the data dictionary; that entry is made up of field
+                configurations, which gets tediously long fairly quickly.  And then there's building
+                the corresponding Java code to be the actual business  object. Even more pieces are
+                added to this recipe when attempting to put together a document. </para>
+            <para>KRAD is adopting a series of design principles to alleviate some of the work
+                required for this configuration. KRAD intends to introduce a series of simple-to-use
+                tools to generate configuration based on defaults, letting developers focus on
+                tweaking the configuration to match business logic.</para>
+            <para>KRAD is also simplifying configuration in general. The idea of "convention over
+                configuration" will mean that standard defaults will be provided for what had to be
+                manually configured before. These defaults can be overridden, but if they fit the
+                needs of the application, no further configuration will be necessary. This will cut
+                down a huge amount on the "XML push-ups" required by KRAD application developers,
+                but still provide a great deal of flexibility.</para>
+        </section>
+        <section>
+            <title>UIF Dictionary</title>
+            <para>The UIF builds on the KNS concept of using Spring bean XML to build UIs. XML files
+                are created to configure and assemble UIF objects (called components). These files
+                are then processed and loaded into the Data Dictionary container.</para>
+            <para>More Information: Although the UIF configuration is loaded into the same container
+                as the Data Dictionary, conceptually we think of them as separate. A current
+                practice within Rice is to have a resource directory for data dictionary files, and
+                a resource directory for UIF files (per module). In addition, care was taken to
+                allow for separate containers to be created (if desired at some point).</para>
+        </section>
+        <section>
+            <title>The UIF and UIM</title>
+            <para>We will see that technically, using the UIF is very easy, since most things can be
+                accomplished by a simple XML configuration. However, there is a challenge in knowing
+                how to put the pieces together. To accomplish the amount of flexibility necessary,
+                the UIF introduces a lot of concepts that will take some time to learn. Taken all
+                together, these form a language for how Rice developers and UX leads will discuss,
+                prototype, and finally build user interfaces. To help with this process, the UIM
+                (User Interaction Model) was developed. The UIM is a collection of pages that
+                document how to best make use of the UIF functionality. Such things as when to use
+                one component over another, various configurations of a component, and overall UX
+                concerns are documented within the UIM. Investing time to read through the UIM will
+                help developers get up to speed with the UIF much quicker. </para>
+            <para>You can find the latest version of the UIM at the following URL: <link
+                    xlink:href="https://wiki.kuali.org/display/STUDENT/User+Interaction+Model"
+                    >https://wiki.kuali.org/display/STUDENT/User+Interaction+Mode</link>
+            </para>
+        </section>
+    </section>
+    <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+            <listitem>
+                <para>The UIF (User Interface Framework) is the KRAD module used to generate User
+                    Interfaces</para>
+            </listitem>
+            <listitem>
+                <para>Goals of the UIF are:<itemizedlist>
+                        <listitem>
+                            <para>Rich UI Support</para>
+                        </listitem>
+                        <listitem>
+                            <para>More Layout Flexibility</para>
+                        </listitem>
+                        <listitem>
+                            <para>Easy to Customize and Extend</para>
+                        </listitem>
+                        <listitem>
+                            <para>Improved Configuration and Tooling</para>
+                        </listitem>
+                    </itemizedlist></para>
+            </listitem>
+            <listitem>
+                <para>The UIM (User Interaction Model) is documentation on how page developers
+                    should use the UIF for designing views</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Component Design </title>
+        <para>Central to all of the UIF is the component framework. Components provide the mechanism
+            for which functionality is implemented in a customizable and extensible fashion. In
+            short, they are the bread and butter of KRAD!</para>
+        <para>So what is a component? A component to KRAD is anything that can be used to build a
+            web page. Many of these have a visual presence on the screen, such as text. However,
+            some do not, and instead provide behavior with a script. Treating all these as
+            components, gives us a uniform approach to developing the UIF framework, in addition to
+            providing a very customizable and easy to contribute modality. This section will explore
+            the design of components from a high level. Later on in this chapter, we will learn
+            about the various types of components, and in chapters 6-9 we will look at the specific
+            components KRAD provides out of the box.</para>
+        <section>
+            <title> Parts of a Component</title>
+            <para> A component is made up of three different artifacts (see <xref linkend="fig6"/>). The first of
+                these is a Java class. The Java class defines the properties and behavior the
+                component can have. As we will see later on, the properties are what we can use to
+                configure the component, while the behavior includes things such as how the
+                component interacts with other components. As with any class, the properties can be
+                primitive or collection types, or types of other objects. In this case of a
+                component, these objects may be other components. Therefore components can be nested
+                (or a composition). In addition, components may extend from other components to
+                inherit properties and behavior. This forms a component hierarchy. The component
+                class may exist anywhere on the class path.</para>
+            <para><figure xml:id="fig6">
+                <title>Building Blocks</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/componentParts.png"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+            <para>The second artifact for a component is its rendering template. The template is a
+                FreeMarker file that renders HTML/JS contents for the component instance. The
+                template is an optional artifact. Components may 'self-render', which means the
+                component object will be invoked to return the HTML/JS contents (note FreeMarker
+                content cannot be used in this mode). However, most UIF components use templates as
+                they are much easier and cleaner to implement. We will learn all about templates in
+                the next section.</para>
+            <para>The final piece of a component is its Spring bean definition. Spring bean XML is
+                the mechanism by which developers configure and assemble UIF components. Creating a
+                bean definition for the component (sometimes known as the 'base' definition) allows
+                us to specify defaults for properties, in addition to giving the component a unique
+                name within the bean container (note that it would be possible to use the component
+                without a base definition, but then the class would have to be specified each time
+                it is used).</para>
+            <para>One important property that is configured with the base definition is the
+                template. The template property (available on all components) is the path to the
+                template FreeMarker file that will render the component. Specifying the template
+                through the bean configuration provides loose coupling of the component class and
+                template. This is very important to the flexibility of the system. The template can
+                be located anywhere in the web root for the application.</para>
+            <para>The base component definition also does a couple more things for us. One of these
+                is setting up the component with scope prototype. All UIF components maintain state,
+                so they must be marked as prototype within Spring. Finally, it is recommended the
+                base definition be setup with an abstract parent bean. This setup looks like the
+                following:
+                <programlisting linenumbering = "numbered">&lt;bean id="componentName" parent="componentName-parentBean"/>
+&lt;bean id="componentName-parentBean" abstract="true" class="edu.myedu.Sample.Component" scope="prototype">
+...
+&lt;/bean>    </programlisting></para>
+            <para>This allows the base definition to be changed without having to copy the entire
+                original configuration. Recall that Spring allows us to override a bean definition
+                by specifying a bean with the same id. Therefore, if an institution wanted to change
+                the default property for a component, they would simply include the following in the
+                institutional spring files:
+                <programlisting linenumbering = "numbered">&lt;bean id="componentName" parent="componentName-parentBean">
+    &lt;property name="propertyName" value="overrideValue"/>
+&lt;/bean>    </programlisting></para>
+            <para>Without the abstract parent bean, all of the initial property configuration would
+                need to be copied (since setting the parent to "componentName" would cause a
+                circular dependency).</para>
+            <para>When defining base definitions we are not limited to just one. In many cases, it
+                is useful to provide different configurations of a component as different bean
+                configurations. For example, one component we will learn about is the TextControl.
+                The text control renders a HTML input of type text and has a size property, which
+                configures the display size for the input. First, we might setup a bean definition
+                that looks like the following:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-TextControl" parent="Uif-TextControl-parentBean"/>
+&lt;bean id="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControl" scope="prototype">
+    &lt;property name="template" value="/krad/WEB-INF/ftl/components/control/text.ftl"/>
+    &lt;property name="size" value="30"/>
+&lt;/bean>     </programlisting></para>
+            <para>The control can then be used by bean references or inner beans:
+                <programlisting linenumbering = "numbered">&lt;property name="control">
+    &lt;bean parent="Uif-TextControl" p:size="10"/>
+&lt;/property>    </programlisting></para>
+            <para>Notice here we are overriding the size property because we need a small input.
+                Seeing this, we might decide we want to have a standard size for small, medium, and
+                large inputs. Therefore we set the following bean configurations:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-TextControl" parent="Uif-TextControl-parentBean"/>
+&lt;beanid="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControl" scope="prototype">
+    &lt;property name="template" value="/krad/WEB-INF/ftl/components/control/text.ftl"/>
+    &lt;property name="size" value="30"/>
+&lt;/bean>
+&lt;bean id="Uif-SmallTextControl" parent="Uif-SmallTextControl-parentBean"/>
+&lt;bean id="Uif-SmallTextControl-parentBean" abstract="true" parent="Uif-TextControl">
+    &lt;property name="size" value="10 "/>
+&lt;/bean>
+&lt;bean id="Uif-MediumTextControl" parent="Uif-MediumTextControl-parentBean"/>
+&lt;bean id="Uif-MediumTextControl-parentBean" abstract="true" parent="Uif-TextControl">
+    &lt;property name="size" value="30 "/>
+&lt;/bean>
+&lt;bean id="Uif-LargeTextControl" parent="Uif-LargeTextControl-parentBean"/>
+&lt;bean id="Uif-LargeTextControl-parentBean" abstract="true" parent="Uif-TextControl">
+    &lt;property name="size" value="100 "/>
+&lt;/bean>     </programlisting></para>
+            <para>Now when we need a small text control, we can reference the 'Uif-SmallTextControl'
+                bean and not specify the size:
+                <programlisting linenumbering = "numbered">&lt;property name="control">
+    &lt;bean parent="Uif-SmallTextControl"/>  
+&lt;/property>      </programlisting></para>
+            <para>Many of the components provided by the UIF have multiple base bean
+                definitions.</para>
+        </section>
+        <section>
+            <title>Customizing and Extending the UIF</title>
+            <para>We know that a major goal of the UIF is to provide a high level of flexibility.
+                Furthermore, we have seen the central concept of components. So how does this
+                component design achieve our goal?</para>
+            <para>To answer this question, let's first take a look at what criteria we should look
+                for in a highly flexible system.<orderedlist>
+                    <listitem>
+                        <para>Can we customize all parts of the system, or are there places that are
+                            'unreachable'?</para>
+                    </listitem>
+                    <listitem>
+                        <para>If we can customize something, can we do that outside of the original
+                            codebase so that we do not hinder our upgrade path?</para>
+                    </listitem>
+                    <listitem>
+                        <para>What level of understanding do we need to customize the system? Is
+                            each customization different? Does it require us to get deep inside the
+                            black box?</para>
+                    </listitem>
+                    <listitem>
+                        <para>Can we add to the system? If so, do those additions act as first class
+                            citizens, or require some alternate approach to use?</para>
+                    </listitem>
+                </orderedlist></para>
+            <para>Recall besides the base 'plumbing' of the UIF, a set of components is provided to
+                build pages with. Each of these components brings a piece of functionality to the
+                framework. Thus we can think of them as 'building blocks' for the framework as shown
+                in <xref linkend="fig7"/>.</para>
+            <para><figure xml:id="fig7">
+                <title>Building Blocks</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/componentBuildingBlocks.png"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+            <para>Now let's suppose we want to customize a 'core' component.  To do this, we simply
+                change one of the component parts (class, bean, or template). We saw previously how
+                we can change the bean configuration for a component by providing another bean
+                configuration with the same id. Using the abstract parent bean, we can inherit all
+                of the original configuration and then change or add configuration as needed. </para>
+            <para>For an example of this, let's use the UIF 'required' message field which has the
+                following definition:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-RequiredMessage" parent="Uif-RequiredMessage-parentBean"/>
+&lt;bean id="Uif-RequiredMessage-parentBean" abstract="true" parent="Uif-MessageField" 
+    scope="prototype" p:messageText="*" p:messageType="REQUIRED">
+...
+&lt;/bean>    </programlisting></para>
+            <para>We decide for our application we want the required message to actually display the
+                text 'required' instead of the configured asterisk. To do this we include a bean
+                with the same id in our application (or institutional spring) file:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-RequiredMessage" parent="Uif-RequiredMessage-parentBean" p:messageText="required" />    </programlisting></para>
+            <para>Now everywhere the required message field is used the text 'required' will display
+                instead of '*'. </para>
+            <tip><para>
+                <emphasis role="bold">Adding Spring Files: </emphasis> Adding Spring files to the
+                container can be done using the KRADConfigurer. </para></tip>
+            <para>Next let's consider the component template. Remember the template is a FreeMarker
+                file located in the web root (or classpath) and generates the HTML/JS contents for
+                the component. If we wish to change this rendering, we can create another template
+                in a web location of our choosing. </para>
+            <para>Depending on the level of customization we need to implement, we might start by
+                copying the current template contents, or create one from scratch. One we have the
+                template that renders the component how we want, then we override the bean
+                configuration as described previously and override the template property specifying
+                the location for the new template. Besides the source location for the template,
+                there is the templateName property which specifies a name for the template in the
+                host language (the name by which the template is invoked). This must be unique, so
+                that when overridding a template, we must also give a unique name for the template
+                (unless we are overriding the base bean definition
+                itself):<programlisting linenumbering = "numbered">&lt;bean id="Uif-TextControl" parent="Uif-TextControl-parentBean"/>
+&lt;bean id="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControl" scope="prototype">
+    &lt;property name="template" value="/krad/WEB-INF/ftl/components/control/text.ftl"/>
+    &lt;property name="templateName" value="uif_text"/>
+    &lt;property name="size" value="30"/>
+&lt;/bean>
+&lt;bean id="Uif-TextControl" parent="Uif-TextControl-parentBean">
+    &lt;property name="template" value="/myapp/WEB-INF/ftl/components/text.ftl"/>
+    &lt;property name="templateName" value="myapp_text"/>
+&lt;/bean>    </programlisting></para>
+            <para>The last part of the component we have to customize is the Java class itself.
+                Modifying the Java class would allow us to add new properties and behavior to the
+                component. For this, we can create a new class that extends the original component
+                class. This new class can be anywhere in the classpath. New properties can be made
+                available by adding properties to our extension class (with getters and setters).
+                Customization of behavior can be modified by overriding the various lifecycle
+                methods. These methods will be covered in Chapter 9. Once we have the new class, we
+                associate it with the component by again overriding the bean definition:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-TextControl" parent="Uif-TextControl-parentBean"/>
+&lt;bean id="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControl" scope="prototype">
+    &lt;property name="template" value="/krad/WEB-INF/ftl/components/control/text.ftl"/>
+    &lt;property name="size" value="30"/>
+&lt;/bean>
+&lt;bean id="Uif-TextControl" parent="Uif-TextControl-parentBean" class="edu.myedu.Sample.TextControl">
+    &lt;property name="additionalProperty" value="foo"/>
+&lt;/bean>    </programlisting></para>
+            <para>Now that we have seen how to customize a component, how do we go about adding a
+                new component? We can add a component using the same process we saw for
+                customization. The difference between adding and customizing are:<orderedlist>
+                    <listitem>
+                        <para>We will create a new base Spring definition (not overriding an
+                            existing)</para>
+                    </listitem>
+                    <listitem>
+                        <para>The Java class will not extend a core component, but one of the
+                            provided base classes (described later on in this chapter)</para>
+                    </listitem>
+                </orderedlist></para>
+            <para>Essentially we need to create the three artifacts for the component just like the
+                core components. Once created, using custom components is no different than using
+                the provided components.  Therefore as depicted in <xref linkend="fig8"/>, core and custom
+                components work together as part of the framework. </para>
+            <para><figure xml:id="fig8">
+                <title>Building Blocks</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/componentBuildingBlock2.png"/>
+                    </imageobject>
+                </mediaobject></figure>
+                </para>
+            <tip>
+                <para><emphasis role="bold">Planned Feature</emphasis></para>
+                <para><emphasis role="bold">Component 'Drop In': </emphasis> In the future KRAD
+                    might support a plugin facility for 'dropping' in new components. A component
+                    'bundle' could be downloaded and dropped into the plugin directory, eliminating
+                    the need to copy the base bean definition, template file, and Java class. </para>
+            </tip>
+        </section>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Components are a central piece to the UIF and are critical for customizing
+                        and extending the framework</para>
+                </listitem>
+                <listitem>
+                    <para>Each component is made up of three parts:<itemizedlist>
+                            <listitem>
+                                <para>Java Class – defines the properties and behavior</para>
+                            </listitem>
+                            <listitem>
+                                <para>FreeMarker Template – renders HTML/JS content for a component
+                                    instance </para>
+                            </listitem>
+                            <listitem>
+                                <para>XML Definition(s) – provides default properties for a
+                                    component (including the template) and assigns an ID for using
+                                    the component</para>
+                            </listitem>
+                        </itemizedlist></para>
+                </listitem>
+                <listitem>
+                    <para>KRAD provides several components for use 'Out of the Box'</para>
+                </listitem>
+                <listitem>
+                    <para>We can customize a component by changing its bean definition, writing a
+                        new template, or extending the Java class to add properties or
+                        behavior</para>
+                </listitem>
+                <listitem>
+                    <para>We can create our own components by creating the three necessary artifacts
+                        (outside of the Rice code)</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    
+    <section>
+        <title>Building Templates with FreeMarker </title>
+        <section>
+            <title>Variable Markup</title>
+        <para>Given that the goal of the UIF is to produce web pages (HTML, Image, and JS content);
+                the component template provides a very important role. This section will help us
+                understand templates better, and how they are built using the FreeMarker templating
+                engine.</para>
+        <para>Before looking at templates in KRAD, let's step back and think about the job of
+                building a web UI framework. We know web pages are rendered by a browser from HTML
+                markup, along with other resources such as script and image files. So ultimately,
+                the result from our framework is this markup that will be streamed back as the
+                response to a request by the user. This is the output of the framework. The input to
+                the framework will be XML configuration provided by an application developer. So how
+                do these get connected? </para>
+        <para>Based on our Spring knowledge, we know the XML metadata will get used to create
+                Objects in the Spring container, so these objects' instances now contain the
+                developer's configuration. We can then expose these objects to the FreeMarker
+                templates, which will combine the object values with static contents to produce the
+                resulting markup (see <xref linkend="fig6"/>).</para>
+        <para>Templates within KRAD are created using the FreeMarker framework. FreeMarker is a
+            templating framework that allows template files to be assembled at runtime. To create a
+            template in FreeMarker, we start by creating a file with extension .ftl. This can be
+            anywhere in the application web directory or classpath.</para>
+        <para>Now we can add static HTML content (just like creating an HTML page) along with
+            dynamic content using the FreeMarker
+            language:<programlisting linenumbering = "numbered">&lt;html>
+  &lt;head>&lt;title>${KualiForm.title}&lt;/title>&lt;/head>
+  &lt;body>
+    &lt;table>
+      &lt;tr>
+        &lt;td colspan="2">${KualiForm.header}&lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td>${menu}&lt;/td>
+        &lt;td>${body}&lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td colspan="2">${KualiForm.footer}&lt;/td>
+      &lt;/tr>
+    &lt;/table>
+  &lt;/body>
+&lt;/html>     </programlisting></para>
+        <para>Notice within this file the use of '${}' notation. This is known as an interpolation,
+                and is where data will be inserted. This data comes from a model we expose to
+                FreeMarker before rendering the templates. The model is a map of objects that can be
+                referenced within the FreeMarker templates. The map key gives the name by which the
+                object is identified. In KRAD, one object that is exposed by default is the form
+                object. This object is a wrapper for all the data that needs to be present for
+                rendering the page, and is given the identifier 'KualiForm'. </para>
+        <para>Other objects exposed through the model are:<itemizedlist>
+                <listitem>
+                    <para>The Http Request Object exposed with identifier 'request'</para>
+                </listitem>
+                <listitem>
+                    <para>The Rice UserSession object exposed with identifier 'userSession'</para>
+                </listitem>
+                <listitem>
+                    <para>A Map of Rice configuration parameters exposed with identifier
+                        'ConfigProperties'</para>
+                </listitem>
+            </itemizedlist></para>
+        <tip>
+            <para><emphasis role="bold">Spring ModelAndView</emphasis>
+            </para>
+            <para>The web tier of KRAD is implemented using the Spring MVC framework. Spring
+                provides an object named ModelAndView that we build and return from our controller
+                methods. The model part of this object serves the same purpose as the FreeMarker
+                model. In fact, when using the freemarker view resolver, Spring pulls the model out
+                of this object for configuring FreeMarker. Therefore, for exposing additional
+                objects in the templates, we can add those objects to the ModelAndView object we
+                return. </para>
+        </tip>
+        <para>Now suppose we want to pull out part of our FreeMarker content into a separate file,
+            so that it can be reused between different templates. First we create another file with
+            .ftl extension. Let's call this file body.ftl. Now we add the FreeMarker content to our
+            template
+            file:<programlisting linenumbering = "numbered">&lt;h2> This is the page body &lt;/h2>
+${KualiForm.body}</programlisting></para>
+        <para>Next, we can bring in the contents of body.ftl into our main template by using the
+            FreeMarker directive named <code>include</code>. To use the include directive we specify
+            the absolute or relative path to the template file that should be included using the
+            path
+            attribute:<programlisting linenumbering = "numbered">&lt;html>
+  &lt;head>&lt;title>${KualiForm.title}&lt;/title>&lt;/head>
+  &lt;body>
+    &lt;table>
+      &lt;tr>
+        &lt;td colspan="2">${KualiForm.header}&lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td>${menu}&lt;/td>
+        &lt;td>
+           &lt;#include path="body.ftl"/>
+        &lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td colspan="2">${KualiForm.footer}&lt;/td>
+      &lt;/tr>
+    &lt;/table>
+  &lt;/body>
+&lt;/html>     </programlisting></para>
+        <para>Interpolations may also contain expressions (see below). For example, we can add two
+                numeric properties together and render the result as follows:</para>
+        <para>
+            <programlisting linenumbering = "numbered">${KualiForm.numProp1 + KualiForm.numProp2}</programlisting>
+        </para>
+        <para>With FreeMarker we are not limited to just reading properties from the model, but also
+            may invoke methods! This is done using the method name within the expression, followed
+            by list of values to send as parameters. The parameter values may reference another
+            model property or variable:</para>
+        <para>
+            <programlisting linenumbering = "numbered">${KualiForm.retrieveTaxAmount(taxNumber, 'T')} </programlisting>
+        </para>
+        <para>In addition to accessing dynamic data within the model, we can create new dynamic
+            variables within the template. To create a new variable the <code>assign</code>
+            directive is used. Following the assign keyword, the name and value for the variable are
+            given separated by an
+            equal:<programlisting linenumbering = "numbered">&lt;#assign myVar="Hello!"/></programlisting></para>
+        <para>Similar to model properties, the value for a variable can be written to the output
+            stream using the ${}
+            notation:<programlisting linenumbering = "numbered">&lt;td>${myVar}&lt;/td> &lt;#-- prints &lt;td>Hello!&lt;/td> --></programlisting></para>
+      
+        <para>When assigning a variable value, we may also use an expression. Freemarker supports
+                all of the standard expression operators. The only notable difference is Freemarker
+                does not support the alpha operator representation ('eq', 'ne', 'lt', 'or').
+                Operators are specified with the usual '==', '!=', '&amp;&amp;', '||' and so on. The
+                one exception in Freemarker is for '&gt;','&lt;','&gt;=','&lt;=" operators, the
+                alpha operator can be given as well. The full list of expression operators is found
+                    <link xlink:href="http://freemarker.sourceforge.net/docs/dgui_template_exp.html"
+                    >here</link>. </para>
+        <para>Let's take a simple case of addition as an example:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#assign groupOneTotal=50/>
+&lt;#assign groupTwoTotal=100/>
+&lt;#assign totalBothGroups=groupOneTotal + groupTwoTotal/></programlisting>
+        </para>
+        
+        <tip>
+            <para><emphasis role="bold">Watch out for Nulls!</emphasis></para>
+            <para>When a variable or property expression is null, by default FreeMarker will not
+                convert to an empty string but instead throw an exception. To prevent FreeMarker
+                from throwing an exception (and instead output nothing) an exclamation mark must be
+                added after the variable. For example: ${variable!}</para>
+        </tip>
+    </section>
+    
+        <section>
+            <title>FreeMarker DataTypes</title>
+            <para>When working with model properties or variables, it is important to know the
+            underlying datatype. The datatype determines how the variable can be used within the
+            markup (for example in expressions, interpolations, and passing macro
+            parameters).</para>
+        <para>The datatypes used by FreeMarker are String, Number, Boolean, and Date (Scalars);
+            Hash, Sequence, and Collection (Containers); Methods and Custom Directives
+            (Subroutines); and Node. </para>
+        <para>
+            <tip>
+                <para><emphasis role="bold">Java Objects</emphasis></para>
+                <para>Note that model properties that represent Objects are treated as a Hash in
+                        FreeMarker. This goes for the model itself that is exposed for
+                        rendering.</para>
+            </tip>
+        </para>
+        <para>Datatypes are implied by FreeMarker in one of two ways. For model properties, the
+                datatype is derived from the underlying Java type. For variables, the datatype will
+                be derived based on the assigned value. All string values must be quoted. If value
+                is not quoted, the datatype will be determined based on the format. The keywords
+                true and false are used to indicate a boolean type.</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#assign var="Hello"/> &lt;#-- string datatype -->
+&lt;#assign var=3/> &lt;#-- numeric datatype -->
+&lt;#assign var=true/> &lt;#-- boolean datatype -->
+&lt;#assign comp=model.comp/> &lt;#-- assuming model.comp is object, hash datatype --></programlisting>
+        </para>
+        <para>Interpolations may only be used for variables/properties that are scalars. FreeMarker
+            converts number and date types to a string format based on the environment settings.
+            Boolean types must be explicity converted to a string using the built-in
+            '?string'.</para>
+        <para>When passing parameter values for macro invocations, we must also be aware of the
+            datatypes expected by the macro. Passing a quoted parameter value where the macro
+            expects a number or boolean will cause an error. In the following example, the macro
+            with name 'grid' expects a parameter named 'rowCount' of type number:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#macro grid rowCount>
+  ...
+&lt;/#macro>
+
+Incorrect Invocation:
+&lt;@grid rowCount="3"/>
+
+Correct Invocation:
+&lt;@grid rowCount=3/></programlisting>
+        </para>
+        </section>
+        
+        <section>
+            <title>Control Statements</title>
+            <para>FreeMarker allows us to conditionally evaluate a block of markup, or to evaluate a
+                block of markup multiple times through the use of control statements. A control
+                statement is implemented using one of the following directives:</para>
+        <para><emphasis>if, else, elseif</emphasis></para>
+        <para>We can conditionally evaluate a block using the if directive. Following the if or
+                elseif directive is an expression to evaluate. If the expression evaluates to true,
+                the corresponding block will be included, otherwise the block given by the else
+                directive (or the next expression) is evaluated if an elseif directive follows. The
+                general syntax is as follows:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#if expression1>
+  // block
+&lt;#elseif expression 2>
+  // block
+&lt;#elseif expression n>
+  // block
+&lt;/#if></programlisting>
+        </para>
+        <para>In the following example we have a variable named colCount which holds an
+            integer:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#if colCount == 1>
+  // block 1
+&lt;#elseif colCount == 2>
+  // block 2
+&lt;#else>
+  // block 3
+&lt;/#if></programlisting>
+        </para>
+        <para>In this example, we first check if the variable colCount is equal to 1, if so block 1
+            is evaluated. If not, we check whether colCount is equal to 2 and if so evaluate block
+            2. If neither conditions are true, block 3 will be evaluated.</para>
+        <para><emphasis>list</emphasis></para>
+        <para>The list directive allows us to loop through a variable (or model property) which is a
+                sequence (array) type and evaluate a block within each iteration. This is a useful
+                control statement for rendering items like a table or repeated sections. The list
+                directive is used by specifying the variable/model name followed by a variable to
+                expose each item under. The general syntax is as follows:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#list sequenceName as item>
+   // block
+&lt;/#list></programlisting>
+        </para>
+        <para>Let's take an example where we assume we have a model property named 'foods' that is a
+            List. Within the list body, the item being iterated over will be exposed with the
+            variable 'food':</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#list foods as food>
+  Name: ${food.name}, Type: ${food.type}
+&lt;/#list></programlisting>
+        </para>
+        <para>If the datatype to iterate over is a Map, we can iterate using the list directive to
+            iterate over the keys of the map like the following example:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#list map?keys as parm>
+  ${map[parm]}
+&lt;/#list></programlisting>
+        </para>
+        <para>Here the loop variable gives the key for the map entry we are iterating over.</para>
+        <para>In addition to the loop variable exposed by the list directive, two additional
+            variables are exposed. The first gives the index for the item and is retrieved by adding
+            '_index' to the loop variable. The second indicates whether there are more items to
+            iterate over and is retrieved by adding '_has_next' to the loop variable. </para>
+        <para>Finally, the <code>break</code> directive exists to exit the list directive early, as
+                the following example demonistrates:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#list seq as x>
+  ${x}
+  &lt;#if x = "spring">&lt;#break>&lt;/#if>
+&lt;/#list>    </programlisting>
+        </para>
+        </section>
+        
+        <section>
+            <title>Context and Macros</title>
+            <para>By default, templates that are executed (by include directives) all belong to the
+                same namespace. This means each template has access to read and write the same
+                variables. A change to the value of a variable in one template, will change the
+                value of the variable in another. This namespace shared by templates is known as the
+                global namespace.</para>
+            <para>To execute FTL code in a separate namespace, FreeMarker allows the creation of
+                    <code>Macros</code>. Macros are created using the macro directive and are given
+                a name that can be used for invocation. For example, we can change our previous
+                body.ftl to become a macro as
+                follows:<programlisting linenumbering = "numbered">&lt;#macro body>
+  &lt;h2> This is the page body &lt;/h2>
+  ${KualiForm.body}
+&lt;/#macro></programlisting></para>
+            <para>The name for the macro follows the #macro keyword. In this example we have named
+                our macro 'body'. Between the macro start and end tag we can add FreeMarker content
+                just as we would for a general template file. Each time the macro is invoked, this
+                FreeMarker content will be evaluated. Therefore macros give us a way to reuse
+                FreeMarker markup.</para>
+            <para>Within the macro we can define new variables. As with a general template, we can
+                use the <code>assign</code> directive to create a variable in the global namespace.
+                However, since a macro has its own namespace, we can create a variable that is
+                scoped to it as well. This is done using the <code>local</code> directive. The
+                syntax for using the local directive is the same as the assign directive.</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;#macro body>
+  &lt;#local locVar="is only visible within macro"/>
+&lt;#macro></programlisting>
+            </para>
+            <para>If a global variable exists with the same name, the local variable will override
+                within the context of the macro. </para>
+            <para>Macros may parameterize the content by accepting parameters. These parameters are
+                given when the macro is invoked and are used within the macro body for evaluating
+                the final output. Each parameter has a name by which it is identified. Therefore, to
+                declare macro parameters, we simply list their identifying names on the macro
+                directive after the macro name. Each parameter name is separated by a space:</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;#macro macroName parm1 parm2 parm3 parm4 ...></programlisting>
+            </para>
+            <para>Within the macro the parameters become local variables. We can print the parameter
+                value to the output stream, use in a conditional statement, or use in any other way
+                supported by variables. For example, let's add a header, bodyContent, and footer
+                parameter to our body macro:</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;#macro body header bodyContent footer>
+  &lt;body>
+    &lt;table>
+      &lt;tr>
+        &lt;td colspan="2">${header}&lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td>${menu}&lt;/td>
+        &lt;td>
+           ${bodyContent}
+        &lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td colspan="2">${footer}&lt;/td>
+      &lt;/tr>
+    &lt;/table>
+  &lt;/body>  
+&lt;/#macro></programlisting>
+            </para>
+            
+            <para>Notice in this example we are writing out the values of the given macro parameters
+                using the ${} notation. Our body macro serves as a wrapper for the content.</para>
+            <para>For each macro parameter we can also specify whether a value is required to be
+                given by the caller, and if not a default value to use. A default value is indicated
+                by placing an equal sign after the parameter name, followed by the default value
+                (which can be an expression). If a default value is not given, the parameter is
+                assumed to be required. All required parameters must be given before parameters that
+                have defaults. Let's take a look at an example:</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;#macro body bodyContent header="Header One" footer="">
+...</programlisting>
+            </para>
+            <para>Here we have changed the body macro to make the bodyContent a required parameter,
+                but not the header or footer. If the header parameter is not specified by the
+                caller, it will have a value of "Header One". Likewise, if the footer is not given,
+                it will have a value of the empty string.</para>            
+        </section>
+        
+        <section>
+            <title>Invoking Macros</title>
+            <para>When a macro is loaded, it becomes a variable within the associated namespace. The
+                macro name (identifier given after the macro declaration) becomes the variable name,
+                and the assigned namespace is derived from the surrounding namespace of the
+                FreeMarker file (see <link linkend="ftl_includes" endterm="ftl_includes.title"
+                />).</para>
+            <para>If the macro belongs to the global namespace, it can be invoked with the text
+                '&lt;%' followed by the macro name. Any parameter values are then given after the
+                macro name (separated by a space). Each parameter specification includes the
+                parameter name, followed by the equal sign, followed by the parameter value (which
+                can be an expression). The macro invocation is completed with the closing greater
+                than sign.</para>
+            <para>As an example, let's invoke our body macro created in the previous section,
+                passing a value for the 'bodyContent' parameter:</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;@body bodyContent="Hello KRAD World!"/></programlisting>
+                
+                
+            </para>
+            <para>or </para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;#assign content="Hello KRAD World!"/>
+&lt;@body bodyContent=content/></programlisting>
+            </para>
+            <para>When the macro is associated with a namespace, we must specify the namespace
+                before the macro name, using a dot to separate each. Let's assume our body macro was
+                associated with the namespace 'myapp'. We would then invoke the macro as
+                follows:</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;@myapp.body bodyContent=content/></programlisting>
+            </para>
+        </section>   
+        
+        <section >
+            <title>Other Features of Macros</title>
+            <para>Macros are very powerful constructs that allow great flexibility! Up to this point
+            we have invoked macros by simply passing parameter values. A macro may also allow us to
+            pass FreeMarker markup within the body of the macro tag. The macro can then render this
+            content in one or more locations of the macro. To indicate where this content should be
+            rendered, we use the <code>nested</code> directive. The nested directive may be used
+            more than once within the macro definition:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#macro wrapTd>
+  &lt;td>
+  &lt;#nested/>
+  &lt;/td>
+&lt;/#macro>
+
+Invocation:
+&lt;@wrapTd>
+  &lt;#if renderHeader>
+    ${header}
+  &lt;#else>
+    ${footer}
+  &lt;/#if>
+&lt;/@wrapTd></programlisting>
+        </para>
+        <para>Assuming renderHeader is true, and the header variable is 'Header One', the following
+                would be output:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;td>
+Header One
+&lt;/td></programlisting>
+        </para>
+        <para>Another feature available for macros is varargs (variable number of arguments). To
+            indicate a macro accepts a variable number of arguments, the last parameter declaration
+            must end with '...':</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#macro loop parms...>
+  &lt;#list param.keys as key>
+    ${parm[key]}
+  &lt;/#list>
+&lt;#macro>
+
+Invocation:
+&lt;@loop parm1 parm2/>
+&lt;@loop parm1 parm2 parm3/></programlisting>
+        </para>
+        <para>The parameter 'parms' becomes a hash, where the name for each additional parameter is
+            the hash key and the corresponding parameter value the hash value. The macro may include
+            other named parameters that are listed before the varargs declaration.</para>
+        <para>Finally, FreeMarker provides the ability to create macro functions. These are macros
+            that will run not to render output, but to calculate and return a value. These are
+            created using the <code>function</code> directive. The function directive is used the
+            same as the macro with a few exceptions. First the function directive is assumed to
+            return a value. Any variable that is created within the function (or a global variable)
+            may be returned using the <code>return</code> directive. The return directive is used by
+            giving the variable name after the return keyword (we also may return an expression that
+            will be evaluated as the function return value). </para>
+        <para>Let's build an example function that returns the max of two numbers:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#function max number1 number2>
+  &lt;#if number1 > number2>
+    &lt;#return number1/>
+  &lt;#else>
+    &lt;#return number2/>
+  &lt;/#if>
+&lt;#function></programlisting>
+        </para>
+        <para>Functions also differ from Macros in how they are called. Recall functions return a
+            value, therefore we can use them anywhere a value is expected. This includes within an
+            interpolation, an expression, or variable assignment. In addition, passing parameter
+            values is done using function syntax '(parm1, parm2, ...)' rather than key/value pairs.
+            The following shows examples of invoking the max function above:</para>
+        <para>
+            <programlisting linenumbering = "numbered">${max(number1, number2)}
+&lt;#assign maxNum=max(number1, number2)/>
+&lt;#if number3 > max(number1, number2)>
+   // block
+&lt;/#if></programlisting>
+        </para>
+        <para>Similar to macros, functions may be associated with a non-global namespace. When this
+                is so, the namespace must be given before the function name, and a colon separates
+                each.</para>
+            
+        </section>
+        
+        <section>
+            <title>Built-Ins</title>
+            <para>Freemarker provides several utility functions called Built-Ins that can be applied
+            to a variable or expression. The built-ins that can be used depend on the underlying
+            datatype, as shown by the grouping below. To invoke a built-in, we add the question
+            character ('?') after the variable (or expression), followed by the built-in name and
+            any parameters. The following shows the general form:</para>
+        <para>
+            <programlisting linenumbering = "numbered">${someVariable?builtIn(parms)}</programlisting>
+        </para>
+        <para>The return value of the built-in invocation becomes the value for the
+            expression:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#assign name='Joe Smith'/>
+${name} &lt;#-- prints 'Joe Smith' -->
+${name?upper_case} &lt;#-- prints 'JOE SMITH' --></programlisting>
+        </para>
+        <para> The following are other examples of built-ins provided.</para>
+        <para><emphasis>String Built-Ins</emphasis></para>
+        <para>substring(from, toExclusive) - Returns a substring of a given string starting at the
+                given from index up to the given toExclusive index.</para>
+        <para>html - Escapes html markup</para>
+        <para>js_string - Escapes the string according to JavaScript string literals</para>
+        <para>length - Returns the number of characters in the string</para>
+        <para>lower_case - Lower cases the string</para>
+        <para>left_pad(length) - Left pads the string with spaces until it reaches the given
+            length</para>
+        <para>right_pad(length) - Same as left pad, but pads with spaces to the right</para>
+        <para>contains(substring) - Returns true if the string contains the given substring</para>
+        <para>matches(regex) - Return true if the string matches the given regular expression</para>
+        <para>replace(stringToReplace, replacement) - Replaces all occurances of stringToReplace in
+            the string with the given replacement string</para>
+        <para>split(splitString) - Splits a string into an array on occurances of the given
+                splitString parameter</para>
+        <para>starts_with(string) - Returns true if the string starts with the given string
+            parameter</para>
+        <para>trim - Removes leading and trailing whitespace</para>
+        <para>upper_case - Upper cases the string</para>
+        <para><emphasis>Boolean Built-Ins</emphasis></para>
+        <para>string - Converts the boolean to a string using "true" as true and "false" as
+            false</para>
+        <para>string("yes", "no") - Converts the boolean to a string using the first string
+                parameter if the boolean is true, and the second string parameter if the boolean is
+                false</para>
+        <para><emphasis>Other Built-Ins</emphasis></para>
+        <para>has_content - Returns true if the variable is not null and is not empty (meaning if
+                the variable has a size or length)</para>         
+        </section>
+        
+        <section xml:id="ftl_includes">
+            <title xml:id="ftl_includes.title">Including FTL Files</title>
+            <para>A template file may pull markup from another template file using the
+                <code>include</code> directive. The include directive takes the path to the file as
+            an argument, which may be expressed as a relative or absolute path:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#include '../footer.ftl'/>
+&lt;#include '/krad/templates/footer.ftl'/></programlisting>
+        </para>
+        <para>FreeMarker also supports a second way of including template files for the purpose of
+                library (or namespace) creation. This is done using the <code>import</code>
+                directive. Again, we must give the path to the file as an argument. We can also give
+                an additional argument that will identify the namespace the template contents should
+                be associated with. In the next example we include a freemarker template file that
+                contains several macro definitions, and associate them with the namespace
+                'myapp':</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;#import 'myapp.ftl' as 'myapp'/></programlisting>
+        </para>
+        <para>All the macros contained in myapp.ftl will be associated with the myapp namespace and
+            must be invoked through that namespace. Note when using import, any output generated by
+            the included template will be ignored.</para>      
+        </section>
+
+        <section>
+            <title>Component Templates</title>
+        <para>Each component within the KRAD UIF has a template file that defines a macro for
+                rendering the component. The template location and the macro name are then
+                configured with the component definition. Each time an instance of the component is
+                encountered, the macro will be invoked with the component instance.</para>
+        <para>Generally, the component macros do the following:</para>
+        <para><orderedlist>
+            <listitem>
+                    <para>Insert values from the component properties with static markup</para>
+                </listitem>
+                <listitem>
+                    <para>Invoke rendering for child components</para>
+                </listitem>
+        </orderedlist></para>
+        </section>
+        
+        <section>
+            <title>Coarse-Grained Parameters</title>
+            <para>An important consideration when setting up a macro is how to setup the parameters.
+            To help explain this, let's take a look at a sample text
+            control:<programlisting linenumbering = "numbered">&lt;@spring.input id="${id}" path="${path}" disabled="${disabled}" size="${size}" maxlength="${maxLength}"/>    </programlisting></para>
+            <para>This snippet is invoking a spring input macro, which will then output the HTML
+                input tag. We see some of the attributes this macro provides are id, path, disabled,
+                size, and maxlength. Since this template is generic (in the sense that it should
+                render all instances of the TextControl) the values for these attributes need to be
+                variable. Now based on our knowledge of macros, we can create an input macro which
+                will allow values for these variables (or attributes) to be specified by the calling
+                template. This would look like the following:
+                <programlisting linenumbering = "numbered">&lt;#macro uif_input id path disabled size maxLength>
+  &lt;@spring:input id="${id}" path="${path}" disabled="${disabled}" size="${size}" maxlength="${maxLength}"/>  
+&lt;/#macro>  </programlisting></para>
+            <para>The calling template would then be:
+            <programlisting linenumbering = "numbered">&lt;@uif_input id="${component.id}" path="${component.path}" disabled="${component.disabled}" 
+size="${component.size}" maxLength="${component.maxLength}"/>    </programlisting></para>
+            <para>Here the component variable is the component instance that has been exported to
+                the page. </para>
+            <para>Now let's suppose that a developer wishes to override the component class and
+            template to provide a 'readonly' property. The template now looks like this:
+            <programlisting linenumbering = "numbered">&lt;#macro uif_input id path disabled size maxLength readOnly>
+  &lt;@spring.input id="${id}" path="${path}" disabled="${disabled}" size="${size}" maxlength="${maxLength}"
+    readOnly="${readOnly}"/>  
+&lt;/#macro>    </programlisting></para>
+            <para>In order for the readonly attribute to be passed in, the developer must also
+                change the calling template and pass the corresponding component property value.
+                This not only adds to the amount of work required for customizing a component, but
+                also leads to general maintenance issues within the framework.</para>
+            <para>To solve this problem, KRAD passes the full component to the templates and not the
+            individual properties of the component. Passing the full component makes changes our
+            original macro to:
+            <programlisting linenumbering = "numbered">&lt;#macro uif_input component>
+  &lt;@spring.input id="${component.id}" path="${component.path}" disabled="${component.disabled}" size="${component.size}"/>
+&lt;/#macro>    </programlisting></para>
+            <para>Now for the custom template, we simply make use of the new property without any
+            changes to the calling template:
+            <programlisting linenumbering = "numbered">&lt;#macro uif_input component>
+  &lt;@spring.input id="${component.id}" path="${component.path}" disabled="${component.disabled}" size="${component.size}"
+                 readOnly="${component.readOnly}"/>
+&lt;/#macro>    </programlisting></para>
+            <para>In addition to providing more template flexibility, using the course grained
+                parameters gives us a uniform way of invoking templates (as we will see in a bit,
+                the framework provides a generic macro that can be used to render any component).
+                Depending on the type of component, other parameters may be sent as well. The
+                standard macro contracts are as follows:</para>
+            
+            <table frame="all" tabstyle="striped">
+                <title>Macro Parameter Contracts</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Component Type</entry>
+                            <entry>Macro Parameters</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>View</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>view: the view component instance</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Group</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>group: the group component instance</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Field</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>field: the field component instance</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Element</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>element: the element component instance</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Control</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>control: the control component instance</member>
+                                    <member>field: the input field component instance</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Widget</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>widget: the widget component instance</member>
+                                    <member>parent: the component instance that contains the widget</member>
+                                    <member>additional parameters depending on widget</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Layout Manager</entry>
+                            <entry>
+                                <simplelist>
+                                    <member>items: the group's items</member>
+                                    <member>manager: the layout manager instance</member>
+                                    <member>container: the container instance the layout manager is associated with</member>
+                                </simplelist>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            
+            <para>Note that the macro parameter that contains the component instance is exposed
+                under different names (group, field, element, ...), depending on the component type.
+                The name is specified by the <code>getComponentTypeName()</code> method on the
+                component.</para>
+        </section>
+        
+        <section>
+            <title>The KRAD Macro Library</title>
+        <para>KRAD also comes with macros that provide utility functions for creating templates.
+                These can be referenced by the component macros to help with building content. For
+                example, the div and span macros generate the corresponding HTML tags with standard
+                attributes (such as id and class). These macros are exposed under the krad
+                namespace, and are available by default to all component templates. The following
+                shows an example of using the script wrapper tag:</para>
+        <para>
+            <programlisting linenumbering = "numbered">&lt;@krad.script value="alert('hello');"/></programlisting>
+        </para>
+        </section>
+        
+        <section>
+            <title>Template Macro</title>
+            <para>In Chapter 8 we will learn how to assemble UIF components into a View. The View is
+                a component itself that, among other things, encapsulates all other components for
+                our UI. It can also be thought of as a tree of components. The rendering processes
+                starts by invoking the configured view template macro. The view template macro then
+                in turn renders its child components, and so on, until the complete tree has been
+                traversed. Therefore, the responsibility of a template is to not only render the
+                necessary markup, but to invoke rendering for its child components. To help with
+                this, KRAD provides the template macro.</para>
+            <para>The template macro requires the component parameter to be specified. This is the
+            child component that should be rendered:</para>
+            <programlisting linenumbering = "numbered">
+&lt;@krad.template component=childComponent/&gt;
+            </programlisting>
+          
+            <para>The template macro will then create the call for invoking the component macro, and
+                passing the component parameter (and any additional parameters). <xref linkend="KRAD_Rendering_Process"/>
+                depicts the rendering process.</para>
+            <figure xml:id="KRAD_Rendering_Process">
+                <title>KRAD Rendering Process</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/KRAD_Rendering_Process.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Besides invoking the template for the child component, the template macro performs
+            the following:</para>
+        <para><orderedlist>
+            <listitem><para>Setup progressive rendering or component refresh</para></listitem>
+            <listitem><para>Output content from self-rendering components</para></listitem>
+            <listitem><para>Generate event script (onblur, onchage, ...)</para></listitem>
+            <listitem><para>Generate component tooltip script</para></listitem>
+        </orderedlist></para>
+        </section>
+        
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Templates dynamically create HTML markup based on the components.</para>
+                </listitem>
+                <listitem>
+                    <para>Templates within KRAD are created using the FreeMarker framework.</para>
+                </listitem>
+                <listitem>
+                    <para>Within templates we can use the interpolation syntax '${}' to output dynamic values.</para>
+                </listitem>
+                <listitem>
+                    <para>By default the UIF Form object, request object, user session, and configuration properties are made
+                    available to templates.</para>
+                </listitem>
+                <listitem>
+                    <para>FreeMarker supports all the standard expressions for variable assignment, logic tests, and interpolation.</para>
+                </listitem>
+                <listitem>
+                    <para>FreeMarker allows us to create variables within the template using the <code>assign</code> directive.</para>
+                </listitem>
+                <listitem>
+                    <para>FreeMarker has the following datatypes: String, Number, Boolean, Date, Hash, Sequence, Collection,
+                          Method, and Node.</para>
+                </listitem>
+                <listitem>
+                    <para>FreeMarker provides the <code>if,else,elseif</code> control directive for conditionally including
+                    template content.</para>
+                </listitem>
+                <listitem>
+                    <para>FreeMarker provides the <code>list</code> control directive for looping over template content one
+                    or more times.</para>
+                </listitem>
+                <listitem>
+                    <para>Macros provide the ability to create reusable template content that can be parameterized and create
+                    variables in a local namespace.</para>
+                </listitem>
+                <listitem>
+                    <para>Macros are created using the #macro directive, followed by a name for the macro, followed by zero or
+                    more parameter names. The template content that should be rendered when the macro is invoked is given between
+                    the opening and closing #macro tags.</para>
+                </listitem>
+                <listitem>
+                    <para>Variables created within a macro that should have local scope are created using the <code>local</code> directive.</para>
+                </listitem>
+                <listitem>
+                    <para>Default values can be specified for parameters by adding an equal and then the default value after the
+                    parameter name. If a parameter does not have a default value defined it becomes a required parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>Macros are invoked using the '@' symbol followed by the macro name.
+                        Parameter values are given after the macro name with key=value pairs
+                        (parameterName=parameterValue).</para>
+                </listitem>
+                <listitem>
+                    <para>When the macro is associated with a namespace, we must specify the namespace
+                        before the macro name, using a dot to separate each.</para>
+                </listitem>
+                <listitem>
+                    <para>Macros can render content passed through the invocation body using the
+                            <code>nested</code> directive.</para>
+                </listitem>
+                <listitem>
+                    <para>A type of macro that returns a value is a function. Functions are created using the <code>function</code> directive
+                    and return a value using the <code>return</code> directive.</para>
+                </listitem>
+                <listitem>
+                    <para>Freemarker provides several utility functions called Built-Ins that can be applied
+                        to a variable or expression.</para>
+                </listitem>
+                <listitem>
+                    <para>A template file may pull markup from another template file using the
+                        <code>include</code> directive.</para>
+                </listitem>
+                <listitem>
+                    <para>Each component within the KRAD UIF has a template file that defines a macro for
+                        rendering the component.</para>
+                </listitem>
+                <listitem>
+                    <para>Each component macro receives the component instance as a
+                        parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>The template macro can be used to invoke rendering of a component.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>    
+    
+    <section>
+        <title>The Component Interface </title>
+        <para>Over the next few sections, we will look deeper into UIF components and the properties
+            they have. These components are defined by their Java class. The class declares how a
+            component can be used and how it works with other components. As in all object-oriented
+            designs, these classes model the domain objects in our problem area, which is building
+            web pages! Thus the component classes found should be mostly familiar to anyone who has
+            worked with the web (controls, labels, containers, buttons, links, ...). </para>
+        <para>To become a UIF component, a class must implement the
+            org.kuali.rice.krad.uif.component.Component interface. This interface defines standard
+            getters/setters for properties all components should have, in addition to methods that
+            are invoked during the view lifecycle. Along with the Component interface, the abstract
+            implementation org.kuali.rice.krad.uif.component.ComponentBase is provided which can be
+            extended to build new components. Other than default implementations for lifecycle
+            methods which we will explore later, this class is essentially a POJO (Plain Old Java
+            Object) for the common properties. </para>
+        <section>
+            <title>Common Component Properties </title>
+            <para>We have already learned about one very important property that all components have
+                – the template and template name. The template is the path to the FreeMarker file
+                that will perform the rendering process (creating of HTML markup) for the component.
+                The template name is the name of the macro by which the rendering can be invoked.
+                Now let's look at some other properties that we get from ComponentBase:</para>
+            <para><emphasis role="bold">Id</emphasis> – All components must have a unique identifier
+                within a view. This id plays a critical role both server side and on the client. On
+                the server, the id is used to pull a component from its containing view. A view can
+                contain many components that are deeply nested. Iterating through this tree to find
+                a particular component can require a lot of coding and add up to many wasted cycles.
+                With the id we can 'index' the view such that a component can be retrieved in a
+                single call. </para>
+            <para>On the client, the id becomes even more important. As is the case for many of the
+                server side component properties, the id is used to populate the id attribute on the
+                HTML element. This results in unique ids for all elements on the page. These ids can
+                then be referenced by a script created by the framework or by the developer.
+                Furthermore, it is also possible to build CSS based on the ids (although this is not
+                the recommended strategy). </para>
+            <para>For generating the id values, there are a few options KRAD provides. First, the id
+                can be assigned by the developer, or it can by generated by the framework. Manual
+                assignment can furthermore be done in one of two ways. The first is to set the id by
+                using the bean property tag. For example:
+                <programlisting linenumbering = "numbered">&lt;bean parent="Component">
+    &lt;property name="id" value="ks34"/>  </programlisting></para>
+            <para>The second way to manual assign the component id is by using the bean id
+                attribute:
+                <programlisting linenumbering = "numbered">&lt;bean id="ks34" parent="Component"&gt;  </programlisting></para>
+            <para>Since the id bean attribute is already required in most beans (top level beans),
+                it is often most convenient to take this approach. If both the bean id attribute and
+                the id property are specified, the id property value will be used. </para>
+            <para>Note that when a bean inherits a bean definition, an id specified with the
+                property tag will be inherited, while the id attribute of the bean tag will not. </para>
+            <programlisting linenumbering = "numbered">&lt;bean id="ks34" parent="Component">
+...
+&lt;/bean>
+
+&lt;!-- this bean will not have a configured id -->
+&lt;bean parent="ks34">
+...
+&lt;/bean>   </programlisting>
+            <para>If an id is not configured by one of the above mechanisms, the framework will
+                generate and assign a unique id for the component. Ids are generated using a
+                sequence that starts at 1 each time the view lifecycle is run (each request), and
+                prefixed with 'u'. For example, the first few generated ids would be 'u1', 'u2', and
+                'u3'. </para>
+            <para>The component ids are assigned by the framework at the beginning of the lifecycle
+                (the 'initialize' phase). This guarantees all components will have an id throughout
+                the view lifecycle (important for script generation in addition to many other
+                things). There is one twist, however. Some components are dynamically created while
+                processing the view data (the 'applyModel' phase). For example, all collection row
+                fields cannot be created until the collection data is available. In these cases, the
+                configured component represents a 'prototype' for creating the dynamic components.
+                The prototype will have an id that was manually or automatically assigned. For
+                creating the dynamic component, the prototype is copied and then adjusted. This
+                means the id value will be copied as well. In order to give the copy a unique id,
+                the id is suffixed. In the example of collection rows, each id is suffixed with the
+                line ('l0', 'l1', 'l2'...). For example, if the prototype has an id of 'u56', the
+                field in the first collection line will have id 'u56_l0', in the second 'u56_l1',
+                and so on. Other id suffixes used in the framework will be discussed in the various
+                component sections. </para>
+            <tip><para><emphasis role="bold">Factory Id:</emphasis> Another property we find on ComponentBase is
+                        <emphasis role="keyword">factoryId</emphasis>. This is used to hold the
+                    original id for components that are copies of prototypes (dynamically) created.
+                    The property is necessary when we need to get a new instance of component using
+                    the ComponentFactory. Because the component was dynamically created, the
+                    ComponentFactory is not aware of it. However, it is aware of its prototype.
+                    Using the factoryId, we can get a new instance of the prototype and then adjust
+                    as necessary. </para></tip>
+            <para><emphasis role="bold">Title</emphasis> – For most components, we can specify the
+                title property. This property gives extra information for the component that will be
+                available in the user interface. This is an example of a property that many
+                components have, but is used differently between components. For example, one of the
+                component types we will learn about in the next section is a <emphasis role="keyword"
+                    >Container</emphasis>. Components generally begin with a header (using the HTML
+                header tag) and use the title property for the header text. Other types of
+                components include <emphasis role="keyword">Fields</emphasis> and <emphasis role="keyword"
+                    >Controls</emphasis>. The component types use the title property as the title
+                attribute on the corresponding element they produce:
+                <programlisting linenumbering = "numbered">&lt;element title="component title property value"/&gt;  </programlisting></para>
+            <para>The title attribute value is most often shown as a tooltip when the user hovers
+                over the element. </para>
+            <para><emphasis role="keyword">Title Property:</emphasis> The reason we say title property
+                can be specified for 'most' components is that there are some that do not use this.
+                Since the overwhelming majority do, it was added to ComponentBase for convenience. </para>
+            <para><emphasis role="keyword">Render</emphasis> – The render property is a Boolean that
+                indicates whether the HTML markup should be generated for the component. When this
+                is set to false, the configured template will not be invoked during the rendering
+                process. By using conditional expressions to set the render property, we can make
+                our view much more dynamic. Essentially the render property allows us to display or
+                not display a component based on runtime conditions. </para>
+            <para> For example in the following configuration only field1 will be rendered:
+                <programlisting linenumbering = "numbered">&lt;bean parent="Uif-InputField"
+    p:propertyName="field1"/> &lt;bean parent="Uif-InputField"
+    p:propertyName="field2" p:render="false"/>  </programlisting></para>
+            <para>The default value for render is true, so if the render property is not specified
+                the component will be rendered. </para>
+            <para><emphasis role="keyword">Hidden</emphasis> – The hidden property is similar to the
+                render property in that it configures whether or not the component is displayed.
+                However, when a component is hidden (and render is set to true), the corresponding
+                template will be invoked to generate markup. The content is then surrounded with a
+                div that contains a style of display none. This keeps the content from being
+                visible. The content can be displayed by changing the CSS display style through
+                script. This provides a mechanism for toggling the display of a component on the
+                client. Later on, we will learn about jQuery, which among many other things, allows
+                us to flip the visibility of an element by invoking the show or hide function. </para>
+            <para><emphasis role="keyword">ReadOnly</emphasis> – It is common to use the UIF for
+                building forms that will collect data and perform a process on behalf of the user.
+                There are a variety of components, such as controls and widgets, that allow the user
+                to input data. These components have a state of editable (user input is allowed) or
+                read only (user input is not allowed). To indicate a component should be in the read
+                only state we can set the readOnly property to true. Again, this is a property that
+                expressions are generally used for that sets the state based on a condition. </para>
+            <para>Since it varies how components allow user input, the impact of setting a component
+                as read only varies. For example, read-only controls simply display the control
+                value as HTML text. An action field, on the other hand (button, link, image), will
+                not render when set to read only. </para>
+            <para><emphasis role="keyword">More Info:</emphasis> Components such as controls and action
+                fields also support the disabled property. When these components are disabled they
+                are in a read only state (no user input is allowed), however they are presented
+                differently. Although the disabled appearance can be modified, generally the
+                component appears as it does when editable (for example the actual control or button
+                appears) but appears dimmed. The UIM provide guidelines for when to use disabled
+                over readOnly. </para>
+            <para>By default, the component base bean definitions have the readOnly property set as
+                a condition on the read only status of the parent. Recall that our View represents a
+                tree of components, where each component contains zero or more child components.
+                This is often referred to as a parent-child relationship. All components with the
+                exception of the View have a parent. Thus if the parent is read only, the child will
+                be as well. </para>
+            <para>One example of the parent-child relationships is the Container component. The
+                purpose of a container is to hold other components and provide a layout. Therefore,
+                the components in the container are child components, and the container is the
+                parent component. Setting the container component as read only will make all
+                components within the container read only. This is a convenient feature that
+                simplifies configuration. For example, if we needed to make a group of fields read
+                only, we can add the readOnly="true" property to the container component instead of
+                adding the property to each field. Furthermore, since the View contains all the
+                components, we can add readOnly="true" to make our entire web page read only. </para>
+            <para>Some views are always read only. One example of this is the Inquiry view which
+                displays information about a data object instance. The InquiryView base bean has the
+                readOnly property set to true. Therefore all components added to a view of this type
+                will be read only without having to specify the property. </para>
+            <para><emphasis role="keyword">Required</emphasis> – When a component allows user input,
+                the required property indicates whether the user must provide a value (or complete
+                the input/action). This is most typically used with input fields that have a
+                control, but can also be used with a container (group) to indicate a section must be
+                completed (fields in the section must have input). Other components may use the
+                required attribute in a way that is appropriate for the component. </para>
+            <para>In the case of input fields, setting required to true will do a couple of things.
+                First, a message will be displayed to the user indicating if it is required (by
+                default an asterisk '*'). Second, the framework will perform validation client side
+                and/or server side that checks a value was given. If the value is empty, an error
+                message is created and presented to the user. </para>
+            <para><emphasis role="keyword">Style and Style Classes</emphasis> – KRAD provides a lot of
+                flexibility to make your web applications look great! All UIF components have a
+                configured style class that performs the visual treatment. These style classes are
+                provided within the CSS files that come with KRAD. However, if needed, using the
+                style properties we can add or override CSS configuration for each component. </para>
+            <para>Inline style configuration can be specified using the style property. The value is
+                then placed as the style attribute value for the corresponding HTML element.
+                Likewise, style classes can be specified using the styleClasses property. This
+                property is a list type with each list item specifying a style class. The configured
+                style classes are concatenated into a string using a space delimiter, then output as
+                the class attribute value for the corresponding element. </para>
+            <para><emphasis role="keyword">Progressive and Refresh</emphasis> – Component base contains
+                several properties that relate to configuring progressive disclosure or component
+                refresh functionality. This is covered in detail in Chapter 11. </para>
+            <para><emphasis role="keyword">Order</emphasis> – KRAD adds some abilities to the Spring
+                configuration system, including more control over collection merging. In a base bean
+                definition that contains a collection, each component in the collection can have an
+                order specified. When inheriting the collection property in child beans, components
+                can be specified with the same order to replace items in the parent list or given an
+                order that inserts the component between two items of the parent collection. This
+                feature in covered in more detail at the end of this chapter. </para>
+            <tip><para><emphasis role="keyword">Read Only</emphasis>: As stated above, the feature of read only
+                    inheritance is done by setting an expression on the readOnly property which is
+                    inherited. This configuration is as follows:
+                    <programlisting linenumbering = "numbered">&lt;property name="readOnly" value="@{#parent.readOnly}"/&gt;     </programlisting></para>
+            <para>However, the readOnly property can be overridden to specify another condition, or
+                    to explicitly make the component editable. This can be useful for cases when a
+                    few of the child components need to be editable, but the majority should be read
+                    only. We can set the parent as readOnly="true" which will make all child
+                    components read only. Then we can add readOnly="false" to the few components
+                    that should be editable. </para>
+            </tip>
+            <para><emphasis role="keyword">Skip In Tab Order</emphasis> – By default, tabbing will
+                follow the natural order of the elements and include each element that can accept
+                focus. When needed, the element corresponding to the KRAD component can be taken out
+                of the tab order (will not be tabbed to) by setting the skipInTabOrder Boolean to
+                true. An example of where this might be needed is a widget. The widget might contain
+                several elements that work together as one focusable item. Within the item, keyboard
+                shortcuts can be provided for navigating to the various elements. The user can
+                simply tab again to get out of the widget (instead of having to tab possibly several
+                times). </para>
+            <para>More finely grained control over the tabbing order can be configured as well using
+                the tabIndex property of Control. </para>
+            <para><emphasis role="keyword">Finalize Method To Call</emphasis> – Although you can do a
+                great number of things using XML, you also have the option of assembling components
+                with code. One way to invoke code is with the finalizeMethodToCall. This is the name
+                of a method on the ViewHelperServiceImpl that should be called during the finalize
+                phase of the view lifecycle. Standard arguments to this method are the component
+                instance and the model (view data). Two additional properties,
+                finalizeMethodAdditionalArguments and finalizeMethodInvoker, exist for greater
+                flexibility on invoking a method. Code support is covered in detail in Chapter 10. </para>
+            <para><emphasis role="keyword">Self-Render and Render Output</emphasis> – As described in
+                the section on templates and Apache Tiles, most components are rendered by a
+                FreeMarker file that combines parameters from the components with static content to
+                produce HTML markup. Components may render without a template by generating the
+                markup through code. This is done by setting the selfRender flag to true. When this
+                flag is turned on, instead of invoking a template, the method getRenderOutput will
+                be invoked on the component instance to return the markup that should be output. </para>
+            <tip><para><emphasis role="keyword">Self-Rendered Content</emphasis>: The markup returned by a self-rendered
+                    component may not include dynamic markup (FreeMarker content). The string is
+                    written directly to the response without going through FreeMarker processing,
+                    therefore only HTML markup must be returned. </para></tip>
+            <para><emphasis role="keyword">Component Security</emphasis> – KRAD allows for fine-grained
+                security to be defined, which integrates with the KIM (Kuali Identity Management)
+                module. Security restrictions are indicated by setting a flag on an <emphasis
+                    role="keyword">org.kuali.rice.krad.uif.component.ComponentSecurity</emphasis>
+                instance. When a flag is set, the framework will check a KIM permission (setup for
+                that restriction type) and, if not granted to the user, the restriction will be
+                activated. Particular security flags will be discussed while looking at each
+                component. </para>
+            <para><emphasis role="keyword">Component Modifiers</emphasis> – Component modifiers are
+                classes that can be configured on a component to modify its properties through code.
+                A component may have one or more component modifiers that get applied in the order
+                they are configured. Modifiers can be useful in many cases. For example, the
+                maintenance framework supports a comparison view where an 'old' and 'new' field is
+                presented for each field. To achieve this, a component modifier was created that
+                reads the configured group fields copying each to make the 'old' field. Then a base
+                bean was created with the component modifier configured. All maintenance groups then
+                extend this bean and inherit the comparison feature. </para>
+            <para>Component modifiers can also have a condition that determines whether it should
+                run (the <emphasis role="keyword">runCondition</emphasis>). In the example of the
+                maintenance modifier, we only want to show the comparison when doing an edit
+                operation (not for a new or copy). Therefore, the run condition is setup to check
+                that the maintenance action is edit. The framework will evaluate this condition and
+                only invoke the modifier if the condition succeeds. </para>
+            <para>There are many other things that can be done with component modifiers which will
+                be covered in Chapter 10. </para>
+            <para><emphasis role="keyword">Template Options</emphasis> – Besides the properties a
+                component class has, some component templates support options that can be configured
+                using the <emphasis role="keyword">templateOptions</emphasis> map. These can be thought
+                of as 'pass-through' parameters since the component class is not aware of them. </para>
+            <para>Template options are used primarily with Widgets that invoke a jQuery plugin. All
+                jQuery plugins have a standard options map (or object since this is JavaScript) that
+                configures the plugin options. This options map is created from the template
+                options. </para>
+            <tip><para><emphasis role="keyword">Template Options</emphasis>: The generic template options map allows
+                    parameters to be added by the template without modifying the class. This can be
+                    useful when creating custom templates with options not originally supported by
+                    the component. In addition, this allows us to change our plugin implementations
+                    more easily. The options for the new plugin can be configured through the XML
+                    without having to change the class.</para></tip>
+            <para><emphasis role="keyword">Property Replacers</emphasis> – Another tool provided by the
+                UIF for component configuration are property replacers. A property replacer allows
+                us to exchange the value for a bean (component) property based on a condition. For
+                example, we can change the control for a field from a text control to a checkbox
+                control if some condition is true. Or, we might want to change out a complete list
+                of container fields with another. In a sense, property replacers give us the
+                capability to have if statements in our XML. </para>
+            <para>A component may have one or more property replacers defined. In addition, one or
+                more property replacers can be configured for the same property. Each property
+                replacer whose condition passes will be applied, so the order in which they are
+                configured can matter. Property replacers will be covered in Chapter 10. </para>
+            <para><emphasis role="keyword">Context</emphasis> – One very powerful feature of the UIF is
+                the ability to use EL (Expression Language) statements in XML. The expressions are
+                evaluated using the Spring EL framework. Spring EL allows us to define variables
+                that can be referenced within the expressions. The UIF provides these variables from
+                the component context map. </para>
+            <para>Each entry of the context map represents a variable, where the map key is the name
+                of the variable (how it will be referenced in the expression), and the map value is
+                the value Spring should use for the variable. The framework adds standard variables
+                to the context for all components. Some examples include the 'view' and 'component'
+                variables. Additional variables are added based on the component. For example,
+                components within a collection group receive the variables 'line' and 'index' for
+                referring to the current line. Finally, custom variables can be added to the context
+                either through the XML configuration for a component, or by code. More information
+                on expressions will be covered in Chapter 10. </para>
+        </section>
+        <section>
+            <title> Script Event Support </title>
+            <para>In addition to implementing the Component interface, ComponentBase implements the
+                org.kuali.rice.krad.uif.component.ScriptEventSupport interface. This allows a
+                component to specify whether a given jQuery event is supported, and to retrieve or
+                set the JavaScript code for that event. For example, let's take the onblur event. If
+                a component supports this event, it will implement the getSupportsOnBlur method and
+                return true. Script for the onblur event can then be set through the XML by using
+                the onBlurScript property. Finally, when rendering the component, the template tag
+                will retrieve the onBlurScript and associate with the onblur event. A listing of all
+                events and examples will be given in Chapter 11. </para>
+        </section>
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para>A UIF Component is anything that can be used to build the application user
+                        interface. </para>
+                </listitem>
+                <listitem>
+                    <para>To become a UIF component, a class must implement the interface
+                        org.kuali.rice.krad.uif.component.Component. </para>
+                </listitem>
+                <listitem>
+                    <para>The component interface defines properties and behaviors all components
+                        must provide. </para>
+                </listitem>
+                <listitem>
+                    <para>Components can extend org.kuali.rice.krad.uif.component.ComponentBase
+                        which provides properties and default implementations for the component
+                        interface. </para>
+                </listitem>
+                <listitem>
+                    <para>The id property is a unique identifier for the component which can be
+                        assigned in the xml with the property tag or by the bean id attribute. </para>
+                </listitem>
+                <listitem>
+                    <para>The component id is used as the id for the element that is generated from
+                        the component. On the client it can be used for scripting and styling. </para>
+                </listitem>
+                <listitem>
+                    <para>The render property specifies whether html output for the component should
+                        be generated. When set to false the component template is not invoked.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>The render property along with expressions give us the ability to
+                        conditionally determine how a page will be displayed. </para>
+                </listitem>
+                <listitem>
+                    <para>For components that allow the user to interact with them, such as form
+                        controls, the readOnly property can be set to not allow user interaction.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>By default, the read-only state is inherited by a component from its
+                        parent. This allows us to easily set a group of components or the entire
+                        page as read-only. </para>
+                </listitem>
+                <listitem>
+                    <para>Any component can be styled by using the style and styleClasses
+                        properties. The style property allows an inline style to be applied, while
+                        the styleClasses allows us to apply one or more css classes to the
+                        component. </para>
+                </listitem>
+                <listitem>
+                    <para>Component base contains properties for configuring progressive disclosure
+                        and component refresh functionality. </para>
+                </listitem>
+                <listitem>
+                    <para>Although many things can be accomplished just with xml, code can be used
+                        to set the component state by specifying a finalize method to call. </para>
+                </listitem>
+                <listitem>
+                    <para>Components can output their html marked directly instead of using a
+                        template. This is done by setting the selfRender property to true. </para>
+                </listitem>
+                <listitem>
+                    <para>Component modifiers are classes that perform a modification on component
+                        state. One or more modifiers can be configured for a component. </para>
+                </listitem>
+                <listitem>
+                    <para>In addition to the properties defined by a component, the template can
+                        have options that are passed through using the template options map. </para>
+                </listitem>
+                <listitem>
+                    <para>Property replacers can be used to replace the value for a component
+                        property based on a condition. </para>
+                </listitem>
+                <listitem>
+                    <para>All components hold a context map which contains variables that can be
+                        used for expressions that are evaluated for properties of that component.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Components can indicate that they support a jQuery (JavaScript) event
+                        which allows script to be configured for that event. </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>Types of Components </title>
+        <para>Within the UIF component landscape, there are groupings of components which share
+            similar properties and behaviors. With each component grouping, the framework provides
+            an interface (extending Component) and base class. This allows sharing of properties and
+            behavior for components within these groupings. In particular, the base classes are
+            important for the view processing, known as the view lifecycle. </para>
+        <para>Another way to think of these component types is how we use them to build our web
+            page. Recall that each component is rendered to produce HTML markup (including script),
+            thus our components are really a model HTML. Therefore, to understand the how the
+            component groupings are formed, it is helpful to first breakdown the various HTML tags
+            and how they are assembled. </para>
+        <section>
+            <title>Content Elements </title>
+            <para>HTML provides us tags (known as 'elements') we can specify that will be read by
+                the browser to render some type of content. Examples of this include: <itemizedlist>
+                    <listitem>
+                        <para>&lt;a&gt; tag - Defines a hyperlink </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;button&gt; tag - Defines a clickable button </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;h1&gt; to &lt;h6&gt; tag - Defines HTML headings </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;img&gt; tag - Defines an image </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;label&gt; tag - Defines a label for an input element </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>As we see by the tag descriptions, these tags and others like them generate some
+                content that is visible to the user. The components that represent these tags (or
+                will render these tags) are known as Content Elements. The following is a mapping of
+                the above tags to its UIF component: <itemizedlist>
+                    <listitem>
+                        <para>&lt;a&gt; - ActionLink </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;button&gt; - ActionButton </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;h1&gt; to &lt;h6&gt; - Header </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;img&gt; - Image </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;label&gt; - Label </para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Controls </title>
+            <para>A special type of content element is one that allows the user to provide data
+                input. These elements are known as Form Elements or Controls. Controls are only
+                valid within an HTML form which will collect the data and post to a configured
+                server location. Controls come in different types that determine how the user can
+                provide data. Some HTML control examples are as follows: <itemizedlist>
+                    <listitem>
+                        <para>&lt;input&gt; - a control that allows the user to input data by typing
+                            the value. Several different types of input controls are provided which
+                            are configured by using the type attribute. Some available types include
+                            'checkbox', 'file', 'hidden', 'image', 'radio', 'submit', and 'text'.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;textarea&gt; - a special type of input that renders a multi-line
+                            text input </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;select&gt; - a control that allows the user to select a value from
+                            a list of options </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Within the UIF, these types of components are also known as controls. Unlike the
+                previous content elements, there is not a one-to-one mapping between the tag and
+                control component. Instead, the UIF provides a component for each input type. Some
+                examples include: <itemizedlist>
+                    <listitem>
+                        <para>&lt;input type="text"&gt; - TextControl </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;input type="file"&gt; - FileControl </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;input type="checkbox"&gt; - CheckboxControl </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;textarea&gt; - TextAreaControl </para>
+                    </listitem>
+                    <listitem>
+                        <para>&lt;select&gt; - SelectControl </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Controls all implement the org.kuali.rice.krad.uif.control.Control interface,
+                which has the base class org.kuali.rice.krad.uif.control.ControlBase. </para>
+        </section>
+        <section>
+            <title>Fields </title>
+            <para>Besides the various content elements HTML provides us, we also can use tags that
+                allow us to group content for layout purposes. One such element is the span. The
+                span element defines a section of the document and includes one or more content
+                elements. Essentially, it is a wrapper for other elements. </para>
+            <para>Spans are very important for layout purposes. They give us the ability to put
+                together more than one element and have it treated as a 'block' in the layout being
+                employed. A good example of this is the pairing of a label and control, where the
+                label should appear above the control. If we wanted several of these pairings to
+                align in a horizontal row, we would need to resort to a table. Wrapping each pairing
+                in a span, however, tells the browser these elements work together and should take
+                up one place in the layout. Furthermore, the default display property for span
+                elements is inline, so additional spans will align in a horizontal row. </para>
+            <para>In the UIF, these span wrappers are known as Fields. There are several different
+                Field components provided which have preset content elements, therefore, you don't
+                have to do the work of composing a content element with a Field. Some examples
+                include: <itemizedlist>
+                    <listitem>
+                        <para>InputField – Field that contains a control, information text, and
+                            several other elements </para>
+                    </listitem>
+                    <listitem>
+                        <para>ActionField – Field that contains an action button or action link
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>LinkField – Field that contains a link </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>In addition to wrapping content elements, the Field component also provides a
+                label. This is a label for the span contents, and its placement is configurable. </para>
+            <para>All Fields implement the org.kuali.rice.krad.uif.field.Field interface, which has
+                the base class org.kuali.rice.krad.uif.field.FieldBase. </para>
+        </section>
+        <section>
+            <title>Containers </title>
+            <para>So far in this section, we learned about the basic HTML content elements and the
+                span wrapper. We could write a page with these elements, and the browser would
+                render it based on the order of these elements and their styling. However, in many
+                cases we want to form larger groupings with their own layouts. For this, HTML
+                provides the div element. </para>
+            <para>The div element is similar to span in that it wraps elements. However, div
+                elements are generally used to divide larger sections of the page and can include
+                content elements, along with the span element. The UIF generates the div element
+                using the <emphasis role="keyword">Group</emphasis> component. </para>
+            <para>The group component is an implementation of a more general type of UIF component
+                named <emphasis role="keyword">Container</emphasis>. The main job of container
+                components is to hold a configured list of components and render them using a
+                layout. A container is divided into three parts: the header, the body, and the
+                footer. Generally, these appear in the user interface as show by <xref linkend="KRAD_Container_Parts"/>. </para>
+            <figure xml:id="KRAD_Container_Parts">
+                <title>KRAD Container Parts</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/KRAD_Container_Parts.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Besides the group component, another type of container is a View. Views do many
+                things in the framework that will be discussed throughout this manual, including the
+                container duty. A view instance actually contains all other components of an
+                interface. That is, a view is at the root of the component tree and is not contained
+                within any other component. In addition, the container items we configure for a view
+                must be groups (conceptually known as 'Pages'). </para>
+            <para>Containers may restrict the types of components they can hold. For example, KRAD
+                provides a LinkGroup which is a type of group that only allows link components to be
+                configured. Generally, these containers restrict the components they can hold so
+                that they can provide more specialized properties and behavior. </para>
+            <tip><para><emphasis role="bold">How do groups differ from fields?</emphasis> A field produces a span
+                    that wraps content elements, and a group produces a div element that wraps both
+                    content and span elements. They seem very similar! The important difference is a
+                    field is a preset composition of elements with a preset layout, while the group
+                    component and its layout can be configured. It is helpful to think of the field
+                    components as our palette to choose from, and the group component as our canvas! </para></tip>
+        </section>
+        <section>
+            <title>Widgets </title>
+            <para>Today we have the ability to do a lot more in our web applications, beyond using
+                the basic HTML elements. With the use of JavaScript and frameworks such as jQuery,
+                we can have features such as menus, tabs, trees, and dialogs in our user interface.
+                These features are achieved by composing the HTML elements with script. Within the
+                UIF, components that generate such content are known as Widgets. </para>
+            <tip><para><emphasis role="bold">Widget Templates:</emphasis> Although the majority of delivered widgets
+                    use jQuery, a widget template may invoke any script method or make use of other
+                    frameworks. </para></tip>
+            <para>This is a component type that has a lot of variety. However, the commonality is we
+                typically create widgets not by rendering HTML elements and attributes, but instead
+                by invoking script. To be more specific, most widget templates invoke a jQuery
+                plugin passing in parameters from the templateOptions map. </para>
+            <para>We can also think of widgets as client side components. Unlike the other UIF
+                components that generate their HTML markup server side, widgets generate content on
+                the client during page load. Widgets are explained further in Chapter 8. </para>
+        </section>
+        <section>
+            <title>Composition and Containers </title>
+            <para>Just as HTML elements can be composed, so can the UIF components. These
+                compositions can be fixed based on the property type, or variable. For example, the
+                LinkField is a fixed composition of a Link component with the Field component:
+                <programlisting>public class LinkField extends FieldBase {
+    ...
+    private Link link;
+}   </programlisting></para>
+            <para>An example of a variable composition is the Group container with the items list
+                that can accept any component:
+                <programlisting>public class Group extends ComponentBase { 
+    ...
+    private List&lt;Component> items;
+}</programlisting></para>
+            <para>Although it is possible to have any composition of components between the various
+                types, there are certain guidelines: </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Fixed Composition <itemizedlist>
+                                <listitem>
+                                    <para>All components can be composed of groups, fields,
+                                        elements, and widgets </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Input fields can be composed of controls </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>Variable Composition (Container) <itemizedlist>
+                                <listitem>
+                                    <para>Views are top level components and may not be contained in
+                                        other components </para>
+                                </listitem>
+                                <listitem>
+                                    <para>A View can contain one or more groups </para>
+                                </listitem>
+                                <listitem>
+                                    <para>A Group can contain one or more groups, one or more
+                                        fields, and one or more content elements with the exception
+                                        of controls </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Groups and views may NOT contain widgets </para>
+                                </listitem>
+                                <listitem>
+                                    <para>Groups and views may NOT contain controls </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>The below figure depicts the composition of components.</para>
+            <figure>
+                <title>KRAD Component Hierarchy</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/KRAD_Component_Hierarchy.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para>The UIF contains groupings of components that have similar properties and
+                        behavior </para>
+                </listitem>
+                <listitem>
+                    <para>Each component grouping has an interface and base class </para>
+                </listitem>
+                <listitem>
+                    <para>Content elements are components that generate an html content element
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>A control is a special type of element component that allows the user to
+                        provide data input </para>
+                </listitem>
+                <listitem>
+                    <para>A field is a component that wraps one or more content elements in a div </para>
+                </listitem>
+                <listitem>
+                    <para>Fields have an associated label </para>
+                </listitem>
+                <listitem>
+                    <para>A container is a component that holds other components and applies a
+                        layout </para>
+                </listitem>
+                <listitem>
+                    <para>A container is divided into three parts: header, body, and footer </para>
+                </listitem>
+                <listitem>
+                    <para>A group is a type of container that generates a div and lays out its
+                        components using a layout manager </para>
+                </listitem>
+                <listitem>
+                    <para>A view is the top most component and, among many things, holds groups
+                        known as pages </para>
+                </listitem>
+                <listitem>
+                    <para>A widget is a component that invokes a script to create the UI elements
+                        client side </para>
+                </listitem>
+                <listitem>
+                    <para>Widgets are typically implemented using jQuery </para>
+                </listitem>
+                <listitem>
+                    <para>Components may be composed with components of other types </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>UIF Constants </title>
+        <para>Besides the component classes, the UIF contains other services and utility classes
+            that are helpful to be aware of. One of these is the UifConstants class. This contains
+            constants that are used throughout the UIF. Some of these are constants that represent
+            configuration options, while others are used by the code. For those that can be used for
+            configuration, the constant can be referenced using an expression and the 'UifConstants'
+            variable. For example @{#UifConstants.Placement.LEFT} refers to the LEFT enum value in
+            the UifConstants class. </para>
+        <para><emphasis role="keyword">Position</emphasis> – The Position enum has values BOTTOM, LEFT,
+            RIGHT, and TOP. This is used to configure where an element should be placed in relation
+            to another. One use of this is for the field label. We can choose to put the label to
+            the left of the contained field element, on top, to the right, or on the bottom. </para>
+        <para><emphasis role="keyword">Orientation</emphasis> – The Orientation enum has values
+            HORIZONTAL and VERTICAL. This is used primarily by the Box layout manager to configure
+            whether the elements should be aligned in a horizontal or vertical row. </para>
+        <para><emphasis role="keyword">View Type</emphasis> – The View Type enum gives the available
+            types of view. A View Type (discussed in 13) is a subclass of the View or FormView
+            components that provides specialized behavior. The out of the box view types are
+            DEFAULT, DOCUMENT, INQUIRY, LOOKUP, MAINTENANCE, and INCIDENT. </para>
+        <para><emphasis role="keyword">Control Type</emphasis> – The Control Type enum gives the
+            available controls and is used primarily when creating components through code. </para>
+        <para><emphasis role="keyword">Workflow Action</emphasis> – The Workflow Action enum gives
+            available workflow document actions and is used primarily within the Document
+            controllers. Values are SAVE, ROUTE, BLANKETAPPROVE, APPROVE, DISAPPROVE, CANCEL, FYI,
+            and ACKNOWLEDGE. </para>
+        <para><emphasis role="keyword">Method To Call Names</emphasis> – This is an inner constants
+            class that specifies the name of methodToCall parameter values (which map to controller
+            names). </para>
+        <para><emphasis role="keyword">Action Events</emphasis> – This is an inner constants class that
+            specifies action event names. Action events are a way of grouping types of actions that
+            can then be used for logic or authorization. An example action event is "addLine". </para>
+        <para><emphasis role="keyword">Id Suffixes</emphasis> – This is an inner constants class that
+            declares id suffixes that are used throughout the framework. </para>
+        <para><emphasis role="keyword">View Phases</emphasis> – This is an inner constants class that
+            names the three view phases: INITIALIZE, APPLY_MODEL, and FINALIZE. </para>
+        <para><emphasis role="keyword">View Status</emphasis> – This is an inner constants class that
+            names the three view states: C (CREATED), I (INITIALIZED), and F (FINAL). </para>
+        <para><emphasis role="keyword">Context Variables Names</emphasis> – This is an inner constants
+            class that holds the names for variables that can be used in expressions. These
+            variables are listed in Appendix E. </para>
+        <para><emphasis role="keyword">Refresh Caller Types</emphasis> – This is an inner constants
+            class that holds names of refresh callers. These can be used in return methods to
+            determine what type of view called the refresh. Values are LOOKUP, MULTI_VALUE_LOOKUP,
+            and QUESTION. </para>
+        <para><emphasis role="keyword">EL Placeholder Prefix and Suffix</emphasis> – These constants
+            specify the placeholders that indicate an expression in the XML. </para>
+        <para><emphasis role="keyword">Binding Prefixes</emphasis> – These constants specify prefixes
+            that can be used within expressions for binding paths. Options are covered in Chapter
+            10. </para>
+        <para><emphasis role="bold">Other Constant Files</emphasis> - In addition to UifConstants,
+            there are the following constant files:<itemizedlist>
+                <listitem>
+                    <para>CssConstants – Constants for CSS strings </para>
+                </listitem>
+                <listitem>
+                    <para>UifParameters – Constants for request parameter names. Some examples
+                        include methodToCall, formKey, viewId, and pageId. </para>
+                </listitem>
+                <listitem>
+                    <para>UifPropertyPaths – Constants for property binding paths. </para>
+                </listitem>
+                <listitem>
+                    <para>KRADConstants – General constants for the KRAD module. These constants can
+                        be referenced in XML by using the Constants variable. </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para>UifConstants provides enums and constant classes for configuration and
+                        code strings </para>
+                </listitem>
+                <listitem>
+                    <para>UifParameters contains constants for request parameter names </para>
+                </listitem>
+                <listitem>
+                    <para>KradConstants provides constants for the KRAD module </para>
+                </listitem>
+                <listitem>
+                    <para>UifConstants can be referenced in XML by using the UifConstants variable
+                        (@{#UifConstants.constantname}), likewise KradConstants can be referenced
+                        using the Constants variable (@{Constants.constantname}). </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>UIF Bean Files </title>
+        <para>As we learned in the UIF overview, each component has at least one base Spring bean
+            definition and in many cases has more than one. KRAD ships with several base beans that
+            are divided into files for better management and easier browsing. All of these 'base
+            bean' files are located in the resource folder (src/main/resources) of the KRAD web
+            module. Within the resources folder they are contained in the package
+            org.kuali.rice.krad.uif. The below screen shot shows this package in the Intellij
+            project pane. </para>
+        <figure>
+            <title>KRAD Intellij Project Pane</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KRAD_Guide/kradProjectPane.png"/> 
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <section>
+            <title>UIF Configuration Definitions </title>
+            <para>This file contains bean definitions that are related to component configuration.
+                That is, the beans don't represent components, but classes that are used to
+                configure a component. Some examples include component modifiers, history, binding
+                info, and filters. </para>
+        </section>
+        <section>
+            <title>UIF Control Definitions </title>
+            <para>This file contains bean definitions for control components. Examples include
+                TextControl, CheckboxControl, FileControl, and the SelectControl. </para>
+        </section>
+        <section>
+            <title>UIF Document Definitions </title>
+            <para>This file contains bean definitions that are related to the Document view type.
+                This includes the Document View bean, common document group and field beans. </para>
+        </section>
+        <section>
+            <title>UIF Field Definitions </title>
+            <para>This file contains bean definitions for the various field components. Examples
+                include DataField, InputField, ActionField, and ImageField. </para>
+        </section>
+        <section>
+            <title>UIF Group Definitions </title>
+            <para>This file contains bean definitions for the various group components. Multiple
+                bean definitions are provided for the group component that configure different
+                layout managers. Examples include VerticalBoxGroup and HorizontalBoxGroup. In
+                addition, bean definitions exist for the group level (page, section, and
+                sub-section). Finally beans exist for the disclosure option and special types of
+                groups like the TreeGroup. </para>
+        </section>
+        <section>
+            <title>UIF Header Footer Definitions </title>
+            <para>This file contains bean definitions for header and footer groups. Headers and
+                footers are defined for various group levels (page, section, and sub-section), along
+                with collection groups. Finally the basic h1 through h6 header components are
+                defined. </para>
+        </section>
+        <section>
+            <title>UIF Incident Report Definitions </title>
+            <para> This file contains bean definitions that are related to the incident report view. </para>
+        </section>
+        <section>
+            <title> UIF Inquiry Definitions </title>
+            <para>This file contains bean definitions that are related to the Inquiry view. This
+                includes the Inquiry View bean, and definitions for inquiry groups. </para>
+        </section>
+        <section>
+            <title>UIF Layout Managers Definitions </title>
+            <para>This file contains bean definitions for the provided layout managers. In addition,
+                common layout manager configurations are provided as separate beans. </para>
+        </section>
+        <section>
+            <title>UIF Lookup Definitions </title>
+            <para>This file contains bean definitions for the Lookup view. This includes the Lookup
+                View bean, and definitions for lookup groups. </para>
+        </section>
+        <section>
+            <title>UIF Maintenance Definitions </title>
+            <para>This file contains bean definitions for the Maintenance view. This includes the
+                Maintenance View bean, and definitions for the maintenance groups. </para>
+        </section>
+        <section>
+            <title>UIF Rice Definitions </title>
+            <para>This file contains bean definitions for other Rice modules. Examples include the
+                KIM person and KIM Group controls. </para>
+        </section>
+        <section>
+            <title>UIF View Page Definitions </title>
+            <para>This file contains bean definitions for the various view and page components. This
+                includes the default View, Form View, and Page beans. Also included is the
+                configuration for the base theme. </para>
+        </section>
+        <section>
+            <title>UIF Widget Definitions </title>
+            <para>This file contains bean definitions for the various widget components. Examples
+                include DatePicker, Lightbox, Breadcrumbs, and Tree. </para>
+            <para> Note that a full listing of beans contained in the above files is given in
+                Appendix A. </para>
+        </section>
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para> The UIF provides several bean definitions that are divided into files
+                        based on type </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>Styling and themes </title>
+        <para>KRAD doesn't stop with just rendering the HTML markup, but also provides CSS to make
+            your web applications look great! With the 2.0 release, you can choose to use one of two
+            look-and–feels (known as <emphasis role="keyword">Themes</emphasis>). Each theme has been
+            created with default styling for all the delivered components. However, if you wish to
+            change styling or create new components, all the hooks are provided for doing so. This
+            section will explore the themes and how custom styling can be added. </para>
+        <section>
+            <title>View Theme </title>
+            <para>See <xref linkend="viewthemes"/></para>
+        </section>
+        <section>
+            <title>Modifying Themes </title>
+            <para>Themes can easily be modified on an application basis, view basis, or component
+                basis. There are two ways to modify a theme. First, we can create additional style
+                sheets and script files that are included with our views. These files may set
+                anywhere within the application web directory, or they can be accessed through a
+                different web server. To add the additional files, we use the additionalCssFiles and
+                additionalScriptFiles properties on the view component:
+                <programlisting linenumbering = "numbered">&lt;bean id="MyView" parent="Uif-FormView"> 
+    ...
+    &lt;property name="additionalCssFiles">
+        &lt;list>
+            &lt;value>/css/myView.css&lt;value> &lt;value>http://server.com/css/myView.css&lt;/value>
+        &lt;/list>
+    &lt;/property>
+    &lt;property name="additionalScriptFiles">
+    &lt;list>
+        &lt;value>/script/myView.js&lt;/value>
+        &lt;value>http://server.com/script/myView.js&lt;/value> 
+     &lt;/list>
+    &lt;/property>
+&lt;/bean>    </programlisting></para>
+            <para>Using bean inheritance, we can setup a new base view with the additional CSS
+                and/or script files that other views inherit. Furthermore, individual views can add
+                files as needed. </para>
+            <para>Within the additional style sheets, we can override the provided style classes
+                (see 'Base Styles and Conventions'), or add new style classes. For example, we might
+                want to add a new style class to all input fields, or buttons, or a new component we
+                have developed. Once we have defined the style class, we must then associate it with
+                a component. We can do this by using the styleClasses property. </para>
+            <para>The styleClasses property is provided for all components, and holds a list of
+                class names that should be applied for that component. We can configure this
+                property using the Spring list tag:
+                <programlisting linenumbering = "numbered">&lt;bean id="MyActionButton" parent="Uif-PrimaryActionButton">
+    ...
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>customStyleClass&lt;value>
+        &lt;/list>
+    &lt;/property>
+&lt;/bean>   </programlisting></para>
+            <para>Recall that in order to inherit collection configuration from a parent bean, we
+                must using the Spring tags and add merge="true". It is recommended that the default
+                style classes always be inherited. </para>
+            <para>The configured styleClasses are then specified as the class attribute on the
+                rendered HTML element:
+                <programlisting linenumbering = "numbered">&lt;button id="MyActionButton" class="uif-primaryActionButton customStyleClass"  ... /&gt;  </programlisting></para>
+            <para>Notice the uif-primaryActionButton class. This was inherited from the
+                Uif-PrimaryActionButton bean. </para>
+            <para>The second way to modify themes is by providing inline styling information. This
+                is accomplished by using the style property that is available on all components.
+                This property is then used to set the corresponding style attribute on the rendered
+                HTML element (known as inline styling). </para>
+            <programlisting linenumbering = "numbered">&lt;bean parent="Uif-BoxGroupSection" p:style="border: 1px;"&gt; 
+...    </programlisting>
+        </section>
+        <section>
+            <title> Base Styles and Conventions </title>
+            <para>All of the provided components have a style class configured by default. These
+                style classes are configured in the base bean definition(s) for the component.
+                Similar to the naming convention employed for the bean ids (starting with 'Uif-'),
+                the class names all begin with 'uif-'. After the prefix, the class names closely
+                match the bean name (with the exception of casing). As an example let's look at a
+                few of the provided action definitions:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-ActionImage" ...
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-actionImage&lt;/value>
+        &lt;/list>
+    &lt;/property>
+
+&lt;bean id="Uif-PrimaryActionButton" ... 
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-primaryActionButton&lt;/value>
+        &lt;/list>
+    &lt;/property>
+
+&lt;bean id="Uif-SecondaryActionButton" ...
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-secondaryActionButton&lt;/value>
+        &lt;/list>   
+    &lt;/property>      
+
+&lt;bean id="Uif-ActionLink" ... 
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-actionLink&lt;/value>
+        &lt;/list>
+    &lt;/property>     </programlisting></para>
+            <para>Notice the style class configured for each bean. </para>
+            <para>In addition to providing the style class per component, the base beans are also
+                setup to inherit classes from the parent (with the merge="true"). A good example of
+                this is the stacked collection group section:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-StackedCollectionSection" parent="Uif-StackedCollectionGroup">
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-stackedCollectionSection&lt;/value>
+        &lt;/list>
+    &lt;/property>   </programlisting></para>
+            <para>As in the previous examples, we are applying a style class for the component named
+                'uif- stackedCollectionSection'. Now, let's walk up the bean hierarchy and look at
+                the style classes we are adding:
+                <programlisting linenumbering = "numbered">&lt;bean id="Uif-StackedCollectionGroup" parent="Uif-CollectionGroupBase">
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-stackedCollectionGroup&lt;/value>
+        &lt;/list>
+    &lt;/property>
+    
+&lt;bean id="Uif-CollectionGroupBase" parent="Uif-GroupBase"/>
+    &lt;property name="styleClasses">
+        &lt;list merge="true">
+            &lt;value>uif-collectionGroup&lt;/value>
+        &lt;/list>
+    &lt;/property>
+
+&lt;bean id="Uif-GroupBase">
+    &lt;property name="styleClasses">
+        &lt;list>
+            &lt;value>uif-group&lt;/value>
+        &lt;/list>
+    &lt;/property>    </programlisting></para>
+            <para>So we can see the combined list of style classes applied will be 'uif-group
+                uif-collectionGroup uif-stackedCollectionGroup uif-stackedCollectionSection'. This
+                gives us a tremendous amount of flexibility for styling, since we have many levels
+                at which to define styling. We can configure styling that applies to all groups
+                (uif-group), then all collection groups (uif-collectionGroup), then all collection
+                groups that have the stacked layout (uif-stackedCollectionGroup) and finally all
+                collection groups with stacked layouts that are rendered at the section level
+                (uif-stackedCollectionSection). At each level, we can add or modify styling. </para>
+            <para>Suppose we had declared the following styles in our CSS file:
+                <programlisting>uif-group { 
+    padding : 10px;
+    margin : 10px;
+}
+
+uif-collectionGroup {
+    padding : 20px; 
+}
+
+uif-stackedCollectionGroup {
+    border : 1px;  
+}   </programlisting></para>
+            <para>The applied styling for the generated element will then have a padding 20px,
+                margin 10px, and border 1px. </para>
+            <tip><para><emphasis role="bold">Do we need all these style classes?</emphasis> As you have likely
+                    determined by now, there are a lot of these bean definitions provided by KRAD,
+                    and therefore that means there are many style classes applied. Many of these
+                    style classes do not have a corresponding definition within the CSS files.
+                    However, they are provided to give greater flexibility for custom CSS. For
+                    example, suppose the default theme did not add styling for action link.
+                    Therefore, a style class was not declared in the bean. Now a KRAD application
+                    wishes to add styling for action links. They would first need to override the
+                    bean definition to add the class for the component. Instead with it already
+                    being provided, they can just add the declaration in their custom style sheets
+                    without any modifications to the application code!</para></tip>
+        </section>
+        <section>
+            <title>Fluid Skinning System </title>
+            <para>KRAD also comes bundled with the Fluid Skinning System <link
+                    xlink:href="http://www.fluidproject.org/">(http://www.fluidproject.org/</link>).
+                The skinning system contains a set of CSS files with classes that can be used for
+                styling and layout. For example, there are many useful classes for text styling
+                (size, color). Any of these may be used by adding the class name in the styleClasses
+                property. More information on using Fluid for CSS layouts will be covered in Chapter
+                7. </para>
+        </section>
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para>A base set of CSS and script files is configured in a view theme object,
+                        which is then set on the view component </para>
+                </listitem>
+                <listitem>
+                    <para>KRAD provides two themes in the 2.0 release. One is a legacy theme based
+                        on the KNS framework. The second is a new theme based on the KNS open look
+                        and feel </para>
+                </listitem>
+                <listitem>
+                    <para>Additional CSS and script files can be added to the view using the
+                        additionalCssFiles and additionalScriptFiles properties </para>
+                </listitem>
+                <listitem>
+                    <para>A list of style classes that should be applied are configured on the
+                        component using the styleClasses property </para>
+                </listitem>
+                <listitem>
+                    <para>Inline styles can be declared for a component using the style property
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Each UIF base bean has a style class configured by default. Each class
+                        name begins with 'UIF-'</para>
+                </listitem>
+                <listitem>
+                    <para>Style classes are inherited by parent bean definitions resulting in
+                        multiple applied classes </para>
+                </listitem>
+                <listitem>
+                    <para>The multiple style classes provide flexibility to configure styling at
+                        different levels (corresponding to the bean inheritance) </para>
+                </listitem>
+                <listitem>
+                    <para>KRAD includes the fluid skinning system which can be used for additional
+                        styling needs and CSS layouts </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>KRAD Spring Extensions </title>
+        <para>KRAD implements a few extensions to the Spring configuration system that allow for
+            easier configuration of collections and more flexibility on merging. As we saw in
+            Chapter 1, configuring collections requires the use of special Spring tags. These
+            additional tags add a lot to the overall verboseness of the XML, and the time spent
+            writing it. KRAD helps with this problem by allowing List and Map values to be specified
+            as a string using established delimiters. </para>
+        <para>For populating a list with a single string value the individual entries are delimited
+            using a comma. For example:
+            <programlisting>p:listProperty="item1,item2,item3"    </programlisting> or
+            <programlisting linenumbering = "numbered">&lt;property name="listProperty" value="item1,item2,item3"/&gt;</programlisting>
+            is equivalent to:
+            <programlisting linenumbering = "numbered">&lt;property name="listProperty">
+    &lt;list>
+        &lt;value>item1&lt;/value>
+        &lt;value>item2&lt;/value>
+        &lt;value>item3&lt;/value>
+    &lt;/list>
+&lt;/property>     </programlisting></para>
+        <para>As a consequence of using the comma delimiters, list entries that contain a comma may
+            not use the shorthand configuration, but must instead using the Spring list tag. </para>
+        <para>Maps can also be populated using the shorthand string configuration. Similar to a
+            list, each entry is delimited by a comma. For each entry, the key and value parts are
+            separated using a colon. For example:
+            <programlisting>p:mapProperty="key1:value1,key2:value2,key3:value3"    </programlisting>
+            or
+            <programlisting linenumbering = "numbered">&lt;property name="mapProperty" value="key1:value1,key2:value2,key3:value3" /&gt;     </programlisting>
+            is equivalent to:
+            <programlisting linenumbering = "numbered">&lt;property name="mapProperty">
+    &lt;map>
+        &lt;entry key="key1" value="value1"/>
+        &lt;entry key="key2" value="value2"/>
+        &lt;entry key="key3" value="value3"/>
+    &lt;/map>
+&lt;/property>   </programlisting></para>
+        <para>If any of the map keys or values contains a comma or colon, we must use the Map tag
+            instead of the shorthand configuration. </para>
+        <para>When using the shorthand notation, two other limitations should be understood. The
+            first is that when this is used on a child bean, any entries specified on a parent bean
+            will be overridden. That is, this is like leaving the merge attribute of the collection
+            tag, or specifying merge="false". Therefore, when entries need to be merged with the
+            parent bean definition, the Spring collection tags must be used. </para>
+        <para>The second limitation is with generics (Java 1.5). When populating a collection,
+            Spring will read generic information to determine how to convert the configured value.
+            For example, suppose we had a List&lt;Integer> property type. Spring will then attempt
+            to convert each list value to an Integer type. When using the shorthand string
+            configuration, no type conversion on the entries is performed. Therefore, only
+            collections of string type are supported (for example List&lt;String> or just List). </para>
+        <tip><para><emphasis role="bold">Property Value Type Conversion</emphasis>: The shorthand configuration
+                being described here was implemented using a feature of Spring that allows us to
+                specify PropertyEditor classes that can be used to convert values configured in the
+                XML. A PropertyEditor is a core Java interface that is invoked to convert a value of
+                one type to another type. Two property editor implementations were created and
+                configured with the bean container. The first converting a String to List, and the
+                second converting a String to Map. Property editors are also used to provide
+                formatting of values in the UI. This will be discussed in Chapter 6. </para></tip>
+        <section>
+            <title>Merge Ordering </title>
+            <para>When inheriting configuration from a parent bean definition (using the parent
+                attribute), we can merge collection entries from the child to parent definition by
+                adding merge="true" to the collection tag. Spring performs the merging by adding the
+                entries on the child definition to the end of the entries of the parent. For
+                example, if our parent bean specifies entries 'item1' and 'item4', then the child
+                specifies items 'item3' and 'item5', the resulting collection will have entries with
+                the following order: 'item1','item4','item3','item5'. In the majority of cases this
+                is fine. However, when the order of items within the collection make a functional
+                difference, only being able to merge entries at the end of the collection can be a
+                hindrance. </para>
+            <para>Within the UIF, many collections do represent a case where the order matters. One
+                example is the Group component which has a list of component items and a Layout
+                Manager. These items will be rendered on the page based on the order in which they
+                appear in the collection. </para>
+            <para>Therefore a property named 'order' was added to all components (ComponentBase)
+                that can be used to declare where the component should be placed in the collection
+                when merging. </para>
+            <para>To make use of this functionality, we must first setup the collection items in the
+                base bean to have an order value:
+                <programlisting linenumbering = "numbered">&lt;bean id="MyPage" parent="Uif-Page">
+    ...
+    &lt;property name="items">
+        &lt;list>
+            &lt;bean id="Section1" parent="Uif-GridSection" p:order="100">
+            &lt;bean id="Section2" parent="Uif-GridSection" p:order="200">
+            &lt;bean id="Section3" parent="Uif-GridSection" p:order="300">
+        &lt;/list>
+    &lt;/property>
+    &lt;property name="itemOrderingSequence" value="101"/>   </programlisting></para>
+            <para>Notice a couple of things here. First, the order was specified for each item such
+                that there is a range of integers that fall between each (&lt;100, 100-200, 200-300,
+                >300). The second is the property value of 101 for itemOrderingSequence. </para>
+            <para>Now, let's assume we want to create a page that extends from 'MyPage'. For our
+                page, we need to add two sections. However, when these sections are rendered, the
+                first section should be between 'Section1' and 'Section2', and our second section
+                should be after 'Section3'. This can be done as follows:
+                <programlisting linenumbering = "numbered">&lt;bean id="AnotherPage" parent="MyPage">
+    ...
+    &lt;property name="items">
+        &lt;list merge="true">
+            &lt;bean id="Section4" parent="Uif-GridSection">
+            &lt;bean id="Section5" parent="Uif-GridSection" p:order="320">
+        &lt;/list>
+    &lt;/property>   </programlisting></para>
+            <para>That's it! So what happened? First, we need to understand the rules of merging
+                when the order property is given: <orderedlist>
+                    <listitem>
+                        <para>If a component item does not have an order value, it will be assigned
+                            a value starting with the specified itemOrderingSequence. This sequence
+                            gets incremented by one each time it is used to assign an order value.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The combined collection of items is then sorted by ascending order
+                            values. </para>
+                    </listitem>
+                    <listitem>
+                        <para>If an item from the child bean has the same order as an item from the
+                            parent bean, it will replace that item. </para>
+                    </listitem>
+                </orderedlist></para>
+            <para>Applying these rules to our example we see that 'Section4' will get an assigned
+                order value or '101', thus it will be placed between 'Section1' and 'Section2' which
+                have order values of 100 and 200 respectively. Finally 'Section5' will be placed
+                after 'Section3' since it has an order of 320 which is greater than 300. The final
+                ordering is 'Section1, Section4, Section2, Section3, Section5'. </para>
+        </section>
+        <section role="NotInToc">
+            <title>Recap</title>
+            <itemizedlist>
+                <listitem>
+                    <para>KRAD provides extensions to spring that allow for easier configuration of
+                        collections and more flexibility</para>
+                </listitem>
+                <listitem>
+                    <para>List and map property values can be specified using a string value </para>
+                </listitem>
+                <listitem>
+                    <para>For lists, each entry is delimited using a comma </para>
+                </listitem>
+                <listitem>
+                    <para>For maps, each entry is delimited using a comma, with each key/value pair
+                        delimited using a colon </para>
+                </listitem>
+                <listitem>
+                    <para>Shorthand string configuration cannot be used if merging is required
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Shorthand string configuration cannot be used if list or map entry types
+                        are non-string </para>
+                </listitem>
+                <listitem>
+                    <para>For lists of components, the order property can be given to control where
+                        in the merged list the component will be placed </para>
+                </listitem>
+                <listitem>
+                    <para>Component items from a parent bean can be overridden with a child item by
+                        using the same order value </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

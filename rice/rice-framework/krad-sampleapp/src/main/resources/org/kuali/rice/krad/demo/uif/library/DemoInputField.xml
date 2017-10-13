@@ -1,0 +1,184 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- InputField demo -->
+  <bean id="Demo-InputField-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoInputField.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.field.InputField"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-InputField-Example1"/>
+        <ref bean="Demo-InputField-Example2"/>
+        <ref bean="Demo-InputField-Example3"/>
+        <ref bean="Demo-InputField-Example4"/>
+        <ref bean="Demo-InputField-Example5"/>
+        <ref bean="Demo-InputField-Example6"/>
+        <ref bean="Demo-InputField-Example7"/>
+        <ref bean="Demo-InputField-Example8"/>
+        <ref bean="Demo-InputField-Example10"/>
+        <ref bean="Demo-InputField-Example11"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-InputField-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example1 start-->
+        <bean parent="Uif-InputField" p:label="InputField 1" p:propertyName="inputField1"/>
+        <!-- ex:Demo-InputField-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Alt. Control -->
+  <bean id="Demo-InputField-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example2 start-->
+        <bean parent="Uif-InputField" p:label="InputField 2" p:propertyName="inputField2">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-InputField-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Instructional text -->
+  <bean id="Demo-InputField-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example3 start-->
+        <bean parent="Uif-InputField" p:label="InputField 3" p:propertyName="inputField3"
+              p:instructionalText="Instructions for this field"/>
+        <!-- ex:Demo-InputField-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Constraint text -->
+  <bean id="Demo-InputField-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example4 start-->
+        <bean parent="Uif-InputField" p:label="InputField 4" p:propertyName="inputField4"
+              p:constraintText="Text to tell users about constraints this field may have"/>
+        <!-- ex:Demo-InputField-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Label top -->
+  <bean id="Demo-InputField-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example5 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Label Top Field" p:propertyName="inputField5"
+              p:instructionalText="Instructions for your field"
+              p:constraintText="Text to tell users about constraints this field may have"/>
+        <!-- ex:Demo-InputField-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Label right -->
+  <bean id="Demo-InputField-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example6 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Label Right Field" p:propertyName="inputField6"
+              p:instructionalText="Instructions for your field"
+              p:constraintText="Text to tell users about constraints this field may have"
+              p:labelPlacement="RIGHT"/>
+        <!-- ex:Demo-InputField-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Quickfinder -->
+  <bean id="Demo-InputField-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example7 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Quickfinder Field" p:propertyName="inputField7"
+              p:instructionalText="Click the quickfinder to select a value, TravelAccount number will be returned">
+          <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krad.demo.travel.account.TravelAccount"
+                  p:fieldConversions="number:inputField7"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-InputField-Example7 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Inquiry -->
+  <bean id="Demo-InputField-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example8 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Inquiry Field" p:propertyName="inputField8"
+              p:instructionalText="Click the inquiry image to see details of TravelAccount with number corresponding
+                  to the input" p:constraintText="Input a1-a9" p:defaultValue="a2">
+          <property name="inquiry">
+            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.krad.demo.travel.account.TravelAccount"
+                  p:inquiryParameters="inputField8:number"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-InputField-Example8 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Required -->
+  <bean id="Demo-InputField-Example10" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example10 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Required Field"
+              p:instructionalText="Try clicking in and out without entering a value"
+              p:propertyName="inputField10" p:required="true">
+        </bean>
+        <!-- ex:Demo-InputField-Example10 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Uppercase -->
+  <bean id="Demo-InputField-Example11" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-InputField-Example11 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Uppercase field" p:propertyName="inputField11"
+              p:uppercaseValue="true">
+        </bean>
+        <!-- ex:Demo-InputField-Example11 end-->
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

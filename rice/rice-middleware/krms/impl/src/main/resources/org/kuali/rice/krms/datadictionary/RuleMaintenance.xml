@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+  <bean id="RuleMaintenanceDocument" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.krms.impl.repository.RuleBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="documentTypeName" value="RuleMaintenanceDocument"/>
+    <property name="documentAuthorizerClass"
+              value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RuleTreeWidget" parent="Uif-Tree">
+    <property name="template" value="/krad/WEB-INF/ftl/components/widget/ruleTree.ftl"/>
+    <property name="templateName" value="uif_ruleTree"/>
+  </bean>
+
+
+  <bean id="RuleBo-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Rule Editor"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo"/>
+    <property name="items">
+      <list merge="false">
+        <bean parent="ruleEditorBody"/>
+      </list>
+    </property>
+    <property name="additionalScriptFiles">
+      <list merge="true">
+        <value>/krms/scripts/rulebo-maintenanceview.js"</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ruleEditorBody" parent="ruleEditorBody-parent">
+    <property name="componentModifiers">
+      <list>
+      </list>
+    </property>
+    <property name="layoutManager">
+      <bean parent="Uif-HorizontalBoxLayout"/>
+    </property>
+  </bean>
+
+  <bean id="ruleEditorBody-parent" parent="Uif-GridSection" p:renderHeader="false">
+    <property name="headerText" value="Rule Editor"/>
+    <property name="layoutManager">
+      <bean parent="Uif-GridLayoutBase" p:numberOfColumns="3"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="ruleInfoSection"/>
+        <bean parent="ruleActionsSection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ruleInfoSection" parent="ruleInfoSection-parent"/>
+  <bean id="ruleInfoSection-parent" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="headerText" value="Rule"/>
+    <property name="renderHeader" value="true"/>
+    <property name="disclosure.render" value="true"/>
+    <property name="disclosure.defaultOpen" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="ruleInfoGrid"/>
+        <!--
+        <bean parent="ruleAttributesSection"/>
+        -->
+        <bean id="propositionSection" parent="propositionSection-parent"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ruleInfoGrid" parent="Uif-GridSection">
+    <property name="headerText" value="Rule Information"/>
+    <property name="renderHeader" value="false"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="items">
+      <list>
+
+        <bean parent="Uif-VerticalFieldGroup" p:label="Copy from Existing Rule"
+              p:progressiveRenderViaAJAX="true"
+              p:progressiveRender="@{#dp.addRuleInProgress == true}">
+          <property name="group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:id="copyRuleName" p:propertyName="copyRuleName"
+                    p:style="font-size: smaller;" p:showLabel="false">
+                <property name="label" value="Copy from Existing Rule"/>
+                <property name="quickfinder">
+                  <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krms.impl.repository.RuleBo">
+                    <property name="fieldConversions">
+                      <map>
+                        <entry key="id" value="agendaItemLine.rule.id"/>
+                        <entry key="name" value="copyRuleName"/>
+                        <entry key="namespace" value="agendaItemLine.rule.namespace"/>
+                      </map>
+                    </property>
+                    <property name="lookupParameters">
+                      <map>
+                        <entry key="copyRuleName" value="name"/>
+                        <entry key="agendaItemLine.rule.namespace" value="namespace"/>
+                      </map>
+                    </property>
+                  </bean>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="40" p:maxLength="100"
+                        p:watermarkText="Existing Rule Name"/>
+                </property>
+              </bean>
+              <bean parent="Uif-PrimaryActionButton" p:id="copyRuleButton" p:methodToCall="copyRule"
+                    p:actionLabel="Copy Rule"
+                    p:cssClasses="buttonClasses" p:style="margin-right: 15pt; float: right;"
+                    p:refreshWhenChangedPropertyNames="#dp.copyRuleName" p:disabled="@{#empty(#dp.copyRuleName)}"
+                    p:onDocumentReadyScript="rulebo_maintenanceview.bind_copyRuleName();"/>
+              <!-- disable button when field is empty -->
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:id="ruleNamespace" p:propertyName="agendaItemLine.rule.namespace"
+              p:label="Namespace" p:readOnly="true"/>
+        <bean parent="ruleCustomAttributes"/>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.name" p:label="Name" p:required="true"
+              p:constraintText="size 100">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="40" p:maxLength="100" p:watermarkText="Enter a Rule Name"
+                  p:cssClasses="countdown"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.description" p:label="Description"
+              p:labelColSpan="1" p:constraintText="size 4000" p:colSpan="1">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="60" p:textExpand="true" p:maxLength="4000"
+                  p:watermarkText="Enter a Rule Description" p:cssClasses="countdown"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.active" p:label="Active">
+          <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean name="ruleCustomAttributes" parent="Uif-GridSection" p:colSpan="2" p:layoutManager.numberOfColumns="2"
+        p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.agendaItemLine.rule.typeId"
+        p:style="padding: 0px; border-style: hidden;">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.typeId" p:label="Type" p:required="false">
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="org.kuali.rice.krms.impl.repository.RuleTypeValuesFinder"/>
+          </property>
+        </bean>
+        <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customRuleAttributesMap"
+              p:fetchingMethodToCall="retrieveRuleCustomAttributes"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean name="propositionSection-parent" parent="Uif-VerticalBoxGroup">
+    <property name="headerText" value="Proposition Tree"/>
+
+    <property name="items">
+      <list>
+
+        <bean parent="Uif-VerticalBoxGroup"
+              p:style="border: 1px solid #999999; padding: 5px; margin: 5px; background: white; margin-top:null ">
+          <property name="items">
+            <list>
+              <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt; margin-top:null 0em;"
+                    p:progressiveRender="@{#form.viewTypeName.toString() != 'MAINTENANCE'}">
+                <property name="items">
+                  <list>
+                    <bean parent="RuleEditorView-RuleTreeViewControls"/>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt; margin-top:null 0em;"
+                    p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+                <property name="items">
+                  <list>
+                    <bean parent="RuleEditorView-RuleTreeEditControls"/>
+                  </list>
+                </property>
+              </bean>
+              <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+              <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
+                   is needed for the javascript hack that is refreshing -->
+              <bean id="RuleEditorView-TreeGroup" parent="Uif-VerticalBoxGroup"
+                    p:style="margin-bottom: 5pt; margin-top:null 0em;"
+                    p:refreshWhenChangedPropertyNames="this.is.a.hack">
+                <property name="layoutManager.orientation" value="VERTICAL"/>
+                <property name="items">
+                  <list>
+                    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                    <bean id="RuleEditorView-PropositionSummary" parent="RuleEditorView-PropositionSummary-parent"
+                          p:forceSessionPersistence="true"/>
+                    <bean parent="RuleEditorView-TreeExpandCollapse"/>
+                    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                    <bean id="RuleEditorView-Tree" parent="RuleEditorView-Tree-parent"
+                          p:forceSessionPersistence="true"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+    <bean id="RuleEditorView-PropositionSummary" parent="Uif-GridSection" p:renderHeader="false" p:style="margin-bottom: 0em;">
+      <property name="disclosure.render" value="false" />
+      <property name="items">
+        <list>
+          <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.propositionSummary"
+            p:colSpan="8">
+            <property name="label" value="Proposition Summary" />
+            <property name="control">
+              <bean parent="Uif-TextAreaControl" p:rows="3" p:cols="150" p:readOnly="true" />
+            </property>
+          </bean>
+        </list>
+      </property>
+
+    </bean>
+  -->
+
+  <bean id="RuleEditorView-PropositionSummary-parent" parent="Uif-HorizontalBoxGroup" p:renderHeader="false">
+    <property name="disclosure.render" value="false"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="@{#dp.agendaItemLine.rule.propositionSummary}"/>
+      </list>
+    </property>
+
+  </bean>
+
+
+  <bean id="RuleEditorView-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+    <property name="items">
+      <list>
+        <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
+              p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
+          <property name="actionImage">
+            <null/>
+          </property>
+        </bean>
+        <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
+              p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;">
+          <property name="actionImage">
+            <null/>
+          </property>
+        </bean>
+        <bean id="proposition_selected" parent="Uif-InputField" p:propertyName="selectedPropositionId"
+              p:showLabel="false">
+          <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+          </property>
+        </bean>
+        <bean id="proposition_cut" parent="Uif-InputField" p:propertyName="cutPropositionId" p:showLabel="false">
+          <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RuleEditorView-RuleTreeViewControls" parent="Uif-VerticalBoxSection"
+        p:cssClasses="krms-rulesButtonBar">
+
+    <property name="renderHeader" value="true"/>
+    <property name="headerText" value="Propositions"/>
+    <property name="layoutManager">
+      <bean parent="Uif-HorizontalBoxLayout" p:style="padding: 5px;"/>
+    </property>
+
+    <property name="items">
+      <list>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RuleEditorView-RuleTreeEditControls" parent="Uif-VerticalBoxSection"
+        p:cssClasses="krms-rulesButtonBar">
+
+    <property name="renderHeader" value="true"/>
+    <property name="headerText" value="Propositions"/>
+    <property name="layoutManager">
+      <bean parent="Uif-HorizontalBoxLayout" p:style="padding: 5px;"/>
+    </property>
+    <property name="onDocumentReadyScript" value="loadControlsInit();"/>
+
+    <property name="items">
+      <list>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('add');
+          if (enabled) {
+              ajaxCallPropositionTree('addProposition', 'RuleEditorView-Tree');
+          }
+          "
+              p:actionLabel="Add">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>kr-add-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/node-insert-next.png"
+                  p:altText="Add Proposition"/>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('addparent');
+          if (enabled) {
+              ajaxCallPropositionTree('togglePropositionSimpleCompound', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Add Parent">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
+                  p:altText="Add Parent"/>
+          </property>
+          <property name="cssClasses">
+            <list merge="true">
+              <value>kr-addparent-button</value>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('edit');
+          if (enabled) {
+              ajaxCallPropositionTree('goToEditProposition', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Edit">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/edit.png"
+                  p:altText="Edit Proposition"/>
+          </property>
+          <property name="cssClasses">
+            <list merge="true">
+              <value>kr-edit-button</value>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Message" p:messageText="Move: [" p:style="display: inline;"/>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('left');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionLeft', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Left">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-left.png"
+                  p:altText="Left"/>
+          </property>
+        </bean>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('right');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionRight', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Right">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                  p:altText="Right"/>
+          </property>
+        </bean>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('up');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionUp', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Up">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-up.png"
+                  p:altText="Up"/>
+          </property>
+        </bean>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('down');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionDown', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Down">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-down.png"
+                  p:altText="Down"/>
+          </property>
+        </bean>
+        <bean parent="Uif-Message" p:messageText="]" p:style="display: inline;"/>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('cut');
+          if (enabled) {
+              ajaxCutPropositionTree('cutProposition', 'RuleEditorView-Tree');
+          }
+          "
+              p:actionLabel="Cut" p:style="margin-left: 15pt;"> <!-- Horiz whitespace -->
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+              <value>kr-cut-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/cut.png"
+                  p:altText="Cut"/>
+          </property>
+        </bean>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('paste');
+          if (enabled) {
+              ajaxCallPropositionTree('pasteProposition', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Paste">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+              <value>kr-paste-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/paste.png"
+                  p:altText="Paste"/>
+          </property>
+        </bean>
+        <bean parent="AgendaEditorView-barButton" p:actionScript="var enabled = enabledCheck('delete');
+          if (enabled) {
+              ajaxCallPropositionTree('deleteProposition', 'RuleEditorView-TreeGroup');
+          }
+          "
+              p:actionLabel="Delete" p:style="margin-right: 15pt;"> <!-- Horiz whitespace -->
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+              <value>kr-delete-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/delete.png"
+                  p:altText="Delete"/>
+          </property>
+        </bean>
+        <!-- refresh is always allowed, but enabledCheck will disable others if they are not -->
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="refresh" p:actionLabel="refresh" p:preSubmitCall="var enabled = enabledCheck('refresh');
+            return true;
+            "
+                >
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+              <value>kr-refresh-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/refresh.png"
+                  p:altText="Refresh"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RuleEditorView-Tree-parent" parent="Uif-TreeSection" p:disclosure.render="false" p:header.render="false"
+        p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
+    <property name="propertyName" value="agendaItemLine.rule.propositionTree"/>
+    <property name="validationMessages.displayMessages" value="true"/>
+    <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
+    <property name="tree">
+      <bean parent="RuleTreeWidget">
+        <property name="templateOptions">
+          <map>
+            <entry key="'plugins'"
+                   value="['themes','html_data', 'ui', 'crrm', 'dnd']"/>
+            <entry key="'themes'"
+                   value="{'theme':'default','dots':'false','icons':'false'}"/>
+            <entry key="'ui'" value="{ 'select_limit' : 1 }"/>
+            <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="nodePrototypeMap">
+      <map key-type="java.lang.Class">
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.RuleTreeNode) }">
+          <bean parent="RuleTreeNodePrototype"/>
+        </entry>
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.SimplePropositionNode) }">
+          <bean parent="SimplePropositionNodePrototype"/>
+        </entry>
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.SimplePropositionEditNode) }">
+          <bean parent="SimplePropositionEditNodePrototype"/>
+        </entry>
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.CompoundOpCodeNode) }">
+          <bean parent="CompoundOpCodeNodePrototype"/>
+        </entry>
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.CompoundPropositionEditNode) }">
+          <bean parent="CompoundPropositionEditNodePrototype"/>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="RuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <property name="labelPrototype">
+      <bean parent="Uif-Message"/>
+    </property>
+    <property name="dataGroupPrototype">
+      <bean parent="Uif-HorizontalBoxGroup" p:style="float: right;"
+            p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+        <property name="items">
+          <list>
+            <bean parent="Uif-ActionImage"
+                  p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleEditorView-TreeGroup');">
+              <property name="actionImage">
+                <bean parent="Uif-Image" p:source="../krms/images/edit.png"
+                      p:altText="Edit" p:cssClasses="actionReveal"/>
+              </property>
+            </bean>
+            <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                  p:showLabel="false" p:label="id" p:maxLength="255">
+              <property name="control">
+                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="SimplePropositionNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <property name="labelPrototype">
+      <bean parent="Uif-Message"/>
+    </property>
+    <property name="dataGroupPrototype">
+      <bean parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                  p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}"
+                  p:showLabel="false" p:label="id" p:maxLength="255">
+              <property name="control">
+                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+              </property>
+            </bean>
+            <bean parent="Uif-DataField" p:propertyName="proposition.parameterDisplayString"
+                  p:showLabel="false" p:label="id" p:cssClasses="parameterDisplayString">
+            </bean>
+
+            <bean parent="selectedNodeQuickActions"/>
+
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="SimplePropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <property name="labelPrototype">
+      <bean parent="Uif-Message"/>
+    </property>
+    <property name="dataGroupPrototype">
+      <bean parent="Uif-VerticalBoxGroup" p:cssClasses="editModeNode">
+        <property name="layoutManager.orientation" value="VERTICAL"/>
+        <property name="items">
+          <list>
+
+            <!-- Hidden ID field -->
+            <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                  p:showLabel="false" p:label="id" p:maxLength="255">
+              <property name="control">
+                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+              </property>
+            </bean>
+
+            <bean parent="Uif-InputField" p:propertyName="proposition.description" p:constraintText="size 100"
+                  p:style="margin-left: 1pt;" p:showLabel="true" p:label="Description" p:labelPlacement="TOP"
+                  p:maxLength="255" p:required="true">
+              <property name="control">
+                <bean parent="Uif-TextControl" p:size="93" p:maxLength="100"
+                      p:watermarkText="Enter a Proposition Description" p:style="margin-left: 12pt;"
+                      p:cssClasses="editDescription"/>
+              </property>
+            </bean>
+
+            <!-- outer div containing the elements of the comparison: term, operator & constant-->
+            <bean parent="Uif-HorizontalBoxGroup">
+              <property name="items">
+                <list>
+
+                  <!-- outer div containing the components of the term: category+term, description+parameter -->
+                  <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                      <list>
+
+                        <!-- category and term -->
+                        <bean parent="Uif-HorizontalFieldGroup">
+                          <property name="items">
+                            <list>
+
+                              <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.categoryId"
+                                    p:style="margin-left: 12pt" p:showLabel="true" p:label="Category"
+                                    p:labelPlacement="TOP" p:maxLength="40">
+                                <property name="control">
+                                  <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+                                </property>
+                                <property name="optionsFinder">
+                                  <bean class="org.kuali.rice.krms.impl.ui.CategoryValuesFinder"/>
+                                </property>
+                              </bean>
+
+                              <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[0].value"
+                                    p:showLabel="true" p:label="Term" p:maxLength="255" p:required="true">
+                                <property name="control">
+                                  <bean parent="Uif-DropdownControl" p:cssClasses="termSelect"/>
+                                </property>
+                                <property name="optionsFinder">
+                                  <bean class="org.kuali.rice.krms.impl.ui.ValidTermsValuesFinder"/>
+                                </property>
+                              </bean>
+
+                            </list>
+                          </property>
+                        </bean>
+
+                        <!-- extra components (progressively rendered) for parameterized terms -->
+                        <bean parent="Uif-VerticalBoxGroup" p:headerText="Term Parameters"
+                              p:progressiveRender="@{#np.proposition.parameters[0].value matches 'parameterized:.*'}"
+                              p:style="border: 1px solid #ccc; padding: .5em; margin: .5em; -moz-border-radius: 10px; -webkit-border-radius: 10px;">
+                          <!--
+                          p:progressiveRender="@{#np.proposition.parameters[0].value matches 'parameterized:.*'}"
+                          p:refreshWhenChangedPropertyNames="#np.proposition.parameters[0].value" >
+                          -->
+                          <property name="items">
+                            <list>
+
+                              <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.newTermDescription"
+                                    p:required="true"
+                                    p:style="margin-left: 12pt" p:showLabel="true" p:label="Name" p:labelPlacement="TOP"
+                                    p:maxLength="40">
+                                <property name="control">
+                                  <bean parent="Uif-TextControl" p:watermarkText="Name of new Term"/>
+                                </property>
+                              </bean>
+
+                              <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                  <list>
+                                    <bean parent="Uif-Message" p:messageText="Parameters:"/>
+
+                                    <!-- Parameters -->
+                                    <bean parent="Uif-RemotableFieldsPlaceholderConfig"
+                                          p:propertyName="proposition.termParameters"
+                                          p:fetchingMethodToCall="retrieveTermParameters" p:cssClasses="uif-labelTop"/>
+                                  </list>
+                                </property>
+                              </bean>
+
+                            </list>
+                          </property>
+                        </bean>
+
+                      </list>
+                    </property>
+                  </bean>
+
+                  <!-- operator -->
+                  <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[2].value"
+                        p:showLabel="true"
+                        p:style="padding-bottom: 0em;padding-top:null 0em;padding-left: 0em;padding-right: 0em;"
+                        p:label="Comparison" p:maxLength="20">
+                    <property name="control">
+                      <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                      <bean class="org.kuali.rice.krms.impl.ui.PropositionOpCodeValuesFinder"/>
+                    </property>
+                  </bean>
+
+                  <!-- user entered value -->
+                  <!-- KULRICE-6728 dont display user entered value if operator is ==null or !=null -->
+                  <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value"
+                        p:showLabel="true" p:label="Value" p:maxLength="255"
+                        p:required="@{#np.proposition.parameters[2].value == null or !( #np.proposition.parameters[2].value matches '(?:=null|!=null)' )}"
+                        p:progressiveRenderAndRefresh="true"
+                        p:refreshWhenChangedPropertyNames="#proposition.parameters[2].value"
+                        p:progressiveRender="@{#np.proposition.parameters[2].value == null or !( #np.proposition.parameters[2].value matches '(?:=null|!=null)' )}">
+                    <property name="control">
+                      <bean parent="Uif-TextControl" p:style="margin-top:null 2px;"
+                            p:watermarkText="Enter a Literal Value"/>
+                    </property>
+                  </bean>
+
+                  <bean parent="selectedNodeQuickActions"/>
+
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="selectedNodeQuickActions" parent="Uif-HorizontalFieldGroup" p:cssClasses="actionReveal"
+        p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}"
+          >
+    <property name="items">
+      <list>
+        <bean parent="Uif-ActionImage"
+              p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleEditorView-TreeGroup'); ">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../krms/images/edit.png"
+                  p:altText="Edit"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-ActionImage"
+              p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound', 'RuleEditorView-TreeGroup');">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
+                  p:altText="Add Parent"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+  <bean id="CompoundOpCodeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <property name="labelPrototype">
+      <bean parent="Uif-Message"/>
+    </property>
+    <property name="dataGroupPrototype">
+      <bean parent="Uif-HorizontalBoxGroup" p:style="padding-bottom: 10pt;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-InputField" p:propertyName="proposition.compoundOpCode"
+                  p:style="margin-left: 12pt;" p:showLabel="false" p:label="operator" p:maxLength="20">
+              <property name="control">
+                <bean parent="Uif-DropdownControl"/>
+              </property>
+              <property name="optionsFinder">
+                <bean class="org.kuali.rice.krms.impl.ui.CompoundOpCodeValuesFinder"/>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="CompoundPropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <property name="labelPrototype">
+      <bean parent="Uif-Message"/>
+    </property>
+    <property name="dataGroupPrototype">
+      <bean parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                  p:showLabel="false" p:label="id" p:maxLength="255">
+              <property name="control">
+                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+              </property>
+            </bean>
+            <bean parent="Uif-InputField" p:propertyName="proposition.description" p:constraintText="size 100"
+                  p:showLabel="false" p:label="description" p:maxLength="255" p:style="margin-left: 12pt">
+              <property name="control">
+                <bean parent="Uif-TextControl" p:size="100" p:maxLength="100"
+                      p:watermarkText="Enter a Compound Proposition Description"
+                      p:cssClasses="editDescription"/>
+              </property>
+            </bean>
+
+            <bean parent="Uif-ActionImage"
+                  p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleEditorView-Tree');">
+              <property name="actionImage">
+                <bean parent="Uif-Image" p:source="../krms/images/edit.png"
+                      p:altText="Edit" p:cssClasses="actionReveal"/>
+              </property>
+            </bean>
+
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean name="ruleAttributesSection" parent="ruleAttributesSection-parent"/>
+  <bean name="ruleAttributesSection-parent" parent="Uif-VerticalBoxSection">
+
+    <!-- TODO: temporarily disabling attribute group rendering: -->
+    <property name="render">
+      <value>false</value>
+    </property>
+
+    <property name="headerText" value="Rule Attributes"/>
+    <property name="disclosure.render" value="true"/>
+    <property name="disclosure.defaultOpen" value="false"/>
+    <property name="items">
+      <list>
+        <bean name="ruleAttributeTable" parent="Uif-TableCollectionSection"
+              p:layoutManager.numberOfColumns="2">
+          <property name="headerText" value="Rule Attributes"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krms.impl.repository.RuleAttributeBo"/>
+          <property name="propertyName" value="agendaItemLine.rule.attributeBos"/>
+          <property name="renderAddLine" value="false"/>
+          <property name="renderLineActions" value="false"/>
+          <property name="disclosure.render" value="false"/>
+          <property name="header.render" value="false"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.useShortLabels" value="true"/>
+          <property name="layoutManager.repeatHeader" value="false"/>
+          <property name="layoutManager.applyAlternatingRowStyles" value="true"/>
+          <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+          <property name="layoutManager.richTable.disableTableSort" value="true"/>
+          <property name="layoutManager.richTable">
+            <ref bean="Uif-ScrollableRichTable"/>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.attributeDefinition.name"
+                    p:readOnly="true">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="20" p:readOnly="true" p:style="border: 0"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.value"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean name="ruleActionsSection" parent="ruleActionsSection-parent"/>
+  <bean name="ruleActionsSection-parent" parent="Uif-Disclosure-VerticalBoxSection" p:style="width: 500;border: 1">
+    <property name="headerText" value="Action"/>
+    <property name="renderHeader" value="true"/>
+    <property name="disclosure.render" value="true"/>
+    <property name="disclosure.defaultOpen" value="true"/>
+    <property name="items">
+      <list>
+        <!-- Enable the ruleActionTable and disable/remove firstRuleAction to support multiple actions -->
+        <!--<bean parent="ruleActionTable"/>-->
+        <bean parent="firstRuleAction"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean name="ruleActionTable" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
+    <property name="header.render" value="false"/>
+    <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.repository.ActionBo"/>
+    <property name="propertyName" value="agendaItemLine.rule.actions"/>
+    <property name="layoutManager.sequencePropertyName" value="sequenceNumber"/>
+    <property name="layoutManager.generateAutoSequence" value ="false"/>
+    <property name="layoutManager.sequenceFieldPrototype">
+      <bean parent="Uif-InputField" p:propertyName="sequenceNumber" p:readOnly="true"/>
+    </property>
+    <!--<property name="layoutManager.renderSequenceField" value="false"/> // if you want to hide the sequence number in the table-->
+    <property name="layoutManager.richTable.render" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="name" p:label="Name" p:required="true" p:constraintText="size 40">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="40" p:maxLength="40" p:watermarkText="Enter a Action Name"
+                  p:cssClasses="countdown"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="typeId" p:label="Type" p:required="true">
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="org.kuali.rice.krms.impl.repository.ActionTypeValuesFinder"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="description" p:label="Description" p:required="false"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean name="firstRuleAction" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"
+        p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.agendaItemLineRuleAction.typeId">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLineRuleAction.typeId" p:label="Type"
+              p:required="false">
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="org.kuali.rice.krms.impl.repository.ActionTypeValuesFinder"/>
+          </property>
+        </bean>
+        <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customRuleActionAttributesMap"
+              p:fetchingMethodToCall="retrieveRuleActionCustomAttributes"/>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLineRuleAction.name" p:label="Name" p:required="true"
+              p:constraintText="size 40"
+              p:render="@{#dp.agendaItemLineRuleAction.typeId != ''}">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="40" p:maxLength="40" p:watermarkText="Enter a Action Name"
+                  p:cssClasses="countdown"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="agendaItemLineRuleAction.description" p:label="Description"
+              p:required="false"
+              p:render="@{#dp.agendaItemLineRuleAction.typeId != ''}" p:constraintText="size 4000">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="40" p:maxLength="4000" p:watermarkText="Enter a Action Description"
+                  p:cssClasses="countdown"/>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+</beans>

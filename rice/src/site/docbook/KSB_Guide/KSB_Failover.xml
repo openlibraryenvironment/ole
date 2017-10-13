@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_Failover" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Failover</title>
+    
+    <section>
+        <title>Service call failover</title>
+        
+        <para>Failover works the same whether making direct service calls or
+            using messaging.</para>
+        
+        <para>Services exported to the bus have automatic failover from the
+            client's perspective. For example, if service A is deployed on machines
+            1 and 2 and a client happens to get a proxy that points to machine 1 but
+            machine 1 crashes, the KSB will automatically detect that the exception
+            is a result of some network issue and direct the call to machine 2. KSB
+            then removes machine 1 from the registry so new clients to the bus don't
+            try to acquire the service. When machine 1 returns to the network it
+            will register itself with the service registry and therefore the
+            bus.</para>
+        
+        <para>When a message calls a service, the failover rules determine which
+            service KSB assigns (topic or queue) to the message.</para>
+    </section>
+    
+    <section>
+        <title>Failover with queues</title>
+        
+        <para>Because queues require only one call between all beans bound to
+            the queue, if a single call to a queue fails, failover to the next bean
+            occurs. If successful, the call is done. If it is not successful, it
+            continues until a suitable bean is found. If none is found, the message
+            is marked for retry later. Eventually, the message either goes to KSB
+            exception messaging or successfully completes.</para>
+    </section>
+    
+    <section>
+        <title>Failover with topics</title>
+        
+        <para>If a machine in a topic is unavailable, a failed call to that
+            machine will continue to be retried until that call is successful or
+            that call goes into KSB exception messaging.</para>
+    </section>
+</chapter>

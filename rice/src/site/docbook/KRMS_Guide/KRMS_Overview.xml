@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KRMS_Overview" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <title>Kuali Rule Management System: Overview</title>
+    <section>
+        <title>What is a Rule Management System, in general?</title>
+        <para>Wikipedia defines a business rule management system, in general, as follows: "a
+            <link xlink:href="http://en.wikipedia.org/wiki/Computer_software">software</link> system used to define, deploy, execute, monitor and maintain
+            the variety and complexity of decision logic that is used by operational systems
+            within an organization or enterprise. This logic, also referred to as <link xlink:href="http://en.wikipedia.org/wiki/Business_rule">business rules</link>,
+            includes policies, requirements, and conditional statements that are used to
+            determine the tactical actions that take place in applications and systems." </para>
+        <para>A key aspect of a rules management system is that it enables rules to be defined
+            and maintained separately from application code. This modularity has the potential
+            to reduce application maintenance costs, enable increased automation and application
+            flexibility, and to enable business analysts and business process experts who are
+            not developers and who reside outside of the IT organizations in the business
+            departments themselves, to be more directly involved in creating and managing their
+            rules. </para>
+        <para>A rules management system in general includes a repository of decision logic and a
+            rules engine that can be executed by applications in a run-time environment. Again
+            from wikipedia: "... provides the ability to: register, define, classify, and manage
+            all the rules, verify consistency of rules definitions ("Gold-level customers are
+            eligible for free shipping when order quantity &gt; 10" and "maximum order quantity
+            for Silver-level customers = 15" ), define the relationships between different
+            rules, and relate some of these rules to IT applications that are affected or need
+            to enforce one or more of the rules."</para>
+    </section>
+    <section>
+        <title>What is KRMS?</title>
+        <para>Kuali's Rule Management System (KRMS)
+            supports the creation, maintenance, storage and retrieval of business rules and
+            agendas (ordered sets of business rules) within business contexts (e.g., for a
+            particular department or for a particular university-wide process). It allows
+            applications to externalize business logic that commonly needs customization, and
+            empowers business analysts to modify them to reflect changes in policy. </para>
+        <para>KRMS enables you to define a set of
+            rules within a particular business unit or for a particular set of applications.
+            These business rules define logical conditions and the set of actions that result
+            when those conditions are met. KRMS enables you to call and use this logic from any
+            application, without having to re-write and manage all the rules' maintenance logic
+            within the application. </para>
+        <para>Integration with organizational hierarchies and structures can be accomplished
+            today using KEW for routing and approval, and KEW also has a legacy rule system of
+            its own that can be used to make routing decisions.  But before KRMS, managing
+            general customizable business logic such as "if the transaction date is in the
+            future OR the transaction date is less than the account activation date then flag
+            the transaction for review" was the responsibility of the applications themselves.
+            KRMS now offers a way to manage this type of logic externally in a repository that
+            allows for business analysts to change it without having to modify application
+            code.</para>
+        <para>Because KRMS is a general-purpose business rules management system, you can use it
+            for many things, for example, you can define a rule to specify that when an account
+            is closed, a continuation account must be specified. You can also define rules to
+            manage your organizational hierarchies and internal structures. You can define
+            compound propositional logic, for example, "Must meet": <itemizedlist>
+                <listitem>
+                    <para>P1 - 12 credits of FirstYearScience (CLU set)</para>
+                    <para> AND</para>
+                </listitem>
+                <listitem>
+                    <para>P2 - Completed CALC101 with grade &gt;= B+</para>
+                    <para> AND</para>
+                </listitem>
+                <listitem>
+                    <para>p3 - Average of B+ on last 12 credits</para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+    <section>
+        <title>What problems or functions does KRMS solve?</title>
+        <para/>
+        <para>KRMS gives business applications a powerful tool to externalize logic in places
+            where customization will often be needed.  This lowers the costs of adopting and
+            administering the application by reducing the need for changes to the software
+            itself, and allows the application to more fluidly reflect the institution's desired
+            business processes.  </para>
+        <para>There are a wide variety of actions that KRMS rules can be used to govern:</para>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Workflow Action rules  -  e.g. route an approval request</para>
+                </listitem>
+                <listitem>
+                    <para>Notification rules  -  e.g. send a notification to these people</para>
+                </listitem>
+                <listitem>
+                    <para>Validation rules  -  e.g. display this validation error message</para>
+                </listitem>
+                <listitem>
+                    <para>Questionnaire rules  -  e.g. administer this questionaire</para>
+                </listitem>
+                <listitem>
+                    <para>Custom-developed actions</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>For example, calling a KRMS set of rules (an agenda) from your application can
+            result in routing a document to a PeopleFlow*, which is a new feature in KEW in Rice
+            2.0, or to any other action you define in KRMS. </para>
+        <para>* Essentially, it's like a mini people-based workflow that doesn't require you to
+            specify a KEW node in the document type for each role, group or individual who might
+            need to approve or be notified.</para>
+        <para> </para>
+    </section>
+    <section>
+        <title>What problems does KRMS not address?</title>
+        <para>Some rule engines are built upon special algorithms that allow for <link
+            xlink:href="http://en.wikipedia.org/wiki/Forward_chaining">forward</link> or
+            <link xlink:href="http://en.wikipedia.org/wiki/Backward_chaining">backward
+                chaining</link> (one example is <link
+                    xlink:href="http://en.wikipedia.org/wiki/Rete_algorithm">Rete</link>) that make
+            them suitable for efficiently evaluating highly complex systems of what are known as
+            production rules. The default engine implementation for KRMS is not designed upon
+            such an algorithm, and it does not support either forward or backward
+            chaining.</para>
+        
+    </section>
+    <section>
+        <title>With which types of applications can KRMS integrate?</title>
+        <para>Any Rice-based application can use KRMS.  </para>
+    </section>
+    <section>
+        <title>Can I use KRMS without building a Rice application?</title>
+        <para>The project has aspirations to increase Rice's modularity, and some strides have
+            been made, but at the time of this writing the answer is no.</para>
+        
+    </section>
+    <section>
+        <title>When to use KRMS?</title>
+        <para>A big question is, when should you use KRMS rules verses logic directly coded in an application or document? This question can be answered by careful consideration of questions like these:
+        <itemizedlist>
+            <listitem><para>How often the rule is likely to change</para></listitem>
+            <listitem><para>How tightly coupled the rule is to the organization's unchanging policies</para></listitem>
+            <listitem><para>The complexity of the rule</para></listitem>
+            <listitem><para>The flexibility of the rule</para></listitem>
+            <listitem><para>How the rule relates to other rules</para></listitem>
+        </itemizedlist>
+        </para>
+    </section>
+</chapter>

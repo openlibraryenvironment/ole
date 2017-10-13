@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="UG_LOCATION" xmlns="http://docbook.org/ns/docbook" version="5.0">
+  <title>Location</title>
+
+  <section>
+    <title>Location Overview</title>
+
+    <para>The Location module contains common "location" based options that
+    can be used with Rice and other client applications. This currently
+    includes screens and services for Campus, Country, State, County, and
+    Postal Code.</para>
+
+    <section>
+      <title>Campus</title>
+
+      <section>
+        <title>Campus Lookup</title>
+
+        <para>The Campus Lookup screen provides detailed information about the
+        campuses defined in your system.</para>
+
+        <figure>
+          <title>Identity Channel: Campus Link</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/select_campus.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>To get to the Campus Lookup function, click <emphasis
+        role="bold">Campus</emphasis> on the Rice <emphasis
+        role="bold">Administration Menu</emphasis>.</para>
+
+        <para>This takes you to the <emphasis role="bold">Campus
+        Lookup</emphasis> screen where you have the option to create a new
+        Campus by clicking the <emphasis role="bold">create new</emphasis>
+        button in the upper right corner under the Login box or to perform a
+        search of campuses already defined in Rice. If you choose to create a
+        new Campus, KIM displays the <emphasis
+        role="bold">CampusMaintenanceDocument</emphasis>, which is discussed
+        in the <emphasis role="bold">Campus Maintenance</emphasis> section
+        below.</para>
+
+        <figure>
+          <title>Campus Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Another way to get to the <emphasis role="bold">Campus
+        Lookup</emphasis> screen is to click the Field Lookup button next to
+        the <emphasis role="bold">Campus Code</emphasis> field on any screen
+        where it appears. If you do this, you see the Campus Lookup screen
+        without the <emphasis role="bold">create new</emphasis> button.</para>
+
+        <para>Enter information in one or more of the fields on the Campus
+        Lookup screen and then click the <emphasis
+        role="bold">search</emphasis> button to see a list of Campuses that
+        fit your search.</para>
+
+        <note>
+          <para>Leave all of the search fields blank to get a list of all
+          Campuses.</para>
+        </note>
+
+        <para>If you did NOT begin your Campus Lookup from the <emphasis
+        role="bold">Administration</emphasis> menu, your list of search
+        results looks like this:</para>
+
+        <figure>
+          <title>Campus Lookup: Results Example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_lookup_results.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>If you did begin your search from the <emphasis
+        role="bold">Administration</emphasis> menu, you see <emphasis
+        role="bold">edit</emphasis> and <emphasis role="bold">copy</emphasis>
+        as links for each Campus instead of <emphasis role="bold">return
+        value</emphasis>. These options are explained in the <emphasis
+        role="bold">Campus Maintenance</emphasis> section below.</para>
+
+        <para>Click one of the underlined column titles on the search results
+        list to sort the list by that column. Click it again to sort the list
+        in the opposite order.</para>
+
+        <para>You can also export the search results list in CSV, spreadsheet,
+        or XML format. Click the appropriate link at the bottom of the search
+        results list to do this.</para>
+
+        <para>If you did NOT begin your Campus Lookup from the <emphasis
+        role="bold">Administration</emphasis> menu, the <emphasis
+        role="bold">Return Value</emphasis> column has a <emphasis
+        role="bold">return value</emphasis> link for each campus. Click this
+        return value link for the Campus Code for which you need information
+        and Rice goes back to the screen you were on before and automatically
+        enters the information about that campus on the screen for you.</para>
+
+        <para>You can find information about the fields on this screen under
+        Edit Campus Tab in the Campus Maintenance section of this User
+        Guide.</para>
+      </section>
+
+      <section>
+        <title>Campus Inquiry</title>
+
+        <para>Display this screen by clicking <emphasis role="bold">Campus
+        Code</emphasis> in the search results list after you do a <emphasis
+        role="bold">Campus Lookup</emphasis>:</para>
+
+        <figure>
+          <title>Campus Inquiry</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_inquiry.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>You can find information about the fields on this screen in the
+        <emphasis role="bold">Edit Campus Tab</emphasis> section under
+        <emphasis role="bold">Campus Maintenance</emphasis>, below.</para>
+      </section>
+
+      <section>
+        <title>Campus Maintenance</title>
+
+        <para>Use a <emphasis role="bold">Campus</emphasis> document for each
+        of the different fiscal and physical operating entities of an
+        institution. A campus may be identified as a fiscal entity, a physical
+        entity, or both.</para>
+
+        <section>
+          <title>To create a new Campus</title>
+
+          <para>Click <emphasis role="bold">Campus</emphasis> on the Rice
+          <emphasis role="bold">Administration</emphasis> menu for KIM to
+          display the <emphasis role="bold">Campus Lookup</emphasis> screen,
+          then click the <emphasis role="bold">create new</emphasis> button.
+          KIM displays the <emphasis
+          role="bold">CampusMaintenanceDocument</emphasis>.</para>
+
+          <figure>
+            <title>Campus Maintenance Document</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/CampusMaintenanceDocument.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The fields on this document are described in the <emphasis
+          role="bold">Document Layout</emphasis> section below. Enter
+          information in all required fields and other fields appropriate to
+          this campus, then click the <emphasis role="bold">save</emphasis>
+          button to create your new Campus.</para>
+        </section>
+
+        <section>
+          <title>To edit Campus information</title>
+
+          <para>If you want to edit information about an existing Campus:
+          <orderedlist>
+              <listitem>
+                <para>Begin at the Administration menu and do a Campus Lookup
+                to find the campus you need to edit.</para>
+              </listitem>
+
+              <listitem>
+                <para>On the list of search results, click edit for that
+                Campus.</para>
+              </listitem>
+
+              <listitem>
+                <para>KIM displays the CampusMaintenanceDocument for that
+                campus:</para>
+
+                <figure>
+                  <title>Campus Maintenane Document: Expanded</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="../images/CampusMaintenanceDocument2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
+
+              <listitem>
+                <para>Change the information in the fields that you need to
+                edit, then click the save button at the bottom of the
+                document.</para>
+              </listitem>
+            </orderedlist></para>
+        </section>
+
+        <section>
+          <title>Document Layout</title>
+
+          <para>The Campus Maintenance Document has five sections:
+          <itemizedlist>
+              <listitem>
+                <para>Document Overview</para>
+              </listitem>
+
+              <listitem>
+                <para>Edit Campus</para>
+              </listitem>
+
+              <listitem>
+                <para>Notes and Attachments</para>
+              </listitem>
+
+              <listitem>
+                <para>Ad Hoc Recipients</para>
+              </listitem>
+
+              <listitem>
+                <para>Route Log</para>
+              </listitem>
+            </itemizedlist></para>
+
+          <para>You can find documentation on all of the tabs in this document
+          except <emphasis role="bold">Edit Campus</emphasis> in the Common
+          Features and Functions section of the <emphasis role="bold">User
+          Guide</emphasis>.</para>
+        </section>
+
+        <section>
+          <title>Edit Campus Tab</title>
+
+          <figure>
+            <title>Campus Maintenance Document: Edit Campus Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/edit_campus.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>In edit mode, the <emphasis role="bold">Edit Campus
+          Tab</emphasis> presents a display-only set of fields on the left and
+          editable fields on the right in which you may enter changes. When
+          this tab is displayed in the <emphasis role="bold">Create
+          New</emphasis> process, only the editable fields are
+          displayed.</para>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Campus Maintenance Document: Edit Campus
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Campus Code</entry>
+
+                    <entry>The unique identifying code assigned to a
+                    campus.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Campus Name</entry>
+
+                    <entry>Required. The familiar name for a specific
+                    university campus.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Campus Short Name</entry>
+
+                    <entry>Required. An abbreviated name for a specific
+                    campus; used in reports in which space is limited.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Campus Type Code</entry>
+
+                    <entry><para>Required. Indicates the type of campus. Valid
+                    values are:</para> <itemizedlist>
+                        <listitem>
+                          <para>B - Both</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>F - Fiscal</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>P - Physical</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+
+      <section>
+        <title>Campus Type Lookup</title>
+
+        <para>The <emphasis role="bold">Campus Type</emphasis> Lookup function
+        displays detailed information about specific <emphasis
+        role="bold">Campus Type Codes</emphasis>.</para>
+
+        <para>To display this screen:<orderedlist>
+            <listitem>
+              <para>Go to the Campus Lookup screen.</para>
+            </listitem>
+
+            <listitem>
+              <para>Select a valid Campus Type Code from the dropdown
+              list.</para>
+            </listitem>
+
+            <listitem>
+              <para>Click the Field Lookup button next to the Campus Type Code
+              field.</para>
+            </listitem>
+          </orderedlist></para>
+
+        <figure>
+          <title>Campus Type Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_type_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>There are two ways to search for information using this
+        screen:<itemizedlist>
+            <listitem>
+              <para>Enter information in one or more fields on the <emphasis
+              role="bold">Campus Type Lookup</emphasis> screen and then click
+              the <emphasis role="bold">Search</emphasis> button. This
+              displays a list of campus types that match the information you
+              entered, similar to the list in the screen print just
+              below.</para>
+            </listitem>
+
+            <listitem>
+              <para>Leave the fields on the Campus Type Lookup screen blank
+              and click the Search button. This displays a list of all
+              available campus types, similar to this:</para>
+
+              <figure>
+                <title>Campus Type Lookup: Results Example</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="../images/campus_type_lookup_results.png" width="100%" scalefit="1"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>You can export the search results list in CSV, spreadsheet, or
+        XML format. Click the appropriate link at the bottom of the search
+        results list to do this.</para>
+
+        <para>The <emphasis role="bold">Return Value</emphasis> column has a
+        <emphasis role="bold">return value</emphasis> link for each Campus
+        Type Code. Click this return value link for the <emphasis
+        role="bold">Campus Type Code </emphasis>you need, and Kuali goes back
+        to the screen you were on before and automatically enters the
+        information about that Campus Type Code on the screen for you.</para>
+
+        <para>Field information on this screen can be found in the <emphasis
+        role="bold">Edit Campus Tab</emphasis> section above.</para>
+      </section>
+
+      <section>
+        <title>Campus Type Inquiry</title>
+
+        <para>Use the <emphasis role="bold">Campus Type Inquiry</emphasis>
+        screen to see the Campus Type Code and Name and the Active Indicator
+        for a particular campus.</para>
+
+        <para>To display this screen:<orderedlist>
+            <listitem>
+              <para>Go to the Campus Lookup screen.</para>
+            </listitem>
+
+            <listitem>
+              <para>Select a valid Campus Type Code from the dropdown
+              list.</para>
+            </listitem>
+
+            <listitem>
+              <para>Click the Inquiry button next to the Campus Type Code
+              field.</para>
+            </listitem>
+          </orderedlist></para>
+
+        <figure>
+          <title>Campus Type Inquiry</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_type_inquiry.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Field information on this screen can be found in the <emphasis
+        role="bold">Edit Campus Tab</emphasis> section above.</para>
+      </section>
+
+      <section>
+        <title>Campus Type Maintenance</title>
+
+        <figure>
+          <title>Identity Channel: Campus Type Link</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_type_maintenance.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>To create or perform maintenance on a Campus Type, click
+        <emphasis role="bold">Campus Type</emphasis> on the <emphasis
+        role="bold">Administration Menu</emphasis>.</para>
+
+        <figure>
+          <title>Campus Type Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/campus_type_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>From the <emphasis role="bold">Campus Type Lookup</emphasis>
+        screen, you may either create a new <emphasis role="bold">Campus
+        Type</emphasis> or search for an existing one.</para>
+
+        <note>
+          <para>If you don't have a <emphasis role="bold">create
+          new</emphasis> button in the top right corner of the <emphasis
+          role="bold">Campus Type Lookup</emphasis> screen, you did not open
+          the screen from the <emphasis role="bold">Administration</emphasis>
+          menu.</para>
+        </note>
+
+        <para>When you search for and find an existing Campus Type (see
+        instructions above), you have the option to edit or copy it. After you
+        click the <emphasis role="bold">create new</emphasis>, <emphasis
+        role="bold">edit</emphasis>, or <emphasis role="bold">copy</emphasis>
+        button, KIM displays the <emphasis role="bold">Campus Type
+        Maintenance</emphasis> document. This document lets you add and update
+        Campus Types.</para>
+
+        <figure>
+          <title>Campus Maintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/CampusMaintenanceDocument.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>Document Layout</title>
+
+          <para>The <emphasis role="bold">CampusTypeMaintenance</emphasis>
+          document contains four standard tabs and the <emphasis
+          role="bold">Edit Campus Type</emphasis> tab. The standard tabs are
+          documented in the Common Features and Functions section of this User
+          Guide. The Edit Campus Type tab is described below.</para>
+
+          <figure>
+            <title>Campus Maintenance Document: Overview Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/campus_maintenance_overview.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
+
+        <section>
+          <title>Edit Campus Type Tab</title>
+
+          <para>The Edit Campus Type tab displays the fields that are unique
+          to each Campus Type.</para>
+
+          <figure>
+            <title>Campus Maintenance Document: Edit Campus Type Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/edit_campus_type.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Campus Maintenance Document: Edit Campus Type
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Campus Type Code</entry>
+
+                    <entry><para>Required. The code used by Rice to identify
+                    this type of Campus. Valid values are:</para>
+                    <itemizedlist>
+                        <listitem>
+                          <para>B - Both</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>F - Fiscal</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>P - Physical</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+
+                  <row>
+                    <entry>Campus Type Name</entry>
+
+                    <entry>Required. The descriptive name for this Campus
+                    Type</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Required. Indicates whether the Campus Code is
+                    active or inactive. Remove the checkmark to deactivate a
+                    Campus Type. Removing the checkmark will also remove this
+                    Campus Type from the dropdown list on Campus
+                    documents.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>Postal Code</title>
+
+      <section>
+        <title>Postal Code Lookup</title>
+
+        <para>The Postal Code Lookup screen provides detailed information
+        about the postal codes (zip codes) defined in KIM.</para>
+
+        <para>You access the <emphasis role="bold">Postal Code
+        Lookup</emphasis> screen by clicking <emphasis role="bold">Postal
+        Code</emphasis> in the <emphasis role="bold">Identity</emphasis>
+        section of the <emphasis role="bold">Administration</emphasis>
+        menu.</para>
+
+        <figure>
+          <title>Identity Channel: Postal Code Link</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/postal_code.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <figure>
+          <title>Postal Code Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/postal_code_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>A search produces a list similar to the example below.</para>
+
+        <figure>
+          <title>Postal Code Lookup: Results Example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/postal_code_lookup_results.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <note>
+          <para>You may also enter a city and state to search for the
+          associated zip code(s).</para>
+        </note>
+
+        <para>Descriptions of the fields in this list can be found in the
+        Postal Code Maintenance section below.</para>
+
+        <para>Clicking <emphasis role="bold">edit</emphasis> takes you to the
+        <emphasis role="bold">Postal Code Maintenance</emphasis>
+        screen.</para>
+
+        <para>Clicking <emphasis role="bold">copy</emphasis> also takes you to
+        the <emphasis role="bold">Postal Code Maintenance</emphasis> screen
+        and populates some of the fields in the <emphasis role="bold">Edit
+        Postal Codes</emphasis> tab with information from the item you
+        copied.</para>
+
+        <para>Clicking a <emphasis role="bold">Country Code</emphasis> from
+        the list takes you to the <emphasis role="bold">Country Code
+        Inquiry</emphasis> screen.</para>
+
+        <para>Clicking a <emphasis role="bold">Postal Code</emphasis> from the
+        list takes you to the <emphasis role="bold">Postal Code
+        Inquiry</emphasis> screen.</para>
+
+        <para>Clicking a <emphasis role="bold">State Code</emphasis> from the
+        list takes you to the <emphasis role="bold">State Code
+        Inquiry</emphasis> screen.</para>
+      </section>
+
+      <section>
+        <title>Postal Code Inquiry</title>
+
+        <figure>
+          <title>Postal Code Inquiry</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/postal_code_inquiry.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Information about these fields can be found in the Postal Code
+        Maintenance section below.</para>
+      </section>
+
+      <section>
+        <title>Postal Code Maintenance</title>
+
+        <para>The <emphasis role="bold">Postal Code Maintenance
+        Document</emphasis> defines the postal (zip) code by city and state.
+        When you click the Postal Code option on the Administration screen,
+        KIM displays the <emphasis role="bold">Postal Code Lookup</emphasis>
+        screen. At this point you can perform a lookup and select a postal
+        code to edit or click the <emphasis role="bold">create new</emphasis>
+        button, KIM displays the <emphasis
+        role="bold">PostalCodeMaintenanceDocument</emphasis> screen.</para>
+
+        <figure>
+          <title>Postal Code Manintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/PostalCodeMaintenanceDocument.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>To create a new Postal Code, enter information in the required
+        fields in the <emphasis role="bold">Document Overview</emphasis> and
+        <emphasis role="bold">Edit Postal Codes</emphasis> tabs, then click
+        the <emphasis role="bold">submit</emphasis> button at the bottom of
+        the screen.</para>
+
+        <section>
+          <title>Document Layout</title>
+
+          <para>All of the tabs on this screen are standard, except the
+          <emphasis role="bold">Edit Postal Codes</emphasis> tab. You can find
+          information on standard tabs in the Common Features and Functions
+          section of this <emphasis role="bold">User Guide</emphasis>.</para>
+        </section>
+
+        <section>
+          <title>Edit Postal Codes tab</title>
+
+          <para>In edit mode, the <emphasis role="bold">Edit Postal
+          Codes</emphasis> tab presents a display-only set of fields on the
+          left and editable fields on the right, in which you may enter
+          changes. The tab looks like this:</para>
+
+          <figure>
+            <title>Postal Code Manintenance Document: Edit Postal Codes
+            Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/edit_postal_codes.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>In create mode, the <emphasis role="bold">Edit Postal
+          Codes</emphasis> tab presents only a set of fields in which you may
+          enter information.</para>
+
+          <figure>
+            <title>Postal Code Manintenance Document: Create Postal
+            Codes</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/create_postal_code.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Postal Code Maintenance Document: Create Postal Codes
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Country Code</entry>
+
+                    <entry>The country code for the country associated with
+                    the zip (postal) code</entry>
+                  </row>
+
+                  <row>
+                    <entry>Postal Code</entry>
+
+                    <entry>A Postal Service zip code</entry>
+                  </row>
+
+                  <row>
+                    <entry>State</entry>
+
+                    <entry>Required. The state associated with the postal
+                    (zip) code</entry>
+                  </row>
+
+                  <row>
+                    <entry>County Code</entry>
+
+                    <entry>The KIM identifying code for the county associated
+                    with the postal (zip) code</entry>
+                  </row>
+
+                  <row>
+                    <entry>City Name</entry>
+
+                    <entry>Required. The name of the city associated with the
+                    postal (zip) code</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Indicates whether the postal code is active or
+                    inactive. Remove the checkmark to deactivate this postal
+                    code.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>County</title>
+
+      <section>
+        <title>County Lookup</title>
+
+        <para>The <emphasis role="bold">County Lookup</emphasis> screen
+        provides information on counties defined in KIM.</para>
+
+        <para>Access the <emphasis role="bold">County Code Lookup</emphasis>
+        screen by clicking <emphasis role="bold">County</emphasis> in the
+        <emphasis role="bold">Identity</emphasis> section of the <emphasis
+        role="bold">Administration</emphasis> Menu.</para>
+
+        <figure>
+          <title>Identity Channel: County</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/county.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <figure>
+          <title>County Code Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/county_code_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Click the <emphasis role="bold">create new</emphasis> button to
+        go to the <emphasis role="bold">County Maintenance</emphasis>
+        function, where you can create a new County in Rice.</para>
+
+        <para>Conducting a search from this screen returns a list similar to
+        this:</para>
+
+        <figure>
+          <title>County Code Lookup: Results Example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/county_code_lookup_results.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Clicking the <emphasis role="bold">edit</emphasis> or <emphasis
+        role="bold">copy</emphasis> link in the Action column allows you to
+        edit the county information you selected or to create a new county in
+        Rice, beginning with a copy of the information from this county. This
+        link takes you to the <emphasis role="bold">County Maintenance
+        Document</emphasis>.</para>
+
+        <para>Clicking a <emphasis role="bold">Country Code</emphasis> takes
+        you to the <emphasis role="bold">Country Inquiry</emphasis> function
+        for that code.</para>
+
+        <para>Clicking a <emphasis role="bold">County Code</emphasis> takes
+        you to the <emphasis role="bold">County Inquiry</emphasis> function
+        for that code.</para>
+
+        <para>Clicking a <emphasis role="bold">State</emphasis> code takes you
+        to the <emphasis role="bold">State Inquiry</emphasis> function for
+        that code.</para>
+      </section>
+
+      <section>
+        <title>County Inquiry</title>
+
+        <para>This screen provides a snapshot of the important information
+        about a <emphasis role="bold">County</emphasis>:</para>
+
+        <figure>
+          <title>County Inquiry</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/county_inquiry.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>You can find information about the fields on this screen in the
+        <emphasis role="bold">County Maintenance</emphasis> section
+        below.</para>
+      </section>
+
+      <section>
+        <title>County Maintenance</title>
+
+        <para>Use the <emphasis role="bold">County Maintenance</emphasis>
+        document to assign specific identifying codes to county names. When
+        you click the County option on the Administration screen, KIM displays
+        the <emphasis role="bold">County Lookup</emphasis> screen. After you
+        select to edit a county or click the <emphasis role="bold">create
+        new</emphasis> button, KIM displays the <emphasis
+        role="bold">CountyMaintenanceDocument</emphasis> screen:</para>
+
+        <figure>
+          <title>County Maintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/CountyMaintenanceDocument.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>To create a new County, enter valid information in the required
+        fields in the<emphasis role="bold"> Document Overview</emphasis> and
+        <emphasis role="bold">Edit Counties</emphasis> tabs, then click the
+        <emphasis role="bold">Submit</emphasis> button at the bottom of the
+        screen.</para>
+
+        <section>
+          <title>Document Layout</title>
+
+          <para>All of the tabs on this screen are standard, except the
+          <emphasis role="bold">Edit Counties</emphasis> tab. Information on
+          standard tabs can be found in the Common Features and Functions
+          section of this User Guide.</para>
+        </section>
+
+        <section>
+          <title>Edit Counties Tab</title>
+
+          <para>In edit mode, the <emphasis role="bold">Edit
+          Counties</emphasis> tab presents a display-only set of fields on the
+          left and editable fields on the right, in which you may enter
+          changes. The tab looks like this:</para>
+
+          <figure>
+            <title>County Mainteance Document: Edit Counties Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/edit_counties.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>In create mode, the <emphasis role="bold">Edit
+          Counties</emphasis> tab presents only a set of fields in which you
+          may enter information.</para>
+
+          <figure>
+            <title>County Maintenance Document: Create County</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/create_county.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>County Maintenance Document: Create County
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Country Code</entry>
+
+                    <entry>Required. The country code for the country in which
+                    this county is located.</entry>
+                  </row>
+
+                  <row>
+                    <entry>County Code</entry>
+
+                    <entry>Required. A unique identifying code assigned to
+                    this county.</entry>
+                  </row>
+
+                  <row>
+                    <entry>State</entry>
+
+                    <entry>Required. The state abbreviation assigned by the
+                    U.S. Postal Service to the state in which this county is
+                    located.</entry>
+                  </row>
+
+                  <row>
+                    <entry>County Name</entry>
+
+                    <entry>Required. The actual name of this county.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Optional. Indicates whether the county code is
+                    <emphasis role="italic">active</emphasis> or <emphasis
+                    role="italic">inactive</emphasis>. Remove the check mark
+                    to deactivate this county code.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>State</title>
+
+      <section>
+        <title>State Code Lookup</title>
+
+        <para>The State Code Lookup function provides a convenient way to find
+        key information pertaining to states that are defined in Rice.</para>
+
+        <para>You can display the <emphasis role="bold">State Code
+        Lookup</emphasis> screen by clicking <emphasis
+        role="bold">State</emphasis> on the Rice <emphasis
+        role="bold">Administration</emphasis> menu.</para>
+
+        <figure>
+          <title>Identity Channel: State Link</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/state.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <figure>
+          <title>State Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/state_code_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Enter information in one or more of the fields on the <emphasis
+        role="bold">State Code Lookup</emphasis> screen and then click the
+        <emphasis role="bold">search</emphasis> button to see a list of States
+        that fit your criteria.</para>
+
+        <note>
+          <para>Leave all of the search fields blank to display a list of all
+          States.</para>
+        </note>
+
+        <figure>
+          <title>State Lookup: Results Example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/state_code_lookup_results.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Click <emphasis role="bold">edit</emphasis> or <emphasis
+        role="bold">copy</emphasis> in the <emphasis
+        role="bold">Actions</emphasis> column to go to the <emphasis
+        role="bold">StateMaintenanceDocument</emphasis> screen, where you can
+        edit the existing <emphasis role="bold">State</emphasis> or use a copy
+        of it as a base for establishing a new <emphasis
+        role="bold">State</emphasis> in KIM.</para>
+
+        <para>Click an underlined <emphasis role="bold">Country
+        Code</emphasis> to go to the <emphasis role="bold">Country
+        Inquiry</emphasis> screen for that <emphasis role="bold">Country
+        Code</emphasis>.</para>
+
+        <para>You can also export the search results list in CSV, spreadsheet,
+        or XML format. Click the appropriate link at the bottom of the search
+        results list to do this.</para>
+      </section>
+
+      <section>
+        <title>State Inquiry</title>
+
+        <para>The <emphasis role="bold">State Inquiry</emphasis> screen
+        provides a snapshot of the most important information defined in Rice
+        for a <emphasis role="bold">State</emphasis>.</para>
+
+        <figure>
+          <title>State Inquiry</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/state_inquiry.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title>State Maintenance</title>
+
+        <para>The State document defines the U.S. Postal Service codes used to
+        identify states. When you choose the State option on the
+        Administration menu, KIM displays the <emphasis role="bold">State Code
+        Lookup</emphasis> screen. After you click <emphasis
+        role="bold">edit</emphasis> for a State or click the <emphasis
+        role="bold">create new</emphasis> button, KIM displays the <emphasis
+        role="bold">StateMaintenanceDocument</emphasis>.</para>
+
+        <figure>
+          <title>State Maintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/StateMaintenanceDocument.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>Document Layout</title>
+
+          <para>This screen contains five tabs:<itemizedlist>
+              <listitem>
+                <para>Document Overview</para>
+              </listitem>
+
+              <listitem>
+                <para>Edit States</para>
+              </listitem>
+
+              <listitem>
+                <para>Notes and Attachments</para>
+              </listitem>
+
+              <listitem>
+                <para>Ad Hoc Recipients</para>
+              </listitem>
+
+              <listitem>
+                <para>Route Log</para>
+              </listitem>
+            </itemizedlist></para>
+
+          <para>The <emphasis role="bold">Edit States</emphasis> tab is unique
+          to this screen and is described below. The other four tabs are
+          described in the Common Features and Functions section of this User
+          Guide.</para>
+        </section>
+
+        <section>
+          <title>Edit States Tab</title>
+
+          <para>The Edit States tab can be displayed with two different sets
+          of fields. Which you see depends on whether you are creating a new
+          State or editing an existing State.</para>
+
+          <figure>
+            <title>State Maintenance Document: Add State</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/create_state.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The version of the tab above is displayed when you are
+          creating a new State.</para>
+
+          <figure>
+            <title>State Maintenance Document: Edit States Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/edit_states.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>Pictured above in <emphasis role="bold">edit</emphasis> mode,
+          the <emphasis role="bold">Edit States</emphasis> tab presents a
+          display-only set of fields on the left and editable fields on the
+          right, in which you may enter changes.</para>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>States Maintenance Document: Edit States
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Country Code</entry>
+
+                    <entry>A unique identifying code assigned to a country
+                    Required for a new State Display-only when editing a
+                    State</entry>
+                  </row>
+
+                  <row>
+                    <entry>State Abbreviation</entry>
+
+                    <entry>The state abbreviation assigned by the U.S. Postal
+                    Service Required for a new State Display-only when editing
+                    a State</entry>
+                  </row>
+
+                  <row>
+                    <entry>State Name</entry>
+
+                    <entry>The full name of the state Required for a new State
+                    When editing, this field can be modified but not
+                    deleted.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Optional. Indicates whether the State code is
+                    active or inactive. Remove the checkmark to deactivate the
+                    State code.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>Country</title>
+
+      <section>
+        <title>Country Lookup</title>
+
+        <para>This screen provides information about <emphasis
+        role="bold">Country Codes</emphasis> and is accessed directly off the
+        Administration menu.</para>
+
+        <figure>
+          <title>Country Lookup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/country_lookup.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Performing a search on a <emphasis role="bold">Country
+        Code</emphasis> produces results similar to this:</para>
+
+        <figure>
+          <title>Country Lookup: Results Example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/county_code_lookup_results.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Selecting <emphasis role="bold">edit</emphasis> or <emphasis
+        role="bold">copy</emphasis> in the <emphasis
+        role="bold">Actions</emphasis> column takes you to the <emphasis
+        role="bold">Country Maintenance Document</emphasis> screen, where you
+        can edit the existing <emphasis role="bold">Country Code</emphasis> or
+        use a copy of it as a base for establishing a new <emphasis
+        role="bold">Country Code</emphasis>.</para>
+
+        <para>Selecting an underlined <emphasis role="bold">Country
+        Code</emphasis> takes you to the <emphasis role="bold">Country
+        Inquiry</emphasis> screen for that <emphasis role="bold">Country
+        Code</emphasis>.</para>
+
+        <para>You can also export the search results list in CSV, spreadsheet,
+        or XML format. Click the appropriate link at the bottom of the search
+        results list to do this.</para>
+      </section>
+
+      <section>
+        <title>Country Inquiry</title>
+
+        <para>The <emphasis role="bold">Country Inquiry</emphasis> screen
+        displays details about a Country in Rice. You get to this screen by
+        clicking a <emphasis role="bold">Country Code</emphasis> in the list
+        of search results after you do a <emphasis role="bold">Country
+        Lookup</emphasis>.</para>
+
+        <figure>
+          <title>Country Inquiry</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/country_inquiry.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title>Country Maintenance</title>
+
+        <para>The Country document is used to assign specific identifying
+        codes to country names.</para>
+
+        <para>When you choose the Country option on the Administration menu,
+        KIM displays the <emphasis role="bold">Country Lookup</emphasis>
+        screen. After you select a country or click the <emphasis
+        role="bold">create new</emphasis> button, KIM presents the <emphasis
+        role="bold">CountryMaintenanceDocument</emphasis> screen.</para>
+
+        <figure>
+          <title>Country Maintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/CountryMaintenanceDocument.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>Document Layout</title>
+
+          <para>All of the tabs in the <emphasis
+          role="bold">CountryMaintenanceDocument</emphasis> are standard with
+          the exception of the <emphasis role="bold">Edit Country</emphasis>
+          tab. Documentation on standard tabs can be found in the Common
+          Features and Functions section of the User Guide.</para>
+        </section>
+
+        <section>
+          <title>Edit Country tab</title>
+
+          <figure>
+            <title>Country Maintenance Document: Edit Country Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/edit_country.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Country Maintenance Document: Edit Country
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Country Code</entry>
+
+                    <entry>A unique identifying code assigned to a
+                    country.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Country Name</entry>
+
+                    <entry>Required. The actual name of a specific
+                    country.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Country Restricted Indicator</entry>
+
+                    <entry>Required. Check the box to indicate if the country
+                    is restricted from use in procurement. Clear the check box
+                    if it is not restricted.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Indicates whether this country code is active or
+                    inactive in Rice. Remove the checkmark to deactivate this
+                    country code.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+  </section>
+</chapter>

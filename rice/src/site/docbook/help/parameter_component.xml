@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="parameter_component" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>Component</title>
+    </info>
+    <para>Administration > Configuration > Component</para>
+    <para>The  Component document defines valid components that can be associated with a parameter.
+        Components indicate a general or specific piece of  functionality to which a parameter
+        applies. Some Components are generic (batch, lookup, all) while others are very specific and
+        refer to particular documents or even specific tabs or fields on documents.</para>
+    <para>Only members of the KR-SYS Technical Administrator or an equivalent application role can
+        create or edit Component documents.</para>
+    <section>
+        <title>Document Layout</title>
+        <para><figure><title>Component document</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/parameter_component_document.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <para>The Parameter Component document includes the <emphasis role="bold">Edit Parameter
+                Detail Type </emphasis>tab.</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Edit Parameter Detail Type tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Namespace Name</entry>
+                        <entry>Required. Select the appropriate Namespace code for the parameter from
+                            the <emphasis role="bold">Namespace Name</emphasis> list or search for
+                            it from the lookup.</entry>
+                    </row>
+                    <row>
+                        <entry>Component</entry>
+                        <entry>Required. Enter the parameter component code or search for it from the
+                                <emphasis role="bold">Component</emphasis> lookup.</entry>
+                    </row>
+                    <row>
+                        <entry>Component Name</entry>
+                        <entry>Required. Enter the descriptive name of the parameter component being
+                            defined.</entry>
+                    </row>
+                    <row>
+                        <entry>Active Indicator</entry>
+                        <entry>Required. Leave checked to indicate that this parameter component is
+                            active and can be associated with parameters. Uncheck the box to
+                            inactivate this component and make it an invalid choice.</entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+</chapter>

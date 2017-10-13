@@ -1,0 +1,103 @@
+/** krad generated script **/
+package edu.sampleu.travel.web.controller;
+
+
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.view.ViewTheme;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.HttpServletRequest;
+
+import edu.sampleu.travel.bo.TravelAccount;
+
+import edu.sampleu.travel.document.TravelDocument2;
+
+import edu.sampleu.travel.web.form.TravelDocumentForm2;
+
+import org.apache.commons.lang.StringUtils;
+
+import org.apache.struts.action.ActionForm;
+
+import org.apache.struts.action.ActionForward;
+
+import org.apache.struts.action.ActionMapping;
+
+import org.kuali.rice.core.api.util.RiceConstants;
+
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+
+import org.kuali.rice.krad.exception.ValidationException;
+
+import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import org.kuali.rice.krad.util.GlobalVariables;
+
+import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletResponse;
+
+import java.util.Iterator;
+
+
+
+/**
+ * @author krad-generator
+ */
+@Controller
+@RequestMapping(value = "/travelDocument2")
+public class TravelDocumentController2 extends UifControllerBase {
+
+    @Override
+    protected TravelDocumentForm2 createInitialForm(HttpServletRequest request) {
+        return new TravelDocumentForm2();
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        //TODO tbd
+        return super.start(form, result, request, response);
+    }
+
+    // @see edu.sampleu.travel.web.action.TravelDocumentAction2.insertAccount
+    @RequestMapping(params = "methodToCall=insertAccount")
+    public ModelAndView insertAccount(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView;
+        return modelAndView;
+    }
+
+    // @see edu.sampleu.travel.web.action.TravelDocumentAction2.deleteAccount
+    @RequestMapping(params = "methodToCall=deleteAccount")
+    public ModelAndView deleteAccount(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView;
+        return modelAndView;
+    }
+
+    // @see edu.sampleu.travel.web.action.TravelDocumentAction2.refresh
+    @RequestMapping(params = "methodToCall=refresh")
+    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView;
+        return modelAndView;
+    }
+
+}

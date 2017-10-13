@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<!--
+		This is a modified combination of several other test XML files that is specifically designed
+		for testing deprecated document type XML elements. When the deprecated elements are eventually
+		removed from the system, this file and its related test should be removed as well.
+	-->
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<!-- Rule Templates based on those from "DocTypeConfig.xml" -->
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate1</name>
+			<description>RuleTemplate1</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate2</name>
+			<description>RuleTemplate2</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>RuleTemplate3</name>
+			<description>RuleTemplate3</description>
+		</ruleTemplate>
+		<!-- Rule templates based on those from "EngineConfig.xml" -->
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack1Template</name>
+			<description>Acknowledgement 1 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack2Template</name>
+			<description>Acknowledgement 2 Template</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<!-- Document types based on those from "DocTypeConfig.xml" -->
+		<documentType>
+			<name>DocumentType02</name>
+			<description>TestDocumentType</description>
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KR-WKFLW:${test.doctype.workgroup}</superUserWorkgroupName>
+			<docHandler>${test.base.url}/_blank</docHandler>
+            <helpDefinitionURL>/_help</helpDefinitionURL>
+			<blanketApproveWorkgroupName>KR-WKFLW:TestWorkgroup</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KR-WKFLW:${test.doctype.workgroup}</defaultExceptionWorkgroupName>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Split" />
+					<split name="Split" nextNode="RuleTemplate3">
+						<branch name="B1">
+							<requests name="RuleTemplate1" nextNode="Join" />
+						</branch>
+						<branch name="B2">
+							<requests name="RuleTemplate2" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="RuleTemplate3" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<split name="Split" />
+				<join name="Join" />
+				<requests name="RuleTemplate1">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate1</ruleTemplate>
+				</requests>
+				<requests name="RuleTemplate2">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate2</ruleTemplate>
+				</requests>
+				<requests name="RuleTemplate3">
+					<activationType>S</activationType>
+					<ruleTemplate>RuleTemplate3</ruleTemplate>
+				</requests>
+			</routeNodes>
+			<attributes>
+				<attribute>
+					<name>SearchableAttributeVisible</name>
+				</attribute>
+			</attributes>
+		</documentType>
+		
+		<!-- Document types based on those from "DocTypeExportConfig.xml" -->
+		<documentType>
+			<name>DocTypeWithSecurity</name>
+			<description>Test Security on Doc Type</description>
+			<label>Doc Type with Security</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KR-WKFLW:TestWorkgroup</superUserWorkgroupName>
+			<reportingWorkgroupName>KR-WKFLW:NonSIT</reportingWorkgroupName>
+			<blanketApproveWorkgroupName>KR-WKFLW:TestWorkgroup</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<active>true</active>
+			<security>
+				<routeLogAuthenticated>true</routeLogAuthenticated>
+				<initiator>true</initiator>
+				<searchableAttribute idType="emplid" name="emplid" />
+				<workgroup>KR-WKFLW:NonSIT</workgroup>
+			</security>
+		</documentType>
+		
+		<!-- Document types based on those from "EngineConfig.xml" -->
+		<documentType>
+			<name>SeqDocType</name>
+			<description>SeqDocType</description>
+			<label>SeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserWorkgroupName>KR-WKFLW:TestWorkgroup</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KR-WKFLW:NonSIT</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<exceptionWorkgroupName>KR-WKFLW:NonSIT</exceptionWorkgroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<exceptionWorkgroup>KR-WKFLW:NonSIT</exceptionWorkgroup>
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<!-- Rules based on those from "DocTypeConfig.xml" -->
+		<rule>
+			<documentType>DocumentType02</documentType>
+			<ruleTemplate>RuleTemplate1</ruleTemplate>
+			<description>RuleTemplate1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>TestRule1</name>
+			<documentType>DocumentType02</documentType>
+			<ruleTemplate>RuleTemplate2</ruleTemplate>
+			<description>RuleTemplate2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<workgroup>KR-WKFLW:TestWorkgroup</workgroup>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<!-- Rules based on those from "EngineConfig.xml" -->
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Sequential Node Test Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Sequential Node Ack Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+            <ruleTemplate>Ack2Template</ruleTemplate>
+			<description>Sequential Node Ack Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+	<!-- Rule attributes based on those from "SearchAttributeConfig.xml" -->
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>SearchableAttributeVisible</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Visible Search Attribute</label>
+			<description>Searchable attribute is visible</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="givenname" title="First name">
+					<display>
+						<type>text</type>
+					</display>
+					<visibility>
+						<column>
+							<isMemberOfWorkgroup>KR-WKFLW:TestWorkgroup</isMemberOfWorkgroup>
+						</column>
+					</visibility>
+					<validation required="true">
+						<regex>^[a-zA-Z ]+$</regex>
+						<message>Invalid first name</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/givenname/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<givenname>
+							<value>%givenname%</value>
+						</givenname>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+	</ruleAttributes>
+</data>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_priorities" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <title>Enterprise Notification Priority</title>
+    <section>
+        <title>Managing Priorities</title>
+        <para>There is no user interface page to manage priorities so you must make changes to
+            the list of priorities in the <emphasis role="bold">kren_prio_t</emphasis> table
+            using SQL.</para>
+        <para>The table has these columns:</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>KREN_PRIO_T</title>
+                <tgroup cols="5">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                    <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+                    <colspec colname="c5" colnum="5" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Name</entry>
+                            <entry>Type</entry>
+                            <entry>Max Size</entry>
+                            <entry>Required</entry>
+                            <entry>Attribute</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>PRIO_ID</entry>
+                            <entry>Numeric</entry>
+                            <entry>8</entry>
+                            <entry>Yes</entry>
+                            <entry>ID</entry>
+                        </row>
+                        <row>
+                            <entry>NM</entry>
+                            <entry>Text</entry>
+                            <entry>40</entry>
+                            <entry>Yes</entry>
+                            <entry>Name</entry>
+                        </row>
+                        <row>
+                            <entry>DESC_TXT</entry>
+                            <entry>Text</entry>
+                            <entry>500</entry>
+                            <entry>Yes</entry>
+                            <entry>Description</entry>
+                        </row>
+                        <row>
+                            <entry>PRIO_ORD</entry>
+                            <entry>Numeric</entry>
+                            <entry>4</entry>
+                            <entry>Yes</entry>
+                            <entry>Order</entry>
+                        </row>
+                        <row>
+                            <entry>VER_NBR</entry>
+                            <entry>Numeric</entry>
+                            <entry>8</entry>
+                            <entry>Yes</entry>
+                            <entry>Version</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+        <example>
+            <title>Example – This is an example of how to add a Priority into the table:</title>
+            <programlisting>INSERT INTO kren_prio_t (PRIO_ID, NM, DESC_TXT, PRIO_ORD, VER_NBR) VALUES (8, 'Bulk', 'Mass notifications', 6, 1);</programlisting>
+        </example>
+    </section>
+</chapter>

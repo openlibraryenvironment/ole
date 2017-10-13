@@ -1,0 +1,262 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- BoxLayoutManager demo -->
+  <bean id="Demo-BoxLayoutManager-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoBoxLayoutManager.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.layout.BoxLayoutManager"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="exampleSize" value="LARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-BoxLayoutManager-Example1"/>
+        <ref bean="Demo-BoxLayoutManager-Example2"/>
+        <ref bean="Demo-BoxLayoutManager-Example3"/>
+        <ref bean="Demo-BoxLayoutManager-Example4"/>
+        <ref bean="Demo-BoxLayoutManager-Example5"/>
+        <ref bean="Demo-BoxLayoutManager-Example6"/>
+        <ref bean="Demo-BoxLayoutManager-Example7"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-BoxLayoutManager-Buttons" parent="Uif-HorizontalBoxGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-SecondaryActionButton-Small"
+              p:actionLabel="Outline Groups" p:actionScript="showGroupOutlines(this)"/>
+        <bean parent="Uif-SecondaryActionButton-Small"
+              p:actionLabel="Hightlight Items" p:actionScript="showItemOutlines(this)"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Vertical Box -->
+  <bean id="Demo-BoxLayoutManager-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Demo-BoxLayoutManager-Buttons"/>
+        <!-- ex:Demo-BoxLayoutManager-Example1 start-->
+        <!-- preferred usage - use the predefined VerticalBoxGroup (or Section/SubSection) bean for this layout -->
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField1"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField2"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- group base using a vertical box layout - this is what is being defined by the bean above,
+         used here for demonstration -->
+        <bean parent="Uif-GroupBase">
+          <property name="layoutManager">
+            <bean parent="Uif-VerticalBoxLayout"/>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField3"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField4"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-BoxLayoutManager-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Horizontal box -->
+  <bean id="Demo-BoxLayoutManager-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Demo-BoxLayoutManager-Buttons"/>
+        <!-- ex:Demo-BoxLayoutManager-Example2 start-->
+        <!-- group base using a horizontal box layout -->
+        <!-- preferred usage - use the predefined HorizontalBoxGroup (or Section/SubSection) bean for this layout -->
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField5"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField6"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- group base using a horizontal box layout - this is what is being defined by the bean above,
+         used here for demonstration -->
+        <bean parent="Uif-GroupBase">
+          <property name="layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField7"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField8"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-BoxLayoutManager-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- nesting box -->
+  <bean id="Demo-BoxLayoutManager-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Demo-BoxLayoutManager-Buttons"/>
+        <!-- ex:Demo-BoxLayoutManager-Example3 start-->
+        <!-- This vertical box layout group has 2 horizontal box layout groups -->
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField9"/>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField10"/>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField11"/>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField12"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-BoxLayoutManager-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- nesting box -->
+  <bean id="Demo-BoxLayoutManager-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Demo-BoxLayoutManager-Buttons"/>
+        <!-- ex:Demo-BoxLayoutManager-Example4 start-->
+        <!-- This horizontal box layout group has 2 vertical box layout groups -->
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField13"/>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField14"/>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField15"/>
+                    <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField16"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-BoxLayoutManager-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- padding -->
+    <bean id="Demo-BoxLayoutManager-Example5" parent="Uif-VerticalBoxSection">
+      <property name="items">
+        <list>
+          <bean parent="Demo-BoxLayoutManager-Buttons"/>
+          <!-- ex:Demo-BoxLayoutManager-Example5 start-->
+          <!-- making padding 50px between items -->
+          <bean parent="Uif-VerticalBoxGroup">
+            <property name="layoutManager.padding" value="50px"/>
+            <property name="items">
+              <list>
+                <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField17"/>
+                <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField18"/>
+                <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField19"/>
+              </list>
+            </property>
+          </bean>
+
+          <!-- ex:Demo-BoxLayoutManager-Example5 end-->
+        </list>
+      </property>
+    </bean>
+
+  <!-- css classes -->
+  <bean id="Demo-BoxLayoutManager-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Demo-BoxLayoutManager-Buttons"/>
+        <!-- ex:Demo-BoxLayoutManager-Example6 start-->
+        <!-- giving each item a css class to add a border bottom -->
+        <bean parent="Uif-VerticalBoxGroup">
+          <property name="layoutManager.itemStyleClasses" value="demo-borderBottom"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField21"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField22"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField23"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-BoxLayoutManager-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- item styles -->
+  <bean id="Demo-BoxLayoutManager-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Demo-BoxLayoutManager-Buttons"/>
+        <!-- ex:Demo-BoxLayoutManager-Example7 start-->
+        <!-- giving each item a style that adds a background color and margin -->
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="layoutManager.itemStyle" value="background-color: #99FF99; margin-right: 5px; padding: 5px;"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField24"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField25"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-BoxLayoutManager-Example7 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

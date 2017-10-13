@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_Examples" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+<title>eDocLite Examples</title>
+    <para></para>
+    <section><title>Example 1 Form</title>
+        <para>This simple first example form can be used to gather data from an initiator, then route the document when the submit button is pressed to one of two nodes depending on the value the initiator selects from a field called campus. It makes use of several common html field types. Any number of notes can be added as well as any number of attachments. In this example, the campus field has two possible selection choices (only first on shown in the picture).
+        </para>
+        <para>
+            <inlinemediaobject><imageobject><imagedata fileref="../images/EDL_Guide/example1.png" align="left" scalefit="1" width="100%" contentdepth="100%"/></imageobject></inlinemediaobject>
+        </para>
+    </section>
+    <section><title>Interview Request Form</title>
+        <para>The Interview Request document is to be filled out by the department initiating the search and is 
+            used to declare persons to be interviewed.</para><para><inlinemediaobject><imageobject><imagedata fileref="../images/EDL_Guide/interview.png" align="left" scalefit="1" width="100%" contentdepth="100%"/></imageobject></inlinemediaobject>
+        <simplelist>
+            <member>If more than 8 Candidates are to be interviewed, an additional Interview Request should be 
+                created.</member>
+            <member>The OAA number used is the same as the one provided by the Office Affirmative Action for the 
+                corresponding Vacancy Notice. </member>
+            <member>A separate section towards the bottom is presented for Applicant Pool data. This section is to be 
+                completed only by the OAA group. After they have entered the information, this data will be 
+                available for viewing when it is routed back for acknowledgement or by using the document search 
+                option to view the document</member>
+        </simplelist></para>
+    </section>
+    <section><title>Offer Request Form</title>
+        <para>The Offer Request is to be filled out by the department initiating the search and is used to 
+            document a potential offer to the candidate.</para>
+        <para><inlinemediaobject><imageobject><imagedata fileref="../images/EDL_Guide/offer.png" align="left" scalefit="1" width="100%" contentdepth="100%"/></imageobject></inlinemediaobject>
+        </para>
+        <para>
+        <itemizedlist>
+            <listitem><para>The OAA number used is the same as the one for the corresponding Vacancy Notice.</para></listitem>  
+            <listitem><para>You may wish to attach a letter such as an offer to recommend an appointment.  <simplelist>
+                            <member>After youʼve created the letter (which may be another eDocLite
+                                document), you need to attach it to the document for review at the
+                                approval levels. Multiple versions of the letter can be created and
+                                attached to this document. Then attach the letter(s).</member>
+                            <member>Click on the <emphasis role="keyword">Choose
+                                File</emphasis>button in the Create a Note section towards the
+                                bottom of the document.</member>
+                <member>Select the file and then click the <emphasis role="keyword">save</emphasis> button.</member>
+                <member>Finally, click the <emphasis role="keyword">save</emphasis> button to save your document for further
+                    changes. If it is ready for approvals, then click the <emphasis role="keyword">submit</emphasis> button
+                                instead.</member>
+                        </simplelist>
+                    </para></listitem>
+        </itemizedlist>
+        </para>
+    </section>
+    <section><title>Search Status Form</title>
+        <para>The Search Status document is to be filled out by the department initiating the search and is used 
+            to document the final results of the search. The OAA number used is the same as the one for the 
+            corresponding Vacancy Notice or Waiver Request.</para>
+        <para>
+            <inlinemediaobject><imageobject><imagedata fileref="../images/EDL_Guide/search.png" align="left" scalefit="1" width="100%" contentdepth="100%"/></imageobject></inlinemediaobject>
+            </para>
+        <para>In the event that the Offer Status is selected as Declined or No Offer was made, a new list of 
+            values is provided to outline what the next steps for this search will be.</para>
+    </section>
+    <section><title>Vacancy Form</title>
+        <para>The Vacancy Notice document is to be filled out by the department who is initiating a search for a 
+            vacant position.</para>
+        <para><inlinemediaobject><imageobject><imagedata fileref="../images/EDL_Guide/vacancy.png" align="left" contentwidth="200"/></imageobject></inlinemediaobject>
+        </para>
+        <para>
+        <simplelist>
+                    <member>The first field on the document is an OAA number; this is not a required field and will be entered 
+                        when the document reaches the Office of Affirmative Action for approval. </member>
+                    <member>A field provided for instances where a prior search is being continued is provided. The field, 
+                        "Reactivating Prior Year Search: OAA#", is used for linking this new search to the prior one by 
+                        providing the prior OAA #.</member>
+                    <member>A separate section towards the bottom is presented for Utilization data. This section is to be 
+                        completed only by the OAA group. After they have entered the information, this data will be 
+                        available for viewing using the document search option to view the document. </member>
+        </simplelist>
+        </para>
+    </section>
+    <section><title>Waiver Request</title>
+        <para>The Waiver Request document is similar to the Vacancy Notice in that the department initiating the 
+            search completes it, but in this case the department is also requesting a waiver from the normal 
+            academic search requirements.</para><para><inlinemediaobject><imageobject><imagedata fileref="../images/EDL_Guide/waiver.png" align="left" scalefit="1" width="100%" contentdepth="100%"/></imageobject></inlinemediaobject>
+        </para><para>The first field on the document is an OAA number; this is not a required field and will be entered 
+            when the document reaches the Office of Affirmative Action for approval.</para>
+        <para>You may wish to attach a letter such as an offer to recommend an appointment.
+            <simplelist>
+                <member>After you've created the letter (which may be another eDocLite
+                    document), you need to attach it to the document for review at the
+                    approval levels. Multiple versions of the letter can be created and
+                    attached to this document. Then attach the letter(s).</member>
+                <member>Click on the <emphasis role="keyword">Choose
+                    File</emphasis> button in the Create a Note section towards the
+                    bottom of the document.</member>
+                <member>Select the file and then click the <emphasis role="keyword">save</emphasis> button.</member>
+                <member>Finally, click the <emphasis role="keyword">save</emphasis> button to save your document for further
+                    changes. If it is ready for approvals, then click the <emphasis role="keyword">submit</emphasis> button
+                    instead.</member> 
+            </simplelist>
+        </para>
+    </section>
+</chapter>

@@ -1,0 +1,50 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/kim/impl/config/KimEmbeddedSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/kim/impl/config/_KimServiceBusSpringBeans.xml"/>
+
+  <!-- the distributed cache manager that calls into the kimCacheAdminService on the ksb -->
+  <bean id="kimDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator"
+        p:cacheManager-ref="kimLocalCacheManager"
+        p:serviceName="{http://rice.kuali.org/kim/v2_0}kimCacheAdminService"/>
+
+  <bean id="rice.kim.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl"
+        p:cacheManager-ref="kimDistributedCacheManager"/>
+
+  <!-- Serves as the target service for cache flush notifications sent from embedded KIM applications -->
+  <bean id="kimCacheDistributionQueue"
+        class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+        p:cacheManager-ref="kimDistributedCacheManager"/>
+
+  <bean id="kimCacheDistributionQueue.exporter" parent="kimServiceExporter" p:exportIf="kimCacheDistributionQueue.expose">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimCacheDistributionQueue"
+            p:localServiceName="kimCacheDistributionQueue"
+            p:queue="true"/>
+    </property>
+  </bean>
+
+
+</beans>

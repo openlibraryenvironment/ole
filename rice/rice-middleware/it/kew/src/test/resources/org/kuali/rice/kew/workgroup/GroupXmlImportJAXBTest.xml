@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ns2:data xmlns:ns2="http://rice.kuali.org/xsd/core/xml/dto" xmlns:ns3="http://rice.kuali.org/xsd/kim/group">
+    <ns3:groups>
+        <ns3:group>
+            <ns3:groupName>MyGroup</ns3:groupName>
+            <ns3:groupDescription>Group Import unit test</ns3:groupDescription>
+            <ns3:active>true</ns3:active>
+            <ns3:attributes>
+                <ns2:attribute key="actionDetailsAtRoleMemberLevel" value="false"/>
+                <ns2:attribute key="documentTypeName" value="Doc"/>
+                <ns2:attribute key="required" value="false"/>
+                <ns2:attribute key="routeNodeName" value="P"/>
+            </ns3:attributes>
+            <ns3:members>
+                <ns3:member>
+                    <ns3:memberId>ewestfal</ns3:memberId>
+                    <ns3:memberTypeCode>P</ns3:memberTypeCode>
+                </ns3:member>
+                <ns3:member>
+                    <ns3:memberId>rkirkend</ns3:memberId>
+                    <ns3:memberTypeCode>P</ns3:memberTypeCode>
+                </ns3:member>
+                <ns3:member>
+                    <ns3:memberId>TestWorkgroup</ns3:memberId>
+                    <ns3:memberTypeCode>G</ns3:memberTypeCode>
+                </ns3:member>
+            </ns3:members>
+        </ns3:group>
+        <ns3:group>
+            <ns3:groupName>MyGroup2</ns3:groupName>
+            <ns3:groupDescription>Group Import unit test</ns3:groupDescription>
+            <ns3:active>true</ns3:active>
+            <ns3:attributes>
+                <ns2:attribute key="actionDetailsAtRoleMemberLevel" value="false"/>
+                <ns2:attribute key="documentTypeName" value="Doc"/>
+                <ns2:attribute key="required" value="false"/>
+                <ns2:attribute key="routeNodeName" value="P"/>
+            </ns3:attributes>
+            <ns3:members>
+                <ns3:member>
+                    <ns3:memberId>ewestfal</ns3:memberId>
+                    <ns3:memberTypeCode>P</ns3:memberTypeCode>
+                </ns3:member>
+                <ns3:member>
+                    <ns3:memberId>rkirkend</ns3:memberId>
+                    <ns3:memberTypeCode>P</ns3:memberTypeCode>
+                </ns3:member>
+                <ns3:member>
+                    <ns3:memberId>TestWorkgroup</ns3:memberId>
+                    <ns3:memberTypeCode>G</ns3:memberTypeCode>
+                </ns3:member>
+            </ns3:members>
+        </ns3:group>
+    </ns3:groups>
+</ns2:data>

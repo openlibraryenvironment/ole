@@ -1,0 +1,49 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+
+	<!-- default note attribute to use when none is given -->
+    <param name="default.kew.note.class">DefaultNoteAttribute</param>
+
+	<!-- default edl config location -->
+	<param name="edl.config.loc">classpath:META-INF/EDLConfig.xml</param>
+
+	<!-- Axis Configuration -->
+    <param name="keystore.alias">rice.keystore</param>
+    <param name="keystore.password">s1t0spss!xX-tst</param>
+	<param name="keystore.file">${basedir}/../ksb/src/test/resources/keystore/rice.keystore</param>
+
+	<!-- default config files -->
+	<param name="config.location">classpath:META-INF/kew-test-config.xml</param>
+
+	<!-- Override the application id for the server -->
+	<param name="application.id">KUALI</param>
+	<param name="standalone.application.id">${application.id}</param>
+
+    <param name="config.location">${alt.config.location}</param>
+    
+    <param name="rice.kr.set.soap.services.as.default">false</param>
+    <param name="rice.kcb.set.soap.services.as.default">false</param>
+    <param name="rice.ken.set.soap.services.as.default">false</param>
+    <param name="rice.kew.set.soap.services.as.default">false</param>
+    <param name="rice.kim.set.soap.services.as.default">false</param>
+    <param name="rice.ksb.set.soap.services.as.default">false</param>
+    
+    <param name="plugin.registry.enabled">true</param>
+	<param name="rice.kcb.additionalSpringFiles">classpath:org/kuali/rice/kcb/config/KCBSpringBeans-test.xml</param>
+</config>

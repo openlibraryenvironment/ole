@@ -1,0 +1,33 @@
+<bean id="${bean_id}" parent="${bean_parent ?: 'Uif-Page'}">
+    <% if(template != null) { %><property name="template" value="${template}"/><% } %>
+    <property name="templateName" value="uif_pageGroup"/>
+    <% if(css_classes != null) { %><property name="cssClasses">
+      <list merge="true"><% for( css_class in css_classes ) { %>
+        <value>${css_class}</value><% } %>
+      </list>
+    </property><% } %>
+    <% if(validation_messages_bean != null) { %><property name="validationMessages">
+      ${validation_messages_bean}
+    </property><% } %>
+    <% if(header_text != null) { %><property name="header">
+      <bean parent="Uif-PageHeader">
+        <!-- default set here so page header will always be generated -->
+        <property name="headerText" value="${header_text}"/>
+      </bean>
+    </property>
+    <% if(disclosure_bean != null) { %><property name="disclosure">
+       ${disclosure_bean}
+    </property><% } %>
+    <% if(layout_manager_bean != null) { %><property name="layoutManager">
+      ${layout_manager_bean}
+    </property><% } %>
+    <% if(instructional_message_bean != null) { %><property name="instructionalMessage">
+      ${instructional_message_bean}
+    </property><% } %>
+    <% if(read_only != null) { %><property name="readOnly" value="${read_only}"/><% } %>
+    <% if(auto_focus != null) { %><property name="autoFocus" value="${auto_focus}"/><% } %>
+    <% if(disclosure_render != null) { %><property name="disclosure.render" value="${disclosure_render}"/><% } %>
+    <% if(help_bean != null) { %><property name="help">
+      ${help_bean}
+    </property><% } %>
+</bean>

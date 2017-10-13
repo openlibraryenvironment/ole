@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="Responsibility" parent="Responsibility-parentBean"/>
+
+  <bean id="Responsibility-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.impl.responsibility.ResponsibilityBo" p:titleAttribute="id" p:objectLabel="Responsibility" p:inquiryDefinition-ref="Responsibility-inquiryDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="Responsibility-id"/>
+        <ref bean="Responsibility-active"/>
+        <ref bean="Responsibility-template.namespaceCode"/>
+        <ref bean="Responsibility-template.name"/>
+        <ref bean="Responsibility-namespaceCode"/>
+        <ref bean="Responsibility-name"/>
+        <ref bean="Responsibility-detailObjects"/>
+        <ref bean="Responsibility-templateId"/>
+        <ref bean="Responsibility-detailObjectsValues"/>
+      </list>
+    </property>
+	<!--<property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="template"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="templateId" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="template.namespaceCode" p:targetName="namespaceCode"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="template.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>-->
+  </bean>
+
+  <bean id="Responsibility-id" parent="Responsibility-id-parentBean"/>
+	<bean id="Responsibility-id-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="id"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Responsibility Identifier"/>
+		<property name="shortLabel" value="Responsibility Identifier"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5"/>
+		</property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+	</bean>
+
+  <bean id="Responsibility-active" parent="PermissionBo-active-parentBean"/>
+	<bean id="Responsibility-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+		<property name="name" value="active"/>
+	</bean>
+
+  <bean id="Responsibility-template.namespaceCode" parent="Responsibility-template.namespaceCode-parentBean"/>
+  <bean id="Responsibility-template.namespaceCode-parentBean" parent="Parameter-namespaceCode" abstract="true" p:name="template.namespaceCode" p:label="Template Namespace" p:shortLabel="Template Namespace">
+  </bean>
+    
+  <bean id="Responsibility-templateId" parent="Responsibility-templateId-parentBean"/>
+  <bean id="Responsibility-templateId-parentBean" parent="AttributeDefinition" abstract="true" p:name="templateId" p:label="Template Id" p:shortLabel="Template Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+    
+  <bean id="Responsibility-template.name" parent="Responsibility-template.name-parentBean"/>
+  <bean id="Responsibility-template.name-parentBean" parent="AttributeDefinition" abstract="true" p:name="template.name" p:label="Template Name" p:shortLabel="Template Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+  
+  
+  <bean id="Responsibility-namespaceCode" parent="Responsibility-namespaceCode-parentBean"/>
+  <bean id="Responsibility-namespaceCode-parentBean" parent="Parameter-namespaceCode" abstract="true" p:name="namespaceCode" p:label="Responsibility Namespace" p:shortLabel="Responsibility Namespace">
+  </bean>
+  
+  <bean id="Responsibility-name" parent="Responsibility-name-parentBean"/>
+  <bean id="Responsibility-name-parentBean" abstract="true" parent="KimType-name" p:name="name" p:label="Responsibility Name" p:shortLabel="Responsibility Name">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="Responsibility-detailObjects" parent="Responsibility-detailObjects-parentBean"/>
+  <bean id="Responsibility-detailObjects-parentBean" parent="AttributeDefinition" abstract="true" p:name="attributeDetails" p:label="Responsibility Detail Values" p:shortLabel="Detail Values" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="Responsibility-detailObjectsValues" parent="Responsibility-detailObjects" p:name="detailObjectsValues">
+  </bean>
+
+  <bean id="Responsibility-inquiryDefinition" parent="Responsibility-inquiryDefinition-parentBean"/>
+  <bean id="Responsibility-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Responsibility Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Responsibility Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="template.namespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="template.name"/>
+        	  <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        	  <bean parent="FieldDefinition" p:attributeName="name"/>
+	       	  <bean parent="FieldDefinition" p:attributeName="detailObjectsValues"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.rice.kim.impl.responsibility.ResponsibilityInquirableImpl"/>
+  </bean>
+
+</beans>

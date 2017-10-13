@@ -1,0 +1,1252 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="UG_Global" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Global User Section</title>
+    <section>
+        <title>The Kuali Community</title>
+        <para>It is important that you have a general understanding of how Rice is a part of a
+            larger Kuali community before you begin to use this as a reference.</para>
+        <section>
+            <title>Kuali Foundation</title>
+            <para>The Kuali Foundation employs staff to coordinate partner efforts and to manage and
+                protect the Foundation's intellectual property. The Kuali Foundation manages a
+                growing portfolio of enterprise software applications for colleges and universities.
+                A lightweight Foundation staff coordinates the activities of Foundation members for
+                critical software development and coordination activities such as source code
+                control, release engineering, packaging, documentation, project management, software
+                testing and quality assurance, conference planning, and educating and assisting
+                members of the Kuali Partners program.</para>
+        </section>
+        <section>
+            <title>Kuali Rice</title>
+            <para>Kuali Rice is a higher-education, community-source software project that is merely
+                a spoke in the wheel of the larger Kuali Community. The Kuali Community is the hub
+                of a wheel of a growing number of communities, each of which are made up of people
+                and functions. Together they form a comprehensive suite of open, modular and
+                distributed administrative software systems that bring the proven functionality of
+                legacy applications to the ease and universality of online services. The Kuali
+                Foundation serves them all, with specific responsibilities related to keeping the
+                wheel in motion. Each individual community shares a similar organizational structure
+                and some modular functionality while its components are able to stand alone to
+                perform unique functions. While all are designed for seamless integration with each
+                other, each project is made up of modules that offer a variety of implementation
+                combinations to suit any Carnegie-class institution's unique business needs.</para>
+            <para>Should you want to learn more detail about how the Rice community is organized,
+                structured and operates you should reference the Rice Charter which is available for
+                review in the Foundation archives.</para>
+        </section>
+    </section>
+    <section>
+        <title>Licensing and Intellectual Property</title>
+        <section>
+            <title>Software License</title>
+            <para>Kuali Rice software is licensed under the Educational Community License, Version
+                2.0. You may obtain a copy of the License <link xlink:href = "http://www.opensource.org/licenses/ecl2.php">here</link>. See the License for
+                the specific language governing permissions and limitations.</para>
+            <para>If you have any questions about Kuali Intellectual property, please contact the
+                Kuali Foundation at <link xlink:href="mailto:licensing@kuali.org"
+                    >licensing@kuali.org</link>.</para>
+        </section>
+        <section>
+            <title>Contributors</title>
+            <para>Please see <link xlink:href="http://site.kuali.org/rice/${project.version}/dependency-management.html">this Project Dependency Management page</link>
+           for the list of third party licenses used by this release of the Rice project.
+            </para>
+        </section>
+        <section>
+            <title>Documentation License</title>
+            <para>This work is licensed under a Creative Commons Attribution-ShareAlike 2.5 License.
+                To view a copy of this license, visit http://creativecommons.org/licenses/ or send a
+                letter to Creative Commons, 543 Howard Street, 5th Floor, San Francisco, California,
+                94105, USA.</para>
+            <para>You are free:<itemizedlist>
+                    <listitem>
+                        <para>to copy, distribute, display, and perform the work </para>
+                    </listitem>
+                    <listitem>
+                        <para>to make derivative works</para>
+                    </listitem>
+                    <listitem>
+                        <para> to make commercial use of the work under the following conditions: <itemizedlist>
+                                <listitem>
+                                    <para>Attribution: You must attribute the work in the manner
+                                        specified by the Kuali Foundation, author and
+                                        licensor.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>For any reuse or distribution, you must make the licensing
+                                        terms of this work clear to others.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Any of these conditions can be waived if you get
+                                        permission from the copyright holder.</para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Your fair use and other rights are in no way affected by the aforementioned
+                conditions.</para>
+        </section>
+    </section>
+    <section>
+        <title>How to Use This Guide</title>
+        <para>The table of contents leads you to headings and subtopic headings that provide
+            information ranging from simple notes to a thorough review of what to do and why, with
+            frequent examples. Sequential tasks are numbered, notes and action results are indented,
+            and user interface element references are formatted to enhance readability. Mouse
+            pointer icons and callouts are used frequently to show you what to click on at each
+            process step.</para>
+        <section>
+            <title>User Guide Structure</title>
+            <para>Each chapter is comprised of sections or subsections that correspond to modules within Rice. In
+                order to reduce the required effort for documentation maintenance, the documentation
+                is structured so as to not repeat the same material across various chapters/sections/subsections. </para>
+            <para>Likewise, the chapters are designed to cross-reference appendices such as the Data
+                Element Dictionary, Glossary of Terms, Report Catalog and Index, to reduce redundant
+                information within the chapter bodies and give you one common location for
+                information lookup.</para>
+        </section>
+        <section>
+            <title>Typographic Conventions</title>
+            <para>This document adheres to specific documentation standards and style conventions to
+                optimize readability. The formatting of text used to name user interface elements is
+                typically bold to enhance visual comprehension and improve usability.</para>
+        </section>
+        <section>
+            <title>Versioning</title>
+            <para>If you have received a printed copy of this user guide, please note that as Rice
+                is improved and enhanced, corresponding updated releases of the documentation are
+                available online. To ensure you have the latest and most current user guide at any
+                time, consult the links from the Documentation page on the <link
+                    xlink:href="http://kuali.org/rice">Rice web site</link> and compare the
+                versioning. </para>
+        </section>
+        <section>
+            <title>Electronic Navigation</title>
+            <para>Cross-references, indexes, and the electronic table of contents are provided
+                wherever possible to allow for efficient navigation to sections and subsections of
+                instructional information (or external Web resources). Each underlined topic
+                functions as a hyperlink that causes a new section to appear.</para>
+        </section>
+        <section>
+            <title>Printed Documentation</title>
+            <para>User documentation made available for online viewing, download and printing may
+                require the use of Portable Document Format (PDF) reader software, such as Adobe
+                Acrobat Reader. Refer to <link xlink:href="http://www.adobe.com"
+                    >http://www.adobe.com</link> for complete instructions regarding downloading and
+                installing this free software.</para>
+            <note><para>A plug-in may be available to allow you to view .pdf documents in Web browsers as either .pdf
+                    or HTML formats. Consult your Web browser's Help links to explore these viewing
+                    options. HTML pages can be printed using your computer's default printer.</para></note>
+        </section>
+    </section>
+    <section>
+        <title>Common Features and Functions</title>
+        <section>
+            <title>Standard Buttons on Lookup Screens</title>
+            <table tabstyle="striped">
+                <title>Standard Rice Buttons</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Feature</entry>
+                            <entry>Button</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>
+                                <para>Action List Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_action_list.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>Displays the Action List screen</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para>Add Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_add.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>Use to add notes or attachments</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para>Calendar Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_calendar.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>This button displays a pop-up calendar from which you can
+                                    select a specific date. The date you select is then
+                                    automatically entered in the field next to the Calendar
+                                    button.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para>Cancel Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_cancel.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>Returns you to the main menu screen</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para>Clear Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_clear.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>Clears the content in all the fields on this screen</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para>Clear Save Searches Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/button_clear_saved_searches.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>Clears all saved searches. (If you give a search a name, you
+                                    can save it permanently. This button clears all of those saved
+                                    searches.)</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para>Close Button</para>
+                            </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_close.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>
+                                <para>Closes a pop-up screen and returns you to the previous
+                                    screen</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Create New Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_create_new.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Displays a screen where you can create a new document</entry>
+                        </row>
+                        <row>
+                            <entry>Collapse All Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_collapse_all.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Collapses an expanded list (in other words, it hides the detailed
+                                information below the main items in a list); use the Expand All
+                                button to display the entire list again.</entry>
+                        </row>
+                        <row>
+                            <entry>Detailed Search Button </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_detailed_search.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Opens the Detailed Search screen. This lets you do searches for
+                                documents using more specific information.</entry>
+                        </row>
+                        <row>
+                            <entry>Doc Search Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_doc_search.png"
+                                            width="110" scalefit="0"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Displays the Document Search screen</entry>
+                        </row>
+                        <row>
+                            <entry>Dropdown Arrow</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_dropdown_arrow.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Click the down-arrow on the right end of the box to display a
+                                list of options. Click an option in this list to automatically put
+                                that item in the field.</entry>
+                        </row>
+                        <row>
+                            <entry>Error Mark</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_error_mark.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Symbol displayed by Rice when it finds an error on a required
+                                screen or field</entry>
+                        </row>
+                        <row>
+                            <entry>Expand All Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_expand_all.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Expands a list (in other words, it shows the detailed information
+                                below each item in a list); use the Collapse All button to hide the
+                                detailed information again.</entry>
+                        </row>
+                        <row>
+                            <entry>Field Lookup Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_field_lookup.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Some fields have a magnifying glass button so you can search for
+                                information to put in that field. Click the magnifying glass icon to
+                                go to the Lookup screen where you can do a search for that
+                                field.</entry>
+                        </row>
+                        <row>
+                            <entry>Help Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_help_button.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>When you click a Help button, a small window appears with
+                                information about the field that was next to the Help
+                                button.</entry>
+                        </row>
+                        <row>
+                            <entry>Hide Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_hide.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Hides the contents of a tab, so you only see the small tab
+                                itself; use the Show button to display the contents again.</entry>
+                        </row>
+                        <row>
+                            <entry>Inquiry Button</entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_inquiry.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Find the Inquiry button next to some dropdown lists. Click it to
+                                display more information about the item in the dropdown field. (Rice
+                                displays the information in an Inquiry screen.)</entry>
+                        </row>
+                        <row>
+                            <entry>Preferences Button </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_preferences.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Allows you to customize the appearance and features of your
+                                screen</entry>
+                        </row>
+                        <row>
+                            <entry>Search Button </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_search.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Begins a Search using the information you entered in the search
+                                fields</entry>
+                        </row>
+                        <row>
+                            <entry>Show Button </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_show.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Shows the contents of a tab; use the Hide button to hide the
+                                contents again.</entry>
+                        </row>
+                        <row>
+                            <entry>Submit Button </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_submit.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Click this button to send this screen's information to Rice for
+                                processing</entry>
+                        </row>
+                        <row>
+                            <entry>Superuser Search Button </entry>
+                            <entry><inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/button_superuser_search.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></entry>
+                            <entry>Click this button to search and then use Superuser functions with
+                                the search results.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        <section>
+            <title>Useful Screens Are Where You Need Them</title>
+            <para>One of the beauties of Rice is that it shows you just the screens and fields that
+                are useful for your Rice Role and the function you need. For example, if your Role
+                in Rice lets you create new Rice documents, then you can see a create new button on
+                appropriate screens. If you click this button, you go directly to the screen for
+                creating new documents. People whose Role doesn't create new documents aren't
+                bothered with this button on their screens.</para>
+            <para>Screens with information or functions that can be used in many places in Rice are
+                very conveniently linked to those places, so useful screens are always at your
+                fingertips. For example, screens that use Person information display a link to the
+                Person Lookup screen. This lets you search for the exact Person you need and enter
+                that Person's information automatically on those screens. (In Rice, a Person is a
+                set of information about a real person or something that stands for real people,
+                like a job title.)</para>
+            <para>Not only will you find links to a useful screen like Person Lookup on many other
+                screens, but what you see on that useful screen may depend on how you get to it. For
+                example, if you go to the Person Lookup screen from an Administration menu and
+                search for a Person, the search results list has Actions in the left column, and the
+                link for each Person in the Actions column takes you to the edit screen for that
+                Person.</para>
+            <para>On the other hand, if you go to a Person Lookup screen from other locations, the
+                left column of your search results list has a return value link. You can click this
+                link on the row for the Person you need to close the Person Lookup screen and
+                automatically enter the information for that Person on the original screen (the
+                screen where you clicked the magnifying glass icon).</para>
+        </section>
+        <section>
+            <title>Common Functions</title>
+            <section>
+                <title>Entering Search Information</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Dates should be entered as mm/dd/yyyy. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Wildcards in searches: You may use the asterisk (*) and the percent
+                            symbol (%) as wildcards in searches. If you need more information about
+                            using wildcards in searches, do a search in your favorite Internet
+                            search engine to find one of many explanations of wildcards. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Range operators allowed on numbers and dates in searches: >, &lt;, >=,
+                            &lt;=, or '..'. All operators except '..' should be before a date. Use
+                            operators to separate dates. If you need more information about using
+                            range operators in searches, do a search in your favorite Internet
+                            search engine to find one of many explanations of range operators in
+                            searches. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Search Results</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Each column in your list of search results has a link on the header
+                            (the title of the column) for sorting. Click the column title once to
+                            sort the search results list in ascending order by that column and click
+                            again to sort it in descending order. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Some fields have links to the Inquiry screen for that field. If you
+                            click the link, the inquiry appears in a new window with information
+                            about that field. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the return value link on a row to enter information from that
+                            row in your previous page. Select return with no value or click the
+                            cancel button if you wish to go back to your previous page without
+                            entering anything from your search list. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Maintenance Links</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>The create new link in the upper left corner of the lookup screen
+                            displays a maintenance screen where you can create a new record for this
+                            lookup type. For example, the create new button on a Person Lookup
+                            screen takes you to the screen to create a new Person in Rice. </para>
+                    </listitem>
+                    <listitem>
+                        <para>On each row in your search results list, the Actions column displays
+                            edit and copy links: <itemizedlist>
+                                <listitem>
+                                    <para>The edit link takes you to a maintenance screen for
+                                        editing that record. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>The copy link takes you to a new document screen with
+                                        information from that item already entered in the fields for
+                                        the new document. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Exporting Your Data</title>
+                <para>Below the list of search results, there are links for exporting the search
+                    results list to a different format. Click:<itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">CSV</emphasis> to export the data as a
+                                comma-delimited file </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Spreadsheet</emphasis> to export the data as
+                                a spreadsheet </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Xml</emphasis> to export the data as xml
+                            </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+        </section>
+        <section>
+            <title>Lookup Wildcards</title>
+            <para>Rice allows you to use wildcards in the Lookup process. The available wildcards
+                and their functions:<table frame="none" tabstyle="striped">
+                    <title>Lookup Wildcards</title>
+                    <tgroup cols="5">
+                        <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                        <colspec colname="c4" colnum="4" colwidth="0.5*"/>
+                        <colspec colname="newCol5" colnum="5" colwidth="1.5*"/>
+                        <thead>
+                            <row>
+                                <entry>Operator</entry>
+                                <entry>Name</entry>
+                                <entry><para>Compatible Data Types</para></entry>
+                                <entry>Precedence</entry>
+                                <entry>Notes</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>|</entry>
+                                <entry>Or</entry>
+                                <entry>All</entry>
+                                <entry>Always</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>&amp;&amp;</entry>
+                                <entry>And</entry>
+                                <entry>All</entry>
+                                <entry>Always</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>!</entry>
+                                <entry>Not Equal to</entry>
+                                <entry>String</entry>
+                                <entry>1</entry>
+                                <entry><para>If used repeatedly, e.g. !1031490!1031491, an &amp;&amp; is assumed, leading to !1031490&amp;&amp;!1031491</para></entry>
+                            </row>
+                            <row>
+                                <entry>?, *</entry>
+                                <entry>Like</entry>
+                                <entry>String</entry>
+                                <entry>7</entry>
+                                <entry><para>? will match any one character and * will match any number of characters. These will still be used if ! has been used, but not if any of the range criteria below have been used.</para></entry>
+                            </row>
+                            <row>
+                                <entry>></entry>
+                                <entry>Greater Than</entry>
+                                <entry><para>String, Number, Date</para></entry>
+                                <entry>3</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>&lt;</entry>
+                                <entry>Less Than</entry>
+                                <entry><para>String, Number, Date</para></entry>
+                                <entry>4</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>>=</entry>
+                                <entry>Greater Than or Equal To</entry>
+                                <entry>String, Number, Date</entry>
+                                <entry>5</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>&lt;=</entry>
+                                <entry>Less Than or Equal To</entry>
+                                <entry>String, Number, Date</entry>
+                                <entry>6</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>..</entry>
+                                <entry>Greater Than or Equal to and Less Than or Equal to</entry>
+                                <entry>String, Number, Date</entry>
+                                <entry>2</entry>
+                                <entry/>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table></para>
+            <para>Examples of how some of the wildcards operate:</para>
+            <table frame="none" tabstyle="striped">
+                <title>Account Number (String) Example of Wildcard Use</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Wildcard</entry>
+                            <entry>Action</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>>=1031490</entry>
+                            <entry>Accounts with an account number greater than or equal to
+                                1031490</entry>
+                        </row>
+                        <row>
+                            <entry>>1031490&amp;&amp;&lt;1111500</entry>
+                            <entry>Accounts with an account number greater than 1031490 and less
+                                than 1111500</entry>
+                        </row>
+                        <row>
+                            <entry>>=1031490&amp;&amp;&lt;=1111500</entry>
+                            <entry>Accounts with an account number greater or equal to 1031490
+                                and less than or equal to 1111500</entry>
+                        </row>
+                        <row>
+                            <entry>1031490..1111500</entry>
+                            <entry>Accounts with an account number greater than or equal to
+                                1031490 and less than or equal to 1111500</entry>
+                        </row>
+                        <row>
+                            <entry>103*</entry>
+                            <entry>Accounts with an account number starting with 103</entry>
+                        </row>
+                        <row>
+                            <entry>103?490</entry>
+                            <entry>Accounts with an account number 1031490, 1032490, 1033490…
+                                The ? will match any one character with 103 before it and 490
+                                after it</entry>
+                        </row>
+                        <row>
+                            <entry>1031490..1111500&amp;&amp;1123400</entry>
+                            <entry>Accounts with an account number greater than or equal to
+                                1031490 and less than or equal to 1111500 and accounts with
+                                account number like 1123400</entry>
+                        </row>
+                        <row>
+                            <entry>103149*|105167*</entry>
+                            <entry>Accounts with an account number that starts with 103149 or
+                                105167</entry>
+                        </row>
+                        <row>
+                            <entry>103149|105167</entry>
+                            <entry>Accounts with an account number that starts with 103149 or
+                                105167</entry>
+                        </row>
+                        <row>
+                            <entry>*1111*</entry>
+                            <entry>Accounts with an account number with 1111 somewhere in
+                                it</entry>
+                        </row>
+                        <row>
+                            <entry>!1031490&amp;&amp;!1031491</entry>
+                            <entry>Accounts except those with account numbers 1031490 and
+                                1031491</entry>
+                        </row>
+                        <row>
+                            <entry>!1031490!1031491</entry>
+                            <entry>Accounts except those with account numbers 1031490 and
+                                1031491</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <table frame="none" tabstyle="striped">
+                <title>Proposal Number (String) Example of Wildcard Use</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Wildcard</entry>
+                            <entry>Action</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>>1031490&amp;&amp;&lt;1111500</entry>
+                            <entry>Proposals with a proposal number between 1031490 and
+                                111500</entry>
+                        </row>
+                        <row>
+                            <entry>103*</entry>
+                            <entry>Will not parse as a number, so it will not be included in
+                                criteria</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <table frame="none" tabstyle="striped">
+                <title>Create Date (Date) Example of Wildcard Use</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Wildcard</entry>
+                            <entry>Action</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>10/07/1976..10/07/1983</entry>
+                            <entry>Accounts with a create date greater than or equal to
+                                10/07/1976 and less than or equal to 10/07/1983</entry>
+                        </row>
+                        <row>
+                            <entry>10*</entry>
+                            <entry>Will not parse as a date, so will not be included in
+                                criteria</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        <section>
+            <title>Result Set Limits</title>
+            <para>Some lookups for certain business entities in Rice return different numbers of
+                results than the system default; as a result, system administrators may need to be
+                able to limit this set of returned results on an entity-by-entity basis.</para>
+        </section>
+        <section xml:id="frequent_tab">
+            <title>Frequently Used Tabs</title>
+            <para>To make it easier to do your work, Rice often provides access to the same
+                information from several screens. Some of the most frequently used are described
+                here:</para>
+            <section>
+                <title>Ad Hoc Recipients Tab</title>
+                <para>The Ad Hoc Recipients tab allows you to interrupt the normal workflow routing
+                    of a document and include other individuals or groups in its routing path. Ad
+                    Hoc Routing does not replace the normal workflow routing of the document; it
+                    adds people or groups to the normal routing. </para>
+                <para>The Ad Hoc Recipients tab has two sections: Person Requests and Ad Hoc Group
+                    Requests. Use one or both of the sections to route the document to an additional
+                    person, group, or both.</para>
+                    <figure><title>Ad Hoc Recipients Tab</title>
+                        <mediaobject>
+                            <imageobject>
+                            <imagedata fileref="../images/ad_hoc_recipients_tab.png"/>
+                        </imageobject>       
+                        </mediaobject>
+                    </figure>    
+                
+                    <figure><title>Ad Hoc Recipients Tab: Person Requests</title>
+                        <mediaobject>
+                            <imageobject>
+                            <imagedata fileref="../images/person_requests_section.png"/>
+                        </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <table frame="none" tabstyle="striped">
+                        <title>Ad Hoc Recipients: Person Requests attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Action Requested</entry>
+                                    <entry>Required field. Select the desired action from the Action
+                                        Requested list. The choices are APPROVE, ACKNOWLEDGE, and
+                                        FYI.</entry>
+                                </row>
+                                <row>
+                                    <entry>Person</entry>
+                                    <entry>Required when you want to route the document to an
+                                        individual. Enter a user ID or select it using the UserID
+                                        lookup button.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                
+                <para>When you click the Add button, Rice adds this person to the routing path for this document.</para>
+                    <figure><title>Ad Hoc Recipients Tab: Group Requests Section</title>
+                        <mediaobject>
+                            <imageobject>
+                            <imagedata fileref="../images/ad_hoc_group_requests_section.png"
+                                scale="85"/>
+                        </imageobject>
+                        </mediaobject>
+                    </figure>
+                
+                <para>Follow the same guidelines as the Person Requests Section of the Ad Hoc
+                    Recipients Tab, using a group instead of a person.<table frame="none" tabstyle="striped">
+                        <title>Ad Hoc Recipients: Group Requests attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Namespace Code</entry>
+                                    <entry>Optional field. The Rice code for the Namespace being
+                                        acted upon.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table></para>
+            </section>
+            <section xml:id="doc_overview_tab">
+                <title>Document Overview Tab</title>
+                <para>The Document Overview tab contains the short description for a document and
+                    two other optional fields. This tab is used for many documents.</para>
+                    <figure><title>Document Overview Tab</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/document_overview_tab.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <table frame="none" tabstyle="striped">
+                        <title>Document Overview Tab: Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Description</entry>
+                                    <entry>Required field. Enter the short description for the
+                                        document. The description appears in Inquiry screens,
+                                        standard reports, Action Lists, and Document Searches as the
+                                        primary identification for a document.</entry>
+                                </row>
+                                <row>
+                                    <entry>Org Doc #</entry>
+                                    <entry>Optional field. Enter the Org Doc # assigned by your
+                                        institution. This number may provide departmental or
+                                        organizational information for the document. This number is
+                                        not the same as the Document Number, which is assigned by
+                                        Rice.</entry>
+                                </row>
+                                <row>
+                                    <entry>Explanation</entry>
+                                    <entry>Optional field. Enter a more detailed explanation than
+                                        the information supplied in the description field.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+            </section>
+            <section>
+                <title>Note and Attachments Tab</title>
+                <para>The Notes and Attachments tab has fields for user notes, attachments, and
+                    system-generated remarks about the document. The number of notes and/or
+                    attachments for the current document is displayed on the tab, in parentheses
+                    next to the tab title.</para>
+                    <figure><title>Notes and Attachments Tab</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/notes_attachments_tab.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>    
+                        <table frame="none" tabstyle="striped">
+                        <title>Notes and Attachments Tab: Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Posted Timestamp</entry>
+                                    <entry>Display-only field. The time and date when the attachment
+                                        or note was posted</entry>
+                                </row>
+                                <row>
+                                    <entry>Author</entry>
+                                    <entry>Display-only field. The full name of the user who added
+                                        the notes or attachments</entry>
+                                </row>
+                                <row>
+                                    <entry>Note Text</entry>
+                                    <entry>Required field. Enter comments about the
+                                        document.</entry>
+                                </row>
+                                <row>
+                                    <entry>Attached File</entry>
+                                    <entry>Optional field. Select the file to attach by clicking
+                                        Browse and using Window's standard Choose File dialog box.
+                                        Click CANCEL if you want to clear the file name that you
+                                        select. </entry>
+                                </row>
+                                <row>
+                                    <entry>Actions</entry>
+                                    <entry>You have only one Action available if you are going to
+                                        add a note or attachment, which is to Add it. Click the add
+                                        button to add the note or attachment.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+            </section>
+            <section>
+                <title>Route Log Tab</title>
+                <para>The Route Log tab displays details of the workflow status.</para>
+                <figure><title>Route Log Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/route_log_tab.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>   
+                
+                    <figure><title>Route Log Tab: ID Section</title>
+                        <mediaobject>
+                            <imageobject>
+                            <imagedata fileref="../images/id_section_route_log_tab.png"/>
+                        </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <table frame="none" tabstyle="striped">
+                        <title>Route Log Tab: ID Section Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Title</entry>
+                                    <entry>A combination of the Document Type, Description, and the
+                                        Organization Document Number</entry>
+                                </row>
+                                <row>
+                                    <entry>Type</entry>
+                                    <entry>Type of transaction. The full name of the transaction,
+                                        used to identify this Document Type in Workflow</entry>
+                                </row>
+                                <row>
+                                    <entry>Initiator</entry>
+                                    <entry>The User ID of the person who created the
+                                        document</entry>
+                                </row>
+                                <row>
+                                    <entry>Status</entry>
+                                    <entry>Workflow document status</entry>
+                                </row>
+                                <row>
+                                    <entry>Node(s)</entry>
+                                    <entry>The steps that a document takes through the different
+                                        levels of routing are also referred to as Route Nodes. This
+                                        field shows the current Route Node of the document.</entry>
+                                </row>
+                                <row>
+                                    <entry>Created</entry>
+                                    <entry>Time and date that the document was created</entry>
+                                </row>
+                                <row>
+                                    <entry>Last Modified</entry>
+                                    <entry>Time and date that the document was last modified
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry>Last Approved</entry>
+                                    <entry>Time and date that the last action was taken on this
+                                        document</entry>
+                                </row>
+                                <row>
+                                    <entry>Finalized</entry>
+                                    <entry>Time and date that the document reaches Final, Canceled,
+                                        or Disapproved status</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                
+                    <figure><title>Route Log Tab: Future Action Requests Section</title>
+                            <mediaobject>
+                                <imageobject>
+                            <imagedata fileref="../images/future_action_requests_section.png"
+                                scale="85"/>
+                        </imageobject>
+                            </mediaobject>                       
+                    </figure>
+                
+                <para>Once a document is Saved or ENROUTE, this section shows the action requests
+                    that Workflow will generate in the future, based on the information currently on
+                    the document.</para>
+                <para>Future requests appear in the order in which they are to occur.</para>
+            </section>
+        </section>
+    </section>
+    <section xml:id="reporting_rice_jira">
+        <title>Reporting an Issue with Kuali Rice</title>
+        <para>An issue is a problem or error that you see in Kuali Rice. When you report an issue,
+            you help us improve Rice and make it work better for everyone. </para>
+        <para>Thank you for taking the time to report this issue!</para>
+        <section>
+            <title>Step 1: Search for a Similar Issue</title>
+            <para>Kuali Rice keeps an online list of issues (bugs and suggested improvements and new
+                features) using an issue tracking application called Jira. Your first step is to
+                find out if the issue you have has already been reported by someone. <orderedlist>
+                    <listitem>
+                        <para>Go to the Jira Issue Navigator page to search through the issues that
+                            have already been reported for Kuali Rice, looking for an issue like
+                            yours: <link
+                                xlink:href="https://jira.kuali.org"
+                                >https://jira.kuali.org</link>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Find the Text Search section at the top of the of the Issue Navigator
+                            page.</para>
+                         <figure><title>Jira Search: Query options</title>   
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Jira_search.png"/>
+                                </imageobject>
+                            </mediaobject>
+                         </figure>   
+                    </listitem>
+                    <listitem>
+                        <para>In the Query field of the Text Search section, enter some text that
+                            describes your issue. Try to use words that other people would also use
+                            to describe this issue.</para>
+                    </listitem>
+                    <listitem>
+                        <para>After you enter some text in the Query field, press the Enter key to
+                            begin the search. </para>
+                    </listitem>
+                    <listitem>
+                        <para>In a moment or two, Issue Navigator displays all the existing issues
+                            that contain your Query text. These are displayed in the main body of
+                            the page. Look through these to see if there is one that is similar to
+                            your issue. </para>
+                    </listitem>
+                    <listitem>
+                        <para>If you don't find an issue similar to the one you want to report, try
+                            searching with different text in the query field. </para>
+                    </listitem>
+                    <listitem>
+                        <para>If you do find an issue that is similar to the new one that you want
+                            to report, don't enter a new issue. Simply add a comment to that
+                            existing issue that describes any differences in your issue or adds
+                            information about the issue. </para>
+                    </listitem>
+                    <listitem>
+                        <para>After trying a few searches, if you don't find an issue that is
+                            similar to the one you want to report, please proceed with the
+                            instructions below. </para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        <section>
+            <title>Step 2: Create an Issue in JIRA</title>
+            <para>If you didn't find a similar issue on the Issue Navigator page, then please create
+                a new issue in JIRA. (If you are a developer, you also determined that this is an
+                issue with Kuali Rice and not with your application.)<orderedlist>
+                    <listitem>
+                        <para>Go to Kuali JIRA (<link
+                                xlink:href="https://jira.kuali.org/secure/CreateIssue!default.jspa"
+                                >https://jira.kuali.org/secure/CreateIssue!default.jspa</link>).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>In the Project field, select Kuali Rice Development from the dropdown list.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Select the appropriate Issue Type from the dropdown list: <itemizedlist>
+                                <listitem>
+                                    <para>For bugs, select Bug Fix. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>For enhancements, select either Improvement or, for
+                                        something that's not yet developed: New Feature, as
+                                        appropriate. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>DO NOT select Task. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the Next>> button. </para>
+                    </listitem>
+                </orderedlist></para>
+                <figure><title>Create New Jira: Initial Screen</title>
+                    <mediaobject>
+                        <imageobject>
+                        <imagedata fileref="../images/Jira_create_issue.png"/>
+                    </imageobject>
+                    </mediaobject>
+                </figure>    
+        </section>
+        <section>
+            <title>Step 3: Fill Out Required Fields</title>
+            <note><para>JIRA only displays fields that are appropriate to the Issue Type that you selected on the
+                    previous page. You may not see all of the fields listed below, and the fields
+                    you see may be in a different order. Complete the fields from this list that you
+                    do see.</para></note>
+            <para><emphasis role="bold">Only</emphasis> enter information in these fields:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Summary</emphasis>: Enter a short, descriptive
+                            title for this issue. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Application Requirement</emphasis>: Select the
+                            application for which this issue is a requirement. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Description</emphasis>: Describe the issue in
+                            full. Provide enough information that the person who tries to fix this
+                            issue can find it easily and understand the bug or the improvement or
+                            feature you are suggesting. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Priority</emphasis>: Select the correct priority:<itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">Blocker</emphasis>: Blocks
+                                        development and/or testing work, production cannot
+                                        run.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Critical</emphasis>: Crashes, loss
+                                        of data, severe memory leak. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Major</emphasis>: Major loss of
+                                        function. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Minor</emphasis>: Minor loss of
+                                        function or other problem where an easy workaround is
+                                        available. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Trivial</emphasis>: Cosmetic problem
+                                        like misspelled words or misaligned text.</para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Affects Version/s</emphasis>: If this is a bug,
+                            select the version(s) of Rice in which it appears. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Environment</emphasis>: Enter specific
+                            information about the operating system, software platform, and/or
+                            hardware as appropriate for this issue. Ignore all other fields. Do not
+                            change them. Other people use those fields. This screen print is from
+                            the Bug Fix screen. The screens for Improvement and for New Feature are
+                            slightly different. The fields in which you need to enter information
+                            are highlighted in this screen print. </para>
+                    </listitem>
+            </itemizedlist></para>
+            <para><emphasis role="bold">Ignore all other fields. Do not change them.</emphasis>
+                Other people use those fields.</para>
+            <para>This screen print is from the Bug Fix screen. The screens for Improvement and for
+                New Feature are slightly different. The fields in which you need to enter
+                information are highlighted in this screen print.</para>
+            <figure><title>Create New Jira: Detail Section</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/Jira_bug_fix.png" scale="65"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Step 4: Save the Jira issue</title>
+            <para>After entering the information about the your issue, click the Create button at
+                the bottom of the page. This creates your issue in JIRA.</para>
+        </section>
+    </section>
+</chapter>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd	
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="riceDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+		<property name="driverClassName" value="${rice.datasource.driver.name}" />
+		<property name="url" value="${rice.datasource.url}" />
+		<property name="maxSize" value="${rice.datasource.pool.maxSize}" />
+		<property name="minSize" value="${rice.datasource.pool.minSize}" />
+		<property name="maxWait" value="${rice.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${rice.datasource.pool.validationQuery}" />
+		<property name="username" value="${rice.datasource.username}" />
+		<property name="password" value="${rice.datasource.password}" />
+	</bean>
+	
+	<bean id="${PROJECT_NAME}DataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+		<property name="driverClassName" value="${${PROJECT_NAME}.datasource.driver.name}" />
+		<property name="url" value="${${PROJECT_NAME}.datasource.url}" />
+		<property name="maxSize" value="${${PROJECT_NAME}.datasource.pool.maxSize}" />
+		<property name="minSize" value="${${PROJECT_NAME}.datasource.pool.minSize}" />
+		<property name="maxWait" value="${${PROJECT_NAME}.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${${PROJECT_NAME}.datasource.pool.validationQuery}" />
+		<property name="username" value="${${PROJECT_NAME}.datasource.username}" />
+		<property name="password" value="${${PROJECT_NAME}.datasource.password}" />
+	</bean>
+
+<!--
+    <bean id="riceDataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+  	  <property name="uniqueResourceName" value="riceRiceDataSource"/>
+  	  <property name="driverClassName" value="${rice.datasource.driver.name}"/>
+  	  <property name="url" value="${rice.datasource.url}"/>
+  	  <property name="poolSize" value="${rice.datasource.pool.size}"/>
+  	  <property name="connectionTimeout" value="${rice.datasource.pool.maxWait}"/>
+  	  <property name="validatingQuery" value="${rice.datasource.pool.validationQuery}"/>
+  	  <property name="testOnBorrow" value="true"/>
+  	  <property name="user" value="${rice.datasource.username}"/>
+  	  <property name="password" value="${rice.datasource.password}"/>
+    </bean>
+-->
+
+    <bean id="${PROJECT_NAME}NonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${${PROJECT_NAME}.datasource.driver.name}"/>
+        <property name="url" value="${${PROJECT_NAME}.datasource.url}"/>
+        <property name="maxActive" value="${${PROJECT_NAME}.datasource.pool.maxActive}"/>
+        <property name="minIdle" value="${${PROJECT_NAME}.datasource.minIdle}" />
+        <property name="initialSize" value="${${PROJECT_NAME}.datasource.initialSize}"/>
+        <property name="validationQuery" value="${${PROJECT_NAME}.datasource.pool.validationQuery}"/>
+        <property name="username" value="${${PROJECT_NAME}.datasource.username}" />
+        <property name="password" value="${${PROJECT_NAME}.datasource.password}" />
+        <property name="accessToUnderlyingConnectionAllowed" value="${${PROJECT_NAME}.datasource.accessToUnderlyingConnectionAllowed}"/>
+    </bean>
+
+</beans>

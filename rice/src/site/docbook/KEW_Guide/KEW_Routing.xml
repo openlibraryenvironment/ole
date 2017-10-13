@@ -1,0 +1,1171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Routing" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Routing</title>
+        <para><emphasis role="bold">Please Note:</emphasis> The following sections on routing and
+            rules are written as they relate the legacy/traditional KNS workflow. A new concept of
+            workflows, called PeopleFlows, and their use and maintenance is covered in a separate
+            section.</para>
+        <section>
+            <title>Delegate Rules and Delegation Routing Rules</title>
+            <para>Rice provides a quick and convenient way to obtain information on Delegation Rules
+                through the <emphasis role="bold">Delegate Rule Lookup</emphasis>. This Lookup also
+                lets you create new Delegation Rules using the <emphasis role="bold">create
+                    new</emphasis> function and edit existing Delegation Rules.</para>
+            <figure><title>Workflow Channel: Routing Rules Delegation Link</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/routing_rules_delegation.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>To access the <emphasis role="bold">Delegate Rule Lookup</emphasis> screen, click
+                    <emphasis role="bold">Routing Rules Delegation</emphasis> on the Rice Main
+                Menu.</para>
+            <figure><title>Delegation Lookup</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/delegate_rule_lookup.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Use the <emphasis role="bold">Delegate Rule Lookup</emphasis> screen to find
+                information about a Delegation Rule. You can also create a new Rule by clicking the
+                create new button in the upper right corner of the screen. The create new function
+                is described in the Routing Rule Creation section later in this document.</para>
+            <para>When you do a search from the Delegate Rule Lookup screen, you can:
+                <itemizedlist>
+                    <listitem>
+                        <para>View the Delegation Rule information returned by the search </para>
+                    </listitem>
+                    <listitem>
+                        <para>Edit a Delegation Rule </para>
+                    </listitem>
+                    <listitem>
+                        <para>Copy an existing Delegation Rule and create a new one based on that
+                            copy </para>
+                    </listitem>
+            </itemizedlist></para>
+            <para>Information about the Lookup function is in the next section of this document. The
+                other two functions are described in the Routing Rule Delegation Maintenance section
+                later in this document.</para>
+            <para>To find a Delegation Rule quickly, enter information in one or more of the fields
+                on the Lookup screen, then click the <emphasis role="bold">search</emphasis> button.
+                If you are not familiar with the search fields, you can leave all of the fields
+                blank and click the <emphasis role="bold">search</emphasis> button. The <emphasis
+                    role="bold">Delegate Rule Lookup</emphasis> page then displays all of the
+                Delegation Rule templates.</para>
+            <para>The fields on this screen are described in the Routing Rule Delegation Maintenance
+                section of this document.</para>
+            <note><para><emphasis role="bold">Parent Rule Id</emphasis> is a unique identification number
+                for a Rule Template; therefore, searching by the Parent Rule Id can be the fastest
+                way to find a particular Rule.</para></note>
+            <para>After you click the search button, Delegate Rule Lookup displays a list of Rules
+                that looks similar to this:</para>
+            <figure><title>Delegation Lookup: Results Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rules_list.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Click <emphasis role="bold">edit</emphasis> on any row to go to the <emphasis
+                    role="bold">Routing Rule Delegation</emphasis> document for that Rule. You can
+                use this document to do maintenance on that Rule. This is discussed later in this
+                document, in the Routing Rule Delegation Maintenance section.</para>
+            <para>Click <emphasis role="bold">copy</emphasis> on any row to go to the <emphasis
+                    role="bold">Routing Rule Delegation</emphasis> document with the information
+                from that Rule copied into the document. This lets you add a new Delegation Rule
+                based on that information. This is discussed later in this document in the Routing
+                Rule Delegation Maintenance section.</para>
+            <para>Click a <emphasis role="bold">Delegation Rule Id</emphasis> to go to the <emphasis
+                    role="bold">Delegation Rule Inquiry</emphasis> screen for that Rule. This screen
+                displays specific information about how this Rule is set up in Rice. This screen is
+                discussed later in this document in the <emphasis role="bold">Delegation Rule
+                    Inquiry</emphasis> section.</para>
+            <para>Click a Parent Rule Id or a Name to go to the <emphasis role="bold">Rule
+                    Inquiry</emphasis> screen, where you can see details about that Parent Rule ID.
+                More information about this screen can be found in the Rule Inquiry section of this
+                User Guide.</para>
+            <para>Click a Rule Template to go to the <emphasis role="bold">Rule Template
+                    Inquiry</emphasis> screen. More information about this screen can be found in
+                the Rule Template Inquiry section of this User Guide.</para>
+            <para>The standard export options apply to this list of search results. An explanation
+                of the export options can be found in the Common Features and Functions section of
+                this User Guide.</para>
+        </section>
+        <section>
+            <title>Delegation Rule Inquiry</title>
+            <figure><title>Delegation Inquiry</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/delegation_rule_inquiry.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>This screen provides specific information on how a <emphasis role="bold"
+                    >Rule</emphasis> works. From this screen, you can either click the <emphasis
+                    role="bold">close</emphasis> button to return to the previous screen or you can
+                export an XML version of this information.</para>
+            <para>The fields on this screen are described in the Rule Maintenance section of this
+                document.</para>
+        </section>
+        <section>
+            <title>Delegate Routing Rule Creation</title>
+            <figure><title>Delegation Rule: Create New Screen</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/delegate_routing_rule_creation.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>To create a new Delegate Routing Rule, start by selecting a Parent Rule to
+                associate with your new Delegate Rule:<orderedlist>
+                    <listitem>
+                        <para>Do a field lookup on the Select parent rule field.</para>
+                    </listitem>
+                    <listitem>
+                        <para>This displays the <emphasis role="bold">Rule Lookup</emphasis> screen
+                            where you search in the Rules your institution has defined in Rice to
+                            find the appropriate Parent Rule for your new Delegate Routing Rule.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>When you have found the appropriate Parent Rule, click its return
+                            value link to return to the Delegate Routing Rule Creation screen with
+                            this Parent Rule.</para>
+                        <figure><title>Delegate Routing Rule: Create New, Parent Selection</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/KEW_Guide/delegate_routing_rule_creation2.png" width="100%" scalefit="1"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>Information from the Parent Rule you selected is now in the <emphasis
+                                role="bold">Select Parent Responsibility to Delegate From</emphasis>
+                            section of the <emphasis role="bold">Delegate Routing Rule
+                                Creation</emphasis> screen.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the <emphasis role="bold">Select</emphasis> button for this
+                            parent Rule.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the <emphasis role="bold">continue</emphasis> button.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Rice displays the <emphasis role="bold">Routing Rule
+                                Delegation</emphasis> screen. Use this screen to enter information
+                            for your new Rule. This is described in the <emphasis role="bold"
+                                >Routing Rule Delegation Maintenance</emphasis> section
+                            (next).</para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        <section>
+            <title>Routing Rule Delegation Maintenance</title>
+            <para>You can use the <emphasis role="bold">Routing Rule Delegation</emphasis> document
+                screen for both editing existing Delegation Rules and for adding new Delegation
+                Rules to Rice. </para>
+            <figure><title>Routing Rule Delegation: Overview</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/routing_rule_delegation.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <note><para>When Rice first displays the <emphasis role="bold">Routing Rule
+                    Delegation</emphasis> screen, all of the tabs except the Notes and Attachments,
+                Ad Hoc Recipients, and Route Log tabs, are expanded. They are all collapsed in the
+                screen print above so you can see all of them.</para></note>
+            <section>
+                <title>Document Layout</title>
+                <para>The Routing Rule Delegation screen you see when creating a new Rule has eight tabs:<itemizedlist>
+                        <listitem>
+                            <para>Document Overview </para>
+                        </listitem>
+                        <listitem>
+                            <para>Delegation Details </para>
+                        </listitem>
+                        <listitem>
+                            <para>Delegate Rule </para>
+                        </listitem>
+                        <listitem>
+                            <para>Persons </para>
+                        </listitem>
+                        <listitem>
+                            <para>Groups </para>
+                        </listitem>
+                        <listitem>
+                            <para>Notes and Attachments </para>
+                        </listitem>
+                        <listitem>
+                            <para>Ad Hoc Recipients </para>
+                        </listitem>
+                        <listitem>
+                            <para>Route Log </para>
+                        </listitem>
+                </itemizedlist></para>
+                <para>The <emphasis role="bold">Delegation Details, Delegate Rule,
+                        Persons</emphasis>, and <emphasis role="bold">Groups</emphasis> tabs are
+                    discussed in the sections that follow. The remaining four tabs are commonly used
+                    throughout Rice and are described in the Common Features and Functions section
+                    of the User Guide.</para>
+            </section>
+            <section>
+                <title>Delegation Details Tab</title>
+                <para>The Delegation Details tab is where you associate a Parent Rule with a
+                    Delegate Rule. It is also where you assign the Reviewer role.</para>
+                <para>The Delegation Details screen is displayed differently, depending on whether
+                    you are creating a new Rule or editing/copying a Rule. The version you see when
+                    creating a new Rule looks similar to this:</para>
+                <figure><title>Routing Rule Delegation: Details Section</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/delegation_details.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The information displayed is a copy of the information for the Parent Rule.
+                    Descriptions of these fields are below. Change this information as needed, then
+                    click the <emphasis role="bold">submit</emphasis> button to create this new
+                    Rule.</para>
+                <para>The version you see when editing or copying a Rule looks similar to
+                    this:</para>
+                <figure><title>Routing Rules Delegation: Edit/Copy View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/copying_rules.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>When you first see this version, the information in both columns is the same.
+                    You can modify the information in the fields in the right column, but not the
+                    left column. After changing the information appropriately in the right column,
+                    click the submit button to save your changes to this Rule.</para>
+                <para>The fields are the same in both versions of the screen:</para>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Routing Rules Delegation Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Parent Rule Id</entry>
+                                    <entry>Rule Id of the Parent Rule for this Rule</entry>
+                                </row>
+                                <row>
+                                    <entry>Description</entry>
+                                    <entry>General description of this Rule</entry>
+                                </row>
+                                <row>
+                                    <entry>Reviewer</entry>
+                                    <entry>The person responsible for reviewing a document in the
+                                        routing process for this Rule</entry>
+                                </row>
+                                <row>
+                                    <entry>Type</entry>
+                                    <entry>The Type of the Reviewer</entry>
+                                </row>
+                                <row>
+                                    <entry>Action Request</entry>
+                                    <entry><para>The type of Action this Reviewer can take. This may be:</para>
+                                        <itemizedlist>
+                                            <listitem>
+                                                <para>Acknowledge</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Complete</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Approve</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>FYI</para>
+                                            </listitem>
+                                        </itemizedlist></entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Delegate Rule tab</title>
+                <para>The Delegate Rule tab is displayed differently, depending on whether you are
+                    creating a new Rule or editing/copying a Rule. The version you see when creating
+                    a new Rule looks similar to this:</para>
+                <figure><title>Routing Rules Delegation: Delegate Rule Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/delegate_rule.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Enter the appropriate information for your new Delegate Rule in these fields.
+                    There are descriptions of each of these fields below.</para>
+                <para>The version you see when editing or copying a Rule looks similar to
+                    this:</para>
+                <figure><title>Routing Rule Delegation: Delegate Rule Tab, Edit/Copy View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/delegate_rule_copy.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>When you first see this version, the information in both columns is the same.
+                    You can modify the information in the fields in the right column, but not the
+                    left column. After changing the information in the right column
+                    appropriately.</para>
+                <para>The fields are the same in both versions of the screen:</para>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Routing Rule Delegation: Delegate Rule Tab Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Document Type</entry>
+                                    <entry>The Document Type defines the routing definition and
+                                        other properties for a set of documents. Each document is an
+                                        instance of a Document Type and conducts the same type of
+                                        business transaction as other instances of that Document
+                                        Type.</entry>
+                                </row>
+                                <row>
+                                    <entry>Rule Template</entry>
+                                    <entry>A Rule Template serves as a pattern or design for routing
+                                        Rules.</entry>
+                                </row>
+                                <row>
+                                    <entry>Delegation Type</entry>
+                                    <entry><para>Required. Options for Delegation Type are:</para>
+                                        <itemizedlist>
+                                            <listitem>
+                                                <para><emphasis role="bold">Primary</emphasis>: This
+                                                  means that the delegator turns over full authority
+                                                  to the delegate. The Action Requests for this
+                                                  delegator only show up in the Action List of the
+                                                  primary delegate. A primary delegate must be
+                                                  registered in KEW to be in effect.</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para><emphasis role="bold">Secondary</emphasis>:
+                                                  This means that the secondary delegate acts as a
+                                                  temporary backup delegator who has the same
+                                                  authority as the primary approver, or the
+                                                  secondary delegate acts as the delegator if the
+                                                  delegator is not available. Documents appear in
+                                                  the Action Lists of both the delegator and the
+                                                  secondary delegate. When either person acts on the
+                                                  document, it disappears from both Action Lists. A
+                                                  secondary delegate must be registered in KEW as
+                                                  being in effect for a specific time
+                                                  period(s).</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para><emphasis role="bold">Both</emphasis></para>
+                                            </listitem>
+                                        </itemizedlist></entry>
+                                </row>
+                                <row>
+                                    <entry>Name</entry>
+                                    <entry><para>he unique Name of the routing delegate Rule you are creating or editing.</para> 
+                                        <para><emphasis role="bold">Note: </emphasis>You are not required to enter a Name, but if you don't, Rice assigns a unique Name to the Rule.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry>Description</entry>
+                                    <entry>The general description of the Rule</entry>
+                                </row>
+                                <row>
+                                    <entry>From Date</entry>
+                                    <entry>The start date of the routing Rule</entry>
+                                </row>
+                                <row>
+                                    <entry>To Date</entry>
+                                    <entry>The expiration date of the routing Rule</entry>
+                                </row>
+                                <row>
+                                    <entry>Force Action</entry>
+                                    <entry>This is a Yes or No flag. A checkmark means Yes, blank
+                                        means No.</entry>
+                                </row>
+                                <row>
+                                    <entry>Active</entry>
+                                    <entry>A True/False flag to indicate whether this Routing
+                                        Delegate Rule is active in Rice. If it is active, you can
+                                        use it in Rice.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Persons tab</title>
+                <para>Rice displays the <emphasis role="bold">Persons</emphasis> tab differently,
+                    depending on whether you are creating a new Rule or editing/copying a Rule. This
+                    tab lets you add people to the Rule and set the type of Action each person needs
+                    to take under this Rule. The version of the Persons screen that you see when
+                    creating a new Delegate Rule looks similar to this:</para>
+                <figure><title>Routing Rules Delegation: Persons Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/persons_tab.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Enter the appropriate information for the Persons section of your new Delegate
+                    Rule in these fields. There are descriptions of each of these fields
+                    below.</para>
+                <para>The version you see when editing or copying a Rule looks similar to
+                    this:</para>
+                <figure><title>Routing Rules Delegation: Persons tab, Copy/Edit View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/persons_tab_copy.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Use the top portion of this tab to add a new Person to this Rule and set the
+                    Action that Person needs to take and its Priority. Use the lower portion of this
+                    tab to change existing values for this Rule. </para>
+                <note><para>When you create a new person, you must click the <emphasis role="bold"
+                        >add</emphasis> button when you have entered information in the three
+                    required fields. </para></note>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Routing Rules Delegation: Persons Tab Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Person</entry>
+                                    <entry>Required. An individual user who receives the document
+                                        for the Action Requested.</entry>
+                                </row>
+                                <row>
+                                    <entry>Action Request</entry>
+                                    <entry><para>Required. The type of Action this person needs to take. This Action may be one of these:</para><itemizedlist>
+                                            <listitem>
+                                                <para>Acknowledge</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Complete</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Approve</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>FYI</para>
+                                            </listitem>
+                                        </itemizedlist></entry>
+                                </row>
+                                <row>
+                                    <entry>Priority</entry>
+                                    <entry>Required. The priority associated with the Person in this
+                                        Rule. One is the highest Priority.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Groups tab</title>
+                <para>The Groups tab differently, depending on whether you are creating a new Rule
+                    or editing/copying a Rule. The version you see when creating a new Rule looks
+                    similar to this:</para>
+                <figure><title>Routing Rules Delegation: Groups Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/groups_tab.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Enter the appropriate information for the Groups section of your new Delegate
+                    Rule in these fields. These fields are described below.</para>
+                <para>The version you see when editing or copying a Rule looks similar to
+                    this:</para>
+                <figure><title>Routing Rules Delegation: Groups Tab, Edit/Copy View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/groups_tab_copy.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Use the top portion of this tab to add a new Group. Use the lower portion to
+                    change existing information for a Group. </para>
+                <note><para>When you create a new group, you must click the <emphasis role="bold">add</emphasis> button
+                        after you enter information in the required fields.</para></note>
+                <para><table frame="none" tabstyle="striped">
+                    <title>Routing Rules Delegation: Groups Tab Attributes</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Field</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Namespace</entry>
+                                <entry>The Namespace to which this Group will belong. A Namespace is
+                                        a way to set both Permissions and Entity Attributes. Each
+                                        Namespace instance is one level of Permissions and Entity
+                                        Attributes and is one record in Rice.</entry>
+                            </row>
+                                <row>
+                                    <entry>Name</entry>
+                                    <entry>The unique name of this Group</entry>
+                                </row>
+                            <row>
+                                <entry>Action Request</entry>
+                                <entry><para>Required. The type of Action this Group is expected to take.  The Action may be one of these:</para><itemizedlist>
+                                            <listitem>
+                                                <para>Acknowledge</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Complete</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Approve</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>FYI</para>
+                                            </listitem>
+                                        </itemizedlist></entry>
+                            </row>
+                            <row>
+                                <entry>Priority</entry>
+                                <entry>Required. The priority associated with the Group in this
+                                        Rule. One is the highest Priority.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table></para>
+            </section>
+        </section>
+        <section>
+            <title>Rule Lookup</title>
+            <para>The Rice system provides a quick and convenient way to obtain information on Rules
+                through the <emphasis role="bold">Rule Lookup</emphasis> feature. This feature also
+                provides an entry point to creating a new Rule through the <emphasis role="bold"
+                    >create new</emphasis> function.</para>
+           
+            <figure><title>Workflow Channel: Routing Rules Link</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/routing_rules_link.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>To access the <emphasis role="bold">Rule Lookup</emphasis> screen click on
+                    <emphasis role="bold">Routing Rules</emphasis> on the Rice <emphasis role="bold"
+                    >Main Menu</emphasis>.</para>
+            <para>The <emphasis role="bold">Rule Lookup</emphasis> screen is used to view, edit or
+                copy information about routing rules defined in Rice. It is also the starting point
+                for creating a new rule using the <emphasis role="bold">Routing Rule Creation
+                </emphasis>screen.</para>
+            <figure><title>Routing Rules Lookup</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_lookup.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Click on the <emphasis role="bold">create new</emphasis> button to go to the
+                Routing Rule Creation screen. The process for creating a new Routing Rule is
+                discussed in the <emphasis role="bold">Routing Rule Creation</emphasis> section of
+                this document.</para>
+            <para>To limit your search results you can select one or more of the available search
+                criteria. </para>
+            <para>The fields on this screen are described in the <emphasis role="bold">Rule
+            Maintenance</emphasis> section of this document.</para>
+            <note>
+                <para><emphasis role="bold">Rule Id</emphasis> is a unique identification number for a
+                    particular rule template; therefore, search by rule Id can produce the most accurate
+                    search result. </para>
+                <para>If you are not familiar with the search criteria provided above you can simply
+                    click on the <emphasis role="bold">search</emphasis> button and the Rule Lookup page
+                    will automatically provide a list of rule templates.</para>
+            </note>
+            <para>Rule Lookups return a list that looks similar to the following:</para>
+            <figure><title>Routing Rules Lookup: Results Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_lookup_results.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Clicking <emphasis role="bold">edit</emphasis> on any line item takes you to the
+                    <emphasis role="bold">Rule Maintenance Document Type Document</emphasis> where
+                you can perform maintenance on that rule. This is discussed later in this document
+                in the Rule Maintenance section.</para>
+            <para>Clicking <emphasis role="bold">copy</emphasis> on any line item takes you to the
+                    <emphasis role="bold">Rule Maintenance Document Type Document</emphasis> where
+                you can add a new rule based upon the rule you are copying. This is discussed later
+                in this document in the Rule Maintenance section.</para>
+            <para>Clicking a <emphasis role="bold">Rule Id</emphasis> will take you to the Rule
+                Inquiry screen for that specific rule. This is discussed later in this document in
+                the <emphasis role="bold">Rule Inquiry</emphasis> section.</para>
+            <para>Clicking a <emphasis role="bold">Document Type</emphasis> will take you to the
+                    <emphasis role="bold">Document Type Inquiry</emphasis> screen for that specific
+                rule. This is discussed in the <emphasis role="bold">Document Type
+                    Inquiry</emphasis> section of the User Guide.</para>
+            <para>The standard export options apply to this list. Explanation of the export options
+                can be found in the <emphasis role="bold">Common Features and Functions</emphasis>
+                section of the User Guide.</para>
+        </section>
+        <section>
+            <title>Rule Inquiry</title>
+            <figure><title>Routing Rules Inquiry</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_inquiry.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>This screen provides specific information on how the <emphasis role="bold"
+                    >Rule</emphasis> is set up in Rice. The fields on this screen are described in
+                the <emphasis role="bold">Rule Maintenance</emphasis> section of this
+                document.</para>
+        </section>
+        <section>
+            <title>Routing Rule Creation</title>
+            <figure><title>Routing Rules Creation</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/routing_rule_creation.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>When creating a new Routing Rule you start by entering the <emphasis role="bold"
+                    >Document Type</emphasis> and the <emphasis role="bold">Rule Template</emphasis>
+                you want associated with your new Rule, then click the continue button. This takes
+                you to the <emphasis role="bold">Rule Maintenance Document Type Document</emphasis>
+                described in the <emphasis role="bold">Rule Maintenance</emphasis> section that
+                follows.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Routing Rule Creation Attributes</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Field</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Document Type</entry>
+                                <entry>You can select a new document type by clicking on the field
+                                    lookup button located at the right side of the <emphasis
+                                        role="bold">Doc Type </emphasis>field. </entry>
+                            </row>
+                            <row>
+                                <entry>Rule Template</entry>
+                                <entry>
+                                    <para>The name of the Rule Template with which this rule is
+                                        associated. A Rule Template serves as a pattern or design
+                                        for the routing rules and is a mechanism for providing
+                                        configuration information to rules. </para>
+                                    <para>You can select a new template by clicking on the field
+                                        lookup button located at right side of the Rule Template
+                                        field. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>Routing Report</title>
+            <para>The routing report is a tool to check workflow routing. You select a rule template
+                and enter any routing data required by the rule template. You can then view the
+                workflow routing that would be assigned to such a document.</para>
+            <figure><title>Workflow Channel: Routing report</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/sample_travel_app.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <section>
+                <title>Using the Report</title>
+                <para>In the default implementation of Rice you can find the link to the Routing
+                    Report on the "Main" tab of the portal inside the "Workflow" pane. If for some
+                    reason the link is not visible on the "Main" tab you can still directly navigate
+                    to the Routing Report. To access the tool directly, replace the last part of the
+                    Rice Portal URL (<emphasis role="bold">portal.jsp</emphasis>) with <emphasis
+                        role="bold">kew/RoutingReport.do</emphasis> (for example, <emphasis
+                        role="bold">http://my.kuali.host/kuali/portal.jsp</emphasis> would become
+                        <emphasis role="bold"
+                        >http://my.kuali.host/kuali/kew/RoutingReport.do)</emphasis>. The following
+                    page is displayed:</para>
+                <figure><title>Routing Report: Template Selection</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/select_rule_template.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section>
+                <title>Select a Rule Template</title>
+                <para>The first thing to do is select the rule template to use for the test from the
+                    drop-down list. When you select a template the page will update to show the
+                    routing data that you need to enter to run the test:</para>
+                <figure><title>Routing Report: Template Selection, Detail</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/select_rule_template2.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section>
+                <title>Enter Routing Data</title>
+                <para>The data entry fields for the routing data use the standard controls described
+                    in the Standard Buttons on Lookup Screens document. Here is the example with the
+                    routing data:</para>
+                <figure><title>Routing Report: Routing Data Entry</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/routing_data_entry.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The specific information you need to enter is specific to the rule template
+                    you selected. Once you have entered the information, click the button to display
+                    the report:</para>
+                <figure><title>Routing Report: Route Log View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/view_route_log_report.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section>
+                <title>Report Contents</title>
+                <para>The upper section of the report (labeled "ID: 0") contains the basic document
+                    information fields as if this was an actual document; several fields are blank
+                    since there is no actual document.</para>
+                <para>The lower section of the report (labeled "Pending Action Requests") contains
+                    the routing that the document would be given. Clicking the button on any action
+                    displays more detail of the action:</para>
+                <figure><title>Routing Report: Route Log View, Pending Action Requests</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/pending_action_requests.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+        <section>
+            <title>Rule Maintenance</title>
+            <para>The <emphasis role="bold">Rule Maintenance Document Type Document</emphasis>
+                screen is used for both editing existing Rules and for adding new Rules to Rice. </para>
+            <figure>
+                <title>Rule Maintenance Document Type Document</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_maintenance_document_type_document.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <note>
+                <para>When Rice presents the <emphasis role="bold">Rule Maintenance Document Type
+                        Document</emphasis> screen all of the tabs except the Notes and Attachments, Ad
+                        Hoc Recipients and Route Log are expanded.</para>
+            </note>   
+            <section>
+                <title>Document Layout</title>
+                <para>The Rule Maintenance Document Type Document screen you see when creating a new
+                    rule is composed of seven tabs:<itemizedlist>
+                        <listitem>
+                            <para>Document Overview </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule </para>
+                        </listitem>
+                        <listitem>
+                            <para>Persons </para>
+                        </listitem>
+                        <listitem>
+                            <para>Groups </para>
+                        </listitem>
+                        <listitem>
+                            <para>Notes and Attachments </para>
+                        </listitem>
+                        <listitem>
+                            <para>Ad Hoc Recipients </para>
+                        </listitem>
+                        <listitem>
+                            <para>Route Log </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>The screen you see when you are editing an existing Rule includes an
+                    additional tab called <emphasis role="bold">Roles</emphasis>.</para>
+                <para>The Rule, Persons, Groups and Roles tabs are unique and are discussed in the
+                    sections that follow. The remaining four tabs are commonly used throughout Rice
+                    and are described in the Common Features and Functions section of the User
+                    Guide.</para>
+            </section>
+            <section>
+                <title>Rule tab</title>
+                <para>The Rule tab is presented differently depending on whether you are creating a
+                    new Rule, or editing/copying a Rule. The version you see when creating a new
+                    Rule looks similar to this:</para>
+                <figure><title>Rule Maintenance Document Type Document: Rule Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/rule_tab.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The version you see when editing or copying looks similar to this:</para>
+                <figure><title>Rule Maintenance Document Type Document: Rule Tab, Edit/Copy View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/rule_tab_copy.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Rule Maintenance Document Type Document: Rule Tab Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Document Type</entry>
+                                    <entry>The Document Type defines the routing definition and
+                                        other properties for a set of documents. Each document is an
+                                        instance of a Document Type and conducts the same type of
+                                        business transaction as other instances of that Document
+                                        Type.</entry>
+                                </row>
+                                <row>
+                                    <entry>Rule Template</entry>
+                                    <entry>The name of the Rule Template with which this rule is
+                                        associated. A Rule Template serves as a pattern or design
+                                        for the routing rules and is a mechanism for providing
+                                        configuration information to rules. </entry>
+                                </row>
+                                <row>
+                                    <entry>Name</entry>
+                                    <entry><para>The unique Name of the routing Name you are creating
+                                            or editing.</para>
+                                        <para><emphasis role="bold">Note: </emphasis>It is not required that you enter a Name, but if you don't the system will assign a unique value.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry>Description</entry>
+                                    <entry>The general description for the rule selected.</entry>
+                                </row>
+                                <row>
+                                    <entry>From Date</entry>
+                                    <entry>The start date of the routing rule.</entry>
+                                </row>
+                                <row>
+                                    <entry>To Date</entry>
+                                    <entry>The expiration date of the routing rule.</entry>
+                                </row>
+                                <row>
+                                    <entry>Force Action</entry>
+                                    <entry>Force Action is used to control workflow routing by
+                                        making the rule actions mandatory. This is a yes or no flag.
+                                        A check means yes, blank means no. </entry>
+                                </row>
+                                <row>
+                                    <entry>Active</entry>
+                                    <entry>A true/false flag to indicate if Routing Rule is active
+                                        in Rice can be applied or not.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Persons tab</title>
+                <para>The Persons tab is presented differently depending on whether you are creating
+                    a new Rule, or editing/copying a Rule. The version you see when creating a new
+                    Rule looks similar to this:</para>
+                <figure><title>Rule Maintenance Document Type Document: Person Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/person_tab.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The version you see when editing or copying looks similar to this:</para>
+                <figure><title>Rule Maintenance Document Type Document: Person Tab, Edit/Copy View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/person_tab_copy.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Rule Maintenance Document Type Document: Person Tab
+                            Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Person</entry>
+                                    <entry>An individual user who receives the document for the
+                                        Action Requested.</entry>
+                                </row>
+                                <row>
+                                    <entry>Action Request</entry>
+                                    <entry><para>The type of action this person can take.</para>
+                                        <itemizedlist>
+                                            <listitem>
+                                                <para>Acknowledge</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Complete</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Approve</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>FYI</para>
+                                            </listitem>
+                                        </itemizedlist></entry>
+                                </row>
+                                <row>
+                                    <entry>Priority</entry>
+                                    <entry>The priority associated with the person in this rule.
+                                        Lower values mean higher priorities, with 1 being the
+                                        highest priority.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Groups tab</title>
+                <para>The Groups tab is presented differently depending on whether you are creating
+                    a new Rule, or editing/copying a Rule. The version you see when creating a new
+                    Rule looks similar to this:</para>
+                <figure><title>Rule Maintenance Document Type Document: Groups Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/groups_tab.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The version you see when editing or copying looks similar to this:</para>
+                <figure><title>Rule Maintenance Document Type Document: Groups Tab, Edit/Copy View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/groups_tab_copy.png" width="100%" scalefit="1"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The top portion of this tab is used to add a new Group while the lower portion
+                    is used to change existing values. </para>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Rule Maintenance Document Type Document: Groups Tab
+                            Attributes</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Namespace</entry>
+                                    <entry>The Namespace to which this Group will belong. A
+                                        Namespace is a way to scope both Permissions and Entity
+                                        Attributes. Each Namespace instance is one level of scoping
+                                        and is one record in the system.</entry>
+                                </row>
+                                <row>
+                                    <entry>Name</entry>
+                                    <entry>The unique name of the Group.</entry>
+                                </row>
+                                <row>
+                                    <entry>Action Request</entry>
+                                    <entry><para>The type of action this Group is expected to take.</para>
+                                        <itemizedlist>
+                                            <listitem>
+                                                <para>Acknowledge</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Complete</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Approve</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>FYI</para>
+                                            </listitem>
+                                        </itemizedlist></entry>
+                                </row>
+                                <row>
+                                    <entry>Priority</entry>
+                                    <entry>The priority associated with the Group in this rule. One
+                                        being the highest.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Rule Template Lookup</title>
+            <para>The <emphasis role="bold">Rules Template Lookup</emphasis> function is available
+                from any screen with the field lookup button next to the Rule Template field. Simply
+                click on the button and you will go a screen that looks like this.</para>
+            <figure><title>Rule Template Lookup</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_template_lookup.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>The <emphasis role="bold">Rule Template Lookup</emphasis> page will automatically
+                provide a complete list of the rule templates. You can reduce the number of items
+                returned by your search by entering values in the fields, or if you are not sure or
+                familiar with the key word(s) for the search criteria, simply click on the search
+                button. </para>
+            <figure><title>Rule Template Lookup: Results Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_template_results.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Clicking on the <emphasis role="bold">Id</emphasis> field will take you to the
+                    <emphasis role="bold">Rule Template Inquiry</emphasis> screen for that
+                particular Rule Template.</para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Rule Template Lookup Attributes</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Field</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Return Value</entry>
+                                <entry>This is a link which will copy the Rule Template information
+                                    back to the screen which you originated from.</entry>
+                            </row>
+                            <row>
+                                <entry>Id</entry>
+                                <entry>A unique Id number for a specific rule template.</entry>
+                            </row>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>The name of the rule template.</entry>
+                            </row>
+                            <row>
+                                <entry>Description</entry>
+                                <entry>A general description of the rule template.</entry>
+                            </row>
+                            <row>
+                                <entry>Delegation Rule Template</entry>
+                                <entry>The delegate rule template selected.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>Rule Template Inquiry</title>
+            <para>The <emphasis role="bold">Rule Template Inquiry</emphasis> screen provides
+                specific information about one particular <emphasis role="bold">Rule
+                    Template</emphasis>.</para>
+            <figure><title>Rule Template Inquiry</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/rule_template_inquiry.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Clicking the export button will export a copy of the complete Rule Template in XML
+                format.</para>
+        </section>        
+</chapter>

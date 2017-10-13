@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PostalCode" parent="PostalCode-parentBean"/>
+
+  <bean id="PostalCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.location.impl.postalcode.PostalCodeBo"/>
+    <property name="inquiryDefinition">
+      <ref bean="PostalCode-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="PostalCode-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Postal Code"/>
+    <property name="attributes">
+      <list>
+      	<ref bean="PostalCode-countryCode"/>
+        <ref bean="PostalCode-code"/>
+        <ref bean="PostalCode-stateCode"/>
+        <ref bean="PostalCode-cityName"/>
+        <ref bean="PostalCode-active"/>
+        <ref bean="PostalCode-countyCode"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="PostalCode-countryCode" parent="Country-code-parentBean">
+      <property name="name" value="countryCode"/>
+  </bean>
+
+  <bean id="PostalCode-code" parent="PostalCode-code-parentBean"/>
+
+  <bean id="PostalCode-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Postal Code"/>
+    <property name="shortLabel" value="Postal Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="ZipcodeValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="summary" value="Postal Code"/>
+    <property name="description" value="Postal Code either in 5-4 format or just 5 digits"/>
+  </bean>
+  <bean id="PostalCode-stateCode" parent="PostalCode-stateCode-parentBean"/>
+
+  <bean id="PostalCode-stateCode-parentBean" abstract="true" parent="State-code">
+    <property name="name" value="stateCode"/>
+    <property name="label" value="State"/>
+    <property name="shortLabel" value="State"/>
+    <property name="summary" value="State"/>
+    <property name="description" value="Postal State Code"/>
+  </bean>
+  <bean id="PostalCode-cityName" parent="PostalCode-cityName-parentBean"/>
+
+  <bean id="PostalCode-cityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cityName"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="City Name"/>
+    <property name="shortLabel" value="City Name"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="35"/>
+    </property>
+    <property name="summary" value="City Name"/>
+    <property name="description" value="City Name"/>
+  </bean>
+
+  <bean id="PostalCode-active" parent="PostalCode-active-parentBean"/>
+
+  <bean id="PostalCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+  <bean id="PostalCode-countyCode" parent="PostalCode-countyCode-parentBean"/>
+  
+ <bean id="PostalCode-countyCode-parentBean" abstract="true" parent="County-code">
+    <property name="name" value="countyCode"/>
+    <property name="label" value="County Code"/>
+    <property name="shortLabel" value="County"/>
+    <property name="summary" value="County Code"/>
+    <property name="description" value="County Code"/>
+  </bean>
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PostalCode-inquiryDefinition" parent="PostalCode-inquiryDefinition-parentBean"/>
+
+  <bean id="PostalCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Postal Code Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="countryCode"/>
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="stateCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cityName"/>
+              <bean parent="FieldDefinition" p:attributeName="countyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PostalCode-lookupDefinition" parent="PostalCode-lookupDefinition-parentBean"/>
+
+  <bean id="PostalCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Postal Code Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="countryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="stateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="cityName"/>
+        <bean parent="FieldDefinition" p:attributeName="countyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="countryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="stateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="cityName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

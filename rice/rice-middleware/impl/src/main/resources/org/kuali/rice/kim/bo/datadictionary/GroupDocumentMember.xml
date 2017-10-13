@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="GroupDocumentMember" parent="GroupDocumentMember-parentBean"/>
+
+  <bean id="GroupDocumentMember-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.GroupDocumentMember" p:titleAttribute="groupMemberId" p:objectLabel="Group Member" p:inquiryDefinition-ref="GroupDocumentMember-inquiryDefinition" p:lookupDefinition-ref="GroupDocumentMember-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="GroupDocumentMember-groupMemberId"/>
+        <ref bean="GroupDocumentMember-memberId"/>
+        <!-- TODO: create entry for this  -->
+        <ref bean="GroupDocumentMember-memberTypeCode"/>
+        <ref bean="GroupDocumentMember-memberName"/>
+        <ref bean="GroupDocumentMember-memberNamespaceCode"/>
+        <ref bean="GroupDocumentMember-activeFromDate"/>
+        <ref bean="GroupDocumentMember-activeToDate"/>
+        <ref bean="GroupDocumentMember-memberFullName"/>
+      </list>
+    </property>
+    
+  </bean>
+ 
+   <bean id="GroupDocumentMember-groupMemberId" parent="GroupDocumentMember-groupMemberId-parentBean"/>
+  <bean id="GroupDocumentMember-groupMemberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="groupMemberId" p:forceUppercase="true" p:label="Group Member Identifier" p:shortLabel="Group Member Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="GroupDocumentMember-memberId" parent="GroupDocumentMember-memberId-parentBean"/>
+  <bean id="GroupDocumentMember-memberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberId" p:forceUppercase="true" p:label="Member Identifier" p:shortLabel="Member Identifier" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
+  <bean id="GroupDocumentMember-memberTypeCode" parent="GroupDocumentMember-memberTypeCode-parentBean"/>
+  <bean id="GroupDocumentMember-memberTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberTypeCode" p:forceUppercase="true" p:label="Member Type Code" p:shortLabel="Type Code" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kim.bo.options.GroupMemberTypeValuesFinder"/>
+    </property>
+  </bean>
+
+  <bean id="GroupDocumentMember-memberName" parent="GroupDocumentMember-memberName-parentBean"/>
+  <bean id="GroupDocumentMember-memberName-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberName" p:forceUppercase="true" p:label="Member Name" p:shortLabel="Name" p:maxLength="80" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="GroupDocumentMember-memberNamespaceCode" parent="GroupDocumentMember-memberNamespaceCode-parentBean"/>
+  <bean id="GroupDocumentMember-memberNamespaceCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberNamespaceCode" p:forceUppercase="true" p:label="Member Namespace" p:shortLabel="Namespace" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+ <bean id="GroupDocumentMember-memberFullName" parent="GroupDocumentMember-memberFullName-parentBean"/>
+  <bean id="GroupDocumentMember-memberFullName-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberFullName" p:forceUppercase="true" p:label="Member Full Name" p:shortLabel="Full Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+            
+  <bean id="GroupDocumentMember-activeFromDate" parent="GroupDocumentMember-activeFromDate-parentBean"/>
+  <bean id="GroupDocumentMember-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+    <property name="label" value="Active From Date"/>
+    <property name="shortLabel" value="Active From Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+
+  <bean id="GroupDocumentMember-activeToDate" parent="GroupDocumentMember-activeToDate-parentBean"/>
+  <bean id="GroupDocumentMember-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    <property name="name" value="activeToDate"/>
+    <property name="label" value="Active To Date"/>
+    <property name="shortLabel" value="Active To Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+
+
+
+  
+  <bean id="GroupDocumentMember-inquiryDefinition" parent="GroupDocumentMember-inquiryDefinition-parentBean"/>
+
+  <bean id="GroupDocumentMember-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Group Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="groupMemberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="GroupDocumentMember-lookupDefinition" parent="GroupDocumentMember-lookupDefinition-parentBean"/>
+
+  <bean id="GroupDocumentMember-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Group Member Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>groupMemberId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+              <bean parent="FieldDefinition" p:attributeName="groupMemberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+              <bean parent="FieldDefinition" p:attributeName="groupMemberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

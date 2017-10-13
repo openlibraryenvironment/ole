@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+
+  <ruleTemplate allowOverwrite="true">
+      <name>EDocLiteDocumentTemplate</name>
+      <description>EDocLite Document Template</description>
+    </ruleTemplate>
+  </ruleTemplates>
+
+  <!-- edoclite doc type -->
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+    <documentType>
+      <name>EDocLiteDocType</name>
+      <description>EDocLite Document Type</description>
+      <label>EDocLite Document Type</label>
+      <postProcessorName>org.kuali.rice.kew.edoclite.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+      <docHandler>http://localhost:8080/en-dev/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+       	<policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+          <!-- <inherited>false</inherited> -->
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="adhoc" nextNode="EDocLiteRouting"/>
+          <requests name="EDocLiteRouting"/>
+        </routePath>
+      </routePaths>
+
+      <routeNodes>
+        <start name="adhoc">
+          <exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+          <activationType>P</activationType>
+        </start>
+
+        <requests name="EDocLiteRouting">
+          <exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+          <activationType>S</activationType>
+          <ruleTemplate>EDocLiteDocumentTemplate</ruleTemplate>
+        </requests>
+      </routeNodes>
+
+    </documentType>
+  </documentTypes>
+
+  <!-- EDocLite rule to be loaded upon initial startup -->
+  <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+
+    <rule>
+      <documentType>EDocLiteDocType</documentType>
+      <ruleTemplate>EDocLiteDocumentTemplate</ruleTemplate>
+      <description>EDocLite Document Template description</description>
+      <forceAction>false</forceAction>
+      <!--
+      <ruleExtensions>
+
+      </ruleExtensions>
+      -->
+      <responsibilities>
+        <responsibility>
+          <user>dewey</user>
+          <actionRequested>A</actionRequested>
+          <priority>1</priority>
+        </responsibility>
+      </responsibilities>
+    </rule>
+  </rules>
+</data>

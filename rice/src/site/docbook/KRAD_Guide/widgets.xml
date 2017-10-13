@@ -1,0 +1,1822 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="widgets" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Widgets </title>
+    <section>
+        <title>Widgets </title>
+        <para>Widgets allow developers to produce rich UI functionality. KRAD already contains the
+            basic and most commonly used widgets and provides the functionality to configure these
+            widgets to suit your needs. Examples of widgets that come packaged in the framework
+            include a date picker, and a spinner value selector. The framework also provides the
+            base widget classes that can be extended to create custom widgets. Custom widgets should
+            only be created in instances where the current KRAD functionality cannot be used to
+            deliver the required functionality.</para>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Widget components represent a composition of elements that form a new UI
+                        artifact</para>
+                </listitem>
+                <listitem>
+                    <para>In most cases the new artifacts are formed on the client using
+                        JavaScript</para>
+                </listitem>
+                <listitem>
+                    <para>In particular, the majority of widgets provided with KRAD are implemented
+                        using jQuery plugins</para>
+                </listitem>
+                <listitem>
+                    <para>Through widgets we can enhance KRAD with the wide variety of client side
+                        features available today! </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>jQuery Plugins and Options </title>
+        <para>Most widgets in KRAD are built using jQuery plugins. jQuery is a cross-browser, open
+            source JavaScript library designed to simplify the client-side scripting of HTML. jQuery
+            also provides capabilities for developers to create plug-ins on top of the JavaScript
+            library. Currently, there are thousands of jQuery plug-ins available on the web that
+            cover a wide range of functionality such as Ajax helpers, webservices, datagrids,
+            dynamic lists,  drag and drop, events and modal windows. Many of these can be used to
+            create new widgets.</para>
+        <para>jQuery plugins can usually be called with one argument, which is an object literal of
+            the settings you would like to override. The base widget classes allow you to pass
+            javascript options to these widgets by initializing the componentOptions map property.
+            This map will then be converted to a string literal, which will be used to call the
+            jQuery function. The framework widgets have some default options configured, and can be
+            seen in the UifWidgetDefinitions.xml data dictionary file in the source code. </para>
+        <programlisting linenumbering = "numbered">&lt;property name="templateOptions">
+    &lt;map>
+        &lt;entry key="showOn" value="button"/>
+        &lt;entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+        &lt;entry key="buttonImageOnly" value="true"/>       
+        &lt;entry key="showAnim" value="slideDown"/>       
+        &lt;entry key="showButtonPanel" value="true"/>       
+        &lt;entry key="changeMonth" value="true"/>       
+        &lt;entry key="changeYear" value="true"/>     
+    &lt;/map>
+&lt;/property>    </programlisting>
+        <para>These options can be overridden by extending the widget bean in spring
+            configuration:</para>
+        <programlisting linenumbering = "numbered">&lt;bean id="Uif-CustomDatePicker" parent="Uif-DatePicker"/>
+    &lt;property name="templateOptions">
+        &lt;map merge="true">
+            &lt;entry key="showButtonPanel" value="false"/>
+        &lt;/map>
+    &lt;/property>
+&lt;/bean>    </programlisting>
+        <para>In this example the date picker  is extended, and only the showButtonPanel parameter
+            is changed. The merge = 'true' property on map is very important if you want to keep the
+            parent bean's properties.</para>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <itemizedlist>
+                <listitem>
+                    <para>As stated, widgets are basically a front end to a client side component
+                        which has a set of supported properties</para>
+                </listitem>
+                <listitem>
+                    <para>The properties for the client side component are configured using the
+                        widget's templateOptions property</para>
+                </listitem>
+                <listitem>
+                    <para>The templateOptions property is a Map. The map key is the name of the
+                        client side property, and the map value is the corresponding value for the
+                        property</para>
+                </listitem>
+                <listitem>
+                    <para>The template options are translated to a Javascript object string and
+                        passed to the plugin as the 'options' argument</para>
+                </listitem>
+                <listitem>
+                    <para>Since the widget properties are 'loosely' coupled with the class through
+                        the generic map, we can easily exchange out plugins (without changing the
+                        Java widget class)</para>
+                </listitem>
+                <listitem>
+                    <para>In some cases, to make configuration easier for common plugin options, a
+                        property has been added to the widget class</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>Types of Widgets </title>
+        <para>The most commonly used widgets have already been added to the KRAD framework. These
+            widgets can be extended, and their properties and component options overridden. Some of
+            the options are added as properties on the beans where others will have to be set by
+            adding them to the component options map. </para>
+        <section>
+            <title>Breadcrumbs</title>
+            <para>The breadcrumbs widget is used to render the breadcrumbs on the views that allow
+                for navigation back to previous pages. </para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>Breadcrumb Properties</title>
+                        <?dbfo table-width="100%" ?>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="2.94*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1*"/>
+                            <colspec colname="c3" colnum="3" colwidth="7.35*"/>
+                            <thead>
+                                <row>
+                                    <entry>
+                                        <emphasis role="bold">Property</emphasis>
+                                    </entry>
+                                    <entry>
+                                        <emphasis role="bold">Default</emphasis>
+                                    </entry>
+                                    <entry>
+                                        <emphasis role="bold">Description</emphasis>
+                                    </entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> usePathBasedBreadcrumbs</entry>
+                                    <entry> false</entry>
+                                    <entry> Uses path-based breadcrumb generation when set.  This
+                                        requires additional setup, see Breadcrumbs in "The View"
+                                        section. </entry>
+                                </row>
+                                <row>
+                                    <entry> displayBreadcrumbsWhenOne </entry>
+                                    <entry> false </entry>
+                                    <entry> Flag to hide/display breadcrumbs when there is only one
+                                        history item </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>None</para>
+            </section>
+        </section>
+        <section>
+            <title>DatePicker</title>
+            <para>The DatePicker widget is used to render the date picker on date fields. KRAD uses
+                the jQuery UI DatePicker plugin. See
+                http://jqueryui.com/demos/datepicker/#option-showOptions.</para>
+            <section>
+                <title>Properties</title>
+                <para>The DataPicker widget has no properties (everything is configured through the
+                    templateOptions for the jQuery plugin).</para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>DatePicker Options</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="2.77*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.89*"/>
+                            <thead>
+                                <row>
+                                    <entry>
+                                        <emphasis role="bold">Option</emphasis>
+                                    </entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> showOn </entry>
+                                    <entry> button </entry>
+                                    <entry>Have the DatePicker appear automatically when the field
+                                        receives focus ('focus'), </entry>
+                                </row>
+                                <row>
+                                    <entry> buttonImage </entry>
+                                    <entry>@{#ConfigProperties['krad.externalizable.images.url']}
+                                        cal.gif </entry>
+                                    <entry>The URL for the popup button image. If set, buttonText
+                                        becomes the <emphasis role="italic">alt</emphasis> value and
+                                        is not directly displayed. </entry>
+                                </row>
+                                <row>
+                                    <entry> buttonImageOnly </entry>
+                                    <entry> true </entry>
+                                    <entry>Set to true to place an image after the field to use as
+                                        the trigger without it appearing on a button. </entry>
+                                </row>
+                                <row>
+                                    <entry> showAnim </entry>
+                                    <entry> slideDown </entry>
+                                    <entry>Set the name of the animation used to show/hide the
+                                        DatePicker. </entry>
+                                </row>
+                                <row>
+                                    <entry> showButtonPanel </entry>
+                                    <entry>true</entry>
+                                    <entry>Whether to show the button panel. </entry>
+                                </row>
+                                <row>
+                                    <entry> changeMonth </entry>
+                                    <entry>true</entry>
+                                    <entry>Allows you to change the month by selecting from a
+                                        drop-down list. </entry>
+                                </row>
+                                <row>
+                                    <entry> changeYear </entry>
+                                    <entry>true</entry>
+                                    <entry>Allows you to change the year by selecting from a
+                                        drop-down list. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>DirectInquiry</title>
+            <para>The DirectInquiry widget renders the icon next to a field and opens an inquiry
+                lightbox for the current value in that field when clicked. The default setting is to
+                open the inquiry view in a lightbox. This can be changed to open in a new
+                window.</para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>DirectInquiry Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.46*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.23*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Desription</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> baseInquiryUrl </entry>
+                                    <entry>@{#ConfigProperties['application.url']}/kr-krad/inquiry </entry>
+                                    <entry> The base url used to build the inquiry url. </entry>
+                                </row>
+                                <row>
+                                    <entry> directInquiryActionField </entry>
+                                    <entry/>
+                                    <entry>This field can be overridden to exclude the Uif-LightBox and open in a new browser window.</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>None</para>
+            </section>
+        </section>
+        <section>
+            <title>Disclosure</title>
+            <para>The disclosure widget renders a disclosure header on a group that allows the group
+                to be expanded and collapsed. This allows the user to minimize clutter on the screen
+                and only view the necessary groups. The state of these disclosures will be stored on
+                form submits to be rendered correctly on the page refresh. </para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>Disclosure Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>collapseImageSrc </entry>
+                                    <entry> ../h3_expand.png </entry>
+                                    <entry> Expand icon </entry>
+                                </row>
+                                <row>
+                                    <entry>expandImageSrc </entry>
+                                    <entry> ../h3_collapse.png </entry>
+                                    <entry> Collapse icon </entry>
+                                </row>
+                                <row>
+                                    <entry>animationSpeed </entry>
+                                    <entry> 500 </entry>
+                                    <entry> Speed of expand/collapse animation </entry>
+                                </row>
+                                <row>
+                                    <entry>defaultOpen</entry>
+                                    <entry> true </entry>
+                                    <entry> Set to true to create in open state. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>None</para>
+            </section>
+        </section>
+        <section>
+            <title>Help</title>
+            <para>The Help widget is used to render tooltip help and/or external help.</para>
+            <para>The tooltip help appears when the mouse is placed over the header text of a view,
+                page, section or sub-section, or over the label of a field. Plain text and HTML
+                formatted text are supported. Tooltip help content is defined in the data
+                dictionary. This is an example of how to add a tooltip on a TextControl:</para>
+            <programlisting linenumbering = "numbered">
+&lt;bean parent="Uif-TextControl"&gt;
+    &lt;property name="help"&gt;
+        &lt;bean parent="Uif-Help" p:tooltipHelpContent="This is my help text"/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting>
+            <para>The external help renders as a clickable help icon which opens a separate window
+                for the help URL. The URL of the help can either be specified via the data
+                dictionary, or through a system parameter. This is an example of how to add a
+                external help with the URL from the data dictionary to a View:</para>
+            <programlisting linenumbering = "numbered">
+&lt;bean parent="Uif-View"&gt;
+    &lt;property name="help"&gt;
+        &lt;bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/"/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting>
+            <para>This is an example of how to add a external help with the URL from the systems parameter to a View:</para>
+            <programlisting linenumbering = "numbered">
+&lt;bean parent="Uif-View"&gt;
+    &lt;property name="help"&gt;
+        &lt;bean parent="Uif-Help"&gt;
+            &lt;property name="helpDefinition"&gt;
+                &lt;bean parent="HelpDefinition" p:parameterNamespace="KR-SAP" p:parameterName="TEST_PARAM" p:parameterDetailType="TEST_COMPONENT"/&gt;
+            &lt;/property&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting>
+          <section>
+            <title>Properties</title>
+            <para>
+                <table frame="all" tabstyle="striped">
+                <title>Help Properties</title>
+                <tgroup cols="3">
+                  <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                  <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                  <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                  <thead>
+                    <row>
+                      <entry>Property</entry>
+                      <entry>Default</entry>
+                      <entry>Description</entry>
+                    </row>
+                  </thead>
+                  <tbody>
+                    <row>
+                      <entry>tooltipHelpContent </entry>
+                      <entry/>
+                      <entry>Plain or HTML formatted text that should be displayed inside the help
+                                        tooltip. </entry>
+                    </row>
+                    <row>
+                      <entry>externalHelpUrl </entry>
+                      <entry/>
+                      <entry>The URL for the external help. </entry>
+                    </row>
+                    <row>
+                      <entry>helpDefinition </entry>
+                      <entry/>
+                      <entry>The HelpDefinition bean that contains the keys for retrieving the
+                                        external help URL from the system parameters. </entry>
+                    </row>
+                  </tbody>
+                </tgroup>
+              </table>
+            </para>
+          </section>
+          <section>
+            <title>Plugin (Template) Options</title>
+            <para>None</para>
+          </section>
+        </section>
+        <section>
+            <title>Inquiry</title>
+            <para>The inquiry widget is used to render the link fields that will open an inquiry
+                window. The default setting is to open the inquiry view in a lightbox. This can be
+                changed to open in in a new window.</para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>Inquiry Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.75*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.38*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> baseInquiryUrl </entry>
+                                    <entry> @{#ConfigProperties['application.url']}/kr-krad/inquiry </entry>
+                                    <entry> The base url used to build the inquiry url. </entry>
+                                </row>
+                                <row>
+                                    <entry> inquiryActionField </entry>
+                                    <entry/>
+                                    <entry> This field can be overridden to exclude the Uif-LightBox
+                                        and open in a new browser window. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>None</para>
+            </section>
+        </section>
+        <section>
+            <title>Lightbox</title>
+            <para>The lightbox widget is used to render content in a modal window. This widget is
+                used in KRAD to open the inquiry and lookup views in the modal lightbox without
+                navigating away from the current view. The jQuery fancyBox plugin is used in KRAD.
+                See <link xlink:href="http://fancyapps.com/fancybox/#docs"
+                    >http://fancyapps.com/fancybox/#docs</link>.</para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>Lightbox Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> height </entry>
+                                    <entry> 95% </entry>
+                                    <entry> Height in percentage of screen </entry>
+                                </row>
+                                <row>
+                                    <entry> width </entry>
+                                    <entry> 75% </entry>
+                                    <entry> Width in percentage of screen. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>Lightbox Options</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Option</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> fitToView </entry>
+                                    <entry> true </entry>
+                                    <entry> If set to true, fancyBox is resized to fit inside viewport before opening </entry>
+                                </row>
+                                <row>
+                                    <entry> openEffect </entry>
+                                    <entry> fade </entry>
+                                    <entry> The transition type. Can be set to 'elastic', 'fade' or
+                                        'none' </entry>
+                                </row>
+                                <row>
+                                    <entry> closeEffect </entry>
+                                    <entry> fade </entry>
+                                    <entry> The transition type. Can be set to 'elastic', 'fade' or
+                                        'none' </entry>
+                                </row>
+                                <row>
+                                    <entry> openSpeed </entry>
+                                    <entry> 200 </entry>
+                                    <entry> Speed of the fade and elastic transitions, in
+                                        milliseconds </entry>
+                                </row>
+                                <row>
+                                    <entry> closeSpeed </entry>
+                                    <entry> 200 </entry>
+                                    <entry> Speed of the fade and elastic transitions, in
+                                        milliseconds </entry>
+                                </row>
+                                <row>
+                                    <entry> helpers </entry>
+                                    <entry> overlay:{css:{cursor:'arrow'},closeClick:false} </entry>
+                                    <entry> Settings for additional fancybox helpers. Defaults
+                                        specify an arrow cursor and disables closing of lightbox on
+                                        mouse click</entry>
+                                </row>
+                                <row>
+                                    <entry> type </entry>
+                                    <entry> iframe </entry>
+                                    <entry> Forces content type. Can be set to 'image', 'html',
+                                        'ajax', 'iframe', 'swf' or 'inline' </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>QuickFinder</title>
+            <para>The Quickfinder Widget is used for navigating to a lookup from a field. There are
+                two instances of this widget. Firstly, there is the standard widget that will do a
+                page refresh when returning the results and reload the parent view. The second
+                instance (Uif-QuickFinderByScript) will return the value by script and not reload
+                the parent view.</para>
+            <tip><para>
+                    <emphasis role="bold">Return by Script: </emphasis> If you do not need the
+                    parent view to be refreshed when returning values, you can return the values by
+                    script and greatly improve the performance. To do this, you have to set a
+                    field's 'fieldLookup' property to the Uif-QuickFinderByScript bean. </para></tip>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>QuickFinder Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.84*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.41*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> baseLookupUrl </entry>
+                                    <entry>@{#ConfigProperties['application.url']}/kr-krad/lookup </entry>
+                                    <entry> The base url used to build the lookup url. </entry>
+                                </row>
+                                <row>
+                                    <entry> multipleValuesSelect </entry>
+                                    <entry> false </entry>
+                                    <entry> Indicates whether a multi-values lookup should be
+                                        requested </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>None</para>
+            </section>
+        </section>
+        <section>
+            <title>RichTable</title>
+            <para>The RichTable widget decorates a HTML Table client side with various tools
+                including sorting, exporting, paging and skinning. This widget uses the jQuery
+                DataTables plugin. See <link xlink:href="http://www.datatables.net/usage/options"
+                    >http://www.datatables.net/usage/options</link></para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>RichTable Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>emptyTableMessage </entry>
+                                    <entry> No records found </entry>
+                                    <entry> The text which is displayed when the table is empty </entry>
+                                </row>
+                                <row>
+                                    <entry>showSearchAndExportOptions </entry>
+                                    <entry> false </entry>
+                                    <entry> Indicates whether search and export options are enabled </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>Rich Table Options</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="3.54*"/>
+                            <colspec colname="c3" colnum="3" colwidth="2.18*"/>
+                            <thead>
+                                <row>
+                                    <entry>Option</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> sDom </entry>
+                                    <entry> fTrtip </entry>
+                                    <entry>This initialization variable allows you to specify
+                                        exactly where in the DOM you want DataTables to inject the
+                                        various controls it adds to the page </entry>
+                                </row>
+                                <row>
+                                    <entry> bRetrieve </entry>
+                                    <entry> true </entry>
+                                    <entry>Retrieve the DataTables object for the given selector. </entry>
+                                </row>
+                                <row>
+                                    <entry> oTableTools </entry>
+                                    <entry> aButtons' : [ 'csv', 'xls' ] , 'sSwfPath' :
+                                        '@{#ConfigProperties['application.url']}/krad/scripts/jquery/copy_cvs_xls_pdf.swf'
+                                        } </entry>
+                                    <entry>To customize the TableTools options through the
+                                        DataTables initialization object, you can make use of this
+                                        parameter. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Suggest</title>
+            <para>The Suggest widget provides dynamic select options to the user as they are
+                entering the value (also known as auto-complete). The widget is backed by an
+                AttributeQuery that provides the configuration for executing a query server side
+                that will retrieve the valid option values. Uses jQuery UI Auto-complete widget. See
+                    <link xlink:href="http://jqueryui.com/demos/autocomplete/"
+                    >http://jqueryui.com/demos/autocomplete/</link></para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>Suggest Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> suggestQuery </entry>
+                                    <entry/>
+                                    <entry>Attribute query instance that will be executed to provide
+                                        the suggest options </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>             
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>Suggest Options</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Option</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> minLength </entry>
+                                    <entry>2</entry>
+                                    <entry> The minimum number of characters a user has to type
+                                        before the Autocomplete activates. </entry>
+                                </row>
+                                <row>
+                                    <entry> delay </entry>
+                                    <entry>3000</entry>
+                                    <entry> The delay in milliseconds the Autocomplete waits after a
+                                        keystroke to activate itself. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>LocationSuggest</title>
+            <para>The LocationSuggest behaves the same and is backed by the same plugin as the
+                Suggest widget.  It contains all the same options and configuration as Suggest, as
+                well.  However, when one of its options is selected the user is navigated to a new
+                page.  </para>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" tabstyle="striped">
+                        <title>Suggest Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> baseUrl </entry>
+                                    <entry>@{#ConfigProperties['krad.url']}</entry>
+                                    <entry>The baseUrl used to construct the url to navigate
+                                        to</entry>
+                                </row>
+                                <row>
+                                    <entry>additionalUrlPathPropertyName</entry>
+                                    <entry/>
+                                    <entry>The property in the returned objects which contains a
+                                        path to be appended to the baseUrl (often the controller
+                                        path)</entry>
+                                </row>
+                                <row>
+                                    <entry>hrefPropertyName</entry>
+                                    <entry>href</entry>
+                                    <entry>The property which contains the full href (url) to
+                                        navigate to.  If the objects returned have this property,
+                                        this will be used instead of constructing a url with
+                                        baseUrl</entry>
+                                </row>
+                                <row>
+                                    <entry>objectIdPropertyName</entry>
+                                    <entry/>
+                                    <entry>The objectIdPropertyName that represents the key for
+                                        getting the object as a request parameter. The property will
+                                        be added to the request parameters by the <emphasis
+                                            role="bold">name given</emphasis> with the <emphasis
+                                            role="bold">value</emphasis> pulled from the result
+                                        object.</entry>
+                                </row>
+                                <row>
+                                    <entry>requestParameterPropertyNames</entry>
+                                    <entry/>
+                                    <entry>requestParameterPropertyNames specify the properties that
+                                        should be included in the request parameters. The key is
+                                        used as the key of the request parameter and the value is
+                                        used as the property name to look for in the suggestion
+                                        result object. If the property name specified exists on the
+                                        result object, the request parameter in the url will appear
+                                        as key=propertyValue in the request parameters.  A common
+                                        usage is using this to set a unique viewId per item.</entry>
+                                </row>
+                                <row>
+                                    <entry>additionalRequestParameters</entry>
+                                    <entry/>
+                                    <entry>additionalRequestParameters specify the static(constant)
+                                        request parameters that should be appended to the url. The
+                                        key represents the key of the request parameter and the
+                                        value represents the value of the request parameter. This
+                                        will be used on each suggestion which uses a generated url
+                                        (using baseUrl construction).  A common usage is to set
+                                        properties that are common to all locations such as
+                                        "methodToCall" as "start"</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+                <para>For example the following, will retrieve objects from the getViewOptions
+                    method.  If they contain an "id" these will be used as the "viewId" on the url
+                    that is navigated to.  Note that baseUrl is overriden because all viewIds
+                    expected back in the objects returned use the same controller.  Also note the
+                    usage of additionalRequestParameters, all urls also require "methodToCall=start"
+                    in this
+                    scenario:<programlisting linenumbering = "numbered">            &lt;bean parent="Uif-LocationSuggest" p:render="true" p:retrieveAllSuggestions="true"
+                    p:baseUrl="@{#ConfigProperties['krad.url']}/kradsampleapp">
+              &lt;property name="valuePropertyName" value="value"/>
+              &lt;property name="additionalRequestParameters">
+                &lt;map>
+                  &lt;entry key="methodToCall" value="start"/>
+                &lt;/map>
+              &lt;/property>
+              &lt;property name="requestParameterPropertyNames">
+                &lt;map>
+                  &lt;entry key="viewId" value="id"/>
+                &lt;/map>
+              &lt;/property>
+              &lt;property name="suggestQuery">
+                &lt;bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "org.kuali.rice.krad.demo.uif.components.ComponentSuggestClass.getViewOptions"/>
+              &lt;/property>
+...</programlisting></para>
+            </section>
+        </section>
+        <section>
+            <title>Tabs</title>
+            <para>The Tabs widget used for creating tabs to break up content into multiple sections.
+                See <link xlink:href="http://jqueryui.com/demos/tabs/"
+                    >http://jqueryui.com/demos/tabs/</link></para>
+            <section>
+                <title>Properties</title>
+                <para>None</para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>None</para>
+            </section>
+        </section>
+        <section>
+            <title>Tree</title>
+            <para>The Tree widget is used to created a tree with expand/collapse branches. The
+                current implementation using the jsTree plugin: <link
+                    xlink:href="http://www.jstree.com">http://www.jstree.com</link>.</para>
+            <para><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/KRAD_tree.png"/>
+                    </imageobject> 
+            </inlinemediaobject></para>
+            <section>
+                <title>Tree Group</title>
+                <para>Uif-TreeGroup - A group that contains a visual tree structure, with parent
+                    nodes that can be expanded or collapsed to show or hide their children.  This
+                    allows you to naturally display components that nest within other components;
+                    for example, a visual representation of folders and files.</para>
+                <para>Uif-TreeSection - A section that contains a tree group.  This component is
+                    actually an extension of Uif-TreeGroup, and so everything discussed below
+                    applies to both, but we'll be using Uif-TreeSection in our examples.  The
+                    following Screen Shot shows a simple tree with several levels of nesting
+                    revealed by expanding Item 2, and SubItem B. </para>
+                <para>The view configuration for a simple tree with nothing but a text label on each
+                    node is quite elementary:  </para>
+                <programlisting linenumbering = "numbered">&lt;bean parent="Uif-TreeSection" p:instructionalText="Data Tree">
+    &lt;property name="title" value="Basic String Data tree"/>
+    &lt;property name="propertyName" value="tree"/>
+&lt;/bean>    </programlisting>
+                <para>The most important piece of configuration for this Uif-TreeSection is the
+                    propertyName whose value corresponds to a getter method on the data object, or
+                    the form which returns an object of type
+                    org.kuali.rice.core.api.util.tree.Tree.  For the above configuration snippet,
+                    the body of this method might look like this:</para>
+                <programlisting linenumbering = "numbered">/* somewhere in your form or data object */
+public Tree&lt;Foo, String> getTree() {
+    return this.tree;  // return the Tree member of this data object or form
+}</programlisting>
+                <para>This is a straightforward getter method, but we'll need to know more about the
+                    structure of the object we're returning.  Tree has two generic types associated
+                    with it, of the form Tree&lt;T,K&gt;.  For use in a Uif-TreeSection, the generic
+                    type T will correspond to the class of the data object at each node, and the
+                    generic type K will always be String to hold the label text for the node.  </para>
+                <para>So in the above example, we have a data object of type Foo that each node in
+                    the tree holds, and (as always) a corresponding String label. Speaking of nodes,
+                    let's look at some key parts of the API for org.kuali.rice.core.api.util.Tree
+                    and it's right hand class, org.kuali.rice.core.api.util.tree.Node:</para>
+                <programlisting>public class Tree&lt;T, K> implements Serializable {
+    /*...*/
+    // this is where you put the content into the tree.  
+    // The actual tree structure is all made up of Nodes
+    // nested within Nodes
+
+    public void setRootElement(Node&lt;T, K> rootElement) {
+        /*...*/
+    }
+}
+
+public class Node&lt;T, K> implements Serializable {
+    /*...*/
+    // construct a node with its data object and label
+
+    public Node(T data, K label) {
+      /*...*/
+    }
+
+    // build up the nested structure by setting the children
+
+    public void setChildren(List&lt;Node&lt;T, K>> children) {
+        /*...*/
+    }
+}</programlisting>
+                <para>Your data object containing the tree structure may use other classes than Tree
+                    and Node for the internal representation of your tree.  In that case, you can
+                    still utilize Uif-TreeSection to add a method that translates your internal tree
+                    into a Tree made up of Nodes.  Spend a few minutes following this example where
+                    we are translating a tree made out of Foo objects which contain child Foos into
+                    a Tree of Nodes:</para>
+                <warning><para>If you are not comfortable with recursion, you may want to do some homework on it to follow
+                        along.</para></warning>
+                <programlisting linenumbering = "numbered">/* somewhere in your form or data object */
+
+/** Getter method referenced from Uif-TreeSection component via the propertyName */
+public Tree&lt;Foo, String> getTree() {
+    // construct our Tree object
+    Tree myTree = new Tree&lt;Foo, String>();
+
+    // construct a root
+    Node Node&lt;Foo, String> rootNode = new Node&lt;Foo, String>();         
+    myTree.setRootElement(rootNode);
+
+    // populate the tree structure with a recursive walk of our Foos          
+    buildFooTree(rootNode, this.getRootFoo() );
+    
+    return myTree;
+}           
+
+/**
+* This method builds a tree by recursively walking through the children of the Foo.
+* @param sprout - parenttree node
+* @param foo - Foo for which to make the tree node
+*/
+
+private void buildFooTree(Node sprout, Foo foo) {
+    // Create a treeNode and attach it to the sprout parameter passed in.
+
+    if (foo != null) { // create a node for our Foo
+        sprout.setNodeLabel(foo.getDescription());             
+        sprout.setData(foo);
+        List&lt;Foo> allMyChildren = foo.getChildren();
+
+        if (allMyChildren != null) for (Foo child : allMyChildren){
+            Node&lt;Foo,String> childNode = new Node&lt;Foo, String>();
+
+            // add child node to sprout                 
+            sprout.getChildren().add(childNode);
+
+            // recursive call                 
+            buildFooTree(childNode, child);
+        }
+    }
+}    </programlisting>
+                <para>So far we have talked about trees with nodes that only display labels for
+                    their corresponding data objects.  Each node is, in fact, rendered in two parts:
+                    the label, and the data group.  There are templates for how nodes are rendered,
+                    which are called node prototypes.  Without doing any configuration, the default
+                    node prototype has just an empty container for its data group, which results in
+                    a tree that renders similar to the screenshot shown previously; but we can
+                    change that by configuring a custom defaultNodePrototype.</para>
+                <programlisting linenumbering = "numbered">&lt;bean parent="Uif-TreeSection" p:instructionalText="Data Tree">
+    &lt;property name="title" value="Tree with Data Group"/>
+    &lt;property name="propertyName" value="tree"/>
+    &lt;property name="defaultNodePrototype">
+
+    &lt;!-- our custom node prototype -->
+    &lt;bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+        &lt;property name="labelPrototype">
+            &lt;bean parent="Uif-MessageField"/>
+        &lt;/property>
+        &lt;property name="dataGroupPrototype">
+            &lt;bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+            &lt;property name="items">
+                &lt;list>
+                    &lt;bean parent="Uif-HorizontalFieldGroup">                     
+                        &lt;property name="items">                       
+                            &lt;list>                        
+                                &lt;bean parent="Uif-InputField" 
+                                    p:propertyName="field1"
+                                    p:label="Field 1"
+                                    p:required="true"
+                                    p:labelPlacement="TOP"
+                                    p:instructionalText="instructions 1"
+                                    p:labelField.styleClasses="labelTop"/>                        
+                                &lt;bean parent="Uif-InputField" 
+                                    p:propertyName="field2"
+                                    p:label="Field 2"
+                                    p:required="true"
+                                    p:labelPlacement="TOP"                               
+                                    p:instructionalText="instructions 2"
+                                    p:labelField.styleClasses="labelTop"/>                        
+                                &lt;bean parent="Uif-InputField"
+                                    p:propertyName="field3"
+                                    p:label="Field 3"
+                                    p:required="true"
+                                    p:labelPlacement="TOP"                               
+                                    p:instructionalText="instructions 3"
+                                    p:labelField.styleClasses="labelTop"/>                        
+                                &lt;bean parent="Uif-InputField"
+                                    p:propertyName="field4"                          
+                                    p:label="Field 4"
+                                    p:required="true"
+                                    p:labelPlacement="TOP"                               
+                                    p:instructionalText="instructions 4"
+                                    p:labelField.styleClasses="labelTop"/>                     
+                            &lt;/list>
+                        &lt;/property>                  
+                      &lt;/bean>
+                  &lt;/list>
+                &lt;/property>
+              &lt;/bean>
+            &lt;/property>
+        &lt;/bean>
+    &lt;/property>
+&lt;/bean>
+&lt;!-- the end of our Uif-TreeSection -->    </programlisting>
+                <para>You can see here that we have defined a defaultNodePrototype that contains a
+                    dataGroupPrototype with a couple of nested groups for formatting, and four
+                    Uif-InputFields inside it.  These could in fact be just about any components
+                    that you wanted to use to represent the data objects on your Nodes.  Still,
+                    going along with the notion that the data objects for our nodes are of class
+                    Foo, we can infer from these input fields that class Foo must have properties
+                    (members with corresponding getters and setters) named field1, field2, field3
+                    and field4.  A tree rendered from the above configuration (with some admittedly
+                    silly data in the fields) might look like this:</para>
+                <para><inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KRAD_Guide/KRAD_tree_group.png"/>
+                        </imageobject>
+                    </inlinemediaobject></para>
+                <para>As you can see, the data group is rendered beneath the icon and label for each
+                    node.  This example is quite simple, you could in fact have very complex data
+                    groups for your nodes with complex formatting and many fields and other
+                    components within.</para>
+            </section>
+            <section>
+                <title>The #np Context Variable</title>
+                <para>When you are working with fields inside the data group of a node, there is a
+                    very powerful tool for referencing other properties of the same node, and that
+                    is the #np context variable.  In special properties of components that allow
+                    references to other fields in the view, the #np context variable is a
+                    placeholder for the current node being rendered.  It allows you to (for example)
+                    progressively render a component within a node based on the value of another
+                    field in that same node.  Here's a simple example: </para>
+                <programlisting linenumbering = "numbered">&lt;bean parent="Uif-TreeSection" p:instructionalText="Data Tree">
+  &lt;property name="title" value="Tree with Data Group"/>      
+  &lt;property name="propertyName" value="tree"/>          
+  &lt;property name="defaultNodePrototype">             
+    
+   &lt;!-- our custom node prototype -->         
+   &lt;bean class="org.kuali.rice.krad.uif.container.NodePrototype">           
+    &lt;property name="labelPrototype">             
+      &lt;bean parent="Uif-MessageField"/>           
+    &lt;/property>           
+    &lt;property name="dataGroupPrototype">              
+      &lt;bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">                
+         &lt;property name="items">                  
+              &lt;list>                    
+                &lt;bean parent="Uif-HorizontalFieldGroup">                      
+                  &lt;property name="items">                       
+                      &lt;list>                         
+                          &lt;bean parent="Uif-InputField" p:propertyName="field1"                                 
+                            p:label="Field 1"   
+                            p:required="true" p:labelPlacement="TOP"                                
+                            p:instructionalText="instructions 1"                                
+                            p:labelField.styleClasses="labelTop"/>                         
+                          &lt;bean parent="Uif-InputField" p:propertyName="field2"                                 
+                            p:label="Field 2"                                
+                            p:required="true"
+                            p:labelPlacement="TOP"                                
+                            p:instructionalText="instructions 2"                                
+                            p:labelField.styleClasses="labelTop"/>                          
+                          &lt;bean parent="Uif-InputField"
+                            p:propertyName="field3"                                 
+                            p:label="Field 3"                                
+                            p:required="true"
+                            p:labelPlacement="TOP"                                
+                            p:instructionalText="instructions 3"                                
+                            p:labelField.styleClasses="labelTop"/>                         
+                          &lt;bean parent="Uif-InputField" p:propertyName="field4"                                 
+                            p:label="Field 4"                                
+                            p:labelPlacement="TOP"                                
+                            p:instructionalText="instructions 4"                                
+                            p:labelField.styleClasses="labelTop"                                
+                            p:progressiveRender="@{#np.field3 matches 'A.*'}"/>                        
+                      &lt;/list>                      
+                  &lt;/property>                    
+                &lt;/bean>                  
+              &lt;/list>                
+         &lt;/property>               
+      &lt;/bean>                       
+    &lt;/property>   
+   &lt;/bean> 
+  &lt;/property>   
+&lt;/bean>
+&lt;!-- the end of our Uif-TreeSection --></programlisting>
+                <para>The only thing different here from our previous example is that for field4
+                    we've made it no longer required, and we've set a progressiveRender on it
+                    containing an expression that will be satisfied when field3 contains a String
+                    value that begins with a capital A.  When this is the case, field4 with be
+                    dynamically rendered on the node.  Here is a screenshot in which such a value
+                    has been entered into the input for field3 on the node labeled Item 1:</para>
+                <para><inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KRAD_Guide/KRAD_tree_group2.png"/>
+                        </imageobject>
+                </inlinemediaobject>
+                </para>
+                <para>This is a very simple and contrived example, but there are many real world use
+                    cases for this type of functionality.  As you can probably imagine, you can
+                    create very complex and dynamic trees with nodes that render very differently
+                    depending on the data contained within each, based on conditional rendering and
+                    progressive disclosure using the #np context variable. However, there is another
+                    more elemental configuration that can be used to render different nodes of a
+                    tree in different ways.</para>
+            </section>
+            <section>
+                <title>The NodePrototype Map</title>
+                <para>Previously, we have specified a custom defaultNodePrototype to change the way
+                    that all the nodes in the tree are rendered.  There is another property of the
+                    Uif-TreeSection (and Uif-TreeGroup) that can be used to allow trees with nodes
+                    containing data objects of differing classes to be rendered in different ways. 
+                    This property is called nodePrototypeMap, and it is a Map from Class to
+                    NodePrototype.  Here is an example:</para>
+                <programlisting linenumbering = "numbered">&lt;bean parent="Uif-TreeSection" p:instructionalText="Data Tree">      
+  &lt;property name="title" value="Tree with Data Group"/>      
+  &lt;property name="propertyName" value="tree"/>          
+  &lt;property name="nodePrototypeMap">         
+    &lt;!-- we define our map in Spring xml -->         
+    &lt;map key-type="java.lang.Class">         
+      &lt;!-- the Spring Expression Language snippet used here returns the Class object for edu.sampleu.Apple -->         
+      &lt;entry key="#{ T(edu.sampleu.Apple) }">         
+        &lt;!-- for brevity, the NodePrototype isn't shown here.  Instead we reference a
+          parent bean that you can assume is defined elsewhere in the file, but omitted here -->           
+        &lt;bean parent="AppleNodePrototype"/>         
+      &lt;/entry>         
+      &lt;!-- the Spring Expression Language snippet used here returns the Class object for edu.sampleu.Orange -->         
+      &lt;entry key="#{ T(edu.sampleu.Orange) }">         
+        &lt;!-- for brevity, the NodePrototype isn't shown here.  Instead we reference a
+          parent bean that you can assume is defined elsewhere in the file, but omitted here -->           
+        &lt;bean parent="OrangeNodePrototype"/>         
+      &lt;/entry>        
+    &lt;/map>      
+  &lt;/property>       
+&lt;/bean>    </programlisting>
+                <para>The above configuration will use the AppleNodePrototype to render Nodes whose
+                    data object is of type edu.sampleu.Apple, and the OrangeNodePrototype to render
+                    nodes whose data object is of type edu.sampleu.Orange.  This may present a
+                    slight puzzle to you if you remember the API for Nodes:</para>
+                <programlisting>public class Node&lt;T, K> implements Serializable {
+  /*...*/
+  
+  // construct a node with its data object and label
+  public Node(T data, K label) {
+    /*...*/ 
+  }           
+
+  // build up the tree structure by setting children       
+  public void setChildren(List&lt;Node&lt;T, K>> children) {
+    /*...*/ 
+  }   
+}    </programlisting>
+                <para>As you can see, the type of a child node must match the type of its parent. 
+                    What this means is that you'll have to leverage a class (or interface) hierarchy
+                    to create your tree of heterogeneous objects.  For example, you might create a
+                    parent class of type Fruit:</para>
+                <programlisting>public abstract class Fruit { /*...*/ }           
+
+// then make Apple and Orange subclasses:
+public class Apple extends Fruit { /*...*/ }
+public class Orange extends Fruit { /*...*/ }    </programlisting>
+                <para>Then you can define your tree like this: </para>
+                <programlisting>Tree&lt;Fruit, String&gt; myTree;  // and populate it with Apples and Oranges as you wish.  </programlisting>
+                <para>Of course, using the type hierarchy that is inherent to java classes, you
+                    could always define your tree thusly: </para>
+                <programlisting>Tree&lt;Object, String&gt; myTree;    </programlisting>
+                <para>Obviously, you could put any object you like in a Node for this tree, but the
+                    Framework won't be able to render it unless you have an entry in your
+                    nodePrototypeMap with the Class (or a parent Class) of that object as the key,
+                    and a NodePrototype that is valid for the properties on that object as the
+                    value.</para>
+            </section>
+        </section>
+        <section>
+            <title>Tooltip</title>
+            <para>The Tooltip widget is used to render a tooltip. The jQuery Bubble Popup plugin is
+                used. See <link
+                    xlink:href="http://www.maxvergelli.com/jquery-bubble-popup/documentation/"
+                    >http://www.maxvergelli.com/jquery-bubble-popup/documentation/</link>. Tooltips
+                can display plain text or HTML, and can be added to any component by setting the
+                tooltipContent in the Data Dictionary. This is a example of how to add a tooltip on
+                a TextControl : </para>
+            <programlisting linenumbering = "numbered">&lt;bean parent="Uif-TextControl">
+    &lt;property name="toolTip">
+        &lt;bean parent="Uif-Tooltip" p:tooltipContent="This is my tooltip"/>
+    &lt;/property>
+&lt;/bean></programlisting>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>Tooltip Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.4*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1*"/>
+                            <colspec colname="c3" colnum="3" colwidth="6.97*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>tooltipContent</entry>
+                                    <entry> </entry>
+                                    <entry>Plain text or HTML string that will be used to render the
+                                        tooltip content.</entry>
+                                </row>
+                                <row>
+                                    <entry>onFocus</entry>
+                                    <entry>false</entry>
+                                    <entry>Indicates the tooltip should be triggered by
+                                        focus/blur</entry>
+                                </row>
+                                <row>
+                                    <entry>onMouseHover</entry>
+                                    <entry>true</entry>
+                                    <entry>Indicates the tooltip should be triggered by mouse
+                                        hover</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Plugin (Template) Options</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>Tooltip Options</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.66*"/>
+                            <colspec colname="c3" colnum="3" colwidth="2.54*"/>
+                            <thead>
+                                <row>
+                                    <entry>Option</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>position</entry>
+                                    <entry>top</entry>
+                                    <entry>It sets the Bubble Popup on the left, top, right or
+                                        bottom side of the target element; possible values
+                                        are'left', 'top', 'right' or 'bottom'</entry>
+                                </row>
+                                <row>
+                                    <entry>align</entry>
+                                    <entry>left</entry>
+                                    <entry>It sets the Bubble Popup alignment along the side of the
+                                        target element; possible values are 'left', 'center' or
+                                        'right' when position is 'top or 'bottom' otherwise 'top',
+                                        'middle' or 'bottom' when position is 'left' or
+                                        'right'</entry>
+                                </row>
+                                <row>
+                                    <entry>alwaysVisible</entry>
+                                    <entry>false</entry>
+                                    <entry>If it's  true, the Bubble Popup maintains the position
+                                        and alignment if it's possible,  also when the browser
+                                        window is resized ; otherwise the plugin changes (or
+                                        restores back) the Bubble Popup's position to make it always
+                                        visible in the browser's viewport, this works as well when
+                                        browser window is resized</entry>
+                                </row>
+                                <row>
+                                    <entry>tail</entry>
+                                    <entry>{ align:'left', hidden: false }</entry>
+                                    <entry><para>"tail" is an object that contains the following properties for the Bubble Popup's tail </para><para>"align" (String)
+                                        option sets the alignment for the tail and possible values
+                                        are 'left', 'center' or 'right' when Bubble Popup's position
+                                        is 'top' or 'bottom' otherwise 'top', 'middle' or 'bottom'
+                                        when position is 'left' or 'right';</para><para>"hidden" (Boolean) option can be true or false and toggle on or off the tail's image</para> </entry>
+                                </row>
+                                <row>
+                                    <entry>themePath</entry>
+                                    <entry>/plugins/tooltip/jquerybubblepopup-theme/</entry>
+                                    <entry>It sets the  relative path  of the folder that contains
+                                        all the themes</entry>
+                                </row>
+                                <row>
+                                    <entry>themeName</entry>
+                                    <entry>black</entry>
+                                    <entry>It sets the theme for the Bubble Popup; all the themes
+                                        are saved inside the themePath folder; possible values are:
+                                        azure, black, blue, green, grey, orange, violet, yellow,
+                                        all-azure, all-black, all-blue, all-green, all-grey,
+                                        all-orange, all-violet, all-yellow</entry>
+                                </row>
+                                <row>
+                                    <entry>selectable</entry>
+                                    <entry>true</entry>
+                                    <entry>When the mouse is over the target element, a bubble popup
+                                        appears; then, if "selectable" is true, you will be able to
+                                        select the content inside it; if the mouse goes out of
+                                        the button OR the bubble, the popup will be closed. By
+                                        default, this option is false, then you will not be able to
+                                        select the content because when the mouse is immediately out
+                                        of the button, the popup will be closed</entry>
+                                </row>
+                                <row>
+                                    <entry>distance</entry>
+                                    <entry>20px</entry>
+                                    <entry>It sets the distance of the point from which the Bubble
+                                        Popup comes </entry>
+                                </row>
+                                <row>
+                                    <entry>width</entry>
+                                    <entry>null</entry>
+                                    <entry>It sets the width of the Bubble Popup, an integer "10" or
+                                        a string as "10px" is accepted; this option sets a CSS width
+                                        property for the main &lt;TABLE> in the markup
+                                        template</entry>
+                                </row>
+                                <row>
+                                    <entry>height</entry>
+                                    <entry>null</entry>
+                                    <entry>It sets the height of the Bubble Popup, an integer "10"
+                                        or a string as "10px" is accepted; this option sets a CSS
+                                        height property for the main &lt;TABLE> in the markup
+                                        template</entry>
+                                </row>
+                                <row>
+                                    <entry>divStyle</entry>
+                                    <entry>{}</entry>
+                                    <entry>It is an object that contains CSS properties as {color:
+                                        '#000000', margin:'0px'} the CSS properties inside this
+                                        object will be added to the main &lt;DIV> tag in the  markup
+                                        template; by default it is an empty object</entry>
+                                </row>
+                                <row>
+                                    <entry>tableStyle</entry>
+                                    <entry>{}</entry>
+                                    <entry>It is an object that contains CSS properties as {color:
+                                        '#000000', margin:'0px'} the CSS properties inside this
+                                        object will be added to the main &lt;TABLE> tag in the 
+                                        markup template; by default it is an empty object</entry>
+                                </row>
+                                <row>
+                                    <entry>innerHtml</entry>
+                                    <entry>null</entry>
+                                    <entry>The inner text inside the Bubble Popup, it can contain
+                                        HTML tags</entry>
+                                </row>
+                                <row>
+                                    <entry>innerHtmlStyle</entry>
+                                    <entry>{}</entry>
+                                    <entry>It is an object that contains CSS properties as {color:
+                                        '#000000', margin:'0px'} the CSS properties inside this
+                                        object will be added to the &lt;TD> tag container with
+                                        "{BASE CLASS}-innerHtml" as class attribute in the markup
+                                        template; by default it is an empty object</entry>
+                                </row>
+                                <row>
+                                    <entry>dropShadow</entry>
+                                    <entry>true</entry>
+                                    <entry>Drop the shadow ( true ) or not ( false ) for the Bubble
+                                        Popup</entry>
+                                </row>
+                                <row>
+                                    <entry>manageMouseEvents</entry>
+                                    <entry>false</entry>
+                                    <entry>Do not change this property as KRAD overrides this to
+                                        false</entry>
+                                </row>
+                                <row>
+                                    <entry>mouseOver</entry>
+                                    <entry>show</entry>
+                                    <entry>It adds a managed mouseover event to the target DOM
+                                        element associated with the Bubble Popup; possible values
+                                        are 'show' or 'hide'. 'show' : when mouse is over the target
+                                        element, show the Bubble Popup associated with it. 'hide' :
+                                        when mouse is over the target element, hide the Bubble Popup
+                                        associated with it</entry>
+                                </row>
+                                <row>
+                                    <entry>mouseOut</entry>
+                                    <entry>hide</entry>
+                                    <entry>It adds a managed mouseout event to the target DOM
+                                        element associated with the Bubble Popup; possible values
+                                        are 'show' or 'hide'. 'show' : when mouse is out of the
+                                        target element, show the Bubble Popup associated with it.
+                                        'hide' : when mouse is out of the target element, hide the
+                                        Bubble Popup associated with it</entry>
+                                </row>
+                                <row>
+                                    <entry>openingSpeed</entry>
+                                    <entry>250</entry>
+                                    <entry>It sets the opening speed</entry>
+                                </row>
+                                <row>
+                                    <entry>closingSpeed</entry>
+                                    <entry>250</entry>
+                                    <entry>It sets the closing speed</entry>
+                                </row>
+                                <row>
+                                    <entry>openingDelay</entry>
+                                    <entry>0</entry>
+                                    <entry>It sets a delay in milliseconds when the Bubble Popup is
+                                        opening</entry>
+                                </row>
+                                <row>
+                                    <entry>closingDelay</entry>
+                                    <entry>0</entry>
+                                    <entry>It sets a delay in milliseconds when the Bubble Popup is
+                                        closing</entry>
+                                </row>
+                                <row>
+                                    <entry>baseClass</entry>
+                                    <entry>jquerybubblepopup</entry>
+                                    <entry>It sets the base class name saved in the CSS file
+                                        "jquery-bubble-popup.css"; generally you don't need to edit
+                                        this option, it is only useful if other CSS classes declared
+                                        inside the document interfere with the main class of the
+                                        Bubble Popup; in this case, you will need only to choose a
+                                        new valid name for the base class and set this option with
+                                        it, then you need to replace all occurrences of the base
+                                        class name "jquerybubblepopup" inside the
+                                        "jquery-bubble-popup.css" file with the new name</entry>
+                                </row>
+                                <row>
+                                    <entry>themeMargins</entry>
+                                    <entry> azure </entry>
+                                    <entry>It sets the theme for the Bubble Popup; all the themes
+                                        are saved inside the folder "jquerybubblepopup-theme/";
+                                        possible values are: azure, black, blue, green, grey,
+                                        orange, violet, yellow, all-azure, all-black, all-blue,
+                                        all-green, all-grey, all-orange, all-violet,
+                                        all-yellow</entry>
+                                </row>
+                                <row>
+                                    <entry>afterShown</entry>
+                                    <entry>function(){}</entry>
+                                    <entry>It sets a callback function to execute when Bubble Popup
+                                        is opened; you can set it as
+                                        jQuery('.button').CreateBubblePopup({innerHtml: 'This is a
+                                        Bubble Popup!', afterShown: function(){alert('Bubble Popup
+                                        is open!');}});</entry>
+                                </row>
+                                <row>
+                                    <entry>afterHidden</entry>
+                                    <entry>function(){}</entry>
+                                    <entry>It sets a callback function to execute when Bubble Popup
+                                        is closed</entry>
+                                </row>
+                                <row>
+                                    <entry>hideElementId</entry>
+                                    <entry>{}</entry>
+                                    <entry>Insert in the array all IDs of the elements that you want
+                                        to hide; it is useful if any element interfere with a Bubble
+                                        Popup. By default, it is an empty array</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Pager</title>
+            <para>The Pager widget is used to output a page selection interface for the user to
+                select pages.  This widget is used by TableLayoutManager when the RichTable option
+                is NOT being used and useServerPaging is set to true on the CollectionGroup.  This
+                widget is also used when a CollectionGroup which uses StackedLayoutManager has its
+                useServerPaging property set to true.</para>
+            <para>The Pager widget itself contains a few options that can modify the what is
+                displayed.</para>
+            <programlisting linenumbering="numbered">    &lt;property name="pagerWidget">
+      &lt;bean parent="Uif-Pager" p:maxNumberedLinksShown="8"/>
+    &lt;/property></programlisting>
+            <section>
+                <title>Properties</title>
+                <para>
+                    <table frame="all" pgwide="1" tabstyle="striped">
+                        <title>Tooltip Properties</title>
+                        <tgroup cols="3">
+                            <colspec colname="c1" colnum="1" colwidth="1.4*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1*"/>
+                            <colspec colname="c3" colnum="3" colwidth="6.97*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Default</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>maxNumberedLinksShown</entry>
+                                    <entry> 5</entry>
+                                    <entry>The max number of numbered page links to show, pages
+                                        beyond this range are not shown and when pages are
+                                        navigated, the pager "carousels" through the pages which are
+                                        in the current range.</entry>
+                                </row>
+                                <row>
+                                    <entry>renderPrevNext</entry>
+                                    <entry>true</entry>
+                                    <entry>If true, render the previous and next links on the Pager
+                                        widget</entry>
+                                </row>
+                                <row>
+                                    <entry>renderFirstLast</entry>
+                                    <entry>true</entry>
+                                    <entry>If true, render the first and last links on the Pager
+                                        widget</entry>
+                                </row>
+                                <row>
+                                    <entry>linkScript</entry>
+                                    <entry/>
+                                    <entry>The javascript function that is called when a link is
+                                        clicked. This is automatically set by the framework and
+                                            <emphasis role="bold">should not be set normally, but
+                                            can be to accomadate rare circumstances.</emphasis>  By
+                                        default if not set, it is set to:
+                                        "retrieveCollectionPage(this, '" + collectionGroup.getId() +
+                                        "');"</entry>
+                                </row>
+                                <row>
+                                    <entry>numberOfPages</entry>
+                                    <entry/>
+                                    <entry>The total number of pages for this Pager, this must be
+                                        set by the framework and <emphasis role="bold">should not be
+                                            set normally</emphasis></entry>
+                                </row>
+                                <row>
+                                    <entry>currentPage</entry>
+                                    <entry/>
+                                    <entry>The current page the Pager is on, this must be set by the
+                                        framework and <emphasis role="bold">should not be set
+                                            normally</emphasis></entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title>Creating a New Widget </title>
+        <para>To create a new widget basically takes five steps.  First, you have to find the
+            appropriate jQuery plugin or JavaScript function that will satisfy your widget
+            requirements. Secondly, one needs to create a Java widget class that extends the widget
+            base. Thirdly, you would create the FreeMarker template file that will render the widget
+            on the browser. The fourth step is to create a custom JavaScript, which would only be
+            necessary in some cases when you need to pass the component id to the jQuery select.
+            Lastly, you need to create the spring beans definitions.</para>
+        <para>For our exercise application, we will look at adding a spinner widget that will render
+            spinner buttons on an input control to make increasing and decreasing numeric values
+            without typing.</para>
+        <section>
+            <title>jQuery Plugin</title>
+            <para>When choosing the jQuery plugin to use for the spinner widget, we had to take the
+                following into consideration. We looked for a plugin that is in a stable release and
+                not a Beta release. We also compare our requirements with the features that the
+                plugin has available. For this example, we decided on the Smart Spin plugin. </para>
+            <tip><para>
+                    <emphasis role="bold">Choosing Plugins:</emphasis> When choosing plugins, first
+                    have look at the current jQuery libraries (like jQuery UI) that are already
+                    being imported to see if they might not have a plugin that suits your needs. If
+                    choosing a new library, remember to include the .js and .css files in the
+                    'stylesheets' and 'jsFiles' properties of your view. </para></tip>
+        </section>
+        <section>
+            <title> Java Widget Class </title>
+            <para>The KRAD framework provides the org.kuali.rice.krad.uif.widget.WidgetBase base
+                class that you can extend to create custom widget classes. This class already
+                provides all the necessary lifecycle methods and base properties. </para>
+            <programlisting>public class Spinner extends WidgetBase {
+  private static final long serialVersionUID = -659830874214415990L;
+
+  public Spinner() {
+    super();       
+  }           
+
+  @Override
+  public void performFinalize(View view, Object model, Component parent) {          
+      super.performFinalize(view, model, parent);
+  }
+}    </programlisting>
+            <para>For the spinner widget, we will also create a spinner control that extends the
+                org.kuali.rice.krad.uif.control.TextControl. This control will have the spinner
+                widget class as a property that will be used in the control's template to render the
+                spinner controls.</para>
+            <programlisting>public class SpinnerControl extends TextControl {
+  private static final long serialVersionUID = -8267606288443759880L;
+
+  private Spinner spinner;
+
+  public SpinnerControl() {
+    super();
+  }
+
+  @Override
+  public List&lt;Component> getComponentsForLifecycle() {
+    List&lt;Component> components = super.getComponentsForLifecycle();              
+    components.add(getSpinner());
+    return components;
+  }           
+
+  /**
+   * Spinner widget that should decorate the control
+   *
+   * @return Spinner
+   */       
+  public Spinner getSpinner()
+  {
+    return spinner;
+  }           
+
+  /**
+   * Setter for the control's spinner widget instance
+   * 
+   * @param spinner        
+   */       
+  public void setSpinner(Spinner spinner) { 
+    this.spinner = spinner;
+  }   
+}    </programlisting>
+        </section>
+        <section>
+            <title>FreeMarker Template</title>
+            <para>Because we extended the TextControl to create the SpinnerControl widget class, we
+                will do the same when creating the template. We will invoke the text control macro
+                to include the standard text control. To render the spinner buttons on the control,
+                we use the script macro to call the createSpinner function that will add the spinner
+                plugin on that text field. We pass the specific SpinnerControl id and the component
+                options as parameters.</para>
+            <programlisting linenumbering = "numbered">&lt;#macro spinner control field> 
+
+  &lt;#-- Create Standard HTML Text Input then decorates with Spinner plugin -->
+  &lt;uif_text control=control field=field/>       
+     
+  &lt;@krad.script value="createSpinner('${control.id}', ${control.spinner.componentOptionsJSString});/>
+&lt;/#macro>   </programlisting>
+        </section>
+        <section>
+            <title>JavaScript Function</title>
+            <para>For this example we created a custom JavaScript function that will be called from
+                the template.</para>
+            <programlisting linenumbering = "numbered">/**
+  * Creates the spinner widget for an input
+  * 
+  * @param id - id for the control to apply the spinner to
+  * @param options - options for the spinner   
+  */   
+
+function createSpinner(id, options) {       
+  jq("#" + id).spinit(options);   
+}    </programlisting>
+        </section>
+        <section>
+            <title>Spring Beans Definitions</title>
+            <para>Lastly we add the spring bean definitions. Here we can specify default property
+                values and component options.</para>
+            <programlisting linenumbering = "numbered">&lt;bean id="Uif-Spinner" parent="Uif-Spinner-parentBean"/>
+&lt;bean id="Uif-Spinner-parentBean" abstract="true" class="org.kuali.rice.krad.uif.widget.Spinner" 
+  scope="prototype" parent="Uif-WidgetBase">
+  &lt;property name="componentOptions">
+    &lt;map>
+      &lt;entry key="min"value="0"/>           
+      &lt;entry key="stepInc" value="1"/>           
+      &lt;entry key="pageInc" value="1"/>         
+    &lt;/map>       
+  &lt;/property>     
+&lt;/bean>         
+&lt;bean id="Uif-SpinnerControl" parent="Uif-SpinnerControl-parentBean"/>     
+&lt;bean id="Uif-SpinnerControl-parentBean" abstract="true"
+      class="org.kuali.rice.krad.uif.control.SpinnerControl"          
+      scope="prototype"          
+      parent="Uif-SmallTextControl">       
+  &lt;property name="template" value="/krad/WEB-INF/jsp/templates/control/spinner.jsp"/>       
+  &lt;property name="spinner">         
+    &lt;bean parent="Uif-Spinner"/>       
+  &lt;/property>       
+  &lt;property name="styleClasses">         
+    &lt;list merge="true">          
+      &lt;value>uif-spinnerControl&lt;/value>         
+    &lt;/list>      
+  &lt;/property>     
+&lt;/bean>    </programlisting>
+        </section>
+   </section>
+    <section role="NotInToc">
+        <title>RECAP</title>
+        <itemizedlist>
+            <listitem>
+                <para>Widgets allow developers to produce rich UI functionality</para>
+            </listitem>
+            <listitem>
+                <para>KRAD already contains the basic and most commonly used widgets and provides
+                    the functionality to configure these widgets to suit your needs</para>
+            </listitem>
+            <listitem>
+                <para>Examples of widgets that come packaged in the framework include a date picker,
+                    a spinner value selector, breadcrumbs, and a lightbox widget</para>
+            </listitem>
+            <listitem>
+                <para>jQuery plugins can usually be called with one argument, which is an object
+                    literal of the settings you would like to override. The base widget classes
+                    allow you to pass javascript options to these widgets by initializing the
+                    templatecomponentOptions map property. The base widget classes can be
+                    overridden, and properties can be changed or added to the
+                    componentOptionsMap</para>
+            </listitem>
+            <listitem>
+                <para>The framework allows you to create custom widgets</para>
+            </listitem>
+            <listitem>
+                <para>There are many jQuery plugins available online that can be used to create
+                    new widgets</para>
+            </listitem>
+            <listitem>
+                <para>The main steps of creating a custom widget are:<itemizedlist>
+                        <listitem>
+                            <para> Choose the appropriate jQuery plugin if one is needed </para>
+                        </listitem>
+                        <listitem>
+                            <para>Create widget class by extending
+                                org.kuali.rice.krad.uif.widget.WidgetBase </para>
+                        </listitem>
+                        <listitem>
+                            <para>Create the template file </para>
+                        </listitem>
+                        <listitem>
+                            <para>Create the custom JavaScript function that will initialize the
+                                plugin </para>
+                        </listitem>
+                        <listitem>
+                            <para>Add the spring bean definitions in the Data Dictionary     
+                            </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </listitem>
+        </itemizedlist>
+    </section>
+</chapter>

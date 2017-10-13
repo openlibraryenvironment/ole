@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="postal_code" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>Postal Code</title>
+    </info>
+    <para>Administration > Identity > Locations > Postal Code</para>
+    <para>The Postal Code Maintenance document defines the zip code by city and state. When the user
+        chooses the <emphasis role="bold">Postal Code</emphasis> option from the <emphasis
+            role="bold">Administration</emphasis> menu tab, the system displays the Postal Code
+        Lookup screen. After the user selects a postal code or clicks the <emphasis role="bold"
+            >create new</emphasis> button, the system presents the Postal Code Maintenance document. </para>
+    <note><para>The user may also enter a city and state to find the associated zip code. </para></note>
+    <section>
+        <title>Document Layout</title>
+        <figure>
+            <title>Postal Code Maintenance document, create mode</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/postal_code_maintenance_document.jpg"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>The Postal Code Maintenance document includes the <emphasis role="bold">Edit Postal
+                Codes </emphasis>tab.</para>
+        <para>In edit mode, the<emphasis role="bold"> Edit Postal Codes</emphasis> tab presents a
+            display-only set of fields on the left and editable fields on the right in which the
+            user may enter changes.</para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Edit Postal Codes tab definition</title>
+                <tgroup cols="2">
+                <colspec colwidth="1.0*"/>
+                <colspec colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Title</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Country Code </entry>
+                        <entry>The country code for the country associated with the zip (postal) code. </entry>
+                    </row>
+                    <row>
+                        <entry>Postal Code </entry>
+                        <entry>Identifies a Postal Service code.</entry>
+                    </row>
+                    <row>
+                        <entry>State</entry>
+                        <entry>Required. The state associated with the zip (postal) code.</entry>
+                    </row>
+                    <row>
+                        <entry>County Code </entry>
+                        <entry>The unique identifying code for the county associated with the zip (postal) code.</entry>
+                    </row>
+                    <row>
+                        <entry>City Name </entry>
+                        <entry>Required. The name of the city associated with the zip (postal) code.</entry>
+                    </row>
+                    <row>
+                        <entry>Active Indicator</entry>
+                        <entry>Indicates whether the postal code is active or inactive. Remove the
+                            check mark to deactivate this postal code.</entry>
+                    </row>
+                </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+</chapter>

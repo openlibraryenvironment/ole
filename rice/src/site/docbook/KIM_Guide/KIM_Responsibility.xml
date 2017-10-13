@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Responsibility" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Responsibility</title>
+    
+    <section>
+        <title>Responsibility Lookup</title>
+        
+        <para>Similar to the Permission Lookup, you can use the Responsibility
+            Lookup to search for and view existing responsibilities in KIM. You can
+            view summarized information about the responsibility detail values as
+            well as the roles with which the responsibility is currently
+            associated.</para>
+        
+        <figure>
+            <title>Identity Channel: Responsibility Link</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KIM_responsibility_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>To display this screen, from the <emphasis
+            role="bold">Administration</emphasis> menu, click <emphasis
+                role="bold">Responsibility</emphasis> in the Identify section of the
+            menu.</para>
+        
+        <note>
+            <para>This table is display-only. Technical assistance is required to
+                modify responsibilities.</para>
+        </note>
+        
+        <figure>
+            <title>Responsibility Lookup</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/responsibility_lookup_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>To find information about a Responsibility, enter information in
+            one or more of the fields on the Lookup page and then click the Search
+            button.</para>
+        
+        <para><table frame="none" tabstyle="striped">
+            <title>Responsibility Lookup Attributes</title>
+            
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Field Name</entry>
+                        
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>Template Namespace</entry>
+                        
+                        <entry>Optional. The code identifying the application and
+                            module the template pertains to. Because responsibilities
+                            pertain to workflow, most responsibility templates are
+                            associated with the KR-WKFLW (Kuali Rice-Workflow)
+                            namespace.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Template Name</entry>
+                        
+                        <entry>Optional. The template the responsibility is based on.
+                            A template usually defines, in a broad sense, what the
+                            responsibility is. Since responsibilities normally are
+                            associated with action requests for user review, most
+                            responsibilities have a template name of "Review."</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Responsibility Namespace</entry>
+                        
+                        <entry>Optional. The code designating the application and
+                            module this responsibility is associated with. This code
+                            usually corresponds to the namespace of the document type for
+                            which the responsibility generates action requests.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Responsibility Name</entry>
+                        
+                        <entry>Optional. The name of this responsibility. In most
+                            cases, the responsibility name is the same as the associated
+                            template name ("Review"). Like permission names,
+                            responsibility names are not unique.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Role Namespace</entry>
+                        
+                        <entry>An indicator that associates the Role with a particular
+                            application and module. To search for a responsibility based
+                            on the namespace of the role to which it is assigned, enter
+                            the name of that namespace.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Role Name</entry>
+                        
+                        <entry>Optional. The name by which a Role is known in the
+                            system. To search for a responsibility based on the Role to
+                            which it is assigned, enter that Role name.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Principal Name</entry>
+                        
+                        <entry>Optional. One of the principals that currently have
+                            this responsibility through their association with a
+                            role</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Group Namespace</entry>
+                        
+                        <entry>Optional. The namespace of groups that have this
+                            responsibility through the group's association with a
+                            role</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Group Name</entry>
+                        
+                        <entry>Optional. The name of a group that has this
+                            responsibility through its association with a role</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Attribute Value</entry>
+                        
+                        <entry>Optional. A specific responsibility detail value
+                            associated with a responsibility</entry>
+                    </row>
+                    <row>
+                        <entry>Active Indicator</entry>
+                        
+                        <entry>Required (defaults to Yes). Change the default
+                            selection to view responsibilities that are inactive or to see all
+                            (active and inactive).</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table></para>
+        
+        <figure>
+            <title>Responsibility Lookup: Results</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/responsibility_results_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para><table frame="none" tabstyle="striped">
+            <title>Responsibility Lookup: Results Attributes</title>
+            
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Field Name</entry>
+                        
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>Responsibility Detail Values</entry>
+                        
+                        <entry><para>Display-only. Detailed information that
+                            defines:</para> <itemizedlist>
+                                <listitem>
+                                    <para>What document this responsibility generates action
+                                        requests for</para>
+                                </listitem>
+                                
+                                <listitem>
+                                    <para>When the requests are generated</para>
+                                </listitem>
+                                
+                                <listitem>
+                                    <para>How the requests are handled by workflow</para>
+                                </listitem>
+                            </itemizedlist><para>Unlike permissions, which sometimes
+                                have different detail values, responsibility detail values
+                                generally contain these elements:</para> <itemizedlist>
+                                    <listitem>
+                                        <para><emphasis role="bold">routeNodeName</emphasis>:
+                                            The point in a document's workflow routing at which this
+                                            responsibility generates requests.</para>
+                                    </listitem>
+                                    
+                                    <listitem>
+                                        <para><emphasis role="bold">documentTypeName</emphasis>:
+                                            The name of the document type for which this
+                                            responsibility generates action requests. This value may
+                                            also be a parent document type, which indicates that
+                                            this responsibility applies to all child
+                                            documents.</para>
+                                    </listitem>
+                                    
+                                    <listitem>
+                                        <para><emphasis
+                                            role="bold">actionDetailsAtRoleMemberLevel</emphasis>: A
+                                            True or False indicator that defines where the system
+                                            collects details of this workflow action request. If the
+                                            value is True, the system collects action details when
+                                            members are assigned to the role. If the value is False,
+                                            the system collects action details when this
+                                            responsibility is assigned to a role.</para>
+                                    </listitem>
+                                    
+                                    <listitem>
+                                        <para><emphasis role="bold">Required</emphasis>: A True
+                                            or False value that indicates whether the system is
+                                            required to generate an action request for this document
+                                            type. If the value is True and the document generates no
+                                            requests associated with this responsibility, then the
+                                            document will go into exception status. If the value is
+                                            False and the responsibility generates no action
+                                            requests, then the document continues to route as
+                                            normal.</para>
+                                    </listitem>
+                                </itemizedlist></entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Granted to Roles</entry>
+                        
+                        <entry><emphasis role="bold">Display-only</emphasis>. Lists
+                            the namespace and name of roles that have this responsibility.
+                            Click a linked name to view the Role Inquiry for that role
+                            name.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table></para>
+    </section>
+    
+    <section>
+        <title>Responsibility Inquiry</title>
+        
+        <para>To view the <emphasis role="bold">Responsibility
+            Inquiry</emphasis> screen for a responsibility, click its <emphasis
+                role="bold">Responsibility Name</emphasis> in the search results list
+            displayed when you do a Responsibility Lookup. The Responsibility
+            Inquiry screen contains the same information displayed in the search
+            results, but in a slightly different format:</para>
+        
+        <figure>
+            <title>Responsibility Inquiry</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/responsibility_inquiry_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>The fields on this screen are documented in the Responsibility
+            Lookup section above.</para>
+    </section>
+</chapter>

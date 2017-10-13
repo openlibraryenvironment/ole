@@ -1,0 +1,253 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <!-- Help demo -->
+  <bean id="Demo-Help-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoHelp.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.widget.Help"/>
+    <property name="docBookAnchor" value="d6813e8513"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-Help-Example1"/>
+        <ref bean="Demo-Help-Example2"/>
+        <ref bean="Demo-Help-Example3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Help-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Help-Example1 start-->
+        <bean id="Demo-Help-Section1" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+          <property name="help">
+            <bean parent="Uif-Help"/>
+          </property>
+          <property name="items">
+            <list>
+              <bean id="Demo-Help-Field1" parent="Uif-InputField" p:propertyName="inputField1">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+
+              <bean id="Demo-Help-Field2" parent="Uif-InputField" p:propertyName="inputField2" p:labelPlacement="RIGHT">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+
+              <bean id="Demo-Help-Field3" parent="Uif-InputField" p:propertyName="inputField3" p:labelPlacement="TOP">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+
+              <bean id="Demo-Help-Mouse-Out" parent="Uif-Label"/>
+              <bean id="Demo-Help-Standalone-Help-Not-Rendered" parent="Uif-Help">
+                <property name="tooltipHelpContent"
+                          value="Sample text for standalone help widget tooltip which will never be rendered"/>
+              </bean>
+
+              <bean id="Demo-Help-Override-Tooltip" parent="Uif-InputField" p:propertyName="dataField1">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+                <property name="fieldLabel">
+                  <bean parent="Uif-Label">
+                    <property name="toolTip">
+                      <bean parent="Uif-Tooltip"
+                            p:tooltipContent="Sample text for label tooltip - this will not be rendered as it is overridden by the help tooltip"/>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+
+              <bean id="Demo-Help-Override-On-Focus-Tooltip" parent="Uif-InputField" p:propertyName="dataField2">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl">
+                    <property name="toolTip">
+                      <bean parent="Uif-Tooltip" p:onFocus="true"/>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+
+              <bean id="Demo-Help-Checkbox" parent="Uif-InputField" p:propertyName="booleanField1" p:defaultValue="true">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-CheckboxControl"/>
+                </property>
+              </bean>
+
+              <bean id="Demo-Help-DisplayOnlyFields" parent="Uif-Disclosure-VerticalBoxSubSection" p:layoutManager.orientation="VERTICAL">
+                <property name="help">
+                  <bean parent="Uif-Help"/>
+                </property>
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-DataField" p:propertyName="dataField1" p:defaultValue="DataFieldValue">
+                      <property name="help">
+                        <bean parent="Uif-Help"/>
+                      </property>
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Help-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Help-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Help-Example2 start-->
+        <bean id="Demo-Help-Section2" parent="Uif-Disclosure-VerticalBoxSection"
+              p:layoutManager.orientation="VERTICAL">
+          <property name="help">
+            <bean parent="Uif-Help">
+              <property name="tooltipHelpContent" value=""/>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="dataField1">
+                <property name="help">
+                  <bean parent="Uif-Help">
+                    <property name="tooltipHelpContent" value=""/>
+                  </bean>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Help-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Help-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Help-Example3 start-->
+        <bean id="Demo-Help-Section3" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+          <property name="help">
+            <bean parent="Uif-Help">
+              <property name="externalHelpUrl" value="http://www.kuali.org/?section"/>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="inputField1">
+                <property name="help">
+                  <bean parent="Uif-Help">
+                    <property name="externalHelpUrl" value="http://www.kuali.org/?label_left"/>
+                  </bean>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:propertyName="inputField2" p:labelPlacement="RIGHT">
+                <property name="help">
+                  <bean parent="Uif-Help">
+                    <property name="externalHelpUrl" value="http://www.kuali.org/?label_right"/>
+                  </bean>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean id="field-label-top-external-help" parent="Uif-InputField" p:propertyName="inputField3" p:labelPlacement="TOP">
+                <property name="help">
+                  <bean parent="Uif-Help">
+                    <property name="helpDefinition">
+                      <bean parent="HelpDefinition" p:parameterNamespace="KR-SAP" p:parameterName="TEST_PARAM"
+                            p:parameterDetailType="TEST_COMPONENT"/>
+                    </property>
+                  </bean>
+                </property>
+                <property name="control">
+                  <bean parent="Uif-TextControl"/>
+                </property>
+              </bean>
+              <bean parent="Uif-Label"/>
+              <bean parent="Uif-Help">
+                <property name="externalHelpUrl" value="http://www.kuali.org/?widget_only"/>
+                <property name="helpAction">
+                  <bean id="standalone-external-help" parent="Uif-ActionImage">
+                    <property name="actionImage">
+                      <bean parent="Uif-HelpImage"/>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:layoutManager.orientation="VERTICAL">
+                <property name="help">
+                  <bean parent="Uif-Help">
+                    <property name="externalHelpUrl" value="http://www.kuali.org/?sub_section"/>
+                  </bean>
+                </property>
+                <property name="items">
+                  <list>
+                    <bean id="display-field-external-help" parent="Uif-DataField" p:propertyName="dataField1" p:defaultValue="DataFieldValue">
+                      <property name="help">
+                        <bean parent="Uif-Help">
+                          <property name="externalHelpUrl" value="http://www.kuali.org/?display_field"/>
+                        </bean>
+                      </property>
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Help-Example3 end-->
+      </list>
+    </property>
+  </bean>
+</beans>

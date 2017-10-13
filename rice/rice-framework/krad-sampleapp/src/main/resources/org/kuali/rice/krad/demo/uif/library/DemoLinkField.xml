@@ -1,0 +1,75 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- LinkField demo -->
+  <bean id="Demo-LinkField-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoLinkField.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.field.LinkField"/>
+    <property name="docBookAnchor" value="linkAndLinkField"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-LinkField-Example1"/>
+        <ref bean="Demo-LinkField-Example2"/>
+        <ref bean="Demo-LinkField-Example3"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-LinkField-Example1"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-LinkField-Example1 start-->
+        <bean parent="Uif-LinkField" p:href="http://www.kuali.org" p:linkText="Kuali Website"/>
+        <!-- ex:Demo-LinkField-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- LinkField with custom target -->
+  <bean id="Demo-LinkField-Example2"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-LinkField-Example2 start-->
+        <bean parent="Uif-LinkField" p:href="http://www.kuali.org" p:linkText="Kuali Website in a new page"
+                p:target="_blank"/>
+        <!-- ex:Demo-LinkField-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- LinkField in lightbox -->
+  <bean id="Demo-LinkField-Example3"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-LinkField-Example3 start-->
+        <bean parent="Uif-LinkField" p:href="http://www.kuali.org" p:linkText="Kuali Website in a lightbox" >
+          <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-LinkField-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

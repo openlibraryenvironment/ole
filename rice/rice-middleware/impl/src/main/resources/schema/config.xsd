@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema targetNamespace="http://rice.kuali.org/xsd/config" elementFormDefault="qualified"
+    xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/xsd/config">
+
+    <element name="config" type="tns:Config"></element>
+
+    <complexType name="Config">
+        <sequence>
+            <element name="param" type="tns:Param" maxOccurs="unbounded" minOccurs="0"></element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="Param">
+        <simpleContent>
+            <extension base="string">
+                <attribute name="name" type="string" use="required"></attribute>
+                <attribute name="override" type="boolean" default="true">
+                    <annotation>
+                        <documentation>If set to false, the property will not be loaded if
+                            previously defined.</documentation>
+                    </annotation>
+                </attribute>
+                <attribute name="random" type="boolean" default="false">
+                    <annotation>
+                        <documentation>
+                            If set to true, a random integer will be generated for the
+                            value. The
+                            value for this node should be an integer range in the format
+                            ##-##.
+                        </documentation>
+                    </annotation>
+                </attribute>
+                <attribute name="system" type="boolean" default="false">
+                    <annotation>
+                        <documentation>If set to true, the property will be exported as a system
+                            property.
+                        </documentation>
+                    </annotation>
+                </attribute>
+            </extension>
+        </simpleContent>
+    </complexType>
+    
+</schema>

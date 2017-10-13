@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+<jdbc-connection-descriptor
+  jcd-alias="edlDataSource"
+  default-connection="false"
+  jdbc-level="3.0"
+  eager-release="false"
+  batch-mode="false"
+  useAutoCommit="0"
+  ignoreAutoCommitExceptions="false">
+  <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl"/>
+  <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+    <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager"/>
+  </sequence-manager>
+</jdbc-connection-descriptor>
+
+  <class-descriptor class="org.kuali.rice.edl.impl.bo.EDocLiteDefinition" table="KREW_EDL_DEF_T">
+    <field-descriptor column="EDOCLT_DEF_ID" name="eDocLiteDefId" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREW_EDL_S"/>
+    <field-descriptor column="NM" name="name" jdbc-type="VARCHAR"/>
+    <field-descriptor column="XML" name="xmlContent" jdbc-type="CLOB"/>
+    <field-descriptor column="ACTV_IND" name="activeInd" jdbc-type="BIT"/>
+    <field-descriptor column="OBJ_ID" name="objectId" jdbc-type="VARCHAR" indexed="true" />
+    <field-descriptor column="VER_NBR" name="versionNumber" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.edl.impl.bo.EDocLiteAssociation" table="KREW_EDL_ASSCTN_T">
+    <field-descriptor column="EDOCLT_ASSOC_ID" name="edocLiteAssocId" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREW_EDL_S"/>
+    <field-descriptor column="DOC_TYP_NM" name="edlName" jdbc-type="VARCHAR"/>
+    <field-descriptor column="EDL_DEF_NM" name="definition" jdbc-type="VARCHAR"/>
+    <field-descriptor column="STYLE_NM" name="style" jdbc-type="VARCHAR"/>
+    <field-descriptor column="ACTV_IND" name="activeInd" jdbc-type="BIT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion3"/>
+    <field-descriptor column="OBJ_ID" name="objectId" jdbc-type="VARCHAR" indexed="true" />
+    <field-descriptor column="VER_NBR" name="versionNumber" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.edl.impl.extract.Dump" table="KREW_EDL_DMP_T">
+    <field-descriptor column="DOC_HDR_ID" name="docId" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor column="DOC_TYP_NM" name="docTypeName" jdbc-type="VARCHAR" />
+    <field-descriptor column="DOC_HDR_STAT_CD" name="docRouteStatusCode" jdbc-type="VARCHAR" />
+    <field-descriptor column="DOC_HDR_MDFN_DT" name="docModificationDate" jdbc-type="TIMESTAMP" />
+    <field-descriptor column="DOC_HDR_CRTE_DT" name="docCreationDate" jdbc-type="TIMESTAMP" />
+    <field-descriptor column="DOC_HDR_TTL" name="docDescription" jdbc-type="VARCHAR" />
+    <field-descriptor column="DOC_HDR_INITR_PRNCPL_ID" name="docInitiatorId" jdbc-type="VARCHAR" />
+    <field-descriptor column="CRNT_NODE_NM" name="docCurrentNodeName" jdbc-type="VARCHAR" />
+    <field-descriptor column="VER_NBR" name="lockVerNbr"  jdbc-type="INTEGER" locking="true" />
+  <collection-descriptor name="fields" element-class-ref="org.kuali.rice.edl.impl.extract.Fields" auto-retrieve="true" auto-delete="true" auto-update="true">
+    <inverse-foreignkey field-ref="docId"/>
+  </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.edl.impl.extract.Fields" table="KREW_EDL_FLD_DMP_T">
+    <field-descriptor column="EDL_FIELD_DMP_ID" name="fieldId" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREW_EDL_FLD_DMP_S" />
+    <field-descriptor column="DOC_HDR_ID" name="docId" jdbc-type="VARCHAR"/>
+    <field-descriptor column="FLD_NM" name="fieldName" jdbc-type="VARCHAR"/>
+    <field-descriptor column="FLD_VAL" name="fieldValue" jdbc-type="VARCHAR"/>
+    <field-descriptor column="VER_NBR" name="lockVerNbr" jdbc-type="INTEGER" locking="true" />
+    <reference-descriptor name="dump" class-ref="org.kuali.rice.edl.impl.extract.Dump" auto-retrieve="true" auto-delete="false" auto-update="false">
+      <foreignkey field-ref="docId"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+</descriptor-repository>

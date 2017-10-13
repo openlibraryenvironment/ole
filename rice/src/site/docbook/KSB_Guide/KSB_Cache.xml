@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_Cache" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Caching Infrastructure</title>
+    <section xml:id="cache_overview">
+        <title>Overview</title>
+        <para>
+            As we decrease the direct database access from Rice clients and expose services remotely, service-level 
+            caching becomes more important. Previously in Rice we didn't approach caching with a standard 
+            comprehensive solution. This was problematic for many reasons explained later in the document. 
+            As caching starts to take a greater role in Rice it is clear that we must have a well thought out 
+            plan for caching. The caching solution we are looking for and have implemented must have the following properties:
+        </para>
+        <para>
+            <orderedlist>
+                <listitem><para>Usable by developers without introducing bugs</para></listitem>
+                <listitem><para>Current (not built on dead or dying technologies)</para></listitem>
+                <listitem><para>Concise (doesn't pollute the codebase with caching logic)</para></listitem>
+                <listitem><para>Flexible (works for most/many caching situations)</para></listitem>
+                <listitem><para>Supports client/server side caching</para></listitem>
+                <listitem><para>Tunable/customizable (max cache size, cache to disk, etc)</para></listitem>
+                <listitem><para>Supports distributed caching (will it work with the KSB?)</para></listitem>
+                <listitem><para>Performant</para></listitem>
+                <listitem><para>Usable by Kuali clients for their own caching needs not just Rice</para></listitem>
+                <listitem><para>Version compatible</para></listitem>
+                <listitem><para>Pluggable (allows using different caching implementations)</para></listitem>
+            </orderedlist>
+        </para>
+    </section>
+    <section xml:id="cache_proposal">
+        <title>Proposal that was Implemented</title>
+        <para>Spring 3.1 includes a declarative cache abstraction API. This is an annotation driven
+            approach which significantly reduces caching logic. The only thing service authors
+            should have to do is annotate service interfaces (or implementation code) with Spring
+            cache annotations. For example:
+            <programlisting linenumbering = "numbered">@Cacheable(value="foo", key="#p0")
+public Foo getFoo(String id);
+ 
+@CacheEvict(value = "foos", allEntries=true)
+public Foo updatefoo(Foo f);</programlisting>Then
+            the service implementation would look like:
+            <programlisting>public Foo getFoo(String id) {
+  return getFooFromDB(id);
+}
+ 
+public Foo updatefoo(Foo f) {
+  return updateinDB(f);
+}</programlisting>
+        </para>
+        <para>All the boilerplate caching logic has been magically melted away through the wonders of 
+            AOP proxies. When Spring creates a Spring managed service (bean) it will automatically return a proxy 
+            containing caching logic. This works great for most cases, but falls apart when clients are calling 
+            services remotely. This is because the remote proxy is not created by Spring, but is instead created by 
+            the KSB (ServiceConnectorFactory). In order to handle this case, we will need to directly cache proxy 
+            our remote proxies.</para>
+        <para>To make sure the annotations are actually being read by Spring, we must include the
+            following in our Spring xml files:
+            <programlisting linenumbering = "numbered">&lt;cache:annotation-driven /></programlisting> and declare a cache
+            manager like:
+            <programlisting linenumbering = "numbered">&lt;bean id="cacheManager" class="org.springframework.cache.ehcache.EhcacheCacheManager" p:cache-manager="ehcache"/>
+ 
+&lt;!-- Ehcache library setup -->
+&lt;bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="ehcache.xml"/></programlisting>Due
+            to the fact that Spring is using proxies, there is a slight overhead in going through an
+            extra layer. This will probably not be a problem, but if it is, Spring provides the option
+            to use aspectj and aspect weaving. This will remove the proxying at the expense of
+            complexity.</para>
+        <figure>
+            <title>Cache Proposal</title>
+            <mediaobject><imageobject><imagedata fileref="../images/KSB_Guide/caching_in_Rice.png" width="100%" scalefit="1"/></imageobject></mediaobject>
+        </figure>
+        <!-- This section needs to have answers, then retitled and reworded accordingly. See KULRICE-9660 Caching in Rice: Open Questions.
+        <section>
+            <title>Open Points</title>
+            <para><itemizedlist>
+                <listitem><para>How to handle distributed flushes? Probably involves using EHcache on the backend and creating our 
+                    own distributed cache flush implementation that goes through the KSB. The basic design is figured out (see diagram) 
+                    but we need to put it to code.</para></listitem>
+                <listitem><para>How to reduce traffic through KSB for cache flush notification that clients don't care about?
+                <itemizedlist>
+                    <listitem><para>We have a possible solution for this: Have a config parameter (ParameterService parameter) 
+                        an applicationId's opt out list. This parameter will be a list of cache names (as regex) and cache keys 
+                        (as regex). Before sending out distributed flush messages it will consult each application's parameter 
+                        value to see if it cares about a message.</para></listitem>
+                </itemizedlist></para></listitem>
+                <listitem><para>Clients need to make sure they are not calling Soap services in loops - this will kill Rice. 
+                    What do we do about that? Anything?</para></listitem>
+                <listitem><para>How do we name our caches? After service name? After the fully-qualified object we are caching? 
+                    We want to avoid the possibility of key conflicts. We want to be granular enough to allow tuning of specific 
+                    caches. We also want to pick a scheme that will not change, because this could affect version compatibility. 
+                    Imagine a new Rice server is sending cache flush messages that old clients don't understand because a cache 
+                    was renamed.</para></listitem>
+                <listitem><para>Do we have multiple cacheManagers and/or multiple remotable cache endpoints. One advantage is 
+                    allowing different configurations per cache manager. Would having a single soap endpoint for all cache messages be 
+                    a bottleneck? This is addressed below, as these are important considerations.</para></listitem>
+            </itemizedlist></para>
+        </section>    -->
+    </section>
+    <section xml:id="cache_implement">
+        <title>The Implementation</title>
+        <para>The above proposal has been put to code, which here is  
+            explained in more detail. To understand the various parts of the Spring Cache abstraction and the implementation 
+            it is recommended to read the 
+            <link xlink:href="http://static.springsource.org/spring/docs/3.1.0.M2/spring-framework-reference/html/cache.html">
+                Spring cache documentation</link> before going any further.</para>
+        <section>
+            <title>The Spring Parts</title>
+            <para><itemizedlist>
+                <listitem><para><emphasis role="bold">CacheManager:</emphasis>An interface that defines a way to retrieve a 
+                    particular cache. This cache manager has a name and manages one of more cache objects</para></listitem>
+                <listitem><para><emphasis role="bold">Cache:</emphasis>An interface that defines a data structure to hold 
+                    objects to cache. The cache has a name and can be thought of as a Map-like structure. In fact, some 
+                    cache implementations are backed by a java.util.Map.</para></listitem>
+                <listitem><para><emphasis role="bold">Cacheable:</emphasis>An annotation to use on a Spring-managed 
+                    (or non-Spring-managed w/ Kuali extensions) bean to enable method caching. This annotation has two 
+                    important parts. One or more cache name(s) to put the cached object in and the key to use for caching. 
+                    Both should be present. It is recommended that cache keys be simple string (or primitive) values.</para></listitem>
+                <listitem><para><emphasis role="bold">CacheEvict:</emphasis>An annotation to use on a Spring-managed 
+                    (or non-Spring-managed w/ Kuali extensions) bean to enable cache eviction. This annotation has several 
+                    important parts. You must always specify one or more cache name(s). You can optionally specify either 
+                    a clearAll flag to force the entire cache to be cleared or you can specify a cache key so that only 
+                    one item is cleared from the cache.</para></listitem>
+                <listitem><para><emphasis role="bold">Spring annotation processor:</emphasis>an xml snippet to enable 
+                    Spring caching on Spring beans. You must specify the CacheManager to use for caching. There are several 
+                    optional settings that can be used on this declaration which will not be explained here.</para></listitem>
+            </itemizedlist>
+                <note><para>Due to the way Rice is using the Spring Expression Language with Cacheable and CacheEvict 
+                    annotations, Rice must be compiled with debug symbols.</para></note>
+            </para>
+        </section>
+        <section>
+            <title>The Kuali Parts</title>
+            <para><itemizedlist>
+                <listitem><para><emphasis role="bold">CacheService:</emphasis>An interface that defines operations to 
+                    invoke on a <emphasis role="bold">local</emphasis> cache. This is used in distributed cache operations. 
+                    Currently only supports flush style operations.</para></listitem>
+                <listitem><para><emphasis role="bold">CacheServiceImpl:</emphasis>The default implementation of the 
+                    CacheService. It contains a reference to a CacheManager and invokes caching operations on it. 
+                    Most standard Kuali apps will have multiple CacheService endpoints remotely available.</para></listitem>
+                <listitem><para><emphasis role="bold">DistributedCacheManagerDecorator:</emphasis> A CacheManager that 
+                    decorates an existing CacheManager. It adds distributed caching operations by retrieving a list of 
+                    CacheServices deployed on the bus and calling each one asynchronously. In the future, this will only 
+                    call CacheService endpoints that are interested in receiving a certain message. Although some of the 
+                    diagrams on this page may suggest that the distributed cache messages execute immediately, they are 
+                    actually queued up and sent in bulk at the end of a transaction. This means that our distributed 
+                    caching is transaction aware. The queuing nature of this class helps decrease the chattiness of 
+                    cache flush messages on the KSB.</para>
+                    <note><para>Since all cache keys must generate stable soap values, all cache keys are coerced to a 
+                        String by this decorator. This is why our cache keys should be primitive values; otherwise, 
+                        we might be relying on unstable toString implementations.</para></note></listitem>
+                <listitem><para><emphasis role="bold">CacheProxy:</emphasis>A utility class provides an extension to 
+                    the Spring cache abstraction. This allows the proxing on non-Spring managed beans with Spring 
+                    caching behavior. This is used for client-side caching behavior for remote proxies. 
+                    See <link xlink:href="https://jira.springsource.org/browse/SPR-8620">Spring enhancement JIRA</link></para></listitem>
+            </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>A Real Example</title>
+            <programlisting linenumbering = "numbered"><emphasis role="bold">FooService.java</emphasis>
+interface FooService {
+   
+  //demonstrates a simple argument
+  @Cacheable(value=Foo.Cache.NAME, key="'id=' + #p0")
+  Foo getFoo(String id);
+   
+  //demonstrates a complex argument - build a string. No using the actual object as key
+  @Cacheable(value=Foo.Cache.NAME, key="'name=' + #p0.name + '|' + 'name=' + #p0.code")
+  Foo getFooByNameAndCode(NameAndCode nc);
+ 
+  //demonstrates no arguments.  making up a key
+  @Cacheable(value=Foo.Cache.NAME, key="all")
+  Collection&lt;Foo> findAllFoos();
+ 
+  //demonstrates a single evict. 
+  //We need to be careful here because if multiple
+  //"keys" hold the FooType object then the allEntries must be true*
+  @CacheEvict(value=FooType.Cache.NAME, key="'id=' + #p0")
+  void updateNameOnFooType(String id, String name);
+ 
+  //demonstrates a complete evict.
+  @CacheEvict(value=Foo.Cache.NAME, allEntries=true)
+  void addFoos(Collection&lt;Foo> foos);
+}</programlisting>
+            <programlisting linenumbering = "numbered"><emphasis role="bold">FooSpringBeans.xml</emphasis>
+&lt;beans>
+  &lt;!-- tell Spring to look for cache annotations and which CacheManager to use -->
+  &lt;cache:annotation-driven cache-manager="fooDistributedCacheManager" />
+ 
+  &lt;!-- 
+     create a local CacheManager.  Cache operations on this CacheManager only happen
+     against the application's local cache.  
+     Can use any cache implementation: java.util.concurrent, ehcache, etc.
+   -->
+  &lt;bean id="fooLocalCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+    &lt;property name="caches">
+      &lt;set>
+        &lt;bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+          p:name="#{T(org.Kuali.Rice.module.api.foo.Foo$Cache).NAME}"/>
+        &lt;bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+          p:name="#{T(org.Kuali.Rice.module.api.foo.FooType$Cache).NAME}"/>
+      &lt;/set>
+    &lt;/property>
+  &lt;/bean>
+ 
+  &lt;!-- 
+       Wrap the local CacheManager in a decorator to enable distributed cache
+       operations across the Kuali ecosystem.
+   -->
+  &lt;bean id="fooDistributedCacheManager" class="org.Kuali.Rice.core.impl.cache.DistributedCacheManagerDecorator">
+    &lt;!-- the local CacheManager to wrap -->
+    &lt;property name="cacheManager" ref="sharedDataLocalCacheManager" />
+    &lt;!-- the ksb service to lookup and call CacheService Enpoints asynchronously -->
+    &lt;property name="messageHelper" ref="Rice.ksb.messageHelper" />
+    &lt;!-- the name of the endpoint to call.  Must be the same (for this module) across all applications in the Kuali ecosystem -->
+    &lt;property name="serviceName" value="{http://Rice.Kuali.org/foo/2_0}fooModuleCacheServiceSoap" />
+    &lt;!-- 
+         how long to wait in milliseconds before flushing the distributed cache queue and sending distributed flush messages.
+         defaults to 60000 (60 seconds).
+     -->
+    &lt;property name="flushQueueMaxWait" value="${Rice.cache.flush.queue.max.wait}" />
+  &lt;/bean>
+ 
+  &lt;!-- 
+    Service that should be exposed on the ksb to receive messages from the distributed cache manager.
+    Notice it handles calling into the *local* CacheManager.
+   -->
+  &lt;bean id="fooCacheService" class="org.Kuali.Rice.core.impl.cache.CacheServiceImpl"
+        p:cacheManager-ref="fooLocalCacheManager" />
+&lt;/beans></programlisting>
+            <programlisting linenumbering = "numbered"><emphasis role="bold">FooServiceBusSpringBeans.xml</emphasis>
+&lt;beans>
+  &lt;!-- export the CacheService on the service bus to receive distributed cache messages for the foo module-->
+  &lt;bean parent="fooRemoteServiceExporter">
+    &lt;property name="serviceBus" ref="Rice.ksb.serviceBus"/>
+    &lt;property name="serviceDefinition">
+      &lt;bean parent="fooJaxWsSoapService"
+            p:service-ref="fooCacheService"
+            p:localServiceName="fooCacheServiceSoap"/>
+    &lt;/property>
+    &lt;property name="exportIf" value="fooCacheServiceSOAP.expose"/>
+  &lt;/bean>
+&lt;/beans></programlisting>
+        </section>
+        <section>
+            <title>Standards and Rules</title>
+            <para></para>
+            <section>
+                <title>Version Compatibility Rules</title>
+                <para><orderedlist>
+                    <listitem><para>Cache Names cannot change (using the object's namespace is a good way to enforce this).</para></listitem>
+                    <listitem><para>Cache Keys cannot change (may want to create a utility method for this on each object we are caching).</para></listitem>
+                    <listitem><para>Always use simple keys (Strings or primitives).</para></listitem>
+                    <listitem><para>When doing a single evict (allEntries=false), object can only be 
+                        present with a single cache key. (*more on this <link linkend="spanning_cachemanagers">below</link>).</para></listitem>
+                </orderedlist></para>
+            </section>
+            <section>
+                <title>Suggested Standards</title>
+                <para><orderedlist>
+                    <listitem><para>Only <emphasis role="italic">effectively</emphasis> immutable/thread-safe objects should be cached!</para></listitem>
+                    <listitem><para>One cache manager per module KimCacheManager, KewCacheManager.</para></listitem>
+                    <listitem><para>One cache per top-level object Permission, Responsibility, etc.</para></listitem>
+                    <listitem><para>One remotely available CacheService per cacheManager (*more on this <link linkend="many_cacheservice_endpoints">below</link>).</para></listitem>
+                    <listitem><para>Use jdk style proxying (*more on this <link linkend="jdk_proxying">below</link>).</para></listitem>
+                    <listitem><para>All Remotable services should cache.</para></listitem>
+                    <listitem><para>Always annotate service interfaces so remote proxies automatically get client-side caching.</para></listitem>
+                </orderedlist></para>
+            </section>
+            <section>
+                <title>Notes on Standards, Rules, etc.</title>
+                <para xml:id="many_cacheservice_endpoints"><emphasis role="bold">Many CacheService Enpoints: </emphasis>One CacheService endpoint per 
+                    CacheManager allows client apps to use Rice's caching infrastructure without sending distributed 
+                    cache flush messages to apps that don't care. For example: KC exposes a remote service 
+                    (AwardService) to KFS. KC hands KFS a fully cache annotated service interface. KFS and KC 
+                    clusters can participate is distributed cache messages without bothering other Kuali apps that 
+                    don't ever call the AwardService and don't have a AwardCacheService exposed remotely. Another 
+                    interesting prospect is a Kuali ecosystem may have Rice installs with different "modules" enabled. 
+                    This design allows the Rice installs to only receive messages for the modules they have enabled 
+                    (XXXCacheService available).</para>
+                <para xml:id="spanning_cachemanagers"><emphasis role="bold">Spanning CacheManagers: </emphasis>This design cannot currently handle 
+                    flushing across CacheManagers. This is a current limitation although in practice it may not be 
+                    needed. For example: Say the GenericType object is used and cached in KIM and KEW (KimCacheManager, 
+                    KewCacheManager). If a Kim api updates the GenericType object the KimCacheManager will handle 
+                    flushing the kim module cache but the KewCacheManager's cache will be stale.</para>
+                <para>One way we can handle this in the situations that we definitively need to access another cache 
+                    manager, is to execute the following code in the service implementation (in normal cases this 
+                    should be avoided):
+                <programlisting linenumbering = "numbered">
+GlobalResourceLoader.getService("alternateDistributedCacheManager").getCache("the_cache_to_retrieve").evict("the_specific_key");</programlisting>
+                    <emphasis role="bold">Same object, multiple cache keys:</emphasis> See <link xlink:href="https://jira.springsource.org/browse/SPR-8629">Spring enhancement JIRA #2</link> for more info. Seems like we will be doing a lot of @CacheEvict(value="cache_name" allEntries=true) because the same object may be present under multiple cache keys. Not exactly sure what to do about this...We could have a cache per method but that will be hard to manage. Maybe the underlying caching implementations can handle this for us?
+                </para>
+                <para>One way we can handle this in the situations that we definitively want to avoid flushing an 
+                    entire cache, is by executing the following code in the service implementation (in normal cases 
+                    this should be avoided):
+                <programlisting>GlobalResourceLoader.getService("fooDistributedCacheManager").getCache("the_cache_to_retrieve").evict("the_specific_key");</programlisting></para>
+                <para xml:id="jdk_proxying"><emphasis role="bold">jdk proxying?</emphasis> With the Spring caching abstraction, you can 
+                    either proxy a service to inject the caching logic (like a decorator), or use bytecode weaving 
+                    with aspectj. Proxying is a simpler solution while less performant than aspectj. Unless jdk 
+                    proxying becomes a significant bottleneck (which seems doubtful), then using code weaving should 
+                    be an option implementers can turn on but not enabled by default. Tuning the cache setting 
+                    (like ehcache settings) is probably a more important thing to do than proxy versus code weaving.</para>
+                <para><emphasis role="bold">pushing/priming:</emphasis> Distributed cache updates (pushing updates 
+                    to clients), cache priming, or cache warming is currently not supported.</para>
+                <para><emphasis role="bold">where to cache?</emphasis> Although we have primarily targeted our 
+                    remotable services for caching, there is no reason why caching couldn't get used anywhere in 
+                    Rice or a client application. We just need to be mindful of the version compatibility rules.</para>
+                <para><emphasis role="bold">caching mutable objects?</emphasis> This depends on the implementation 
+                    of the caching framework. If using ConcurrentHashMap as a caching implementation, then mutable 
+                    values should NOT be cached. If using ehcache, then mutable values can be cached as long as the 
+                    cache is configured correctly to do a defensive copy. The safest rule of thumb in Rice is to 
+                    only store immutable values in a cache. This gives implementers the greatest flexibility in 
+                    regards to what caching implementation to use.</para>
+                <para><emphasis role="bold">duplicate cache flush messages:</emphasis> This is the biggest drawback 
+                    to this design. The server has to be the entity to send out the distributed cache flush messages. 
+                    Why? This is because the server knows if a destructive call succeeds and therefore causes a 
+                    stale cache. Since the server does not know which client made the service request, the server 
+                    will send out a cache flush message to the calling client even though the client already 
+                    cleared his own cache. If there was some way to pass along the instanceId of the calling client, 
+                    this could be avoided. It appears the RiceCacheAdministrator (RiceDistributedCacheListener) 
+                    has the same limitation if used for client and server side caching. Maybe, the KSB could maintain 
+                    a ThreadLocal variable that contains the calling client's applicationId, instanceId, etc. It 
+                    could do this through some interceptor style pattern. The interceptor would need to make sure 
+                    the variable is cleared even when exceptions happen. The thread local idea is kind of a code 
+                    smell, but may be just what the doctor ordered in this case.</para>
+                <para><emphasis role="bold">make sure we support bundled:</emphasis> This should be working now 
+                    but we need to confirm that when in dev.mode in a bundled architecture, this still works correctly.</para>
+                <para><emphasis role="bold">no compile dependency on ehcache:</emphasis> By using Spring's Cache 
+                    Abstraction, there is no need to compile against any ehcache APIs. In fact, the maven dependency 
+                    for ehcache is runtime only (which could even be switched to optional). It's important that we 
+                    be mindful of this in the future because this allows implementers to switch ehcache for some 
+                    other solution (like JBoss' native caching support).</para>
+                <para><emphasis role="bold">cache keys:</emphasis> Cache keys should be made up of the important 
+                    arguments to a method and optionally the method name. They key is meant to uniquely identify 
+                    a method's return value in a cache. A few examples are:
+                <programlisting linenumbering = "numbered">@Cacheable(value= Group.Cache.NAME, key="'{getAttributes}' + 'groupId=' + #p0")</programlisting>
+                <programlisting linenumbering = "numbered">@Cacheable(value= Group.Cache.NAME, key="'id=' + #p0")</programlisting></para>
+            </section>
+        </section>
+        <section>
+            <title>Caching Administration UI</title>
+            <para></para>
+            <section>
+                <title>Requirements</title>
+                <para>The caching UI should allow a system administrator visualize the "local" caches in a 
+                    running instance of a cache enabled Kuali Application. The administrator should have the 
+                    ability to trigger a <emphasis role="bold">distributed</emphasis> cache flush of cached item(s). 
+                    To demonstrate the items that must be displayed on this UI see the following example:
+                <itemizedlist>
+                    <listitem><para>KimCacheManager
+                    <itemizedlist>
+                        <listitem><para>RoleCache
+                        <itemizedlist>
+                            <listitem><para>CacheEntry (id-1)</para></listitem>
+                            <listitem><para>CacheEntry (id-2)</para></listitem>
+                        </itemizedlist></para></listitem>
+                        <listitem><para>PermissionCache</para></listitem>
+                    </itemizedlist>    
+                    </para></listitem>
+                    <listitem><para>KewCacheManager
+                    <itemizedlist>
+                        <listitem><para>DocumentTypeCache
+                        <itemizedlist>
+                            <listitem><para>CacheEntry(ParameterDocumentType)</para></listitem>
+                        </itemizedlist></para></listitem>
+                    </itemizedlist></para></listitem>
+                </itemizedlist></para> 
+                <para>With the above example, an admin should be able to do the following:
+                <itemizedlist>
+                    <listitem><para>Flush All CacheManagers (KimCacheManager, KewCacheManager)</para></listitem>
+                    <listitem><para>Flush KimCacheManager</para></listitem>
+                    <listitem><para>Flush RoleCache in KimCacheManager</para></listitem>
+                    <listitem><para>Flush CacheEntry (id-1) in RoleCache in KimCacheManager</para></listitem>
+                </itemizedlist>
+                    Access to the screen and flush actions must also be locked down through KIM Permissions.</para>
+            </section>
+            <section>
+                <title>Non-requirements</title>
+                <para><itemizedlist>
+                    <listitem><para>We have not identified the need to do a non-distributed flush through the UI (local flush).</para></listitem>
+                    <listitem><para>We have not identified the need to do a complete flush of all caches across the Kuali-ecosystem from a single point. For example: If you wanted to flush KFS specific cache you would have to login to the KFS admin screen to perform that action rather than pushing an uber-flush button from Rice.</para></listitem>
+                    <listitem><para>We have not identified the need to dynamically disable caching from a UI on a running application</para></listitem>
+                </itemizedlist></para>
+            </section>
+        </section>
+        <section>
+            <title>Putting it all together</title>
+            <para>Below are a couple pseudo examples of UML sequence diagrams to help illustrate a couple standard call flows.</para>
+            <figure>
+                <title>Standard call flow 1</title>
+                <mediaobject><imageobject><imagedata fileref="../images/KSB_Guide/cache_flush.png" width="100%" scalefit="1"/></imageobject></mediaobject>
+            </figure><figure>
+                <title>Standard call flow 2</title>
+                <mediaobject><imageobject><imagedata fileref="../images/KSB_Guide/cache_get.png" width="100%" scalefit="1"/></imageobject></mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Implementation Plug Points</title>
+            <para>One critical piece of this design is the ability to plugin into different cache implementations 
+                with very little impact to the Rice codebase. Why would you want to do this? Simply put: some 
+                applications servers or infrastructures have alternative caching frameworks that have advantages 
+                over what we provide with Rice. In order to achieve this, the Rice team (and other Kuali apps) must 
+                make an effort to NOT directly use a caching framework in code, but to always go through Spring's 
+                caching abstraction. In Rice, we will achieve this by making our default caching implementation 
+                (ehcache) a runtime or optional dependency. Remember: the following hints for customization will 
+                have to be done for every module of Rice and every cache enabled Kuali app.</para>
+            <section>
+                <title>Option 1: replacing the default caching implementation</title>
+                <para>To do this you must replace(or override) the following Spring entries for the <emphasis role="bold">local</emphasis> CacheManagers. For example:
+                <programlisting linenumbering = "numbered">&lt;bean id="sharedDataLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+  &lt;property name="cacheManager">
+    &lt;bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+       p:config-location="${shareddata.ehcache.config.location}"/>
+  &lt;/property>
+&lt;/bean></programlisting>Could be replaced with:
+                <programlisting linenumbering = "numbered">&lt;!-- this assumes org.jboss.JBossCacheManager implements the org.springframework.cache.support.CacheManager interface -->
+&lt;bean id="sharedDataLocalCacheManager" class="org.jboss.JBossCacheManager">
+  &lt;!--...-->
+&lt;/bean></programlisting></para>
+            </section>
+            <section>
+                <title>Option 2: replacing the Distributed CacheManager</title>
+                <para>Doing Option 1 changes the caching implementation but still uses the Kuali Service Bus for 
+                    transaction-aware flush messages. Many Caching implementations already provide these facilities. 
+                    You could remove or replace the following:
+                <programlisting linenumbering = "numbered">&lt;bean id="sharedDataDistributedCacheManager" class="org.Kuali.Rice.core.impl.cache.DistributedCacheManagerDecorator">
+  &lt;property name="cacheManager" ref="sharedDataLocalCacheManager" />
+  &lt;property name="messageHelper" ref="Rice.ksb.messageHelper" />
+  &lt;property name="serviceName" value="{http://Rice.Kuali.org/shareddata}sharedDataCacheServiceSoap" />
+&lt;/bean></programlisting>Doing this may mean that the CacheService endpoints are no longer used so the 
+                    following entries could be removed as well:
+                <programlisting linenumbering = "numbered">&lt;bean id="sharedDataCacheService" class="org.Kuali.Rice.core.impl.cache.CacheServiceImpl"
+  p:cacheManager-ref="sharedDataLocalCacheManager" /></programlisting>
+                <programlisting linenumbering = "numbered">&lt;bean parent="sharedDataRemoteServiceExporter">
+  &lt;property name="serviceBus" ref="Rice.ksb.serviceBus"/>
+  &lt;property name="serviceDefinition">
+    &lt;bean parent="sharedDataJaxWsSoapService"
+          p:service-ref="sharedDataCacheService"
+          p:localServiceName="sharedDataCacheServiceSoap"/>
+  &lt;/property>
+  &lt;property name="exportIf" value="sharedDataCacheServiceSOAP.expose"/>
+&lt;/bean></programlisting>And finally, remember to update the cache section of the Spring files like the following:
+                <programlisting linenumbering = "numbered">&lt;cache:annotation-driven cache-manager="jbossDistributedCacheManager" /></programlisting></para>
+            </section>
+            <section>
+                <title>Option 3: Aspect Weaving</title>
+                <para>There have been some concerns that Rice's choice to use jdk proxying may cause 
+                    some overhead. To switch to aspect weaving which is more performant change the following:
+                <programlisting linenumbering = "numbered">&lt;cache:annotation-driven cache-manager="sharedDataDistributedCacheManager" /></programlisting>to
+                <programlisting linenumbering = "numbered">&lt;cache:annotation-driven cache-manager="sharedDataDistributedCacheManager" mode="aspectj" /></programlisting>
+                    You must also include the spring-aspectj.jar on the classpath.</para>
+            </section>
+        </section>
+    </section>
+    <section xml:id="cache_references">
+        <title>References</title>
+        <para><link xlink:href="https://jira.Kuali.org/browse/KULRICE-5357">Kuali Rice JIRA</link></para>
+        <para><link xlink:href="http://fisheye.Kuali.org/cru/Rice-61">Design/Code Review</link></para>
+        <para><link xlink:href="http://static.springsource.org/spring/docs/3.1.0.M2/spring-framework-reference/html/cache.html">Spring Cache Abstraction</link></para>
+        <para><link xlink:href="http://ehcache.org/">EhCache</link></para>
+        <para><link xlink:href="https://jira.springsource.org/browse/SPR-8620">Spring enhancement JIRA #1</link></para>
+        <para><link xlink:href="https://jira.springsource.org/browse/SPR-8629">Spring enhancement JIRA #2</link></para>
+        <para><link xlink:href="https://jira.springsource.org/browse/SPR-8632">Spring bug JIRA #1</link></para>
+        <para><link xlink:href="https://wiki.Kuali.org/pages/viewpage.action?pageId=311822686#Rice2.0-CompatibilityRefactoring-CachingInfrastructure-Puttingitalltogether">Rice 2.0 Wiki - Compatibility Refactoring - Caching Infrastructure</link></para>
+    </section>
+</chapter>

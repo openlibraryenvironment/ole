@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <name>Rice Integration Test</name>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.rice</groupId>
+    <artifactId>rice-middleware</artifactId>
+    <version>2.3.6</version>
+  </parent>
+  <artifactId>rice-it</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>internal-tools</module>
+    <module>config</module>
+    <module>core</module>
+    <module>kns</module>
+    <module>ksb</module>
+    <module>kim</module>
+    <module>kew</module>
+    <module>ken</module>
+    <module>kcb</module>
+    <module>impl</module>
+    <module>edl</module>
+    <module>location</module>
+    <module>krms</module>
+    <module>remote</module>
+    <module>vc</module>
+  </modules>
+  <properties>
+    <!-- there are no "unit" tests in any of the test submodules skip the surefire plugin -->
+    <maven.surefire.skip>true</maven.surefire.skip>
+    <maven.failsafe.skip>true</maven.failsafe.skip>
+    <graph.skip>true</graph.skip>
+    <!-- decrease jetty version for it tests to remain compatible with jstl-impl -->
+    <jetty.version>7.4.5.v20110725</jetty.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${jetty.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-webapp</artifactId>
+        <version>${jetty.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http-jetty</artifactId>
+        <version>${cxf.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>itests</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <maven.failsafe.skip>false</maven.failsafe.skip>
+      </properties>
+    </profile>
+  </profiles>
+</project>

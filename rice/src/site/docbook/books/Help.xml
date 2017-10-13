@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <info>
+    <title>
+      Kuali Rice ${project.version} Online Help 
+    </title>
+  </info>
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/address_type.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/campus.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/campus_type.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/country.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/county.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/document_type.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/group.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/namespace.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/parameter.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/parameter_component.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/parameter_type.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/permission.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/person.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/phone_type.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/postal_code.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/responsibility.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/role.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../help/state.xml"/>
+</book>

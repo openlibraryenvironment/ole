@@ -1,0 +1,1711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData"><edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite"><edl name="PhDCommencement.Edl" title="PhD Commencement Participation">
+      <security />
+      <createInstructions />
+      <instructions />
+      <validations>
+	    <validation key="major2" type="xpath">
+          <expression>(((wf:field('department2') != 'Select' and
+                    not(wf:field('major2') = 'Select')))
+					or
+					(wf:field('department2') = 'Select' and
+                    not(wf:field('major2') = 'Select'))
+					or
+					(wf:field('department2') = 'Select' and
+                    (wf:field('major2') = 'Select'))
+					or
+					(wf:field('department2') = 'Select' and
+                    wf:empty(wf:field('major2'))))</expression>
+          <message>Please select a major</message>
+        </validation>
+        <validation key="netId1a" type="xpath">
+          <expression>(wf:field('netId1a') = "" and wf:field('routeByNetId1a') != 'Yes')
+					         or
+					            (wf:field('netId1a') !="" and wf:field('routeByNetId1a') = 'Yes')</expression>
+          <message>Please enter 'Yes and a Network Id, or 'No' and clear the Network Id field.</message>
+        </validation>
+        <validation key="netId2a" type="xpath">
+          <expression>(wf:field('netId2a') = "" and wf:field('routeByNetId2a') != 'Yes')
+					         or
+					            (wf:field('netId2a') !="" and wf:field('routeByNetId2a') = 'Yes')</expression>
+          <message>Please enter 'Yes and a Network Id, or 'No' and clear the Network Id field.</message>
+        </validation>
+      </validations>
+      <attributes>
+        <attribute name="PhDCommencementNetworkIdRoleAttribute1a">
+          <field attributeField="networkId" edlField="netId1a" />
+        </attribute>
+        <attribute name="PhDCommencementNetworkIdRoleAttribute2a">
+          <field attributeField="networkId" edlField="netId2a" />
+        </attribute>
+      </attributes>
+      <fieldDef attributeName="PhDCommencementnetidAttribute1a" name="routeByNetId1a" title="Route to Research Chair by network ID?">
+        <display>
+          <type>radio</type>
+          <values title="Yes">Yes</values>
+          <values title="No">No</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="netId1a" title="Net Id route to; username:">
+        <display>
+          <type>networkId</type>
+          <meta>
+            <name>size</name>
+            <value>10</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef attributeName="PhDCommencementnetidAttribute2a" name="routeByNetId2a" title="Route to Research Chair by network ID?">
+        <display>
+          <type>radio</type>
+          <values title="Yes">Yes</values>
+          <values title="No">No</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="netId2a" title="Net Id route to; username:">
+        <display>
+          <type>networkId</type>
+          <meta>
+            <name>size</name>
+            <value>10</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <!-- firstName + lastName are loaded by select="my-class:getxxx"  -->
+      <fieldDef name="firstName" title="First Name">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>30</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="lastName" title="Last Name">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>30</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="middleName" title="Middle Name">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>30</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <message>A middle name is required, if you do not have one please enter a dot</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="univID" title="University ID">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>15</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>^\d{10,10}$</regex>
+          <message>University ID must be 10 digits beginning with zeros</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="email" title="Email Address">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>^(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})$</regex>
+          <message>please enter your e-mail address in the correct name@domain.com format</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="hometown" title="Hometown">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="graduation" title="Month of Anticipated Graduation">
+        <display>
+          <type>select</type>
+          <values title="**Please Select**" />
+          <values title="January">January</values>
+          <values title="February">February</values>
+          <values title="March">March</values>
+          <values title="April">April</values>
+          <values title="May">May</values>
+          <values title="June">June</values>
+          <values title="July">July</values>
+          <values title="August">August</values>
+          <values title="September">September</values>
+          <values title="October">October</values>
+          <values title="November">November</values>
+          <values title="December">December</values>
+        </display>
+        <validation required="true">
+          <regex>^\w</regex>
+          <message>Please select the month you plan to graduate.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="commencement" title="Select Commencement">
+        <display>
+          <type>select</type>
+          <values title="**Please Select**" />
+          <values title="May Commencement">May Commencement</values>
+          <values title="December Commencement">December Commencement</values>
+        </display>
+        <validation required="true">
+          <regex>^\w</regex>
+          <message>Please select the commencement you want to attend.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="commencementYear" title="Enter Commencement Year">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>10</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef attributeName="PhDDept1Attribute" name="department1" title="School/Department 1">
+        <display>
+          <type>select_refresh</type>
+          <values title="**Please Select**" />
+          <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+          <values title="BL - AMST - American Studies">BL-AMST</values>
+          <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+          <values title="BL - AST - Astronomy">BL-AST</values>
+          <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+          <values title="BL - BIOL - Biology">BL-BIOL</values>
+          <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+          <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+          <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+          <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+          <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+          <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+          <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+          <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+          <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+          <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+          <values title="BL - ECON - Economics">BL-ECON</values>
+          <values title="BL - EDUC - Education">BL-EDUC</values>
+          <values title="BL - ENG - English">BL-ENG</values>
+          <values title="BL - SPES - Environmental Science">BL-SPES</values>
+          <values title="BL - FINA - Fine Arts">BL-FINA</values>
+          <values title="BL - FOLK - Folklore">BL-FOLK</values>
+          <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+          <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+          <values title="BL - GEOG - Geography">BL-GEOG</values>
+          <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+          <values title="BL - GER - Germanic Studies">BL-GER</values>
+          <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+          <values title="BL - HIST - History">BL-HIST</values>
+          <values title="BL - INFO - Informatics">BL-INFO</values>
+          <values title="BL - JOUR - Journalism">BL-JOUR</values>
+          <values title="BL - LAW - Law Grad">BL-LAW</values>
+          <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+          <values title="BL - LING - Linguistics">BL-LING</values>
+          <values title="BL - MATH - Mathematics">BL-MATH</values>
+          <values title="BL - MED - Medicine Grad">BL-MED</values>
+          <values title="BL - MUS - Music Grad">BL-MUS</values>
+          <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+          <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+          <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+          <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+          <values title="BL - PHYS - Physics">BL-PHYS</values>
+          <values title="BL - POLS - Political Science">BL-POLS</values>
+          <values title="BL - PSY - Psychology">BL-PSY</values>
+          <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+		  <values title="BL - SPH - Public Health">BL-SPH</values>
+          <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+          <values title="BL - REL - Religious Studies">BL-REL</values>
+          <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+          <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+          <values title="BL - SOC - Sociology">BL-SOC</values>
+          <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+          <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+          <values title="BL - STAT - Statistics">BL-STAT</values>
+          <values title="BL - TEL - Telecommunications">BL-TEL</values>
+          <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+		  <values title="BL - inactive HPER - Health, PE &amp; Rec">BL-HPER</values>
+        </display>
+        <validation required="true">
+          <regex>^\w</regex>
+          <message>Please select your department.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef attributeName="PhDDept2Attribute" name="department2" title="School/Department 2">
+        <value>Select</value>
+		<display>
+          <type>select_refresh</type>
+          <values title="**Please Select**">Select</values>
+          <values title="BL - AAAD - AfriAmer &amp; Dias Studies">BL-AAAD</values>
+          <values title="BL - AMST - American Studies">BL-AMST</values>
+          <values title="BL - ANTH - Anthropology">BL-ANTH</values>
+          <values title="BL - AST - Astronomy">BL-AST</values>
+          <values title="BL - BIOC - Biochemistry">BL-BIOC</values>
+          <values title="BL - BIOL - Biology">BL-BIOL</values>
+          <values title="BL - BUS - Business Doctoral">BL-BUS</values>
+          <values title="BL - CEUS - Central Eurasian Studies">BL-CEUS</values>
+          <values title="BL - CHEM - Chemistry">BL-CHEM</values>
+          <values title="BL - CLAS - Classical Studies">BL-CLAS</values>
+          <values title="BL - COGS - Cognitive Science">BL-COGS</values>
+          <values title="BL - CMCL - Communication &amp; Culture">BL-CMCL</values>
+          <values title="BL - CMLT - Comparative Literature">BL-CMLT</values>
+          <values title="BL - CSCI - Computer Science">BL-CSCI</values>
+          <values title="BL - CJUS - Criminal Justice">BL-CJUS</values>
+          <values title="BL - EALC - East Asian Lang &amp; Cult">BL-EALC</values>
+          <values title="BL - ECON - Economics">BL-ECON</values>
+          <values title="BL - EDUC - Education">BL-EDUC</values>
+          <values title="BL - ENG - English">BL-ENG</values>
+          <values title="BL - SPES - Environmental Science">BL-SPES</values>
+          <values title="BL - FINA - Fine Arts">BL-FINA</values>
+          <values title="BL - FOLK - Folklore">BL-FOLK</values>
+          <values title="BL - FRIT - French and Italian">BL-FRIT</values>
+          <values title="BL - GNDR - Gender Studies">BL-GNDR</values>
+          <values title="BL - GEOG - Geography">BL-GEOG</values>
+          <values title="BL - GEOL - Geological Sciences">BL-GEOL</values>
+          <values title="BL - GER - Germanic Studies">BL-GER</values>
+          <values title="BL - HPSC - Hist &amp; Phil of Science">BL-HPSC</values>
+          <values title="BL - HIST - History">BL-HIST</values>
+          <values title="BL - INFO - Informatics">BL-INFO</values>
+          <values title="BL - JOUR - Journalism">BL-JOUR</values>
+          <values title="BL - LAW - Law Grad">BL-LAW</values>
+          <values title="BL - SLIS - Library &amp; Info Sci">BL-SLIS</values>
+          <values title="BL - LING - Linguistics">BL-LING</values>
+          <values title="BL - MATH - Mathematics">BL-MATH</values>
+          <values title="BL - MED - Medicine Grad">BL-MED</values>
+          <values title="BL - MUS - Music Grad">BL-MUS</values>
+          <values title="BL - NELC - Near Eastern Lang &amp; Cult">BL-NELC</values>
+          <values title="BL - NEUS - Neural Science">BL-NEUS</values>
+          <values title="BL - OPT - Optometry Grad">BL-OPT</values>
+          <values title="BL - PHIL - Philosophy">BL-PHIL</values>
+          <values title="BL - PHYS - Physics">BL-PHYS</values>
+          <values title="BL - POLS - Political Science">BL-POLS</values>
+          <values title="BL - PSY - Psychology">BL-PSY</values>
+          <values title="BL - SPPA - Public Affairs">BL-SPPA</values>
+		  <values title="BL - SPH - Public Health">BL-SPH</values>
+          <values title="BL - SPPP - Public Policy">BL-SPPP</values>
+          <values title="BL - REL - Religious Studies">BL-REL</values>
+          <values title="BL - SLST - Second Language Studies">BL-SLST</values>
+          <values title="BL - SLAV - Slavic Languages &amp; Lit">BL-SLAV</values>
+          <values title="BL - SOC - Sociology">BL-SOC</values>
+          <values title="BL - HISP - Spanish &amp; Portuguese">BL-HISP</values>
+          <values title="BL - SPHS - Speech&amp;Hearing Sciences">BL-SPHS</values>
+          <values title="BL - STAT - Statistics">BL-STAT</values>
+          <values title="BL - TEL - Telecommunications">BL-TEL</values>
+          <values title="BL - THTR - Theatre &amp; Drama">BL-THTR</values>
+		  <values title="BL - inactive HPER - Health, PE &amp; Rec">BL-HPER</values>
+        </display>
+      </fieldDef>
+      <fieldDef name="major1" title="Major 1">
+	   <value>Select</value>
+        <display>
+          <type>select</type>
+          <valuesGroup>
+            <dependsOn>
+             <field name="department1">BL-AAAD</field>
+           </dependsOn>
+		     <values title="BL - Afr Am &amp; Afr Diaspora St PHD">BL-AAADPHD</values> 
+          </valuesGroup>
+          <valuesGroup>
+            <dependsOn>
+             <field name="department1">BL-AMST</field>
+            </dependsOn>
+              <values title="BL - American Studies PhD">BL-AMSTPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+            <dependsOn>
+             <field name="department1">BL-ANTH</field>
+           </dependsOn>
+		     <values title="BL - Anthropology PhD">BL-ANTHPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-AST</field>
+			</dependsOn>
+			 <values title="BL - Astronomy PhD">BL-ASTYPHD</values>
+			 <values title="BL - Astrophysics (Astronomy) PhD">BL-ASTPAPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-BIOC</field>
+			</dependsOn>
+			 <values title="BL - Biochemistry PhD">BL-BIOCPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-BIOL</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Biology PHD">BL-BIPHD</values>
+			 <values title="BL - Evolution, Ecology &amp; Behvr PhD">BL-EEBPHD</values>
+			 <values title="BL - Genetics PhD">BL-GENPHD</values>
+			 <values title="BL - Microbiology PhD">BL-MICRPHD</values>
+			 <values title="BL - Mol Cel &amp; Dev Biol (Biol) PhD">BL-MCDBPHD</values>
+			 <values title="BL - Plant Sciences PhD">BL-PLSCPHD</values>
+			 <values title="BL - Zoology PhD">BL-ZOOLPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-BUS</field>
+			</dependsOn>
+			 <values title="BL - Business PHD">BL-BUSPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			  <field name="department1">BL-CEUS</field>
+			</dependsOn>
+			<values title="BL - Central Eurasian Studies PhD">BL-CEUSPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-CHEM</field>
+		    </dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Chemical Physics (Chem) PhD">BL-CPHYSCPHD</values>
+             <values title="BL - Chemistry PhD">BL-CHEMPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-CLAS</field>
+			</dependsOn>
+		     <values title="BL - Classical St:Latin&amp;Greek PhD">BL-CLSTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-COGS</field>
+		    </dependsOn>
+			 <values title="BL - Cognitive Science PhD">BL-COGSPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-CMCL</field>
+			</dependsOn>
+			 <values title="BL - Communication &amp; Culture PhD">BL-CMCLPHD</values>
+         </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-CMLT</field>
+			</dependsOn>
+			 <values title="BL - Comparative Literature PhD">BL-CMLTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-CSCI</field>
+			</dependsOn>
+			 <values title="BL - Computer Science PhD">BL-CSCIPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-CJUS</field>
+			</dependsOn>
+			 <values title="BL - Criminal Justice PhD">BL-CJUSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-EALC</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Chinese PhD">BL-CHINPHD</values>
+			 <values title="BL - Japanese PhD">BL-JAPAPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-ECON</field>
+			</dependsOn>
+			 <values title="BL - Economics PhD">BL-ECONPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-EDUC</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Counseling Psychology PHD">BL-COPSYPHD</values>
+			 <values title="BL - Curriculum&amp;Instruction PHD">BL-CRINPHD</values>
+			 <values title="BL - Educational Psychology PHD">BL-EDPSYPHD</values>
+			 <values title="BL - Higher Education PHD">BL-HIEDPHD</values>
+			 <values title="BL - Hist/Phil/Policy in Ed PHD">BL-HPPEDPHD</values>
+			 <values title="BL - Inquiry Methodology PHD">BL-INQMTHPHD</values>
+			 <values title="BL - Instructional Sys Tech PHD">BL-INSYTPHD</values>
+			 <values title="BL - Language Education PHD">BL-LNGEDPHD</values>
+			 <values title="BL - Learning &amp; Development Sci PHD">BL-LRNDEVPHD</values>
+			 <values title="BL - School Psychology PHD">BL-SCPSYPHD</values>
+			 <values title="BL - Special Education PHD">BL-SPCEDPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-ENG</field>
+			</dependsOn>
+			 <values title="BL - English PhD">BL-ENGPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SPES</field>
+			</dependsOn>
+			 <values title="BL - Environmental Science PHD">BL-ENSCIPHD2</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-FINA</field>
+			</dependsOn>
+			 <values title="BL - Fine Arts - Art History PhD">BL-FINAHPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-FOLK</field>
+			</dependsOn>
+			 <values title="BL - Folklore &amp; Ethnomusicology PhD">BL-FOLKPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-FRIT</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - French PhD">BL-FRENPHD</values>
+             <values title="BL - Italian PhD">BL-ITALPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-GNDR</field>
+			</dependsOn>
+			 <values title="BL - Gender Studies PHD">BL-GNDRPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-GEOG</field>
+			</dependsOn>
+			 <values title="BL - Geography PhD">BL-GEOGPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-GEOL</field>
+			</dependsOn>
+			 <values title="BL - Geological Sciences PhD">BL-GEOLPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-GER</field>
+			</dependsOn>
+			 <values title="BL - Germanic Studies PhD">BL-GERPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-HPER</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Environmental Health PHD">BL-ENVHLTHPHD</values>
+			 <values title="BL - Epidemiology PHD">BL-EPIDEMPHD</values>
+			 <values title="BL - Health Behavior PHD">BL-AHSHBPHD</values>
+			 <values title="BL - Human Performance PHD">BL-HUPERPHD</values>
+			 <values title="BL - Leisure Behavior PHD">BL-RECLBPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-HPSC</field>
+			</dependsOn>
+			 <values title="BL - Hist &amp; Philos of Science PhD">BL-HPSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-HIST</field>
+			</dependsOn>
+			 <values title="BL - History PhD">BL-HISTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-INFO</field>
+			</dependsOn>
+			 <values title="BL - Informatics PHD">BL-INFOPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-JOUR</field>
+			</dependsOn>
+			 <values title="BL - Mass Communications PHD">BL-MCOMJPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-LAW</field>
+			</dependsOn>
+			 <values title="BL - Law &amp; Social Science PHD">BL-LAWSSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SLIS</field>
+			</dependsOn>
+			 <values title="BL - Information Science PHD">BL-INFSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-LING</field>
+			</dependsOn>
+			 <values title="BL - Linguistics PhD">BL-LINGPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-MATH</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Mathemat Physics (Math) PhD">BL-MPHYSMPHD</values>
+			 <values title="BL - Mathematics PhD">BL-MATHPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-MED</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Anatomy PHD">BL-ANATPHD</values>
+			 <values title="BL - Pathology PHD">BL-PATHOPHD</values>
+			 <values title="BL - Pharmacology PHD">BL-PHARMPHD</values>
+			 <values title="BL - Physiology PHD">BL-PYSOLPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-MUS</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Music Education PHD">BL-MSEDPHD</values>
+			 <values title="BL - Music Theory PHD">BL-MSTHRYPHD</values>
+			 <values title="BL - Musicology PHD">BL-MSCLOGYPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-NELC</field>
+			</dependsOn>
+			 <values title="BL - Near Eastern Lang &amp; Cult PhD">BL-NELCPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-NEUS</field>
+			</dependsOn>
+			 <values title="BL - Neural Sciences PhD">BL-NEUSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-OPT</field>
+			</dependsOn>
+			 <values title="BL - Vision Science PHD">BL-VISSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-PHIL</field>
+			</dependsOn>
+			 <values title="BL - Philosophy PhD">BL-PHILPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-PHYS</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Astrophysics (Physics) PhD">BL-ASTPPPHD</values>
+			 <values title="BL - Chemical Physics (Phys) PhD">BL-CPHYPPHD</values>
+			 <values title="BL - Mathemat Physics (Phys) PhD">BL-MPHYSPPHD</values>
+			 <values title="BL - Physics PhD">BL-PHYSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-POLS</field>
+			</dependsOn>
+			 <values title="BL - Political Science PhD">BL-POLSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-PSY</field>
+			</dependsOn>
+			 <values title="BL - Psychology PhD">BL-PSYPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SPPA</field>
+			</dependsOn>
+			 <values title="BL - Public Affairs PHD">BL-PBAFFPHD2</values>
+          </valuesGroup>
+		  <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SPH</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Environmental Health PHD">BL-ENVHLPHD</values>
+			 <values title="BL - Epidemiology PHD">BL-EPIDPHD</values>
+             <values title="BL - Health Behavior PHD">BL-AHHBPHD</values>
+			 <values title="BL - Human Performance PHD">BL-KYHPPHD</values>
+			 <values title="BL - Leisure Behavior PHD">BL-RLEIBEHPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SPPP</field>
+			</dependsOn>
+			 <values title="BL - Public Policy PHD">BL-PPOLPHD2</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-REL</field>
+			</dependsOn>
+			 <values title="BL - Religious Studies PhD">BL-RELPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SLST</field>
+			</dependsOn>
+			 <values title="BL - Second Language Studies PHD">BL-SLSTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SLAV</field>
+			</dependsOn>
+			 <values title="BL - Slavic Languages and Lit PhD">BL-SLAVPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SOC</field>
+			</dependsOn>
+			 <values title="BL - Sociology PhD">BL-SOCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-HISP</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Portuguese PhD">BL-PORTPHD</values>
+			 <values title="BL - Spanish PhD">BL-SPANPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-SPHS</field>
+			</dependsOn>
+			 <values title="BL - Speech &amp; Hearing Sciences PhD">BL-SPHSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-STAT</field>
+			</dependsOn>
+			 <values title="BL - Statistical Science PHD">BL-STATSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-TEL</field>
+			</dependsOn>
+			 <values title="BL - Mass Communications (Tel) PhD">BL-MTELPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department1">BL-THTR</field>
+			</dependsOn>
+			 <values title="BL - Theatre and Drama PhD">BL-THTRPHD</values>
+          </valuesGroup>
+		</display>
+        <validation required="true">
+          <regex>[^Select]</regex>
+          <message>Please select a major.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="major2" title="Major 2">
+	    <value>Select</value>
+        <display>
+          <type>select</type>
+          <valuesGroup>
+            <dependsOn>
+             <field name="department2">BL-AAAD</field>
+           </dependsOn>
+		     <values title="BL - Afr Am &amp; Afr Diaspora St PHD">BL-AAADPHD</values> 
+          </valuesGroup>
+          <valuesGroup>
+            <dependsOn>
+			<field name="department2">BL-AMST</field>
+            </dependsOn>
+              <values title="BL - American Studies PhD">BL-AMSTPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+            <dependsOn>
+             <field name="department2">BL-ANTH</field>
+           </dependsOn>
+		     <values title="BL - Anthropology PhD">BL-ANTHPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-AST</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Astronomy PhD">BL-ASTYPHD</values>
+			 <values title="BL - Astrophysics (Astronomy) PhD">BL-ASTPAPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-BIOC</field>
+			</dependsOn>
+			 <values title="BL - Biochemistry PhD">BL-BIOCPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-BIOL</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Biology PHD">BL-BIPHD</values>
+			 <values title="BL - Evolution, Ecology &amp; Behvr PhD">BL-EEBPHD</values>
+			 <values title="BL - Genetics PhD">BL-GENPHD</values>
+			 <values title="BL - Microbiology PhD">BL-MICRPHD</values>
+			 <values title="BL - Mol Cel &amp; Dev Biol (Biol) PhD">BL-MCDBPHD</values>
+			 <values title="BL - Plant Sciences PhD">BL-PLSCPHD</values>
+			 <values title="BL - Zoology PhD">BL-ZOOLPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-BUS</field>
+			</dependsOn>
+			 <values title="BL - Business PHD">BL-BUSPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			  <field name="department2">BL-CEUS</field>
+			</dependsOn>
+			<values title="BL - Central Eurasian Studies PhD">BL-CEUSPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-CHEM</field>
+		    </dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Chemical Physics (Chem) PhD">BL-CPHYSCPHD</values>
+             <values title="BL - Chemistry PhD">BL-CHEMPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-CLAS</field>
+			</dependsOn>
+		     <values title="BL - Classical St:Latin&amp;Greek PhD">BL-CLSTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-COGS</field>
+		    </dependsOn>
+			 <values title="BL - Cognitive Science PhD">BL-COGSPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-CMCL</field>
+			</dependsOn>
+			 <values title="BL - Communication &amp; Culture PhD">BL-CMCLPHD</values>
+         </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-CMLT</field>
+			</dependsOn>
+			 <values title="BL - Comparative Literature PhD">BL-CMLTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-CSCI</field>
+			</dependsOn>
+			 <values title="BL - Computer Science PhD">BL-CSCIPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-CJUS</field>
+			</dependsOn>
+			 <values title="BL - Criminal Justice PhD">BL-CJUSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-EALC</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Chinese PhD">BL-CHINPHD</values>
+			 <values title="BL - Japanese PhD">BL-JAPAPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-ECON</field>
+			</dependsOn>
+			 <values title="BL - Economics PhD">BL-ECONPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-EDUC</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Counseling Psychology PHD">BL-COPSYPHD</values>
+			 <values title="BL - Curriculum&amp;Instruction PHD">BL-CRINPHD</values>
+			 <values title="BL - Educational Psychology PHD">BL-EDPSYPHD</values>
+			 <values title="BL - Higher Education PHD">BL-HIEDPHD</values>
+			 <values title="BL - Hist/Phil/Policy in Ed PHD">BL-HPPEDPHD</values>
+			 <values title="BL - Inquiry Methodology PHD">BL-INQMTHPHD</values>
+			 <values title="BL - Instructional Sys Tech PHD">BL-INSYTPHD</values>
+			 <values title="BL - Language Education PHD">BL-LNGEDPHD</values>
+			 <values title="BL - Learning &amp; Development Sci PHD">BL-LRNDEVPHD</values>
+			 <values title="BL - School Psychology PHD">BL-SCPSYPHD</values>
+			 <values title="BL - Special Education PHD">BL-SPCEDPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-ENG</field>
+			</dependsOn>
+			 <values title="BL - English PhD">BL-ENGPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SPES</field>
+			</dependsOn>
+			 <values title="BL - Environmental Science PHD">BL-ENSCIPHD2</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-FINA</field>
+			</dependsOn>
+			 <values title="BL - Fine Arts - Art History PhD">BL-FINAHPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-FOLK</field>
+			</dependsOn>
+			 <values title="BL - Folklore &amp; Ethnomusicology PhD">BL-FOLKPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-FRIT</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - French PhD">BL-FRENPHD</values>
+             <values title="BL - Italian PhD">BL-ITALPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-GNDR</field>
+			</dependsOn>
+			 <values title="BL - Gender Studies PHD">BL-GNDRPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-GEOG</field>
+			</dependsOn>
+			 <values title="BL - Geography PhD">BL-GEOGPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-GEOL</field>
+			</dependsOn>
+			 <values title="BL - Geological Sciences PhD">BL-GEOLPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-GER</field>
+			</dependsOn>
+			 <values title="BL - Germanic Studies PhD">BL-GERPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-HPER</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Environmental Health PHD">BL-ENVHLTHPHD</values>
+			 <values title="BL - Epidemiology PHD">BL-EPIDEMPHD</values>
+			 <values title="BL - Health Behavior PHD">BL-AHSHBPHD</values>
+			 <values title="BL - Human Performance PHD">BL-HUPERPHD</values>
+			 <values title="BL - Leisure Behavior PHD">BL-RECLBPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-HPSC</field>
+			</dependsOn>
+			 <values title="BL - Hist &amp; Philos of Science PhD">BL-HPSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-HIST</field>
+			</dependsOn>
+			 <values title="BL - History PhD">BL-HISTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-INFO</field>
+			</dependsOn>
+			 <values title="BL - Informatics PHD">BL-INFOPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-JOUR</field>
+			</dependsOn>
+			 <values title="BL - Mass Communications PHD">BL-MCOMJPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-LAW</field>
+			</dependsOn>
+			 <values title="BL - Law &amp; Social Science PHD">BL-LAWSSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SLIS</field>
+			</dependsOn>
+			 <values title="BL - Information Science PHD">BL-INFSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-LING</field>
+			</dependsOn>
+			 <values title="BL - Linguistics PhD">BL-LINGPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-MATH</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Mathemat Physics (Math) PhD">BL-MPHYSMPHD</values>
+			 <values title="BL - Mathematics PhD">BL-MATHPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-MED</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Anatomy PHD">BL-ANATPHD</values>
+			 <values title="BL - Pathology PHD">BL-PATHOPHD</values>
+			 <values title="BL - Pharmacology PHD">BL-PHARMPHD</values>
+			 <values title="BL - Physiology PHD">BL-PYSOLPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-MUS</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Music Education PHD">BL-MSEDPHD</values>
+			 <values title="BL - Music Theory PHD">BL-MSTHRYPHD</values>
+			 <values title="BL - Musicology PHD">BL-MSCLOGYPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-NELC</field>
+			</dependsOn>
+			 <values title="BL - Near Eastern Lang &amp; Cult PhD">BL-NELCPHD</values>
+		  </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-NEUS</field>
+			</dependsOn>
+			 <values title="BL - Neural Sciences PhD">BL-NEUSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-OPT</field>
+			</dependsOn>
+			 <values title="BL - Vision Science PHD">BL-VISSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-PHIL</field>
+			</dependsOn>
+			 <values title="BL - Philosophy PhD">BL-PHILPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-PHYS</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Astrophysics (Physics) PhD">BL-ASTPPPHD</values>
+			 <values title="BL - Chemical Physics (Phys) PhD">BL-CPHYPPHD</values>
+			 <values title="BL - Mathemat Physics (Phys) PhD">BL-MPHYSPPHD</values>
+			 <values title="BL - Physics PhD">BL-PHYSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-POLS</field>
+			</dependsOn>
+			 <values title="BL - Political Science PhD">BL-POLSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-PSY</field>
+			</dependsOn>
+			 <values title="BL - Psychology PhD">BL-PSYPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SPPA</field>
+			</dependsOn>
+			 <values title="BL - Public Affairs PHD">BL-PBAFFPHD2</values>
+          </valuesGroup>
+		  <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SPH</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Environmental Health PHD">BL-ENVHLPHD</values>
+			 <values title="BL - Epidemiology PHD">BL-EPIDPHD</values>
+             <values title="BL - Health Behavior PHD">BL-AHHBPHD</values>
+			 <values title="BL - Human Performance PHD">BL-KYHPPHD</values>
+			 <values title="BL - Leisure Behavior PHD">BL-RLEIBEHPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SPPP</field>
+			</dependsOn>
+			 <values title="BL - Public Policy PHD">BL-PPOLPHD2</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-REL</field>
+			</dependsOn>
+			 <values title="BL - Religious Studies PhD">BL-RELPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SLST</field>
+			</dependsOn>
+			 <values title="BL - Second Language Studies PHD">BL-SLSTPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SLAV</field>
+			</dependsOn>
+			 <values title="BL - Slavic Languages and Lit PhD">BL-SLAVPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SOC</field>
+			</dependsOn>
+			 <values title="BL - Sociology PhD">BL-SOCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-HISP</field>
+			</dependsOn>
+			 <values title="**Please Select**">Select</values>
+			 <values title="BL - Portuguese PhD">BL-PORTPHD</values>
+			 <values title="BL - Spanish PhD">BL-SPANPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-SPHS</field>
+			</dependsOn>
+			 <values title="BL - Speech &amp; Hearing Sciences PhD">BL-SPHSPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-STAT</field>
+			</dependsOn>
+			 <values title="BL - Statistical Science PHD">BL-STATSCPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-TEL</field>
+			</dependsOn>
+			 <values title="BL - Mass Communications (Tel) PhD">BL-MTELPHD</values>
+          </valuesGroup>
+          <valuesGroup>
+		    <dependsOn>
+			 <field name="department2">BL-THTR</field>
+			</dependsOn>
+			 <values title="BL - Theatre and Drama PhD">BL-THTRPHD</values>
+          </valuesGroup>
+        </display>
+      </fieldDef>
+      <fieldDef name="dissertationTitle" title="Dissertation Title ">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>100</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>5</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="researchChair" title="Name of Research Chair">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="coChair" title="Name of Co-Chair">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="facultyHood" title="Name of Faculty Member to Hood Student">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="facultyToHoodEmail" title="Email Address for Faculty Member to Hood Student">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>^(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})$</regex>
+          <message>please enter your e-mail address in the correct name@domain.com format</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="CommencementApproved">
+        <display>
+          <type>checkbox</type>
+          <values title="Commencement Approved">Y</values>
+        </display>
+      </fieldDef>
+      <fieldDef name="GeneralComments" title="General Comments:">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>80</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>5</value>
+          </meta>
+        </display>
+      </fieldDef>
+    </edl><style name="PhDCommencement.Style"><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my-class="xalan://org.kuali.rice.edl.framework.util.EDLFunctions" version="1.0">
+        <xsl:include href="widgets" />
+        <xsl:output indent="yes" method="html" omit-xml-declaration="yes" version="4.01" />
+        <xsl:param name="overrideMain" select="'true'" />
+        <xsl:variable name="docStatus" select="//documentState/workflowDocumentState/status" />
+        <xsl:variable name="editable" select="/documentContent/documentState/editable" />
+        <xsl:variable name="isPastInitiated" select="my-class:isNodeInPreviousNodeList('Initiated', $docHeaderId)" />
+        <xsl:variable name="docHeaderId" select="/documentContent/documentState/docId" />
+        <xsl:variable name="isUserInitiator" select="my-class:isUserInitiator($docHeaderId)" />
+        <xsl:variable name="isValidUser" select="my-class:isUserRouteLogAuthenticated($docHeaderId)" />
+        <xsl:variable name="isSuperUser" select="my-class:isUserInGroup('PhDComm','PhDComm.Super')" />
+        <xsl:variable name="actionable" select="/documentContent/documentState/actionable" />
+        <xsl:variable name="isValidUser" select="my-class:isUserRouteLogAuthenticated($docHeaderId)" />
+        <xsl:variable name="isAtNodeInitiated" select="my-class:isAtNode($docHeaderId, 'Initiated')" />
+        <xsl:variable name="isAtNodeDepartment1a" select="my-class:isAtNode($docHeaderId, 'PhDCommencement.Department1a')" />
+        <xsl:variable name="isAtNodeDepartment2a" select="my-class:isAtNode($docHeaderId, 'PhDCommencement.Department2a')" />
+        <xsl:variable name="isAtNodeFinal" select="my-class:isAtNode($docHeaderId, 'PhDCommencement.Final')" />
+        <xsl:variable name="globalReadOnly" select="/documentContent/documentState/editable != 'true'" />
+        <xsl:variable name="true" select="'true'" />
+        <xsl:template name="mainForm">
+          <html xmlns="">
+            <head>
+              <xsl:call-template name="htmlHead" />
+              <style type="text/css">option
+                  {
+                    background-color: #ffffff;
+                    color: #000000;
+                  }</style>
+            </head>
+            <body onload="onPageLoad()">
+              <xsl:choose>
+                <xsl:when test="($isValidUser = 'true' or $isSuperUser = 'true')">
+                  <xsl:call-template name="errors" />
+                  <xsl:call-template name="header" />
+                  <xsl:call-template name="footer" />
+                  <xsl:variable name="formTarget" select="'EDocLite'" />
+				  <div id="mainform-div">
+                  <form action="{$formTarget}" enctype="multipart/form-data" id="edoclite" method="post" onsubmit="return validateOnSubmit(this)">
+                    <xsl:call-template name="hidden-params" />
+                    <xsl:call-template name="mainBody" />
+                    <br />
+                    <xsl:call-template name="notes" />
+                    <br />
+                    <xsl:call-template name="buttons">
+                       <xsl:with-param name="fname" select="'checkAllAttributes()'" />
+                    </xsl:call-template>
+                  </form>
+				  </div>
+				  <div id="refresh-message" style="display:none">
+					<br />
+				      <table align="center" border="1" cellpadding="0" cellspacing="0" width="40%">
+						<tr>
+							<td align="center" class="thnormal">
+								<h2>
+								<b>
+									<font color="#ff0000">This form is being refreshed. Please wait.</font>
+								</b>
+								</h2>
+							</td>
+						</tr>
+					  </table>
+				  </div>
+                </xsl:when>
+                <xsl:otherwise>
+                  <br />
+                  <center>
+                    <h2>
+                      <font color="#660000">You are not authorized to view this document.</font>
+                    </h2>
+                  </center>
+                  <br />
+                </xsl:otherwise>
+              </xsl:choose>
+            </body>
+          </html>
+        </xsl:template>
+        <!-- mainBody -->
+        <xsl:template name="mainBody">
+          <table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="90%">
+            <tr>
+              <td align="center" class="datacell" colspan="100%" height="64">
+                <table border="0" width="100%">
+                  <tr>
+                    <td>
+                      <br />
+                      <xsl:call-template name="nbsp" />
+                      <xsl:call-template name="nbsp" />
+                      <xsl:call-template name="nbsp" />
+                      <xsl:call-template name="nbsp" />
+                      <xsl:call-template name="nbsp" />
+                      <xsl:call-template name="nbsp" />
+                      <xsl:call-template name="nbsp" />
+                    </td>
+                    <td align="center">
+                      <font face="times" size="3">University Graduate School</font>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="100%">
+                      <font face="time" size="4">
+                        <b>Ph.D. Commencement Participation Application</b>
+                      </font>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td align="left" class="thnormal" colspan="100%">
+                <br />
+                <font face="time" size="1">To be listed in the commencement program, participate in the graduation ceremony, and receive mail from the Alumni Association regarding 
+				  commencement, students should ask their chairperson to approve this form no later than October 1st for December Commencement and no later 
+				  than March 1st for May Commencement.</font>
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td align="left" class="thnormal" colspan="100%">
+                <br />
+                <font color="red" face="time" size="1">COMMENCEMENT MAILING: Check OneStart to ensure your address is up-to-date. The Office of the Registrar provides the Alumni 
+				  Association with the name and address of each person who applied to participate in the Commencement.</font>
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'lastName'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'firstName'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'middleName'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <br />
+                <font face="time" size="1">(enter a "." if you don't have a middle name)</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'lastName'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'firstName'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'middleName'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'univID'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'email'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+			  <td class="thnormal" colspan="100%">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'hometown'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <br />
+                (city and state) OR (International Students: city and country)
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'univID'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'email'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell" colspan="100%">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'hometown'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" class="thnormal" colspan="100%">
+                <br />
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'graduation'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'commencement'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'commencementYear'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'graduation'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'commencement'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'commencementYear'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td align="left" class="thnormal" colspan="2">
+                <br />
+                <font face="time" size="3">
+                  <b>Program Information</b>
+                </font>
+                <br />
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department1'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'major1'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department1'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'major1'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'routeByNetId1a'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell" colspan="1">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'routeByNetId1a'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                  <xsl:with-param name="default" select="No" />
+                  <xsl:with-param name="readOnly" select="not($isAtNodeDepartment1a)" />
+                </xsl:call-template>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'netId1a'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                  <xsl:with-param name="readOnly" select="not($isAtNodeDepartment1a)" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td align="left" class="thnormal" colspan="2">
+                <br />
+                <font face="time" size="2">
+                  <b>Double Majors</b>
+                </font>
+                <br />
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department2'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'major2'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department2'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'major2'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'routeByNetId2a'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell" colspan="1">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'routeByNetId2a'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                  <xsl:with-param name="default" select="No" />
+                  <xsl:with-param name="readOnly" select="not($isAtNodeDepartment2a)" />
+                </xsl:call-template>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'netId2a'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                  <xsl:with-param name="readOnly" select="not($isAtNodeDepartment2a)" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td align="center" class="thnormal" colspan="100%">
+                <br />
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'dissertationTitle'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'dissertationTitle'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'researchChair'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'coChair'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'researchChair'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'coChair'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'facultyHood'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'facultyToHoodEmail'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+            <tr>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'facultyHood'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'facultyToHoodEmail'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="spacercell" />
+            </tr>
+			<tr>
+			  <td align="left" class="thnormal" colspan="100%">
+                <font face="time" size="2">
+                 If you have not identified a faculty member to hood you, enter TBD in the name field and your own email address in the email address field.
+                </font>
+                <br />
+              </td>
+			</tr>
+            <tr>
+              <td align="left" class="thnormal" colspan="100%">
+                <br />
+                <font face="time" size="3">
+                  <b>For University Graduate School Use Only</b>
+                </font>
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td align="left" class="thnormal" colspan="100%">
+                <br />
+                <font color="red" face="time" size="3">
+                  <xsl:call-template name="widget_render">
+                    <xsl:with-param name="fieldName" select="'CommencementApproved'" />
+                    <xsl:with-param name="renderCmd" select="'title'" />
+                  </xsl:call-template>
+                  <xsl:call-template name="nbsp" />
+                  <xsl:call-template name="nbsp" />
+                  <xsl:choose>
+                    <xsl:when test="$isAtNodeFinal ='true'">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'CommencementApproved'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                        <xsl:with-param name="readOnly" select="'false'" />
+                      </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'CommencementApproved'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                        <xsl:with-param name="readOnly" select="'true'" />
+                      </xsl:call-template>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </font>
+                <br />
+              </td>
+            </tr>
+          </table>
+        </xsl:template>
+        <xsl:template name="nbsp">
+          <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        </xsl:template>
+      </xsl:stylesheet></style><association><docType>PhDCommencement</docType><definition>PhDCommencement.Edl</definition><style>PhDCommencement.Style</style><active>true</active></association></edoclite></data>

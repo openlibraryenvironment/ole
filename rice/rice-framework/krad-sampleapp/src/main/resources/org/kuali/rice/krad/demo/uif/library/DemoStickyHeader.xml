@@ -1,0 +1,238 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- StickyHeader demo -->
+  <bean id="Demo-StickyHeader-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoStickyHeader.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.view.View"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-StickyHeader-Example1"/>
+        <ref bean="Demo-StickyHeader-Example2"/>
+        <ref bean="Demo-StickyHeader-Example3"/>
+        <ref bean="Demo-StickyHeader-Example4"/>
+        <ref bean="Demo-StickyHeader-Example5"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeader-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky View header"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View1&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeader-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky application header and View header"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View2&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeader-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky application header, breadcrumbs, and View header"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View3&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeader-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sticky application header, top group, and View header"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View4&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeader-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="All header content sticky"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeaderFooter-View5&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View1" parent="Demo-StickyHeaderFooter-BaseView">
+    <!-- ex:Demo-StickyHeader-Example1 start-->
+    <property name="stickyHeader" value="true"/>
+    <!-- ex:Demo-StickyHeader-Example1 end-->
+    <property name="header.metadataText" value="Sticky: viewHeader"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View2" parent="Demo-StickyHeaderFooter-BaseView">
+    <!-- ex:Demo-StickyHeader-Example2 start-->
+    <property name="stickyHeader" value="true"/>
+    <property name="stickyApplicationHeader" value="true"/>
+    <!-- ex:Demo-StickyHeader-Example2 end-->
+    <property name="header.metadataText" value="Sticky: applicationHeader and viewHeader"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View3" parent="Demo-StickyHeaderFooter-BaseView">
+    <!-- ex:Demo-StickyHeader-Example3 start-->
+    <property name="stickyHeader" value="true"/>
+    <property name="stickyBreadcrumbs" value="true"/>
+    <property name="stickyApplicationHeader" value="true"/>
+    <!-- ex:Demo-StickyHeader-Example3 end-->
+    <property name="header.metadataText" value="Sticky: applicationHeader, breadcrumbs, and viewHeader"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View4" parent="Demo-StickyHeaderFooter-BaseView">
+    <!-- ex:Demo-StickyHeader-Example4 start-->
+    <property name="stickyHeader" value="true"/>
+    <property name="stickyTopGroup" value="true"/>
+    <property name="stickyApplicationHeader" value="true"/>
+    <!-- ex:Demo-StickyHeader-Example4 end-->
+    <property name="header.metadataText" value="Sticky: applicationHeader, topGroup, and viewHeader"/>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-View5" parent="Demo-StickyHeaderFooter-BaseView">
+    <!-- ex:Demo-StickyHeader-Example5 start-->
+    <property name="stickyHeader" value="true"/>
+    <property name="stickyBreadcrumbs" value="true"/>
+    <property name="stickyTopGroup" value="true"/>
+    <property name="stickyApplicationHeader" value="true"/>
+    <!-- ex:Demo-StickyHeader-Example5 end-->
+    <property name="header.metadataText" value="Sticky: All Top Content"/>
+  </bean>
+
+
+  <bean id="Demo-StickyHeaderFooter-BaseView" parent="Uif-FormView" p:style="padding-top: 0;">
+    <property name="headerText" value="View Header"/>
+    <property name="applicationHeader">
+      <bean parent="Uif-HeaderOne" p:style="background-color: white; border: 1px solid black;"
+            p:headerText="Application Header"/>
+    </property>
+    <property name="applicationFooter">
+      <bean parent="Uif-GroupBase"
+            p:template="/WEB-INF/ftl/demoAppFooter.ftl"
+            p:templateName="demo_customappfooter"/>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="View Footer" p:style="font-size: 20px;">
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="topGroup">
+      <bean parent="Uif-VerticalBoxGroup" p:style="background-color: lightBlue; width: 100%;">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="Top Group Content" p:style="font-size: 24px;"
+                  p:additionalCssClasses="addTestClass">
+              <property name="cssClasses">
+                <list merge="true">
+                  <value>mergeTestClass</value>
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation">
+        <property name="parentViewLabel" value="Home"/>
+        <property name="parentViewUrl.viewId" value="KradSampleAppHome"/>
+        <property name="parentViewUrl.controllerMapping" value="/kradsampleapp"/>
+      </bean>
+    </property>
+    <property name="navigation">
+      <ref bean="Demo-StickyHeaderFooter-Menu"/>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="Demo-StickyHeaderFooter-Page1"/>
+        <ref bean="Demo-StickyHeaderFooter-Page2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-Menu" parent="Uif-MenuNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
+        <bean parent="Uif-NavigationActionLink" p:actionLabel="Fake Item"
+              p:navigateToPageId="Demo-StickyHeaderFooter-Page1"/>
+        <bean parent="Uif-NavigationActionLink" p:actionLabel="Fake Item"
+              p:navigateToPageId="Demo-StickyHeaderFooter-Page2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-Page1" parent="Uif-Page" p:headerText="Page Header">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField1"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField2"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField3"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField4"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField5"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField6"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField7"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField8"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField9"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField10"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField11"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField12"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField13"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField14"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField15"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField16"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField17"/>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-Message" p:messageText="Page Footer" p:style="font-size: 20px;">
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="Demo-StickyHeaderFooter-Page2" parent="Demo-StickyHeaderFooter-Page1" p:headerText="Page Header 2"/>
+
+
+</beans>

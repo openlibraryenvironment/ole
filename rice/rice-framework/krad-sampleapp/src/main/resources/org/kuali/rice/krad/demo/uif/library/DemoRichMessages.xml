@@ -1,0 +1,366 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- RichMessages demo -->
+  <bean id="Demo-RichMessages-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoRichMessages.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.element.Message"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-RichMessages-Example1"/>
+        <ref bean="Demo-RichMessages-Example2"/>
+        <ref bean="Demo-RichMessages-Example3"/>
+        <ref bean="Demo-RichMessages-Example4"/>
+        <ref bean="Demo-RichMessages-Example5"/>
+        <ref bean="Demo-RichMessages-Example13"/>
+        <ref bean="Demo-RichMessages-Example14"/>
+        <ref bean="Demo-RichMessages-Example6"/>
+        <ref bean="Demo-RichMessages-Example7"/>
+        <ref bean="Demo-RichMessages-Example8"/>
+        <ref bean="Demo-RichMessages-Example9"/>
+        <ref bean="Demo-RichMessages-Example10"/>
+        <ref bean="Demo-RichMessages-Example11"/>
+        <ref bean="Demo-RichMessages-Example12"/>
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- html -->
+  <bean id="Demo-RichMessages-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example1 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Message with [b]bold[/b], break,[br/]and [i]italics[/i] inline"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Inline components -->
+  <bean id="Demo-RichMessages-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example2 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Message with input [0] and link [1] inline"/>
+          <!-- index 0 is the input field and index 1 is the link -->
+          <property name="inlineComponents">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="inputField1"/>
+              <bean parent="Uif-Link" p:href="http://www.kuali.org" p:linkText="Kuali"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- by id -->
+  <bean id="Demo-RichMessages-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example3 start-->
+        <bean parent="Uif-Message">
+          <!-- insert the component with id Demo-RichMessages-Input -->
+          <property name="messageText"
+                    value="Message getting component by id [id=Demo-RichMessages-Input] inside its content"/>
+        </bean>
+
+        <!-- you can even set simple properties of the component referenced by id inline (separated by single space) -->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing component by id setting propertyName to inputField15, label to 'Example Label'
+                    [id='Demo-RichMessages-Input2' propertyName='inputField15' label='Example Label']"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-RichMessages-Example3 start-->
+  <!-- components defined elsewhere -->
+  <bean id="Demo-RichMessages-Input" parent="Uif-InputField" p:propertyName="inputField2">
+    <property name="control">
+      <bean parent="Uif-CheckboxControl" p:checkboxLabel="Checkbox Label"/>
+    </property>
+  </bean>
+  <bean id="Demo-RichMessages-Input2" parent="Uif-InputField">
+  </bean>
+  <!-- ex:Demo-RichMessages-Example3 end-->
+
+  <!-- color -->
+  <bean id="Demo-RichMessages-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example4 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Message with [color=green]color[/color] [color=blue]option[/color]"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- css -->
+  <bean id="Demo-RichMessages-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example5 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Message with [css='fl-text-underline fl-text-larger']css class[/css] option"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- combo -->
+  <bean id="Demo-RichMessages-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example6 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="[b]Message[/b] using a [color=#F78C00] [css='fl-text-underline']combination[/css] [0] of different options[/color] inside its [1] content"/>
+          <property name="inlineComponents">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="inputField3"/>
+              <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="alert('Inline Button')"
+                    p:actionLabel="Action Button"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- in labels -->
+  <bean id="Demo-RichMessages-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example7 start-->
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="inputField20"
+              p:label="Label With [color=green]Color[/color]">
+        </bean>
+        <!-- ex:Demo-RichMessages-Example7 end-->
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- input field -->
+  <bean id="Demo-RichMessages-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example8 start-->
+        <!-- rich messages in constraintText (constraintMessage text property) -->
+        <bean parent="Uif-InputField" p:propertyName="inputField5" p:label="Rich Message Field"
+              p:constraintText="Constraint text with [color='red']rich message functionality[/color] inline">
+
+          <!-- instructionalMessage text - explicitly defining the message to allow inline components -->
+          <property name="instructionalMessage">
+            <bean parent="Uif-Message">
+              <property name="messageText"
+                        value="Instructions with [i]rich message[/i] functionality [0] inline"/>
+              <property name="inlineComponents">
+                <list>
+                  <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="alert('Inline Button')"
+                        p:actionLabel="Instruction Button"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example8 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!--combo with SpringEL -->
+  <bean id="Demo-RichMessages-Example9" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example9 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Getting message content from a value on the form (springEL): @{#dp.richMessageField}"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example9 end-->
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- images -->
+  <bean id="Demo-RichMessages-Example10" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example10 start-->
+        <bean parent="Uif-Message">
+          <!-- by inline component, by id, or through html directly -->
+          <property name="messageText"
+                    value="Multiple ways to get an image inline within a message:
+                            [ul]
+                            [li]By inlineComponents[0][/li]
+                            [li]By id[id=Demo-RichMessagesImage][/li]
+                            [li]By html image tag[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png&quot;][/li]
+                            [/ul]"/>
+          <property name="inlineComponents">
+            <list>
+              <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"
+                    p:altText="Image"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-RichMessages-Example10 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-RichMessages-Example10 start-->
+  <bean id="Demo-RichMessagesImage" parent="Uif-Image"
+        p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"
+        p:altText="Image"/>
+  <!-- ex:Demo-RichMessages-Example10 end-->
+
+  <!-- escape -->
+  <bean id="Demo-RichMessages-Example11" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example11 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing rich message special character(\[\]) escape [color=green]\[[b]content[/b]\][/color]"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example11 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- radio and checkboxes -->
+  <bean id="Demo-RichMessages-Example12" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example12 start-->
+        <!-- inside checkbox group options -->
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="checkboxesField1" p:label="Favorite Color" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="1" p:value="[color=blue]Blue[/color]"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="2" p:value="[color=red]Red[/color]"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="3" p:value="[color=gold]Yellow[/color]"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Other: [id=Demo-RichMessages-Input2  propertyName='inputField16']"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <!-- inside radio options -->
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="inputField10" p:label="You heard about us from?"
+              p:width="auto">
+          <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl">
+              <property name="inlineComponents">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="inputField11"/>
+                  <bean parent="Uif-InputField" p:propertyName="inputField12"/>
+                </list>
+              </property>
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="1" p:value="A website: [0]"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="2" p:value="A magazine: [1]"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Other: [id=Demo-RichMessages-Input2 propertyName='inputField17']"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example12 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- link -->
+  <bean id="Demo-RichMessages-Example13" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example13 start-->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing link tag [link='http://www.kuali.org']Kuali Site[/link]"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example13 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- action -->
+  <bean id="Demo-RichMessages-Example14" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-RichMessages-Example14 start-->
+        <!-- calling addGrowl controller method -->
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing methodToCall action [action=addGrowl]addGrowl[/action]"/>
+        </bean>
+
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing methodToCall action (no client validation check)
+                    [action=addGrowl,false]addGrowl[/action]"/>
+        </bean>
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing passing data [action=addGrowl,false data={extraInfo: 'You passed data'}]addGrowl[/action]"/>
+        </bean>
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing non-ajax submit [action=addGrowl,false,false]addGrowl[/action]"/>
+        </bean>
+        <bean parent="Uif-Message">
+          <property name="messageText"
+                    value="Testing custom success callback [action=addGrowl,false,true,function(){alert('Successful Callback')}]addGrowl[/action]"/>
+        </bean>
+        <!-- ex:Demo-RichMessages-Example14 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

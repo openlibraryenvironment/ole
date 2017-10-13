@@ -1,0 +1,4 @@
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/RuleAttributeContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/EDocLiteContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/EDocLiteRouting.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/EDocLiteStyle.xml=true

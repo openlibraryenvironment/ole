@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="kimTypeInfoService.exporter" parent="kimServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimTypeInfoService"
+            p:localServiceName="typeInfoService"
+            p:serviceInterface="org.kuali.rice.kim.api.type.KimTypeInfoService"/>
+    </property>
+    <property name="exportIf" value="kimTypeInfoServiceSOAP.expose"/>
+  </bean>
+
+  <bean id="kimIdentityService.exporter" parent="kimServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimIdentityService"
+            p:localServiceName="identityService"
+            p:serviceInterface="org.kuali.rice.kim.api.identity.IdentityService"/>
+    </property>
+    <property name="exportIf" value="kimIdentityServiceSOAP.expose"/>
+  </bean>
+
+  <bean id="kimRoleService.exporter" parent="kimServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimRoleService"
+            p:localServiceName="roleService"
+            p:serviceInterface="org.kuali.rice.kim.api.role.RoleService"/>
+    </property>
+    <property name="exportIf" value="kimRoleServiceSOAP.expose"/>
+  </bean>
+
+  <bean id="kimGroupService.exporter" parent="kimServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimGroupService"
+            p:localServiceName="groupService"
+            p:serviceInterface="org.kuali.rice.kim.api.group.GroupService"/>
+    </property>
+    <property name="exportIf" value="groupService.expose"/>
+  </bean>
+
+  <bean id="kimPermissionService.exporter" parent="kimServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimPermissionService"
+            p:localServiceName="permissionService"
+            p:serviceInterface="org.kuali.rice.kim.api.permission.PermissionService"/>
+    </property>
+    <property name="exportIf" value="permissionService.expose"/>
+  </bean>
+
+  <bean id="kimResponsibilityService.exporter" parent="kimServiceExporter">
+    <property name="serviceDefinition">
+      <bean parent="kimService"
+            p:service-ref="kimResponsibilityService"
+            p:localServiceName="responsibilityService"
+            p:serviceInterface="org.kuali.rice.kim.api.responsibility.ResponsibilityService"/>
+    </property>
+    <property name="exportIf" value="responsibilityService.expose"/>
+  </bean>
+
+</beans>

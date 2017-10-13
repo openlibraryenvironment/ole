@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="GroupDocumentQualifier" parent="GroupDocumentQualifier-parentBean"/>
+	<bean id="GroupDocumentQualifier-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.GroupDocumentQualifier" p:titleAttribute="attrDataId" p:objectLabel="Group Qualifier">
+		<property name="inquiryDefinition">
+			<ref bean="GroupDocumentQualifier-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="GroupDocumentQualifier-lookupDefinition"/>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="GroupDocumentQualifier-attrDataId"/>
+				<ref bean="GroupDocumentQualifier-groupId"/>
+				<ref bean="GroupDocumentQualifier-kimTypId"/>
+				<ref bean="GroupDocumentQualifier-kimAttrDefnId"/>
+				<ref bean="GroupDocumentQualifier-attrVal"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="GroupDocumentQualifier-attrDataId" parent="GroupDocumentQualifier-attrDataId-parentBean"/>
+	<bean id="GroupDocumentQualifier-attrDataId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="attrDataId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Attribute Data Identifier"/>
+		<property name="shortLabel" value="Attr Data Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Attr Data Id"/>
+		<property name="description" value="Attr Data Id"/>
+	</bean>
+
+	<bean id="GroupDocumentQualifier-groupId" parent="GroupDocumentQualifier-groupId-parentBean"/>
+	<bean id="GroupDocumentQualifier-groupId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="groupId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Group Id"/>
+		<property name="shortLabel" value="Group Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Group Id"/>
+		<property name="description" value="Group Id"/>
+	</bean>
+
+	<bean id="GroupDocumentQualifier-kimTypId" parent="GroupDocumentQualifier-kimTypId-parentBean"/>
+	<bean id="GroupDocumentQualifier-kimTypId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kimTypId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Kim Type Identifier"/>
+		<property name="shortLabel" value="Kim Typ Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Kim Typ Id"/>
+		<property name="description" value="Kim Typ Id"/>
+	</bean>
+
+	<bean id="GroupDocumentQualifier-kimAttrDefnId" parent="GroupDocumentQualifier-kimAttrDefnId-parentBean"/>
+	<bean id="GroupDocumentQualifier-kimAttrDefnId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kimAttrDefnId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Kim Attribute Definition Identifier"/>
+		<property name="shortLabel" value="Kim Attr Defn Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Kim Attr Defn Id"/>
+		<property name="description" value="Kim Attr Defn Id"/>
+	</bean>
+
+	<bean id="GroupDocumentQualifier-attrVal" parent="GroupDocumentQualifier-attrVal-parentBean"/>
+	<bean id="GroupDocumentQualifier-attrVal-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="attrVal"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Attr Val"/>
+		<property name="shortLabel" value="Attr Val"/>
+		<property name="maxLength" value="400"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Attr Val"/>
+		<property name="description" value="Attr Val"/>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="GroupDocumentQualifier-inquiryDefinition" parent="GroupDocumentQualifier-inquiryDefinition-parentBean"/>
+	<bean id="GroupDocumentQualifier-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Attribute Data Identifier"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Attribute Data Identifier"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+							<bean parent="FieldDefinition" p:attributeName="groupId"/>
+							<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+							<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+							<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="GroupDocumentQualifier-lookupDefinition" parent="GroupDocumentQualifier-lookupDefinition-parentBean"/>
+	<bean id="GroupDocumentQualifier-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Doc Group Qualifier Lookup"/>
+		
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="groupId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+				<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="groupId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+				<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+			</list>
+		</property>
+	</bean>
+</beans>

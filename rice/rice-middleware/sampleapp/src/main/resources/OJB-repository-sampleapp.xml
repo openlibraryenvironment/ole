@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+  <jdbc-connection-descriptor
+          jcd-alias="dataSource-samplepp"
+          default-connection="false"
+          jdbc-level="3.0"
+          eager-release="false"
+          batch-mode="false"
+          useAutoCommit="0"
+          ignoreAutoCommitExceptions="false">
+    <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl"/>
+    <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+      <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager"/>
+    </sequence-manager>
+  </jdbc-connection-descriptor>
+
+  <class-descriptor class="edu.sampleu.travel.document.TravelDocument2" table="TRV_DOC_2">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="traveler" column="traveler" jdbc-type="VARCHAR"/>
+    <field-descriptor name="origin" column="org" jdbc-type="VARCHAR"/>
+    <field-descriptor name="destination" column="dest" jdbc-type="VARCHAR"/>
+
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="requestType" column="request_trav" jdbc-type="VARCHAR"/>
+    <!--  object references -->
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true"
+                          auto-update="object"
+                          auto-delete="object">
+      <foreignkey field-ref="documentNumber"/>
+    </reference-descriptor>
+    <collection-descriptor name="travelAccounts"
+                           element-class-ref="edu.sampleu.travel.bo.TravelAccount"
+                           auto-retrieve="true" auto-update="false"
+                           auto-delete="false" indirection-table="TRAV_DOC_2_ACCOUNTS">
+      <fk-pointing-to-this-class column="FDOC_NBR"/>
+      <fk-pointing-to-element-class column="ACCT_NUM"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.travel.bo.TravelAccount" table="TRV_ACCT">
+    <field-descriptor name="number" column="acct_num" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="acct_name" jdbc-type="VARCHAR"/>
+    <field-descriptor name="foId" column="acct_fo_id" jdbc-type="BIGINT" nillable="false"/>
+
+    <field-descriptor name="subAccount" column="sub_acct" jdbc-type="VARCHAR"/>
+    <field-descriptor name="subAccountName" column="sub_acct_name" jdbc-type="VARCHAR"/>
+    <field-descriptor name="createDate" column="create_dt" jbdc-type="TIMESTAMP"/>
+    <field-descriptor name="subsidizedPercent" column="subsidized_pct" jdbc-type="DECIMAL"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiPercentFieldConversion"/>
+
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+
+    <reference-descriptor name="fiscalOfficer" class-ref="edu.sampleu.travel.bo.FiscalOfficer" auto-delete="object"
+                          auto-retrieve="true" auto-update="none" proxy="false">
+      <foreignkey field-ref="foId"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.travel.bo.FiscalOfficer" table="TRV_ACCT_FO">
+    <field-descriptor name="id" column="acct_fo_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+                      sequence-name="TRV_FO_ID_S"/>
+    <field-descriptor name="userName" column="acct_fo_user_name" jdbc-type="VARCHAR"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+
+    <collection-descriptor name="accounts"
+                           element-class-ref="edu.sampleu.travel.bo.TravelAccount"
+                           auto-retrieve="true"
+                           auto-update="true"
+                           auto-delete="false">
+      <inverse-foreignkey field-ref="foId"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.travel.bo.TravelAccountType" table="TRV_ACCT_TYPE">
+    <field-descriptor name="accountTypeCode" column="acct_type" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="acct_type_name" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+
+  <!--
+  //**********************
+  //   Bookstore Info
+  //**********************
+
+  -->
+  <class-descriptor class="edu.sampleu.bookstore.bo.BookType" table="BK_BOOK_TYP_T">
+    <field-descriptor name="typeCode" column="TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    <collection-descriptor name="books"
+                           element-class-ref="edu.sampleu.bookstore.bo.Book"
+                           collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                           proxy="true"
+                           auto-retrieve="true"
+                           auto-update="object"
+                           auto-delete="object">
+      <orderby name="title" sort="ASC"/>
+      <inverse-foreignkey field-ref="typeCode"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.bo.Book" table="BK_BOOK_T">
+    <field-descriptor name="id" column="BOOK_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+                      sequence-name="BK_BOOK_ID_S"/>
+    <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
+    <field-descriptor name="typeCode" column="TYP_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="isbn" column="isbn" jdbc-type="VARCHAR"/>
+    <field-descriptor name="publisher" column="publisher" jdbc-type="VARCHAR"/>
+    <field-descriptor name="publicationDate" column="pub_date" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="price" column="PRICE" jdbc-type="DECIMAL"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="rating" column="RATING" jdbc-type="BIGINT"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    <reference-descriptor name="bookType" class-ref="edu.sampleu.bookstore.bo.BookType" auto-retrieve="true">
+      <foreignkey field-ref="typeCode"/>
+    </reference-descriptor>
+    <collection-descriptor name="authors" element-class-ref="edu.sampleu.bookstore.bo.Author" auto-retrieve="true"
+                           auto-update="false"
+                           auto-delete="false" indirection-table="BK_BOOK_AUTHOR_T">
+      <fk-pointing-to-this-class column="BOOK_ID"/>
+      <fk-pointing-to-element-class column="AUTHOR_ID"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.bo.Author" table="BK_AUTHOR_T">
+    <field-descriptor name="authorId" column="AUTHOR_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+                      sequence-name="BK_AUTHOR_ID_S"/>
+    <field-descriptor name="authorName" column="NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="email" column="EMAIL" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="phoneNbr" column="PHONE_NBR" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="extension" class-ref="edu.sampleu.bookstore.bo.Account" auto-retrieve="true"
+                          auto-update="object" auto-delete="object" proxy="false">
+      <foreignkey field-ref="authorId"/>
+    </reference-descriptor>
+    <collection-descriptor name="addresses"
+                           element-class-ref="edu.sampleu.bookstore.bo.Address"
+                           collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                           proxy="true"
+                           auto-retrieve="true"
+                           auto-update="object"
+                           auto-delete="object">
+      <orderby name="city" sort="ASC"/>
+      <inverse-foreignkey field-ref="authorId"/>
+    </collection-descriptor>
+    <collection-descriptor name="books" element-class-ref="edu.sampleu.bookstore.bo.Book" auto-retrieve="true"
+                           auto-update="false"
+                           auto-delete="false" indirection-table="BK_BOOK_AUTHOR_T">
+      <fk-pointing-to-this-class column="AUTHOR_ID"/>
+      <fk-pointing-to-element-class column="BOOK_ID"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.bo.BSAddressType" table="BK_ADDRESS_TYP_T">
+    <field-descriptor name="type" column="ADDR_TYP" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.bo.Address" table="BK_ADDRESS_T">
+    <field-descriptor name="addressId" column="ADDRESS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+                      sequence-name="BK_ADDRESS_ID_S"/>
+    <field-descriptor name="type" column="ADDR_TYP" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="street1" column="STREET1" jdbc-type="VARCHAR"/>
+    <field-descriptor name="street2" column="STREET2" jdbc-type="VARCHAR"/>
+    <field-descriptor name="city" column="CITY" jdbc-type="VARCHAR"/>
+    <field-descriptor name="province" column="PROVIENCE" jdbc-type="VARCHAR"/>
+    <field-descriptor name="country" column="COUNTRY" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="authorId" column="AUTHOR_ID" jdbc-type="BIGINT"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    <reference-descriptor name="addressType" class-ref="edu.sampleu.bookstore.bo.BSAddressType" auto-retrieve="true">
+      <foreignkey field-ref="type"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.bo.Account" table="BK_AUTHOR_ACCOUNT_T">
+    <field-descriptor name="authorId" column="AUTHOR_ID" jdbc-type="BIGINT" primarykey="true"/>
+    <field-descriptor name="bankName" column="BANK_NAME" jdbc-type="VARCHAR"/>
+    <field-descriptor name="accountNumber" column="ACCOUNT_NUMBER" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.document.BookOrderDocument" table="bk_order_doc_t">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true"
+                          auto-update="object" auto-delete="object" proxy="true">
+      <foreignkey field-ref="documentNumber"/>
+    </reference-descriptor>
+    <collection-descriptor
+            name="bookOrders"
+            element-class-ref="edu.sampleu.bookstore.bo.BookOrder"
+            collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+            proxy="true"
+            auto-retrieve="true"
+            auto-update="object"
+            auto-delete="object">
+      <inverse-foreignkey field-ref="documentId"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="edu.sampleu.bookstore.bo.BookOrder" table="bk_order_entry_t">
+    <field-descriptor name="id" column="BK_ORDER_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+                      sequence-name="bk_order_entry_s"/>
+    <field-descriptor name="documentId" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="bookId" column="BOOK_ID" jdbc-type="BIGINT"/>
+    <field-descriptor name="quantity" column="QUANTITY" jdbc-type="INTEGER"/>
+    <field-descriptor name="unitPrice" column="UNIT_PRICE" jdbc-type="DECIMAL"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="discount" column="DISCOUNT" jdbc-type="DECIMAL"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiPercentFieldConversion"/>
+    <field-descriptor name="totalPrice" column="TOTAL_PRICE" jdbc-type="DECIMAL"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <reference-descriptor name="book" class-ref="edu.sampleu.bookstore.bo.Book" auto-retrieve="true" proxy="true">
+      <foreignkey field-ref="bookId"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+</descriptor-repository>

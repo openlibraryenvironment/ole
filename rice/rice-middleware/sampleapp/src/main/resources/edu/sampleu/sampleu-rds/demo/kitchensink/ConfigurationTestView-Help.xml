@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <formView-bean formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm" growlMessagingEnabled="true"
+                 headertext="Configuration Test View - Help" id="ConfigurationTestView-Help" namespaceCode="KR-SAP">
+    <items>
+      <spring:ref bean="ConfigurationTestView-Help-Page"/>
+    </items>
+    <theme>
+      <kradTheme-bean/>
+    </theme>
+    <help>
+      <help-bean externalHelpUrl="http://www.kuali.org/?view" tooltipHelpContent="Sample text for view help"/>
+    </help>
+  </formView-bean>
+  <formView-bean id="ConfigurationTestView-Help_KNS" parent="ConfigurationTestView-Help">
+    <theme>
+      <classicKnsTheme-bean/>
+    </theme>
+  </formView-bean>
+  <page-bean headertext="Help Page" id="ConfigurationTestView-Help-Page">
+    <help>
+      <help-bean externalHelpUrl="http://www.kuali.org/?page" tooltipHelpContent="Sample text for page help"/>
+    </help>
+    <items>
+      <spring:ref bean="ConfigurationTestView-Help-Section1"/>
+      <spring:ref bean="ConfigurationTestView-Help-Section2"/>
+      <spring:ref bean="ConfigurationTestView-Help-Section3"/>
+      <spring:ref bean="ConfigurationTestView-Help-Section4"/>
+      <spring:ref bean="ConfigurationTestView-Help-Section5"/>
+      <spring:ref bean="ConfigurationTestView-Help-Section6"/>
+    </items>
+  </page-bean>
+  <disclosure-verticalBoxSection-bean headertext="Tooltip Help" id="ConfigurationTestView-Help-Section1"
+                                      instructionalText="The various ways an help tooltip may be rendered."
+                                      layoutManager.orientation="VERTICAL">
+    <help>
+      <help-bean tooltipHelpContent="Sample text for section help - tooltip help"/>
+    </help>
+    <items>
+      <inputField-bean id="field-label-left" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean tooltipHelpContent="Sample text for field help - label left"/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="field-label-right" instructionalText="Label right with help" label="Field Label"
+                       labelPlacement="RIGHT" propertyName="field102">
+        <help>
+          <help-bean tooltipHelpContent="Sample text for field help - label right"/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="field-label-top" instructionalText="Label top with help" label="Field Label"
+                       labelPlacement="TOP" propertyName="field102">
+        <help>
+          <help-bean tooltipHelpContent="Sample text for field help - label top"/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <label-bean id="mouse-out" labelText="Help widget not attached to any component (nothing will be show)"/>
+      <help-bean id="standalone-help-not-rendered"
+                 tooltipHelpContent="Sample text for standalone help widget tooltip which will never be rendered"/>
+      <inputField-bean id="override-tooltip" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean
+                  tooltipHelpContent="Sample text for field help - there is also a tooltip on the label but it is overridden by the help tooltip"/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+        <fieldLabel>
+          <label-bean>
+            <toolTip>
+              <tooltip-bean
+                      tooltipContent="Sample text for label tooltip - this will not be rendered as it is overridden by the help tooltip"/>
+            </toolTip>
+          </label-bean>
+        </fieldLabel>
+      </inputField-bean>
+      <inputField-bean id="on-focus-tooltip" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean tooltipHelpContent="Sample text for field help - there is also an on-focus tooltip"/>
+        </help>
+        <control>
+          <textControl-bean>
+            <toolTip>
+              <tooltip-bean onFocus="true" tooltipContent="Sample text for on-focus event tooltip"/>
+            </toolTip>
+          </textControl-bean>
+        </control>
+      </inputField-bean>
+      <inputField-bean defaultValue="true" id="checkbox" label="Checkbox" propertyName="bField1">
+        <help>
+          <help-bean
+                  tooltipHelpContent="Sample text for check box help&lt;br&gt;&lt;font color=&quot;green&quot;&gt;with &lt;b&gt;html&lt;/b&gt; formatting&lt;/font&gt;"/>
+        </help>
+        <control>
+          <checkboxControl-bean/>
+        </control>
+      </inputField-bean>
+      <disclosure-verticalBoxSubSection-bean headertext="Display only fields" layoutManager.orientation="VERTICAL">
+        <help>
+          <help-bean tooltipHelpContent="Sample text for sub-section help"/>
+        </help>
+        <items>
+          <dataField-bean defaultValue="DataFieldValue" id="display-field" label="Field Label" propertyName="field102">
+            <help>
+              <help-bean tooltipHelpContent="Sample text for read only field help"/>
+            </help>
+          </dataField-bean>
+        </items>
+      </disclosure-verticalBoxSubSection-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean headertext="Missing Tooltip Help" id="ConfigurationTestView-Help-Section2"
+                                      instructionalText="This section has non-existing help specified. Help tooltips should not render"
+                                      layoutManager.orientation="VERTICAL">
+    <help>
+      <help-bean tooltipHelpContent=""/>
+    </help>
+    <items>
+      <inputField-bean id="missing-tooltip-help" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean tooltipHelpContent=""/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean headertext="External Help" id="ConfigurationTestView-Help-Section3"
+                                      instructionalText="The various ways an external help icon may be rendered."
+                                      layoutManager.orientation="VERTICAL">
+    <help>
+      <help-bean externalHelpUrl="http://www.kuali.org/?section"/>
+    </help>
+    <items>
+      <inputField-bean id="field-label-left-external-help" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean externalHelpUrl="http://www.kuali.org/?label_left"/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="field-label-right-external-help" instructionalText="Label right with help"
+                       label="Field Label" labelPlacement="RIGHT" propertyName="field102">
+        <help>
+          <help-bean externalHelpUrl="http://www.kuali.org/?label_right"/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="field-label-top-external-help" instructionalText="Label top with help from system parameters"
+                       label="Field Label" labelPlacement="TOP" propertyName="field102">
+        <help>
+          <help-bean>
+            <helpDefinition>
+              <helpDefinition-bean parameterDetailType="TEST_COMPONENT" parameterName="TEST_PARAM"
+                                   parameterNamespace="KR-SAP" parent="HelpDefinition"/>
+            </helpDefinition>
+          </help-bean>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <label-bean labelText="Help widget not attached to any component"/>
+      <help-bean externalHelpUrl="http://www.kuali.org/?widget_only">
+        <helpAction>
+          <actionImage-bean id="standalone-external-help">
+            <actionImage>
+              <helpImage-bean/>
+            </actionImage>
+          </actionImage-bean>
+        </helpAction>
+      </help-bean>
+      <disclosure-verticalBoxSubSection-bean headertext="Display only fields" layoutManager.orientation="VERTICAL">
+        <help>
+          <help-bean externalHelpUrl="http://www.kuali.org/?sub_section"/>
+        </help>
+        <items>
+          <dataField-bean defaultValue="DataFieldValue" id="display-field-external-help" label="Field Label"
+                          propertyName="field102">
+            <help>
+              <help-bean externalHelpUrl="http://www.kuali.org/?display_field"/>
+            </help>
+          </dataField-bean>
+        </items>
+      </disclosure-verticalBoxSubSection-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean headertext="Missing External Help" id="ConfigurationTestView-Help-Section4"
+                                      instructionalText="This section has non-existing help specified. Help icons should not render"
+                                      layoutManager.orientation="VERTICAL">
+    <help>
+      <help-bean>
+        <helpDefinition>
+          <helpDefinition-bean parameterDetailType="TEST_COMPONENT" parameterName="TEST_PARAM_NOT_EXISTS"
+                               parameterNamespace="KR-SAP" parent="HelpDefinition"/>
+        </helpDefinition>
+      </help-bean>
+    </help>
+    <items>
+      <inputField-bean id="external-help-externalHelpUrl-empty" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean externalHelpUrl=""/>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="external-help-helpdefinition-empty" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean>
+            <helpDefinition>
+              <helpDefinition-bean parent="HelpDefinition"/>
+            </helpDefinition>
+          </help-bean>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="external-help-system-parm-missing" label="Field Label" propertyName="field102">
+        <help>
+          <help-bean>
+            <helpDefinition>
+              <helpDefinition-bean parameterDetailType="TEST_COMPONENT" parameterName="TEST_PARAM_NOT_EXISTS"
+                                   parameterNamespace="KR-SAP" parent="HelpDefinition"/>
+            </helpDefinition>
+          </help-bean>
+        </help>
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <label-bean labelText="Help widget not attached to any component"/>
+      <help-bean>
+        <helpDefinition>
+          <helpDefinition-bean parameterDetailType="TEST_COMPONENT" parameterName="TEST_PARAM_NOT_EXISTS"
+                               parameterNamespace="KR-SAP" parent="HelpDefinition"/>
+        </helpDefinition>
+        <helpAction>
+          <actionImage-bean id="standalone-external-help-missing">
+            <actionImage>
+              <helpImage-bean/>
+            </actionImage>
+          </actionImage-bean>
+        </helpAction>
+      </help-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean headertext="Internal and External Help"
+                                      help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                                      help.helpDefinition.parameterName="TEST_PARAM"
+                                      help.helpDefinition.parameterNamespace="KR-SAP"
+                                      help.tooltipHelpContent="Section Help" id="ConfigurationTestView-Help-Section5"
+                                      instructionalText="The various ways tooltips and help icon may be rendered together.  Properties are set directly via p:help.x."
+                                      layoutManager.orientation="VERTICAL">
+    <items>
+      <inputField-bean help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                       help.tooltipHelpContent="Field help (label left)" label="Field Label" propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                       help.tooltipHelpContent="Field help (label right)" instructionalText="Label right with help"
+                       label="Field Label" labelPlacement="RIGHT" propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean help.externalHelpUrl="http://www.kuali.org"
+                       help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                       help.tooltipHelpContent="Field help (label top)" instructionalText="Label top with help"
+                       label="Field Label" labelPlacement="TOP" propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <label-bean labelText="Help widget not attached to any component"/>
+      <help-bean helpDefinition.parameterDetailType="TEST_COMPONENT" helpDefinition.parameterName="TEST_PARAM"
+                 helpDefinition.parameterNamespace="KR-SAP"
+                 tooltipHelpContent="Standalone help widget tooltip will never be rendered"/>
+      <inputField-bean help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                       help.tooltipHelpContent="Field help (there is also a tooltip on the label but it is overridden by the help tooltip)"
+                       label="Field Label" propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+        <fieldLabel>
+          <label-bean>
+            <toolTip>
+              <tooltip-bean tooltipContent="Label ToolTip (not from help)"/>
+            </toolTip>
+          </label-bean>
+        </fieldLabel>
+      </inputField-bean>
+      <inputField-bean help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                       help.tooltipHelpContent="Field help (there is also an on focus tooltip)" label="Field Label"
+                       propertyName="field102">
+        <control>
+          <textControl-bean>
+            <toolTip>
+              <tooltip-bean onFocus="true" tooltipContent="This is a focus event tooltip"/>
+            </toolTip>
+          </textControl-bean>
+        </control>
+      </inputField-bean>
+      <inputField-bean defaultValue="true" help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                       help.tooltipHelpContent="Sample text for check box help&lt;br&gt; &lt;a href='http://google.com'&gt;dd&lt;/a&gt; &lt;font color=&quot;green&quot;&gt;with &lt;b&gt;html&lt;/b&gt; formatting&lt;/font&gt;"
+                       label="Checkbox" propertyName="bField1">
+        <control>
+          <checkboxControl-bean/>
+        </control>
+      </inputField-bean>
+      <disclosure-verticalBoxSubSection-bean headertext="Display only fields"
+                                             help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                                             help.helpDefinition.parameterName="TEST_PARAM"
+                                             help.helpDefinition.parameterNamespace="KR-SAP"
+                                             help.tooltipHelpContent="Sub Section Help"
+                                             layoutManager.orientation="VERTICAL">
+        <items>
+          <dataField-bean defaultValue="DataFieldValue" help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                          help.helpDefinition.parameterName="TEST_PARAM" help.helpDefinition.parameterNamespace="KR-SAP"
+                          help.tooltipHelpContent="Read only field help" label="Field Label" propertyName="field102"/>
+        </items>
+      </disclosure-verticalBoxSubSection-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean headertext="Missing Internal and External Help"
+                                      help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                                      help.helpDefinition.parameterName="TEST_PARAM_NOT_EXISTS"
+                                      help.helpDefinition.parameterNamespace="KR-SAP" help.tooltipHelpContent=""
+                                      id="ConfigurationTestView-Help-Section6"
+                                      instructionalText="This section has non-existing help specified. Neither tooltip help nor help icons should not render"
+                                      layoutManager.orientation="VERTICAL">
+    <items>
+      <inputField-bean help.helpDefinition.parameterDetailType="TEST_COMPONENT"
+                       help.helpDefinition.parameterName="TEST_PARAM_NOT_EXISTS"
+                       help.helpDefinition.parameterNamespace="KR-SAP" help.tooltipHelpContent="" label="Field Label"
+                       propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <label-bean labelText="Help widget not attached to any component"/>
+      <help-bean helpDefinition.parameterDetailType="TEST_COMPONENT"
+                 helpDefinition.parameterName="TEST_PARAM_NOT_EXISTS" helpDefinition.parameterNamespace="KR-SAP"
+                 tooltipHelpContent=""/>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+</spring:beans>

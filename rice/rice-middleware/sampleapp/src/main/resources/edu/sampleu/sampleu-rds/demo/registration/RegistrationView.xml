@@ -1,0 +1,198 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema"
+              xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:util="http://www.springframework.org/schema/util"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                   http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <formView formClass="edu.sampleu.demo.registration.RegistrationForm"
+            headertext="@{registrationTerm}, @{registrationYear}" id="RegistrationView" parent="KSFormView">
+    <header.items>
+      <linkField linkText="Change" parent="Uif-LinkField" target="foo"/>
+    </header.items>
+    <items>
+      <ref bean="RegistrationPage"/>
+    </items>
+    <footer>
+      <group parent="Uif-FooterBase"/>
+    </footer>
+    <additionalCssFiles>
+      <value>/css/registration.css</value>
+    </additionalCssFiles>
+  </formView>
+  <pageGroup disclosure.render="false" id="RegistrationPage" layoutManager.orientation="HORIZONTAL" parent="Uif-Page">
+    <items>
+      <tabGroup cssClasses="registration-tabgroup" id="Registration-FindTabGroup" parent="Uif-TabSection">
+        <items>
+          <ref bean="Registration-FindGroup"/>
+          <ref bean="Registration-FavoriteGroup"/>
+        </items>
+      </tabGroup>
+      <ref bean="Registration-ScheduleCartGroup"/>
+    </items>
+  </pageGroup>
+  <group id="Registration-ScheduleCartGroup" parent="GenericGroup">
+    <items>
+      <imageField parent="Uif-ImageField"
+                  source="@{#ConfigProperties['krad.externalizable.images.url']}ks/registration_cal_cart.jpg"/>
+    </items>
+  </group>
+  <group headertext="Find Courses" id="Registration-FindGroup" layoutManager.orientation="HORIZONTAL"
+         parent="GenericCriteriaGroup">
+    <items>
+      <fieldGroup cssClasses="kr-border-right" label="Browse" parent="GenericFieldGroup">
+        <items>
+          <inputField control.options-ref="program-options" instructionalText="By Programs/Departments:" label=""
+                      parent="GenericSelection" propertyName="lookupCriteria['programId']"/>
+          <inputField control.options-ref="requirement-options" instructionalText="By General Education Requirement:"
+                      label="" parent="GenericSelection" propertyName="lookupCriteria['requirementId']"/>
+        </items>
+      </fieldGroup>
+      <fieldGroup group.instructionalText="Enter the Course Name or Number:" label="Fast Find"
+                  parent="GenericHorizontalFieldGroup">
+        <items>
+          <inputField cssClasses="kr-field-attribute kr-field-tight" label="" parent="GenericTextFieldMedium"
+                      propertyName="lookupCriteria['courseNameNumber']">
+          </inputField>
+          <action actionLabel="Go" methodToCall="go" parent="Uif-PrimaryActionButton-Small"/>
+        </items>
+      </fieldGroup>
+      <ref bean="Registration-CourseListing"/>
+    </items>
+  </group>
+  <collectionGroup collectionObjectClass="edu.sampleu.demo.course.Course" disclosure.render="false"
+                   id="Registration-CourseListing" instructionalText="Click a class to view details"
+                   layoutManager.summaryTitle="@{#line.subjectId} @{#line.number}: @{#line.title} (@{#line.maxCredits} units)"
+                   parent="Uif-ListCollectionSection" propertyName="courseListing" readOnly="true">
+    <instructionalMessage>
+      <message cssClasses="instructionalText-bold" parent="Uif-InstructionalMessage"/>
+    </instructionalMessage>
+    <subCollection>
+      <collectionGroup collectionObjectClass="edu.sampleu.demo.course.CourseSection" header.render="false"
+                       layoutManager.lineGroupPrototype.cssClasses="kr-coursesection-line"
+                       layoutManager.lineGroupPrototype.layoutManager.orientation="HORIZONTAL"
+                       parent="Uif-ListCollectionSection" propertyName="sections">
+        <items>
+          <fieldGroup fieldLabel.render="false" parent="GenericFieldGroup" style="width: 10px;">
+            <items>
+              <imageField parent="Uif-ImageField"
+                          source="@{#ConfigProperties['krad.externalizable.images.url']}ks/star.png"/>
+            </items>
+          </fieldGroup>
+          <fieldGroup fieldLabel.render="false" parent="GenericFieldGroup">
+            <items>
+              <inputField label="" parent="GenericTextFieldMedium" propertyName="registrationId"/>
+              <inputField cssClasses="kr-emphasis" label="" parent="GenericTextFieldMedium"
+                          propertyName="standardMeetingTime"/>
+              <action actionLabel="Waitlist" methodToCall="waitlist" parent="Uif-PrimaryActionButton-Small"/>
+            </items>
+          </fieldGroup>
+          <fieldGroup fieldLabel.render="false" parent="GenericFieldGroup">
+            <items>
+              <messageField fieldLabel.cssClasses="labelLeft" fieldLabel.render="true" fieldLabel.renderColon="false"
+                            label="Seats Left"
+                            messageText="@{#line.registeredNumber} (of @{#line.totalMaxEnrollment}) &lt;span class='kr-highlight-red'&gt;@{#line.waitlistNumber} on waitlist&lt;/span&gt;"
+                            parent="Uif-MessageField"/>
+              <inputField fieldLabel.cssClasses="labelLeft" label="Instructor" labelPlacment="LEFT"
+                          parent="GenericTextFieldMedium" propertyName="instructor"/>
+              <messageField fieldLabel.cssClasses="labelLeft" fieldLabel.render="true" fieldLabel.renderColon="false"
+                            label="Location"
+                            messageText="&lt;span class='kr-highlight-blue'&gt;@{#line.location}&lt;/span&gt;"
+                            parent="Uif-MessageField"/>
+              <linkField fieldLabel.cssClasses="labelLeft" fieldLabel.renderColon="false" label="Syllabus"
+                         linkText="Download" parent="Uif-LinkField" target="foo"/>
+            </items>
+          </fieldGroup>
+        </items>
+      </collectionGroup>
+    </subCollection>
+  </collectionGroup>
+  <group headertext="Favorites" id="Registration-FavoriteGroup" parent="Uif-VerticalBoxSection">
+    <items/>
+  </group>
+  <util:list id="program-options">
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="-- A --"/>
+      <spring:property name="value" value="-- A --"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="AEST"/>
+      <spring:property name="value" value="Aerospace Studies (AEST)"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="AMST"/>
+      <spring:property name="value" value="American Studies and Ethnicity (AMST)"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="-- B --"/>
+      <spring:property name="value" value="-- B --"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="Biokinesiology and Physical Therapy"/>
+      <spring:property name="value" value="Biokinesiology and Physical Therapy"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="BKN"/>
+      <spring:property name="value" value="- Biokinesiology (BKN)"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="PT"/>
+      <spring:property name="value" value="- Physical Therapy (PT)"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="Biological Sciences"/>
+      <spring:property name="value" value="Biological Sciences"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="-- C --"/>
+      <spring:property name="value" value="-- C --"/>
+    </spring:bean>
+  </util:list>
+
+  <util:list id="requirement-options">
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="Select General Education (Core) Reuqirment"/>
+      <spring:property name="value" value="Select General Education (Core) Reuqirment"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="Arts and Letters"/>
+      <spring:property name="value" value="Arts and Letters"/>
+    </spring:bean>
+    <spring:bean parent="Uif-KeyLabelPair">
+      <spring:property name="key" value="Diversity RequirementGlobal Cultures and Traditions"/>
+      <spring:property name="value" value="Diversity RequirementGlobal Cultures and Traditions"/>
+    </spring:bean>
+  </util:list>
+</spring:beans>
