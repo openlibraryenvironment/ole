@@ -66,6 +66,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         bibRecord.setFormerId("");
         bibRecord.setSuppressFromPublic(String.valueOf(bib.isPublic()));
         bibRecord.setStatus(bib.getStatus());
+        bibRecord.setUpdatedBy(bib.getCreatedBy());
         bibRecord.setDateEntered(getTimeStampFromString(bib.getCreatedOn()));
         bibRecord.setStaffOnlyFlag(bib.isStaffOnly());
         bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.getPrefix(bib.getCategory(), bib.getType(), bib.getFormat()));

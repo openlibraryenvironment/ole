@@ -77,6 +77,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         holdingsRecord.setCreatedBy(holdings.getCreatedBy());
         holdingsRecord.setCreatedDate(createdDate());
+        holdingsRecord.setUpdatedBy(holdings.getCreatedBy());
+        holdingsRecord.setUpdatedDate(createdDate());
         String content = holdings.getContent();
         OleHoldings oleHoldings = workHoldingOlemlRecordProcessor.fromXML(content);
         holdingsRecord.setStaffOnlyFlag(holdings.isStaffOnly());

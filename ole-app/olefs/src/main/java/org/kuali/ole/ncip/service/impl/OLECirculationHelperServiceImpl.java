@@ -776,6 +776,7 @@ public class OLECirculationHelperServiceImpl {
         bib.setType(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode());
         bib.setFormat(org.kuali.ole.docstore.common.document.content.enums.DocFormat.MARC.getCode());
         bib.setCreatedBy(operatorId);
+        bib.setUpdatedBy(operatorId);
         bib.setContent(bibMarcRecordProcessor.toXml(bibMarcRecords));
         bib.setOperation(DocstoreDocument.OperationType.CREATE);
 
@@ -814,10 +815,12 @@ public class OLECirculationHelperServiceImpl {
         documentItem.setContent(itemOlemlRecordProcessor.toXML(item));
         documentItem.setStaffOnly(true);
         documentItem.setCreatedBy(operatorId);
+        documentItem.setUpdatedBy(operatorId);
         documentItem.setOperation(DocstoreDocument.OperationType.CREATE);
         Holdings holdings = new PHoldings();
         holdings.setStaffOnly(true);
         holdings.setCreatedBy(operatorId);
+        holdings.setUpdatedBy(operatorId);
         HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
         holdings.setContent(holdingOlemlRecordProcessor.toXML(oleHoldings));
         holdings.setOperation(DocstoreDocument.OperationType.CREATE);

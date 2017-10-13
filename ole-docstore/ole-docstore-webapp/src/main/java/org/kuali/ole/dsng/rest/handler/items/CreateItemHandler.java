@@ -85,6 +85,7 @@ public class CreateItemHandler extends Handler {
         Timestamp createdDate = getDateTimeStamp(createdDateString);
         String createdBy = getStringValueFromJsonObject(requestJsonObject, OleNGConstants.UPDATED_BY);
         itemRecord.setCreatedBy(createdBy);
+        itemRecord.setUpdatedBy(createdBy);
         itemRecord.setCreatedDate(createdDate);
         itemRecord.setUpdatedDate(createdDate);
         itemRecord.setFastAddFlag(false);
