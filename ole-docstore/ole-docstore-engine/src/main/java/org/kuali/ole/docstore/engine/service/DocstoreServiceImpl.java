@@ -607,16 +607,16 @@ public class DocstoreServiceImpl implements DocstoreService {
 
     @Override
     public void deleteBibs(List<String> bibIds) {
+        List<Bib> bibs = new ArrayList<>();
+        for(String bibId:bibIds){
+            Bib bib = retrieveBib(bibId);
+            bibs.add(bib);
+        }
+        getDocstoreStorageService().deleteBibs(bibIds);
         try {
-            List<Bib> bibs = new ArrayList<>();
-            for(String bibId:bibIds){
-                Bib bib = retrieveBib(bibId);
-                bibs.add(bib);
-            }
-            getDocstoreStorageService().deleteBibs(bibIds);
             getDocstoreStorageService().saveDeletedBibs(bibs);
         } catch (Exception e) {
-            LOG.error("Exception occurred while deleting bib records ", e);
+            LOG.error("Exception occurred while saving deleted bib records ", e);
         }
         try {
             getDocstoreIndexService().deleteBibs(bibIds);
