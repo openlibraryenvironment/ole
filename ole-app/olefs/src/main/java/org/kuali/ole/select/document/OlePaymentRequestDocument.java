@@ -923,6 +923,13 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                     LOG.debug("###########inside prepareForSave ole payment request item###########");
                     OlePaymentRequestItem singleItem = (OlePaymentRequestItem) object;
                     setItemDescription(singleItem);
+                    for(OLEPaidCopy olePaidCopy : singleItem.getPaidCopies()){
+                        if(olePaidCopy.getPaymentRequestItemId()==null && olePaidCopy.getPaymentRequestIdentifier()==null){
+                            olePaidCopy.setPaymentRequestItemId(singleItem.getItemIdentifier());
+                            olePaidCopy.setPaymentRequestIdentifier(this.getPurapDocumentIdentifier());
+                            getBusinessObjectService().save(olePaidCopy);
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
