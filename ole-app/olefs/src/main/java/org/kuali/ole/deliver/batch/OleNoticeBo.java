@@ -76,6 +76,15 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String missingPieceNote;
     private String itemCallNumberPrefix;
     private int claimsSearchCount;
+    private String fineItemDueDate;
+
+    public String getFineItemDueDate() {
+        return fineItemDueDate;
+    }
+
+    public void setFineItemDueDate(String fineItemDueDate) {
+        this.fineItemDueDate = fineItemDueDate;
+    }
 
     public int getClaimsSearchCount() {
         return claimsSearchCount;
