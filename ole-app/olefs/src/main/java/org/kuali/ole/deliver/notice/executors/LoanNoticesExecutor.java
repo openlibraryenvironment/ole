@@ -59,7 +59,9 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
                 saveLoanDocument();
             }
             //6. Delete notices
-            deleteNotices(oleDeliverNotices);
+            if(!(this instanceof CheckoutReceiptNoticeExecutor)){
+                deleteNotices(oleDeliverNotices);
+            }
             //7. update notice history
             saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
             //8. send mail
