@@ -233,6 +233,8 @@ public class GlobalEditController extends OLESearchController {
     private void loadSearch(GlobalEditForm globalEditForm){
         if(globalEditForm.getPageSize() <= globalEditForm.getOriginalSearchResultDisplayRowList().size()) {
             globalEditForm.setSearchResultDisplayRowList(globalEditForm.getOriginalSearchResultDisplayRowList().subList(0, globalEditForm.getPageSize()));
+        } else {
+            globalEditForm.setSearchResultDisplayRowList(globalEditForm.getOriginalSearchResultDisplayRowList());
         }
         globalEditForm.setPageNumber("1");
         globalEditForm.getSearchParams().setStartIndex(0);

@@ -107,7 +107,6 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
     public String generateMailContent() {
         String mailContent = getRequestEmailContentFormatter().generateMailContentForPatron(deliverRequestBos, oleNoticeContentConfigurationBo);
-        System.out.println(mailContent);
         return mailContent;
     }
 
