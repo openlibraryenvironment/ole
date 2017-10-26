@@ -58,11 +58,20 @@ public class OleNoticeItemFieldLabelMappingKeyValuesFinder extends KeyValuesBase
             keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_CHECK_IN_DATE,OLEConstants.MISSING_ITEM_CHECK_IN_DATE));
             keyValues.add(new ConcreteKeyValue(OLEConstants.MISSING_ITEM_NOTE,OLEConstants.MISSING_ITEM_NOTE));
         }
-        if(StringUtils.isNotEmpty(noticeType) && noticeType.equals(OLEConstants.NOTICE_LOST)){
+        if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.NOTICE_LOST)
+                                              || noticeType.equals(OLEConstants.LOST_ITEM_PROCESSING_FEE_NOTICE)
+                                              || noticeType.equals(OLEConstants.OVERDUE_FINE_NOTICE))){
             keyValues.add(new ConcreteKeyValue("Bill Number","Bill Number"));
             keyValues.add(new ConcreteKeyValue(OLEConstants.FEE_TYPE,OLEConstants.FEE_TYPE));
             keyValues.add(new ConcreteKeyValue(OLEConstants.FEE_AMT,OLEConstants.FEE_AMT));
         }
+
+        if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.LOST_ITEM_PROCESSING_FEE_NOTICE)
+                                              ||  noticeType.equals(OLEConstants.OVERDUE_FINE_NOTICE))){
+            keyValues.add(new ConcreteKeyValue(OLEConstants.FINE_ITEM_DUE_DATE,OLEConstants.FINE_ITEM_DUE_DATE));
+        }
+
+
         if(StringUtils.isNotEmpty(noticeType) && (noticeType.equals(OLEConstants.CLAIMS_RETURNED_FOUND_NO_FEES_NOTICE)
                                               || noticeType.equals(OLEConstants.CLAIMS_RETURNED_FOUND_FINES_OWED_NOTICE)
                                               || noticeType.equals(OLEConstants.CLAIMS_RETURNED_NOT_FOUND_NOTICE)
