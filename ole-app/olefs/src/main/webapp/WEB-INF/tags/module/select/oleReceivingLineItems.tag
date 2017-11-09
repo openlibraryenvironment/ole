@@ -461,7 +461,7 @@
             }
         </script></td>
 
-    <c:if test="${fn:length(KualiForm.document.items[ctr].copyList) == 1 }">
+   <%-- <c:if test="${fn:length(KualiForm.document.items[ctr].copyList) == 1 }">--%>
         <c:if test="${!isFinal && isATypeOfRCVGDoc }">
             <c:if test="${KualiForm.document.items[ctr].copyList[0].receiptStatus ne 'Received'}">
                 <th>Action:</th>
@@ -492,7 +492,7 @@
                         tabindexOverride="${tabindexOverrideBase + 0}" readOnly="true"/>
             </td>
         </c:if>
-    </c:if>
+    <%--</c:if>--%>
 
         <%-- <kul:htmlAttributeHeaderCell
             attributeEntry="${itemAttributes.receiptStatusId}" colspan="1" width="15%"/>

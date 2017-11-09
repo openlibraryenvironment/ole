@@ -166,9 +166,20 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
                         documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT) ||
                         documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT) ||
                         documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)){
-                     updateEInstance(copyList.get(0), oleDonors);
+                    if (copyList.size()>1) {
+                        updateEInstanceList(copyList, oleDonors);
+                    }
+                    else {
+                        updateEInstance(copyList.get(0), oleDonors);
+                    }
+
                 }   else {
-                    createEInstance(copyList.get(0), oleDonors, bibTree,reqsInitiatorName);
+                        if (copyList.size()>1) {
+                            createEInstanceList(copyList, oleDonors, bibTree, reqsInitiatorName);
+                        }
+                        else {
+                            createEInstance(copyList.get(0), oleDonors, bibTree, reqsInitiatorName);
+                        }
                 }
             } else if (singleItem.getLinkToOrderOption().equals(OLEConstants.NB_PRINT)) {
                 performDocstoreCRUDOperationForItemNew(poNumber, copies, copyList, oleDonors, itemTypeDescription, itemTitleId, bibTree, poLineItemId, singleItem.getItemStatus(), singleItem.getItemLocation(), documentTypeName, note, singleItem, reqsInitiatorName);
@@ -335,13 +346,29 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
                     documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT) ||
                     documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT) ||
                     documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT) ||
-                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)){
-                updateEInstance(oleCopyList.get(0), oleDonors);
+                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)) {
+
+                if (oleCopyList.size() > 1) {
+                    updateEInstanceList(oleCopyList, oleDonors);
+                } else {
+                    updateEInstance(oleCopyList.get(0), oleDonors);
+                }
+
+            } else {
+                if (oleCopyList.size() > 1) {
+                    createEInstanceList(oleCopyList, oleDonors, bibTree, initiatorName);
+                } else {
+                    createEInstance(oleCopyList.get(0), oleDonors, bibTree, initiatorName);
+                }
+
+             /*   updateEInstance(oleCopyList.get(0), oleDonors);
             }   else {
             createEInstance(oleCopyList.get(0),oleDonors,bibTree, initiatorName);
+        }*/
+                //createEInstance(oleCopyList.get(0),oleDonors,bibTree);
+            }
         }
-            //createEInstance(oleCopyList.get(0),oleDonors,bibTree);
-        }
+
     }
 
     private void createEInstance(OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors, BibTree bibTree, String initiatorName)throws Exception{
@@ -392,6 +419,56 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         }
     }
 
+    private void createEInstanceList(List<OleCopy> oleCopiesList, List<OLELinkPurapDonor> oleDonors, BibTree bibTree, String initiatorName)throws Exception{
+        boolean create = true;
+        for(OleCopy oleCopy : oleCopiesList) {
+            Holdings eHoldings = (Holdings) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":holdings");
+            Map<String, List<HoldingsDetails>> bibHoldingsDetailsMap = new HashMap<>();
+            if (StringUtils.isNotBlank(oleCopy.getBibId())) {
+                String bibId = oleCopy.getBibId();
+                bibHoldingsDetailsMap = getBibHoldingsDetailsMap(bibId, EHoldings.ELECTRONIC);
+                String holdingsUUID = getLocationMatchedHoldingsId(bibHoldingsDetailsMap, oleCopy.getLocation(), bibId);
+                if (StringUtils.isNotBlank(holdingsUUID)) {
+                    eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsUUID);
+                    oleCopy.setInstanceId(holdingsUUID);
+                    Map map = new HashMap();
+                    map.put(org.kuali.ole.OLEConstants.INSTANCE_ID, holdingsUUID);
+                    List<OleCopy> oleCopyList = (List) getBusinessObjectService().findMatching(OleCopy.class, map);
+                    if (CollectionUtils.isEmpty(oleCopyList)) {
+                        create = false;
+                    }
+                }
+            }
+
+            if (null == eHoldings) {
+                eHoldings = new EHoldings();
+            }
+
+            List<DonorInfo> donorInfoList = new ArrayList<>();
+            HoldingsTree holdingsTree = new HoldingsTree();
+            org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = setHoldingDetails(oleCopy);
+            donorInfoList = setDonorInfoToItem(oleDonors, oleHoldings.getDonorInfo());
+            oleHoldings.setDonorInfo(donorInfoList);
+            eHoldings.setCategory(DocCategory.WORK.getCode());
+            eHoldings.setType(org.kuali.ole.docstore.common.document.content.enums.DocType.HOLDINGS.getCode());
+            eHoldings.setFormat(org.kuali.ole.docstore.common.document.content.enums.DocFormat.OLEML.getCode());
+            eHoldings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
+            eHoldings.setContentObject(oleHoldings);
+            eHoldings.setCreatedBy(initiatorName);
+            Bib bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(bibTree.getBib().getId());
+            eHoldings.setBib(bib);
+            holdingsTree.setHoldings(eHoldings);
+            if (create) {
+                oleHoldings.setHoldingsIdentifier(null);
+                getDocstoreClientLocator().getDocstoreClient().createHoldingsTree(holdingsTree);
+                oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
+            } else {
+                oleHoldings.setHoldingsIdentifier(oleCopy.getInstanceId());
+                getDocstoreClientLocator().getDocstoreClient().updateHoldings(eHoldings);
+            }
+        }
+    }
+
     private void updateEInstance(OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors) throws Exception{
         Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleCopy.getInstanceId());
         org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
@@ -422,6 +499,40 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         oleHoldings.setDonorInfo(donorInfoList);
         holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
         getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+    }
+
+    private void updateEInstanceList(List<OleCopy> oleCopyList, List<OLELinkPurapDonor> oleDonors) throws Exception{
+        for(OleCopy oleCopy : oleCopyList) {
+            Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleCopy.getInstanceId());
+            org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
+            oleHoldings.setLocation(setHoldingDetails(oleCopy).getLocation());
+            List<OLELinkPurapDonor> oleReqDonors = new ArrayList<>();
+            List<DonorInfo> donorInfoList = new ArrayList<>();
+            boolean flag = true;
+            for (OLELinkPurapDonor reqDonorInfo : oleDonors) {
+                if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() > 0) {
+                    for (DonorInfo donorInfo : oleHoldings.getDonorInfo()) {
+                        if (donorInfo.getDonorCode().equals(donorInfo.getDonorCode())) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        oleReqDonors.add(reqDonorInfo);
+                    }
+                }
+            }
+            if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() > 0) {
+                donorInfoList = setDonorInfoToItem(oleReqDonors, oleHoldings.getDonorInfo());
+            } else {
+                donorInfoList = setDonorInfoToItem(oleDonors, oleHoldings.getDonorInfo());
+            }
+            oleHoldings.setDonorInfo(donorInfoList);
+            donorInfoList = setDonorInfoToItem(oleDonors, new ArrayList<DonorInfo>());
+            oleHoldings.setDonorInfo(donorInfoList);
+            holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
+            getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+        }
     }
 
     /*private void performDocstoreCRUDOperationForEInstance(BibTree bibTree, OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors) throws Exception {
