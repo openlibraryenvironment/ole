@@ -266,8 +266,8 @@ public class ExportHoldingsMappingHelper {
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CALL_NUMBER)) {
                     dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (item.getCallNumber() == null) continue;
-                    if (callNumber != null && StringUtils.isNotEmpty(item.getCallNumber().getNumber()) && item.getCallNumber().getNumber().equals(callNumber))
-                        continue;
+                    /*if (callNumber != null && StringUtils.isNotEmpty(item.getCallNumber().getNumber()) && item.getCallNumber().getNumber().equals(callNumber))
+                        continue;*/
                     if (dataField == null) {
                         dataField = getDataField(entry);
                         generateCallNumber(item, getCode(entry.getKey()), dataField);
@@ -278,8 +278,8 @@ public class ExportHoldingsMappingHelper {
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
                     dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (item.getCallNumber() == null) continue;
-                    if (callNumberType != null && item.getCallNumber().getShelvingScheme() != null && StringUtils.isNotEmpty(item.getCallNumber().getShelvingScheme().getCodeValue()) && item.getCallNumber().getShelvingScheme().getCodeValue().equals(callNumberType))
-                        continue;
+                    /*if (callNumberType != null && item.getCallNumber().getShelvingScheme() != null && StringUtils.isNotEmpty(item.getCallNumber().getShelvingScheme().getCodeValue()) && item.getCallNumber().getShelvingScheme().getCodeValue().equals(callNumberType))
+                        continue;*/
                     if (dataField == null) {
                         dataField = getDataField(entry);
                         generateCallNumberType(item, getCode(entry.getKey()), dataField);
