@@ -732,12 +732,13 @@ public class OleLineItemReceivingAction extends LineItemReceivingAction {
                 .getDocument()).getItem((itemIndex));
         OleCopy oleCopy = null;
         if(item.getCopyList().size()==1){
-             oleCopy =  item.getCopyList().get(0);
+            oleCopy =  item.getCopyList().get(0);
+            oleCopy.setReceiptStatus(OLEConstants.OleLineItemReceiving.RECEIVED_STATUS);
         }else {
-            int copyIndex = Integer.parseInt(indexes[1]);
-            oleCopy = item.getCopyList().get(copyIndex);
+            for(OleCopy oleCopy1 : item.getCopyList()) {
+                oleCopy1.setReceiptStatus(OLEConstants.OleLineItemReceiving.RECEIVED_STATUS);
+            }
         }
-        oleCopy.setReceiptStatus(OLEConstants.OleLineItemReceiving.RECEIVED_STATUS);
         LOG.debug("Selected Copy is Received");
         LOG.debug("Leaving receiveCopy Method of OLELineItemReceivingAction");
         return mapping.findForward(OLEConstants.MAPPING_BASIC);
