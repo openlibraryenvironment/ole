@@ -587,7 +587,9 @@ public class BatchBibFileProcessor extends BatchFileProcessor {
                 }
                 matchpointForDataMapping.put(key, valueArray);
             }
-            dataMapping.put(OleNGConstants.MATCHPOINT_FOR_DATAMAPPING,matchpointForDataMapping);
+            if(matchpointForDataMapping.length() > 0) {
+                dataMapping.put(OleNGConstants.MATCHPOINT_FOR_DATAMAPPING, matchpointForDataMapping);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
