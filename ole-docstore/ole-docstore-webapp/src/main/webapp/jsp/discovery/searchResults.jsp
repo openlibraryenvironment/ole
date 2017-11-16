@@ -108,7 +108,7 @@ function editXMLContent(uuid,docType, docFormat, docIndex) {
         String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
     %>
     var url = "<%=url%>";
-    url = url + "/portal.do?channelTitle=Editor&channelUrl=" + url + "/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load";
+    url = /*url + "/portal.do?channelTitle=Editor&channelUrl=" +*/ url + "/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load";
     var reqParams = "&docCategory=work&docType=" + docType + "&docFormat=" + docFormat + "&editable=true&docId=" + uuid;
     url = url + reqParams;
     if (docType == 'bibliographic') {
@@ -217,7 +217,7 @@ function getLinksHtml(docIndex, uuid, docType, docFormat) {
             }
 
             var url = "<%=url%>";
-            url = url + "/portal.do?channelTitle=Editor&channelUrl=" + url
+            url = /*url + "/portal.do?channelTitle=Editor&channelUrl=" +*/ url
                     + "/ole-kr-krad/editorcontroller?viewId=ShowBibView&amp;methodToCall=showBibs&amp;instanceId="
                     + instanceId + "&amp;docCategory=work&amp;docType=" + docType
                     + "&amp;docFormat=oleml&amp;editable=true";
