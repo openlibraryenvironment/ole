@@ -513,9 +513,47 @@ public class CircUtilController extends RuleExecutor {
         return noticeProcessors;
     }
 
+    private OlePaymentStatus getPaymentStatus(String paymentStatus) {
+        LOG.debug("Inside the getPaymentStatus method");
+        Map statusMap = new HashMap();
+        statusMap.put("paymentStatusCode", paymentStatus);
+        List<OlePaymentStatus> olePaymentStatusList = (List<OlePaymentStatus>) getBusinessObjectService().findMatching(OlePaymentStatus.class, statusMap);
+        return olePaymentStatusList != null && olePaymentStatusList.size() > 0 ? olePaymentStatusList.get(0) : null;
+    }
+
     public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate,boolean isRenew) {
         String billPayment = null;
+        OlePaymentStatus forgivePaymentStatus = new OlePaymentStatus();
+        if(StringUtils.isNotBlank(loanDocument.getItemStatus()) && loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
+            forgivePaymentStatus = getPaymentStatus(OLEConstants.REPLACED);
+        } else{
+            forgivePaymentStatus = getPaymentStatus(OLEConstants.FORGIVEN);
+        }
         ItemFineRate itemFineRate = loanDocument.getItemFineRate();
+        List<FeeType> olePatronFeeTypes=loanDocument.getOlePatron().getPatronFeeTypes();
+        for(FeeType olePatronfeeType : olePatronFeeTypes) {
+            if (olePatronfeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(OLEConstants.REPLACMENT_FEE) && loanDocument.getItemId().equals(olePatronfeeType.getItemBarcode())) {
+                if (olePatronfeeType.getPaymentStatusCode().equalsIgnoreCase("PAY_OUTSTN")) {
+                    OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                    oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                    oleItemLevelBillPayment.setAmount(olePatronfeeType.getBalFeeAmount());
+                    oleItemLevelBillPayment.setCreatedUser(loanDocument.getLoanOperatorId());
+                    if(StringUtils.isNotBlank(loanDocument.getItemStatus()) && loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
+                        oleItemLevelBillPayment.setPaymentMode("Replacement");
+                    } else{
+                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
+                    }
+                    oleItemLevelBillPayment.setNote("Note" + loanDocument.getCheckInDate());
+                    List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(olePatronfeeType.getItemLevelBillPaymentList()) ? olePatronfeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                    oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                    olePatronfeeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
+                    olePatronfeeType.setPaymentStatus(forgivePaymentStatus.getPaymentStatusId());
+                    olePatronfeeType.setBalFeeAmount(new KualiDecimal(0));
+                    getBusinessObjectService().save(olePatronfeeType);
+                    loanDocument.setReplacementBill(null);
+                }
+            }
+        }
         if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
             LOG.error("No fine rule found");
         } else {
