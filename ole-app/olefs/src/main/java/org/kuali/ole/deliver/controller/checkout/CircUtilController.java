@@ -809,6 +809,7 @@ public class CircUtilController extends RuleExecutor {
                     oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                     oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
                     oleItemLevelBillPayment.setCreatedUser(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+                    oleItemLevelBillPayment.setPaymentMode(OLEConstants.FEE_UNSUSPENDED);
                     oleItemLevelBillPayment.setNote(OLEConstants.BILL_SUSPENDED_NOTE);
                     List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                     oleItemLevelBillPayments.add(oleItemLevelBillPayment);
