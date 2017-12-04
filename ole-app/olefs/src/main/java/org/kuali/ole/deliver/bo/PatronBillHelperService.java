@@ -715,6 +715,7 @@ public class PatronBillHelperService {
                             ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                     OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                     oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                    oleItemLevelBillPayment.setPaymentMode(OLEConstants.FEE_CANCELLED);
                     oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
                     oleItemLevelBillPayment.setCreatedUser(operatorId);
                     oleItemLevelBillPayment.setNote(cancellationNote);
@@ -764,6 +765,7 @@ public class PatronBillHelperService {
                                 ? patronFeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.FEE_CANCELLED);
                         oleItemLevelBillPayment.setAmount(patronFeeType.getBalFeeAmount());
                         oleItemLevelBillPayment.setNote(cancellationNote);
                         BigDecimal billValue=patronFeeType.getBalFeeAmount().bigDecimalValue();

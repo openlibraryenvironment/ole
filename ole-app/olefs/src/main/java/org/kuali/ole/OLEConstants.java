@@ -1982,6 +1982,9 @@ public class OLEConstants {
     public static final String ERROR = "Error";
     public static final String FORGIVEN = "PAY_FORGIVEN";
     public static final String FORGIVE = getParameter("PAYMENT_MODE_FORGIVE");
+    public static final String CREDITS_ISSUED = "Credit Issued";
+    public static final String FEE_CANCELLED = "Cancelled";
+    public static final String FEE_UNSUSPENDED = "Fee Unsuspended";
     public static final String CANCELLED = "PAY_CANCELLED";
     public static final String SUSPENDED = "PAY_SUSPENDED";
     public static final String CANCEL = "Cancel";
