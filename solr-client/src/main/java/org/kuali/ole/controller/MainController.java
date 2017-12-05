@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.ui.Model;
 import org.springframework.util.StopWatch;
@@ -115,7 +116,7 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping(value="/partialIndexByDate", method = RequestMethod.POST, produces = "application/json")
-    public PartialIndexStatus partialIndexByDate(@RequestParam("fromDate") Date date,@RequestParam("docPerThread") Integer docPerThread, @RequestParam("numberOfThreads") Integer numberOfThreads, HttpServletRequest request) {
+        public PartialIndexStatus partialIndexByDate(@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,@RequestParam("docPerThread") Integer docPerThread, @RequestParam("numberOfThreads") Integer numberOfThreads, HttpServletRequest request) {
         return partialIndexService.getPartialIndexStatus(date, docPerThread, numberOfThreads);
 
     }

@@ -68,7 +68,7 @@ angular.module("oleSolrClient.partialIndex", ['ui.bootstrap', 'ngStorage', 'ui.b
                     });
                 }else if ($scope.partialIndexRequest.type === 'indexByDate') {
 
-                    var fromDate = $scope.partialIndexRequest.fromDate;
+                    var fromDate = $filter('date')($scope.partialIndexRequest.fromDate,'yyyy-MM-dd');
                     var numberOfThreads = $scope.partialIndexRequest.noOfDbThreads;
                     var docPerThread = $scope.partialIndexRequest.docsPerThread;
                     fd.append('fromDate', fromDate);
