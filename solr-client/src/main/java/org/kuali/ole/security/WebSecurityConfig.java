@@ -29,9 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/index")
                 .permitAll()
                 .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
+                .csrf().disable();
     }
 
     @Override
