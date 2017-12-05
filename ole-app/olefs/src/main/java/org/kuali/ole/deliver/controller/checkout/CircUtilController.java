@@ -540,6 +540,7 @@ public class CircUtilController extends RuleExecutor {
                     oleItemLevelBillPayment.setCreatedUser(loanDocument.getLoanOperatorId());
                     if(StringUtils.isNotBlank(loanDocument.getItemStatus()) && loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
                         oleItemLevelBillPayment.setPaymentMode("Replacement");
+                        oleItemLevelBillPayment.setTransactionNote(loanDocument.getItemReplaceNote());
                     } else{
                         oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
                     }
