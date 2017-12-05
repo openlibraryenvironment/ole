@@ -182,8 +182,8 @@ public class BibIndexer extends OleDsNgIndexer {
             solrInputDocument.setField(DATE_ENTERED, date);
         }
 
-        if (null != bibRecord.getStatusUpdatedDate()) {
-            solrInputDocument.setField(DATE_UPDATED, bibRecord.getStatusUpdatedDate());
+        if (null != bibRecord.getDateUpdated()) {
+            solrInputDocument.setField(DATE_UPDATED, bibRecord.getDateUpdated());
         } else {
             if (null != bibRecord.getDateCreated()) {
                 // Updated date will have created date value when bib is not updated after it is created.
