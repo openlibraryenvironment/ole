@@ -4288,6 +4288,18 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return itemTypeDesc;
     }
 
+    public String getItemTypeDescByCode(String itemType) {
+        String itemTypeDesc = "";
+        List<OleInstanceItemType> instanceItemTypeList = null;
+        Map<String, String> instanceItemTypeMap = new HashMap<String, String>();
+        instanceItemTypeMap.put("instanceItemTypeCode", itemType);
+        instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findMatching(OleInstanceItemType.class, instanceItemTypeMap);
+        if (instanceItemTypeList != null && instanceItemTypeList.size() > 0) {
+            itemTypeDesc = instanceItemTypeList.get(0).getInstanceItemTypeDesc();
+        }
+        return itemTypeDesc;
+    }
+
     /**
      * This method is to update the item
      *

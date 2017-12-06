@@ -1075,7 +1075,9 @@ public class CircController extends CheckoutValidationController {
                 String itemFullLocation = getItemFullLocation(oleLoanDocument.getItemId());
                 if(itemFullLocation != null) {
                     oleLoanDocument.setItemFullLocation(itemFullLocation);
+                    oleLoanDocument.setItemLocation(itemFullLocation);
                 }
+                oleLoanDocument.setItemTypeDesc(new OleDeliverRequestDocumentHelperServiceImpl().getItemTypeDescByCode(oleLoanDocument.getItemType()));
                 oleDeliverNotice = getLostNotice(oleLoanDocument.getDeliverNotices());
                 if(oleDeliverNotice!=null)
                 oleLoanDocument.setItemLostNote(itemLostDescription);
