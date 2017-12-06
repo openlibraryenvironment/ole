@@ -86,9 +86,9 @@ public class CheckinItemController extends OLEUifControllerBase {
             }
         }
         setPrintFormatAndHoldSlipQueue(checkinForm);
-        String maxTimeoutCount = ParameterValueResolver.getInstance().getParameter(OLEConstants
+        /*String maxTimeoutCount = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.MAX_TIME_CHECK_IN);
-        checkinForm.setMaxSessionTime(maxTimeoutCount);
+        checkinForm.setMaxSessionTime(maxTimeoutCount);*/
         return super.start(checkinForm, result, request, response);
     }
 
