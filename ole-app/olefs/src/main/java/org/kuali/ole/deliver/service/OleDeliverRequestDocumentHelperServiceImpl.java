@@ -2585,6 +2585,32 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_EXIST));
                             LOG.error(OLEConstants.ITEM_EXIST + ex);
                         }
+                    }else if (StringUtils.isBlank(itemBarcode)) {
+                        try {
+                            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
+                            org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
+                            SearchResponse searchResponse = null;
+                            search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ID, (itemIdentifier.contains("wio-") ? itemIdentifier : "wio-"+itemIdentifier)), ""));
+                            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "id"));
+                            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "ItemBarcode_display"));
+
+                            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
+                            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                                    String fieldName = searchResultField.getFieldName();
+                                    String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
+                                    if (fieldName.equalsIgnoreCase(OLEConstants.ITEMBARCODE_DISPLAY)) {
+                                        itemBarcode = fieldValue;
+                                    } else {
+                                        oleDeliverRequestBo.setItemUuid(fieldValue);
+                                        itemUUID = fieldValue;
+                                    }
+                                }
+                            }
+                        } catch (Exception ex) {
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_EXIST));
+                            LOG.error(OLEConstants.ITEM_EXIST + ex);
+                        }
                     }
                     if (itemUUID == null) {
                         olePlaceRequest.setBlockOverride(true);
