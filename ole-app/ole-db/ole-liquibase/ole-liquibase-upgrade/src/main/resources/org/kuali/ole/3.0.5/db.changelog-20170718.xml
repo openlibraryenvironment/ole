@@ -6,7 +6,7 @@
 
 
     <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
-        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0/data/krcr_parm_t.csv"/>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0.5/data/krcr_parm_t.csv"/>
         <rollback>
             <delete tableName="KRCR_PARM_T">
                 <where>APPL_ID = 'OLE'</where>

@@ -2223,6 +2223,7 @@ CREATE TABLE OLE_DLVR_RQST_HSTRY_REC_T
         , OLE_RQST_ID VARCHAR(80) NOT NULL
         , OLE_PTRN_ID VARCHAR(40) NOT NULL
         , OLE_ITEM_ID VARCHAR(80) NOT NULL
+        , OLE_ITEM_BARCODE VARCHAR(80) NOT NULL
         , OLE_LOAN_ID VARCHAR(80)
         , OLE_LN_ITM_NUM VARCHAR(80)
         , OLE_RQST_TYP_CD VARCHAR(80) NOT NULL
@@ -4097,19 +4098,19 @@ CREATE TABLE OLE_PTRN_T
 
 
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_BORR_FK2 (BORR_TYP )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_SRC_FK3 (OLE_SRC )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_STAT_CAT_FK4 (OLE_STAT_CAT )
     
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX OLE_DLVR_PTRN_BRCD_FK6 (BARCODE )
 

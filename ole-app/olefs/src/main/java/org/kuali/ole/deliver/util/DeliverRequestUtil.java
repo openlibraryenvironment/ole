@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.util;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
@@ -85,7 +86,8 @@ public class DeliverRequestUtil extends OLEUtil {
         OleDeliverRequestHistoryRecord oleDeliverRequestHistoryRecord = new OleDeliverRequestHistoryRecord();
         oleDeliverRequestHistoryRecord.setRequestId(oleDeliverRequestBo.getRequestId());
         oleDeliverRequestHistoryRecord.setPatronId(oleDeliverRequestBo.getOlePatron() != null ? oleDeliverRequestBo.getOlePatron().getOlePatronId() : null);
-        oleDeliverRequestHistoryRecord.setItemId(oleDeliverRequestBo.getItemId());
+        oleDeliverRequestHistoryRecord.setItemBarcode(oleDeliverRequestBo.getItemId());
+        oleDeliverRequestHistoryRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(oleDeliverRequestBo.getItemUuid()));
         oleDeliverRequestHistoryRecord.setArchiveDate(new java.sql.Date(System.currentTimeMillis()));
         oleDeliverRequestHistoryRecord.setPickUpLocationCode(oleDeliverRequestBo.getPickUpLocationCode());
         oleDeliverRequestHistoryRecord.setCreateDate(oleDeliverRequestBo.getCreateDate());
