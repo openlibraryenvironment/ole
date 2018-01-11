@@ -16,6 +16,7 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
     private String requestHistoryId;
     private String requestId;
     private String itemId;
+    private String itemBarcode;
     private String patronId;
     private String loanTransactionId;
     private String poLineItemNumber;
@@ -138,5 +139,13 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
 
     public void setRequestOutComeStatus(String requestOutComeStatus) {
         this.requestOutComeStatus = requestOutComeStatus;
+    }
+
+    public String getItemBarcode() {
+        return itemBarcode;
+    }
+
+    public void setItemBarcode(String itemBarcode) {
+        this.itemBarcode = itemBarcode;
     }
 }

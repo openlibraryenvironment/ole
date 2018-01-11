@@ -1165,6 +1165,7 @@
         <column name="OLE_RQST_ID" required="true" size="80" type="VARCHAR"/>
         <column name="OLE_PTRN_ID" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_ITEM_ID" required="true" size="80" type="VARCHAR"/>
+        <column name="OLE_ITEM_BARCODE" required="true" size="80" type="VARCHAR"/>
         <column name="OLE_LOAN_ID" size="80" type="VARCHAR"/>
         <column name="OLE_LN_ITM_NUM" size="80" type="VARCHAR"/>
         <column name="OLE_RQST_TYP_CD" required="true" size="80" type="VARCHAR"/>
