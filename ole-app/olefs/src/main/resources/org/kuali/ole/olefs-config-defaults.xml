@@ -429,7 +429,7 @@
     <param name="ole.docsearch.url">${ole.docstore.url.base}/bib/select</param>
     <param name="docSearchURL">${ole.docstore.url.base}</param>
     <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>
-    <param name="ole.bibeditor.url"><!--${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=$-->{ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
+    <param name="ole.bibeditor.url"><!--${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=-->${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
     <param name="ole.dublineditor.url"><!--${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=-->${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=true</param>
     <param name="ole.bibeditor.create.url"><!--${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=-->${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorWorkformView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
     <param name="ole.bibsearch.url">${ole.fs.url.base}/portal.do?channelTitle=Describe%20Workbench&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/olesearchcontroller?viewId=OLEDescribeWorkBenchView&amp;methodToCall=start</param>
