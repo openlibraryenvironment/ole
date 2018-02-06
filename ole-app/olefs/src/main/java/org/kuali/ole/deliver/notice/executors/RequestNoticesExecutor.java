@@ -156,7 +156,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
         String mailContent = generateMailContent();
 
-        if (StringUtils.isNotBlank(mailContent)) {
+        if (StringUtils.isNotBlank(mailContent)  && !mailContent.contains("FreeMarker template error")) {
 
             if (noticeContentConfigName!=null &&noticeContentConfigName.equals(OLEConstants.ON_HOLD_EXP_NOTICE)) {
                 if (getParameterValue(OLEConstants.HOLD_COUR_NOT_TYP).equals(OLEConstants.EMAIL_NOT_TYP)) {
