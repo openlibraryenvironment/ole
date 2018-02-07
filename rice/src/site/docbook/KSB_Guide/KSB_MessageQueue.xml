@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_MessageQueue" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Message Queue</title>
+        <para>Use the Message Queue section to administer the KNS message queuing system. You can
+            find it on the Administration menu. </para>
+        <para>It has three main sections: Current Node Info, the message filter and fetch section,
+            and the Documents currently in route queue section.</para>
+        <figure><title>Message Queue: Documents Currently In Route</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KSB_Guide/message_queue.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <section>
+            <title>Current Node Info</title>
+            <itemizedlist>
+                <listitem>
+                    <para><emphasis role="bold">IP Address</emphasis>: This value equals the IP
+                        address of the machine: Rice</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">message.persistence</emphasis>: If true, then
+                        messages will be persisted to the datastore. Otherwise, they will only be
+                        stored in memory. If message persistence is not turned on and the server is
+                        shutdown while there are still messages in queue, those messages will be
+                        lost. For a production environment, it is recommended that message
+                        persistence be set to true. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">message.delivery</emphasis>: Can be set to either
+                        "synchronous" or "async". If this is set to synchronous, then messages that
+                        are sent in an asynchronous fashion using the KSB application interface
+                        (API) will be sent synchronously. This is useful in certain development and
+                        unit testing scenarios. For a production environment, it is recommended that
+                        message delivery be set to async. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">message.off</emphasis>: If set to "true" then
+                        asynchronous messages will not be sent. In the case that message persistence
+                        is turned on, they will be persisted in the message store and can even be
+                        picked up later using the Message Fetcher. However, if message persistence
+                        is turned off, these messages will be lost. This can be useful in certain
+                        debugging or testing scenarios. </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Message Filter and Fetch</title>
+            <para>The message filter and fetch section of the Message Queue screen lets you search
+                for, filter, and/or isolate messages in the Documents in route queue. To use the
+                Message Filter section, enter your criteria and click the Filter button:</para>
+            <para>
+                <figure>
+                    <title>Message Filter Screen</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KSB_Guide/message_filter_screen.png"/>
+                        </imageobject>
+                    </mediaobject>                        
+                </figure>
+            </para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Message Filter Screen: Attributes</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Field</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Message ID</entry>
+                                <entry>A unique 5-digit message queue identification number</entry>
+                            </row>
+                            <row>
+                                <entry>Service Name</entry>
+                                <entry>The name of the service</entry>
+                            </row>
+                            <row>
+                                <entry>Application ID</entry>
+                                <entry>The service container's identifier</entry>
+                            </row>
+                            <row>
+                                <entry>IP Number</entry>
+                                <entry>The message initiator's IP address</entry>
+                            </row>
+                            <row>
+                                <entry>Queue Status</entry>
+                                <entry><para>You can sort documents by the queue status. The queue status may be:</para>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>QUEUED: The message is waiting for a worker thread
+                                                to pick it up </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>ROUTING: A worker is currently working on the
+                                                message. </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>EXCEPTION: There is a problem with the message and
+                                                the route manager will ignore it. EXCEPTION status
+                                                is typically set manually by the administrator to
+                                                suspend a route queue entry until a problem can be
+                                                diagnosed. </para>
+                                        </listitem>
+                                    </itemizedlist></entry>
+                            </row>
+                            <row>
+                                <entry>App Specific Value 1</entry>
+                                <entry>The specific value of a document</entry>
+                            </row>
+                            <row>
+                                <entry>App Specific Value 2</entry>
+                                <entry>The specific value of a document</entry>
+                            </row>
+                            <row>
+                                <entry>Filter Button</entry>
+                                <entry>Click to execute the search filter</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>The Execute Message Fetcher button retrieves all the messages in the route queue.
+                You can adjust the number of messages requested by entering a number in the field
+                left of the button. </para>
+            <para>When you click the Execute Message Fetcher button, a dialog box appears,
+                confirming that you want to execute this command:</para>
+            <figure><title>Execute Message Filter: Confirmation Screen</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/execute_message_fetcher_message.png"
+                            scale="75"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>KSB displays the results of a search and/or filter at the bottom of the page in
+                the Documents currently in route queue table.</para>
+            <figure><title>Documents In Route Queue</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/docs_inroute_queue_table.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Documents Currently in Route Queue</title>
+            <table frame="none" tabstyle="striped">
+                <title>Documents Currently in Route Queue: Attributes</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Field</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Message Queue ID</entry>
+                            <entry>A unique 5-digit message queue identification number. This is the
+                                same as the Message ID in the Message Filter section.</entry>
+                        </row>
+                        <row>
+                            <entry>Service Name</entry>
+                            <entry>The name of the service </entry>
+                        </row>
+                        <row>
+                            <entry>Message Entity</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>IP Number</entry>
+                            <entry>The message initiator's IP address</entry>
+                        </row>
+                        <row>
+                            <entry>Queue Status</entry>
+                            <entry><para>You can sort documents by the queue status. The queue status may be:</para>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>QUEUED: The message is waiting for a worker thread to
+                                            pick it up </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>ROUTING: A worker is currently working on the message.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>EXCEPTION: There is a problem with the message and the
+                                            route manager will ignore it. EXCEPTION status is
+                                            typically set manually by the administrator to suspend a
+                                            route queue entry until a problem can be diagnosed.
+                                        </para>
+                                    </listitem>
+                                </itemizedlist></entry>
+                        </row>
+                        <row>
+                            <entry>Queue Priority</entry>
+                            <entry>The priority of the entry in the queue. Entries with the smallest
+                                number are processed first.</entry>
+                        </row>
+                        <row>
+                            <entry>Queue Date</entry>
+                            <entry>The date on which the queue entry should be processed. If the
+                                queue checker runs and discovers entries that have a queue date that
+                                are equal to or earlier than the current time, it processes them.
+                                The approximate time at which this screenshot was taken 4:53
+                                PM.</entry>
+                        </row>
+                        <row>
+                            <entry>Expiration Date</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Retry Count</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>App Specific Value 1</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>App Specific Value 2</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Actions</entry>
+                            <entry><para>Click a link in this field to:</para>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para><emphasis role="bold">View</emphasis>: View the detail
+                                            message report </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para><emphasis role="bold">Edit</emphasis>: Edit the
+                                            settings of a Message Entry </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para><emphasis role="bold">ReQueue</emphasis>: Enforce the
+                                            routing process </para>
+                                    </listitem>
+                                </itemizedlist></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        <section>
+            <title>View</title>
+            <para>When you click View in the Actions menu, KSB displays information about that
+                message. Most of the initial information is the same as that displayed in the
+                Documents currently in route queue table. Additional information on the View screen:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Message</emphasis><table frame="none" tabstyle="striped">
+                                <title>Message: Attributes</title>
+                                <tgroup cols="2">
+                                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                    <thead>
+                                        <row>
+                                            <entry>Field</entry>
+                                            <entry>Description</entry>
+                                        </row>
+                                    </thead>
+                                    <tbody>
+                                        <row>
+                                            <entry>Application ID: </entry>
+                                            <entry>The service container's identifier</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Method Name: </entry>
+                                            <entry/>
+                                        </row>
+                                    </tbody>
+                                </tgroup>
+                            </table></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Payload</emphasis><table frame="none" tabstyle="striped">
+                                <title>Payload: Attributes</title>
+                                <tgroup cols="2">
+                                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                    <thead>
+                                        <row>
+                                            <entry>Field</entry>
+                                            <entry>Description</entry>
+                                        </row>
+                                    </thead>
+                                    <tbody>
+                                        <row>
+                                            <entry>Payload Class</entry>
+                                            <entry>The class of the Payload</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Method Name</entry>
+                                            <entry>The name of the method used in this
+                                                document</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ignoreStoreAndForward</entry>
+                                            <entry>A true and false indicator that ignores the store
+                                                functions and forwards the message</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.messageEntryId</entry>
+                                            <entry>A unique 4-digit message entry identification
+                                                number</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.ServiceNamespace</entry>
+                                            <entry>The application</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.serverIp</entry>
+                                            <entry>The server's IP address</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.ServiceName</entry>
+                                            <entry>The name of the service</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.endpointUrl</entry>
+                                            <entry>The web address of the service</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.queue</entry>
+                                            <entry><para>A true and false indicator that activates the queue or topic function:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>"True" uses the Queue method, which sends
+                                                  the message to one contact at a time</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>"False" uses the Topic method, which sends
+                                                  the message to all contacts at once</para>
+                                                  </listitem>
+                                                </itemizedlist></entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.alive</entry>
+                                            <entry>A true and false indicator that shows the
+                                                activity state of the document</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.priority</entry>
+                                            <entry>The priority of the entry for execution. Entries
+                                                with the smallest number are processed first</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.retryAttempts</entry>
+                                            <entry>How many times KSB will try to resend the
+                                                message</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.millisToLive</entry>
+                                            <entry><para>An expiration indicator:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>1 means the message never expires</para>
+                                                  </listitem>
+                                                </itemizedlist></entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.messageExceptionHandler</entry>
+                                            <entry>This provides a reference the service can use to
+                                                call back.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.serviceclass</entry>
+                                            <entry>The name of the service class</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.busSecurity</entry>
+                                            <entry>A true and false indicator that assigns the
+                                                security function</entry>
+                                        </row>
+                                        <row>
+                                            <entry>ServiceInfo.credentialsType</entry>
+                                            <entry>The credential type of the document</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Arguments</entry>
+                                            <entry>The argument of this document</entry>
+                                        </row>
+                                    </tbody>
+                                </tgroup>
+                            </table></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Edit</emphasis></para>
+                        <para>When you click <emphasis role="bold">Edit</emphasis> in the <emphasis
+                                role="bold">Actions</emphasis> menu, KSB displays the editable
+                            fields for that message. Fields on the Edit screen:<table frame="none" tabstyle="striped">
+                                <title>Edit Screen: Attributes</title>
+                                <tgroup cols="2">
+                                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                    <thead>
+                                        <row>
+                                            <entry>Field</entry>
+                                            <entry>Description</entry>
+                                        </row>
+                                    </thead>
+                                    <tbody>
+                                        <row>
+                                            <entry>Queue Priority</entry>
+                                            <entry>Change the queue priority by entering a positive
+                                                number. A smaller number has higher priority for
+                                                execution.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Queue Status</entry>
+                                            <entry>Change the status to Queued, Routing, or
+                                                Exception.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Retry Count</entry>
+                                            <entry>Change the number of times KSB will
+                                                retry.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>IP Number</entry>
+                                            <entry>Change the initiator's IP address.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Service Name</entry>
+                                            <entry>Change the name of the service.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Message Entity</entry>
+                                            <entry>Change the message entity.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Method Name</entry>
+                                            <entry>Change the method.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>App Specific Value 1</entry>
+                                            <entry>Change the information for the specific value
+                                                1.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>App Specific Value 2</entry>
+                                            <entry>Change the information for the specific value
+                                                2.</entry>
+                                        </row>
+                                    </tbody>
+                                </tgroup>
+                            </table></para>
+                            <para>Functional links on the Edit page:<table frame="none" tabstyle="striped">
+                                <title>Edit Screen: Links</title>
+                                <tgroup cols="2">
+                                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                    <thead>
+                                        <row>
+                                            <entry>Field</entry>
+                                            <entry>Description</entry>
+                                        </row>
+                                    </thead>
+                                    <tbody>
+                                        <row>
+                                            <entry>Save Changes</entry>
+                                            <entry>Save the information you just changed.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Save Changes and Resubmit</entry>
+                                            <entry>Save the information you changed and resubmit the
+                                                message.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Save and Forward</entry>
+                                            <entry>Save the message and send it to the next
+                                                contact.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Delete</entry>
+                                            <entry>Delete the message.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Reset</entry>
+                                            <entry>Reload the previous settings. This undoes the
+                                                changes that you made on this screen, as long as you
+                                                haven't yet saved them.</entry>
+                                        </row>
+                                        <row>
+                                            <entry>Clear Message</entry>
+                                            <entry>Clear all information fields on this
+                                                page.</entry>
+                                        </row>
+                                    </tbody>
+                                </tgroup>
+                            </table></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">ReQueue</emphasis></para>
+                        <para>When you click ReQueue in the Actions menu, KSB displays this pop-up
+                            message:</para>
+                        <figure><title>Requeue Documents: Confirmation Screen</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/KSB_Guide/requeue_confirmation.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+</chapter>

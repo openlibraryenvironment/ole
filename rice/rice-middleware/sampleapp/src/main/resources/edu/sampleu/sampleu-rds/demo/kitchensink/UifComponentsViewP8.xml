@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <horizontalBoxSection-bean id="Demo-ButtonLevels">
+    <items>
+      <verticalBoxSubSection-bean id="Demo-Primary">
+        <items>
+          <primaryActionButton-bean actionScript="alert('You clicked a button');" id="Demo-Primary-Action1"/>
+          <primaryActionButton-bean actionScript="alert('You clicked a button');" disabled="true"
+                                    id="Demo-Primary-Action2"/>
+          <primaryActionButton-small-bean actionScript="alert('You clicked a button');" id="Demo-Primary-Action3"/>
+          <primaryActionButton-small-bean actionScript="alert('You clicked a button');" disabled="true"
+                                          id="Demo-Primary-Action4"/>
+        </items>
+      </verticalBoxSubSection-bean>
+      <verticalBoxSubSection-bean id="Demo-Secondary">
+        <items>
+          <secondaryActionButton-bean actionScript="alert('You clicked a button');" id="Demo-Secondary-Action1"/>
+          <secondaryActionButton-bean actionScript="alert('You clicked a button');" disabled="true"
+                                      id="Demo-Secondary-Action2"/>
+          <secondaryActionButton-small-bean actionScript="alert('You clicked a button');" id="Demo-Secondary-Action3"/>
+          <secondaryActionButton-small-bean actionScript="alert('You clicked a button');" disabled="true"
+                                            id="Demo-Secondary-Action4"/>
+        </items>
+      </verticalBoxSubSection-bean>
+      <verticalBoxSubSection-bean id="Demo-Links">
+        <items>
+          <actionLink-bean actionScript="alert('You clicked a link');" id="Demo-Links-Action1"/>
+        </items>
+      </verticalBoxSubSection-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <verticalBoxSection-bean id="Demo-HeaderLevels">
+    <items>
+      <verticalBoxSubSection-bean id="Demo-HeaderLevel1">
+        <items>
+          <verticalBoxGroup-bean id="Demo-HeaderLevel2">
+            <header>
+              <headerFive-bean/>
+            </header>
+            <items>
+              <verticalBoxGroup-bean id="Demo-HeaderLevel3">
+                <header>
+                  <headerSix-bean/>
+                </header>
+              </verticalBoxGroup-bean>
+            </items>
+          </verticalBoxGroup-bean>
+        </items>
+      </verticalBoxSubSection-bean>
+    </items>
+  </verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean id="Demo-Disclosure-HeaderLevels">
+    <items>
+      <disclosure-verticalBoxSubSection-bean id="Demo-Disclosure-HeaderLevel1">
+        <items>
+          <verticalBoxGroup-bean disclosure.render="true" id="Demo-Disclosure-HeaderLevel2">
+            <cssClasses merge="true">
+              <spring:value>uif-disclosure</spring:value>
+            </cssClasses>
+            <header>
+              <headerFive-bean/>
+            </header>
+            <items>
+              <verticalBoxGroup-bean disclosure.render="true" id="Demo-Disclosure-HeaderLevel3">
+                <cssClasses merge="true">
+                  <spring:value>uif-disclosure</spring:value>
+                </cssClasses>
+                <header>
+                  <headerSix-bean/>
+                </header>
+              </verticalBoxGroup-bean>
+            </items>
+          </verticalBoxGroup-bean>
+        </items>
+      </disclosure-verticalBoxSubSection-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <verticalBoxSection-bean id="Demo-HeaderGroups">
+    <spring:property name="header.upperGroup">
+      <headerUpperGroup-bean>
+        <items>
+          <message-bean id="Demo-HeaderGroups-Message1"/>
+        </items>
+      </headerUpperGroup-bean>
+    </spring:property>
+    <spring:property name="header.rightGroup">
+      <headerRightGroup-bean>
+        <items>
+          <message-bean id="Demo-HeaderGroups-Message2"/>
+        </items>
+      </headerRightGroup-bean>
+    </spring:property>
+    <spring:property name="header.lowerGroup">
+      <headerLowerGroup-bean>
+        <items>
+          <message-bean id="Demo-HeaderGroups-Message3"/>
+        </items>
+      </headerLowerGroup-bean>
+    </spring:property>
+  </verticalBoxSection-bean>
+</spring:beans>

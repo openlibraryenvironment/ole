@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_PublishingServices" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Publishing Services to KSB</title>
+
+    <para>You can publish Services on the service bus either by configuring
+    them directly in the application's KSBConfigurer module definition, or by
+    using the PropertyConditionalServiceBusExporter bean. In either case, a
+    ServiceDefinition is provided that specifies various bus settings and the
+    target Spring bean.</para>
+
+    <section>
+      <title>KSBConfigurer</title>
+
+      <para>A service can be exposed by explicitly registering it with the
+      KSBConfigurer module, services property:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+    &lt;property name="serviceServletUrl" value="${base url}/MYAPP/remoting/" /&gt;
+    ...
+    &lt;property name="services"&gt;
+      &lt;list&gt;
+          &lt;bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"&gt;
+              &lt;property name="service"&gt;
+                  &lt;ref bean="mySoapService" /&gt;
+              &lt;/property&gt;
+              &lt;property name="serviceInterface"&gt;&lt;value&gt;org.myapp.services.MySOAPService&lt;/value&gt;&lt;/property&gt;
+              &lt;property name="localServiceName" value="myExposedSoapService" /&gt;
+          &lt;/bean&gt;
+          &lt;bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"&gt;
+              &lt;property name="service"&gt;
+                  &lt;ref bean="myJavaService" /&gt;
+              &lt;/property&gt;
+              &lt;property name="serviceInterface"&gt;
+                  &lt;value&gt;org.myapp.services.MyJavaService&lt;/value&gt;&lt;/property&gt;
+              &lt;property name="localServiceName" value="myExposedJavaService" /&gt;
+          &lt;/bean&gt;
+</programlisting>
+    </section>
+
+    <section>
+      <title>Service Exporter</title>
+
+      <para>You can also publish Services in any context using the
+      ServiceBusExporter (or PropertyConditionalServiceBusExporter) bean. Note
+      that KSBConfigurer must also be defined in your RiceConfigurer.</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="myapp.serviceBus"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"&gt;
+    &lt;property name="serviceName" value="rice.ksb.serviceBus"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="myAppServiceExporter"
+        class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
+        abstract="true"&gt;
+    &lt;property name="serviceBus" ref="myapp.serviceBus"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="myJavaService.exporter" parent="myAppServiceExporter"&gt;
+    &lt;property name="serviceDefinition"&gt;
+        &lt;bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"&gt;
+            &lt;property name="service"&gt;
+                &lt;ref bean="myJavaService" /&gt;
+            &lt;/property&gt;
+            &lt;property name="serviceInterface"&gt;
+                &lt;value&gt;org.myapp.services.MyJavaService&lt;/value&gt;
+            &lt;/property&gt;
+            &lt;property name="localServiceName" value="myExposedJavaService" /&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id="mySoapService.exporter" parent="myAppServiceExporter"&gt;
+    &lt;property name="serviceDefinition"&gt;
+        &lt;bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"&gt;
+            &lt;property name="service"&gt;
+                &lt;ref bean="mySoapService" /&gt;
+            &lt;/property&gt;
+            &lt;property name="serviceInterface"&gt;
+                &lt;value&gt;org.myapp.services.MySOAPService&lt;/value&gt;
+            &lt;/property&gt;
+            &lt;property name="localServiceName" value="myExposedSoapService" /&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+
+&lt;/bean&gt;</programlisting>
+    </section>
+
+    <section xml:id="callback_service_exporter">
+      <title>CallbackServiceExporter</title>
+
+      <para>The term "Callback Service" refers to services that client
+      applications write and configure and which are used by various modules
+      of Rice including KIM, KEW, and KRMS. Because of the naming convention
+      on these, they are often referred to as "Type Services". These
+      include:</para>
+
+      <para><itemizedlist>
+          <listitem>
+            <para>KIM<itemizedlist>
+                <listitem>
+                  <para>RoleTypeService</para>
+                </listitem>
+
+                <listitem>
+                  <para>PermissionTypeService</para>
+                </listitem>
+
+                <listitem>
+                  <para>GroupTypeService</para>
+                </listitem>
+
+                <listitem>
+                  <para>etc.</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>KRMS<itemizedlist>
+                <listitem>
+                  <para>ActionTypeService</para>
+                </listitem>
+
+                <listitem>
+                  <para>PropositionTypeService</para>
+                </listitem>
+
+                <listitem>
+                  <para>AgendaTypeService</para>
+                </listitem>
+
+                <listitem>
+                  <para>etc.</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>KEW<itemizedlist>
+                <listitem>
+                  <para>PeopleFlowTypeService</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+        </itemizedlist>These are typically called back into from the Rice
+      Standalone Server when needing information for rendering of various
+      components in the server-side user interface. Additionally, in some
+      cases they can also be used to provide custom processing hooks for
+      different components of the various Kuali Rice frameworks.</para>
+
+      <section>
+        <title>Version Compatibility for Callback Services</title>
+
+        <para>Callback services (like all services in Rice) can be evolved
+        over time and across versions. This means that new functionality might
+        be added to them. Since the Rice Standalone Server interacts with
+        these services remotely, it really needs to know what version of a
+        particular callback service that the client application is running.
+        They also must be published as the appropriate type of service
+        endpoint that the standalone server knows how to talk to (i.e. SOAP
+        instead of Java Serialization). Thankfully, the KSB service registry
+        can store metadata about a service which includes the service version.
+        However, in order to for this to work properly the client application
+        must be sure they publish the service with a version that matches the
+        version of Rice they are using.</para>
+
+        <para>In order to make this easier on client applications, a helper
+        has been implemented which can be used for this purpose in
+        Rice.</para>
+      </section>
+
+      <section>
+        <title>Callback Service Exporter Helper</title>
+
+        <para>There is a helper class which can be used by client applications
+        to export these callback services onto the Kuali Service Bus. The
+        class is
+        <code>org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter</code>.
+        This is a class which can be wired up inside of a Spring context in
+        order to publish a callback service to the KSB with the appropriate
+        Rice version. The version of Rice is packaged up into the Rice jars
+        inside of a file called
+        <emphasis>common-config-defaults.xml</emphasis> and it uses the
+        version that matches the version of Rice in the POM when the jar was
+        packaged.</para>
+
+        <para>Typical configuration might look like the
+        following:<programlisting linenumbering = "numbered">&lt;bean id="sampleAppPeopleFlowTypeService.exporter"
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:serviceBus-ref="rice.ksb.serviceBus"
+      p:callbackService-ref="sampleAppPeopleFlowTypeService"
+      p:serviceNameSpaceURI="http://rice.kuali.org/sample-app"
+      p:localServiceName="sampleAppPeopleFlowTypeService"
+      p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/&gt;</programlisting></para>
+
+        <para>The javadocs for <code>CallbackServiceExporter</code> provide
+        more detail on the options for publishing of callback services.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>ServiceDefinition properties</title>
+
+      <para>ServiceDefinitions define how the service is published to the KSB.
+      Currently KSB supports three types of services: Java RPC (via
+      serialization over HTTP), SOAP, and JMS.</para>
+
+      <section>
+        <title>Basic parameters</title>
+
+        <para>All service definitions support these properties:</para>
+
+        <para><table frame="none" tabstyle="striped">
+            <title>ServiceDefinition Properties</title>
+
+            <tgroup cols="3">
+              <colspec colname="c1" colnum="1" colwidth="0.8*"/>
+
+              <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+              <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+
+              <thead>
+                <row>
+                  <entry>Property</entry>
+
+                  <entry>Description</entry>
+
+                  <entry>Required</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>Service</entry>
+
+                  <entry>The reference to the target service bean</entry>
+
+                  <entry>yes</entry>
+                </row>
+
+                <row>
+                  <entry>localServiceName</entry>
+
+                  <entry>The "local" part of the service name; together with a
+                  namespace this forms a qualified name, or QName</entry>
+
+                  <entry>yes</entry>
+                </row>
+
+                <row>
+                  <entry>serviceNameSpaceURI</entry>
+
+                  <entry>The "namespace" part of the service name; together
+                  with a local name forms a qualified name, or QName</entry>
+
+                  <entry>Not required; if omitted, the <emphasis
+                  role="bold">Core.currentContextConfig().getMessageEntity()</emphasis>
+                  is used when exporting the service</entry>
+                </row>
+
+                <row>
+                  <entry>serviceEndpoint</entry>
+
+                  <entry>URL at which the service can be invoked by a remote
+                  call</entry>
+
+                  <entry>Not required; defaults to the serviceServletUrl
+                  parameter defined in the Rice config</entry>
+                </row>
+
+                <row>
+                  <entry>retryAttempts</entry>
+
+                  <entry>Number of attempts to retry the service invocation on
+                  failure; for services with side-effects you are advised to
+                  omit this property</entry>
+
+                  <entry>Not required; defaults to 0</entry>
+                </row>
+
+                <row>
+                  <entry>millisToLive</entry>
+
+                  <entry>Number of milliseconds the call should persist before
+                  resulting in failure</entry>
+
+                  <entry>Not required; defaults to no limit (-1)</entry>
+                </row>
+
+                <row>
+                  <entry>Priority</entry>
+
+                  <entry>Priority</entry>
+
+                  <entry>Not required; defaults to 5</entry>
+                </row>
+
+                <row>
+                  <entry>MessageExceptionHandler</entry>
+
+                  <entry>Reference to a MessageExceptionHandler that should be
+                  invoked in case of exception</entry>
+
+                  <entry>Not required; default implementation handles retries
+                  and timeouts</entry>
+                </row>
+
+                <row>
+                  <entry>busSecurity</entry>
+
+                  <entry>Whether to enable bus security for the
+                  service</entry>
+
+                  <entry>Not required; defaults to <emphasis
+                  role="italic">ON</emphasis></entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </section>
+    </section>
+
+    <section>
+      <title>ServiceNameSpaceURI/MessageEntity</title>
+
+      <para>ServiceNameSpaceURI is the same as the <emphasis
+      role="italic">Message Entity</emphasis> that composes the qualified name
+      under which the service is exposed. When omitted, this namespace
+      defaults to the message entity configured for Rice (e.g., in the
+      RiceConfigurer), thereby qualifying the local name. Note: Although this
+      implicit qualification occurs during export, you must always specify an
+      explicit message entity when acquiring a resource, for example:</para>
+
+      <programlisting>GlobalResourceLoader.getService(new QName("MYAPP", "myExposedSoapService"))</programlisting>
+    </section>
+
+    <section>
+      <title>SOAPServiceDefinition</title>
+
+      <table frame="none" tabstyle="striped">
+        <title>SOAPServiceDefinition</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+          <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+          <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+
+          <thead>
+            <row>
+              <entry>Property</entry>
+
+              <entry>Description</entry>
+
+              <entry>Required</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>serviceInterface</entry>
+
+              <entry>The interface to expose and from which to generate the
+              WSDL</entry>
+
+              <entry>Not required; if omitted the first interface implemented
+              by the class is used</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>JavaServiceDefinition</title>
+
+      <table frame="none" tabstyle="striped">
+        <title>JavaServiceDefinition</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+          <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+          <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+
+          <thead>
+            <row>
+              <entry>Property</entry>
+
+              <entry>Description</entry>
+
+              <entry>Required</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>serviceInterface</entry>
+
+              <entry>The interface to expose</entry>
+
+              <entry>Not required; if omitted, all application-layer
+              interfaces implemented by the class are exposed</entry>
+            </row>
+
+            <row>
+              <entry>serviceInterfaces</entry>
+
+              <entry>A list of interfaces to expose</entry>
+
+              <entry>Not required; if omitted, all application-layer
+              interfaces implemented by the class are exposed</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Publishing Rice services</title>
+
+      <para>We show how you can "import" Rice services into the client Spring
+      application context in Configuring KSB Client in Spring. Using this
+      technique, you can also publish Rice services on the KSB:</para>
+
+      <programlisting linenumbering = "numbered">&lt;!-- import a Rice service from the ResourceLoader stack --&gt;
+&lt;bean id="myapp.aRiceService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"&gt;
+    &lt;property name="serviceName" value="aRiceService"/&gt;
+&lt;/bean
+
+
+&lt;!-- if Rice does not publish this service on the bus, one can explicitly publish it --&gt;
+&lt;bean id="myAppServiceExporter"
+        class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
+        abstract="true"&gt;
+    &lt;property name="serviceBus" ref="myapp.serviceBus"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="myJavaService.exporter" parent="myAppServiceExporter"&gt;
+    &lt;property name="serviceDefinition"&gt;
+        &lt;bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"&gt;
+            &lt;property name="service"&gt;
+                &lt;ref bean="aRiceService" /&gt;
+            &lt;/property&gt;
+            &lt;property name="serviceInterface" value="org.kuali.rice...SomeInterface" /&gt;
+            &lt;property name="localServiceName" value="aPublishedRiceService" /&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting>
+
+      <warning>
+        <para>Not all Rice services are intended for public use. Do not
+        arbitrarily expose them on the bus</para>
+      </warning>
+    </section>
+</chapter>

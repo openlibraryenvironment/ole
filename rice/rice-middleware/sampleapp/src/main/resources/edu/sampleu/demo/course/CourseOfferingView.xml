@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+  <bean id="CourseOfferingView" parent="KSFormView">
+    <property name="headerText"
+              value="@{courseSection.course.subjectId} @{courseSection.course.number} @{courseSection.course.title}"/>
+    <property name="header.items">
+      <list>
+        <bean parent="Uif-LinkField" p:linkText="Back to term" p:target="foo"/>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="CourseOfferingPage"/>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+    <property name="additionalCssFiles">
+      <list merge="true">
+        <value>/css/course-offering.css</value>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.course.CourseOfferingForm"/>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Course Page
+  ********************************************************************************************************************
+  -->
+  <bean id="CourseOfferingPage" parent="Uif-Page" p:headerText="Course Offering Information"
+        p:layoutManager.orientation="HORIZONTAL" p:header.cssClasses="course-header"
+        p:disclosure.render="false">
+    <property name="items">
+      <list>
+        <ref bean="CourseOffering-CourseInfoSection"/>
+        <ref bean="CourseOffering-MainSection"/>
+      </list>
+    </property>
+
+    <!--
+    ********************************************************************************************************************
+                                             Course Page Footer
+    ********************************************************************************************************************
+    -->
+    <property name="footer">
+      <bean parent="Uif-FooterBase" p:cssClasses="course-footer">
+        <property name="items">
+          <list>
+            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="save"/>
+            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Copy to Another Section" p:methodToCall="copy"/>
+            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Link This to Another Course" p:methodToCall="link"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           COURSE INFO
+  ********************************************************************************************************************
+  -->
+  <bean id="CourseOffering-CourseInfoSection" parent="GenericGroup" p:headerText="Course Information &lt;br&gt; (inherited)"
+        p:fieldBindByNamePrefix="courseSection.course" p:readOnly="true" p:cssClasses="group-border"
+        p:header.cssClasses="header-borderBottom">
+    <property name="items">
+      <list>
+        <bean parent="Uif-LinkField" p:linkText="Edit" p:target="foo"/>
+        <bean parent="GenericTextField" p:propertyName="subjectId" p:label="Subject ID"/>
+        <bean parent="Uif-HorizontalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="GenericTextField" p:propertyName="prefix" p:label="Prefix"/>
+              <bean parent="GenericTextField" p:propertyName="number" p:label="Course Number"/>
+              <bean parent="GenericTextField" p:propertyName="suffix" p:label="Suffix"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="GenericTextField" p:propertyName="instanceId" p:label="Instance ID"/>
+        <bean parent="GenericTextField" p:propertyName="activityType" p:label="Activity Type"/>
+        <bean parent="Uif-HorizontalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="GenericTextField" p:propertyName="minCredits" p:label="Min Credits"/>
+              <bean parent="GenericTextField" p:propertyName="maxCredits" p:label="Max Credits"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="GenericTextField" p:propertyName="gradingOptions" p:label="Grading Options"/>
+        <bean parent="GenericTextField" p:propertyName="transcriptTitle" p:label="Transcript Title"/>
+        <bean parent="GenericTextField" p:propertyName="fee" p:label="Fee"/>
+        <bean parent="GenericTextField" p:propertyName="offeringStatus" p:label="Offering Status"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           COURSE MAIN
+  ********************************************************************************************************************
+  -->
+  <bean id="CourseOffering-MainSection" parent="GenericGroup" p:fieldBindByNamePrefix="courseSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="group-border" p:style="margin-bottom: 0px;">
+          <property name="items">
+            <list>
+              <bean parent="GenericTextField" p:propertyName="section" p:label="Section" p:readOnly="true"
+                    p:labelPlacement="LEFT" p:fieldLabel.cssClasses="labelLeft" p:cssClasses="font-light"/>
+              <bean parent="GenericTextField" p:propertyName="registrationId" p:label="Registration ID"
+                    p:readOnly="true" p:fieldLabel.cssClasses="labelLeft" p:labelPlacement="LEFT"
+                    p:cssClasses="font-light"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-LinkField" p:linkText="view other sections (@{courseSection.course.sections.size()})"
+              p:target="foo"/>
+        <!--
+        ********************************************************************************************************************
+                                                 Course Section Instructors Ref
+        ********************************************************************************************************************
+        -->
+        <ref bean="CourseOffering-SectionInstructors"/>
+        <!--
+        ********************************************************************************************************************
+                                                 Meeting Times and Contact Hours
+        ********************************************************************************************************************
+        -->
+        <bean parent="GenericGroup" p:headerText="Meeting Times + Contact Hours">
+          <property name="items">
+            <list>
+              <bean id="CourseDemoView-TermDate" parent="Uif-HorizontalFieldGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="GenericSelection" p:propertyName="term" p:label="Term"
+                          p:control.options-ref="term-options"/>
+                    <bean parent="GenericDateField" p:propertyName="startDate" p:label="Start Date"/>
+                    <bean parent="GenericDateField" p:propertyName="endDate" p:label="End Date"/>
+                  </list>
+                </property>
+              </bean>
+              <!--
+              ********************************************************************************************************************
+                                                       Course Schedule Ref
+              ********************************************************************************************************************
+              -->
+              <ref bean="CourseOffering-Schedule"/>
+              <bean parent="Uif-VerticalBoxGroup" p:cssClasses="group-border">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-Message" p:messageText="System Calculated Information"
+                          p:cssClasses="font-lightBold"/>
+                    <bean parent="Uif-HorizontalFieldGroup" p:label="Weekly Contact Hours" p:labelPlacement="TOP">
+                      <property name="items">
+                        <list>
+                          <bean parent="GenericTextFieldSmall" p:propertyName="weeklyInClassHours" p:label="In Class"/>
+                          <bean parent="GenericTextFieldSmall" p:propertyName="weeklyOutOfClassHours"
+                                p:label="Out of Class"/>
+                          <bean parent="GenericTextFieldSmall" p:propertyName="weeklyTotalHours" p:label="Total"/>
+                        </list>
+                      </property>
+                    </bean>
+                    <bean parent="Uif-HorizontalFieldGroup" p:label="Term Contact Hours" p:labelPlacement="TOP">
+                      <property name="items">
+                        <list>
+                          <bean parent="GenericTextFieldSmall" p:propertyName="termInClassHours" p:label="In Class"/>
+                          <bean parent="GenericTextFieldSmall" p:propertyName="termOutOfClassHours"
+                                p:label="Out of Class"/>
+                          <bean parent="GenericTextFieldSmall" p:propertyName="termTotalHours" p:label="Total"/>
+                        </list>
+                      </property>
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!--
+        ********************************************************************************************************************
+                                                 Enrollment + Facilities
+        ********************************************************************************************************************
+        -->
+        <bean parent="GenericGroup" p:headerText="Enrollment + Facilities">
+          <property name="items">
+            <list>
+              <bean parent="Uif-HorizontalFieldGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="GenericTextFieldSmall" p:propertyName="totalMinEnrollment"
+                          p:label="Total Min Enrollment"/>
+                    <bean parent="GenericTextFieldSmall" p:propertyName="totalMaxEnrollment"
+                          p:label="Total Max Enrollment"/>
+                  </list>
+                </property>
+              </bean>
+              <!--
+              ********************************************************************************************************************
+                                                       Building and Room
+              ********************************************************************************************************************
+              -->
+              <bean parent="Uif-HorizontalFieldGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="GenericSelection" p:propertyName="building" p:label="Building"
+                          p:control.options-ref="building-options"/>
+                    <bean parent="GenericSelection" p:propertyName="room" p:label="Room"
+                          p:control.options-ref="room-options"/>
+                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Suggest?" p:methodToCall="suggest"/>
+                  </list>
+                </property>
+              </bean>
+              <!--
+              ********************************************************************************************************************
+                                                       Waitlist
+              ********************************************************************************************************************
+              -->
+              <bean parent="GenericCheckbox" p:propertyName="waitlist" p:label="Waitlist?"/>
+              <bean parent="Uif-HorizontalFieldGroup" p:progressiveRender="courseSection.waitlist">
+                <property name="items">
+                  <list>
+                    <bean parent="GenericSelection" p:propertyName="waitlistType" p:label="Waitlist Type"
+                          p:control.options-ref="waitlist-options"/>
+                    <bean parent="GenericTextField" p:propertyName="waitlistMaximum" p:label="Waitlist Maximum"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!--
+        ********************************************************************************************************************
+                                                 Final Exam Ref
+        ********************************************************************************************************************
+        -->
+        <bean parent="GenericCheckbox" p:propertyName="finalExam" p:label="Final Exam?"/>
+        <ref bean="CourseOffering-FinalExam"/>
+        <bean parent="GenericCheckbox" p:propertyName="publish" p:label="Publish?"/>
+        <bean parent="GenericTextField" p:propertyName="publishTo" p:label="Publish To"/>
+        <bean parent="GenericTextArea" p:propertyName="scheduleComments" p:label="Schedule Comments"/>
+        <bean parent="GenericTextField" p:propertyName="courseUrl" p:label="Course URL"/>
+        <bean parent="GenericSelection" p:propertyName="internetClassProvider"
+              p:label="Internet Class Provider" p:control.options-ref="class-options"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Final Exam Bean
+  ********************************************************************************************************************
+  -->
+  <bean id="CourseOffering-FinalExam" parent="GenericGroup" p:headerText="Final Exam"
+        p:progressiveRender="courseSection.finalExam"
+        p:instructionalText="These are all system generated values, based on the course &lt;br&gt; information and meeting days and times, and cannot be overridden."
+        p:cssClasses="group-border">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="GenericTextField" p:propertyName="finalExamDate" p:label="Final Exam Date"
+                    p:control-ref="Uif-DateControl" p:control.size="12"/>
+              <bean parent="GenericSelection" p:propertyName="finalExamStartTime"
+                    p:label="Final Exam Start Time" p:control.options-ref="time-options"/>
+              <bean parent="GenericSelection" p:propertyName="finalExamEndTime"
+                    p:label="Final Exam End Time" p:control.options-ref="time-options"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-HorizontalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="GenericSelection" p:propertyName="finalExamBuilding"
+                    p:label="Final Exam Building" p:control.options-ref="building-options"/>
+              <bean parent="GenericSelection" p:propertyName="finalExamRoom"
+                    p:label="Final Exam Room" p:control.options-ref="room-options"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Course Schedule Bean
+  ********************************************************************************************************************
+  -->
+  <bean id="CourseOffering-Schedule" parent="Uif-VerticalBoxGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalFieldGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-VerticalFieldGroup">
+                <property name="items">
+                  <list>
+                    <bean parent="GenericCheckbox" p:propertyName="customMeetingTime" p:label="Custom Meeting Times?"/>
+                    <bean parent="GenericSelection" p:propertyName="standardMeetingSchedule"
+                          p:label="Standard Meeting Schedule" p:control.options-ref="schedule-options"/>
+                    <bean parent="GenericSelection" p:propertyName="standardMeetingTime"
+                          p:label="Standard Meeting Time" p:control.options-ref="meeting-options"/>
+                    <bean parent="GenericSelection" p:propertyName="attendanceType"
+                          p:label="Attendance Type" p:control.options-ref="attendance-options"/>
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-ImageField"
+                    p:source="@{#ConfigProperties['krad.externalizable.images.url']}ks/course_calendar.jpg"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Course Section Instructors
+  ********************************************************************************************************************
+  -->
+  <bean id="CourseOffering-SectionInstructors" parent="GenericCollectionGroup"
+        p:headerText="Instructors, Teaching Assistants, Graders" p:propertyName="instructors"
+        p:collectionObjectClass="edu.sampleu.demo.course.CourseInstructor">
+    <property name="items">
+      <list>
+        <bean parent="GenericSelection" p:propertyName="affiliation"
+              p:label="Affiliation" p:control.options-ref="affiliation-options"/>
+        <bean parent="GenericTextField" p:propertyName="name" p:label="Name"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           OPTIONS
+  ********************************************************************************************************************
+  -->
+
+  <util:list id="term-options">
+    <bean parent="Uif-KeyLabelPair" p:key="Summer" p:value="Summer"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Fall" p:value="Fall"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Spring" p:value="Spring"/>
+  </util:list>
+
+  <util:list id="building-options">
+    <bean parent="Uif-KeyLabelPair" p:key="Adams" p:value="Adams"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Bloom" p:value="Bloom"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Carnegie" p:value="Carnegie"/>
+  </util:list>
+
+  <util:list id="room-options">
+    <bean parent="Uif-KeyLabelPair" p:key="100" p:value="100"/>
+    <bean parent="Uif-KeyLabelPair" p:key="101" p:value="101"/>
+    <bean parent="Uif-KeyLabelPair" p:key="102" p:value="102"/>
+  </util:list>
+
+  <util:list id="waitlist-options">
+    <bean parent="Uif-KeyLabelPair" p:key="Automatic" p:value="Automatic"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Manual" p:value="Manual"/>
+  </util:list>
+
+  <util:list id="class-options">
+    <bean parent="Uif-KeyLabelPair" p:key="ETudes" p:value="ETudes"/>
+    <bean parent="Uif-KeyLabelPair" p:key="E-college" p:value="E-college"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Textbook Platform" p:value="Textbook Platform"/>
+  </util:list>
+
+  <util:list id="time-options">
+    <bean parent="Uif-KeyLabelPair" p:key="8:00" p:value="8:00"/>
+    <bean parent="Uif-KeyLabelPair" p:key="8:30" p:value="8:30"/>
+    <bean parent="Uif-KeyLabelPair" p:key="9:00" p:value="9:00"/>
+  </util:list>
+
+  <util:list id="schedule-options">
+    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 Contact Weeks per week"/>
+    <bean parent="Uif-KeyLabelPair" p:key="A" p:value="-M,T,W,Th,F"/>
+    <bean parent="Uif-KeyLabelPair" p:key="MWF" p:value="-M,W,F"/>
+    <bean parent="Uif-KeyLabelPair" p:key="TTH" p:value="-T,Th"/>
+    <bean parent="Uif-KeyLabelPair" p:key="SD" p:value="- single day"/>
+  </util:list>
+
+  <util:list id="meeting-options">
+    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="8:00 AM - 9:00 AM"/>
+    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="9:00 AM - 10:00 AM"/>
+    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="10:00 AM - 11:00 AM"/>
+  </util:list>
+
+  <util:list id="attendance-options">
+    <bean parent="Uif-KeyLabelPair" p:key="PA" p:value="PA"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Census" p:value="Census"/>
+  </util:list>
+
+  <util:list id="affiliation-options">
+    <bean parent="Uif-KeyLabelPair" p:key="I" p:value="Instructor of Record"/>
+    <bean parent="Uif-KeyLabelPair" p:key="A" p:value="Teaching Assisstant"/>
+    <bean parent="Uif-KeyLabelPair" p:key="G" p:value="Grader"/>
+  </util:list>
+
+</beans>

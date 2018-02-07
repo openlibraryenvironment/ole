@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>SearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.MockSearchableAttribute</className>
+            <label>SearchAttribute</label>
+            <description>SearchAttribute</description>
+            <type>SearchableAttribute</type>
+        </ruleAttribute>
+
+        <ruleAttribute>
+            <name>Attr1</name>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>Attr1</label>
+            <description>Attr1</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="attr1" title="Choose number" workflowType="RULE">
+                    <display>
+                        <type>select</type>
+                        <values title="1">1</values>
+                        <values title="2">2</values>
+                        <values title="3">3</values>
+                    </display>
+                    <validation required="true" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='attr1']/value) = wf:ruledata('doesNotMatchFieldName')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+    </ruleAttributes>
+
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>Attr1Template</name>
+            <description>Attr1Template</description>
+            <attributes>
+                <attribute>
+                    <name>Attr1</name>
+                    <required>true</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+    </ruleTemplates>
+
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>TestDocument</name>
+            <description>TestDocument</description>
+            <label>TestDocument</label>
+            <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+            <docHandler>http://localhost:8080/en-dev/this/is/a/sample/doc/handler</docHandler>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="Requests1" />
+                    <requests name="Requests1"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated"/>
+                <requests name="Requests1">
+                    <ruleTemplate>Attr1Template</ruleTemplate>
+                    <activationType>P</activationType>
+                </requests>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <!-- Attr1-based rules -->
+        <rule>
+            <documentType>TestDocument</documentType>
+            <ruleTemplate>Attr1Template</ruleTemplate>
+            <description>Attr1Template Rule matching '1'</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+                <ruleExtension>
+                    <attribute>Attr1</attribute>
+                    <ruleTemplate>Attr1Template</ruleTemplate>
+                    <ruleExtensionValues>
+                        <ruleExtensionValue>
+                            <!-- this does not match the field name in the attribute definition but the rule
+                                 will still be evaluated and could be matched -->
+                            <key>doesNotMatchFieldName</key>
+                            <value>1</value>
+                        </ruleExtensionValue>
+                    </ruleExtensionValues>
+                </ruleExtension>
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><user>user1</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>TestDocument</documentType>
+            <ruleTemplate>Attr1Template</ruleTemplate>
+            <description>Attr1Template Rule matching '1'</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+                <ruleExtension>
+                    <attribute>Attr1</attribute>
+                    <ruleTemplate>Attr1Template</ruleTemplate>
+                    <ruleExtensionValues>
+                        <ruleExtensionValue>
+                            <!-- if this is changed to 'attr1' to match an attribute field NAME
+                                 then that attribute field match xpath expression will be run,
+                                 otherwise it will NOT, and will default to a match -->
+                            <key>doesNotMatchFieldName</key>
+                            <value>2</value>
+                        </ruleExtensionValue>
+                    </ruleExtensionValues>
+                </ruleExtension>
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><user>user2</user></responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+</data>

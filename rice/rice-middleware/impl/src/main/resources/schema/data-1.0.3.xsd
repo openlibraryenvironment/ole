@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<xs:schema version="1.0" targetNamespace="http://rice.kuali.org/xsd/core/xml/dto" xmlns:ns1="http://rice.kuali.org/xsd/kim/group" xmlns:tns="http://rice.kuali.org/xsd/core/xml/dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:import namespace="http://rice.kuali.org/xsd/kim/group" schemaLocation="group-1.0.3.a.xsd"/>
+
+  <xs:element name="data" type="tns:data"/>
+
+  <xs:complexType name="data">
+    <xs:sequence>
+      <xs:element ref="ns1:groups"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AttributeSetListType">
+    <xs:sequence>
+      <xs:element name="attribute" type="tns:attributeEntry" form="qualified" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="attributeEntry">
+    <xs:sequence/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="key" type="xs:string"/>
+  </xs:complexType>
+</xs:schema>
+

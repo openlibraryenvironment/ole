@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="DocCitizenship" parent="DocCitizenship-parentBean"/>
+
+  <bean id="DocCitizenship-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.PersonDocumentCitizenship" p:titleAttribute="entityCitizenshipId" p:objectLabel="Entity Citizenship" p:inquiryDefinition-ref="DocCitizenship-inquiryDefinition" p:lookupDefinition-ref="DocCitizenship-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocCitizenship-countryCode"/>
+        <ref bean="DocCitizenship-startDate"/>
+        <ref bean="DocCitizenship-endDate"/>
+        <ref bean="DocCitizenship-entityId"/>
+        <ref bean="DocCitizenship-entityCitizenshipId"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: use campus parent bean once imported into Rice -->
+  <bean id="DocCitizenship-countryCode" parent="DocCitizenship-countryCode-parentBean"/>
+  <bean id="DocCitizenship-countryCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="countryCode" p:forceUppercase="true" p:label="Country Code" p:shortLabel="Country Code" p:maxLength="2" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" />
+    </property>
+  </bean>
+
+  <bean id="DocCitizenship-startDate" parent="DocCitizenship-startDate-parentBean"/>
+  <bean id="DocCitizenship-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate"/>
+    <property name="label" value="Start Date"/>
+    <property name="shortLabel" value="Start Dt"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+  
+  <bean id="DocCitizenship-endDate" parent="DocCitizenship-endDate-parentBean"/>
+  <bean id="DocCitizenship-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate"/>
+    <property name="label" value="End Date"/>
+    <property name="shortLabel" value="End Dt"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+ 
+
+   <bean id="DocCitizenship-entityCitizenshipId" parent="DocCitizenship-entityCitizenshipId-parentBean"/>
+  <bean id="DocCitizenship-entityCitizenshipId-parentBean" parent="AttributeDefinition" abstract="true" p:name="entityCitizenshipId" p:forceUppercase="true" p:label="Citizenship Entity Id" p:shortLabel="Citizenship Entity Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+    
+  <bean id="DocCitizenship-entityId" parent="DocCitizenship-entityId-parentBean"/>
+  <bean id="DocCitizenship-entityId-parentBean" parent="KimBaseBeans-entityId" abstract="true"/>
+  
+  <bean id="DocCitizenship-inquiryDefinition" parent="DocCitizenship-inquiryDefinition-parentBean"/>
+
+  <bean id="DocCitizenship-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Citizenship Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="entityCitizenshipId"/>
+              <bean parent="FieldDefinition" p:attributeName="entityId"/>
+              <bean parent="FieldDefinition" p:attributeName="countryCode"/>
+              <bean parent="FieldDefinition" p:attributeName="startDate"/>
+              <bean parent="FieldDefinition" p:attributeName="endDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocCitizenship-lookupDefinition" parent="DocCitizenship-lookupDefinition-parentBean"/>
+
+  <bean id="DocCitizenship-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Person Citizenship Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>entityCitizenshipId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="entityCitizenshipId"/>
+        <bean parent="FieldDefinition" p:attributeName="entityId"/>
+        <bean parent="FieldDefinition" p:attributeName="countryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="startDate"/>
+        <bean parent="FieldDefinition" p:attributeName="endDate"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="entityCitizenshipId"/>
+        <bean parent="FieldDefinition" p:attributeName="entityId"/>
+        <bean parent="FieldDefinition" p:attributeName="countryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="startDate"/>
+        <bean parent="FieldDefinition" p:attributeName="endDate"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

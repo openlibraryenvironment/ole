@@ -513,9 +513,48 @@ public class CircUtilController extends RuleExecutor {
         return noticeProcessors;
     }
 
+    private OlePaymentStatus getPaymentStatus(String paymentStatus) {
+        LOG.debug("Inside the getPaymentStatus method");
+        Map statusMap = new HashMap();
+        statusMap.put("paymentStatusCode", paymentStatus);
+        List<OlePaymentStatus> olePaymentStatusList = (List<OlePaymentStatus>) getBusinessObjectService().findMatching(OlePaymentStatus.class, statusMap);
+        return olePaymentStatusList != null && olePaymentStatusList.size() > 0 ? olePaymentStatusList.get(0) : null;
+    }
+
     public String generateBillPayment(String selectedCirculationDesk, OleLoanDocument loanDocument, Timestamp customDueDateMap, Timestamp dueDate,boolean isRenew) {
         String billPayment = null;
+        OlePaymentStatus forgivePaymentStatus = new OlePaymentStatus();
+        if(StringUtils.isNotBlank(loanDocument.getItemStatus()) && loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
+            forgivePaymentStatus = getPaymentStatus(OLEConstants.REPLACED);
+        } else{
+            forgivePaymentStatus = getPaymentStatus(OLEConstants.FORGIVEN);
+        }
         ItemFineRate itemFineRate = loanDocument.getItemFineRate();
+        List<FeeType> olePatronFeeTypes=loanDocument.getOlePatron().getPatronFeeTypes();
+        for(FeeType olePatronfeeType : olePatronFeeTypes) {
+            if (olePatronfeeType.getOleFeeType().getFeeTypeCode().equalsIgnoreCase(OLEConstants.REPLACMENT_FEE) && loanDocument.getItemId().equals(olePatronfeeType.getItemBarcode())) {
+                if (olePatronfeeType.getPaymentStatusCode().equalsIgnoreCase("PAY_OUTSTN")) {
+                    OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
+                    oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
+                    oleItemLevelBillPayment.setAmount(olePatronfeeType.getBalFeeAmount());
+                    oleItemLevelBillPayment.setCreatedUser(loanDocument.getLoanOperatorId());
+                    if(StringUtils.isNotBlank(loanDocument.getItemStatus()) && loanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID)){
+                        oleItemLevelBillPayment.setPaymentMode("Replacement");
+                        oleItemLevelBillPayment.setTransactionNote(loanDocument.getItemReplaceNote());
+                    } else{
+                        oleItemLevelBillPayment.setPaymentMode(OLEConstants.FORGIVE);
+                    }
+                    oleItemLevelBillPayment.setNote("Note" + loanDocument.getCheckInDate());
+                    List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(olePatronfeeType.getItemLevelBillPaymentList()) ? olePatronfeeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
+                    oleItemLevelBillPayments.add(oleItemLevelBillPayment);
+                    olePatronfeeType.setItemLevelBillPaymentList(oleItemLevelBillPayments);
+                    olePatronfeeType.setPaymentStatus(forgivePaymentStatus.getPaymentStatusId());
+                    olePatronfeeType.setBalFeeAmount(new KualiDecimal(0));
+                    getBusinessObjectService().save(olePatronfeeType);
+                    loanDocument.setReplacementBill(null);
+                }
+            }
+        }
         if (null == itemFineRate.getFineRate() || null == itemFineRate.getMaxFine() || null == itemFineRate.getInterval()) {
             LOG.error("No fine rule found");
         } else {
@@ -681,8 +720,17 @@ public class CircUtilController extends RuleExecutor {
             OlePaymentStatus forgivePaymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.FORGIVEN);
             OlePaymentStatus outstandingPaymentStatus = new PatronBillHelperService().getPaymentStatus(OLEConstants.PAY_OUTSTANDING);
             for (FeeType feeType : feeTypes) {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("billNumber", feeType.getBillNumber());
+                PatronBillPayment patronBillPayment = getBusinessObjectService().findByPrimaryKey(PatronBillPayment.class, map);
                 if (forgiveFeeTypeCodes.contains(feeType.getOleFeeType().getFeeTypeCode()) && paymentStatus != null && (oleLoanDocument.getItemStatus() !=null && oleLoanDocument.getItemStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST_AND_PAID))) {
                     if(!feeType.getBalFeeAmount().isZero()) {
+                        patronBillPayment.setPaymentAmount(patronBillPayment.getUnPaidBalance());
+                        patronBillPayment.setUnPaidBalance(KualiDecimal.ZERO);
+                        patronBillPayment.setPaymentOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                        patronBillPayment.setPayDate(new java.sql.Date((new java.util.Date()).getTime()));
+                        patronBillPayment.setPaymentMethod("Replacement");
+                        patronBillPayment.setNote(note);
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                         oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
@@ -697,6 +745,12 @@ public class CircUtilController extends RuleExecutor {
                     }
                 } else if(forgiveFeeTypeCodes.contains(feeType.getOleFeeType().getFeeTypeCode()) && paymentStatus != null){
                     if(!feeType.getBalFeeAmount().isZero()) {
+                        patronBillPayment.setPaymentAmount(patronBillPayment.getUnPaidBalance());
+                        patronBillPayment.setUnPaidBalance(KualiDecimal.ZERO);
+                        patronBillPayment.setPaymentOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                        patronBillPayment.setPayDate(new java.sql.Date((new java.util.Date()).getTime()));
+                        patronBillPayment.setPaymentMethod(OLEConstants.FORGIVE);
+                        patronBillPayment.setNote(note);
                         OleItemLevelBillPayment oleItemLevelBillPayment = new OleItemLevelBillPayment();
                         oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                         oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
@@ -727,6 +781,7 @@ public class CircUtilController extends RuleExecutor {
                         feeType.setCheckInDate(oleLoanDocument.getCheckInDate());
                     }
                 }
+                getBusinessObjectService().save(patronBillPayment);
             }
             getBusinessObjectService().save(feeTypes);
         }
@@ -755,6 +810,7 @@ public class CircUtilController extends RuleExecutor {
                     oleItemLevelBillPayment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
                     oleItemLevelBillPayment.setAmount(feeType.getBalFeeAmount());
                     oleItemLevelBillPayment.setCreatedUser(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+                    oleItemLevelBillPayment.setPaymentMode(OLEConstants.FEE_UNSUSPENDED);
                     oleItemLevelBillPayment.setNote(OLEConstants.BILL_SUSPENDED_NOTE);
                     List<OleItemLevelBillPayment> oleItemLevelBillPayments = CollectionUtils.isNotEmpty(feeType.getItemLevelBillPaymentList()) ? feeType.getItemLevelBillPaymentList() : new ArrayList<OleItemLevelBillPayment>();
                     oleItemLevelBillPayments.add(oleItemLevelBillPayment);

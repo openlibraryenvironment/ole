@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+	<jdbc-connection-descriptor jcd-alias="rice.ksb.bamDataSource" default-connection="false" jdbc-level="3.0" eager-release="false" batch-mode="false"
+		useAutoCommit="0" ignoreAutoCommitExceptions="false">
+		<sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+			<attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
+		</sequence-manager>
+		<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+	</jdbc-connection-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.ksb.messaging.bam.BAMTargetEntry" table="KRSB_BAM_T">
+		<field-descriptor name="bamId" column="BAM_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KRSB_BAM_S" />
+		<field-descriptor name="serviceName" column="SVC_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="serviceURL" column="SVC_URL" jdbc-type="VARCHAR"/>
+		<field-descriptor name="methodName" column="MTHD_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="threadName" column="THRD_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="callDate" column="CALL_DT" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="targetToString" column="TGT_TO_STR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="serverInvocation" column="SRVR_IND" jdbc-type="BIT"/>
+		<field-descriptor name="exceptionToString" column="EXCPN_TO_STR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="exceptionMessage" column="EXCPN_MSG" jdbc-type="CLOB"/>
+		<collection-descriptor element-class-ref="org.kuali.rice.ksb.messaging.bam.BAMParam" name="bamParams" auto-retrieve="true" auto-update="true"
+			auto-delete="true">
+			<inverse-foreignkey field-ref="bamId" />
+		</collection-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.rice.ksb.messaging.bam.BAMParam" table="KRSB_BAM_PARM_T">
+		<field-descriptor name="bamParamId" column="BAM_PARM_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+			sequence-name="KRSB_BAM_PARM_S" />
+		<field-descriptor name="bamId" column="BAM_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="param" column="PARM" jdbc-type="VARCHAR"/>
+		<reference-descriptor auto-retrieve="true" auto-update="false" auto-delete="false" class-ref="org.kuali.rice.ksb.messaging.bam.BAMTargetEntry"
+			name="bamTargetEntry">
+			<foreignkey field-ref="bamId" />
+		</reference-descriptor>
+	</class-descriptor>
+
+</descriptor-repository>

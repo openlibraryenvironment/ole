@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>RuleRoutingAttribute</name>
+			<className>org.kuali.rice.kew.rule.RuleRoutingAttribute</className>
+			<label>RuleRoutingAttribute</label>
+			<description>RuleRoutingAttribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>RuleRouting</name>
+			<description>RuleRouting</description>
+			<attributes>
+				<attribute>
+					<name>RuleRoutingAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>DocumentTypeRouting</name>
+			<description>desc</description>
+		</ruleTemplate>
+     <ruleTemplate>
+       <name>SimpleTemplate</name>
+        <description>simple</description>
+      </ruleTemplate>
+    <ruleTemplate>
+      <name>RuleRouting2</name>
+      <description>RuleRouting2</description>
+            <delegationTemplate>SimpleTemplate</delegationTemplate>
+      <attributes>
+        <attribute>
+          <name>RuleRoutingAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>RiceDocument</name>
+			<description>Workflow Maintenance Document</description>
+			<label>Workflow Maintenance Document</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+            <docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="adhoc" nextNode="Workflow Document Routing" />
+					<requests name="Workflow Document Routing" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="adhoc">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+				</start>
+				<requests name="Workflow Document Routing">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>DocumentTypeRouting</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.child1</name>
+			<parent>RiceDocument</parent>
+			<description>RiceDocument.child1</description>
+			<label>RiceDocument.child1</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/en-dev/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.child1child</name>
+			<parent>RiceDocument.child1</parent>
+			<description>RiceDocument.child1child1</description>
+			<label>RiceDocument.child1child1</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/en-dev/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.child2</name>
+			<parent>RiceDocument</parent>
+			<description>RiceDocument.child2</description>
+			<label>RiceDocument.child2</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/en-dev/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.child3</name>
+			<parent>RiceDocument</parent>
+			<description>RiceDocument.child3</description>
+			<label>RiceDocument.child3</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/en-dev/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+		</documentType>
+		<documentType>
+			<name>RiceDocument.RuleDocument</name>
+			<parent>RiceDocument</parent>
+			<description>Rule Maintenance Document Type Document</description>
+			<label>Rule Maintenance Document Type Document</label>
+			<postProcessorName>org.kuali.rice.kew.rule.RulePostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/en-dev/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="adhoc" nextNode="RuleRouting" />
+					<requests name="RuleRouting" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="adhoc">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+				</start>
+				<requests name="RuleRouting">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>RuleRouting</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>NotRelated</name>
+			<description>NotRelated</description>
+			<label>NotRelated</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<docHandler>http://localhost:8080/en-dev/Rule.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="adhoc" nextNode="Workflow Document Routing" />
+					<requests name="Workflow Document Routing" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="adhoc">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+				</start>
+				<requests name="Workflow Document Routing">
+					<exceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>DocumentTypeRouting</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+            <name>RuleDocRuleRouting</name>
+			<documentType>RiceDocument.RuleDocument</documentType>
+			<ruleTemplate>RuleRouting</ruleTemplate>
+			<description>Rule Routing</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>RuleRoutingAttribute</attribute>
+					<ruleTemplate>RuleRouting</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>docTypeFullName</key>
+							<value>TestDocumentType</value><!-- exists in the default dataset -->
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RiceDocument.child1</documentType>
+            <ruleTemplate>DocumentTypeRouting</ruleTemplate>
+			<description>DocumentTypeRouting</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>rkirkend</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RiceDocument.child1child</documentType>
+            <ruleTemplate>DocumentTypeRouting</ruleTemplate>
+			<description>DocumentTypeRouting</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>user1</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RiceDocument.child2</documentType>
+            <ruleTemplate>DocumentTypeRouting</ruleTemplate>
+			<description>DocumentTypeRouting</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>user2</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>RiceDocument.child3</documentType>
+            <ruleTemplate>DocumentTypeRouting</ruleTemplate>
+			<description>DocumentTypeRouting</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>user3</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+            <name>DTR-NotRelated</name>
+			<documentType>NotRelated</documentType>
+            <ruleTemplate>DocumentTypeRouting</ruleTemplate>
+			<description>DocumentTypeRouting</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<principalName>ewestfal</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

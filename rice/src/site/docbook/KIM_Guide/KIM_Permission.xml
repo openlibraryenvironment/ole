@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Permission" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Permission</title>
+
+    <section>
+      <title>Permission Lookup</title>
+
+      <para>The Permission Lookup screen allows you to search for and view
+      existing permissions. It displays summarized information about the
+      permission detail values as well as the roles that are currently
+      associated with this permission.</para>
+
+      <note>
+        <para>This table is display-only. Technical assistance is required to
+        modify permissions.</para>
+      </note>
+
+      <para>You get to this screen by clicking <emphasis
+      role="bold">Permissions</emphasis> in the <emphasis
+      role="bold">Identity</emphasis> section of the <emphasis
+      role="bold">Administration</emphasis> menu.</para>
+
+      <figure>
+        <title>Permission Lookup</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/permission_lookup_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Enter information in one or more fields on the <emphasis
+      role="bold">Permission Lookup</emphasis> screen and then click the
+      <emphasis role="bold">search</emphasis> button to display permissions
+      that match your information.</para>
+
+      <para><table frame="none" tabstyle="striped">
+          <title>Permission Lookup Attributes</title>
+
+          <tgroup cols="2">
+            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+            <thead>
+              <row>
+                <entry>Field Name</entry>
+
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>Template Namespace</entry>
+
+                <entry>Optional. The code identifying the application and
+                module the template pertains to. Because templates tend to be
+                general categories, they are often associated with
+                system-level namespaces.</entry>
+              </row>
+
+              <row>
+                <entry>Template Name</entry>
+
+                <entry>Optional. The template the permission is based on. A
+                template usually defines, in a broad sense, what the
+                permission controls. Similar types of permissions use the same
+                template.</entry>
+              </row>
+
+              <row>
+                <entry>Permission Namespace</entry>
+
+                <entry>Optional. The code designating the application and
+                module this permission is associated with.</entry>
+              </row>
+
+              <row>
+                <entry>Permission Name</entry>
+
+                <entry>Optional. The name of this permission. In most cases,
+                the permission name is the same as its associated template
+                name.</entry>
+              </row>
+
+              <row>
+                <entry>Role Namespace</entry>
+
+                <entry>Optional. An indicator that associates the role with a
+                particular application and module.</entry>
+              </row>
+
+              <row>
+                <entry>Role Name</entry>
+
+                <entry>Optional. The common descriptive name by which this
+                role is known.</entry>
+              </row>
+
+              <row>
+                <entry>Principal Name</entry>
+
+                <entry>Optional. The principals that currently have this
+                permission through their association with a role</entry>
+              </row>
+
+              <row>
+                <entry>Group Namespace</entry>
+
+                <entry>Optional. The namespace of groups that have this
+                permission through the groups' association with a role</entry>
+              </row>
+
+              <row>
+                <entry>Group Name</entry>
+
+                <entry>Optional. The name of a group that has this permission
+                through its association with a role</entry>
+              </row>
+
+              <row>
+                <entry>Permission Detail Values</entry>
+
+                <entry><para>Optional. Detailed information that, in
+                combination with the permission name, defines the permission's
+                function For example, if the permission name is <emphasis
+                role="bold">Initiate Document</emphasis>, the <emphasis
+                role="bold">Permission Detail Values</emphasis> field
+                indicates the specific type of document the initiate
+                permission pertains to. Permission detail values can include
+                many different types of data. Some common permission
+                details:</para> <itemizedlist>
+                    <listitem>
+                      <para><emphasis role="bold">documentTypeName</emphasis>:
+                      The name of the document Type associated with this
+                      permission.</para>
+                    </listitem>
+
+                    <listitem>
+                      <para><emphasis role="bold">routeNodeName</emphasis>:
+                      The point in a document's workflow routing at which this
+                      permission becomes relevant.</para>
+                    </listitem>
+
+                    <listitem>
+                      <para><emphasis role="bold">routeStatusCode</emphasis>:
+                      The routing status that a document must be in for this
+                      permission to apply.</para>
+                    </listitem>
+
+                    <listitem>
+                      <para><emphasis role="bold">propertyName</emphasis>: A
+                      field or document element that the permission pertains
+                      to.</para>
+                    </listitem>
+                  </itemizedlist></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+
+      <para>When you click the <emphasis role="bold">search</emphasis> button
+      for a Permission Lookup, KIM displays your search results in a table
+      like this:</para>
+
+      <figure>
+        <title>Permission Lookup: Results Example</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/permission_lookup_results_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>The information in the search results table is display-only and is
+      defined above. New field:</para>
+
+      <para><table frame="none" tabstyle="striped">
+          <title>Permission Lookup: Results Attributes</title>
+
+          <tgroup cols="2">
+            <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+            <thead>
+              <row>
+                <entry>Field Name</entry>
+
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>Granted to Roles</entry>
+
+                <entry>Lists the namespace and name of roles that have this
+                permission. Click on a linked name to view its Role Inquiry
+                screen.</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+    </section>
+
+    <section>
+      <title>Permission Inquiry</title>
+
+      <para>To view the <emphasis role="bold">Permission Inquiry</emphasis>
+      screen for a Permission, click the <emphasis role="bold">Permission
+      Name</emphasis> in the search results from a Permission Lookup. The
+      Permission Inquiry screen contains the same information as the
+      Permission Lookup search results, but in a slightly different
+      format:</para>
+
+      <figure>
+        <title>Permission Inquiry</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/permission_inquiry_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>The fields on this screen are documented above in the <emphasis
+      role="bold">Permission Lookup</emphasis> section.</para>
+    </section>
+
+    <section>
+      <title>Permission Template Inquiry</title>
+
+      <para>This screen provides detailed information about a <emphasis
+      role="bold">Template Namespace</emphasis>. To display it, click a
+      <emphasis role="bold">Template Name</emphasis> on the <emphasis
+      role="bold">Document Configuration</emphasis> screen or the <emphasis
+      role="bold">Permission Inquiry</emphasis> screen.</para>
+
+      <figure>
+        <title>Permission Template Inquiry</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/permission_template_inquiry_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Information related to the fields on this screen can be found
+      above, in the <emphasis role="bold">Permission Lookup</emphasis> section
+      of this document.</para>
+    </section>
+
+    <section>
+      <title>Delivered Permission Templates</title>
+
+      <para>Rice is delivered with a number of permission templates. Below is
+      a listing of each along with a brief description of their use.</para>
+
+      <para><table frame="none" tabstyle="striped">
+          <title>Delivered Permission Templates</title>
+
+          <tgroup cols="5">
+            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+
+            <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+
+            <colspec colname="c5" colnum="5" colwidth="1.0*"/>
+
+            <thead>
+              <row>
+                <entry>Template ID</entry>
+
+                <entry>Template Namespace</entry>
+
+                <entry>Template Name</entry>
+
+                <entry>Permission Template Description</entry>
+
+                <entry>Permission Details</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>1</entry>
+
+                <entry>KUALI</entry>
+
+                <entry>Default</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>2</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Copy Document</entry>
+
+                <entry/>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>3</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Administer Routing for Document</entry>
+
+                <entry/>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>4</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Blanket Approve Document</entry>
+
+                <entry>Authorizes user to bypass specified approval route
+                nodes</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>5</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Route Document</entry>
+
+                <entry>Authorizes user to route a document from their action
+                list</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>8</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Take Requested Action</entry>
+
+                <entry>Authorizes user to take applicable actions (approve,
+                disapprove, acknowledge, etc.) on documents in their action
+                list.</entry>
+
+                <entry><code>actionRequestCd=</code></entry>
+              </row>
+
+              <row>
+                <entry>9</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Ad Hoc Review Document</entry>
+
+                <entry>Authorizes user to review a document that has been sent
+                to them via an Ad Hoc Request</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>10</entry>
+
+                <entry>KR-SYS</entry>
+
+                <entry>Initiate Document</entry>
+
+                <entry>Authorizes user to create a new document</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>14</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Cancel Document</entry>
+
+                <entry>Authorizes users to cancel a document prior to it being
+                submitted for routing.</entry>
+
+                <entry><para>
+                     
+
+                    <code>documentTypeName=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>routeNodeName=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>15</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Save Document</entry>
+
+                <entry>Authorizes user to save a document that has been
+                initiated or routed to them for action back to their action
+                list</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>16</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Edit Document</entry>
+
+                <entry/>
+
+                <entry><para>
+                     
+
+                    <code>documentTypeName=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>routeStatusCode=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>routeNodeName=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>23</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Look Up Records</entry>
+
+                <entry/>
+
+                <entry><para>
+                     
+
+                    <code>namespaceCode=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>componentName=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>24</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Inquire Into Records</entry>
+
+                <entry/>
+
+                <entry><para>
+                     
+
+                    <code>namespaceCode=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>componentName=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>25</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>View Inquiry or Maintenance Document Field</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>26</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Modify Maintenance Document Field</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>27</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Full Unmask Field</entry>
+
+                <entry/>
+
+                <entry><para>
+                     
+
+                    <code>propertyName=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>componentName=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>28</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Partial Unmask Field</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>29</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Use Screen</entry>
+
+                <entry/>
+
+                <entry><para>
+                     
+
+                    <code>actionClass=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>namespaceCode=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>30</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Perform Custom Maintenance Document Function</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>31</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Use Transactional Document</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>32</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Modify Batch Job</entry>
+
+                <entry/>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>33</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Upload Batch Input File(s)</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>34</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Maintain System Parameter</entry>
+
+                <entry/>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>35</entry>
+
+                <entry>KR-IDM</entry>
+
+                <entry>Assign Role</entry>
+
+                <entry/>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>36</entry>
+
+                <entry>KR-IDM</entry>
+
+                <entry>Grant Permission</entry>
+
+                <entry/>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>37</entry>
+
+                <entry>KR-IDM</entry>
+
+                <entry>Grant Responsibility</entry>
+
+                <entry/>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>38</entry>
+
+                <entry>KR-IDM</entry>
+
+                <entry>Populate Group</entry>
+
+                <entry/>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>40</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Open Document</entry>
+
+                <entry/>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>42</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Create / Maintain Record(s)</entry>
+
+                <entry/>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>43</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>View Inquiry or Maintenance Document Section</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>44</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Modify Maintenance Document Section</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>45</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Add Note / Attachment</entry>
+
+                <entry>Authorizes a user to add a note / attachment to a
+                document</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>46</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>View Note / Attachment</entry>
+
+                <entry>Authorizes a user to view notes and download
+                attachments that have been added to a document</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>47</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Delete Note / Attachment</entry>
+
+                <entry>Authorizes a user to remove notes and attachments that
+                have been added to a document</entry>
+
+                <entry><para>
+                     
+
+                    <code>documentTypeName=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>createdBySelfOnly</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>49</entry>
+
+                <entry>KR-NS</entry>
+
+                <entry>Send Ad Hoc Request</entry>
+
+                <entry>Authorizes a user to create an action request to user(s)
+                outside the normal route chain</entry>
+
+                <entry><para>
+                     
+
+                    <code>actionRequestCd=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>documentTypeName=</code>
+
+                     
+                  </para></entry>
+              </row>
+
+              <row>
+                <entry>51</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Add Message to Route Log</entry>
+
+                <entry>Authorizes user to add annotations to a document that
+                appear in the Route Log of a document</entry>
+
+                <entry><code>documentTypeName=</code></entry>
+              </row>
+
+              <row>
+                <entry>52</entry>
+
+                <entry>KR-RULE</entry>
+
+                <entry>KRMS Agenda Permission</entry>
+
+                <entry>Authorizes user to view and edit KRMS agendas</entry>
+
+                <entry><code>namespaceCode=</code></entry>
+              </row>
+
+              <row>
+                <entry>53</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Open View</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>54</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Edit View</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>55</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Use View</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>56</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>View Field</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>57</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Edit Field</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>58</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>View Group</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>59</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Edit Group</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>60</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>View Widget</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>61</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Edit Widget</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>62</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Perform Action</entry>
+
+                <entry/>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>63</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>View Line</entry>
+
+                <entry>Authorizes a user to view the lines in a
+                collection</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>64</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Edit Line</entry>
+
+                <entry>Authorizes a user to edit the lines in a
+                collection</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>65</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>View Line Field</entry>
+
+                <entry>Authorizes a user to view the individual fields in the
+                lines of a collection</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>66</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Edit Line Field</entry>
+
+                <entry>Authorizes a user to edit the individual fields in the
+                lines of a collection</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>67</entry>
+
+                <entry>KR-KRAD</entry>
+
+                <entry>Perform Line Action</entry>
+
+                <entry>Authorizes a user to take actions (add, delete, edit,
+                etc.) to the lines of a collection</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>68</entry>
+
+                <entry>KR-WKFLW</entry>
+
+                <entry>Recall Document</entry>
+
+                <entry>Authorizes a user to recall a submitted document to
+                their action list for edit and resubmission or
+                cancellation</entry>
+
+                <entry><para>
+                     
+
+                    <code>documentTypeName=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>routeNodeName=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>routeStatusCode=</code>
+
+                     
+                  </para> <para>
+                     
+
+                    <code>appDocStatus=</code>
+
+                     
+                  </para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+    </section>
+</chapter>

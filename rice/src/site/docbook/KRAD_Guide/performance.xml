@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ Copyright 2006-2013 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<chapter xml:id="performance" xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns="http://docbook.org/ns/docbook" version="5.0">
+  <title>Performance</title>
+  <section>
+    <title>Table Collection Performance Options</title>
+    <para>Table collections in KRAD have few options that may need to be tweaked or set depending on
+      the size of your collection and the type of items in your collection.  These can greatly
+      improve the performance of your table collections.  However, due to the nature of these
+      options, they must be selected on a case by case basis depending on your table collection
+      and some testing may involved to determine which feature best suits your needs. The following
+      KRAD features may help with your table collection’s performance:
+      <itemizedlist>
+        <listitem>
+          <para>Ajax retrieval for the collection row details feature -
+            <emphasis role="bold"
+                    >ajaxDetailsRetrieval
+            </emphasis>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Local JSON data -
+            <emphasis role="bold">forceLocalJsonData</emphasis>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Server-side paging -
+            <emphasis role="bold">useServerPaging</emphasis>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Using a LightTable -
+            <emphasis role="bold">LightTable</emphasis>
+            component
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <section>
+      <title>When to use Ajax retrieval for details</title>
+      <para>It is most advantageous to use this feature when your rowDetailsGroup contains a
+        collection itself or contains a large amount of javascript based features. By setting the
+        collection table’s layoutManager
+        <emphasis role="bold">ajaxDetailsRetrieval</emphasis>
+        flag
+        to true, the group defined in rowDetailsGroup will not be requested (or processed) by the
+        client until the user clicks on the Details link for the row to open it. Since this content
+        is not there until requested, the initial collection load can be reduced significantly, at
+        the cost of a small delay when opening a row’s details.
+        <programlisting>&lt;bean parent="Uif-Disclosure-TableCollectionSection">
+          ...
+          &lt;property name="layoutManager.ajaxDetailsRetrieval" value="true"/>
+          &lt;property name="layoutManager.rowDetailsGroup">
+          &lt;bean parent="Lab-Performance-SubCollection1"/>
+          &lt;/property>
+          ...
+          &lt;/bean>
+        </programlisting>
+      </para>
+      <para>Requirements:
+        <itemizedlist>
+          <listitem>
+            <para>Must be using RichTable</para>
+          </listitem>
+          <listitem>
+            <para>Must be using rowDetailsGroup</para>
+          </listitem>
+          <listitem>
+            <para>rowDetailsGroup contains content of some complexity</para>
+          </listitem>
+        </itemizedlist>
+        Advantages:
+        <itemizedlist>
+          <listitem>
+            <para>Improves initial loading time for all tables which contain a
+              rowDetailsGroup
+            </para>
+          </listitem>
+          <listitem>
+            <para>Much faster load times if rowDetailsGroup contains a collection itself</para>
+          </listitem>
+        </itemizedlist>
+        Disadvantages:
+        <itemizedlist>
+          <listitem>
+            <para>Causes a small delay while opening a row’s details for the server roundtrip and
+              client processing (length of delay increases as rowDetailsGroup complexity
+              increases)
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    <section>
+      <title>When to use local JSON data</title>
+      <para>It is most advantageous to use this feature when the collection being processed is known
+        to be small in size (less than 20-50, but also dependent on individual row item
+        complexity).  This loads all the data into the table in JSON format automatically (by the
+        framework) which allows us to take advantage of a feature in the datatable plugin called
+        deferred render (this is automatically turned on by the framework when this feature is
+        used).  Deferred rendering allows the table to defer the rendering of the dom elements until
+        the page is changed, thus improving upfront load times. 
+      </para>
+      <para>This feature can also be combined with the ajax row details approach for even faster
+        processing of table collections which use rowDetailsGroup functionality.
+      </para>
+      <para>This feature can be turned on by setting the
+        <emphasis role="bold"
+                >forceLocalJsonData
+        </emphasis>
+        flag to true in the layoutManager’s richTable
+        properties.
+        <programlisting>&lt;property name="layoutManager.richTable.forceLocalJsonData" value="true"/></programlisting>
+      </para>
+      <para>Due to a limitation of this approach, if you have a rowDetailsGroup in your table which
+        contains a subcollection table that also uses the forceLocalJsonData flag, you must set the
+        nestedLevel property of richTable to the level of nesting that table is at (a subcollection
+        contained in rowDetailsGroup would be nested level 1).  This must only be set if the parent
+        table is also using forceLocalJsonData (does not apply in cases where the parent collection
+        is not using this feature or where the parent collection is a stacked
+        collection).
+        <programlisting>&lt;property name="layoutManager.richTable.nestedLevel" value="1"/></programlisting>
+      </para>
+      <para>Requirements:
+        <itemizedlist>
+          <listitem>
+            <para>Must be using RichTable</para>
+          </listitem>
+          <listitem>
+            <para>Table is small in size (20-50 rows)</para>
+          </listitem>
+          <listitem>
+            <para>Table should have multiple pages (to take advantage of deferred rendering)</para>
+          </listitem>
+          <listitem>
+            <para>Must set nestedLevel for subCollection tables which exist in
+              rowDetailsGroup
+            </para>
+          </listitem>
+        </itemizedlist>
+        Advantages:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>Faster page load times for most tables vs. tables without this flag turned on</para>
+        </listitem>
+        <listitem>
+          <para>Deferred render allows the elements to not be rendered by the browser until
+            needed
+          </para>
+        </listitem>
+        <listitem>
+          <para>All data is stored client-side so page changes and sorting should be very
+            responsive
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>Disadvantages:
+        <itemizedlist>
+          <listitem>
+            <para>Page loading time increases as a collection becomes larger in size</para>
+          </listitem>
+          <listitem>
+            <para>Larger DOM size because JSON data is sent upfront</para>
+          </listitem>
+          <listitem>
+            <para>Requires manual management of the nestedLevel flag for subcollections which use
+              this feature
+            </para>
+          </listitem>
+          <listitem>
+            <para>Row and col spans are not allowed</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    <section>
+      <title>When to use server-side paging</title>
+      <para>It is most advantageous to use this feature when the collection being processed is known
+        to be large in size, however it may actually be faster than forceLocalJsonData in some
+        situations even for smaller tables depending on overall row size and server processing
+        required per a row.  This feature scales with collections of any size because it does not
+        require all the rows (and their components) to go through a full lifecycle process, but only
+        until they are needed by the table.  Since this table requires that it requests the data
+        from the server, there may be a small delay in loading new pages.  In addition, sorting the
+        data of the table because it requires a server roundtrip. The implementation itself returns
+        back JSON data (when using RichTable) on each request representing the rows being displayed. </para>
+      <para>This feature can also be combined with the ajax row details approach for even faster
+        processing of table collections which use rowDetailsGroup functionality.
+      </para>
+      <para>This feature can be turned on by setting the
+        <emphasis role="bold"
+                >useServerPaging
+        </emphasis>
+        flag to true on the CollectionGroup
+        itself.
+        <programlisting>&lt;bean parent="Uif-Disclosure-TableCollectionSection" p:headerText="Collection 1">
+          &lt;property name="useServerPaging" value="true"/>
+          ...
+        </programlisting>
+      </para>
+      <para>Requirements:
+        <itemizedlist>
+          <listitem>
+            <para>RichTable or a table without RichTable functionality can be used </para>
+          </listitem>
+          <listitem>
+            <para>Collection size may be large (preferred) or small</para>
+          </listitem>
+          <listitem>
+            <para>Collection should have multiple pages</para>
+          </listitem>
+        </itemizedlist>
+        Advantages:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>Faster page load times for most tables vs. tables without this flag turned on</para>
+        </listitem>
+        <listitem>
+          <para>Very fast load times for extremely large collections (1000+) in comparison to other
+            full feature approaches
+          </para>
+        </listitem>
+        <listitem>
+          <para>Reduced DOM size upfront</para>
+        </listitem>
+      </itemizedlist>
+      <para>Disadvantages:
+        <itemizedlist>
+          <listitem>
+            <para>Small delays when changing pages and sorting, due to the server roundtrip
+              (dependent on server load and row complexity) – this impact should be somewhat minimal </para>
+          </listitem>
+          <listitem>
+            <para>Server sorting becomes slower as the collection gets larger</para>
+          </listitem>
+          <listitem>
+            <para>Server sorting can become slower if the column being sorted contains SpringEL
+              expressions for its content
+            </para>
+          </listitem>
+          <listitem>
+            <para>Row and col spans are not allowed when using RichTable functionality, however they
+              are allowed if RichTable is not being used, but column sorting will be lost
+              (richTable.render is "false")</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    <section>
+      <title>When to use LightTable</title>
+      <para>It is most advantageous to use this feature when the collection is somewhat simple in
+        nature, only containing read-only data, basic input fields, and basic actions.  The
+        <emphasis role="bold">LightTable</emphasis>
+        can be very fast to load even with very large
+        sets of data, and the page and sorting functionality should be near instantaneous.  In order
+        to gain this speed increase, this collection table only supports a subset of features and
+        does not support table collection add or rowDetials functionality.  The intent of this table
+        is mostly to display simple, read-only information quickly and efficiently.  See the
+        LightTable documentation for the full list of features this table can support.
+      </para>
+      <para>This feature can be used by setting the parent property of your collection to use
+        <emphasis role="bold">“Uif-LightTableGroup”</emphasis>
+        and removing any flags/options
+        which this collection does not
+        support.
+        <programlisting>&lt;bean id="Demo-LightTableGroup" parent="Uif-LightTableGroup">
+          &lt;property name="propertyName" value="list6"/>
+          &lt;property name="items">
+          &lt;list>
+          &lt;bean parent="Uif-LinkField" p:label="Action Field" p:link.linkText="Link"
+          p:link.href="@{#ConfigProperties['krad.url']}/uicomponents?methodToCall=start&amp;amp;viewId=ViewId&amp;amp;field1=@{#lp.field1}"/>
+          &lt;bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+          &lt;bean parent="Uif-DataField" p:label="Field 2" p:propertyName="field2"/>
+          &lt;/list>
+          &lt;/property>
+          &lt;/bean>
+        </programlisting>
+      </para>
+      <para>Requirements:
+        <itemizedlist>
+          <listitem>
+            <para>Must use the LightTable bean “Uif-LightTableGroup”</para>
+          </listitem>
+          <listitem>
+            <para>Must only contain row items which are supported by LightTable</para>
+          </listitem>
+          <listitem>
+            <para>Adding and row details must not be needed by your collection</para>
+          </listitem>
+        </itemizedlist>
+        Advantages:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>One of the fastest options for those table collections which can take advantage of
+            it (however, server-side paging may be faster depending on user needs, row content, and
+            collection size)
+          </para>
+        </listitem>
+        <listitem>
+          <para>Fast load times for 1000+ items</para>
+        </listitem>
+        <listitem>
+          <para>All data is stored client-side so page changes and sorting should be very
+            responsive
+          </para>
+        </listitem>
+        <listitem>
+          <para>Takes advantage of datatable deferred render</para>
+        </listitem>
+      </itemizedlist>
+      <para>Disadvantages:
+        <itemizedlist>
+          <listitem>
+            <para>Only supports a subset of components in its row items</para>
+          </listitem>
+          <listitem>
+            <para>Does not support row details or adding</para>
+          </listitem>
+          <listitem>
+            <para>Larger DOM size because JSON data is sent upfront</para>
+          </listitem>
+          <listitem>
+            <para>Row and col spans are not allowed</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+  </section>
+  <section>
+    <title>Stacked Collection Performance Options</title>
+    <para>Like Table collections, stacked collections also have a few performance options that can
+      be used to help improve performance, especially for larger stacked collections.  However, due
+      to the nature of these options, they must be selected on a case by case basis depending on
+      your stacked collection and some testing may involved to determine which feature best suits
+      your needs. The following KRAD features may help with your stacked collection’s performance: <itemizedlist>
+        <listitem>
+          <para>Server-side paging - <emphasis role="bold">useServerPaging</emphasis>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Ajax retrieval of collapsed collection items - <emphasis role="bold"
+              >disclosure.ajaxRetrievalWhenOpened</emphasis></para>
+        </listitem>
+      </itemizedlist></para>
+    <section>
+      <title>When to use server-side paging</title>
+      <para>It is most advantageous to use this feature when the collection being processed is known
+        to be large in size.  This feature scales with collections of any size because it does not
+        require all the rows (and their components) to go through a full lifecycle process, but only
+        until they are needed.  Since this option requires that it requests the data from the
+        server, there may be a small delay in loading new pages.  Paging is backed and configured by
+        the Pager widget in the "pagerWidget" property of the StackedLayoutManager.</para>
+      <para>This feature can be turned on by setting the <emphasis role="bold">useServerPaging
+        </emphasis> flag to true on the CollectionGroup itself.
+        <programlisting>&lt;bean parent="Uif-Disclosure-TableCollectionSection" p:headerText="Collection 1">
+          &lt;property name="useServerPaging" value="true"/>
+          ...
+        </programlisting></para>
+      <para>Requirements: <itemizedlist>
+          <listitem>
+            <para>The stacked collection can use pages for its content</para>
+          </listitem>
+          <listitem>
+            <para>Collection size may be large (preferred) or small</para>
+          </listitem>
+          <listitem>
+            <para>Collection should have multiple pages</para>
+          </listitem>
+        </itemizedlist> Advantages: </para>
+      <itemizedlist>
+        <listitem>
+          <para>Faster page load times</para>
+        </listitem>
+        <listitem>
+          <para>Very fast load times for extremely large collections (1000+) in comparison to
+            outputting the entire collection</para>
+        </listitem>
+        <listitem>
+          <para>Reduced DOM size upfront</para>
+        </listitem>
+      </itemizedlist>
+      <para>Disadvantages: <itemizedlist>
+          <listitem>
+            <para>Small delays when changing pages, due to the server roundtrip (dependent on server
+              load and content complexity) – this impact should be somewhat minimal </para>
+          </listitem>
+        </itemizedlist></para>
+    </section>
+    <section>
+      <title>When to use Ajax retrieval of collapsed collection items</title>
+      <para>To help with large collections, you can make each of the items of the stacked collection
+        use a Disclosure that is collapsed by default and only retrieve the content when it is
+        opened.  If this is acceptable for your stacked collection needs, an option can be used name
+        ajaxRetrievalWhenOpened.  This feature requires that the items be collapsed by setting the
+        Disclosure's "defaultOpen" property to "false".  When the disclosure link is clicked for
+        each stacked item, the content will be retrieved.  This feature can be combined with
+        server-side paging.</para>
+      <para>The feature can be used by setting the following in your stacked collection
+        configuration on the <emphasis role="bold">lineGroupPrototype</emphasis> of the
+        layoutManager:<programlisting>  &lt;property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+
+  &lt;!-- Disclosure items REQUIRE a summary title to work correctly -->
+  &lt;property name="layoutManager.summaryTitle" value="Item @{#line.field2}"/>
+  &lt;property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="<emphasis role="bold">false</emphasis>"/>
+  &lt;property name="layoutManager.lineGroupPrototype.disclosure.ajaxRetrievalWhenOpened" value="true"/></programlisting></para>
+      <para>Requirements: <itemizedlist>
+          <listitem>
+            <para>The stacked collection can use items which are collapsed by default</para>
+          </listitem>
+        </itemizedlist> Advantages: </para>
+      <itemizedlist>
+        <listitem>
+          <para>Faster page load times</para>
+        </listitem>
+        <listitem>
+          <para>The more items there are and/or the more complex the item content is, the larger the
+            gains in page load times</para>
+        </listitem>
+        <listitem>
+          <para>Reduced DOM size upfront</para>
+        </listitem>
+      </itemizedlist>
+      <para>Disadvantages: <itemizedlist>
+          <listitem>
+            <para>Small delays when content is loaded</para>
+          </listitem>
+          <listitem>
+            <para>Requires collection item information to be obscured until needed</para>
+          </listitem>
+        </itemizedlist></para>
+    </section>
+  </section>
+
+</chapter>

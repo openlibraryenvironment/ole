@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+--><chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" xml:id="client_side_features" version="5.0">
+  <title>Client Side Features </title>
+  <section xml:id="disclosure">
+    <title>Progressive Disclosure </title>
+    <section role="NotInToc">
+<!-- TODO: Add content here -->      <title>RECAP</title>
+      <itemizedlist>
+        <listitem>
+          <para>Progressive disclosure reduces clutter on the page by presenting content
+                        only when needed </para>
+        </listitem>
+        <listitem>
+          <para>Instead of displaying or sending all the content a user might need to
+                        complete a task, we display/send content as the user needs them </para>
+        </listitem>
+        <listitem>
+          <para>The content that is not displayed initially is associated with a
+                        condition, when the condition becomes true the content will be displayed
+                    </para>
+        </listitem>
+        <listitem>
+          <para>In KRAD we can configure a component to be progressive disclosed by
+                        setting the <emphasis role="keyword">progressiveRender</emphasis> property
+                    </para>
+        </listitem>
+        <listitem>
+          <para>The value for the progressive render property is an el statement. However
+                        only a subset of the EL is supported since the expression will be translated
+                        to script that evaluates on the client. Therefore for the most part the
+                        expressions are restricted to evaluation of model properties with a subset
+                        of the EL operators </para>
+        </listitem>
+        <listitem>
+          <para>First evaluation is done on the initial request to determine if the
+                        content should be displayed. In order to be initially displayed both the
+                        render property (which can be an expression) and the progressiveRender
+                        property must evaluate to true </para>
+        </listitem>
+        <listitem>
+          <para>On the client, fields that participate in the progressRender condition
+                        receive events that will trigger the condition evaluation </para>
+        </listitem>
+        <listitem>
+          <para>If the evaluation succeeds and the content is hidden, it will be shown.
+                        Contrary if the evaluation falls and the content is show, it will be hidden
+                    </para>
+        </listitem>
+        <listitem>
+          <para>The progressive render feature supports the following options for how the
+                        content is retrieved: <itemizedlist>
+              <listitem>
+                <para>default (no other flags set) – content will be sent to the
+                                    client and rendered, then hidden if the content should not be
+                                    visible </para>
+              </listitem>
+              <listitem>
+                <para>progressiveRenderViaAJAX set to true – if this property of
+                                    Component is set to true and the component's progressive render
+                                    condition is not initially true, the content will not be sent to
+                                    the client. When the condition becomes true on the client, a
+                                    request with AJAX will be made to retrieve the content. Once the
+                                    content is retrieve the first time it remains in the client for
+                                    subsequence show/hide operations </para>
+              </listitem>
+              <listitem>
+                <para>progressiveRenderAndRefresh set to true – if this property of
+                                    Component is set to true each time a show or hide operation is
+                                    performed a request to the server will be made to retrieve the
+                                    content. Since the model data is also sent with the request, the
+                                    content can also change between operations </para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Component Refresh </title>
+    <section role="NotInToc">
+<!-- TODO: Add content here -->      <title>RECAP</title>
+      <itemizedlist>
+        <listitem>
+          <para> The state of a component can change as the model changes </para>
+        </listitem>
+        <listitem>
+          <para>To be a highly responsive application, we want the updated component to be
+                        presented when the corresponding data condition is met </para>
+        </listitem>
+        <listitem>
+          <para>Traditionally, updates would only be presented after a server request such
+                        as a form action </para>
+        </listitem>
+        <listitem>
+          <para>With script, we can trigger the condition immediately and update the
+                        contents, which is known as Component Refresh </para>
+        </listitem>
+        <listitem>
+          <para>Component refresh is similar to progressive disclosure in that a certain
+                        condition will trigger an update for the component's contents </para>
+        </listitem>
+        <listitem>
+          <para> All KRAD components support the component refresh process </para>
+        </listitem>
+        <listitem>
+          <para> To enable component refresh, we set the component property <emphasis role="keyword">conditionalRefresh</emphasis>
+                    </para>
+        </listitem>
+        <listitem>
+          <para>The conditional refresh property holds an expression that is translated to
+                        client side script </para>
+        </listitem>
+        <listitem>
+          <para>Whenever the refresh condition toggles between the true and false result,
+                        a call to the server will be made to retrieve updated contents </para>
+        </listitem>
+        <listitem>
+          <para>Only the contents for the component are refreshed from the process,
+                        however the entire form data is sent to the server with the request </para>
+        </listitem>
+        <listitem>
+          <para> Using component refresh, we can do things such as the following: <itemizedlist>
+              <listitem>
+                <para> Change the disabled or read-only state of a component </para>
+              </listitem>
+              <listitem>
+                <para> Change the options for a control </para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+        <listitem>
+          <para> In many cases, we want to refresh content when the value for a field
+                        changes </para>
+        </listitem>
+        <listitem>
+          <para>For this cases, KRAD provides an easier configuration with the <emphasis role="keyword"
+              >refreshWhenChangedPropertyNames</emphasis> property </para>
+        </listitem>
+        <listitem>
+          <para>This property is configured on the component that should be refreshed. The
+                        value is one or more property names that trigger the refresh (when their
+                        value changes) </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Disable on User Action </title>
+    <para>Client-side disable on user action refers to the ability to disable controls and/or buttons based on user actions or input.  Client-side disable follows the same rules and limitations that progressive disclosure and refresh conditions do (they operate on a limited set of SpringEl expressions because they must be translated to the client – almost any Boolean expression which does not reference a function is allowed). </para>
+    <para> When a user interacts with a related control, the expression will be evaluated and if true, the corresponding control will be disabled.
+</para>
+    <para><emphasis role="bold">Important note: inputs which are disabled do not send their values to the server when a form is submitted. </emphasis></para>
+    <para>Disabled works with any <emphasis role="keyword">Control</emphasis> (technically any control which extends ControlBase).  It also works with any <emphasis role="bold">Action or ActionLink</emphasis>.  The following properties are available for disable functionality:</para>
+    <itemizedlist>
+      <listitem><para><emphasis role="keyword">disabled </emphasis>(Boolean expression) – can be any valid springEl boolean expression (or just true or false) – no custom SpringEL functions allowed</para></listitem>
+      <listitem><para><emphasis role="keyword">evaluateDisabledOnKeyUp </emphasis>(Boolean) – if true, rather than evaluating the disable condition on the onChange event, the condition will be evaluated on each keystroke allowing immediate feedback to the user. This can only be used on textual inputs.</para></listitem>
+      <listitem><para><emphasis role="keyword">disabledWhenChangedPropertyNames</emphasis> (list) – changing any of the inputs with the property names specified will disable THIS control. Useful for disallowing input when something else changes.</para></listitem>
+      <listitem><para><emphasis role="keyword">enabledWhenChangedPropertyNames</emphasis> (list) – changing any of the inputs with the property names specified will enable THIS control. Useful for when the control starts out with disable="true" and any user interaction with another control causes this one to be enabled.</para></listitem>
+    </itemizedlist>
+    <para>In this example, field2's TextControl input will be disabled when field118's value is "disable".  This is achieved through this property - p:disabled=&quot;@{#form.field118 eq &apos;disable&apos;}&quot;.  When field118's value is not "disable" the control will be enabled.  The action button specified here follows the same rules.</para>
+    <programlisting linenumbering="numbered">&lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field118&quot; p:label=&quot;Choose&quot; p:width=&quot;auto&quot;
+              p:instructionalText=&quot;Click option to disable and enable&quot;&gt;
+          &lt;property name=&quot;control&quot;&gt;
+            &lt;bean parent=&quot;Uif-VerticalRadioControl&quot;&gt;
+              &lt;property name=&quot;options&quot;&gt;
+                &lt;list&gt;
+                  &lt;bean parent=&quot;Uif-KeyLabelPair&quot; p:key=&quot;enable&quot; p:value=&quot;Enable&quot;/&gt;
+                  &lt;bean parent=&quot;Uif-KeyLabelPair&quot; p:key=&quot;disable&quot; p:value=&quot;Disable&quot;/&gt;
+                &lt;/list&gt;
+              &lt;/property&gt;
+            &lt;/bean&gt;
+          &lt;/property&gt;
+        &lt;/bean&gt;
+
+        &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field2&quot;&gt;
+          &lt;property name=&quot;control&quot;&gt;
+            &lt;bean parent=&quot;Uif-TextControl&quot; <emphasis role="bold">p:disabled=&quot;@{#form.field118 eq &apos;disable&apos;}&quot;</emphasis>/&gt;
+          &lt;/property&gt;
+        &lt;/bean&gt;
+...
+&lt;bean parent=&quot;Uif-PrimaryActionButton&quot; p:actionLabel=&quot;Action Button&quot; <emphasis role="bold">p:disabled=&quot;@{#form.field118 eq &apos;disable&apos;}&quot;</emphasis>/&gt;
+</programlisting>
+    <para>Example of both the <emphasis role="keyword">enabledWhenChangedPropertyNames </emphasis>and
+      <emphasis role="keyword">evaluateDisabledOnKeyUp</emphasis> in action; when field52 has
+      anything typed in, then enable this control for field54 immediately.</para>
+    <programlisting linenumbering="numbered"> &lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field54&quot;&gt;
+                &lt;property name=&quot;control&quot;&gt;
+                  &lt;bean parent=&quot;Uif-TextControl&quot; p:disabled=&quot;true&quot; p:enabledWhenChangedPropertyNames=&quot;field52&quot;
+                        p:evaluateDisabledOnKeyUp=&quot;true&quot;/&gt;
+                &lt;/property&gt;
+              &lt;/bean&gt;
+</programlisting>
+  </section>
+  <section>
+    <title>AJAX Actions </title>
+    <!-- TODO: Add content here -->    <section role="NotInToc">
+      <title>RECAP</title>
+      <itemizedlist>
+        <listitem>
+          <para>To support more responsive applications with features such as progressive
+                        disclosure and component refresh, we need to support partial page refreshes
+                    </para>
+        </listitem>
+        <listitem>
+          <para>In a traditional web application, the entire page is submitted by the
+                        browser and completely rendered again with the response </para>
+        </listitem>
+        <listitem>
+          <para>Today with Ajax, we can make server requests ourselves, receive the
+                        response, and update pieces of the page as needed</para>
+        </listitem>
+        <listitem>
+          <para>Within the framework partial updates are handled by the framework to
+                        support various features </para>
+        </listitem>
+        <listitem>
+          <para>By default, actions configured for a view will result in the entire view
+                        being rendered </para>
+        </listitem>
+        <listitem>
+          <para>For configuring partial refreshes, the Uif-PrimaryActionButton is provided </para>
+        </listitem>
+        <listitem>
+          <para>Ajax action fields have all the same properties as action components, but
+                        have two additional properties: <itemizedlist>
+              <listitem>
+                <para>refreshId – id for the component that should be refresh when
+                                    the action completes </para>
+              </listitem>
+              <listitem>
+                <para>refreshPropertyName – property name for the data (or input)
+                                    field that should be refresh when the action completes </para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+        <listitem>
+          <para>Using these properties, we can refresh any group (including the page,
+                        section, sub- section, or other group), field, or widget </para>
+        </listitem>
+        <listitem>
+          <para>Using these properties, we can refresh any group (including the page,
+                        section, sub- section, or other group), field, or widget </para>
+        </listitem>
+        <listitem>
+          <para> By default when using ajax action field the page is refreshed </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Lightbox</title>
+    <para>The recommended way to use lightboxes is through the <link linkend="linkAndLinkField"
+        >Uif-Link</link> or the Uif-Dialog beans. For cases where this isn't possible, the following
+      JavaScript functions can be used to open lightboxes.</para>
+    <variablelist>
+      <varlistentry>
+        <term>showLightboxUrl(url)</term>
+        <listitem>
+          <para>The content for the lightbox is loaded from the specified url.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <variablelist>
+      <varlistentry>
+        <term>showLightboxComponent(componentId)</term>
+        <listitem>
+          <para>The content for the lightbox is a Uif component (e.g. a section) and is specified via the component id.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <variablelist>
+      <varlistentry>
+        <term>showLightboxContent(content)</term>
+        <listitem>
+          <para>The content of the lightbox is passed as the parameter which could be either plain or html formatted text.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>Each of the three functions can accept a second <emphasis role="keyword"
+        >overrideOptions</emphasis> parameter which allows for additional lightbox styling. This
+      parameter is optional and should only be used if it is unavoidable, since it is specific to
+      the underlying implementation, which could change. If possible use the "uif-lightbox" CSS
+      class for styling.</para>
+  </section>
+  <section>
+    <title>Working in the Client with jQuery </title>
+    <para/>
+<!-- TODO: Add content here -->  </section>
+  <section>
+    <title>Data Attributes</title>
+    <para>HTML 5 data attributes are a way of adding custom attributes to tags. Data attributes are
+      prefixed with a 'data-' prefix e.g. 'data-role'. JQuery makes data attributes available on the
+      jQuery data object for use in scripting manipulations. Internally, KRAD uses the jQuery data
+      object and data attributes heavily in validation, amongst other uses. This can be seen in
+      krad.validate.js.</para>
+    <para>Data attributes are available on all form elements, except the radio button. Page elements
+      like image, iframe, and links also support data attributes. There are two ways to add data
+      attributes to a control or element. Both these ways involve setting properties in the defining
+      XML configuration files. </para>
+    <para>The first way applies to three data attributes, which can be set directly on a component
+      using the property names data-role, data-meta and data-type. These attributes are physically
+      present on the tag for the component on which they have been configured. This can be seen in
+      lines 13 - 15 of the program listing below. </para>
+    <para>The second way is to use the dataAttributes map to set a list of attributes. The map key
+      is the attribute name, and the value is the attribute value. Using the map is appropriate when
+      complex attributes need to be set. Complex attributes are those whose values contain '{}'.
+      Data attributes set via this map are not physically present on the tag, but are set on the
+      component's jQuery data object via an initialization script that runs on page load. This can
+      be seen in lines 5 - 12 of the program listing below.</para>
+    <para/>
+    <para>A sample configuration is shown below.</para>
+    <programlisting linenumbering="numbered">
+1.    &lt;bean id=&quot;textAreaInputField_attrs&quot; parent=&quot;Uif-InputField&quot; &gt;
+2.      ...
+3       &lt;bean parent=&quot;Uif-TextAreaControl&quot; &gt;
+4.        ...
+5.        &lt;property name=&quot;dataAttributes&quot;&gt;
+6.          &lt;map&gt;
+7.            &lt;entry key=&quot;iconTemplateName&quot; value=&quot;cool-icon-%s.png&quot;/&gt;
+8.            &lt;entry key=&quot;transitions&quot; value=&quot;3&quot;/&gt;
+9.            &lt;entry key=&quot;capitals&quot; value=&quot;{kenya:&apos;nairobi&apos;, uganda:&apos;kampala&apos;, tanzania:&apos;dar&apos;}&quot;/&gt;
+10.           &lt;entry key=&quot;intervals&quot; value=&quot;{short:2, medium:5, long:13}&quot;/&gt;
+11.         &lt;/map&gt;
+12.       &lt;/property&gt;
+13.     &lt;property name=&quot;dataRoleAttribute&quot; value=&quot;role&quot;/&gt;
+14.     &lt;property name=&quot;dataMetaAttribute&quot; value=&quot;meta&quot;/&gt;
+15.     &lt;property name=&quot;dataTypeAttribute&quot; value=&quot;type&quot;/&gt;
+16.     &lt;/bean&gt;
+17.     &lt;/property&gt;
+18.    &lt;/bean&gt;
+      </programlisting>
+  </section>
+  <section>
+    <title>Configuring Event Handling </title>
+    <section role="NotInToc">
+      <title>RECAP</title>
+      <itemizedlist>
+        <listitem>
+          <para>Views can be enhanced to achieve a wide range of functionality by
+                        extending the client side behavior </para>
+        </listitem>
+        <listitem>
+          <para>All views receive the jQuery import for use (other libraries can be
+                        included for all views through the theme) </para>
+        </listitem>
+        <listitem>
+          <para> KRAD supports two mechanisms for adding client side code: <itemizedlist>
+              <listitem>
+                <para>Create a JavaScript file that references component content by
+                                id (or some other selector), then include the file through the
+                                view's additionalScriptFiles property </para>
+              </listitem>
+              <listitem>
+                <para>Add JavaScript code associated with a component event through
+                                the corresponding component property </para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+        <listitem>
+          <para>Component classes include properties for events that are applicable to the generate
+            HTML elements (for example 'onBlurScript' for control components) </para>
+        </listitem>
+        <listitem>
+          <para>Some common events include: <itemizedlist>
+              <listitem>
+                <para>onDocumentReadyScript – special jQuery event that gets thrown
+                                when the document is fully loaded </para>
+              </listitem>
+              <listitem>
+                <para> onBlurScript – event thrown when focus is removed from an
+                                element </para>
+              </listitem>
+              <listitem>
+                <para> onChangeScript – event thrown when the value for a control
+                                changes </para>
+              </listitem>
+              <listitem>
+                <para> onClickScript – event thrown when an element is clicked
+                            </para>
+              </listitem>
+              <listitem>
+                <para> onFocusScript – event thrown when an element receives focus
+                            </para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+        <listitem>
+          <para>For the event property value, a script can be included inline, or externalized to a
+            JavaScript file and then invoked as a function </para>
+        </listitem>
+        <listitem>
+          <para>The jQuery object can be referenced by the full name of 'jQuery', or the
+                        abbreviated 'jq' name </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Validation </title>
+    <section>
+      <title>Client Side Validation </title>
+      <para>Client-side validation refers to validation that happens without interaction with
+                the server, immediately during user interaction with input fields. Client-side
+                validation uses the constraints defined on InputFields and AttributeDefinitions to
+                determine if a field is valid. These constraints are converted in the java code to
+                methods and rules used by the jquery.validate.js plugin. </para>
+      <para>When the user has interacted with a field and moved on to the next field, client-side
+        validation is invoked on that field and any validation errors are shown on the screen. When
+        the user goes back to a field to correct it, validation occurs with any change so the user
+        gets immediate feedback on whether they fixed their error. </para>
+      <para>The validation messages shown are determined by the messageKey on the constraint
+                for that field. </para>
+      <para>By default, client-side validation is on. Client-side validation can be turned
+                off/on on each individual constraint, but also at the FormView level through the
+                validateClientSide flag. </para>
+    </section>
+    <section>
+      <title> Server Side Validation </title>
+      <para>KRAD enabled server-side validation must be performed manually through methods on
+                your custom controller. To call server validation manually, use the validateView
+                method on the ViewValidationService. This method will validate on any constraints
+                set on the InputFields/AttributeDefinitions for your view. If there are any errors,
+                this method will add them to the MessageMap. The validation mechanism used is
+                functionally equivalent to client-side validation. </para>
+      <para><programlisting linenumbering="numbered"> KRADServiceLocatorWeb.getViewValidationService().validateView(form); </programlisting></para>
+    </section>
+    <section>
+      <title>Validation Messages </title>
+      <para>Validation messages is the term used for error, warning, or information messages that are displayed on the screen.  Validation messages can be displayed for both server-side and client-side messages.  The ValidationMessages ContentElement allows configuration of how and when these messages are displayed.  This object can be configured at the Page, Group/Section, and Field level, and each level is configured with some default recommended settings, but these can be overridden. </para>
+      <para>Server-side messages are shown for any messages that are added to the MessageMap from one of your controller method calls (as described in 6.13 ValidationMessages content element).</para>
+      <para>Each message type will have different icons (and background patterns) associated with the messages when displayed.   By default these icons are:</para>
+      <itemizedlist>
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="../images/KRAD_Guide/error.png" align="center"/>
+              </imageobject>
+            </inlinemediaobject> Error</para>
+        </listitem>
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="../images/KRAD_Guide/warning.png" align="center"/>
+              </imageobject>
+            </inlinemediaobject> Warning</para>
+        </listitem>
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="../images/KRAD_Guide/info.png" align="center"/>
+              </imageobject>
+            </inlinemediaobject> Info</para>
+        </listitem>
+      </itemizedlist>
+      <para>When validation messages are received from the server they are always displayed in a summary at the top of the page and at the sections for which they apply. </para>
+      <para>At the page level, if sections exist, the summary will include the total number of
+        messages on the screen and links to each section which contains the fields/sections that
+        have validation messages. Messages which apply to the entire page are also displayed at this
+        level. If the page has no sections, the page level summary will include links directly to
+        the fields which have messages.</para>
+      <para>At the section level,  the messages will be links to the fields which they apply - these links will cause the browser to move focus to that field.  Any message beyond the first for a field, will be displayed as a summary; the full message content will be available during field interaction. If the section contains its own subsections which have messages, there will be links to those subsections.</para>
+      <para>At the field level, all applicable messages will be displayed in a tooltip when the
+        field's control has focus or when the field's control is being hovered over.</para>
+      <para>When first interacting with a page that has no message summaries, messages will only appear at the field level during client-side validation.  If a summary already exists on the page, these new messages will appear in the summaries as client-side validation occurs.</para>
+      <para>When a client-side validation error occurs, the user will see an error icon and appropriate error highlighting on the control which has an error. When the user returns to this field, they will see the error message in a tooltip, and when the user attempts to fix a field that has a client-side error, feedback to the user will be immediate: when the error is fixed the tooltip, icon, and error highlighting will disappear.</para>
+      <para>It is important to note that only client-side errors can be resolved in this fashion.  Server-side errors do not produce immediate feedback because they require a server round-trip to determine if they are corrected, therefore, when a user interacts with a field which had a server-side error in attempt to fix it, the field will instead be marked with an icon and highlighting that indicates that the field has been modified with an attempted fix.</para>
+      <para>When both server and client messages are present on the screen, they are all included in the summaries and tooltips, and when a client-side error is corrected, only that message text is removed.</para>
+      <para>Some of these default interactions can be changed through settings on the ValidationMessages element as described in section 6.13. </para>
+    </section>
+  </section>
+  <section>
+    <title>Ajax Improvements </title>
+    <para>Ajax is a group of web development client side technologies which are used to create asynchronous web applications. Web applications can send
+      and retrieve data asynchronously without affecting the display of the current page.</para>
+    <para>The ajax calls have been cleaned up. ajaxSubmitForm(), standard submitForm() and methods
+      to do validation before hand have been added. writeHiddenToForm(), which was earlier used to
+      write the data as hidden params on the form, has been replaced by data-attributes.</para>
+    <itemizedlist>
+      <listitem>
+        <para>actionInvokeHandler() - The actionInvokeHandler method checks based on the
+          data-attributes whether it is an ajax submit, or a non ajax one, and then calls one of the
+          submit methods.</para>
+      </listitem>
+      <listitem>
+        <para>ajaxSubmitForm() - This, in turn, calls the ajaxSubmitFormFullOpts method with the
+          validate flag set to false.</para>
+      </listitem>
+      <listitem>
+        <para>validateAndAjaxSubmitForm() - This, in turn, calls the ajaxSubmitFormFullOpts method
+          with the validate flag set to true.</para>
+      </listitem>
+      <listitem>
+        <para>ajaxSubmitFormFullOpts() - Submits the form through an ajax submit, the response is
+          the new page html, and runs all hidden scripts passed back. It is similar to the old
+          ajaxSubmitForm method, but has some additional parameters which allow for providing hooks
+          for successCallback, errorCallback and preSubmitCalls. It also takes a validate flag as
+          well as a returnType. A returnType is used to request data from the server, but the server
+          may override it. If the validate flag is set, it validates the form and proceeds only if
+          the form is valid. If a preSubmitcall is specified, then it executes that and proceeds if
+          it returns true. If the returnType is not given, then it defaults to "update-page" and
+          sets it on the data which is submitted to the server. It then calls the
+          invokeAjaxReturnHandler to determine which handler function to call. The successCallback
+          and errorCallback are handled as they were before in ajaxSubmitForm. The elementToBlock
+          and the lightBox processing also remain the same.</para>
+      </listitem>
+      <listitem>
+        <para>submitForm() - This is used for non-ajax calls. This in turn calls the submitFormFullOpts with the validate flag set to false.</para>
+      </listitem>
+      <listitem>
+        <para>validateAndSubmitForm() - This is used for non-ajax calls. This in turn calls the submitFormFullOpts with the validate flag set to true.</para>
+      </listitem>
+      <listitem>
+        <para>submitFormFullOpts() - Does a non ajax submit. The data-attributes that are passed in as additional data are written as hidden params to the form before it is submitted.</para>
+      </listitem>
+      <listitem>
+        <para>invokeAjaxReturnHandler - This method iterates over divs in the content that is passed in to determine which handler functions to call. The handler functions are initialized in krad.initialize.js</para>
+      </listitem>
+    </itemizedlist>
+    <para>As part of the improvements, ajax returns were made smarter. This essentially means that
+      when sending back an ajax response, we need to write data that is used by the ajax call to
+      determine how the response should be handled. The content is wrapped in a handler that
+      indicates how the ajax call should handle the content. Here is an example of how it is
+      done:</para>
+    <programlisting linenumbering="numbered">
+      &lt;div data-handler=&quot;update-title&quot;&gt;
+          &lt;div ..&gt; title contents &lt;/div&gt;
+      &lt;/div&gt;
+    </programlisting>
+    <para>The following methods have been added to handle the ajax response based on the returnType</para>
+    <itemizedlist>
+      <listitem>
+        <para>updatePageHandler - Called if the returnType is "update-page". Finds the page content
+          in the returned content and updates the page, then processes breadcrumbs and hidden
+          scripts. While processing, the page contents are hidden.</para>
+      </listitem>
+      <listitem>
+        <para>updateViewHandler - Replaces the view with the given content and runs the hidden
+          scripts. Called when the returnType is "update-view".</para>
+      </listitem>
+      <listitem>
+        <para>redirectHandler - Called when the returnType is "redirect". Replaces the contents of
+          the window with those of the redirected URL.</para>
+      </listitem>
+      <listitem>
+        <para>updateComponentHandler - Called when the returnType is "update-component". Retrieves
+          the component with the matching id from the server, and replaces a matching
+          _refreshWrapper marker span with the same id with the result. In addition, if the result
+          contains a label and a displayWith marker span has a matching id, that span will be
+          replaced with the label content and removed from the component. This allows for label and
+          component content separation on fields.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Utilities </title>
+<!-- TODO: Add content here -->    <para/>
+  </section>
+</chapter>

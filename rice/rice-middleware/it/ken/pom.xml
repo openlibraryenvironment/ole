@@ -1,0 +1,159 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>Rice Integration Test KEN</name>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.rice</groupId>
+        <artifactId>rice-it</artifactId>
+        <version>2.3.6</version>
+    </parent>
+    <artifactId>rice-it-ken</artifactId>
+
+    <properties>
+    	<maven.skip.packaging>false</maven.skip.packaging>
+        <!--<maven.failsafe.skip>true</maven.failsafe.skip>-->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>rice-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+	      <groupId>${project.groupId}</groupId>
+	      <artifactId>rice-it-internal-tools</artifactId>
+	      <version>${project.version}</version>
+	      <scope>test</scope>
+	    </dependency>
+      <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>rice-edl-impl</artifactId>
+          <version>${project.version}</version>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>rice-krms-impl</artifactId>
+          <version>${project.version}</version>
+          <scope>test</scope>
+      </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>${mysql.jdbc.artifactId}</artifactId>
+        </dependency>
+        <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-core</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.quartz-scheduler</groupId>
+	      <artifactId>quartz</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+      	<dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-context</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.kuali.db.ojb</groupId>
+	      <artifactId>db-ojb</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	   	<dependency>
+	      <groupId>log4j</groupId>
+	      <artifactId>log4j</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	   	<dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-tx</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	   	<dependency>
+	      <groupId>commons-lang</groupId>
+	      <artifactId>commons-lang</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	   	<dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>commons-io</groupId>
+	      <artifactId>commons-io</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-beans</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>javax.servlet</groupId>
+	      <artifactId>servlet-api</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	   	<dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-jdbc</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-web</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+            <dependency>
+	      <groupId>xerces</groupId>
+	      <artifactId>xercesImpl</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-core</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-frontend-jaxws</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-transports-http</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-transports-http-jetty</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+
+    </dependencies>
+</project>

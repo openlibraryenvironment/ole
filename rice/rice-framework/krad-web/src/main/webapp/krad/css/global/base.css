@@ -1,0 +1,1535 @@
+/**
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@charset "UTF-8";
+/* CSS Document */
+
+/* Html base element styles ***********************************************************************/
+html {
+    font: 13px/1.231 arial, helvetica, clean, sans-serif;
+    *font-size: small;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    color: black;
+}
+
+ul li {
+    list-style: none;
+}
+
+td {
+    font-weight: normal;
+}
+
+table td, table th {
+    vertical-align: top;
+    text-align: left;
+    padding: 3px;
+}
+
+label {
+    font-weight: bold;
+}
+
+a {
+    font-weight: normal;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+p, fieldset, table, pre {
+    margin-bottom: 0;
+}
+
+:focus {
+    outline: 1px dotted #000;
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+/** Base input styling **********************************************************************************/
+
+input[type="text"], input[type="password"], textarea, select {
+    font: 1em Arial, Helvetica, sans-serif;
+    padding: .2em;
+    border: 1px solid #AAAAAA;
+    margin: 0;
+}
+
+input[type="file"] {
+    font: 1em Arial, Helvetica, sans-serif;
+    padding: .2em;
+    margin: 0;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin: .3em .3em .3em 0;
+}
+
+.uif-message input[type="radio"], .uif-message input[type="checkbox"] {
+    margin: 0;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+    background: #ECFCE8;
+    outline: none;
+}
+
+/* when label is sibling of checkbox or radio, font-weight is non-bold */
+input[type="radio"]+label, input[type="checkbox"]+label {
+    font-weight: normal;
+}
+
+select[multiple="multiple"] option {
+    padding: 0.2em 0.5em;
+}
+
+select[multiple="multiple"] option:hover {
+    background: none repeat scroll 0 0 #ECFCEB;
+}
+
+input[readonly] {
+    background-color: #eeeeee;
+    color: #999;
+    border: 1px solid #AAAAAA;
+}
+
+input[disabled], textarea[disabled], select[disabled] {
+    background-color: #dddddd;
+    color: #999;
+    border: 1px solid #AAAAAA;
+}
+
+a.disabled, a[disabled], a.disabled:hover, a[disabled]:hover, a.disabled:focus, a[disabled]:focus {
+    color: #888888;
+    text-decoration: none;
+    cursor: default;
+}
+
+/* disabled inputs sibling labels are greyed out */
+input[disabled]+label {
+    color: #888888;
+}
+
+ol.uif-readOnlyStringList li {
+    list-style: decimal inside none;
+}
+
+ul.uif-readOnlyStringList li {
+    list-style: disc inside none;
+}
+
+/** View structure related **************************************************************************/
+
+.uif-pageContentWrapper {
+    /** Note when the navigation plugin is in use, this margin
+    will added to the required margin automatically
+    so this value represents both the margin from the navigation
+    menu when in use, AND the margin when no menu is
+    in use!**/
+    margin-left: 15px;
+}
+
+/** Field and group related *************************************************************************/
+
+.uif-instructionalMessage {
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+    margin-bottom: 0.4em;
+    max-width: 36em;
+}
+
+.uif-constraintMessage {
+    font-size: 0.85em;
+    color: gray;
+    display: block;
+    margin-top: 0.3em;
+    max-width: 36em;
+}
+
+/** sticky content ****************************************************************************/
+
+.uif-sticky {
+    z-index: 5;
+    width: 100%;
+}
+
+.uif-stickyFooter {
+    z-index: 4;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.uif-stickyButtonFooter {
+    background-color: lightGray;
+    border: 1px solid gray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    padding-top: 10px;
+    padding-left: 10px;
+    text-align: center;
+}
+
+/** Header related styles *********************************************************************/
+
+.uif-hideHeaderText > h1, .uif-hideHeaderText > h2, .uif-hideHeaderText > h3, .uif-hideHeaderText > h4,
+.uif-hideHeaderText > h5, .uif-hideHeaderText > h6, .uif-hideHeaderText > label {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+.uif-viewHeader-contentWrapper {
+    width: 100%;
+    background-color: white;
+    z-index: 3;
+}
+
+.uif-header-contentWrapper {
+    width: 100%;
+}
+
+.uif-header {
+    position: relative;
+}
+
+.uif-viewHeader {
+    /* relative to position some icons/links on header line */
+    padding-left: 15px;
+}
+
+.uif-header-rightGroup {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#Uif-BreadcrumbWrapper, #Uif-ApplicationHeader-Wrapper, #Uif-ApplicationFooter-Wrapper, #Uif-TopGroupWrapper {
+    width: 100%;
+}
+
+#Uif-ApplicationFooter-Wrapper {
+    position: absolute;
+}
+
+/* all headers used at view, page, and section levels *************************************************/
+.uif-headerText {
+    clear: both;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+h1.uif-headerText {
+    font: bold 30px Helvetica;
+}
+
+h2.uif-headerText {
+    font: normal 24px Georgia;
+}
+
+h3.uif-headerText {
+    font: bold 18px Helvetica;
+}
+
+h3.uif-headerText a {
+    font-weight: bold;
+}
+
+h4.uif-headerText {
+    font: normal 16px Helvetica;
+}
+
+h5.uif-headerText {
+    font: normal 14px Helvetica;
+    text-transform: uppercase;
+}
+
+h6.uif-headerText {
+    font: normal 12px Helvetica;
+    text-transform: uppercase;
+}
+
+.uif-viewHeader-supportTitle {
+    display: block;
+    font-size: 0.7em;
+    font-weight: normal;
+}
+
+.uif-viewHeader-areaTitle {
+    display: block;
+    font-size: 0.7em;
+    font-weight: normal;
+    color: #888888;
+}
+
+.uif-viewHeader-metadata {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #888888;
+}
+
+/* DocumentView header custom styling */
+.uif-documentView .uif-viewHeader h1.uif-headerText {
+    float: left;
+}
+
+.uif-documentView .uif-viewHeader {
+    height: 60px;
+    padding: 0;
+}
+
+/** header disclosure image style **/
+img.uif-disclosure-image {
+    padding-right: 0.25em;
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+
+/** Footer ************************************************************************************************/
+.uif-footer {
+    margin: 5px 0 5px 0;
+}
+
+.uif-footer .uif-horizontalBoxLayout > .uif-action {
+    float: none;
+    display: inline;
+}
+
+/** Group specific styles *******************************************************************************/
+
+.uif-page {
+    margin-right: 10px;
+    padding-top: 15px;
+}
+
+.uif-lookupPage > .uif-header-contentWrapper {
+    min-height: 15px;
+}
+
+.uif-group > .uif-instructionalMessage, .uif-group > .uif-disclosureContent > .uif-instructionalMessage,
+.uif-page > .uif-instructionalMessage, .uif-page > .uif-disclosureContent > .uif-instructionalMessage {
+    max-width: 64em;
+    margin-bottom: 1em;
+}
+
+/** InputField specific styles **************************************************************************/
+
+/* positioning for input field control images (calendar, validation icons, etc) */
+.uif-inputField > img, .uif-inputField > a > img, .uif-inputField > fieldset > img, .uif-inputField input[type="image"] {
+    margin: 3px 0 0 3px;
+    vertical-align: top;
+}
+
+/** Breadcrumbs *****************************************************************************************/
+
+#Uif-BreadcrumbWrapper {
+    background-color: white;
+    width: 100%;
+    z-index: 10 !important;
+    line-height: 18px;
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYWVhZWEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #eaeaea));
+    background: -webkit-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: -o-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #eaeaea 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#eaeaea', GradientType = 0);
+    border-bottom: 1px solid #cdcdcd;
+    border-top: 1px solid #cdcdcd;
+    height: 28px;
+}
+
+ol.uif-breadcrumbs {
+    display: block;
+    letter-spacing: 0.02em;
+    padding-left: 15px;
+    height: 28px;
+}
+
+.uif-breadcrumbs > li > a {
+    text-decoration: none;
+}
+
+.uif-breadcrumbs > li > a, .uif-breadcrumbs > li > span {
+    padding: .4em 0 0 1em;
+    float: left;
+    color: #5B5B5B;
+}
+
+.uif-breadcrumbs > li:first-child > a {
+    padding-left: 0;
+}
+
+.uif-breadcrumbs > li:last-child > span, .uif-breadcrumbs > li:last-child > a {
+    font-weight: bold;
+}
+
+.uif-breadcrumbs > li > a:visited {
+    text-decoration: none;
+}
+
+.uif-breadcrumbs > li {
+    background-image: url(../../images/divider-breadcrumb.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+.uif-breadcrumbs > li:last-child {
+    background-image: none;
+}
+
+.uif-breadcrumbs  > li > a:focus, .uif-breadcrumbs > li > a:hover {
+    text-decoration: underline;
+}
+
+ol.uif-breadcrumbs, .uif-breadcrumbs > li {
+    margin: 0;
+    list-style: none;
+    width: auto;
+    float: left;
+    height: 28px;
+    padding-right: 30px;
+}
+
+.uif-homeBreadcrumbLink {
+    content: "";
+}
+
+.uif-breadcrumbSiblingLink {
+    padding-left: .8em !important;
+    font-size: 9px;
+}
+
+.uif-breadcrumbSiblingContent {
+    position: absolute;
+    background: white;
+    /*border: 1px solid black;*/
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    min-width: 180px;
+    padding: 5px;
+    z-index: 1000;
+}
+
+/** Buttons *********************************************************************************************/
+
+button, a {
+    overflow: visible;
+    white-space: nowrap;
+    width: auto;
+    cursor: pointer;
+}
+
+button img {
+    vertical-align: middle;
+}
+
+button span.topBottomSpan {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+button img.topActionImage {
+    margin-bottom: 1px;
+}
+
+button img.bottomActionImage {
+    margin-top: 1px;
+}
+
+button img.leftActionImage, a img.leftActionImage {
+    margin-right: 5px;
+}
+
+button img.rightActionImage, a img.rightActionImage {
+    margin-left: 5px;
+}
+
+.uif-primaryActionButton, .uif-secondaryActionButton {
+    padding: 0.4em 1.8em;
+    font-size: 1.1em;
+}
+
+.uif-smallActionButton {
+    padding: 0.1em 1.8em;
+    font-size: 0.9em;
+}
+
+.uif-primaryActionButton a, .uif-primaryActionButton a:link, .uif-primaryActionButton a:visited {
+    text-decoration: none;
+}
+
+/* Layout related ****************************************************************************************/
+
+.clearfix {
+    clear: both;
+}
+
+div.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    width: auto;
+    clear: both;
+    visibility: hidden;
+}
+
+/* IE specific */
+* html .clearfix {
+    height: 1%;
+}
+
+.uif-gridLayout th {
+    text-align: right;
+}
+
+.uif-gridLayout th[scope="col"] {
+    text-align: left;
+}
+
+table.uif-gridLayout > tbody > tr > td.uif-inputField {
+    white-space: nowrap;
+}
+
+.uif-gridLayout td.uif-inputField span.uif-instructionalMessage {
+    max-width: none !important;
+}
+
+.uif-gridLayout .uif-group {
+    text-align: left;
+}
+
+.uif-boxLayoutHorizontalItem {
+    float: left;
+    display: block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.uif-inputField.uif-boxLayoutHorizontalItem {
+    margin-right: 20px;
+}
+
+.uif-boxLayoutVerticalItem {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.uif-linkGroup .uif-boxLayoutHorizontalItem {
+    display: inline;
+    float: none;
+    margin-right: 0px;
+}
+
+.uif-linkGroup div {
+    display: inline;
+    float: none;
+    margin-right: 0px;
+}
+
+.uif-listLayout ul li {
+    list-style: disc inside none;
+}
+
+.uif-listLayout ol li {
+    list-style: decimal inside none;
+}
+
+/** Collection styles *******************************************************************************/
+
+table.uif-tableCollectionLayout {
+    width: 100%
+}
+
+.uif-tableCollectionLayout th, .uif-tableCollectionLayout td {
+    text-align: left;
+}
+
+table.uif-tableCollectionLayout thead th.sorting,
+table.uif-tableCollectionLayout thead th.sorting_asc,
+table.uif-tableCollectionLayout thead th.sorting_desc,
+table.uif-tableCollectionLayout thead th.sorting label,
+table.uif-tableCollectionLayout thead th.sorting_asc label,
+table.uif-tableCollectionLayout thead th.sorting_desc label {
+    cursor: pointer;
+}
+
+table.dataTable thead th {
+    cursor: default;
+}
+
+table.dataTable tfoot th {
+    font-weight: normal;
+    padding: 3px 10px;
+}
+
+.uif-stackedCollectionLayout {
+    background-image: url(../../images/pattern_dotted.png);
+    padding: 10px;
+}
+
+/* stacked collection within stacked collection*/
+.uif-stackedCollectionLayout .uif-stackedCollectionLayout {
+    background-image: url(../../images/pattern_dotted_dark.png);
+}
+
+.uif-stackedCollectionLayout > .uif-collectionItem {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: white;
+}
+
+.uif-placeholder {
+    display: none;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+tr.uif-collectionAddItem {
+    background-color: #F2F2F2;
+    border: 1px solid #D3D3D3;
+}
+
+tr.uif-collectionAddItem td.sorting_1 {
+    background-color: #F2F2F2;
+}
+
+div.uif-collectionAddItem {
+    background: #D9D9D9 !important;
+    border: 1px solid #B2B2B2 !important;
+    padding: 5px;
+}
+
+table.uif-tableCollectionLayout tbody tr.uif-addLine {
+    background-color: #D9D9D9;
+}
+
+.uif-newCollectionItem {
+    background-color: #FFFFCC;
+}
+
+tr.uif-newCollectionItem {
+    background-color: #FFFFCC;
+}
+
+tr.uif-newCollectionItem td.sorting_1 {
+    background-color: #FFFFCC;
+}
+
+div.uif-newCollectionItem {
+    background: #FFFFCC !important;
+    border: 1px solid #B2B2B2 !important;
+    padding: 5px;
+}
+
+.uif-stackedCollectionLayout > .uif-collectionDeleteHighlight {
+    background-color: #FFE1E9;
+}
+
+.uif-collectionDeleteHighlight {
+    background-color: #FFE1E9;
+}
+
+.uif-stackedCollectionLayout > .uif-collectionAddHighlight {
+    background-color: #CCCC99;
+}
+
+.uif-collectionAddHighlight {
+    background-color: #CCCC99;
+}
+
+tr.uif-groupRow.addline, tr.uif-groupTotalRow[data-groupvalue="addline"] {
+    display: none !important;
+}
+
+tr.uif-totalRow {
+    background-color: #F9F9F9;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+tr.uif-totalRow .uif-boxLayoutVerticalItem, tr.uif-groupTotalRow .uif-boxLayoutVerticalItem {
+    margin: 0;
+}
+
+tr.uif-groupRow {
+    background-color: #F9F9F9;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black !important;
+}
+
+tr.uif-groupRow td {
+    font-weight: bolder;
+}
+
+tr.uif-groupTotalRow {
+    background-color: #F4F4F4;
+    border-bottom: 1px solid black !important;
+}
+
+tr.uif-groupTotalRow td {
+    border: none !important;
+    margin-right: 10px;
+}
+
+tr.uif-groupTotalRow td, tr.uif-totalRow th {
+    text-align: right;
+}
+
+div.uif-calculationField, div.uif-calculationField input {
+    text-align: right;
+}
+
+/* Document header info *******************************************************************************/
+.uif-viewHeader div.uif-docheader table {
+    height: 60px;
+}
+
+.uif-viewHeader div.uif-docheader td {
+    background-color: #FFFFFF;
+}
+
+/* Date-picker customizations *************************************************************************/
+
+.ui-datepicker.ui-helper-clearfix {
+    display: none;
+}
+
+.ui-datepicker-trigger {
+    cursor: pointer;
+}
+
+/** Accessibility **********************************************************************************/
+
+.offScreen {
+    position: absolute;
+    left: -200em;
+    width: 10em;
+    overflow: hidden;
+}
+
+/** Table layout styles *******************************************************************************/
+
+table.uif-gridLayout {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+table.uif-gridLayout th .uif-label {
+    text-align: right;
+}
+
+table.dataTable tr.even {
+    background-color: white;
+}
+
+table.dataTable tr.odd {
+    background-color: white;
+}
+
+table.dataTable tr.odd td.sorting_1 {
+    background-color: #FAFAFA;
+}
+
+table.dataTable tr.even td.sorting_1 {
+    background-color: #FAFAFA;
+}
+
+table.dataTable tr.uif-newCollectionItem {
+    background-color: #FFFFCC;
+}
+
+table.dataTable tr.uif-newCollectionItem td.sorting_1 {
+    background-color: #FFFFCC;
+}
+
+table.dataTable tr.uif-collectionDeleteHighlight {
+    background-color: #FFE1E9;
+}
+
+table.dataTable tr.uif-collectionDeleteHighlight td.sorting_1 {
+    background-color: #FFE1E9;
+}
+
+.paging_full_numbers a.paginate_button_disabled {
+    cursor: auto;
+    color: #888888 !important;
+    background-color: #DDDDDD !important;
+}
+
+.paging_full_numbers a.paginate_button_disabled:hover, .paging_full_numbers a.paginate_button_disabled:focus {
+    cursor: auto;
+    color: #888888 !important;
+    background-color: #DDDDDD !important;
+}
+
+/** Miscellaneous styles **********************************************************************************/
+
+/** inline block cross browser support **/
+.inlineBlock {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+    *display: inline;
+}
+
+/** inline block cross browser support **/
+a.inlineBlock, span.inlineBlock {
+    vertical-align: baseline;
+}
+
+/** for required message below expand collapse button content */
+.uif-requiredInstructionsMessage {
+    float: none;
+}
+
+/** when field has a watermark **/
+.watermark {
+    color: #999;
+}
+
+/** for info messages that can appear in fields **/
+.uif-informationalMessage {
+    display: block;
+}
+
+/** message that can be configured with an image control **/
+.uif-cutlineMessage {
+    padding-left: 5px;
+    clear: both;
+    display: block;
+}
+
+/** to position the label correctly in label above and below situations**/
+.uif-labelBlock {
+    display: block;
+}
+
+/** highlight color when something is disclosed **/
+.uif-progressiveDisclosure-highlight {
+    background-color: #FFF8C6;
+}
+
+.uif-rightAligned-headerFieldGroup {
+    float: right;
+}
+
+/** Block ui plugin customizations ***********************************************************************/
+
+div.blockOverlay {
+    background-color: black;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 60) !important;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)" !important;
+    opacity: .60;
+    -moz-opacity: .60;
+    z-index: 10100 !important;
+}
+
+div.blockElement {
+    padding: 0;
+    margin: 0;
+    top: 40%;
+    left: 0 !important;
+    background-color: white;
+    text-align: center;
+    color: #000;
+    border: 3px solid #aaa;
+    cursor: wait;
+    z-index: 10101 !important;
+}
+
+div.blockPage {
+    padding: 0;
+    margin: 0;
+    width: 30%;
+    top: 40%;
+    left: 35%;
+    text-align: center;
+    color: #000;
+    border: 3px solid #aaa;
+    background-color: white;
+    cursor: wait;
+    z-index: 10101 !important;
+}
+
+/** Autocomplete customizations ************************************************************************/
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.ui-autocomplete-input {
+    background: url(../../images/icon_autosuggest.png) right no-repeat;
+    padding: 3px;
+    outline: none;
+}
+
+.ui-autocomplete .ui-menu-item {
+    color: #000;
+}
+
+ul.ui-autocomplete.ui-widget-content {
+    border: 1px solid #cccccc;
+    border-radius: 0;
+}
+
+.ui-autocomplete .ui-menu-item a {
+    color: #000;
+}
+
+.ui-autocomplete .ui-menu-item .ui-corner-all {
+    border-radius: 0;
+}
+
+.ui-autocomplete .ui-menu-item .ui-state-hover {
+    background: none;
+    background-color: #ECFCE8;
+    border-color: #900000;
+    color: #000;
+}
+
+/** Side by side comparison styles ******************************************************************/
+
+img.uif-changedHeaderIcon {
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+/** Radios and Checkboxes (fieldsets)**************************************************************/
+
+fieldset[data-type="RadioSet"], fieldset[data-type="CheckboxSet"] {
+    display: inline;
+    padding-right: 0.5em;
+    max-width: 64em;
+}
+
+fieldset[data-type="InputSet"] {
+    display: inline;
+}
+
+.uif-verticalRadioFieldset > span, .uif-verticalCheckboxesFieldset > span {
+    clear: both;
+    float: left;
+    padding-left: 0.5em;
+}
+
+.uif-horizontalRadioFieldset > span, .uif-verticalCheckboxesFieldset > span {
+    padding-left: 0.5em;
+}
+
+/** Tab Menus ********************************************************************************************/
+
+.tab-navigation-block {
+    padding: 0 !important;
+    padding-left: 20px !important;
+    background-color: white;
+    width: 100%;
+    z-index: 4;
+}
+
+.tab-navigation-block li {
+    float: left;
+    list-style: none outside none;
+    margin: 0 0.2em 1px 0;
+    padding: 0;
+    position: relative;
+    top: 2px;
+    *top: 1px;
+    white-space: nowrap;
+    clear: none;
+}
+
+.tab-navigation-block li a {
+    float: left;
+    padding: 0.5em;
+    margin-bottom: 0;
+    text-decoration: none;
+}
+
+.ui-widget {
+    font-family: inherit !important;
+    font-size: inherit !important;
+}
+
+.ui-tabs li {
+    clear: none;
+}
+
+.ui-tabs-vertical {
+    width: 85.5em;
+}
+
+.ui-tabs-nav li.ui-state-active.ui-state-hover {
+}
+
+.ui-tabs-vertical .ui-tabs-nav li a {
+    display: block;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+    padding: 1em !important;
+    float: right;
+    width: 70em;
+}
+
+.ui-tabs-vertical-right .ui-tabs-nav {
+    padding: .2em .2em .2em .1em;
+    float: right;
+    width: 13em;
+    margin-left: 0;
+}
+
+.ui-tabs-vertical-right .ui-tabs-nav li {
+    clear: left;
+    width: 100%;
+    border-bottom-width: 1px !important;
+    border-bottom: 1px solid black !important;
+    border-left-width: 0 !important;
+    margin: 0 0 .2em -1px;
+}
+
+.ui-tabs-vertical-right .ui-tabs-nav li.ui-state-active {
+    padding-bottom: 0;
+    padding-left: .1em;
+    border-right-width: 1px;
+    margin-left: -2px;
+}
+
+.ui-tabs-vertical-left .ui-tabs-panel {
+    clear: none !important;
+}
+
+.ui-tabs-vertical-left .ui-tabs-nav {
+    padding: .2em .1em .2em .2em;
+    float: left;
+    width: 13em;
+    margin: 0;
+}
+
+.ui-tabs-vertical-left .ui-tabs-nav li {
+    clear: left;
+    width: 100%;
+    border-bottom-width: 1px !important;
+    border-bottom: 1px solid black !important;
+    border-right-width: 0 !important;
+    margin: 0 -1px .2em 0;
+}
+
+.ui-tabs-vertical-left .ui-tabs-nav li.ui-state-active {
+    padding-bottom: 0;
+    padding-right: .1em;
+    border-right-width: 1px;
+    border-right-width: 1px;
+}
+
+.ui-tabs-bottom .ui-tabs-nav {
+    clear: left;
+    padding: 0 .2em .2em .2em;
+}
+
+.ui-tabs-bottom .ui-tabs-nav li {
+    top: auto;
+    bottom: 0;
+    margin: 0 .2em 1px 0;
+    border-bottom: 1px solid black !important;
+    border-top: 0 none !important;
+}
+
+.ui-tabs-bottom .ui-tabs-nav li.ui-state-active {
+    margin-top: -1px;
+    padding-top: 1px;
+}
+
+/** Navigation Menu ************************************************************************************/
+
+.uif-navigation {
+    position: absolute;
+    width: 210px;
+    padding-top: 15px;
+}
+
+.uif-collapseLink {
+    float: right;
+    font-size: .9em;
+    margin-bottom: 2px;
+}
+
+ul.uif-navigationMenu {
+    list-style: none outside none;
+    padding: 0;
+    margin-top: 0px;
+    margin-left: 15px;
+}
+
+ul.uif-navigationMenu li {
+    padding: 0;
+}
+
+li.uif-navigationItem span.uif-actionLink, li.uif-navigationItem a.uif-actionLink {
+    margin-bottom: 0;
+}
+
+/**Headers in navigation menu **/
+li.uif-navigationItem h3, li.uif-navigationItem h2 {
+    color: #333333;
+    margin-bottom: 0;
+    padding: 0 20px 0 3px;
+    width: 170px;
+    font-weight: bold;
+    font-family: arial, sans-serif;
+    text-transform: uppercase;
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #bbb;
+    border-left: none;
+    border-right: none;
+}
+
+li.uif-navigationItem h2 {
+    font-size: 0.92em !important;
+}
+
+li.uif-navigationItem a {
+    background-color: #fff;
+    display: inline-block;
+    height: 1%;
+    padding: 5px 20px 5px 3px;
+    width: 170px;
+    color: #3F7826;
+    text-decoration: none;
+    border-bottom: 1px solid #bbb;
+    font-size: .92em;
+}
+
+.uif-navigationMenu h2.fl-font-serif {
+    font-family: arial, sans-serif;
+}
+
+li.uif-navigationItem a {
+    background-color: #fff;
+    width: 170px;
+    color: #3F7826;
+    border: none;
+    border-bottom: 1px solid #bbb;
+}
+
+li.uif-navigationItem a:hover, li.uif-navigationItem a:focus {
+    background: #07662a; /* Old browsers */
+    background: -moz-linear-gradient(top, #07662a 0%, #044d1f 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #07662a), color-stop(100%, #044d1f)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #07662a 0%, #044d1f 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #07662a 0%, #044d1f 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #07662a 0%, #044d1f 100%); /* IE10+ */
+    background: linear-gradient(top, #07662a 0%, #044d1f 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#07662a', endColorstr = '#044d1f', GradientType = 0); /* IE6-9 */
+
+    background-color: #060;
+    color: white;
+}
+
+li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
+    background-color: #000;
+    background-image: none;
+    padding-left: 3px !important;
+    color: white;
+}
+
+/** Validation Messages Framework **********************************************************************/
+.uif-correctedError {
+    text-decoration: line-through;
+    color: #a9a9a9;
+}
+
+.uif-messageCount {
+    font-size: 0.9em;
+    font-weight: normal;
+    padding-left: 1.3em;
+    vertical-align: bottom;
+    display: inline;
+}
+
+.uif-messageCount img {
+    width: 12px;
+    height: 12px;
+}
+
+.uif-clientMessageItems {
+    max-width: 250px;
+    padding: 1px;
+}
+
+.uif-groupValidationMessages  .uif-clientMessageItems ul {
+    margin-left: 1em;
+}
+
+.uif-serverMessageItems {
+    max-width: 250px;
+}
+
+.uif-groupValidationMessages .uif-serverMessageItems ul {
+    margin-left: 1em;
+}
+
+.uif-validationMessages {
+    /*background-image: url(../../images/validation/normal-stripe.png);*/
+    background-color: #F8F8F8;
+    background-repeat: repeat;
+    border: 1px solid #cbcbcb;
+    padding-top: .5em;
+    padding-bottom: .3em;
+    margin-bottom: 8px;
+}
+
+.uif-validationMessages, .uif-clientMessageItems, .uif-serverMessageItems {
+    color: black;
+}
+
+.uif-validationMessages ul {
+    list-style: none outside none;
+    margin: 0;
+    margin-left: 1.5em;
+}
+
+.uif-validationMessages li {
+    list-style: none outside none;
+    margin-left: 0;
+    line-height: 1.3em;
+    margin-bottom: .3em;
+    display: block;
+}
+
+.uif-validationMessages ul > li > ul {
+    margin-left: 2em;
+}
+
+.uif-pageValidationMessages-error {
+    /*    background-image: url(../../images/validation/error-stripe.png);
+   background-repeat: repeat;*/
+    background-color: #FFEAF0;
+    border: 1px solid #ffa09c;
+}
+
+.uif-pageValidationMessages-warning {
+    /*    background-image: url(../../images/validation/warn-stripe.png);
+   background-repeat: repeat;*/
+    background-color: #FFFEDA;
+    border: 1px solid #FF9900;
+}
+
+.uif-pageValidationMessages-info {
+    /*    background-image: url(../../images/validation/info-stripe.png);
+   background-repeat: repeat;*/
+    background-color: #EEF7FE;
+    border: 1px solid #3366CC;
+}
+
+.uif-pageValidationHeader {
+    margin: .2em;
+    font-size: 18px;
+}
+
+.uif-hasInfo > fieldset[data-type="RadioSet"],
+.uif-hasWarning > fieldset[data-type="RadioSet"],
+.uif-hasInfo > fieldset[data-type="CheckboxSet"],
+.uif-hasWarning > fieldset[data-type="CheckboxSet"] {
+    border: 1px solid gray !important;
+}
+
+.uif-tableCollectionLayout .uif-hasInfo > [data-role='Control'],
+.uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="InputSet"] > [data-role='Control'],
+.uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="RadioSet"],
+.uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="CheckboxSet"] {
+    border: 2px solid #3366CC !important;
+}
+
+.uif-tableCollectionLayout .uif-hasWarning > [data-role='Control'],
+.uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="InputSet"] > [data-role='Control'],
+.uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="RadioSet"],
+.uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="CheckboxSet"] {
+    border: 2px solid #FF9900 !important;
+}
+
+.uif-hasError > [data-role='Control'],
+.uif-hasError > fieldset[data-type="InputSet"] > [data-role='Control'],
+.uif-hasError > fieldset[data-type="RadioSet"],
+.uif-hasError > fieldset[data-type="CheckboxSet"] {
+    border: 2px solid #ff2300 !important;
+}
+
+.uif-hasError-modified > [data-role='Control'],
+.uif-hasError-modified > fieldset[data-type="InputSet"] > [data-role='Control'],
+.uif-hasError-modified > fieldset[data-type="RadioSet"],
+.uif-hasError-modified > fieldset[data-type="CheckboxSet"] {
+    border: 2px solid gray !important;
+}
+
+.uif-validationMessages li a {
+    white-space: normal;
+}
+
+.uif-validationMessages li a:hover, .uif-validationMessages li a:focus {
+    /*color: #0044ff;*/
+}
+
+li.uif-errorMessageItem:before {
+    /* For a round bullet */
+    content: '\2022';
+    display: block;
+    position: relative;
+    max-width: 0px;
+    max-height: 0px;
+    left: -10px;
+    top: -0px;
+    color: #ff2300;
+    font-size: 20px;
+}
+
+li.uif-errorMessageItem-modified:before {
+    /* For a round bullet */
+    content: '\2022';
+    display: block;
+    position: relative;
+    max-width: 0px;
+    max-height: 0px;
+    left: -10px;
+    top: -0px;
+    color: gray;
+    font-size: 20px;
+}
+
+li.uif-warningMessageItem:before {
+    /* For a round bullet */
+    content: '\2022';
+    display: block;
+    position: relative;
+    max-width: 0px;
+    max-height: 0px;
+    left: -10px;
+    top: -0px;
+    color: #ffd700;
+    font-size: 20px;
+}
+
+li.uif-infoMessageItem:before {
+    /* For a round bullet */
+    content: '\2022';
+    display: block;
+    position: relative;
+    max-width: 0px;
+    max-height: 0px;
+    left: -10px;
+    top: -0px;
+    color: #3366CC;
+    font-size: 20px;
+}
+
+.uif-errorHighlight [data-role='Control'], .uif-errorHighlight > fieldset[data-type="RadioSet"],
+.uif-errorHighlight > fieldset[data-type="CheckboxSet"], .uif-errorHighlight .uif-checkboxControl + label {
+    background-color: #FFE1E9;
+}
+
+.uif-warningHighlight [data-role='Control'], .uif-warningHighlight > fieldset[data-type="RadioSet"],
+.uif-warningHighlight > fieldset[data-type="CheckboxSet"], .uif-warningHighlight .uif-checkboxControl + label {
+    background-color: #FFFEDA;
+}
+
+.uif-infoHighlight [data-role='Control'], .uif-infoHighlight > fieldset[data-type="RadioSet"],
+.uif-infoHighlight > fieldset[data-type="CheckboxSet"], .uif-infoHighlight .uif-checkboxControl + label {
+    background-color: #E7F3FE;
+}
+
+.uif-clientErrorDiv {
+    background-color: #FFE1E9;
+}
+
+.uif-clientWarningDiv {
+    background-color: #FFFEDA;
+}
+
+.uif-clientInfoDiv {
+    background-color: #E7F3FE;
+}
+
+/** true when rendering outside tooltip **/
+.uif-validationMessages > .uif-clientMessageItems {
+    background-color: transparent;
+}
+
+/** true when rendering outside tooltip **/
+.uif-validationMessages > .uif-clientMessageItems ul {
+    border: 1px dashed black;
+}
+
+.uif-applicationMessage {
+    font-size: 125%;
+    font-weight: bold;
+}
+
+.uif-pageValidationMessages .uif-validationImage {
+    vertical-align: bottom;
+    width: 24px;
+}
+
+ul.uif-pageValidationMessage-single {
+    margin-left: 1em;
+}
+
+.uif-pageValidationMessage-single li:before {
+    content: none;
+}
+
+.uif-hasError .uif-checkboxControl + label {
+    border: 2px solid red;
+    padding: .2em;
+}
+
+/** Help  *******************************************************************************************/
+.uif-helpImage {
+    margin-left: .2em;
+}
+
+/** Row details *************************************************************************************/
+
+.uif-rowDetails {
+    background-color: #fafad2;
+}
+
+.uif-detailsAction {
+    margin-bottom: 0px !important;
+}
+
+.uif-rowDetails .uif-boxLayoutVerticalItem {
+    margin-bottom: 5px;
+}
+
+/* Toooltip styles for validation messages **************************************************************/
+
+.jquerybubblepopup-kr-error-cs  .jquerybubblepopup-innerHtml {
+    background-color: #FFE1E9
+}
+
+.jquerybubblepopup-kr-warning-cs  .jquerybubblepopup-innerHtml {
+    background-color: #FFFEDA
+}
+
+.jquerybubblepopup-kr-info-cs  .jquerybubblepopup-innerHtml {
+    background-color: #E7F3FE
+}
+
+.jquerybubblepopup-kr-error-ss  .jquerybubblepopup-innerHtml,
+.jquerybubblepopup-kr-warning-ss  .jquerybubblepopup-innerHtml,
+.jquerybubblepopup-kr-info-ss  .jquerybubblepopup-innerHtml {
+    background-color: white;
+}
+
+.jquerybubblepopup-ie {
+    filter: none !important;
+}
+
+/***** Lightbox customization ******************************************************************/
+.fancybox-inner form {
+    height: 100%;
+}
+
+.overlay-fixed {
+    opacity: 0.4 !important;
+}
+
+/***** Syntax Highlighter *********************************************************************/
+/*div.uif-syntaxHighlighter {*/
+/*max-height: 400px;*/
+/*overflow: auto;*/
+/*}*/
+
+.uif-syntaxHighlighter li {
+    list-style: decimal outside none;
+}
+
+.uif-syntaxHighlighter pre {
+    background-color: #F5F5F5;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px 4px 4px 4px;
+    display: block;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0 0 10px;
+    padding: 9.5px;
+    overflow: auto;
+    max-height: 600px;
+}
+
+.uif-syntaxHighlighter pre.prettyprint {
+    margin-bottom: 20px;
+}
+
+.uif-syntaxHighlighter pre code {
+    background-color: transparent;
+    border: 0 none;
+    color: inherit;
+    padding: 0;
+}
+
+.uif-syntaxHighlighter .prettyprint.linenums {
+    box-shadow: 40px 0 0 #FBFBFC inset, 41px 0 0 #ECECF0 inset;
+}
+
+.uif-syntaxHighlighter ol.linenums {
+    margin: 0 0 0 33px;
+}
+
+.uif-syntaxHighlighter ol.linenums li {
+    color: #BEBEC5;
+    line-height: 20px;
+    padding-left: 12px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.uif-syntaxHighlighter .prettyprint.linenums {
+    box-shadow: 40px 0 0 #F6F6F6 inset, 41px 0 0 #E5E5E5 inset;
+}
+
+ol.linenums li:nth-of-type(2n+1) {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+.prettyprint {
+    font-size: 0.8em;
+}
+
+.prettyprint {
+    background-color: #F6F6F6;
+    border: 1px solid #CCCCCC;
+    padding-right: 0 !important;
+}
+
+/* div wrapper for the timer countdown plugin, by default want to display inline with the message */
+div.hasCountdown {
+    display: inline;
+}

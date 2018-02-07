@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+  <bean id="KewApiConstants"
+        class="org.kuali.rice.core.api.util.collect.ConstantsMap"
+        p:constantClass="org.kuali.rice.kew.api.KewApiConstants"/>
+
+  <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+    <property name="attributes">
+      <map>
+        <entry key="KewApiConstants" value-ref="KewApiConstants"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="ruleBaseValuesLookupHelperService" class="org.kuali.rice.kew.rule.bo.RuleBaseValuesLookupableHelperServiceImpl" scope="prototype"/>
+
+  <bean id="ruleBaseValuesLookupable" class="org.kuali.rice.kew.rule.bo.RuleBaseValuesLookupableImpl" scope="prototype">
+    <property name="lookupableHelperService">
+      <ref bean="ruleBaseValuesLookupHelperService" />
+    </property>
+  </bean>
+
+  <bean id="ruleDelegationLookupHelperService" class="org.kuali.rice.kew.rule.bo.RuleDelegationLookupableHelperServiceImpl" scope="prototype"/>
+
+  <bean id="ruleDelegationLookupable" class="org.kuali.rice.kew.rule.bo.RuleDelegationLookupableImpl" scope="prototype">
+    <property name="lookupableHelperService">
+      <ref bean="ruleDelegationLookupHelperService" />
+    </property>
+  </bean>
+
+  <bean id="docTypeLookupHelperService" class="org.kuali.rice.kew.doctype.DocumentTypeLookupableHelperServiceImpl" scope="prototype"/>
+
+  <bean id="docTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <property name="lookupableHelperService">
+      <ref local="docTypeLookupHelperService" />
+    </property>
+  </bean>
+
+  <bean id="documentSearchCriteriaProcessor" class="org.kuali.rice.kew.docsearch.DocumentSearchCriteriaProcessorKEWAdapter"/>
+
+  <bean id="documentSearchCriteriaTranslator" class="org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaTranslatorImpl"/>
+
+  <bean id="rice.kew.import.enDocumentSearchService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="enDocumentSearchService"/>
+
+  <bean id="documentSearchCriteriaBoLookupableHelperService"
+        class="org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBoLookupableHelperService" scope="prototype">
+    <property name="documentSearchCriteriaProcessor" ref="documentSearchCriteriaProcessor"/>
+    <property name="documentSearchCriteriaTranslator" ref="documentSearchCriteriaTranslator"/>
+    <property name="documentSearchService" ref="rice.kew.import.enDocumentSearchService"/>
+  </bean>
+
+  <bean id="documentSearchCriteriaBoLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <property name="lookupableHelperService">
+      <ref local="documentSearchCriteriaBoLookupableHelperService" />
+    </property>
+    <property name="extraOnLoad" value="storeCurrentDocTypeNameOnLoad()"/>
+  </bean>
+
+  <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
+    <property name="name" value="scriptConfigurationFilePaths" />
+    <property name="listItem" value="classpath:org/kuali/rice/kew/dwr-core.xml" />
+  </bean>
+
+</beans>

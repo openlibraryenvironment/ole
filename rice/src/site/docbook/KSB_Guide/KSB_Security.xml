@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_Security" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Security</title>
+    <section>
+        <title>Overview</title>
+        
+        <para>Acegi handles the security layer for KSB. Acegi uses remote method
+            invocation to hold the application's security context and to propagate
+            this object through to the service layer.</para>
+    </section>
+    <section>
+        <title>Security Management</title>
+        <para>For client applications to consume secured services hosted from a standalone Rice
+            server, the implementer must generate a keystore in KSB. KSB security relies on the
+            creation of a keystore using the JVM keytool.</para>
+        <figure><title>Create Keystore</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KSB_Guide/create_keystore.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>To create a new Client Keystore file, complete all three fields and click the create
+            button that is just below the fields:</para>
+        <figure><title>Create Keystore: File Section</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KSB_Guide/create_keystore_file.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>The <emphasis role="bold">Desired Alias</emphasis> (name for the new keystore you are
+            creating) must be unique among your keystores. KSB automatically displays a list of
+            existing Keystore entries for your reference below the <emphasis role="italic">Create
+                new Client Keystore file</emphasis> table. The data in this list can be sorted in
+            ascending or descending order by clicking the column heading for any column except
+            <emphasis role="italic">Actions</emphasis>. </para>
+        <figure><title>Create Keystore: Existing Keystore Section</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KSB_Guide/existing_keystore_entries.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Existing Keystore Entries: Attributes</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Field</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Alias</entry>
+                            <entry>Keystore name</entry>
+                        </row>
+                        <row>
+                            <entry>Create Date</entry>
+                            <entry>Date and time the keystore was created</entry>
+                        </row>
+                        <row>
+                            <entry>Type</entry>
+                            <entry>The type of keystore </entry>
+                        </row>
+                        <row>
+                            <entry>Actions</entry>
+                            <entry/>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+    <section>
+        <title>Credentials types</title>
+        
+        <para>There are several security types you can use to propagate the
+            security context object:<itemizedlist>
+                <listitem>
+                    <para>CAS</para>
+                </listitem>
+                
+                <listitem>
+                    <para>USERNAME_PASSWORD</para>
+                </listitem>
+                
+                <listitem>
+                    <para>JAAS</para>
+                </listitem>
+                
+                <listitem>
+                    <para>X509</para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+    <section>
+        <title>CredentialsSource</title>
+        
+        <para>The CredentialsSource is an interface that helps obtain security
+            credentials. It encapsulates the actual source of credentials. The two
+            ways to obtain the source are:<itemizedlist>
+                <listitem>
+                    <para>X509CredentialsSource - X509 Certificate</para>
+                </listitem>
+                
+                <listitem>
+                    <para>UsernamePasswordCredentialsSource - Username and
+                        Password</para>
+                </listitem>
+            </itemizedlist></para>
+        
+        <section>
+            <title>KSB security: Server side configuration</title>
+            
+            <para>Here is a code snippet that shows the changes needed to
+                configure KSB security on the server side:</para>
+            
+            <programlisting linenumbering = "numbered">&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+    &lt;!-- Other properties removed --&gt;
+    &lt;property name="services"&gt;
+        &lt;list&gt;
+            &lt;bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"&gt;
+                &lt;property name="service"&gt;
+                    &lt;ref bean="soapService" /&gt;
+                &lt;/property&gt;
+                &lt;property name="localServiceName" value="soapLocalName"/&gt;
+                &lt;property name="serviceNameSpaceURI" value="soapNameSpace"/&gt;
+                &lt;property name="serviceInterface" value="org.kuali.ksb.examples.SOAPEchoService"/&gt;
+                &lt;property name="priority" value="3"/&gt;
+                &lt;property name="retryAttempts" value="1" /&gt;
+                &lt;property name="busSecurity" value="false"&gt;&lt;/property&gt;
+    
+                &lt;!-- Valid Values: CAS, KERBEROS --&gt;
+                &lt;property name="credentialsType" value="CAS"/&gt;
+            &lt;/bean&gt;
+            &lt;bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"&gt;
+                &lt;property name="service" ref="echoService"&gt;&lt;/property&gt;
+                &lt;property name="localServiceName" value="javaLocalName" /&gt;
+                &lt;property name="serviceNameSpaceURI" value="javaNameSpace"/&gt;
+                &lt;property name="serviceInterface" value="org.kuali.ksb.examples.EchoService"/&gt;
+                &lt;property name="priority" value="5" /&gt;
+                &lt;property name="retryAttempts" value="1" /&gt;
+                &lt;property name="busSecurity" value="true" /&gt;
+
+                &lt;!-- Valid Values: CAS, KERBEROS --&gt;
+                &lt;property name="credentialsType" value="CAS"/&gt;
+            &lt;/bean&gt;
+            &lt;!-- Other services removed --&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting>
+        </section>
+        
+        <section>
+            <title>KSB security: Client side configuration</title>
+            
+            <programlisting linenumbering = "numbered">&lt;bean id="customCredentialsSourceFactory" class="edu.myinstituition.myapp.security.credentials.CredentialsSourceFactory" /&gt;
+
+&lt;bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"&gt;
+    &lt;!-- Other properties removed --&gt;
+    &lt;property name="credentialsSourceFactory" ref="customCredentialsSourceFactory"&gt;
+&lt;/bean&gt;
+</programlisting>
+        </section>
+    </section>
+    <section>
+        <title>KSB connector and exporter code</title>
+        
+        <section>
+            <title>Connectors</title>
+            
+            <para>Connectors are used by a client to connect to a service that is
+                usually exposed through the KSB registry. The Service Connector
+                factory provides a bean that holds a proxy to a remote service with
+                some contextual information. The factory determines the type of proxy
+                to invoke based on the service definition. The service definition used
+                by the server is serialized to the database and de-serialized by the
+                client. There are different types of connectors supported by KSB, most
+                notable are SOAP and Java over HTTP.</para>
+        </section>
+        
+        <section>
+            <title>Exporters</title>
+            
+            <para>Services, when exported, can be secured using standard Acegi
+                methods. A security manager and an interceptor help organize the set
+                of Business Objects that are exported.</para>
+        </section>
+    </section>
+    <section xml:id="security_and_keystores">
+        <title>Security and Keystores</title>
+        
+        <section>
+            <title>Generating the Keystore</title>
+            
+            <para>For client applications to be able to consume secured services
+                hosted from a Rice server, the implementer must generate a keystore.
+                As an initial setup, KSB security relies on the creation of a keystore
+                using the JVM keytool as follows:</para>
+        </section>
+        
+        <section>
+            <title>Step 1: Create the Keystore</title>
+            
+            <para>The first step is to create the keystore and generate a
+                public-private key combination for the client application. When using
+                secured services on the KSB, we require the client applications
+                transfer their messages digitally signed so that Rice can verify the
+                messages authenticity. This is why we must generate these keys.</para>
+            
+            <para>Generate your initial Rice keystore as follows:</para>
+            
+            <programlisting>keytool -genkey -validity 9999 -alias rice -keyalg RSA -keystore rice.keystore -dname "cn=rice" -keypass r1c3pw -storepass r1c3pw</programlisting>
+            
+            <caution>
+                <para>keypass and storepass should be the same.</para>
+                
+                <para>r1c3pw is the password used for the provided example.</para>
+            </caution>
+        </section>
+        
+        <section>
+            <title>Step 2: Sign the Key</title>
+            
+            <para>This generates the keystore in a file called "rice_keystore" in
+                the current directory and generates an RSA key with the alias of
+                "rice". Since there is no certificate signing authority to sign our
+                key, we must sign it ourselves. To do this, execute the following
+                command:</para>
+            
+            <programlisting>keytool  -selfcert -validity 9999 -alias rice -keystore rice.keystore -keypass r1c3pw -storepass r1c3pw</programlisting>
+        </section>
+        
+        <section>
+            <title>Step 3: Generate the Certificate</title>
+            
+            <para>After the application's certificate has been signed, we must
+                export it so that it can be imported into the Rice keystore. To export
+                a certificate, execute the following command:</para>
+            
+            <programlisting>keytool  -export -alias rice -file rice.cert -keystore rice.keystore -storepass r1c3pw</programlisting>
+        </section>
+        
+        <section>
+            <title>Step 4: Import Application Certificates</title>
+            
+            <para>The client application's certificate can be imported using the
+                following command:</para>
+            
+            <programlisting>keytool  -import -alias rice -file client.application.cert.file -keystore rice.keystore -storepass r1c3pw</programlisting>
+            
+            <para>The keystore file will end up deployed wherever your keystores
+                are stored so hang on to both of these files and don't lose them!
+                Also, notice that we specified a validity of 9999 days for the
+                keystore and cert. This is so you do not have to continually update
+                these keystores. This will be determined by your computing standards
+                on how you handle key management.</para>
+        </section>
+        
+        <section>
+            <title>Configure KSB to use the keystore</title>
+            
+            <para>The following params are needed in the xml config to allow the
+                ksb to use the keystore:</para>
+            
+            <programlisting linenumbering = "numbered">&lt;param name="keystore.file"&gt;/usr/local/rice/rice.keystore&lt;/param&gt;
+&lt;param name="keystore.alias"&gt;rice&lt;/param&gt;
+&lt;param name="keystore.password"&gt; password &lt;/param&gt;
+</programlisting>
+            
+            <para><itemizedlist>
+                <listitem>
+                    <para>keystore.file - is the location of the keystore</para>
+                </listitem>
+                
+                <listitem>
+                    <para>keystore.alias - is the alias used in creating the
+                        keystore above</para>
+                </listitem>
+                
+                <listitem>
+                    <para>keystore.password - this is the password of the alias AND
+                        the keystore. This assumes that the keystore is up in such a way
+                        that these are the same.</para>
+                </listitem>
+            </itemizedlist></para>
+        </section>
+    </section>
+    <section>
+        <title>BasicAuthenticationService</title>
+        <para>The <emphasis role="bold">BasicAuthenticationService</emphasis> allows services published on the
+            KSB to be accessed securely with basic authentication.  As an example, here is how the
+            <emphasis role="bold">Workflow Document Actions Service</emphasis> could be exposed as a service
+            with basic authentication.</para>
+        
+        <para><itemizedlist>
+            <listitem>
+                <para>Add the following bean to a spring bean file that is loaded as a part of the KEW module.
+                    <programlisting linenumbering = "numbered">&lt;bean id="rice.kew.workflowDocumentActionServiceBasicAuthentication.exporter"
+              parent="kewServiceExporter" lazy-init="false"&gt;
+    &lt;property name="serviceDefinition"&gt;
+        &lt;bean parent="kewService"&gt;
+            &lt;property name="service"&gt;
+                &lt;ref bean="rice.kew.workflowDocumentActionsService" /&gt;
+            &lt;/property&gt;
+            &lt;property name="localServiceName"
+                 value="workflowDocumentActionsService-basicAuthentication" /&gt;
+            &lt;property name="busSecurity"
+                 value="${rice.kew.workflowDocumentActionsService.secure}" /&gt;
+            &lt;property name="basicAuthentication" value="true" /&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting></para>
+            </listitem>
+            
+            <listitem>
+                <para>Add the following bean to a spring bean file that is loaded as a part of the KSB module.
+                    <programlisting linenumbering = "numbered">&lt;bean class="org.kuali.rice.ksb.service.BasicAuthenticationCredentials"&gt;
+    &lt;property name="serviceNameSpaceURI"
+          value="http://rice.kuali.org/kew/v2_0" /&gt;
+    &lt;property name="localServiceName"
+          value="workflowDocumentActionsService-basicAuthentication" /&gt;
+    &lt;property name="username"
+          value="${WorkflowDocumentActionsService.username}" /&gt;
+    &lt;property name="password"
+          value="${WorkflowDocumentActionsService.password}" /&gt;
+    &lt;property name="authenticationService" ref="basicAuthenticationService" /&gt;
+&lt;/bean&gt;</programlisting></para>
+            </listitem>
+            
+            <listitem>
+                <para>Add the following config parameters to a secure file that is loaded when the application is started.
+                    
+                    <programlisting linenumbering = "numbered">&lt;param name="WorkflowDocumentActionsService.username"&gt;username&lt;/param&gt;
+&lt;param name="WorkflowDocumentActionsService.password"&gt;pw&lt;/param&gt;</programlisting></para>
+            </listitem>
+            
+            <listitem>
+                <para>To verify the new service can be called, it can be tested using a tool such as soapUI.
+                    Here is an example call which will invoke the method <emphasis role="bold">logAnnotation</emphasis> on
+                    <emphasis role="bold">WorkflowDocumentActionsServiceImpl</emphasis>.
+                    <programlisting linenumbering = "numbered">&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                xmlns:v2="http://rice.kuali.org/kew/v2_0"&gt;
+  &lt;soapenv:Header&gt;
+    &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+            soapenv:mustUnderstand="1"&gt;
+      &lt;wsse:UsernameToken xmlns:wsu=
+          "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+          wsu:Id="UsernameToken-1815911473"&gt;
+        &lt;wsse:Username&gt;username&lt;/wsse:Username&gt;
+        &lt;wsse:Password Type=
+          "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;pw&lt;/wsse:Password&gt;
+      &lt;/wsse:UsernameToken&gt;
+    &lt;/wsse:Security&gt;
+  &lt;/soapenv:Header&gt;
+  &lt;soapenv:Body&gt;
+    &lt;v2:logAnnotation&gt;
+      &lt;v2:documentId&gt;123456&lt;/v2:documentId&gt;
+      &lt;v2:principalId&gt;admin&lt;/v2:principalId&gt;
+      &lt;v2:annotation&gt;Add this annotation please.&lt;/v2:annotation&gt;
+    &lt;/v2:logAnnotation&gt;
+  &lt;soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</programlisting></para>
+            </listitem>
+        </itemizedlist>
+        </para>
+        
+    </section>
+    </chapter>

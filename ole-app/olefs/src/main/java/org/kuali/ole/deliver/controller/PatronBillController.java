@@ -910,7 +910,7 @@ public class PatronBillController extends UifControllerBase {
                         }
                         if (sendMail) {
                             OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(email), new EmailSubject(patronBillHelperService.getParameter("PATRON RECEIPT")), new EmailBody(buffer.toString()), true);
+                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(email), new EmailSubject(patronBillHelperService.getParameter("PATRON_RECEIPT")), new EmailBody(buffer.toString()), true);
                             if (LOG.isInfoEnabled()) {
                                 LOG.info("Mail send successfully to " + email);
                             }
@@ -1044,7 +1044,7 @@ public class PatronBillController extends UifControllerBase {
             } else if (!patronBillHelperService.validatePaymentStatusForPatronBillPayment(patronBillForm)) {
                 return getUIFModelAndView(patronBillForm);
             } else {
-                patronBillHelperService.billWiseCreditTransaction(patronBillPayments, paidAmount, patronBillForm.getPaymentMethod(), patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getCreditNote());
+                patronBillHelperService.billWiseCreditTransaction(patronBillPayments, paidAmount, OLEConstants.CREDITS_ISSUED, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getCreditNote());
             }
         } else if (patronBillForm.getBillWisePayment().equalsIgnoreCase(OLEConstants.ITEM_WISE)) {
             if (paidAmount != null && paidAmount.compareTo(patronBillHelperService.getSumOfSelectedFeePaidAmount(feeTypes)) > 0) {
@@ -1053,7 +1053,7 @@ public class PatronBillController extends UifControllerBase {
             } else if (!patronBillHelperService.validatePaymentStatusForFeeType(patronBillForm)) {
                 return getUIFModelAndView(patronBillForm);
             } else {
-                patronBillHelperService.itemWiseCreditTransaction(feeTypes, paidAmount, patronBillForm.getPaymentMethod(), patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getCreditNote());
+                patronBillHelperService.itemWiseCreditTransaction(feeTypes, paidAmount, OLEConstants.CREDITS_ISSUED, patronBillForm.getTransactionNumber(), patronBillForm.getTransactionNote(), patronBillForm.getCurrentSessionTransactions(), patronBillForm.getCreditNote());
             }
         }
         KualiDecimal totalCreditedamount = patronBillHelperService.getSumOfPaidPatronBills(patronBillPayments);

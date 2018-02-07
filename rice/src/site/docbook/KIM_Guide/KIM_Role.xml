@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Role" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Role</title>
+    <section>
+      <title>Role Lookup Screen</title>
+
+      <para>This screen provides detailed information relating to the
+      Permissions assigned to a <emphasis role="bold">Role</emphasis> in
+      KIM.</para>
+
+      <para>The <emphasis role="bold">Role Lookup</emphasis> screen is
+      accessible directly off the Rice <emphasis
+      role="bold">Administration</emphasis> menu by clicking <emphasis
+      role="bold">Role</emphasis> in the Identity section.</para>
+
+      <para>Click the <emphasis role="bold">Granted to Roles</emphasis> field
+      on the <emphasis role="bold">Document Configuration</emphasis> screen to
+      display the <emphasis role="bold">Role Lookup</emphasis> screen. You can
+      also access the Role Lookup screen by clicking a <emphasis
+      role="bold">Granted to Roles</emphasis> value in any list where it
+      appears.</para>
+
+      <figure>
+        <title>Role Lookup</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/role_lookup_new.png" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <section>
+        <title>Document Layout</title>
+
+        <para>This screen may have three or four tabs of information,
+        depending on the Role. The first three tabs are <emphasis
+        role="bold">Overview</emphasis>, <emphasis
+        role="bold">Permissions</emphasis>, and <emphasis
+        role="bold">Responsibilities</emphasis>. KIM only displays the fourth
+        tab, <emphasis role="bold">Assignees</emphasis>, when Assignee
+        information is associated with this <emphasis
+        role="bold">Role</emphasis>.</para>
+
+        <figure>
+          <title>Role Maintenance Document</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/role_maintenance_document_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Information on the fields in all of these tabs can be found in
+        the <emphasis role="bold">Role Maintenance</emphasis> section of this
+        user guide.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Role Maintenance Document</title>
+
+      <para>The Role Maintenance Document allows you to create a new KIM Role
+      and edit existing Roles. Each Role collects a specific set of
+      Permissions and Responsibilities and allows you to assign members to
+      it.</para>
+
+      <para>The purpose of each Role is defined by its associated Permissions
+      and Responsibilities. Roles are classified by <emphasis
+      role="bold">Types</emphasis> that generally indicate with which
+      Permissions and Responsibilities they are associated.</para>
+
+      <note>
+        <para>The process of creating a new Type for Roles requires technical
+        assistance.</para>
+      </note>
+
+      <para>To access the <emphasis role="bold">Role</emphasis>
+      screen:<orderedlist>
+          <listitem>
+            <para>Do a <emphasis role="bold">Role Lookup</emphasis>.</para>
+          </listitem>
+
+          <listitem>
+            <para>Find the Role you want to change in the list of search
+            results.</para>
+          </listitem>
+
+          <listitem>
+            <para>Click <emphasis role="bold">Edit</emphasis> for the row that
+            has the Role that you need to change.</para>
+          </listitem>
+        </orderedlist></para>
+
+      <section>
+        <title>Role Maintenance Document</title>
+
+        <para>The Role document includes six tabs:<itemizedlist>
+          <listitem>
+            <para>Document Overview</para>
+          </listitem>
+          <listitem>
+            <para>Overview</para>
+          </listitem>
+          <listitem>
+            <para>Permissions</para>
+          </listitem>
+          <listitem>
+            <para>Responsibilities</para>
+          </listitem>
+          <listitem>
+            <para>Ad Hoc Recipients</para>
+          </listitem>
+          <listitem>
+            <para>Route Log</para>
+          </listitem>
+        </itemizedlist></para>
+
+        <para>Those that contain unique information are addressed below. For more information about
+          the Document Overview, Ad Hoc Recipients and Route Log tabs, please see the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/Intro_To_Rice.html#frequent_tab">Frequently Used Tabs</link>
+          section of the Introduction to Rice Guide.</para>
+
+        <figure>
+          <title>Role Maintenance Document: Tabs</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="../images/role_tabs_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>Overview Tab</title>
+
+          <para>This tab gives the Role a unique system-assigned ID number, a
+          Namespace, and a Name. Each Role also has a Type that usually
+          matches the kinds of Permissions and Responsibilities associated
+          with it.</para>
+
+          <figure>
+            <title>Role Maintenance Document: Overview Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/role_overview_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Role Maintenance Document: Overview Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Role</entry>
+
+                    <entry>Display-only. The unique, system-assigned ID number
+                    that identifies this Role</entry>
+                  </row>
+
+                  <row>
+                    <entry>Type Name</entry>
+
+                    <entry><para>Display-only. The Type Name usually
+                    identifies the general kinds of Permissions and
+                    Responsibilities associated with this Role.</para>
+                    <para><emphasis role="bold">Note: </emphasis> When
+                    creating a new Role, you must select its Type before you
+                    can display a new Role document. See Creating New Roles
+                    below.</para></entry>
+                  </row>
+
+                  <row>
+                    <entry>Namespace</entry>
+
+                    <entry>Required. An indicator that associates the Role
+                    with a particular application and module</entry>
+                  </row>
+
+                  <row>
+                    <entry>Role Name</entry>
+
+                    <entry>Required. The common descriptive name by which this
+                    Role is known</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active</entry>
+
+                    <entry>Check this box to indicate that this Role is Active
+                    and is, therefore, to be included by KIM when it evaluates
+                    Permissions and Responsibilities. Uncheck the Active box
+                    to indicate that this Role is inactive.</entry>
+                  </row>
+                  <row>
+                    <entry>Description</entry>
+                    
+                    <entry>Optional. Text description of the role.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+
+        <section>
+          <title>Creating New Roles</title>
+
+          <para>You must search for and select an existing Type for KIM to
+          generate a new Role document. When you click the Create New button,
+          KIM displays the <emphasis role="bold">KIM Type Lookup</emphasis>
+          screen:</para>
+
+          <figure>
+            <title>KIM Type Lookup</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/Kim_type_lookup_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <note>
+            <para>While you use the KIM Type Lookup screen both for creating
+            new Groups and new Roles, not all KIM Types are valid for both
+            Groups and Roles. When using this Lookup, you may see different
+            results depending on the KIM Types that are appropriate for your
+            task.</para>
+          </note>
+        </section>
+
+        <section>
+          <title>Permissions Tab</title>
+
+          <para>This tab identifies the Permissions associated with this Role.
+          Permissions authorize specific actions in the system with which they
+          are associated. A Role can have any number of Permissions (including
+          no Permissions) associated with it.</para>
+
+          <figure>
+            <title>Role Maintenance Document: Permissions Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/role_permissions_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Role Maintenance Document: Permissions Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Add Permission ID</entry>
+
+                    <entry>To add a Permission to this Role, enter the
+                    appropriate Permission ID, or search for and select a
+                    value using the <emphasis
+                    role="bold">Permission</emphasis> lookup</entry>
+                  </row>
+
+                  <row>
+                    <entry>Add</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to add the selected Permission to this Role
+                    document.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+
+          <para>After you add a Permission to the document, KIM displays
+          additional information about the Permission:</para>
+
+          <note>
+            <para>You <emphasis role="italic">cannot</emphasis> edit
+            Permissions from the <emphasis role="bold">Role Maintenance
+            Document</emphasis>.</para>
+          </note>
+
+          <figure>
+            <title>Role Maintenance Document: Permissions Tab, Add
+            Permissions</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/role_add_permission_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Role Maintenance Document: Permissions Tab, Add Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Permission Namespace</entry>
+
+                    <entry>Display-only. The Namespace identifies the
+                    application and module associated with this
+                    Permission.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Permission Identifier</entry>
+
+                    <entry>Display-only. The unique system-assigned ID number
+                    for this Permission</entry>
+                  </row>
+
+                  <row>
+                    <entry>Permission Name</entry>
+
+                    <entry>Display-only. The descriptive name of this
+                    Permission. This often tells you, in general terms, what
+                    the Permission authorizes.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Permission Detail Values</entry>
+
+                    <entry>Display-only. The document Types, tabs, and/or
+                    fields that this Permission authorizes the holder to see
+                    or use. Not all Permissions have Detail Values.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Display-only. Indicator showing whether this
+                    Permission is active in KIM</entry>
+                  </row>
+
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry><para>Click the <emphasis
+                    role="bold">Delete</emphasis> button to remove this
+                    Permission from this Role.</para> <para><emphasis
+                    role="bold">Warning: </emphasis>You may delete a
+                    Permission from a Role only if it has not yet been saved.
+                    (In other words, you can delete a Permission from a Role
+                    only if you added it to this Role, but have not yet
+                    submitted the document.)</para></entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+
+        <section>
+          <title>Responsibilities Tab</title>
+
+          <para>This tab identifies the Responsibilities associated with this
+          Role. Responsibilities define the workflow actions that will be
+          requested of the Role. A Role can have any number of
+          Responsibilities (including none) associated with it.</para>
+
+          <figure>
+            <title>Role Maintenance Document: Responsibilities Tab</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/role_responsibilities_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Role Maintenance Document: Responsibility
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Add Responsibility ID</entry>
+
+                    <entry>To add a Responsibility to this Role, enter the
+                    Responsibility ID, or search for and select a value using
+                    the Responsibility lookup .</entry>
+                  </row>
+
+                  <row>
+                    <entry>Add button</entry>
+
+                    <entry>Click the <emphasis role="bold">Add</emphasis>
+                    button to add the selected Responsibility to this Role
+                    document.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+
+          <para>After you add a Responsibility to the document, KIM displays
+          additional information about this Responsibility.</para>
+
+          <note>
+            <para>In general, you cannot edit Responsibilities using the Role
+            document, but some Responsibilities have associated attributes
+            that you must define at the Role level.</para>
+          </note>
+
+          <figure>
+            <title>Role Maintenance Document: Responsibility, Added
+            Responsibility</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/role_responsibility_added_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Role Maintenance Document: Responsibility, Add
+              Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Responsibility Namespace</entry>
+
+                    <entry>Display-only. The Namespace tells you the
+                    application and module associated with this
+                    Responsibility.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Responsibility Identifier</entry>
+
+                    <entry>Display-only. The unique system-assigned ID number
+                    for this Responsibility</entry>
+                  </row>
+
+                  <row>
+                    <entry>Responsibility Name</entry>
+
+                    <entry>Display-only. The descriptive name of this
+                    Responsibility. For most Responsibilities, the name is
+                    <emphasis role="bold">Review</emphasis>.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Responsibility Detail Values</entry>
+
+                    <entry><para>Display-only. This gives you more specific
+                    information about the Responsibility. Responsibility
+                    Detail Values are formatted in a standard way with these
+                    attributes, separated by commas:</para> <itemizedlist>
+                        <listitem>
+                          <para><emphasis role="bold">Route Node</emphasis>:
+                          The location where this Responsibility is invoked in
+                          Workflow.</para>
+                        </listitem>
+
+                        <listitem>
+                          <para><emphasis role="bold">Document
+                          Type</emphasis>: The Document Type for which this
+                          Responsibility generates workflow requests.</para>
+                        </listitem>
+
+                        <listitem>
+                          <para><emphasis role="bold">Action Details at Role
+                          Member Level</emphasis>: When this field is True,
+                          action details are kept for each Member of this
+                          Role. When this field is False, action details are
+                          only kept at the Responsibility level for this Role.
+                          (see Assigning Action Detail Values, below).</para>
+                        </listitem>
+
+                        <listitem>
+                          <para><emphasis role="bold">Required</emphasis>:
+                          Indicates if the routing represented by this
+                          Responsibility should be required. If this is set to
+                          True and the Responsibility fails to generate an
+                          Action Request (perhaps because no one is assigned
+                          to the associated Role), then the document will go
+                          into Exception status. If this routing is optional,
+                          this will be False and the document will simply skip
+                          this Responsibility if no requests are
+                          generated.</para>
+                        </listitem>
+                      </itemizedlist></entry>
+                  </row>
+
+                  <row>
+                    <entry>Active Indicator</entry>
+
+                    <entry>Display-only. Indicator showing whether this
+                    Responsibility is active within the system</entry>
+                  </row>
+
+                  <row>
+                    <entry>Actions</entry>
+
+                    <entry><para>Click the Delete button to remove this
+                    Responsibility from this Role.</para> <para><emphasis
+                    role="bold">Warning: </emphasis>You can delete a
+                    Responsibility only if it has not yet been saved to the
+                    database (in other words, you can only delete it if you
+                    have added it to this Role but have not yet submitted the
+                    document).</para></entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+
+        <section>
+          <title>Assigning Action Detail Values</title>
+
+          <para>When you add a Responsibility with an <emphasis
+          role="bold">Action Detail Values at Role Member Level</emphasis>
+          value of <emphasis role="bold">False</emphasis>, you must complete
+          additional fields in a Responsibility Action sub-section. KIM
+          automatically displays this sub-section immediately beneath the
+          Responsibility you've just added.</para>
+
+          <para>The fields in this sub-section define the type of Action
+          Requests generated for, and the general workflow behavior associated
+          with, this Responsibility. Entries in these fields cause KIM to
+          generate the same Type of Action Requests for all members of this
+          Role and handle actions by all members of this Role in the same
+          way.</para>
+
+          <figure>
+            <title>Role Maintenance Document: Responsibility Tab, Action
+            Section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../images/role_responsibility_action_new.png" width="100%" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para><table frame="none" tabstyle="striped">
+              <title>Role Maintenance Document: Responsibility Tab, Action
+              Section Attributes</title>
+
+              <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+                <thead>
+                  <row>
+                    <entry>Field Name</entry>
+
+                    <entry>Description</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Name</entry>
+
+                    <entry>Display-only. The namespace and name of the
+                    Responsibility associated with these action
+                    details</entry>
+                  </row>
+
+                  <row>
+                    <entry>Action Type Code</entry>
+
+                    <entry>Required. The Type of Action Request that KIM
+                    generates for this Responsibility. Action Type Codes are:
+                    Approve, FYI, and Acknowledge.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Priority Number</entry>
+
+                    <entry>Optional. If multiple requests are generated at the
+                    route node specified on this Responsibility, this
+                    determines the order in which KIM generates these
+                    requests. KIM processes requests with lower priority
+                    numbers before processing requests with higher numbers.
+                    Requests with no number are treated as a priority
+                    1.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Action Policy Code</entry>
+
+                    <entry>Required. This determines what happens if multiple
+                    members of this Role receive the same Action Request and
+                    one of them takes the action. For example, if a Role has a
+                    Group with three members assigned, all of these members
+                    receive the Action Request defined here; this code then
+                    determines what KIM does when one of them takes action on
+                    the document. A value of <emphasis
+                    role="italic">FIRST</emphasis> indicates that the first
+                    Group member to take action on the document causes KIM to
+                    clear all the requests for this Responsibility that may be
+                    in other Group member's action lists. A value of <emphasis
+                    role="italic">ALL</emphasis> indicates that each Group
+                    member must take individual action to clear his or her own
+                    requests.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Force Action</entry>
+
+                    <entry>Check this box to indicate that each user must take
+                    action for this request, even if the user has previously
+                    taken action on this document. Leaving the box unchecked
+                    allows a request to be immediately fulfilled if the Role
+                    member has previously taken action on this specific
+                    document.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+      </section>
+    </section>
+</chapter>

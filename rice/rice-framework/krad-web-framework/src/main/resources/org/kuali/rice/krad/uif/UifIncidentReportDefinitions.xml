@@ -1,0 +1,129 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Uif-IncidentReportView" parent="Uif-IncidentReportView-parentBean"/>
+  <bean id="Uif-IncidentReportView-parentBean" abstract="true" parent="Uif-FormView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-incidentReportView</value>
+      </list>
+    </property>
+    <property name="headerText" value="Incident Report"/>
+    <property name="entryPageId" value="page1"/>
+    <property name="persistFormToSession" value="false"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="page1">
+          <property name="items">
+            <list>
+              <ref bean="Uif-IncidentDetailGroup"/>
+              <ref bean="Uif-IncidentStackTraceGroup"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.IncidentReportForm"/>
+    <property name="viewName" value="default"/>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+    <property name="instructionalText" value="Please use the Incident Report form below to report the problems"/>
+  </bean>
+
+  <bean id="Uif-IncidentDetailGroup" parent="Uif-GridSection" p:disclosure.render="false">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-incidentDetailGroup</value>
+      </list>
+    </property>
+    <property name="header.headerText" value="Incident Feedback"/>
+    <property name="header.cssClasses" value="uif-incidentDetailGroup-header"/>
+    <property name="layoutManager.numberOfColumns" value="2"/>
+    <property name="footer">
+      <bean parent="Uif-IncidentReportFooter"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="incidentDocId"
+              p:label="Document Id" p:readOnly="true" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="50"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="incidentViewId"
+              p:label="View Id" p:readOnly="true" p:width="auto">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="50"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="errorMessage"
+              p:style="color : RED;" p:label="Error Message" p:readOnly="true"
+              p:width="auto">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="50"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="userInput"
+              p:label="User Feedback">
+          <property name="control">
+            <bean parent="Uif-LargeTextAreaControl" p:watermarkText="Enter user feedback here..."/>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="instructionalText"
+              value="This information will be forwarded to our support team. Please describe what action you were taking when the problem occurred"/>
+  </bean>
+
+  <bean id="Uif-IncidentStackTraceGroup" parent="Uif-Disclosure-VerticalBoxSection"
+        p:layoutManager.cssClasses="layout_center" p:render="@{devMode}" p:disclosure.render="false">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-incidentStackGroup</value>
+      </list>
+    </property>
+    <property name="header.headerText" value="Stacktrace (only in dev mode)"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="exceptionStackTrace" p:labelPlacement="TOP"
+              p:fieldLabel.cssClasses="kr-labelTop" p:fieldLabel.renderColon="false" p:label="" p:readOnly="true"
+              p:width="auto" p:multiLineReadOnlyDisplay="true">
+          <property name="control">
+            <bean parent="Uif-TextControl" p:size="100"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-IncidentReportFooter" parent="Uif-FooterBase">
+    <property name="items">
+      <list>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="submitReport" p:actionLabel="Submit Report"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="back" p:actionLabel="Retry"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

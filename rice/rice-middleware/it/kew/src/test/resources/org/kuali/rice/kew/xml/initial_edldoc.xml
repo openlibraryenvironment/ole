@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--  <documentContent> -->
+  <edlContent>
+    <edl name="profile" title="Profile">
+      <security>not sure what goes here...</security>
+
+      <field name="givenname" title="First name">
+        <value>Joe</value>
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>20</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>[a-zA-Z]+</regex>
+          <message>Invalid given name</message>
+        </validation>
+      </field>
+
+      <field name="surname" title="Last name">
+        <value>User</value>
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>20</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>[a-zA-Z]+</regex>
+          <message>Invalid surname</message>
+        </validation>
+      </field>
+
+      <field name="email" title="Email address">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>60</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>.*@.*(\.com|\.net|\.org)</regex>
+          <message>Invalid email address</message>
+        </validation>
+      </field>
+
+      <field name="gender" title="Gender">
+        <value>male</value>
+        <display>
+          <type>radio</type>
+          <values title="Male">male</values>
+          <values title="Female">female</values>
+        </display>
+        <validation required="true">
+          <regex>(male|female|)</regex>
+          <message>Invalid gender</message>
+        </validation>
+      </field>
+
+      <field name="color" title="Favorite color">
+        <value>green</value>
+        <display>
+          <type>select</type>
+          <values title="Red">red</values>
+          <values title="Green">green</values>
+          <values title="Blue">blue</values>
+        </display>
+        <validation required="true">
+          <regex>(red|green|blue|)</regex>
+          <message>Invalid color</message>
+        </validation>
+      </field>
+
+      <field name="food" title="Favorite foods">
+        <value>sandwiches</value>
+        <display>
+          <type>checkbox</type>
+          <values title="Pizza">pizza</values>
+          <values title="Sandwiches">sandwiches</values>
+          <values title="Soup">soup</values>
+        </display>
+        <validation required="true">
+          <regex>(pizza|sandwiches|soup|)</regex>
+          <message>Invalid food</message>
+        </validation>
+      </field>
+
+      <field name="description" title="About this person">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>60</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>10</value>
+          </meta>
+        </display>
+      </field>
+    </edl>
+
+    <!-- no data element in initial empty doc -->
+
+  </edlContent>
+
+  <!--  temp -->
+  <!-- 
+  <documentState>
+    <actionsPossible>
+      <route title="Route"/>
+      <approve title="Approve"/>
+      <disapprove title="Disapprove"/>
+      <cancel title="Cancel"/>
+      <blanketApprove title="Blanket Approve"/>
+    </actionsPossible>
+    <notification></notification>
+  </documentState>
+
+</documentContent>
+-->

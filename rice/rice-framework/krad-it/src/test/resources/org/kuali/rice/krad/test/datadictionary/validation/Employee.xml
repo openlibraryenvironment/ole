@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+	 <bean id="Employee" parent="Employee-parentBean"/>
+	 <bean id="Employee-parentBean" abstract="true" parent="DataObjectEntry">
+		<property name="dataObjectClass" value="org.kuali.rice.krad.datadictionary.validation.Employee"/>
+		<property name="titleAttribute" value="id"/>
+		<property name="objectLabel" value="Emplopyee"/>
+		<property name="primaryKeys">
+		  <list>
+		    <value>id</value>
+		  </list>
+		</property>
+		<property name="attributes">
+		  <list>
+		    <ref bean="Employee-employeeId"/>
+		    <ref bean="Employee-positionTitle"/>
+		    <ref bean="Employee-contactPhone"/>
+		    <ref bean="Employee-contactEmail"/>		    		    
+		  </list>
+		</property>		
+		<property name="complexAttributes">
+			<list>
+			    <ref bean="Employee-employeeDetails"/>  
+			</list>
+		</property>
+	</bean>
+  
+	<bean id="Employee-employeeId" parent="Employee-employeeId-parentBean"/>
+	<bean id="Employee-employeeId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="employeeId"/>
+		<property name="shortLabel" value="employeeId"/>
+		<property name="summary" value="Employee Id"/>
+		<property name="label" value="Employee Id"/>		
+        <property name="description" value="Employee Id"/>
+        <property name="required" value="true"/>
+		<property name="minLength" value="1"/>
+		<property name="maxLength" value="36"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40"/>
+		</property>	  
+	</bean>
+  
+	<bean id="Employee-positionTitle" parent="Employee-positionTitle-parentBean"/>
+	<bean id="Employee-positionTitle-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="positionTitle"/>
+		<property name="shortLabel" value="positionTitle"/>
+		<property name="summary" value="Position Title"/>
+		<property name="label" value="Position Title"/>
+		<property name="description" value="Position Title"/>
+		<property name="minLength" value="1"/>
+		<property name="maxLength" value="36"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40"/>
+		</property>	  
+	</bean>
+
+	<bean id="Employee-contactPhone" parent="Employee-contactPhone-parentBean"/>
+	<bean id="Employee-contactPhone-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="contactPhone"/>
+		<property name="shortLabel" value="contactPhone"/>
+		<property name="summary" value="Contact Phone"/>
+		<property name="label" value="Contact Phone"/>
+		<property name="description" value="Contact Phone"/>
+		<property name="minLength" value="1"/>
+		<property name="maxLength" value="36"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40"/>
+		</property>	  
+	</bean>
+
+
+	<bean id="Employee-contactEmail" parent="Employee-contactEmail-parentBean"/>
+	<bean id="Employee-contactEmail-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="contactEmail"/>
+		<property name="shortLabel" value="contactEmail"/>
+		<property name="summary" value="contactEmail"/>
+		<property name="label" value="contactEmail"/>
+		<property name="description" value="contactEmail"/>
+		<property name="minLength" value="1"/>
+		<property name="maxLength" value="36"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40"/>
+		</property>	  
+	</bean>
+    
+	<bean id="Employee-employeeDetails" parent="Employee-employeeDetails-parentBean"/>
+	<bean id="Employee-employeeDetails-parentBean" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="employeeDetails"/>
+		<property name="shortLabel" value="Employee Details"/>
+		<property name="summary" value="Person Details of Employee"/>
+		<property name="label" value="employeeDetails"/>
+		<property name="description" value="Person details of employee"/>
+		<property name="required" value="true"/>
+		<property name="dataObjectEntry" ref="Person"/>
+	</bean>
+    
+</beans>  

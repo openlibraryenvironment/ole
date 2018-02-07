@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Workflow" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Using the Workflow Document API</title>
+    <section>
+        <title>Overview</title>
+        <para>This document explains features of the workflow document API. There are two
+            interfaces in KEW that allow you to create a document for delivery through workflow.
+            The <emphasis role="bold">WorkflowDocument</emphasis> interface is designed to
+            create a new document in the workflow system once an action has been taken, such as
+            sending ad hoc requests. The <emphasis role="bold">WorkflowInfo</emphasis> interface
+            is actually a convenience class for client applications that query workflow. Both
+            classes assist with implementing connections to KEW. </para>
+    </section>
+    <section>
+        <title>WorkflowDocument</title>
+        <para>The process for this section of the API involves creating the initial <emphasis
+            role="bold">WorkflowDocument</emphasis> using a constructor to create a new
+            routable document in KEW. Once the object is defined, it initializes by loading an
+            existing <emphasis role="italic">routeHeaderId</emphasis> or by constructing an
+            empty document of a specified <emphasis role="italic">documentType</emphasis>. A
+            number of methods can be invoked once initialization is complete and details of how
+            those methods would be invoked are outlined primarily in the Java Documentation at
+            <link xlink:href="https://test.kuali.org/rice/rice-api-1.0-javadocs/"
+                >https://test.kuali.org/rice/rice-api-1.0-javadocs/</link>.</para>
+        <para>Document content methods modify the properties of a document's content. A specific
+            case is <emphasis role="italic">addAttributeDefinition()</emphasis>, where a
+            <emphasis role="italic">WorkflowAttribute</emphasis> is used to generate
+            attribute document content that will be appended to the existing document content.
+            Another case is adding a searchable attribute definition with the <emphasis
+                role="italic">addSearchableDefinition()</emphasis> method. More information on
+            the various constructors, methods, and objects relating to the WorkflowDocument
+            class is available in the Java documentation found at <link
+                xlink:href="https://test.kuali.org/rice/rice-api-1.0-javadocs/org/kuali/rice/kew/service/WorkflowDocument.html"
+                >https://test.kuali.org/rice/rice-api-1.0-javadocs/org/kuali/rice/kew/service/WorkflowDocument.html</link>. </para>
+    </section>
+    <section>
+        <title>WorkflowInfo</title>
+        <para>This class is the second client interface to KEW. The first time this object is
+            initialized, the client configuration is accessed to determine how to connect to
+            KEW. Methods invoked from this class can grab the routing header information based
+            on the principleId, or return a set of Action Requests for a document that's in
+            route based on the <emphasis role="italic">routeHeaderId</emphasis>, the <emphasis
+                role="italic">nodeName</emphasis> and the <emphasis role="italic"
+                    >principalId</emphasis>. More information on the various constructors, methods,
+            and objects relating to the <emphasis role="italic">WorkflowInfo</emphasis> class is
+            available in the Java documentation found at <link
+                xlink:href="https://test.kuali.org/rice/rice-api-1.0-javadocs/org/kuali/rice/kew/service/WorkflowInfo.html"
+                >https://test.kuali.org/rice/rice-api-1.0-javadocs/org/kuali/rice/kew/service/WorkflowInfo.html</link>.</para>
+    </section>
+</chapter>

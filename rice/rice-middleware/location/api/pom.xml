@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>rice-location</artifactId>
+    <groupId>org.kuali.rice</groupId>
+    <version>2.3.6</version>
+  </parent>
+  <artifactId>rice-location-api</artifactId>
+  <name>Rice Location API</name>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>rice-core-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+    </dependency>
+  </dependencies>
+  <properties>
+    <svc.country.name>CountryService</svc.country.name>
+    <svc.country.wsdl>${wsdl.dir}/${svc.country.name}.wsdl</svc.country.wsdl>
+    <svc.campus.name>CampusService</svc.campus.name>
+    <svc.campus.wsdl>${wsdl.dir}/${svc.campus.name}.wsdl</svc.campus.wsdl>
+    <svc.county.name>CountyService</svc.county.name>
+    <svc.county.wsdl>${wsdl.dir}/${svc.county.name}.wsdl</svc.county.wsdl>
+    <svc.pc.name>PostalCodeService</svc.pc.name>
+    <svc.pc.wsdl>${wsdl.dir}/${svc.pc.name}.wsdl</svc.pc.wsdl>
+    <svc.state.name>StateService</svc.state.name>
+    <svc.state.wsdl>${wsdl.dir}/${svc.state.name}.wsdl</svc.state.wsdl>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-java2ws-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>countryService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.location.api.country.CountryService</className>
+              <outputFile>${svc.country.wsdl}</outputFile>
+              <serviceName>CountryService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>campusService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.location.api.campus.CampusService</className>
+              <outputFile>${svc.campus.wsdl}</outputFile>
+              <serviceName>CampusService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>countyService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.location.api.county.CountyService</className>
+              <outputFile>${svc.county.wsdl}</outputFile>
+              <serviceName>CountyService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>postalCodeService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.location.api.postalcode.PostalCodeService</className>
+              <outputFile>${svc.pc.wsdl}</outputFile>
+              <serviceName>PostalCodeService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stateService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.location.api.state.StateService</className>
+              <outputFile>${svc.state.wsdl}</outputFile>
+              <serviceName>StateService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-wsdls</id>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${svc.country.wsdl}</file>
+                  <classifier>${svc.country.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.campus.wsdl}</file>
+                  <classifier>${svc.campus.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.county.wsdl}</file>
+                  <classifier>${svc.county.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.pc.wsdl}</file>
+                  <classifier>${svc.pc.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.state.wsdl}</file>
+                  <classifier>${svc.state.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.apache.cxf</groupId>
+    								<artifactId>
+    									cxf-java2ws-plugin
+    								</artifactId>
+    								<versionRange>
+    									[2.7.0,)
+    								</versionRange>
+    								<goals>
+    									<goal>java2ws</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore />
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+</project>

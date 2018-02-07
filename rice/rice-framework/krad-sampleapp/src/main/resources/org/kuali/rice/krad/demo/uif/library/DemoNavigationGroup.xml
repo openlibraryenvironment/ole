@@ -1,0 +1,138 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <!-- NavigationGroup demo -->
+  <bean id="Demo-NavigationGroup-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoNavigationGroup.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.container.NavigationGroup"/>
+    <property name="docBookAnchor" value="d6813e8513"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-NavigationGroup-Example1"/>
+        <ref bean="Demo-NavigationGroup-Example2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-NavigationGroup-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-NavigationGroup-Example1 start-->
+        <bean id="NavigationGroupLink1" parent="Uif-Link"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=NavigationGroup-NavigationView&amp;methodToCall=start" p:target="_blank"/>
+        <!-- ex:Demo-NavigationGroup-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-NavigationGroup-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-NavigationGroup-Example2 start-->
+        <bean id="NavigationGroupLink2" parent="Uif-Link"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=MenuNavigationGroup-NavigationView&amp;methodToCall=start" p:target="_blank"/>
+        <!-- ex:Demo-NavigationGroup-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="NavigationGroup-NavigationView" parent="Uif-FormView">
+    <property name="entryPageId" value="page1"/>
+    <property name="currentPageId" value="page1"/>
+    <property name="formClass" value="org.kuali.rice.krad.demo.uif.form.UITestForm"/>
+    <property name="navigation">
+      <ref bean="Navigation-Menu"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="page1">
+          <property name="items">
+            <list>
+              <bean id="page1Section" parent="Uif-HorizontalBoxSection"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-Page" p:id="page2">
+          <property name="items">
+            <list>
+              <bean id="page2Section" parent="Uif-HorizontalBoxSection"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-Page" p:id="page3">
+          <property name="items">
+            <list>
+              <bean id="page3Section" parent="Uif-HorizontalBoxSection"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="Navigation-Menu" parent="Uif-TabNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page1"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page2"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="MenuNavigationGroup-NavigationView" parent="Uif-FormView">
+    <property name="entryPageId" value="page4"/>
+    <property name="currentPageId" value="page4"/>
+    <property name="formClass" value="org.kuali.rice.krad.demo.uif.form.UITestForm"/>
+    <property name="navigation">
+      <ref bean="NavigationMenu2"/>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="page4">
+          <property name="items">
+            <list>
+              <bean id="page4Section" parent="Uif-HorizontalBoxSection"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-Page" p:id="page5">
+          <property name="items">
+            <list>
+              <bean id="page5Section" parent="Uif-HorizontalBoxSection"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="NavigationMenu2" parent="Uif-MenuNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HeaderTwo"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page4"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="page5"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

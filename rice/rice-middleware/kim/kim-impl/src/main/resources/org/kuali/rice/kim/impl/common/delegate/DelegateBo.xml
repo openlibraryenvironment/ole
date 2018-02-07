@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DelegateBo" parent="DelegateBo-parentBean"/>
+
+  <bean id="DelegateBo-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.impl.common.delegate.DelegateTypeBo" p:titleAttribute="delegationId" p:objectLabel="Delegations" p:inquiryDefinition-ref="DelegateBo-inquiryDefinition" p:lookupDefinition-ref="DelegateBo-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DelegateBo-delegationId"/>
+        <ref bean="DelegateBo-roleId"/>
+        <ref bean="DelegateBo-active"/>
+        <ref bean="DelegateBo-kimTypeId"/>
+        <ref bean="DelegateBo-delegationTypeCode"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DelegateBo-delegationId" parent="DelegateBo-delegationId-parentBean"/>
+  <bean id="DelegateBo-delegationId-parentBean" parent="AttributeDefinition" abstract="true" p:name="delegationId" p:forceUppercase="true" p:label="Delegation" p:shortLabel="Delegation" p:maxLength="10" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+ 
+  <bean id="DelegateBo-roleId" parent="DelegateBo-roleId-parentBean"/>
+  <bean id="DelegateBo-roleId-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleId" p:forceUppercase="true" p:label="Role" p:shortLabel="Role" p:maxLength="10" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="DelegateBo-kimTypeId" parent="DelegateBo-kimTypeId-parentBean"/>
+  <bean id="DelegateBo-kimTypeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="kimTypeId" p:forceUppercase="true" p:label="Delegation Type" p:shortLabel="Delegation Type" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
+  <bean id="DelegateBo-delegationTypeCode" parent="DelegateBo-delegationTypeCode-parentBean"/>
+  <bean id="DelegateBo-delegationTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="delegationTypeCode" p:forceUppercase="true" p:label="Delegation Type Code" p:shortLabel="Delegation Type" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kim.lookup.valuefinder.DelegationTypeValuesFinder"/>
+    </property>
+  </bean>
+  
+  <bean id="DelegateBo-active" parent="DelegateBo-active-parentBean"/>
+  <bean id="DelegateBo-active-parentBean" parent="KimType-active" abstract="true"/>
+  
+  <bean id="DelegateBo-inquiryDefinition" parent="DelegateBo-inquiryDefinition-parentBean"/>
+
+  <bean id="DelegateBo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Delegate Bo Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Delegation Details" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+		        <bean parent="FieldDefinition" p:attributeName="delegationId"/>      
+		        <bean parent="FieldDefinition" p:attributeName="roleId"/>
+		        <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+		        <bean parent="FieldDefinition" p:attributeName="delegationTypeCode"/>
+		        <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DelegateBo-lookupDefinition" parent="DelegateBo-lookupDefinition-parentBean"/>
+
+  <bean id="DelegateBo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Delegation Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>delegationId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="delegationId"/>    
+        <bean parent="FieldDefinition" p:attributeName="roleId"/>
+        <bean parent="FieldDefinition" p:attributeName="delegationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="delegationId"/>      
+        <bean parent="FieldDefinition" p:attributeName="roleId"/>
+        <bean parent="FieldDefinition" p:attributeName="kimTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="delegationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

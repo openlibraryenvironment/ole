@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_ThreadPool" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Thread Pool</title>
+    <para><emphasis role="bold">Thread pool</emphasis> is a feature that improves overall system
+        performance by creating a pool of threads which can be independently used by the system
+        to execute multiple tasks at the same time. A task can execute immediately if there is a
+        thread in the pool that is available. If no thread is available, the task waits for a
+        thread to become available from the pool before executing.</para>
+    <para>The <emphasis role="bold">Thread Pool</emphasis> screen is accessed from the <emphasis
+        role="bold">Administration</emphasis> menu. It tells you the current state of the
+        Thread Pool and allows you to change four parameters for the Thread Pool. The core pool
+        size, the maximum pool size, the RouteQueue.TimeIncrement and the
+        RouteQueue.maxRetryAttempts.</para>
+    <figure><title>Thread Pool Administration Page</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KSB_Guide/thread_pool_administration.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>
+        <table frame="none" tabstyle="striped">
+            <title>Thread Pool: Attributes</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Core Pool Size</entry>
+                        <entry>A positive number equal to the core number of threads in the
+                            pool</entry>
+                    </row>
+                    <row>
+                        <entry>Maximum Pool Size</entry>
+                        <entry>A positive number equal to the maximum number of threads in the
+                            pool; when the Core Pool Size is larger than the Maximum Pool Size,
+                            Maximum Pool Size automatically sets the pool size equal to the Core
+                            Pool Size</entry>
+                    </row>
+                    <row>
+                        <entry>Pool Size</entry>
+                        <entry>The current number of threads in the pool</entry>
+                    </row>
+                    <row>
+                        <entry>Active Count</entry>
+                        <entry>The approximate number of threads that are actively executing
+                            tasks</entry>
+                    </row>
+                    <row>
+                        <entry>Largest Pool Size</entry>
+                        <entry>Maximum number of threads allowed in the Thread Pool</entry>
+                    </row>
+                    <row>
+                        <entry>Keep Alive Time</entry>
+                        <entry>The amount of time which threads in excess of the core pool size
+                            may remain idle before being terminated; measured in milliseconds;
+                            for example, 60,000 milliseconds = 60 seconds</entry>
+                    </row>
+                    <row>
+                        <entry>Task Count</entry>
+                        <entry>Number of tasks that have been scheduled for execution</entry>
+                    </row>
+                    <row>
+                        <entry>Completed Task Count</entry>
+                        <entry>Number of tasks that have completed execution</entry>
+                    </row>
+                    <row>
+                        <entry>Execute Across All Servers with Application ID RICE</entry>
+                        <entry>When you click this checkbox, then click the <emphasis
+                            role="bold">Update</emphasis> button, the update is applied
+                            across all servers.</entry>
+                    </row>
+                    <row>
+                        <entry>Update button</entry>
+                        <entry>Click the <emphasis role="bold">Update</emphasis> button to
+                            execute the changes you entered in the editable fields
+                            above.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </para>
+</chapter>

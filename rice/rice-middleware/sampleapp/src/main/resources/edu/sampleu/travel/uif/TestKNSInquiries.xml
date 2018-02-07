@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="Permission-InquiryView" parent="Uif-InquiryView">
+	<property name="headerText" value="Permission Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.kim.impl.permission.PermissionBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kim.inquiry.PermissionInquirableImpl"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <!-- <property name="layoutManager.summaryTitle" value="Permission Attributes"/> -->
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="template.namespaceCode"/>
+               <bean parent="Uif-InputField" p:propertyName="template.name"/>
+               <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+               <bean parent="Uif-InputField" p:propertyName="name"/>
+               <bean parent="Uif-InputField" p:propertyName="description"/>
+              </list>
+            </property>
+            <property name="headerText" value="Permission Attributes"/>
+          </bean>
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Permission Detail Values"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.permission.PermissionAttributeBo"/>
+             <property name="propertyName" value="detailObjects"/>
+             <property name="layoutManager.summaryTitle" value="Detail Values"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>kimAttribute.attributeName</value>
+          			<value>attributeValue</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="kimAttribute.attributeName"/>
+                 <bean parent="Uif-InputField" p:propertyName="attributeValue"/>
+               </list>
+             </property>      
+          </bean>
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Permission Assigned Roles"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.role.RoleBo"/>
+             <property name="propertyName" value="assignedToRoles"/>
+             <property name="layoutManager.summaryTitle" value="Assigned Roles"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>namespaceCode</value>
+          			<value>roleName</value>
+          			<value>kimRoleType.name</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+                 <bean parent="Uif-InputField" p:propertyName="roleName"/>
+                 <bean parent="Uif-InputField" p:propertyName="kimRoleType.name"/>
+               </list>
+             </property>      
+          </bean>
+         </list>
+    </property>  
+
+  </bean>
+	
+  <bean id="Responsibility-InquiryView" parent="Uif-InquiryView">
+	<property name="headerText" value="Responsibility Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.kim.impl.responsibility.UberResponsibilityBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kim.impl.responsibility.ResponsibilityInquirableImpl"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <!-- <property name="layoutManager.summaryTitle" value="Responsibility Attributes"/> -->
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="template.namespaceCode"/>
+               <bean parent="Uif-InputField" p:propertyName="template.name"/>
+               <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+               <bean parent="Uif-InputField" p:propertyName="name"/>
+              </list>
+            </property>
+            <property name="headerText" value="Responsibility Attributes"/>
+          </bean>
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Responsibility Detail Values"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.responsibility.ResponsibilityAttributeBo"/>
+             <property name="propertyName" value="detailObjects"/>
+             <property name="layoutManager.summaryTitle" value="Detail Values"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>kimAttribute.attributeName</value>
+          			<value>attributeValue</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="kimAttribute.attributeName"/>
+                 <bean parent="Uif-InputField" p:propertyName="attributeValue"/>
+               </list>
+             </property>      
+          </bean>
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Permission Assigned Roles"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.role.RoleBo"/>
+             <property name="propertyName" value="assignedToRoles"/>
+             <property name="layoutManager.summaryTitle" value="Assigned Roles"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>namespaceCode</value>
+          			<value>roleName</value>
+          			<value>kimRoleType.name</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+                 <bean parent="Uif-InputField" p:propertyName="roleName"/>
+                 <bean parent="Uif-InputField" p:propertyName="kimRoleType.name"/>
+               </list>
+             </property>      
+          </bean>
+         </list>
+    </property>  
+  </bean>
+  
+  <bean id="Component-InquiryView" parent="Uif-InquiryView">
+	<property name="headerText" value="Component Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.coreservice.impl.component.ComponentBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.coreservice.web.component.ComponentInquirableImpl"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="code"/>
+               <bean parent="Uif-InputField" p:propertyName="name"/>
+               <bean parent="Uif-InputField" p:propertyName="active"/>
+              </list>
+            </property>
+          </bean>
+         </list>
+    </property>  
+  </bean>
+
+  <bean id="Namespace-InquiryView" parent="Uif-InquiryView">
+	<property name="headerText" value="Namespace Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.coreservice.impl.namespace.NamespaceBo"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="code"/>
+               <bean parent="Uif-InputField" p:propertyName="name"/>
+               <bean parent="Uif-InputField" p:propertyName="applicationId"/>
+               <bean parent="Uif-InputField" p:propertyName="active"/>
+              </list>
+            </property>
+          </bean>
+         </list>
+    </property>  
+  </bean>
+  
+  <bean id="KimType-InquiryView" parent="Uif-InquiryView">
+	<property name="headerText" value="Kim Type"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.kim.impl.type.KimTypeBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kim.impl.type.KimTypeInquirableImpl"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="id"/>
+               <bean parent="Uif-InputField" p:propertyName="name"/>
+               <bean parent="Uif-InputField" p:propertyName="serviceName"/>
+               <bean parent="Uif-InputField" p:propertyName="active"/>
+               <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+              </list>
+            </property>
+          </bean>
+         </list>
+    </property>  
+  </bean>
+  	
+  <bean id="RuleInquiryView" abstract="true" parent="Uif-InquiryView-parentBean"/> 	
+  <bean id="RuleBaseValues-InquiryView" parent="Uif-InquiryView">
+	<property name="headerText" value="Rule"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.kew.rule.RuleBaseValues"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kew.rule.bo.RuleBaseValuesInquirableImpl"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <property name="headerText" value="Rule"/>
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="id"/>
+               <bean parent="Uif-InputField" p:propertyName="previousRuleId"/>
+               <bean parent="Uif-InputField" p:propertyName="documentId"/>
+               <bean parent="Uif-InputField" p:propertyName="documentType.name"/>
+               <bean parent="Uif-InputField" p:propertyName="ruleTemplate.name"/>
+               <bean parent="Uif-InputField" p:propertyName="description"/>
+               <bean parent="Uif-InputField" p:propertyName="fromDateValue"/>
+               <bean parent="Uif-InputField" p:propertyName="toDateValue"/>
+               <bean parent="Uif-InputField" p:propertyName="forceAction"/>
+               <bean parent="Uif-InputField" p:propertyName="active"/>
+              </list>
+            </property>
+          </bean>
+          
+          <!-- <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Rule Attributes"/>
+             <property name="propertyName" value="fieldValues"/>
+          </bean> -->
+          
+          
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Person Responsibilities"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kew.rule.PersonRuleResponsibility"/>
+             <property name="propertyName" value="personResponsibilities"/>
+             <property name="layoutManager.summaryTitle" value="Person"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>principalName</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="principalName"/>
+                 <bean parent="Uif-InputField" p:propertyName="actionRequestedCd"/>
+                 <bean parent="Uif-InputField" p:propertyName="priority"/>
+               </list>
+             </property>      
+          </bean>
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Group Responsibilities"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kew.rule.GroupRuleResponsibility"/>
+             <property name="propertyName" value="groupResponsibilities"/>
+             <property name="layoutManager.summaryTitle" value="Group"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>namespaceCode</value>
+          			<value>name</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+                 <bean parent="Uif-InputField" p:propertyName="name"/>
+                 <bean parent="Uif-InputField" p:propertyName="actionRequestedCd"/>
+                 <bean parent="Uif-InputField" p:propertyName="priority"/>
+               </list>
+             </property>      
+          </bean>
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Role Responsibilities"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kew.rule.RoleRuleResponsibility"/>
+             <property name="propertyName" value="roleResponsibilities"/>
+             <property name="layoutManager.summaryTitle" value="Role"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>roleName</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="approvePolicy"/>
+                 <bean parent="Uif-InputField" p:propertyName="roleName"/>
+                 <bean parent="Uif-InputField" p:propertyName="actionRequestedCd"/>
+                 <bean parent="Uif-InputField" p:propertyName="priority"/>
+               </list>
+             </property>      
+          </bean>
+         </list>
+    </property>  
+
+  </bean>
+  
+  <bean id="RuleDelegation-InquiryView" parent="Uif-InquiryView">
+    <property name="dataObjectClassName" value="org.kuali.rice.kew.rule.RuleDelegationBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.kew.rule.bo.RuleDelegationInquirableImpl"/>
+    <property name="Items">
+        <list>
+          <bean parent="Uif-Disclosure-GridSection">
+            <property name="layoutManager.numberOfColumns" value="2"/>
+            <property name="headerText" value="Delegation Rule"/>
+            <!-- <property name="layoutManager.summaryTitle" value="Permission Attributes"/> -->
+            <property name="items">
+              <list>
+	              <bean parent="Uif-InputField" p:propertyName="ruleDelegationId"/>
+	              <bean parent="Uif-InputField" p:propertyName="ruleResponsibility.ruleBaseValues.id"/>
+	              <bean parent="Uif-InputField" p:propertyName="id"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.documentType.name"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.ruleTemplate.name"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.description"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.fromDateValue"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.toDateValue"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.forceAction"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationRuleBaseValues.active"/>
+	              <bean parent="Uif-InputField" p:propertyName="delegationTypeCode"/>
+              </list>
+            </property>
+          </bean>
+           <!-- <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Rule Attributes"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.permission.PermissionAttributeBo"/>
+             <property name="propertyName" value="detailObjects"/>
+             <property name="layoutManager.summaryTitle" value="Detail Values"/>
+             <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>kimAttribute.attributeName</value>
+          			<value>attributeValue</value>
+			      </list>
+             </property>
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="kimAttribute.attributeName"/>
+                 <bean parent="Uif-InputField" p:propertyName="attributeValue"/>
+               </list>
+             </property>      
+          </bean> -->
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Person Responsibilities"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kew.rule.PersonRuleResponsibility"/>
+             <property name="propertyName" value="delegationRuleBaseValues.personResponsibilities"/>
+             <!-- <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>principalName</value>
+			      </list>
+             </property> -->
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="principalName"/>
+                 <bean parent="Uif-InputField" p:propertyName="actionRequestedCd"/>
+                 <bean parent="Uif-InputField" p:propertyName="priority"/>
+               </list>
+             </property>      
+          </bean>
+          
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Group Responsibilities"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kew.rule.GroupRuleResponsibility"/>
+             <property name="propertyName" value="delegationRuleBaseValues.groupResponsibilities"/>
+             <!-- <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>namespaceCode</value>
+          			<value>name</value>
+			      </list>
+             </property> -->
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="namespaceCode"/>
+                 <bean parent="Uif-InputField" p:propertyName="name"/>
+                 <bean parent="Uif-InputField" p:propertyName="actionRequestedCd"/>
+                 <bean parent="Uif-InputField" p:propertyName="priority"/>
+               </list>
+             </property>      
+          </bean>
+          
+          <bean parent="Uif-StackedCollectionSection">
+             <property name="headerText" value="Role Responsibilities"/>
+             <property name="collectionObjectClass" value="org.kuali.rice.kew.rule.RoleRuleResponsibility"/>
+             <property name="propertyName" value="delegationRuleBaseValues.roleResponsibilities"/>
+             <!-- <property name="layoutManager.summaryFields">
+                  <list>
+          			<value>roleName</value>
+			      </list>
+             </property> -->
+             <property name="items">
+               <list>
+                 <bean parent="Uif-InputField" p:propertyName="approvePolicy"/>
+                 <bean parent="Uif-InputField" p:propertyName="roleName"/>
+                 <bean parent="Uif-InputField" p:propertyName="actionRequestedCd"/>
+                 <bean parent="Uif-InputField" p:propertyName="priority"/>
+               </list>
+             </property>      
+          </bean>
+         </list>
+    </property>  
+
+  </bean>
+  	
+</beans>

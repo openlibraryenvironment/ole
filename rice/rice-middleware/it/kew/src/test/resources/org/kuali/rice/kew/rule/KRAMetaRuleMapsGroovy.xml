@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>KRAMetaRuleMapsTest</name>
+            <label>KRAMetaRuleMapsTest doc label</label>
+            <docHandler>has to be defined</docHandler>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <routePaths>
+                <routePath>
+                    <start name="initial" nextNode="approval" />
+                    <requests name="approval"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="initial"/>
+                <requests name="approval">
+                    <!--
+                      serial activation so that when results of multiple rule evaluations are accumulated/collated
+                      they are activated in turn...
+                    -->
+                    <activationType>S</activationType>
+                    <ruleSelector>Named</ruleSelector>
+                    <ruleName>KRAMetaRuleWithMaps</ruleName>
+                </requests>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <name>KRABizRuleWithMaps1</name>
+            <documentType>KRAMetaRuleMapsTest</documentType>
+            <description>KRABizRule1 mandatory description</description>
+            <expression type="BSF:groovy">
+                import org.kuali.rice.kew.rule.*
+                print "KRABizRuleWithMaps1 is executing..."
+                return new RuleExpressionResult(rule, true, rule.getDefinition().getResponsibilities())
+            </expression>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility><groupName namespace="KR-WKFLW">TestWorkgroup</groupName></responsibility>
+                <responsibility><role>org.kuali.rice.kew.rule.MockRole!shenl,jhopf</role></responsibility>
+                <responsibility><groupName namespace="KR-WKFLW">NonSIT</groupName></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>KRABizRuleWithMaps2</name>
+            <documentType>KRAMetaRuleMapsTest</documentType>
+            <description>KRABizRule1 mandatory description</description>
+            <expression type="BSF:groovy">
+                import org.kuali.rice.kew.rule.*
+                print "KRABizRuleWithMaps2 is executing..."
+                return new RuleExpressionResult(rule, true, rule.getDefinition().getResponsibilities())
+            </expression>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility><groupName namespace="KR-WKFLW">NonSIT</groupName></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>KRAMetaRuleWithMaps</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <description>KRAMetaRule mandatory description</description>
+            <expression type="KRAMeta:groovy">
+                import java.util.*
+                import org.kuali.rice.kew.rule.*
+
+                success = false
+                if (metarule.evalRule("KRABizRuleWithMaps1", true)) {
+                    if (metarule.evalRule("KRABizRuleWithMaps2", true)) {
+                        success = true
+                    }
+                }
+
+                return metarule.getResult(success)
+            </expression>
+        </rule>
+    </rules>
+</data>

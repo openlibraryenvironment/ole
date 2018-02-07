@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+    <jdbc-connection-descriptor
+        jcd-alias="dataSource"
+        default-connection="false"
+        platform="Oracle9i"
+        jdbc-level="3.0"
+        useAutoCommit="0">
+        <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+        <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl" />
+    </jdbc-connection-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.AccountRequestDocument" table="TRV_DOC_2">
+		<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="requester" column="traveler" jdbc-type="VARCHAR" />
+		<field-descriptor name="reason1" column="org" jdbc-type="VARCHAR" />
+		<field-descriptor name="reason2" column="dest" jdbc-type="VARCHAR" />
+
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
+		<field-descriptor name="requestType" column="request_trav" jdbc-type="VARCHAR"></field-descriptor>
+		<!--  object references -->
+		<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object"
+			auto-delete="object">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+		<collection-descriptor name="accounts" element-class-ref="org.kuali.rice.krad.test.document.bo.Account" auto-retrieve="true" auto-update="false"
+			auto-delete="false" indirection-table="TRAV_DOC_2_ACCOUNTS">
+			<fk-pointing-to-this-class column="DOC_HDR_ID" />
+			<fk-pointing-to-element-class column="ACCT_NUM" />
+		</collection-descriptor>
+	</class-descriptor>
+	
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.AccountRequestDocumentWithCyclicalReference" table="TRV_DOC_2">
+		<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="requester" column="traveler" jdbc-type="VARCHAR" />
+		<field-descriptor name="reason1" column="org" jdbc-type="VARCHAR" />
+		<field-descriptor name="reason2" column="dest" jdbc-type="VARCHAR" />
+
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
+		<field-descriptor name="requestType" column="request_trav" jdbc-type="VARCHAR"/>
+		<!--  object references -->
+		<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object"
+			auto-delete="object">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+        <reference-descriptor name="child" class-ref="org.kuali.rice.krad.test.document.AccountRequestDocumentWithCyclicalReference" auto-retrieve="true" auto-update="object"
+			auto-delete="object">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="parent" class-ref="org.kuali.rice.krad.test.document.AccountRequestDocumentWithCyclicalReference" auto-retrieve="true" auto-update="object"
+			auto-delete="object">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+		<collection-descriptor name="accounts" element-class-ref="org.kuali.rice.krad.test.document.bo.Account" auto-retrieve="true" auto-update="false"
+			auto-delete="false" indirection-table="TRAV_DOC_2_ACCOUNTS">
+			<fk-pointing-to-this-class column="DOC_HDR_ID" />
+			<fk-pointing-to-element-class column="ACCT_NUM" />
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.bo.AccountManager" table="TRV_ACCT_FO">
+		<field-descriptor name="amId" column="acct_fo_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="TRV_FO_ID_S" />
+		<field-descriptor name="userName" column="acct_fo_user_name" jdbc-type="VARCHAR" />
+
+		<collection-descriptor name="accounts" element-class-ref="org.kuali.rice.krad.test.document.bo.Account">
+			<inverse-foreignkey field-ref="amId" />
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.bo.Account" table="TRV_ACCT">
+		<field-descriptor name="number" column="acct_num" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="name" column="acct_name" jdbc-type="VARCHAR" />
+		<field-descriptor name="amId" column="acct_fo_id" jdbc-type="BIGINT" nullable="false" />
+
+		<reference-descriptor name="accountManager" class-ref="org.kuali.rice.krad.test.document.bo.AccountManager" auto-delete="none" auto-retrieve="true" auto-update="object" proxy="true">
+			<foreignkey field-ref="amId" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="extension" class-ref="org.kuali.rice.krad.test.document.bo.AccountExtension" auto-delete="object" auto-retrieve="true" auto-update="object" proxy="false">
+			<foreignkey field-ref="number" />
+		</reference-descriptor>
+
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.bo.AccountType" table="TRV_ACCT_TYPE">
+		<field-descriptor name="accountTypeCode" column="acct_type" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="name" column="acct_type_name" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.bo.AccountExtension" table="TRV_ACCT_EXT">
+		<field-descriptor name="number" column="acct_num" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="accountTypeCode" column="acct_type" jdbc-type="VARCHAR" />
+		<reference-descriptor name="accountType" class-ref="org.kuali.rice.krad.test.document.bo.AccountType" auto-delete="none" auto-retrieve="true" auto-update="none" proxy="true">
+			<foreignkey field-ref="accountTypeCode" />
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.AccountWithDDAttributesDocument" table="ACCT_DD_ATTR_DOC">
+		<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="accountNumber" column="ACCT_NUM" jdbc-type="INTEGER" nullable="false"/>
+		<field-descriptor name="accountOwner" column="ACCT_OWNR" jdbc-type="VARCHAR" nullable="false"/>
+		<field-descriptor name="accountBalance" column="ACCT_BAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" nullable="false"/>
+		<field-descriptor name="accountOpenDate" column="ACCT_OPN_DAT" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="accountState" column="ACCT_STAT" jdbc-type="VARCHAR" nullable="false"/>
+		<field-descriptor name="accountUpdateDateTime" column="ACCT_UPDATE_DT_TM" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="accountAwake" column="ACCT_AWAKE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.rice.krad.test.document.SearchAttributeIndexTestDocument" table="TST_SEARCH_ATTR_INDX_TST_DOC_T">
+		<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="routeLevelCount" column="RTE_LVL_CNT" jdbc-type="BIGINT"/>
+		<field-descriptor name="constantString" column="CNSTNT_STR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="routedString" column="RTD_STR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="heldRoutedString" column="HLD_RTD_STR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="readAccessCount" column="RD_ACCS_CNT" jdbc-type="BIGINT"/>
+	</class-descriptor>
+	
+<!--	<class-descriptor class="org.kuali.rice.krad.demo.travel.account.TravelAccountUseRate" table="TRV_ACCT_USE_RT_T">
+		<field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="number" column="acct_num" jdbc-type="VARCHAR" />
+		<field-descriptor name="rate" column="rate" jdbc-type="DECIMAL" conversion="org.kuali.rice.krad.util.OjbKualiPercentFieldConversion"/>
+		<field-descriptor name="activeFromDate" column="ACTV_FRM_DT" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="activeToDate" column="ACTV_TO_DT" jdbc-type="TIMESTAMP" />
+	</class-descriptor>-->
+
+  <class-descriptor class="org.kuali.rice.krad.test.document.BOContainingPerson" table="KR_KIM_TEST_BO">
+    <field-descriptor name="boPrimaryKey" column="PK" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" />
+  </class-descriptor>
+
+</descriptor-repository>

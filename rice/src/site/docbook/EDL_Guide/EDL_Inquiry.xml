@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_Inquiry" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>eDocLite Inquiry</title>
+    <figure><title>eDocLite Inquiry</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KEW_Guide/edoclite_inquiry.png" contentwidth="400"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>The Inquiry screen displays the same information as is found on a line of the
+        Lookup output, but this screen provides you with the export option. Exporting from
+        the Inquiry screen produces a XML file of the source for the eDocLite
+        document.</para>
+</chapter>

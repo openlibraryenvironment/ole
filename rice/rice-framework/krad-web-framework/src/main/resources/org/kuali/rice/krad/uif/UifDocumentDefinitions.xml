@@ -1,0 +1,396 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Uif-DocumentView" abstract="true" parent="Uif-DocumentView-parentBean"/>
+  <bean id="Uif-DocumentView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-documentView</value>
+      </list>
+    </property>
+    <property name="viewTypeName" value="DOCUMENT"/>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
+    <property name="defaultBindingObjectPath" value="document"/>
+    <property name="presentationControllerClass"
+              value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
+    <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
+    <property name="viewHelperServiceClass"
+              value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
+    <property name="header">
+      <bean parent="Uif-DocumentViewHeader"/>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-DocumentPage" parent="Uif-Disclosure-Page">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-documentPage</value>
+      </list>
+    </property>
+    <property name="defaultItemPosition" value="11"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DocumentOverviewSection" p:order="10"/>
+        <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
+        <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+        <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-DocumentPageFooter"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-DocumentInfoGroup" parent="Uif-GridGroup" p:readOnly="true">
+    <property name="items">
+      <list>
+        <bean parent="Uif-DocumentNumber"/>
+        <bean parent="Uif-DocumentStatus"/>
+        <bean parent="Uif-DocumentInitiatorNetworkId"/>
+        <bean parent="Uif-DocumentCreateDate"/>
+      </list>
+    </property>
+    <property name="layoutManager">
+      <bean parent="Uif-GridLayoutBase" p:numberOfColumns="4" p:applyDefaultCellWidths="false"/>
+    </property>
+    <property name="fieldBindingObjectPath" value="document"/>
+    <property name="validationMessages.render" value="false"/>
+  </bean>
+
+  <bean id="Uif-DocumentOverviewSection" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4"
+        p:layoutManager.applyDefaultCellWidths="false">
+    <property name="headerText" value="Document Overview"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description"
+              p:width="25%" p:fieldLabel.width="25%"/>
+        <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"
+              p:width="40%" p:fieldLabel.width="10%"/>
+        <bean parent="Uif-OrganizationDocumentNumber" p:width="25%" p:fieldLabel.width="25%"/>
+      </list>
+    </property>
+    <property name="fieldBindingObjectPath" value="document.documentHeader"/>
+  </bean>
+
+  <bean id="Uif-DocumentNotesSection" parent="Uif-Disclosure-TableCollectionSection"
+        p:layoutManager.suppressLineWrapping="true">
+    <property name="headerText"
+              value="Notes @{#DocumentEntry.allowsNoteAttachments ? 'and Attachments' : ''} (@{document.notes.size()})"/>
+    <property name="propertyName" value="notes"/>
+    <property name="cssClasses" value="tableborders wrap"/>
+    <property name="collectionObjectClass" value="org.kuali.rice.krad.bo.Note"/>
+    <property name="layoutManager.generateAutoSequence" value="true"/>
+    <property name="layoutManager.richTable.render" value="false"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="notePostedTimestamp" p:readOnly="true"/>
+        <bean parent="Uif-DataField" p:propertyName="authorUniversal.principalName" p:readOnly="true"/>
+        <bean parent="Uif-InputField" p:propertyName="noteTopicText" p:render="@{#DocumentEntry.displayTopicFieldInNotes}"/>
+        <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:readOnly="@{#line.noteText != ''}"/>
+        <bean parent="Uif-VerticalFieldGroup" p:label="Attached File" p:render="@{#DocumentEntry.allowsNoteAttachments}">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="attachmentFile"
+                    p:bindingInfo.bindingPath="attachmentFile" p:fieldLabel.render="false">
+                <property name="control">
+                  <bean parent="Uif-FileControl" p:size="15"/>
+                </property>
+              </bean>
+              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="cancelAttachment"
+                    p:actionLabel="cancel" p:title="Cancel Attachment"/>
+            </list>
+          </property>
+          <property name="propertyReplacers">
+            <list>
+              <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                    p:condition="@{!#isAddLine and #line.attachment != null and #line.attachment.complete}">
+                <property name="replacement">
+                  <list>
+                    <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadAttachment"
+                          p:ajaxSubmit="false"
+                          p:actionLabel="download attachment" p:title="download attachment"
+                          p:disableBlocking="true"
+                          p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
+                            <property name="actionParameters">
+                              <map>
+                                  <entry key="selectedLineIndex" value="@{#index}"/>
+                              </map>
+                            </property>
+                     </bean>
+
+                    <bean parent="Uif-Message" p:messageText="@{#line.attachment?.attachmentFileName}"/>
+                    <bean parent="Uif-Message"
+                          p:messageText="(@{#line.attachment?.attachmentFileSizeWithUnits}, @{#line.attachment?.attachmentMimeTypeCode})"/>
+
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                    p:condition="@{!#isAddLine and (#line.attachment == null or !#line.attachment.complete)}">
+                <property name="replacement">
+                  <list>
+                    <bean parent="Uif-SpaceField"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- TODO: field needs translation to options label when read-only -->
+        <bean parent="Uif-InputField" p:propertyName="attachment.attachmentTypeCode"
+              p:render="@{#DocumentEntry.allowsNoteAttachments and #DocumentEntry.attachmentTypesValuesFinderClass != null}"/>
+        <bean parent="Uif-InputField" p:propertyName="adHocRouteRecipient.id" p:readOnly="@{!#isAddLine}"
+              p:render="@{#DocumentEntry.allowsNoteFYI and #actionFlags[#Constants.KUALI_ACTION_CAN_SEND_NOTE_FYI]}"/>
+      </list>
+    </property>
+    <property name="bindingInfo.bindingObjectPath" value="document"/>
+    <property name="disclosure.defaultOpen"
+              value="@{!document.notes.empty or #component.defaultOpen}"/>
+    <property name="validationMessages.additionalKeysToMatch" value="attachmentFile"/>
+    <property name="addLineActions">
+      <list>
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="insertNote" p:actionLabel="add" p:title="Add a Note"/>
+      </list>
+    </property>
+    <property name="lineActions">
+      <list>
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteNote" p:actionLabel="delete" p:title="Delete a Note"/>
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="sendNoteWorkflowNotification" p:actionLabel="send"
+              p:title="Send FYI"
+              p:render="@{#DocumentEntry.allowsNoteFYI and #actionFlags[#Constants.KUALI_ACTION_CAN_SEND_NOTE_FYI]}"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-DocumentAdHocRecipientsSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="headerText" value="Ad Hoc Recipients"/>
+    <property name="items">
+      <list>
+        <bean id="Uif-AdHocPersonCollection" parent="Uif-TableCollectionSubSection"
+              p:layoutManager.numberOfColumns="2">
+          <property name="collectionObjectClass" value="org.kuali.rice.krad.bo.AdHocRoutePerson"/>
+          <property name="propertyName" value="adHocRoutePersons"/>
+          <property name="bindingInfo.bindingObjectPath" value="document"/>
+          <property name="headerText" value="Person Requests:"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.richTable.render" value="false"/>
+          <property name="cssClasses" value="tableborders wrap"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                <property name="control">
+                  <bean parent="Uif-DropdownControl"/>
+                </property>
+                <property name="optionsFinder">
+                  <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:propertyName="name" p:label="Person" p:required="true">
+                <property name="control">
+                  <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="id" p:personNamePropertyName="person.name"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean id="CollectionGroup_AdHocWorkgroup" parent="Uif-TableCollectionSubSection"
+              p:layoutManager.numberOfColumns="3">
+          <property name="collectionObjectClass" value="org.kuali.rice.krad.bo.AdHocRouteWorkgroup"/>
+          <property name="propertyName" value="adHocRouteWorkgroups"/>
+          <property name="headerText" value="Ad Hoc Group Requests:"/>
+          <property name="bindingInfo.bindingObjectPath" value="document"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.richTable.render" value="false"/>
+          <property name="cssClasses" value="tableborders"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                <property name="control">
+                  <bean parent="Uif-DropdownControl"/>
+                </property>
+                <property name="optionsFinder">
+                  <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
+                </property>
+              </bean>
+              <bean parent="Uif-InputField" p:propertyName="recipientNamespaceCode" p:label="Namespace Code"/>
+              <bean parent="Uif-InputField" p:propertyName="recipientName" p:label="Name">
+                <property name="control">
+                  <bean parent="Uif-KimGroupControl" p:groupIdPropertyName="id"
+                        p:namespaceCodePropertyName="recipientNamespaceCode"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-DocumentRouteLogSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="headerText" value="Route Log"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Iframe" p:height="500" p:width="95%" p:frameborder="0">
+          <property name="id" value="routeLogIFrame"/>
+          <property name="source"
+                    value="@{#ConfigProperties['workflow.url']}/RouteLog.do?documentId=@{workflowDocument.documentId}"/>
+          <property name="onLoadScript" value="setRouteLogIframeDimensions();"/>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+    <property name="rightGroup">
+      <bean parent="Uif-DocumentInfoGroup">
+        <property name="cssClasses">
+          <list merge="true">
+            <value>uif-docheader</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="Uif-DocumentPageFooter" parent="Uif-FooterBase">
+    <property name="items">
+      <list>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+        <bean parent="Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="reload"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve"  p:performClientSideValidation="true"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="fyi"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="acknowledge"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+        <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+        <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-TransactionalDocumentView" abstract="true" parent="Uif-TransactionalDocumentView-parentBean"/>
+  <bean id="Uif-TransactionalDocumentView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="Uif-DocumentView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-transactionalView</value>
+      </list>
+    </property>
+    <property name="viewTypeName" value="TRANSACTIONAL"/>
+    <property name="viewName" value="default"/>
+    <property name="presentationControllerClass"
+              value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
+    <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
+  </bean>
+
+  <bean id="Uif-DocumentNumber" parent="Uif-InputField" p:propertyName="documentNumber"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.DocumentHeader">
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentNumber</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-DocumentStatus" parent="Uif-InputField" p:propertyName="documentHeader.workflowDocument.status"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.datadictionary.AttributeReference" p:dictionaryAttributeName="workflowDocumentStatus">
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentStatus</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-DocumentInitiatorNetworkId" parent="Uif-InputField" p:propertyName="documentInitiatorNetworkId"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.datadictionary.AttributeReference" p:dictionaryAttributeName="initiatorNetworkId">
+    <property name="bindingInfo.bindToForm" value="true"/>
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentInitiatorNetworkId</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-DocumentCreateDate" parent="Uif-InputField" p:propertyName="documentCreateDate"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.datadictionary.AttributeReference" p:dictionaryAttributeName="createDate">
+    <property name="bindingInfo.bindToForm" value="true"/>
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentCreateDate</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-DocumentTemplateNumber" parent="Uif-InputField" p:propertyName="documentTemplateNumber"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.DocumentHeader">
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentTemplateNumber</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-DocumentDescription" parent="Uif-InputField" p:propertyName="documentDescription"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.DocumentHeader">
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentDescription</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-DocumentExplaination" parent="Uif-InputField" p:propertyName="explanation"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.DocumentHeader">
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-documentExplaination</value>
+          </list>
+        </property>
+  </bean>
+
+  <bean id="Uif-OrganizationDocumentNumber" parent="Uif-InputField" p:propertyName="organizationDocumentNumber"
+        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.DocumentHeader">
+    <property name="cssClasses">
+          <list merge="true">
+            <value>uif-organizationDocumentNumber</value>
+          </list>
+        </property>
+  </bean>
+</beans>

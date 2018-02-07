@@ -1,0 +1,747 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Uif-GlobalApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"
+        p:template="/WEB-INF/ftl/kradSampleAppHeader.ftl" p:render="@{!renderedInLightBox}"
+        p:templateName="demo_kradappheader"/>
+
+  <bean id="Uif-GlobalApplicationFooter" parent="Uif-GlobalApplicationFooter-parentBean"
+        p:template="/WEB-INF/ftl/kradSampleAppFooter.ftl" p:render="@{!renderedInLightBox}"
+        p:templateName="demo_kradappfooter"/>
+
+  <bean id="Uif-View" abstract="true" parent="Uif-View-parentBean">
+    <property name="additionalCssFiles">
+      <list>
+        <value>css/kradSampleApp.css</value>
+      </list>
+    </property>
+    <property name="additionalScriptFiles">
+      <list>
+        <value>scripts/kradSampleApp.js</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- SampleAppView defaults -->
+  <bean id="KradSampleAppView" parent="Uif-FormView">
+    <property name="unifiedHeader" value="false"/>
+    <property name="additionalCssFiles">
+      <list>
+        <value>css/kradSampleApp.css</value>
+      </list>
+    </property>
+    <property name="additionalScriptFiles">
+      <list>
+        <value>scripts/kradSampleApp.js</value>
+      </list>
+    </property>
+    <property name="stickyApplicationHeader" value="true"/>
+    <property name="applicationHeader">
+      <bean parent="Uif-GlobalApplicationHeader-parentBean"
+            p:template="/WEB-INF/ftl/kradSampleAppHeader.ftl" p:render="@{!renderedInLightBox}"
+            p:templateName="demo_kradappheader"/>
+    </property>
+    <property name="applicationFooter">
+      <bean parent="Uif-GlobalApplicationFooter-parentBean"
+            p:template="/WEB-INF/ftl/kradSampleAppFooter.ftl" p:render="@{!renderedInLightBox}"
+            p:templateName="demo_kradappfooter"/>
+    </property>
+    <property name="breadcrumbs.render" value="false"/>
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppView</value>
+      </list>
+    </property>
+    <property name="singlePageView" value="true"/>
+    <property name="page">
+      <bean parent="Uif-Page">
+        <property name="cssClasses">
+          <list merge="true">
+            <value>demo-sampleAppPage</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="viewHelperServiceClass"
+              value="org.kuali.rice.krad.demo.uif.components.ComponentViewHelperServiceImpl"/>
+    <property name="formClass" value="org.kuali.rice.krad.demo.uif.form.KradSampleAppForm"/>
+  </bean>
+
+  <!-- SampleApp Home -->
+
+  <bean id="KradSampleAppHome" parent="KradSampleAppView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHomeView</value>
+      </list>
+    </property>
+    <property name="page.items">
+      <list>
+        <ref bean="KradSampleAppHome-SplashWrapper"/>
+        <ref bean="KradSampleAppHome-Details"/>
+        <ref bean="KradSampleAppHome-TestimonialsWrapper"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppHome-SplashWrapper" parent="Uif-VerticalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHome-splashWrapper</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="KradSampleAppHome-SplashContent"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppHome-SplashContent" parent="Uif-VerticalBoxSection">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHome-splashContent</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppHome-MainGraphicPlaceholder" parent="Uif-VerticalBoxGroup"
+              p:cssClasses="demo-mainGraphic"/>
+        <bean id="KradSampleAppHome-TryItButton" parent="Uif-Action" p:cssClasses="demo-tryItButton"
+              p:actionScript="document.location=jQuery('#Demo-LibraryLink').attr('href'); return false;"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppHome-Details" parent="Uif-VerticalBoxSection">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHome-detailsSection</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppHome-DetailsRow1" parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean id="KradSampleAppHome-Point1" parent="KradSampleAppHome-SellingPointBase"/>
+              <bean id="KradSampleAppHome-Point2" parent="KradSampleAppHome-SellingPointBase"/>
+              <bean id="KradSampleAppHome-Point3" parent="KradSampleAppHome-SellingPointBase"/>
+            </list>
+          </property>
+        </bean>
+        <bean id="KradSampleAppHome-DetailsRow2" parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list>
+              <bean id="KradSampleAppHome-Point4" parent="KradSampleAppHome-SellingPointBase"/>
+              <bean id="KradSampleAppHome-Point5" parent="KradSampleAppHome-SellingPointBase"/>
+              <bean id="KradSampleAppHome-Point6" parent="KradSampleAppHome-SellingPointBase"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppHome-SellingPointBase" parent="Uif-VerticalBoxSubSection">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHome-sellingPoint</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppHome-TestimonialsWrapper" parent="Uif-VerticalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHome-testimonialsWrapper</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="KradSampleAppHome-TestimonialsContent"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppHome-TestimonialsContent" parent="Uif-VerticalBoxSection">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-sampleAppHome-testimonialsContent</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppHome-testimonialsList" parent="Uif-ListGroup">
+
+          <property name="items">
+            <list>
+              <bean id="KradSampleAppHome-Testimonial1" parent="Uif-Message"/>
+              <bean id="KradSampleAppHome-Testimonial2" parent="Uif-Message"/>
+              <bean id="KradSampleAppHome-Testimonial3" parent="Uif-Message"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- ComponentLibraryHome defs -->
+
+  <bean id="ComponentLibraryHome" parent="KradSampleAppView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-componentLibView</value>
+        <value>demo-componentLibHome</value>
+      </list>
+    </property>
+    <property name="navigation">
+      <ref bean="ComponentLibrary-AccordionNav"/>
+    </property>
+    <property name="page.headerText" value="Component Library"/>
+    <property name="page.items">
+      <list>
+        <ref bean="ComponentLibraryHome-New"/>
+        <bean id="ComponentLibraryHome-Elements" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-Controls" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-Fields" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-Containers" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-LayoutManagers" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-Widgets" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-Navigation" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-CollectionFeatures" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-Validation" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-ClientResponsiveness" parent="Uif-VerticalBoxSection"/>
+        <bean id="ComponentLibraryHome-GeneralFeatures" parent="Uif-VerticalBoxSection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibraryHome-New" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-ListGroup">
+          <property name="items">
+            <list>
+              <bean id="ComponentLibraryHome-NewItem1" parent="Uif-Link"/>
+              <bean id="ComponentLibraryHome-NewItem2" parent="Uif-Link"/>
+              <bean id="ComponentLibraryHome-NewItem3" parent="Uif-Link"/>
+              <bean id="ComponentLibraryHome-NewItem4" parent="Uif-Link"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- ComponentLibraryView defaults -->
+
+  <bean id="ComponentLibraryView" class="org.kuali.rice.krad.demo.uif.components.ComponentLibraryView"
+        parent="KradSampleAppView">
+    <property name="rootJavadocAddress" value="http://site.kuali.org/rice/2.2.0/apidocs/"/>
+    <property name="rootDocBookAddress" value="http://site.origin.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html"/>
+    <property name="largeExampleFieldId" value="Demo-LargeExampleDropdown"/>
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-componentLibView</value>
+      </list>
+    </property>
+    <property name="page.header.upperGroup">
+      <bean parent="Uif-VerticalBoxGroup">
+        <property name="items">
+          <list>
+            <bean id="ComponentLibrary-ShowNavLink" parent="Uif-ActionLink" p:actionScript="showLibraryNav();"
+                  p:actionLabel="@{#view.exampleSize ne null and #view.exampleSize.toString() eq 'XLARGE'?'&gt;&gt; Open Library Navigation':'&lt;&lt; Close Library Navigation'}"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="page.header.rightGroup">
+      <bean parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+          <list>
+            <ref bean="Demo-LargeExampleDropdown"/>
+            <bean id="Demo-CurrentExampleIndex" parent="Uif-InputField" p:propertyName="currentExampleIndex">
+              <property name="control">
+                <bean parent="Uif-HiddenControl"/>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="detailsGroup">
+      <bean id="Demo-DetailsGroup" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses" value="demo-detailsGroup"/>
+      </bean>
+    </property>
+    <property name="exhibit">
+      <bean id="Demo-Exhibit" parent="ComponentLibraryExhibit">
+        <property name="cssClasses">
+          <list merge="true">
+            <value>demo-componentExhibit</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="navigation">
+      <ref bean="ComponentLibrary-AccordionNav"/>
+    </property>
+  </bean>
+
+  <bean id="Demo-LargeExampleDropdown" parent="Uif-InputField" p:propertyName="exampleShown">
+    <property name="control">
+      <bean parent="Uif-DropdownControl">
+        <property name="onChangeScript" value="handleTabSwap(this)"/>
+      </bean>
+    </property>
+    <property name="render" value="false"/>
+  </bean>
+
+  <bean id="ComponentLibrary-AccordionNav" parent="Uif-AccordionGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-componentLibNav</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="ComponentLibrary-Nav-Elements"/>
+        <ref bean="ComponentLibrary-Nav-Controls"/>
+        <ref bean="ComponentLibrary-Nav-Fields"/>
+        <ref bean="ComponentLibrary-Nav-Containers"/>
+        <ref bean="ComponentLibrary-Nav-LayoutManagers"/>
+        <ref bean="ComponentLibrary-Nav-Widgets"/>
+        <ref bean="ComponentLibrary-Nav-Navigation"/>
+        <ref bean="ComponentLibrary-Nav-CollectionFeatures"/>
+        <ref bean="ComponentLibrary-Nav-Validation"/>
+        <ref bean="ComponentLibrary-Nav-ClientResponsiveness"/>
+        <ref bean="ComponentLibrary-Nav-GeneralFeatures"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav" parent="Uif-ListSection" p:header.render="false">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-componentLibNav-subList</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Elements" p:headerText="Elements" parent="ComponentLibrary-Nav">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-navElements</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Action"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Action-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Header"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Header-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Image"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Image-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Space"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Space-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Iframe"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Iframe-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Link"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Link-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Label"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Label-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Data Table"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-DataTable-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Message"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Message-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Controls" p:headerText="Controls" parent="ComponentLibrary-Nav">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-navControls</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Checkbox"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CheckboxControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Checkbox Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CheckboxGroupControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="File"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-FileControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="KIM Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-KIMGroupControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="KIM User"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-KIMUserControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Radio"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-RadioControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Select"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-SelectControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Option List"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-OptionList-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Password"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-PasswordControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Spinner"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-SpinnerControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Text"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TextControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Text Area"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TextAreaControl-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Hidden"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-HiddenControl-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Fields" p:headerText="Fields" parent="ComponentLibrary-Nav">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-navFields</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Action Field"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-ActionField-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Data Field"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-DataField-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Input Field"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-InputField-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Image Field"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-ImageField-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Link Field"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-LinkField-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Message Field"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-MessageField-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Containers" p:headerText="Containers" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Group-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Accordion Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-AccordionGroup-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Link Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-LinkGroup-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Tab Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TabGroup-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Collection Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionGroup-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Dialog Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-DialogGroup-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Navigation Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-NavigationGroup-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Tree Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TreeGroup-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-LayoutManagers" p:headerText="Layout Managers" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Grid Layout"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-GridLayoutManager-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Box Layout"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-BoxLayoutManager-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Css Grid Layout"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CssGridLayoutManager-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="List Layout"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-ListLayoutManager-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Stacked Layout"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StackedLayoutManager-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Widgets" p:headerText="Widgets" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Breadcrumbs"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Disclosure"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Disclosure-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Suggest"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Suggest-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Help"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Help-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Tooltip"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Tooltip-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="DatePicker"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-DatePicker-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="SyntaxHighlighter"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-SyntaxHighlighter-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Growls"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Growls-View&amp;methodToCall=start"/>
+        <!--<bean parent="Uif-Link" p:linkText="BlockUI" p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-BlockUI-View&amp;methodToCall=start"/>-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Navigation" p:headerText="Navigation" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Navigation Group"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-NavigationGroup-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-CollectionFeatures" p:headerText="Collection Features" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sequence Column"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionSequence-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Row Css"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TableLayoutRowCss-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Row Details"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TableLayoutDetails-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Column Calculations"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TableLayoutTotaling-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Row Grouping"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-TableLayoutGrouping-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Add Line"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionAddLine-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Select Line"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionSelectLine-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Action Placement"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionActionPlacement-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Inactive Filter"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionInactiveFilter-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Multi-Value Lookup"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CollectionLookup-View"/>
+        <bean parent="Uif-Link" p:linkText="Server Paging"
+              p:href="@{#ConfigProperties['krad.url']}/serverpaging"/>
+        <bean parent="Uif-Link" p:linkText="Light Table"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-LightTable-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-Validation" p:headerText="Validation" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Simple Constraints"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-SimpleConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Prerequisite Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-PrerequisiteConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Must Occur Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-MustOccurConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Case Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CaseConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Any Character Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-AnyCharacterPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Charset Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-CharsetPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Alpha Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-AlphaPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="AlphaNumeric Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-AlphaNumericPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Numeric Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-NumericPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Integer Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-IntegerPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Fixed Point Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-FixedPointPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Floating Point Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-FloatingPointPatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Date Constraint"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-DatePatternConstraint-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Regex Based Constraints"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-ConfigurationBasedRegexPatternConstraint-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-ClientResponsiveness" p:headerText="Client Responsiveness"
+        parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Disable"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Disable-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Progressive Disclosure"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-ProgressiveDisclosure-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Conditional Refresh"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-ConditionalRefresh-View&amp;methodToCall=start"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-Nav-GeneralFeatures" p:headerText="General Features" parent="ComponentLibrary-Nav">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Rich Messages"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-RichMessages-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Unified View Header"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-UnifiedHeader-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Sticky Header Options"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyHeader-View&amp;methodToCall=start"/>
+        <bean parent="Uif-Link" p:linkText="Sticky Footer Options"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-StickyFooter-View&amp;methodToCall=start"/>
+        <!--        <bean parent="Uif-Link" p:linkText="Incident Page"
+        p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-IncidentPage-View&amp;methodToCall=start"/>-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibraryDemoGroup" parent="Uif-VerticalBoxSection"/>
+
+  <bean id="ComponentLibraryExhibit" class="org.kuali.rice.krad.demo.uif.components.ComponentExhibit"
+        p:templateName="uif_exhibit" p:template="/WEB-INF/ftl/componentExhibit.ftl">
+    <property name="sourceCodeViewer">
+      <bean id="ComponentLibrary-MainCodeViewer" parent="ComponentLibrary-CodeViewer"/>
+    </property>
+    <property name="additionalSourceCodeViewer1">
+      <bean id="ComponentLibrary-AdditionalCodeViewer1" parent="ComponentLibrary-CodeViewer"/>
+    </property>
+    <property name="additionalSourceCodeViewer2">
+      <bean id="ComponentLibrary-AdditionalCodeViewer2" parent="ComponentLibrary-CodeViewer"/>
+    </property>
+    <property name="tabGroup">
+      <ref bean="ComponentLibrary-TabGroup"/>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-CodeViewer" parent="Uif-SyntaxHighlighter" p:showCopyConfirmation="true">
+    <property name="header">
+      <bean parent="Uif-HeaderThree"/>
+    </property>
+  </bean>
+
+  <bean id="ComponentLibrary-TabGroup" parent="Uif-TabGroup">
+    <property name="tabsWidget.position" value="RIGHT"/>
+  </bean>
+
+  <!-- Demo page defs -->
+
+  <bean id="KradSampleAppDemo" parent="KradSampleAppView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-kradSampleAppDemo</value>
+      </list>
+    </property>
+    <property name="page.items">
+      <list>
+        <ref bean="KradSampleAppDemo-Travel"/>
+        <ref bean="KradSampleAppDemo-Lookups"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppDemo-Travel" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <ref bean="KradSampleAppTravelDemo-Row1"/>
+        <ref bean="KradSampleAppTravelDemo-Row2"/>
+        <ref bean="KradSampleAppTravelDemo-Row3"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppTravelDemo-Row1" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppTravelDemo-Row1-Demo1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="KradSampleAppTravelDemo-Row1-Demo2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="KradSampleAppTravelDemo-Row1-Demo3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppTravelDemo-Row2" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppTravelDemo-Row2-Demo1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="KradSampleAppTravelDemo-Row2-Demo2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="KradSampleAppTravelDemo-Row2-Demo3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppTravelDemo-Row3" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppTravelDemo-Row3-Demo1" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppDemo-Lookups" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <ref bean="KradSampleAppLookupsDemo-Row1"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppLookupsDemo-Row1" parent="Uif-HorizontalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoRow</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean id="KradSampleAppLookupsDemo-Row1-Demo1" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="KradSampleAppLookupsDemo-Row1-Demo2" parent="KradSampleAppDemo-DemoGroup"/>
+        <bean id="KradSampleAppLookupsDemo-Row1-Demo3" parent="KradSampleAppDemo-DemoGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KradSampleAppDemo-DemoGroup" abstract="true" parent="Uif-VerticalBoxGroup">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>demo-demoGroup</value>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link"/>
+        <bean parent="Uif-Message"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

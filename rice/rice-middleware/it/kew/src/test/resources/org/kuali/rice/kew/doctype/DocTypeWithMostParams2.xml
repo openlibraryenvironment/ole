@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>TestWithMostParams1</name>
+			<parent>AnotherParent</parent>
+			<description>Another test of most parameters.</description>
+			<label>AntoherTestWithMostParams</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+			<reportingGroupName namespace="KR-WKFLW">WorkflowAdmin</reportingGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+			<docHandler>_nothing</docHandler>
+			<helpDefinitionURL>_nothing</helpDefinitionURL>
+            <docSearchHelpURL>_nothing</docSearchHelpURL>
+			<notificationFromAddress>_nothing</notificationFromAddress>
+			<emailStylesheet>_nothing</emailStylesheet>
+			<applicationId>KEW</applicationId>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>AnotherSchoolSearchAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Start" nextNode="AlwaysRouteRuleTemplateNoME" />
+					<requests name="AlwaysRouteRuleTemplateNoME" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Start">
+					<activationType>S</activationType>
+				</start>
+				<requests name="AlwaysRouteRuleTemplateNoME">
+					<activationType>P</activationType>
+					<ruleTemplate>AlwaysRouteRuleTemplateNoME</ruleTemplate>
+				</requests>
+			</routeNodes>
+			<security>
+				<initiator>false</initiator>
+			</security>
+		</documentType>
+		<documentType>
+			<name>AnotherParent</name>
+			<label>AnotherParent</label>
+            <authorizer>a.parent.authorizer</authorizer>
+		</documentType>
+	</documentTypes>
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate>
+            <name>AlwaysRouteRuleTemplateNoME</name>
+            <description>AlwaysRouteRuleTemplateNoME</description>
+        </ruleTemplate>
+    </ruleTemplates>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>AnotherSchoolSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>SchoolSearchAttribute</label>
+			<description>SchoolSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="school" title="School">
+					<display>
+						<type>select</type>
+						<values title="None"></values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-after(//department, ' '))</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+	</ruleAttributes>
+</data>

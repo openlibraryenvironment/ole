@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  
+
+  <!--
+  ********************************************************************************************************************
+                                           PeopleFlow Business Object Entry
+  ********************************************************************************************************************
+  -->
+  <bean id="PeopleFlow" parent="PeopleFlow-parentBean"/>
+  <bean id="PeopleFlow-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo"/>
+    <property name="titleAttribute" value="name"/>
+    <property name="objectLabel" value="People Flow"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PeopleFlow-id"/>
+        <ref bean="PeopleFlow-name"/>
+        <ref bean="PeopleFlow-namespaceCode"/>
+        <ref bean="PeopleFlow-typeId"/>
+        <ref bean="PeopleFlow-description"/>
+        <ref bean="PeopleFlow-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PeopleFlow-id" parent="PeopleFlow-id-parentBean"/>
+  <bean id="PeopleFlow-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="label" value="Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="40"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="summary" value="Generated ID for the people flow definition"/>
+    <property name="description" value="Generated ID for the people flow definition"/>
+  </bean>
+
+  <bean id="PeopleFlow-name" parent="PeopleFlow-name-parentBean"/>
+  <bean id="PeopleFlow-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="label" value="Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="100"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint" p:allowWhitespace="true"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="summary" value="Name for the people flow definition"/>
+    <property name="description" value="Name for the people flow definition"/>
+  </bean>
+
+  <bean id="PeopleFlow-namespaceCode" parent="PeopleFlow-namespaceCode-parentBean"/>
+  <bean id="PeopleFlow-namespaceCode-parentBean" abstract="true" parent="Namespace-code">
+    <property name="name" value="namespaceCode"/>
+    <property name="shortLabel" value="Namespace"/>
+    <property name="optionsFinderClass" value="org.kuali.rice.coreservice.web.namespace.NamespaceValuesFinder"/>
+    <property name="controlField">
+       <bean parent="Uif-DropdownControl"/>
+    </property>
+  </bean>
+
+  <bean id="PeopleFlow-typeId" parent="PeopleFlow-typeId-parentBean"/>
+  <bean id="PeopleFlow-typeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="typeId"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="40"/>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.kew.impl.type.KewTypeOptionsFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="Type name for the people flow definition"/>
+    <property name="description" value="Type name for the people flow definition"/>
+  </bean>
+
+  <bean id="PeopleFlow-description" parent="PeopleFlow-description-parentBean"/>
+  <bean id="PeopleFlow-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="4000"/>
+    <property name="controlField">
+      <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50"/>
+    </property>
+    <property name="summary" value="Description for the people flow definition"/>
+    <property name="description" value="Description for the people flow definition"/>
+  </bean>
+
+  <bean id="PeopleFlow-active" parent="PeopleFlow-active-parentBean"/>
+  <bean id="PeopleFlow-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Act"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="1"/>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           PeopleFlow Maintenance Document Entry
+  ********************************************************************************************************************
+  -->
+  <bean id="PeopleFlowMaintenanceDocument" parent="PeopleFlowMaintenanceDocument-parentBean"/>
+  <bean id="PeopleFlowMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.kew.impl.peopleflow.PeopleFlowMaintainableImpl"/>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="typeBo" p:attributeToHighlightOnFail="typeId"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>namespaceCode</value>
+        <value>name</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="PeopleFlowMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kew.impl.peopleflow.PeopleFlowBusRule"/>
+  </bean>
+
+</beans>

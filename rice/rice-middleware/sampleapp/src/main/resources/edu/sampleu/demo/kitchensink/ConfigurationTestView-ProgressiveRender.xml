@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="ConfigurationTestView-ProgressiveRender-Page" parent="Uif-Page" p:headerText="Progressive Render">
+    <property name="items">
+      <list>
+        <ref bean="ConfigurationTestView-ProgressiveRender-Section1"/>
+        <ref bean="ConfigurationTestView-ProgressiveRender-TimeInfoSection"/>
+        <ref bean="ConfigurationTestView-ProgressiveRender-DayEventSection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-ProgressiveRender-Section1" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+    <property name="headerText" value="InputFields"/>
+    <property name="instructionalText" value="Items are rendered one after another vertically down the page"/>
+    <property name="items">
+      <list>
+        <ref bean="ConfigurationTestView-ProgressiveRender-TextInputField"/>
+        <bean parent="GenericHorizontalFieldGroup" p:label="Conditional Options"
+              p:group.instructionalText="Choose an option from the first select control which will change the options available in the second select control">
+          <property name="items">
+            <list>
+              <ref bean="ConfigurationTestView-ProgressiveRender-DropDown"/>
+              <ref bean="ConfigurationTestView-ProgressiveRender-RefreshTextField"/>
+            </list>
+          </property>
+        </bean>
+        <!-- TODO: Not sure how we can test this -->
+        <bean parent="Uif-InputField" p:label="Field Label" p:propertyName="field2"
+              p:disableSessionPersistence="true"
+              p:instructionalText="Test of disable session persistence flag">
+          <property name="control">
+            <bean parent="Uif-TextControl">
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- testing that the property below is reflected on the field's label
+    https://groups.google.com/a/kuali.org/group/rice.usergroup.krad/browse_thread/thread/1e501d07c1141aad# -->
+  <bean id="ConfigurationTestView-ProgressiveRender-TextInputField" parent="Uif-InputField" p:label="Field Label"
+        p:required="true" p:instructionalText="Instructions Instructions Instructions"
+        p:constraintText="Constraint text" p:propertyName="field1">
+    <property name="control">
+      <bean parent="Uif-TextControl" p:size="30" p:watermarkText="Enter Data">
+      </bean>
+    </property>
+    <property name="fieldLabel.style" value="color:red"/>
+  </bean>
+
+  <bean id="ConfigurationTestView-ProgressiveRender-DropDown" parent="GenericTextField"
+        p:propertyName="field88" p:label="Field 1">
+    <property name="control">
+      <bean parent="Uif-DropdownControl">
+        <property name="options">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="Fruits" p:value="Fruits"/>
+            <bean parent="Uif-KeyLabelPair" p:key="Vegetables" p:value="Vegetables"/>
+            <bean parent="Uif-KeyLabelPair" p:key="None" p:value="None"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-ProgressiveRender-RefreshTextField" parent="GenericTextField" p:propertyName="field3"
+        p:label="Field 2" p:optionsFinderClass="edu.sampleu.travel.options.FoodKeyValuesFinder"
+        p:refreshWhenChangedPropertyNames="field88">
+    <property name="control">
+      <bean parent="Uif-DropdownControl"  p:disabled="@{#form.field88 eq 'None'}"/>
+    </property>
+  </bean>
+
+  <!-- testing https://groups.google.com/a/kuali.org/group/rice.usergroup.krad/browse_thread/thread/52bbf392a44c312d/6cfac6367373e3a8?lnk=gst&q=expression+error#6cfac6367373e3a8
+  expression error on refresh for components within a collection -->
+  <bean id="ConfigurationTestView-ProgressiveRender-TimeInfoSection" parent="Uif-Disclosure-TableCollectionSection">
+    <property name="headerText" value="TimeInfo - Spring Expression and Multiple Component refresh Test"/>
+    <property name="instructionalText"
+              value="testing expression error on refresh and multiple component refresh for components within a collection"/>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.TimeInfo"/>
+    <property name="propertyName" value="listTimeInfo"/>
+    <property name="layoutManager.renderSequenceField" value="false" />
+    <property name="layoutManager.generateAutoSequence" value="false" />
+    <property name="layoutManager.separateAddLine" value="false" />
+    <property name="layoutManager.richTable.render" value="false"/>
+    <property name="items">
+      <list>
+        <ref bean="ConfigurationTestView-ProgressiveRender-StartTimeInputField"/>
+        <ref bean="ConfigurationTestView-ProgressiveRender-StartTimeAmPmInputField"/>
+        <ref bean="ConfigurationTestView-ProgressiveRender-AllDayInputField"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- KULRICE-7226: Sorting in rich table not working with specified sorting fields -->
+  <bean id="ConfigurationTestView-ProgressiveRender-DayEventSection" parent="Uif-Disclosure-TableCollectionSection">
+    <property name="headerText" value="Day Events - Sorting enable/disable testing"/>
+    <property name="instructionalText"
+              value="Initial column sorting in rich table should work with specified sorting fields (Start Date)"/>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.DayEvent"/>
+    <property name="propertyName" value="dayEvents"/>
+    <property name="layoutManager.renderSequenceField" value="false" />
+    <property name="layoutManager.generateAutoSequence" value="false" />
+    <property name="layoutManager.richTable.render" value="true"/>
+    <property name="readOnly" value="true"/>
+    <property name="items">
+      <list>
+      <bean parent="Uif-InputField" p:propertyName="name" p:label="Name"/>
+      <bean parent="Uif-InputField" p:propertyName="date" p:label="Date" />
+      <bean parent="Uif-InputField" p:propertyName="startTime" p:label="start Time" />
+      <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:label="Am/Pm" />
+      <bean parent="Uif-InputField" p:propertyName="allDay" p:label="all Day" />
+      </list>
+    </property>
+    <property name="layoutManager.richTable.templateOptions">
+      <map merge="true">
+        <entry key="bFilter" value="false"/>
+        <entry key="bInfo" value="false"/>
+        <entry key="bLengthChange" value="false"/>
+        <entry key="bPaginate" value="false"/>
+        <entry key="aaSorting" value="[[1,'desc']]"/>
+        <entry key="aoColumns"
+               value="[ {'bSortable':false, 'sWidth':'20%'},
+                {'bSortable':false, 'sType':'kuali_date', 'sTitle':'Start Date', 'sWidth':'20%', 'sSortDataType' : 'dom-text'},
+                {'bSortable':false, 'sWidth':'20%'},
+                {'bSortable':false, 'sWidth':'20%'},
+                {'bSortable':false, 'sWidth':'20%'}
+              ]"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-ProgressiveRender-StartTimeInputField" parent="Uif-InputField"
+        p:propertyName="startTime" p:label="Start Time"  p:refreshWhenChangedPropertyNames="#lp.allDay"
+        p:resetDataOnRefresh="true" p:required="@{#lp.allDay eq false}" >
+    <property name="control">
+      <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm" p:disabled="@{#lp.allDay}"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="TimePatternConstraint" />
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-ProgressiveRender-StartTimeAmPmInputField" parent="Uif-InputField"
+        p:propertyName="startTimeAmPm" p:refreshWhenChangedPropertyNames="#lp.allDay" p:required="@{#lp.allDay eq false}">
+
+    <property name="control">
+      <bean parent="Uif-DropdownControl" p:disabled="@{#lp.allDay}">
+        <property name="options">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+            <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-ProgressiveRender-AllDayInputField" parent="Uif-InputField"
+        p:propertyName="allDay" p:label="All Day">
+    <property name="control">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
+  </bean>
+
+</beans>

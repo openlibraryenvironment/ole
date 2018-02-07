@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+    <edl name="OfferRequestForm" title="Offer Request">
+      <security />
+      <createInstructions />
+      <instructions />
+      <fieldDef name="oaa" title="OAA">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="department1" title="Department">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="fte1" title="FTE">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef attributeName="EDLSchoolAttribute" name="school" title="School / RC">
+        <display>
+          <type>select</type>
+          <values title="BUS">BUS</values>
+          <values title="COAS">COAS</values>
+          <values title="EDUC">EDOC</values>
+        </display>
+      </fieldDef>
+      <fieldDef name="titles" title="Title(s)">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>60</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="acctPosNum" title="Acct./Position#">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="rank" title="Salary Grade">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="reccomendingOfferTo" title="Recommending Offer To">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>60</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="sex" title="Sex">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="proposedSalaryBase" title="Proposed Salary Base">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="ethnicity" title="Ethnicity">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="expectedStartDate" title="Expected Start Date">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="citizenship" title="Citizenship">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="expectedEndDate" title="Expected End Date">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="additionalComments" title="Additional Comments">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>rows</name>
+            <value>4</value>
+          </meta>
+          <meta>
+            <name>cols</name>
+            <value>60</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+    </edl>
+    <style name="OfferRequestStyle">
+      <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my-class="xalan://org.kuali.rice.edl.framework.util.EDLFunctionstionstions" version="1.0">
+        <xsl:include href="widgets" />
+        <xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" indent="yes" method="html" omit-xml-declaration="yes" />
+        <xsl:param name="overrideMain" select="'false'" />
+        <xsl:template name="mainBody">
+          <xsl:variable name="isOaa" select="my-class:isUserInGroup('OfficeOfAffirmativeAction')" />
+          <xsl:variable name="isDfac" select="my-class:isUserInGroup('ViceProvostForAcademicAffairs')" />
+          <table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="80%">
+            <tr>
+              <td class="thnormal" colspan="2" rowspan="2" valign="top">
+                <h2>Offer Request</h2>
+                <br />
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                Indiana University - Bloomington
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <br />
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                Academic Positions
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'oaa'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'oaa'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'school'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'school'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" colspan="4">
+                
+                
+                
+                
+                
+                
+                
+                "Offer to Recommend Appointment" form and a draft of the Dean's offer letter must be included with this request. If a candidate declines an offer a new form must be submitted recommending that an offer be extended to another candidate. 
+                
+                
+                
+                
+                
+                
+                <br />
+                <br />
+                
+                
+                
+                
+                
+                
+                
+Attributes marked with a 
+                
+                
+                
+                
+                
+                
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                 are required fields.
+              
+              
+              
+              
+              
+              
+              
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department1'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department1'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'fte1'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'fte1'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'titles'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="4">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'titles'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'rank'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'rank'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'acctPosNum'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'acctPosNum'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'proposedSalaryBase'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'proposedSalaryBase'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'expectedStartDate'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'expectedStartDate'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'expectedEndDate'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                
+                
+                
+
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'expectedEndDate'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'reccomendingOfferTo'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="4">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'reccomendingOfferTo'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'sex'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                  
+                
+                
+
+             :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'sex'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'ethnicity'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                  
+                
+                
+                
+             :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'ethnicity'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'citizenship'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                  
+                
+                
+                
+             :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'citizenship'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'additionalComments'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                
+                
+                
+                
+               :
+              
+              
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="4">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'additionalComments'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" colspan="4">
+                
+                
+                
+                
+                
+                
+                
+                
+                Please download and attach an Offer to Recommend Appointment template letter from the links below. After filling out the form, attach 
+                the completed document to this eDoc prior to routing.
+                
+                
+                
+                
+                
+                
+                
+                <br />
+                <br />
+                <a href="http://www.indiana.edu/~deanfac/download/apptrec.pdf">PDF format</a>
+                <br />
+                <a href="http://www.indiana.edu/~deanfac/download/apptrec.doc">MicroSoft WORD format</a>
+                <br />
+              </td>
+            </tr>
+          </table>
+          <br xmlns="" />
+        </xsl:template>
+        <xsl:template name="mainForm">Required Override.</xsl:template>
+      </xsl:stylesheet>
+    </style>
+    <association>
+      <docType>OfferRequest</docType>
+      <definition>OfferRequestForm</definition>
+      <style>OfferRequestStyle</style>
+      <active>true</active>
+    </association>
+  </edoclite>
+</data>
+

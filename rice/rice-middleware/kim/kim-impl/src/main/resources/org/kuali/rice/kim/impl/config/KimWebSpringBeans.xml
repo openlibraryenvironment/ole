@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+  <bean id="rice.kim.import.globalCacheManager"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="globalCacheManager"/>
+
+  <cache:annotation-driven cache-manager="rice.kim.import.globalCacheManager"/>
+
+
+	<!-- hack start cannot use GRL to import b/c of Spring Inheritance -->
+
+	<bean id="rice.kim.import.persistenceStructureService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="persistenceStructureService" />
+	</bean>
+	
+	<bean id="rice.kim.import.businessObjectDictionaryService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectDictionaryService" />
+	</bean>
+	
+	<bean id="rice.kim.import.dataDictionaryService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="dataDictionaryService" />
+	</bean>
+	
+	<bean id="rice.kim.import.encryptionService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="encryptionService" />
+	</bean>
+	
+	<bean id="rice.kim.import.lookupService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupService" />
+	</bean>
+	
+	<bean id="rice.kim.import.businessObjectMetaDataService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectMetaDataService" />
+	</bean>
+	
+	<bean id="rice.kim.import.sequenceAccessorService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="sequenceAccessorService" />
+	</bean>
+	
+	<bean id="rice.kim.import.lookupResultsService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupResultsService" />
+	</bean>
+	
+	<bean id="rice.kim.import.businessObjectService"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectService" />
+	</bean>
+
+  <bean id="rice.kim.import.kimRoleDao"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kimRoleDao" />
+	</bean>
+
+	<bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl">
+		<property name="persistenceStructureService">
+			<ref bean="rice.kim.import.persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="rice.kim.import.businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="rice.kim.import.dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="rice.kim.import.encryptionService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="rice.kim.import.lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="rice.kim.import.businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="rice.kim.import.sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="rice.kim.import.businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="rice.kim.import.lookupResultsService" />
+		</property>
+	</bean>
+	
+	<bean id="kualiLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="lookupableHelperService" />
+		</property>
+	</bean>
+  
+  <!-- hack end -->
+  
+  <bean id="kimUiDocumentService" class="org.kuali.rice.kim.service.impl.UiDocumentServiceImpl" />
+
+    <bean id="groupLookupable" class="org.kuali.rice.kim.lookup.GroupLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.GroupLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.RoleLookupableHelperServiceImpl"
+                parent="lookupableHelperService"
+                p:roleDao-ref="rice.kim.import.kimRoleDao">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="roleMemberImplLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.RoleMemberImplLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.PersonLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="permissionLookupable" class="org.kuali.rice.kim.lookup.PermissionLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.PermissionLookupableHelperServiceImpl" parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="responsibilityLookupable" class="org.kuali.rice.kim.impl.responsibility.ResponsibilityLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.impl.responsibility.ResponsibilityLookupableHelperServiceImpl" parent="lookupableHelperService" />
+        </property>
+    </bean>
+
+	<bean id="kimTypeLookupableHelperServiceImpl" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.impl.type.KimTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="kimDocumentRoleMemberLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.rice.kim.lookup.KimDocumentRoleMemberLookupableHelperServiceImpl" parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+</beans>

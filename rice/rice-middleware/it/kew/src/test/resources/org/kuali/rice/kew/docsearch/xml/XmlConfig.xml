@@ -1,0 +1,1140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>XMLSearchableAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="givenname" title="First name">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="true">
+						<regex>^[a-zA-Z ]+$</regex>
+						<message>Invalid first name</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/givenname/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<givenname>
+							<value>%givenname%</value>
+						</givenname>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttribute_CaseInsensitive</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="givenname_nocase" title="First name">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition caseSensitive="false"/>
+					<validation required="true">
+						<regex>^[a-zA-Z ]+$</regex>
+						<message>Invalid first name</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/givenname/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<givenname>
+							<value>%givenname%</value>
+						</givenname>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdLong</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testLongKey" title="Certain Long Value">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="long"/>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testLongKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testLongKey>
+							<value>%testLongKey%</value>
+						</testLongKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdFloat</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testFloatKey" title="Float in the Water">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="float"/>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testFloatKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testFloatKey>
+							<value>%testFloatKey%</value>
+						</testFloatKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdCurrency</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testCurrencyKey" title="Dollars Here">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="float"/>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testCurrencyKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testCurrencyKey>
+							<value>%testCurrencyKey%</value>
+						</testCurrencyKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdDateTime</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testDateTimeKey" title="Searchable Date Field">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="datetime" datePicker="false"/>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testDateTimeKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testDateTimeKey>
+							<value>%testDateTimeKey%</value>
+						</testDateTimeKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+<!--  Following are for range search testing -->
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStringRange</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="givenname" title="First name">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition rangeSearch="true"/>
+					<validation required="true">
+						<regex>^[a-zA-Z ]+$</regex>
+						<message>Invalid first name</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/givenname/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<givenname>
+							<value>%givenname%</value>
+						</givenname>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdLongRange</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testLongKey" title="Certain Long Value">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="long" rangeSearch="true"/>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testLongKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testLongKey>
+							<value>%testLongKey%</value>
+						</testLongKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdFloatRange</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testFloatKey" title="Float in the Water">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="float">
+					    <rangeDefinition inclusive="false">
+					        <lower label="starting"/>
+					        <upper label="ending"/>
+					    </rangeDefinition>
+					</searchDefinition>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testFloatKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testFloatKey>
+							<value>%testFloatKey%</value>
+						</testFloatKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>XMLSearchableAttributeStdDateTimeRange</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="testDateTimeKey" title="Searchable Date Field">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition dataType="datetime" datePicker="false">
+					    <rangeDefinition inclusive="false">
+					        <lower/>
+					        <upper inclusive="true" datePicker="true"/>
+					    </rangeDefinition>
+					</searchDefinition>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/testDateTimeKey/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<testDateTimeKey>
+							<value>%testDateTimeKey%</value>
+						</testDateTimeKey>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+
+    <!-- search attributes with inclusive bounds -->
+    <ruleAttribute>
+      <name>XMLSearchableAttributeStdLongRangeInclusive</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>XML Searchable attribute</label>
+      <description>XML Searchable attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="testLongKey" title="Certain Long Value">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" rangeSearch="true">
+            <rangeDefinition inclusive="true"/>
+          </searchDefinition>
+          <fieldEvaluation>
+            <xpathexpression>//putWhateverWordsIwantInsideThisTag/testLongKey/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <putWhateverWordsIwantInsideThisTag>
+            <testLongKey>
+              <value>%testLongKey%</value>
+            </testLongKey>
+          </putWhateverWordsIwantInsideThisTag>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>XMLSearchableAttributeStdFloatRangeInclusive</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>XML Searchable attribute</label>
+      <description>XML Searchable attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="testFloatKey" title="Float in the Water">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="float">
+            <rangeDefinition inclusive="true">
+              <lower label="starting"/>
+              <upper label="ending"/>
+            </rangeDefinition>
+          </searchDefinition>
+          <fieldEvaluation>
+            <xpathexpression>//putWhateverWordsIwantInsideThisTag/testFloatKey/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <putWhateverWordsIwantInsideThisTag>
+            <testFloatKey>
+              <value>%testFloatKey%</value>
+            </testFloatKey>
+          </putWhateverWordsIwantInsideThisTag>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>XMLSearchableAttributeStdDateTimeRangeInclusive</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>XML Searchable attribute</label>
+      <description>XML Searchable attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="testDateTimeKey" title="Searchable Date Field">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="datetime" datePicker="false">
+            <rangeDefinition inclusive="true">
+              <lower/>
+              <upper datePicker="true"/>
+            </rangeDefinition>
+          </searchDefinition>
+          <fieldEvaluation>
+            <xpathexpression>//putWhateverWordsIwantInsideThisTag/testDateTimeKey/value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <putWhateverWordsIwantInsideThisTag>
+            <testDateTimeKey>
+              <value>%testDateTimeKey%</value>
+            </testDateTimeKey>
+          </putWhateverWordsIwantInsideThisTag>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+
+<!--  Ends attributes for range search testing -->
+		<ruleAttribute>
+			<name>BlankDropDownSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>DepartmentSearchAttribute</label>
+			<description>DepartmentSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="department" title="Department">
+					<display>
+						<type>select</type>
+						<values title=""></values>
+						<values title="African American/African Diaspora Studies">AAAD</values>
+						<values title="African Studies">AFRI</values>
+						<values title="American Studies" selected="true">AMST</values>
+						<values title="Ancient Studies">ANCS</values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-before(//department, ' '))</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- Test the XStreamSafeEvaluator against searchable attributes to resolve EN-63 and KULWF-723 -->
+		<ruleAttribute>
+			<name>XMLXStreamSearchableAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML XStream Searchable attribute</label>
+			<description>XML XStream Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="givenname" title="First name">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="true">
+						<regex>^[a-zA-Z ]+$</regex>
+						<message>Invalid first name</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>wf:xstreamsafe('//putWhateverWordsIwantInsideThisTag/givenname/value')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<givenname>
+							<value reference="../../thisIsTheRealSlimShadyValue"/>
+						</givenname>
+						<thisIsTheRealSlimShadyValue>%givenname%</thisIsTheRealSlimShadyValue>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- Add a non-searchable attribute to the document type, this will test the fix to KULWF-654 -->
+		<ruleAttribute>
+			<name>CustomActionListAttribute</name>
+			<className>org.kuali.rice.kew.actionlist.DefaultCustomActionListAttribute</className>
+			<label>CustomActionListAttribute</label>
+			<description>CustomActionListAttribute</description>
+			<type>ActionListAttribute</type>
+		</ruleAttribute>
+		<!-- Test the use of a quickfinder to resolve EN-95 -->
+		<ruleAttribute>
+			<name>SearchableAttributeWithQuickfinder</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Searchable attribute wth Quickfinder</label>
+			<description>Searchable attribute wth Quickfinder</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="chart" title="Chart">
+					<display>
+						<type>text</type>
+					</display>
+					<!-- the businessObjectClass and lookupFieldName are completey fake here because we aren't actually going to render this thing -->
+					<lookup businessObjectClass="org.kuali.rice.kew.docsearch.xml.MyLookupable">
+					  <fieldConversions>
+					    <fieldConversion lookupFieldName="chart" localFieldName="MyBean.data"/>
+					  </fieldConversions>
+					</lookup>
+					<fieldEvaluation>
+						<xpathexpression>//chart</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<chart>%chart%</chart>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- Test the hiding of columns and the use of hidden fields -->
+		<ruleAttribute>
+			<name>SearchableAttributeWithHiddens</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Searchable attribute wth Hidden fields and columns</label>
+			<description>Searchable attribute wth Hidden fields and columns</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="chart" title="Chart">
+					<display>
+						<type>text</type>
+					</display>
+					<visibility>
+						<column visible="false"/>
+					</visibility>
+					<lookup businessObjectClass="org.kuali.rice.location.impl.campus.CampusBo">
+					  <fieldConversions>
+					    <fieldConversion lookupFieldName="chart" localFieldName="chart" />
+					  </fieldConversions>
+					</lookup>
+					<fieldEvaluation>
+						<xpathexpression>//chart</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<fieldDef name="org" title="Org">
+					<display>
+						<type>hidden</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//org</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<fieldDef name="dollar" title="Dollar">
+					<display>
+						<type>text</type>
+					</display>
+					<visibility>
+						<field visible="false"/>
+					</visibility>
+					<fieldEvaluation>
+						<xpathexpression>//dollar</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<chartOrg><chart>%chart%</chart><org>%org%</org><dollar>%dollar%</dollar></chartOrg>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- Test the ability to have blank valid values on a drop-down attribute. -->
+		<ruleAttribute>
+			<name>XMLSearchableAttributeWithBlank</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute with blank valid value</label>
+			<description>XML Searchable attribute with blank valid value</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="listWithBlankValidValue" title="List with Blank Valid Value">
+					<display>
+						<type>select</type>
+						<values title="No Value" selected="true"></values>
+						<values title="Value 1">VAL1</values>
+						<values title="Value 2">VAL2</values>
+						<values title="Value 3">VAL3</values>
+						<values title="Value 4">VAL4</values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/listWithBlankValidValue/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<listWithBlankValidValue>
+							<value>%listWithBlankValidValue%</value>
+						</listWithBlankValidValue>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- Test the ability to not have blank valid values on a drop-down attribute. -->
+		<ruleAttribute>
+			<name>XMLSearchableAttributeWithoutBlank</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute without blank valid value</label>
+			<description>XML Searchable attribute without blank valid value</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="listWithoutBlankValidValue" title="List without Blank Valid Value">
+					<display>
+						<type>select</type>
+						<values title="No Value" selected="true">NO_VALUE</values>
+						<values title="Value 1">VALUE_1</values>
+						<values title="Value 2">VALUE_2</values>
+						<values title="Value 3">VALUE_3</values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/listWithoutBlankValidValue/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<listWithoutBlankValidValue>
+							<value>%listWithoutBlankValidValue%</value>
+						</listWithoutBlankValidValue>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- Beginning of XML attribute range definition tests. -->
+		<ruleAttribute>
+			<name>TextFieldWithInclusiveLower</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Text field with inclusive lower</label>
+			<description>Text field with inclusive lower</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="textFieldWithInclusiveLower" title="Text Field with Inclusive Lower">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition>
+						<rangeDefinition inclusive="true" datePicker="false"/>
+					</searchDefinition>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/textFieldWithInclusiveLower/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<textFieldWithInclusiveLower>
+							<value>%textFieldWithInclusiveLower%</value>
+						</textFieldWithInclusiveLower>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TextFieldWithCaseSensitivity</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Text field with case sensitivity</label>
+			<description>Text field with case sensitivity</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="textFieldWithCaseSensitivity" title="Text Field with Case Sensitivity">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition>
+						<rangeDefinition inclusive="true" datePicker="false" caseSensitive="true">
+							<lower/>
+							<upper/>
+						</rangeDefinition>
+					</searchDefinition>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/textFieldWithCaseSensitivity/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<textFieldWithCaseSensitivity>
+							<value>%textFieldWithCaseSensitivity%</value>
+						</textFieldWithCaseSensitivity>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TextFieldWithOverrides</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>Text field with overrides</label>
+			<description>Text field with overrides</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="textFieldWithOverrides" title="Text Field with Overrides">
+					<display>
+						<type>text</type>
+					</display>
+					<searchDefinition>
+						<rangeDefinition inclusive="true" caseSensitive="false" datePicker="false">
+							<lower inclusive="false" datePicker="true"/>
+							<upper/>
+						</rangeDefinition>
+					</searchDefinition>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/textFieldWithOverrides/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<textFieldWithOverrides>
+							<value>%textFieldWithOverrides%</value>
+						</textFieldWithOverrides>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<!-- End of XML attribute range definition tests. -->
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>searchTemplate</name>
+			<description>search template</description>
+			<!--
+				<attributes>
+				<attribute>
+				<name>XMLSearchableAttribute</name>
+				<required>true</required>
+				</attribute>
+				</attributes>
+			-->
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SearchDocType</name>
+			<description>SearchDocType</description>
+			<label>SearchDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<!-- Add the CustomActionListAttribute to this document type to verify the resolution to KULWF-654 -->
+				<attribute>
+					<name>CustomActionListAttribute</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SearchDocType2</name>
+			<description>SearchDocType2</description>
+			<label>SearchDocType2</label>
+			<postProcessorName>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttributePostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<!-- Add the CustomActionListAttribute to this document type to verify the resolution to KULWF-654 -->
+				<attribute>
+					<name>CustomActionListAttribute</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SearchDocTypeCaseSensitivity</name>
+			<description>SearchDocTypeCaseSensitivity</description>
+			<label>SearchDocTypeCaseSensitivity</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<!-- Add the CustomActionListAttribute to this document type to verify the resolution to KULWF-654 -->
+				<attribute>
+					<name>CustomActionListAttribute</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttribute</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttribute_CaseInsensitive</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SearchDocTypeStandardSearchDataType</name>
+			<description>SearchDocTypeStandardSearchDataType</description>
+			<label>SearchDocTypeStandardSearchDataType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttribute</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeStdLong</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeStdFloat</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeStdDateTime</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SearchDocTypeRangeSearchDataType</name>
+			<description>SearchDocTypeRangeSearchDataType</description>
+			<label>SearchDocTypeRangeSearchDataType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttributeStringRange</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeStdLongRangeInclusive</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeStdFloatRangeInclusive</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeStdDateTimeRangeInclusive</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>SearchDocTypeXStream</name>
+			<description>SearchDocTypeXStream</description>
+			<label>SearchDocTypeXStream</label>
+			<postProcessorName>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttributePostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLXStreamSearchableAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AttributeWithQuickfinderDocType</name>
+			<label>AttributeWithQuickfinderDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>SearchableAttributeWithQuickfinder</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>AttributeWithHiddensDocType</name>
+			<label>AttributeWithHiddensDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>SearchableAttributeWithHiddens</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>BlankValidValuesDocType</name>
+			<label>BlankValidValuesDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttributeWithBlank</name>
+				</attribute>
+				<attribute>
+					<name>XMLSearchableAttributeWithoutBlank</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RangeDefinitionTestDocType</name>
+			<description>RangeDefinitionTestDocType</description>
+			<label>RangeDefinitionTestDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			<policy>
+				<name>DEFAULT_APPROVE</name>
+				<value>true</value>
+			</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>TextFieldWithInclusiveLower</name>
+				</attribute>
+				<attribute>
+					<name>TextFieldWithCaseSensitivity</name>
+				</attribute>
+				<attribute>
+					<name>TextFieldWithOverrides</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SearchDocType</documentType>
+			<ruleTemplate>searchTemplate</ruleTemplate>
+			<description>Search attribute rule test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchDocTypeCaseSensitivity</documentType>
+			<ruleTemplate>searchTemplate</ruleTemplate>
+			<description>Search attribute rule test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>C</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchDocTypeStandardSearchDataType</documentType>
+			<ruleTemplate>searchTemplate</ruleTemplate>
+			<description>Search attribute rule test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>C</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchDocTypeRangeSearchDataType</documentType>
+			<ruleTemplate>searchTemplate</ruleTemplate>
+			<description>Search attribute rule test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>C</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SearchDocTypeXStream</documentType>
+			<ruleTemplate>searchTemplate</ruleTemplate>
+			<description>Search XStream attribute rule test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

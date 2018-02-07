@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Peopleflow" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>PeopleFlow - a new KEW feature</title>
+    <para>PeopleFlow is our Kuali Rice instantiation of the "maps" concept included in the
+        original Coeus. For all intents and purposes it's a prioritized list of people to send
+        requests to.   Essentially, it's like a mini people-based workflow that doesn't require
+        you to specify a KEW node in the document type for each individual who might need to
+        approve or be notified. You can define "Stops" in a PeopleFlow, where everything in the
+        same stop proceeds in parallel, but all must be done within the stop before proceeding
+        to the next stop. </para>
+    <para>You can call/execute a PeopleFlow from within a KEW workflow node directly, or you can
+        invoke the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KRMS_Guide.html">Kuali Rules Management System (KRMS)</link>engine from an application and any
+        PeopleFlows that get selected during rule execution, defined in a KRMS agenda, will be
+        called. In this way, you can integrate business rules across applications and workflows. </para>
+    <para>The same PeopleFlow that defines a routing order among a set of persons, groups or
+        roles can be called by KRMS rules, with the KRMS rules defining which type of  request
+        to pass to the PeopleFlow (for example, an "approval" routing action or a
+        "notification").   </para>
+    <para>KRMS is also a new feature in Rice 2.0.  See the KRMS Users' Guide for more
+        information on KRMS.  </para>
+    
+    <section>
+        <title>Creating a new PeopleFlow</title>
+        <para>You can define a PeopleFlow (simple workflow) via a maintenance document.  In the
+            Kuali Rice portal on the main tab there is a Workflow category, and PeopleFlow is in
+            that category.  Select it:  </para>
+        <para>
+            <figure>
+                <title>PeopleFlow selection on the Main tab in the Kuali Portal</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/KEW-PeopleFlowOnMainTabInPortal.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para>You can search for a PeopleFlow to copy from and modify (be sure to give it a new
+            unique name) or can create a new one (see the top right of the lookup screen).</para>
+        <para>
+            <figure>
+                <title>PeopleFlow Lookup</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/KEW-PeopleFlowLookup.png" scalefit="1" width="100%" />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para> </para>
+        
+        <para>Below is a view of the user interface to create a new PeopleFlow:</para>
+        <para>
+            <figure>
+                <title>PeopleFlow - Create New</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/KEW-PeopleFlowCreateNew.png" scalefit="1" width="100%" />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para>The view below shows that some sections are collapsed, and also shows additional
+            attributes that are required based on the user's selection of a type. This is an example
+            of the Kuali Rapid Application Development (KRAD) framework's support of progressive
+            disclosure, only showing these additional type attribute fields if/when they are
+            required:</para>
+        <para>
+            <figure>
+                <title>PeopleFlow - Create New (with additional type attributes)</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/KEW-PeopleFlowCreateNewWithType.png" scalefit="1" width="100%" />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+        <para> And below is a view of just the PeopleFlow Members section - expanded - after adding two
+            stops:</para>
+        <para>
+            <figure>
+                <title>PeopleFlow - Create New - with 2 stops added</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/KEW-PeopleFlowAddingStops.png" scalefit="1" width="100%" />
+                    </imageobject>
+                </mediaobject>
+            </figure>   
+        </para>
+        <para>PeopleFlows that you create can be called by rules, with the rules determining
+            whether the PeopleFlow will be called for an action (such as approvals) or for
+            notifications.  These PeopleFlows (similar to the Coeus concept of "maps") can be
+            integrated with the new Kuali Rules Management System (KRMS), with KEW workflows, or
+            with other custom-built applications.</para>
+        
+    </section>
+</chapter>

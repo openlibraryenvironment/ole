@@ -1,0 +1,1390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+    <edl name="InterviewRequestForm" title="Interview Request">
+      <security />
+      <createInstructions />
+      <instructions />
+      <fieldDef attributeName="EDLSchoolAttribute" name="school" title="School / RC">
+        <display>
+          <type>select</type>
+          <values title="BUS">BUS</values>
+          <values title="COAS">COAS</values>
+          <values title="EDUC">EDOC</values>
+        </display>
+      </fieldDef>
+      <fieldDef name="oaa" title="OAA">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="department1" title="Department">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="title" title="Title">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="rank" title="Salary Grade">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="acctPosNum" title="Acct./Position#">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <!-- candidate 1 -->
+      <fieldDef name="candidate1Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true">
+          <message>A valid name is required</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate1ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate1RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="candidate1Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate1Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 2 -->
+      <fieldDef name="candidate2Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate2ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate2RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate2Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate2Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 3 -->
+      <fieldDef name="candidate3Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate3ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate3RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate3Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate3Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 4 -->
+      <fieldDef name="candidate4Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate4ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate4RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate4Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate4Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 5 -->
+      <fieldDef name="candidate5Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate5ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate5RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate5Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate5Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 6 -->
+      <fieldDef name="candidate6Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate6ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate6RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate6Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate6Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 7 -->
+      <fieldDef name="candidate7Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate7ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate7RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate7Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate7Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <!-- candidate 8 -->
+      <fieldDef name="candidate8Name" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate8ApplicationDate" title="">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="false">
+          <regex>^[0-2]?[1-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="candidate8RequestInterview" title="">
+        <value>no</value>
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No">no</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="candidate8Sex" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="candidate8Ethnicity" title="">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="totalApplicants" title="Total Applicants">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <!-- white -->
+      <fieldDef name="whiteMale" title="Male">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="whiteFemale" title="Female">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <!-- black -->
+      <fieldDef name="blackMale" title="Male">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="blackFemale" title="Female">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <!-- hispanic -->
+      <fieldDef name="hispanicMale" title="Male">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="hispanicFemale" title="Female">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <!-- nativeAmerican -->
+      <fieldDef name="nativeAmericanMale" title="Male">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="nativeAmericanFemale" title="Female">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <!-- asian -->
+      <fieldDef name="asianMale" title="Male">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="asianFemale" title="Female">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <!-- pacificIsland -->
+      <fieldDef name="pacificIslandMale" title="Male">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="pacificIslandFemale" title="Female">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>8</value>
+          </meta>
+        </display>
+      </fieldDef>
+      <fieldDef name="raceNotGiven" title="Race Not Given">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="sexNotGiven" title="Sex Not Given">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="totalAMFsReceived" title="Total AMFs Received">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="comments" title="Comments">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>60</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>4</value>
+          </meta>
+        </display>
+      </fieldDef>
+    </edl>
+    <style name="InterviewRequestStyle">
+      <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my-class="xalan://org.kuali.rice.edl.framework.util.EDLFunctionstionstions" version="1.0">
+        <xsl:include href="widgets" />
+        <xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" indent="yes" method="html" omit-xml-declaration="yes" />
+        <xsl:param name="overrideMain" select="'false'" />
+        <xsl:template name="mainBody">
+          <xsl:variable name="isOaa" select="my-class:isUserInGroup('OfficeOfAffirmativeAction')" />
+          <xsl:variable name="isOaa2" select="my-class:isUserInGroup('OfficeOfAffirmativeActionSecond')" />
+          <xsl:variable name="isDfac" select="my-class:isUserInGroup('ViceProvostForAcademicAffairs')" />
+          <table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="80%">
+            <tr>
+              <td class="thnormal" colspan="2" rowspan="2" valign="top">
+                <h2>Interview Request</h2>
+                <br />
+                
+                
+                
+                
+                
+                
+                Indiana University - Bloomington
+                
+                
+                
+                
+                
+                
+                <br />
+                
+                
+                
+                
+                
+                
+                Academic Positions
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'oaa'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'oaa'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'school'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'school'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" colspan="4">
+                
+                
+                
+                
+                
+                
+                Attributes marked with a 
+                
+                
+                
+                
+                
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                 are required fields.
+              
+              
+              
+              
+              
+              
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department1'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department1'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'title'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'title'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'rank'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'rank'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'acctPosNum'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                
+                
+                
+                
+                
+                
+                :
+              
+              
+              
+              
+              
+              
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'acctPosNum'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" colspan="5">
+                List of top-ranked candidates with an indication of those to be interviewed:
+                All candidates being considered for positions of Associate of Full Professor must 
+                be interviewed by a representative of the Office of the Vice Chancellor for Academic Affairs 
+                and Dean of Faculties. (See Academic Guide, B-3)
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <th class="thnormal">Name</th>
+                    <th class="thnormal">Application Date</th>
+                    <th class="thnormal">Request Interview</th>
+                    <th class="thnormal">
+                      <xsl:if test="$isOaa ='true' or $isDfac='true'">
+			Sex*
+                      </xsl:if>
+                    </th>
+                    <th class="thnormal">
+                      <xsl:if test="$isOaa ='true' or $isDfac='true'">
+			Ethnicity*
+                      </xsl:if>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal" colspan="5" height="20">
+                      <xsl:if test="$isOaa ='true' or $isDfac='true'">
+                        <font size="1">*entered by the Office Of Affirmative Action</font>
+                      </xsl:if>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[1: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate1Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate1ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate1RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate1Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate1Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate1Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate1Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[2: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate2Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate2ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate2RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate2Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate2Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate2Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate2Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[3: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate3Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate3ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate3RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate3Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate3Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate3Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate3Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[4: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate4Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate4ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate4RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate4Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate4Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate4Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate4Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[5: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate5Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate5ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate5RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate5Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate5Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate5Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate5Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[6: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate6Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate6ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate6RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate6Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate6Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate6Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate6Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[7: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate7Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate7ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate7RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate7Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate7Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate7Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate7Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      <![CDATA[8: ]]>
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate8Name'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate8ApplicationDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'candidate8RequestInterview'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate8Sex'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate8Sex'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="datacell">
+                      <xsl:choose>
+                        <xsl:when test="$isOaa ='true' or $isOaa2 ='true' or $isDfac='true'">
+                          <xsl:call-template name="widget_render">
+                            <xsl:with-param name="fieldName" select="'candidate8Ethnicity'" />
+                            <xsl:with-param name="renderCmd" select="'input'" />
+                          </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="hidden_input">
+                            <xsl:with-param name="fieldName" select="'candidate8Ethnicity'" />
+                          </xsl:call-template>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'totalApplicants'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'totalApplicants'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+                <br />
+                <![CDATA[(Entered by the interviewing department): ]]>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" width="25%">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'totalAMFsReceived'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'totalAMFsReceived'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+          </table>
+          <br xmlns="" />
+          <table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="80%">
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'comments'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'comments'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+          </table>
+          <br xmlns="" />
+          <table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
+            <tr>
+              <td>
+              The following section to be filled in by the Office of Affirmative Action.
+            </td>
+            </tr>
+          </table>
+          <table xmlns="" align="center" border="1" cellpadding="2" cellspacing="2" width="80%">
+            <tr>
+              <td />
+              <th>
+              White
+            </th>
+              <th>
+              Black
+            </th>
+              <th>
+              Hispanic
+            </th>
+              <th>
+              Asian
+            </th>
+              <th>
+              Native American
+            </th>
+              <th>
+              Hawaiian Pacific Islands
+            </th>
+            </tr>
+            <tr>
+              <th>
+                Male
+              </th>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'whiteMale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'blackMale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'hispanicMale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'asianMale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'nativeAmericanMale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'pacificIslandMale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <th>
+              Female
+            </th>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'whiteFemale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'blackFemale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'hispanicFemale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'asianFemale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'nativeAmericanFemale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'pacificIslandFemale'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+          </table>
+          <br xmlns="" />
+          <table xmlns="" align="center" border="1" cellpadding="2" cellspacing="2" width="80%">
+            <tr>
+              <th width="14%">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'sexNotGiven'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </th>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'sexNotGiven'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <tr />
+              <th width="14%">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'raceNotGiven'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+              </th>
+              <td>
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'raceNotGiven'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+          </table>
+          <br xmlns="" />
+        </xsl:template>
+        <xsl:template name="mainForm">Required Override.</xsl:template>
+      </xsl:stylesheet>
+    </style>
+    <association>
+      <docType>InterviewRequest</docType>
+      <definition>InterviewRequestForm</definition>
+      <style>InterviewRequestStyle</style>
+      <active>true</active>
+    </association>
+  </edoclite>
+</data>
+

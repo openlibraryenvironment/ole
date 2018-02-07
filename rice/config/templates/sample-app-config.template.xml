@@ -1,0 +1,124 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+
+     <param name="notification.quartz.autostartup">true</param>
+     <param name="notification.concurrent.jobs">true</param>
+
+     <param name="ken.url">${application.url}/ken</param>
+     <param name="notification.ojb.platform">Oracle</param>
+
+     <param name="plugin.registry.enabled">false</param>
+
+	<param name="kr.incident.mailing.list"></param>
+	<!-- App specific parameters -->
+	<param name="application.id">TRAVEL</param>
+	<param name="standalone.application.id">${application.id}</param>
+	<param name="app.code">kr</param>
+	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="application.url">http://localhost:8080/${app.context.name}</param>
+	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
+	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="travel.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.url">${application.url}/kr</param>
+
+	<!-- Misc parameters -->
+	<param name="institution">rice</param>
+	<param name="version">03/19/2007 01:59 PM</param>
+	<param name="edl.config.loc">classpath:META-INF/EDLConfig.xml</param>
+
+	<param name="transaction.timeout">3600</param>
+	<param name="memory.monitor.threshold">.85</param>
+	<param name="production.environment.code">prd</param>
+
+  <!-- developer use only, if set to true, will serialize everything in memory on startup to quickly find objects that aren't serializable -->
+  <!-- this parameter doesn't matter in a prod environment, as the serialization won't occur in prod environment -->
+  <param name="enableSerializationCheck">false</param>
+
+	<param name="log4j.settings.reloadInterval">5</param>
+	<param name="log4j.settings.path">classpath:log4j.properties</param>
+
+	<param name="workflow.url">${application.url}/kew</param>
+	<param name="serviceServletUrl">http://${host.ip}:8080/${app.context.name}/remoting/</param>
+
+	<param name="datasource.username">RICE094DEV</param>
+    <param name="datasource.password"><!-- Fill in Password Here! --></param>
+    <param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
+
+	<param name="datasource.ojb.platform">Oracle9i</param>
+    <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+	<param name="datasource.driver.name">oracle.jdbc.OracleDriver</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="datasource.pool.maxWait">30000</param>
+	<param name="datasource.pool.minSize">10</param>
+	<param name="datasource.pool.maxSize">50</param>
+
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.file">security/rice.keystore</param>
+	<param name="keystore.password">r1c3pw</param>
+
+	<param name="dev.mode">true</param>
+	<param name="message.persistence">true</param>
+    <param name="message.delivery">asynchronous</param>
+    <param name="message.off">false</param>
+    <param name="useQuartzDatabase">false</param>
+	<param name="RouteQueue.maxRetryAttempts">1</param>
+	<param name="RouteQueue.timeIncrement">1000</param>
+
+	<!-- XML ingester directories -->
+	<param name="data.xml.root.location">/opt/ears/${environment}/kew/xml</param>
+	<param name="data.xml.pending.location">${data.xml.root.location}pending</param>
+	<param name="data.xml.loaded.location">${data.xml.root.location}loaded</param>
+	<param name="data.xml.problem.location">${data.xml.root.location}problem</param>
+	<param name="attachment.dir.location">/opt/ears/</param>
+	<param name="data.xml.pollIntervalSecs">30</param>
+	<param name="initialDelaySecs">10</param>
+
+	<!-- Kuali parameters -->
+	<param name="mail.relay.server">localhost</param>
+	<param name="mailing.list.batch">mailing.list.batch</param>
+	<param name="encryption.key">7IC64w6ksLU</param>
+
+	<param name="kfsLocator.useAppContext">true</param>
+
+	<!-- Ken stuffs... -->
+    <!-- stock notification system configuration properties -->
+
+    <!-- Quartz Jobs (MS = Milli Seconds) -->
+    <param name="notification.resolveMessageDeliveriesJob.startDelayMS">5000</param>
+    <param name="notification.resolveMessageDeliveriesJob.intervalMS">10000</param>
+
+    <param name="notification.processUndeliveredJob.startDelayMS">10000</param>
+    <param name="notification.processUndeliveredJob.intervalMS">10000</param>
+
+    <param name="notification.processAutoRemovalJob.startDelayMS">60000</param>
+    <param name="notification.processAutoRemovalJob.intervalMS">60000</param>
+
+    <param name="notification.quartz.autostartup">true</param>
+    <param name="notification.concurrent.jobs">true</param>
+
+    <param name="notification.basewebappurl">http://localhost:8080/kr-dev/ken</param>
+
+    <param name="notification.ojb.platform">Oracle</param>
+
+    <!-- Email Plugin Properties -->
+    <param name="mail.smtp.host">localhost</param>
+
+    <param name="cas.server.renew">false</param>
+</config>

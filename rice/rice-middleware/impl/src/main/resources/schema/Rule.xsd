@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:rc="ns:workflow/Rule"
+        targetNamespace="ns:workflow/Rule"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl1.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Rule Content schema
+    </documentation>
+  </annotation>
+
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+
+  <element name="rules">
+    <complexType>
+      <sequence>
+        <element name="rule" type="rc:RuleType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 A set of rule(s).
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="RuleType">
+    <sequence>
+      <element name="name" type="c:ShortStringType" minOccurs="0"/>
+      <element name="documentType" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 Name of the document type under the rule.
+      		</documentation>
+      	</annotation>
+      </element>      
+      <element name="ruleTemplate" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The rule template applies to the routing nodes.
+      		</documentation>
+      	</annotation>
+      </element>
+	  <element name="description" type="c:LongStringType">
+	  	<annotation>
+	  		<documentation>
+	  		 Define the functions of the rule type.
+	  		</documentation>
+	  	</annotation>
+	  </element>
+	  <element name="fromDateValue" type="c:ShortStringType" minOccurs="0" maxOccurs="1">
+	    <annotation>
+	      <documentation>The date at which this rule becomes active</documentation>
+	    </annotation>
+	  </element>
+	  <element name="toDateValue" type="c:ShortStringType" minOccurs="0" maxOccurs="1">
+	    <annotation>
+	      <documentation>The date until which this rule is active</documentation>
+	    </annotation>
+	  </element>
+      <element name="expression" type="rc:RuleExpressionType" minOccurs="0">
+        <annotation>
+            <documentation>
+                An expression which is used to evaluate the rule
+            </documentation>
+        </annotation>
+      </element>
+
+      <element name="forceAction" type="boolean" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 An indicator to define if previous routing for approval will be ignored.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="ruleExtensions" type="rc:RuleExtensionsType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 An added in definition of a rule template that extend beyond the base attributes to differentiate the template.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="responsibilities" type="rc:ResponsibilitiesType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Must have at least one responsibility assign to a user or workgroup.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="RuleExpressionType">
+    <simpleContent>
+      <extension base="c:LongStringType">
+        <attribute name="type" type="c:ShortStringType" use="required">
+          <annotation>
+            <documentation>
+              Type of expression
+            </documentation>
+          </annotation>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+<!-- I guess you don't really need to have a definition in the ruleExtensions element
+           	 whether container elements should be allowed to be empty or just not specified at all
+           	 I guess is a stylistic issue.     -->
+  <complexType name="RuleExtensionsType">
+    <sequence>
+      <element name="ruleExtension" type="rc:RuleExtensionType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 A modifiable rule extension parameter in the system.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="RuleExtensionType">
+    <sequence>
+      <element name="attribute" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 The name of the RuleAttribute from which this extension is derived.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="ruleTemplate" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		  The rule template applies to the routing nodes.
+      		</documentation>
+      	</annotation>
+      </element>
+      <!-- TODO: maybe consolidate some common idioms accross all schemas, like:
+           <param><param-name/><param-value/></param>... -->
+      <element name="ruleExtensionValues" type="rc:RuleExtensionValuesType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A modifiable rule extension value parameter in the syste..
+      		</documentation>
+      	</annotation>
+      </element>
+
+    </sequence>
+  </complexType>
+
+  <complexType name="RuleExtensionValuesType">
+    <sequence>
+      <element name="ruleExtensionValue" type="rc:RuleExtensionValueType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 A modifiable rule extension value pararmeter in the system.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="RuleExtensionValueType">
+    <sequence>
+      <element name="key" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 The key of the rule extension value which identifies the extension data.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="value" type="c:MayBeEmptyShortStringType">
+      	<annotation>
+      		<documentation>
+      		 Value of the rule extension value type.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="ResponsibilitiesType">
+    <sequence>
+      <element name="responsibility" type="rc:ResponsibilityType" minOccurs="1" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      	     Must have at least one responsibility.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <simpleType name="ApprovePolicy">
+    <restriction base="string">
+      <!-- first -->
+      <enumeration value="F"/>
+      <!-- all -->
+      <enumeration value="A"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="ActionRequestedType">
+    <restriction base="string">
+      <!-- acknowledge -->
+      <enumeration value="K"/>
+      <!-- FYI -->
+      <enumeration value="F"/>
+      <!-- approve -->
+      <enumeration value="A"/>
+      <!-- complete -->
+      <enumeration value="C"/>
+    </restriction>
+  </simpleType>
+
+  <group name="ResponsibilityIdentifier">
+    <choice>
+      <element name="principalId" type="c:ShortStringType">
+        <annotation>
+          <documentation>
+            Assign the responsibility to a principal id
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="principalName" type="c:ShortStringType">
+        <annotation>
+          <documentation>
+            Assign the responsibility to a principal with the given name
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="groupId" type="c:ShortStringType">
+        <annotation>
+          <documentation>
+            Assign the responsibility to a group with the given id
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="groupName" type="c:GroupNameType">
+        <annotation>
+          <documentation>
+            Assign the responsibility to a group with the given name
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="role" type="c:ShortStringType">
+        <annotation>
+          <documentation>
+            Assign the responsibility to the role.  This declaration is in the format of attributeClassName!roleName
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="roleName" type="rc:RoleNameAttributeType">
+        <annotation>
+          <documentation>
+            Assign the responsibility to the role with the given name and attribute class.
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="workgroup" type="c:ShortStringType">
+        <annotation>
+          <documentation>DEPRECATED: use groupName instead</documentation>
+        </annotation>
+      </element>
+
+      <element name="user" type="c:ShortStringType">
+        <annotation>
+          <documentation>DEPRECATED: use principalName instead</documentation>
+        </annotation>
+      </element>
+    </choice>
+  </group>
+
+  <complexType name="ResponsibilityType">
+    <sequence>
+      <element name="responsibilityId" type="long" minOccurs="0">
+        <annotation>
+          <documentation>The responsibility ID for this responsibility</documentation>
+        </annotation>
+      </element>
+
+      <group ref="rc:ResponsibilityIdentifier"/>
+
+      <element name="approvePolicy" type="rc:ApprovePolicy" default="F" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      	     Service implementation uses F(FYI) as default, so match that here.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="actionRequested" type="rc:ActionRequestedType" minOccurs="0"/>
+      <element name="priority" type="integer" minOccurs="0"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="RoleNameAttributeType">
+    <simpleContent>
+      <extension base="c:ShortStringType">
+        <attribute name="attributeClassName" type="c:LongStringType" use="required">
+          <annotation>
+            <documentation>
+              Class Name of the Role Attribute
+            </documentation>
+          </annotation>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+  
+  <!-- below is everything for rule delegates -->
+
+  <element name="ruleDelegations">
+    <complexType>
+      <sequence>
+        <element name="ruleDelegation" type="rc:RuleDelegationType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 A set of rule delegates
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="RuleDelegationType">
+    <sequence>
+      <element name="parentResponsibility" type="rc:ParentResponsibilityType">
+        <annotation>
+          <documentation>Defines the responsibility from which this rule delegate is delegating</documentation>
+        </annotation>
+      </element>
+      <element name="delegationType" type="rc:DelegationTypeType">
+        <annotation>
+          <documentation>The type of delegate</documentation>
+        </annotation>
+      </element>
+      <element name="rule" type="rc:RuleType">
+        <annotation>
+          <documentation>The rule definition for this delegate</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="ParentResponsibilityType">
+    <sequence>
+      <choice>
+        <element name="responsibilityId" type="long">
+      	  <annotation>
+      		<documentation>The id of the rule responsibility from which to delegate</documentation>
+      	  </annotation>
+      	</element>
+      	<sequence>
+    	  <element name="parentRuleName" type="c:ShortStringType">
+      	    <annotation>
+      		  <documentation>The name of the parent rule from which to delegate</documentation>
+      	    </annotation>
+      	  </element>
+      	  <choice>
+      	  
+      	    <element name="principalId" type="c:ShortStringType">
+        	  <annotation>
+        		<documentation>The principal id of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+            
+        	<element name="principalName" type="c:ShortStringType">
+        	  <annotation>
+        		<documentation>The principal name of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+
+            <element name="groupId" type="c:ShortStringType">
+              <annotation>
+        		<documentation>The of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+
+            <element name="groupName" type="c:GroupNameType">
+              <annotation>
+        		<documentation>The group name of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+
+            <element name="roleName" type="c:ShortStringType">
+           	  <annotation>
+        		<documentation>The role name of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+            
+            <element name="role" type="c:ShortStringType">
+           	  <annotation>
+        		<documentation>The role declaration of the responsibility from which to delegate</documentation>
+        	  </annotation>
+            </element>
+      	  </choice>
+      	</sequence>
+      </choice>
+    </sequence>
+  </complexType>
+
+  <simpleType name="DelegationTypeType">
+    <restriction base="string">
+      <!-- Primary -->
+      <enumeration value="P"/>
+      <!-- Secondary -->
+      <enumeration value="S"/>
+    </restriction>
+  </simpleType>
+
+</schema>

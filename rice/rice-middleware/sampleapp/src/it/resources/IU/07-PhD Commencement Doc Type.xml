@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PhDCommencement</name>
+      <description>PhD Commencement Participation Application</description>
+      <label>PhDCommencementApplication</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor</postProcessorName>
+      <superUserGroupName namespace="PhDComm">PhDComm.Super</superUserGroupName>
+      <blanketApproveGroupName namespace="PhDComm">PhDComm.Super</blanketApproveGroupName>
+      <reportingGroupName namespace="PHDCOMM">PhDComm.Reporting.Workgroup</reportingGroupName>
+      <defaultExceptionGroupName namespace="PhDComm">PhDComm.Super</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>PhDDept1SearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDDept2SearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>UnivIDSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>lastNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>firstNameSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDCommencementSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>PhDCommYearSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="PhDCommencement.FYI" />
+          <requests name="PhDCommencement.FYI" nextNode="PhDCommencement.Department1a" />
+          <requests name="PhDCommencement.Department1a" nextNode="PhDCommencement.Opt.NetId1a" />
+          <requests name="PhDCommencement.Opt.NetId1a" nextNode="PhDCommencement.Department1b" />
+          <requests name="PhDCommencement.Department1b" nextNode="PhDCommencement.Department2a" />
+          <requests name="PhDCommencement.Department2a" nextNode="PhDCommencement.Opt.NetId2a" />
+          <requests name="PhDCommencement.Opt.NetId2a" nextNode="PhDCommencement.Depart2b" />
+          <requests name="PhDCommencement.Depart2b" nextNode="PhDCommencement.Final" />
+          <requests name="PhDCommencement.Final" nextNode="PhDCommencement.InitiatorFYI" />
+          <requests name="PhDCommencement.InitiatorFYI" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="PhDCommencement.FYI">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDCommencement.FYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Department1a">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDCommencement.Department1a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Opt.NetId1a">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDCommencement.NetId1a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Department1b">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDCommencement.Department1b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Department2a">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDCommencement.Department2a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Opt.NetId2a">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDCommencement.NetId2a</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Depart2b">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDCommencement.Depart2b</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.Final">
+          <activationType>S</activationType>
+          <ruleTemplate>PhDCommencement.Final</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>true</finalApproval>
+        </requests>
+        <requests name="PhDCommencement.InitiatorFYI">
+          <activationType>P</activationType>
+          <ruleTemplate>PhDCommencement.InitatorFYI</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

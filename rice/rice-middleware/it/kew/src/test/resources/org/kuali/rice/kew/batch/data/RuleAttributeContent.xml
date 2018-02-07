@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+		<ruleAttribute>
+			<name>OrgRouting</name>
+			<className>
+				org.kuali.rice.kew.routing.chartorgnode.OrganizationRoutingAttribute
+			</className>
+			<label>Organization Routing</label>
+			<description>Organization Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>SchoolAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>School/Division Routing</label>
+			<description>School/Division Routing</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="school" title="School/Division"
+					workflowType="ALL">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="true" />
+					<fieldEvaluation>
+						<xpathexpression>
+							//school = wf:ruledata('school')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<school>%school%</school>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>DepartmentAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>School/Division Routing</label>
+			<description>School/Division Routing</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="department" title="Department"
+					workflowType="ALL">
+					<display>
+						<type>select</type>
+						<values title="American Studies">
+							American Studies
+						</values>
+						<values title="dept1">dept1</values>
+						<values title="dept2">dept2</values>
+					</display>
+					<validation required="true" />
+					<fieldEvaluation>
+						<xpathexpression>
+							//department = wf:ruledata('department')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<school>%department%</school>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>KualiChartAttribute</name>
+			<className>
+				org.kuali.rice.kew.attribute.KualiChartAttribute
+			</className>
+			<label>Kuali Chart Attribute</label>
+			<description>Kuali Chart Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>KualiAccountAttribute</name>
+			<className>
+				org.kuali.rice.kew.attribute.KualiAccountAttribute
+			</className>
+			<label>Kuali Account Attribute</label>
+			<description>Kuali Account Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>KualiOrgReviewAttribute</name>
+			<className>
+				org.kuali.rice.kew.xml.export.KualiOrgReviewAttribute
+			</className>
+			<label>Kuali Org Review Attribute</label>
+			<description>Kuali Org Review Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+	</ruleAttributes>
+</data>

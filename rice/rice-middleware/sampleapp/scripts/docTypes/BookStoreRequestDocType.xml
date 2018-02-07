@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>BookTitleSearchableAttribute</name>
+      <className>edu.sampleu.bookstore.document.attribs.BookTitleSearchableAttribute</className>
+      <label>BookTitleSearchableAttribute</label>
+      <description>BookTitleSearchableAttribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>BookPriceSearchableAttribute</name>
+      <className>edu.sampleu.bookstore.document.attribs.BookPriceSearchableAttribute</className>
+      <label>BookPriceSearchableAttribute</label>
+      <description>BookPriceSearchableAttribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>BookRatingSearchableAttribute</name>
+      <className>edu.sampleu.bookstore.document.attribs.BookRatingSearchableAttribute</className>
+      <label>BookRatingSearchableAttribute</label>
+      <description>BookRatingSearchableAttribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>BookPublicationDateSearchableAttribute</name>
+      <className>edu.sampleu.bookstore.document.attribs.BookPublicationDateSearchableAttribute</className>
+      <label>BookPublicationDateSearchableAttribute</label>
+      <description>BookPublicationDateSearchableAttribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>BookTypeSearchableAttribute</name>
+      <className>edu.sampleu.bookstore.document.attribs.BookTypeSearchableAttribute</className>
+      <label>BookTypeSearchableAttribute</label>
+      <description>BookTypeSearchableAttribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+
+  <documentTypes xmlns="ns:workflow/DocumentType"
+    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>BookstoreParentMaintenanceDocument</name>
+      <parent>RiceDocument</parent>
+      <description>Parent Document for Bookstore Maintenance Documents
+      </description>
+      <label>Bookstore Maintenance Document Parent</label>
+      <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor
+      </postProcessorName>
+      <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin
+      </superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin
+      </blanketApproveGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin
+      </defaultExceptionGroupName>
+
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BookTypeMaintenanceDocument</name>
+      <parent>BookstoreParentMaintenanceDocument</parent>
+      <description>Create or Update a Book Type</description>
+      <label>Book Type Maintenance</label>
+      <docHandler>${application.url}/krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=edu.sampleu.bookstore.bo.BookType
+      </docHandler>
+    </documentType>
+    <documentType>
+      <name>AuthorMaintenanceDocument</name>
+      <parent>BookstoreParentMaintenanceDocument</parent>
+      <description>Create or Update a Author</description>
+      <label>Author Maintenance</label>
+      <docHandler>${application.url}/krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=edu.sampleu.bookstore.bo.Author</docHandler>
+    </documentType>
+    <documentType>
+      <name>AddressTypeMaintenanceDocument</name>
+      <parent>BookstoreParentMaintenanceDocument</parent>
+      <description>Create or Update a Address Type</description>
+      <label>Address Type Maintenance</label>
+      <docHandler>${application.url}/krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=edu.sampleu.bookstore.bo.BSAddressType</docHandler>
+    </documentType>
+<!--    <documentType>-->
+<!--      <name>BookOrderDocumentType</name>-->
+<!--      <parent>RiceDocument</parent>-->
+<!--      <description>Create Book Order</description>-->
+<!--      <label>Book Order Document</label>-->
+<!--      <docHandler>${application.url}/bookOrder.do?methodToCall=docHandler</docHandler>			 -->
+<!--    </documentType>-->
+		<documentType>
+		      <name>BookOrderDocumentType</name>
+		      <parent>RiceDocument</parent>
+		      <description>Create Book Order</description>
+		      <label>Book Order Document</label>
+		      <docHandler>${application.url}/bookOrder.do?methodToCall=docHandler</docHandler>
+	    </documentType>
+    <documentType>
+      <name>BookMaintenanceDocument</name>
+      <parent>BookstoreParentMaintenanceDocument</parent>
+      <description>Create or Update a Book</description>
+      <label>Book Maintenance</label>
+      <docHandler>${application.url}/krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=edu.sampleu.bookstore.bo.Book</docHandler>
+      <attributes>
+        <attribute>
+          <name>BookTitleSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>BookPriceSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>BookRatingSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>BookPublicationDateSearchableAttribute</name>
+        </attribute>
+        <!--
+        <attribute>
+          <name>BookTypeSearchableAttribute</name>
+        </attribute>
+        -->
+      </attributes>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Book Type Manager Approval" />
+          <role name="Book Type Manager Approval" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+        </start>
+        <role name="Book Type Manager Approval">
+          <qualifierResolverClass>org.kuali.rice.sampleapp.bookstore.kew.BookTypeQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

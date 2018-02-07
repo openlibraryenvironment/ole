@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_Overview" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Overview</title>
+    <para>eDocLite is a simple, form-based framework designed for rapid development and
+        implementation within an existing Kuali Enterprise Workflow (KEW) infrastructure. It allows
+        for the development of simple web applications, their forms and simple routing
+        configurations using XML. Users only have to enter data into the form and then submit it.
+        Rules can be constructed so that the form is then routed to a specific user or KIM Group
+        based on the data entered. It can be integrated with larger applications using a database
+        layer post-processor component. </para>
+    <para>Web pages called eDoc's are generated and are associated with a specific document
+        type definition that provides the overall definition for how the document can be
+        routed. Document types can also exist in hierarchies which provide storage of common
+        information at various levels.</para>
+    
+    <para>Key Ideas:<itemizedlist>
+        <listitem>
+            <para>Rapid implementation and development solution for simpler documents
+            </para>
+        </listitem>
+        <listitem>
+            <para>Easily re-configured </para>
+        </listitem>
+        <listitem>
+            <para>Easily manageable </para>
+        </listitem>
+        <listitem>
+            <para>Entirely web-based from design/development and user perspectives
+            </para>
+        </listitem>
+        <listitem>
+            <para>No java code required for developments; only XML with optional JavaScript for
+                    client side editing (workflow handles execution) </para>
+        </listitem>
+        <listitem>
+            <para>Some validation JavaScript is automatically generated like regular expression
+                    editing and 'required field checking'. </para>
+        </listitem>
+    </itemizedlist></para>
+    <para>The form uses an XSLT stylesheet to generate the html code. It uses XML to define form
+        fields. Certain workflow classes make helper data available to the stylesheet programmer,
+        and there are several features that can be 'plugged-in' to eDocLite to further enhance its
+        usability in many situations. The actual form display is called an EDL. This diagram shows
+        how these objects are related:</para>
+    <para><figure>
+        <title>EDL Controller Chain</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KEW_Guide/edl_controller_chain.png" scalefit="1" width="100%" contentdepth="100%" />
+            </imageobject>
+        </mediaobject>
+    </figure>
+    </para>
+</chapter>

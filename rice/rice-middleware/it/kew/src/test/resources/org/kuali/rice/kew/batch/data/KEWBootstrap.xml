@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <!-- ApplicationConstants -->
+
+    <ApplicationConstants xmlns="ns:workflow/ApplicationConstants" xsi:schemaLocation="ns:workflow/ApplicationConstants resource:ApplicationConstants">
+        <ApplicationConstant>
+            <ConstantName>Workgroup.Search.Instruction</ConstantName>
+            <ConstantValue>Enter criteria to search for a workgroup.</ConstantValue>
+        </ApplicationConstant>
+        <ApplicationConstant>
+            <ConstantName>User.Search.Instruction</ConstantName>
+            <ConstantValue>Enter search criteria and click the search button to view the results.</ConstantValue>
+        </ApplicationConstant>
+        <ApplicationConstant>
+            <ConstantName>Workgroup.CreateNew.Instruction</ConstantName>
+            <ConstantValue>Enter/edit the workgroup data and click the route button to route the document.</ConstantValue>
+        </ApplicationConstant>
+        <ApplicationConstant>
+            <ConstantName>Workflow.AdminWorkgroup</ConstantName>
+            <ConstantValue>KR-WKFLW:WorkflowAdmin</ConstantValue>
+        </ApplicationConstant>
+        <ApplicationConstant>
+            <ConstantName>Workgroup.IsRouteLogPopup</ConstantName>
+            <ConstantValue>false</ConstantValue>
+        </ApplicationConstant>
+        <!--
+            <ApplicationConstant>
+            <ConstantName>Config.Application.RunDeactivationDate</ConstantName>
+            <ConstantValue>true</ConstantValue>
+            </ApplicationConstant>
+        -->
+        <!--
+            new
+        -->
+        <ApplicationConstant>
+            <ConstantName>User.CreateNew.Instruction</ConstantName>
+            <ConstantValue>Create or modify user information.</ConstantValue>
+        </ApplicationConstant>
+        <ApplicationConstant>
+            <ConstantName>Workflow.AdminUrls</ConstantName>
+            <ConstantValue>/RouteType.do /RouteManagerDriver.do /ApplicationConstants.do /RuleAttribute.do /RuleTemplate.do /WorkflowUser.do /DocumentOperation.do /RouteQueue.do /Ingester.do /Plugin.do</ConstantValue>
+        </ApplicationConstant>
+        <!--
+            <ApplicationConstant>
+            <ConstantName>RouteQueue.CreateNew.Instruction</ConstantName>
+            <ConstantValue>Create or modify a Route Queue entry.</ConstantValue>
+            </ApplicationConstant>
+        -->
+    </ApplicationConstants>
+
+    <!-- bootstrap users and groups; only admin is required -->
+    <users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+        <!-- Core admin user -->
+        <user>
+            <workflowId>admin</workflowId>
+            <emplId>admin</emplId>
+            <authenticationId>admin</authenticationId>
+            <uuId>admin</uuId>
+            <emailAddress>admin@localhost</emailAddress>
+            <displayName>Administrator</displayName>
+            <givenName>admin</givenName>
+            <lastName>admin</lastName>
+        </user>
+    </users>
+
+    <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+        <!-- Core admin workgroup -->
+        <group>
+            <name>WorkflowAdmin</name>
+            <namespace>KR-WKFLW</namespace>
+            <description>WorkflowAdmin</description>
+            <active>true</active>
+            <members>
+                <principalName>admin</principalName>
+            </members>
+        </group>
+    </groups>
+
+    <!-- Templates for core rules -->
+
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>WorkflowDocumentDelegationTemplate</name>
+            <description>WorkflowDocumentDelegationTemplate</description>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>WorkflowDocumentTemplate</name>
+            <description>Workflow Document Template</description>
+            <delegationTemplate>WorkflowDocumentDelegationTemplate</delegationTemplate>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>Ack1Template</name>
+            <description>Acknowledgement 1 Template</description>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>Ack2Template</name>
+            <description>Acknowledgement 2 Template</description>
+        </ruleTemplate>
+    </ruleTemplates>
+
+    <!-- Core doctypes -->
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	    <documentType>
+	      <name>KualiDocument</name>
+	      <description>KualiDocument</description>
+	      <label>KualiDocument</label>
+	      <postProcessorName>none</postProcessorName>
+	      <policies>
+	        <policy>
+	          <name>DEFAULT_APPROVE</name>
+	          <value>true</value>
+	        </policy>
+	        <policy>
+	          <name>LOOK_FUTURE</name>
+	          <value>true</value>
+	        </policy>
+	  </policies>
+	      <routePaths>
+	        <routePath>
+	          <start name="PreRoute" />
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="PreRoute">
+	          <activationType>S</activationType>
+	          <mandatoryRoute>false</mandatoryRoute>
+	          <finalApproval>false</finalApproval>
+	        </start>
+	      </routeNodes>
+	    </documentType>
+	    <documentType>
+	      <name>RiceDocument</name>
+	      <parent>KualiDocument</parent>
+	      <description>Parent Document Type for all Rice Documents</description>
+	      <label>Rice Document</label>
+	    </documentType>
+        <documentType>
+            <name>DocumentTypeDocument</name>
+            <parent>RiceDocument</parent>
+            <description>Workflow Maintenance Document Type Document</description>
+            <label>Workflow Maintenance Document Type Document</label>
+            <postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
+            <docHandler>${workflow.url}/DocumentType.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <policies />
+            <routePaths>
+                <routePath>
+                    <start name="placeholder" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="placeholder">
+                    <activationType>S</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>RoutingRuleDocument</name>
+            <parent>RiceDocument</parent>
+            <description>Rule Maintenance Document Type Document</description>
+            <label>Rule Maintenance Document Type Document</label>
+            <postProcessorName>org.kuali.rice.kew.rule.RulePostProcessor</postProcessorName>
+            <docHandler>${workflow.url}/Rule.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <policies />
+            <routePaths>
+                <routePath>
+                    <start name="placeholder" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="placeholder">
+                    <activationType>S</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+
+    <!-- Core rules -->
+
+    <!-- "bootstrap" rule to be loaded upon initial startup -->
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <documentType>RiceDocument</documentType>
+            <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+            <description>workflowdocumenttemplate description</description>
+            <forceAction>false</forceAction>
+            <!--
+                <ruleExtensions>
+
+                </ruleExtensions>
+            -->
+            <responsibilities>
+                <responsibility>
+                    <principalName>admin</principalName>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+</data>

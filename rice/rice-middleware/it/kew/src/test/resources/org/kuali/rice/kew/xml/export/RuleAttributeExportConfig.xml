@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+			  xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+		<ruleAttribute>
+			<name>OrgRouting</name>
+			<className>org.kuali.rice.kew.routing.chartorgnode.OrganizationRoutingAttribute</className>
+			<label>Organization Routing</label>
+			<description>Organization Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>SchoolAttribute</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>School/Division Routing</label>
+			<description>School/Division Routing</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="school" title="School/Division" workflowType="ALL">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="true" />
+					<fieldEvaluation><xpathexpression>//school = wf:ruledata('school')</xpathexpression></fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<school>%school%</school>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>
+
+				<ruleAttribute>
+			<name>DepartmentAttribute</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>School/Division Routing</label>
+			<description>School/Division Routing</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="department" title="Department" workflowType="ALL">
+					<display>
+						<type>select</type>
+						<values title="American Studies">American Studies</values>
+						<values title="dept1">dept1</values>
+					  	<values title="dept2">dept2</values>
+					</display>
+					<validation required="true" />
+					<fieldEvaluation><xpathexpression>//department = wf:ruledata('department')</xpathexpression></fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<school>%department%</school>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>
+		
+		<ruleAttribute>
+      <name>EraTrackingNumberSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>EraTrackingNumberSearchAttribute</label>
+      <description>EraTrackingNumberSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="trackingNumber" title="Tracking Number">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//ROUTING_FORM/routingFormId</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>AgencyFullNameSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>AgencyFullNameSearchAttribute</label>
+      <description>AgencyFullNameSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="agencyFullName" title="Agency Full Name">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//agencyFullName</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <agencyFullName>%agencyFullName%</agencyFullName>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>ProjectDirectorFirstNameSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>ProjectDirectorFirstNameSearchAttribute</label>
+      <description>ProjectDirectorFirstNameSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="projectDirectorFirstName" title="Project Director First Name">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//projectDirectorFirstName</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <projectDirectorFirstName>%projectDirectorFirstName%</projectDirectorFirstName>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>ProjectDirectorLastNameSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>ProjectDirectorLastNameSearchAttribute</label>
+      <description>ProjectDirectorLastNameSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="projectDirectorLastName" title="Project Director Last Name">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//projectDirectorLastName</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <projectDirectorLastName>%projectDirectorLastName%</projectDirectorLastName>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SubmittingChartSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>SubmittingChartSearchAttribute</label>
+      <description>SubmittingChartSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="submittingChart" title="Submitting Chart">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//SUBMITTING_ORG/chart</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SubmittingOrgCodeSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>SubmittingOrgCodeSearchAttribute</label>
+      <description>SubmittingOrgCodeSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="submittingOrgCode" title="Submitting Org Code">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//SUBMITTING_ORG/org</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SubmittingOrgNameSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>SubmittingOrgNameSearchAttribute</label>
+      <description>SubmittingOrgNameSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="submittingOrgName" title="Submitting Org Name">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//submittingOrgName</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlSearchContent>
+          <submittingOrgName>%submittingOrgName%</submittingOrgName>
+        </xmlSearchContent>
+      </searchingConfig>
+    </ruleAttribute>
+	</ruleAttributes>
+</data>

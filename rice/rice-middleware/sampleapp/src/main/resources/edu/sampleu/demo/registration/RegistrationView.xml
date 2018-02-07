@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+  <bean id="RegistrationView" parent="KSFormView">
+    <property name="headerText" value="@{registrationTerm}, @{registrationYear}"/>
+    <property name="header.items">
+      <list>
+        <bean parent="Uif-LinkField" p:linkText="Change" p:target="foo"/>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="RegistrationPage"/>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+    <property name="additionalCssFiles">
+      <list merge="true">
+        <value>/css/registration.css</value>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.registration.RegistrationForm"/>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Registration Page
+  ********************************************************************************************************************
+  -->
+  <bean id="RegistrationPage" parent="Uif-Page" p:layoutManager.orientation="HORIZONTAL" p:disclosure.render="false">
+    <property name="items">
+      <list>
+        <bean id="Registration-FindTabGroup" parent="Uif-TabSection" p:cssClasses="registration-tabgroup">
+          <property name="items">
+            <list>
+              <ref bean="Registration-FindGroup"/>
+              <ref bean="Registration-FavoriteGroup"/>
+            </list>
+          </property>
+        </bean>
+        <ref bean="Registration-ScheduleCartGroup"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Schedule Cart Group
+  ********************************************************************************************************************
+  -->
+  <bean id="Registration-ScheduleCartGroup" parent="GenericGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-ImageField"
+              p:source="@{#ConfigProperties['krad.externalizable.images.url']}ks/registration_cal_cart.jpg"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Find Group
+  ********************************************************************************************************************
+  -->
+  <bean id="Registration-FindGroup" parent="GenericCriteriaGroup" p:headerText="Find Courses"
+        p:layoutManager.orientation="HORIZONTAL">
+    <property name="items">
+      <list>
+        <bean parent="GenericFieldGroup" p:label="Browse" p:cssClasses="kr-border-right">
+          <property name="items">
+            <list>
+              <bean parent="GenericSelection" p:propertyName="lookupCriteria['programId']"
+                    p:instructionalText="By Programs/Departments:"
+                    p:control.options-ref="program-options" p:label=""/>
+              <bean parent="GenericSelection" p:propertyName="lookupCriteria['requirementId']" p:label=""
+                    p:instructionalText="By General Education Requirement:"
+                    p:control.options-ref="requirement-options"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="GenericHorizontalFieldGroup" p:label="Fast Find"
+              p:group.instructionalText="Enter the Course Name or Number:">
+          <property name="items">
+            <list>
+              <bean parent="GenericTextFieldMedium" p:propertyName="lookupCriteria['courseNameNumber']" p:label=""
+                    p:cssClasses="kr-field-attribute kr-field-tight">
+              </bean>
+              <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="go"/>
+            </list>
+          </property>
+        </bean>
+        <ref bean="Registration-CourseListing"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Class Listing
+  ********************************************************************************************************************
+  -->
+  <bean id="Registration-CourseListing" parent="Uif-ListCollectionSection" p:readOnly="true"
+        p:disclosure.render="false">
+    <property name="instructionalText" value="Click a class to view details"/>
+    <property name="instructionalMessage">
+      <bean parent="Uif-InstructionalMessage" p:cssClasses="instructionalText-bold"/>
+    </property>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.course.Course"/>
+    <property name="propertyName" value="courseListing"/>
+    <property name="layoutManager.summaryTitle"
+              value="@{#line.subjectId} @{#line.number}: @{#line.title} (@{#line.maxCredits} units)"/>
+    <property name="subCollections">
+      <bean parent="Uif-ListCollectionSection" p:header.render="false"
+            p:layoutManager.lineGroupPrototype.layoutManager.orientation="HORIZONTAL"
+            p:layoutManager.lineGroupPrototype.cssClasses="kr-coursesection-line">
+        <property name="collectionObjectClass" value="edu.sampleu.demo.course.CourseSection"/>
+        <property name="propertyName" value="sections"/>
+        <property name="items">
+          <list>
+            <bean parent="GenericFieldGroup" p:fieldLabel.render="false" p:style="width: 10px;">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-ImageField"
+                        p:source="@{#ConfigProperties['krad.externalizable.images.url']}ks/star.png"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="GenericFieldGroup" p:fieldLabel.render="false">
+              <property name="items">
+                <list>
+                  <bean parent="GenericTextFieldMedium" p:propertyName="registrationId" p:label=""/>
+                  <bean parent="GenericTextFieldMedium" p:propertyName="standardMeetingTime" p:label=""
+                        p:cssClasses="kr-emphasis"/>
+                  <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Waitlist" p:methodToCall="waitlist"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="GenericFieldGroup" p:fieldLabel.render="false">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-MessageField" p:label="Seats Left" p:fieldLabel.render="true"
+                        p:messageText="@{#line.registeredNumber} (of @{#line.totalMaxEnrollment}) &lt;span class='kr-highlight-red'&gt;@{#line.waitlistNumber} on waitlist&lt;/span&gt;"
+                        p:fieldLabel.cssClasses="labelLeft" p:fieldLabel.renderColon="false"/>
+                  <bean parent="GenericTextFieldMedium" p:propertyName="instructor" p:label="Instructor"
+                        p:fieldLabel.cssClasses="labelLeft" p:labelPlacement="LEFT"/>
+                  <bean parent="Uif-MessageField" p:label="Location" p:fieldLabel.render="true"
+                        p:messageText="&lt;span class='kr-highlight-blue'&gt;@{#line.location}&lt;/span&gt;"
+                        p:fieldLabel.cssClasses="labelLeft" p:fieldLabel.renderColon="false"/>
+                  <bean parent="Uif-LinkField" p:label="Syllabus" p:linkText="Download" p:target="foo"
+                        p:fieldLabel.cssClasses="labelLeft" p:fieldLabel.renderColon="false"/>
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!--
+  ********************************************************************************************************************
+                                           Favorites Group
+  ********************************************************************************************************************
+  -->
+  <bean id="Registration-FavoriteGroup" parent="Uif-VerticalBoxSection" p:headerText="Favorites">
+    <property name="items">
+      <list>
+      </list>
+    </property>
+  </bean>
+
+
+  <!--
+  ********************************************************************************************************************
+                                           OPTIONS
+  ********************************************************************************************************************
+  -->
+
+  <util:list id="program-options">
+    <bean parent="Uif-KeyLabelPair" p:key="-- A --" p:value="-- A --"/>
+    <bean parent="Uif-KeyLabelPair" p:key="AEST" p:value="Aerospace Studies (AEST)"/>
+    <bean parent="Uif-KeyLabelPair" p:key="AMST" p:value="American Studies and Ethnicity (AMST)"/>
+    <bean parent="Uif-KeyLabelPair" p:key="-- B --" p:value="-- B --"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Biokinesiology and Physical Therapy"
+          p:value="Biokinesiology and Physical Therapy"/>
+    <bean parent="Uif-KeyLabelPair" p:key="BKN" p:value="- Biokinesiology (BKN)"/>
+    <bean parent="Uif-KeyLabelPair" p:key="PT" p:value="- Physical Therapy (PT)"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Biological Sciences" p:value="Biological Sciences"/>
+    <bean parent="Uif-KeyLabelPair" p:key="-- C --" p:value="-- C --"/>
+  </util:list>
+
+  <util:list id="requirement-options">
+    <bean parent="Uif-KeyLabelPair" p:key="Select General Education (Core) Reuqirment"
+          p:value="Select General Education (Core) Reuqirment"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Arts and Letters" p:value="Arts and Letters"/>
+    <bean parent="Uif-KeyLabelPair" p:key="Diversity RequirementGlobal Cultures and Traditions"
+          p:value="Diversity RequirementGlobal Cultures and Traditions"/>
+  </util:list>
+
+</beans>

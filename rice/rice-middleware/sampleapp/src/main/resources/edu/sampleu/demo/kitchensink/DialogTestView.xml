@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!--
+  ********************************************************************************************************************
+                                               Dialog Test View
+  ********************************************************************************************************************
+  -->
+  <bean id="DialogTestView" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Dialog Test View"/>
+    <property name="items">
+      <list>
+        <bean parent="UifCompViewPageWithFooter" p:id="DialogView-Page1">
+          <property name="items">
+            <list>
+              <bean parent="DialogTestView-SampleDialogs"/>
+              <bean parent="DialogTestView-MainGroup"/>
+              <bean id="myImage" parent="ImageDialog"/>
+              <bean parent="schedulingConfirmDialog-Group"/>
+            </list>
+          </property>
+          <property name="footer">
+            <bean id="DialogTestView-FormFooter" parent="Uif-FooterBase">
+              <property name="items">
+                <list>
+                  <bean id="myPrimaryButton" parent="Uif-PrimaryActionButton" p:methodToCall="save"
+                        p:actionLabel="Tell Me A Story" p:performClientSideValidation="true"/>
+                  <bean id="mySecondaryButton" parent="Uif-SecondaryActionButton" p:methodToCall="closeMe"
+                        p:actionLabel="Close"/>
+                  <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <bean parent="UifCompViewPageWithFooter" p:id="DialogView-Page2">
+          <property name="items">
+            <list>
+              <bean id="endPage" parent="DialogTestView-EndGroup"/>
+            </list>
+          </property>
+          <property name="footer">
+            <bean id="DialogTestView-Page2Footer" parent="Uif-FooterBase">
+              <property name="items">
+                <list>
+                  <bean id="page2PrimaryButton" parent="Uif-PrimaryActionButton" p:methodToCall="goBack"
+                        p:actionLabel="Go Back" p:performClientSideValidation="true"/>
+                  <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="dialogs">
+      <list>
+        <bean id="chooseAuthorDialog" parent="ChooseAuthor-DialogGroup"/>
+        <bean id="chooseEastmanBookDialog" parent="EastmanBooks-DialogGroup"/>
+        <bean id="chooseSeussBookDialog" parent="SeussBooks-DialogGroup"/>
+        <bean id="myRestart" parent="RestartYesNo"/>
+
+        <bean id="mySensitiveDialog" parent="Uif-SensitiveData-DialogGroup"/>
+        <bean id="preDefinedDialogOkCancel" parent="Uif-OK-Cancel-DialogGroup"
+              p:promptText="Would you like to continue?"/>
+        <bean id="preDefinedDialogTrueFalse" parent="DTV-preDefinedDialogTrueFalse"/>
+        <bean id="sampleRadioButtonDialog" parent="Uif-RadioButton-DialogGroup" p:promptText="Select"/>
+        <bean id="myProgressiveDialog" parent="Progressive-DialogGroup"/>
+        <bean id="myRegularGroup" parent="DTV-SampleGroup"/>
+        <bean id="extendedDialogGroup" parent="DTV-ExtendedDialog"/>
+        <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
+        <bean id="myHiddenGroupDialog" parent="myHiddenGroup"/>
+        <!--
+                <bean id="myCheckboxDialog" parent="sampleCheckboxDialog" p:promptText="Select Applicable" />
+        -->
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifDialogTestForm"/>
+  </bean>
+
+  <bean id="DialogTestView-SampleDialogs" parent="Uif-Disclosure-HorizontalBoxSection" p:title="Sample Dialogs">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="bField1" p:label="See dialog" p:defaultValue="false"
+              p:instructionalText="show/hide dialog content">
+          <property name="onChangeScript" value="jQuery('#chooseAuthorDialog').toggle();"/>
+          <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Lightbox from hidden group"
+              p:actionScript="showLightboxComponent('chooseAuthorDialog');"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Lightbox from hidden group with overrides"
+              p:actionScript="showLightboxComponent('chooseAuthorDialog', {openEffect : 'elastic', helpers:{overlay:{css:{cursor:'pointer', 'background-color':'green'}}}, closeEffect : 'elastic'});"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Lightbox from HTML"
+              p:actionScript="showLightboxContent('Hello, I am a lightbox with &lt;b&gt;HTML&lt;/b&gt; content.');"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="doOkCancelExample" p:actionLabel="Predefined OK/Cancel"
+              p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="doRadioDialogExample" p:actionLabel="Radio Buttons"
+              p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Lightbox from hidden group with progressive rendering"
+              p:actionScript="showLightboxComponent('myProgressiveDialog');"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Lightbox from hidden image"
+              p:actionScript="showLightboxComponent('myImage');"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Lightbox from URL"
+              p:actionScript="showLightboxUrl('http://kuali.org');"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Client Ajax Dialog"
+              p:actionScript="showLightboxComponent('preDefinedDialogTrueFalse');"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="doRegularGroupAsDialog" p:actionLabel="Regular Group"
+              p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="testExpressionDialog" p:actionLabel="Expression dialog"
+              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="doExtendedDialog" p:actionLabel="Extended Dialog"
+              p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="doResponseInLightBox"
+              p:actionLabel="Displays Response in LightBox"
+              p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"
+              p:displayResponseInLightBox="true"/>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DialogTestView-MainGroup" parent="Uif-VerticalBoxSection">
+    <property name="headerText" value="Storybook Corner"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="This is a storytelling section. Pick you story as you go!"/>
+        <bean id='statusMsg' parent="Uif-InputField" p:propertyName="field1" p:defaultValue="This is a test"
+              p:style="border:1px; font-size:2em">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl" p:readOnly="true"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DialogTestView-EndGroup" parent="Uif-VerticalBoxSection">
+    <property name="headerText" value="The end."/>
+    <property name="items">
+      <list>
+        <bean id='endMsg' parent="Uif-InputField" p:propertyName="field3" p:defaultValue="Hope you enjoyed the story."
+              p:style="border:1px; font-size:2em">
+          <property name="control">
+            <bean parent="Uif-TextAreaControl" p:readOnly="true"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- dialogs used in the tell me a story conversation -->
+
+  <bean id="ChooseAuthor-DialogGroup" parent="Uif-DialogGroup">
+    <property name="headerText" value="Choose an Author"/>
+    <property name="promptText" value="Choose an Author"/>
+    <property name="availableResponses">
+      <list>
+        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="P. D. Eastman"/>
+        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Dr. Seuss"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SeussBooks-DialogGroup" parent="Uif-RadioButton-DialogGroup">
+    <property name="headerText" value="Which Book You Like To Read?"/>
+    <property name="promptText" value="Which Book You Like To Read?"/>
+    <property name="explanation">
+      <bean parent="Uif-DialogExplanation" p:render="true">
+        <property name="control">
+          <bean parent="Uif-VerticalRadioControl">
+            <property name="options">
+              <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Green Eggs and Ham" p:value="Green Eggs and Ham"/>
+                <bean parent="Uif-KeyLabelPair" p:key="Cat in the Hat" p:value="Cat in the Hat"/>
+                <bean parent="Uif-KeyLabelPair" p:key="The Grinch Who Stole Christmas"
+                      p:value="The Grinch Who Stole Christmas"/>
+              </list>
+            </property>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="availableResponses">
+      <list>
+        <bean parent="Uif-KeyLabelPair" p:key="O" p:value="OK"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="EastmanBooks-DialogGroup" parent="Uif-RadioButton-DialogGroup">
+    <property name="headerText" value="Which Book You Like To Read?"/>
+    <property name="explanation">
+      <bean parent="Uif-DialogExplanation" p:render="true">
+        <property name="control">
+          <bean parent="Uif-VerticalRadioControl">
+            <property name="options">
+              <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Are You My Mother?" p:value="Are You My Mother?"/>
+                <bean parent="Uif-KeyLabelPair" p:key="Go, Dog. Go!" p:value="Go, Dog. Go!"/>
+                <bean parent="Uif-KeyLabelPair" p:key="The Alphabet Book" p:value="The Alphabet Book"/>
+              </list>
+            </property>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="availableResponses">
+      <list>
+        <bean parent="Uif-KeyLabelPair" p:key="O" p:value="OK"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RestartYesNo" parent="Uif-Yes-No-DialogGroup" p:promptText="Would you like to start over?"/>
+
+  <bean id="myHiddenGroup" parent="Uif-VerticalBoxSection">
+    <property name="hidden" value="true"/>
+    <property name="header">
+      <bean parent="Uif-HeaderThree"/>
+    </property>
+    <property name="header.cssClasses" value="uif-dialogHeader"/>
+    <property name="headerText" value="A Custom Hidden Group"/>
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MessageField" p:messageText="Your Name Here!"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="OK" p:actionScript="jQuery.fancybox.close();"/>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-dialogGroup</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- other sample dialogs -->
+
+  <!--
+    <bean id="sampleCheckboxDialog" parent="Uif-Checkbox-DialogGroup" >
+      <property name="availableResponses">
+        <list>
+          <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="OK"/>
+        </list>
+      </property>
+    </bean>
+  -->
+  <bean id="schedulingConfirmDialog-Group" parent="Uif-DialogGroup">
+    <property name="hidden" value="true"/>
+    <property name="headerText" value="Mark as Ready for Scheduling"/>
+    <property name="promptText" value=""/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-DataField" p:label="Course Offerings" p:propertyName="field2"
+              p:fieldLabel.style="font-weight:bold;"/>
+        <bean parent="Uif-MessageField" p:label="Activity Offerings"
+              p:messageText="All contained in the course offerings(@{field3}) " p:fieldLabel.style="font-weight:bold;"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ImageDialog" parent="Uif-ImageField" p:hidden="true" p:fieldLabel.render="false"
+        p:source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg"/>
+
+  <bean id="Progressive-DialogGroup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+    <property name="headerText" value="Title"/>
+    <property name="hidden" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Label" p:labelText="This is always displayed"/>
+        <bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/"/>
+
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label"
+                    p:labelText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc."/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Progressive Disclose"
+              p:width="auto" p:propertyName="field4">
+          <property name="control">
+            <bean parent="Uif-VerticalRadioControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyLabelPair" p:key="hide"
+                        p:value="Hide Group"/>
+                  <bean parent="Uif-KeyLabelPair" p:key="show"
+                        p:value="Show Group"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-HorizontalBoxSection"
+              p:progressiveRender="field4 eq 'show'" p:headerText="Group"
+              p:disclosure.render="false">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label" p:labelText="This section is Progressively rendered."/>
+            </list>
+          </property>
+        </bean>
+
+
+        <bean parent="Uif-Label"
+              p:labelText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Nulla et lorem eu nibh adipiscing ultricies nec at lacus. Cras laoreet ultricies sem, at blandit mi eleifend aliquam. Nunc enim ipsum, vehicula non pretium varius, cursus ac tortor. Vivamus fringilla congue laoreet. Quisque ultrices sodales orci, quis rhoncus justo auctor in. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc."/>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DTV-ExtendedDialog" parent="Uif-DialogGroup" p:promptText="Adding some custom items to a Dialog">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Label" p:labelText="This is always displayed"/>
+        <bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/"/>
+        <bean parent="GenericTextField" p:label="Field5" p:propertyName="field5"/>
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label"
+                    p:labelText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Nulla et lorem eu nibh adipiscing ultricies nec at lacus. Cras laoreet ultricies sem, at blandit mi eleifend aliquam. Nunc enim ipsum, vehicula non pretium varius, cursus ac tortor. Vivamus fringilla congue laoreet. Quisque ultrices sodales orci, quis rhoncus justo auctor in. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc."/>
+              <bean parent="Uif-Label"
+                    p:labelText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Nulla et lorem eu nibh adipiscing ultricies nec at lacus. Cras laoreet ultricies sem, at blandit mi eleifend aliquam. Nunc enim ipsum, vehicula non pretium varius, cursus ac tortor. Vivamus fringilla congue laoreet. Quisque ultrices sodales orci, quis rhoncus justo auctor in. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc."/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DTV-SampleGroup" parent="Uif-VerticalBoxSection">
+    <property name="hidden" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Label" p:labelText="This group does not inherit from Uif-DialogGroup"/>
+        <bean parent="Uif-VerticalBoxSection">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label"
+                    p:labelText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Nulla et lorem eu nibh adipiscing ultricies nec at lacus. Cras laoreet ultricies sem, at blandit mi eleifend aliquam. Nunc enim ipsum, vehicula non pretium varius, cursus ac tortor. Vivamus fringilla congue laoreet. Quisque ultrices sodales orci, quis rhoncus justo auctor in. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc."/>
+              <bean parent="Uif-Label"
+                    p:labelText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis mi eu elit tempor facilisis id et neque. Nulla sit amet sem sapien. Vestibulum imperdiet porta ante ac ornare. Nulla et lorem eu nibh adipiscing ultricies nec at lacus. Cras laoreet ultricies sem, at blandit mi eleifend aliquam. Nunc enim ipsum, vehicula non pretium varius, cursus ac tortor. Vivamus fringilla congue laoreet. Quisque ultrices sodales orci, quis rhoncus justo auctor in. Phasellus dui eros, bibendum eu feugiat ornare, faucibus eu mi. Nunc aliquet tempus sem, id aliquam diam varius ac. Maecenas nisl nunc, molestie vitae eleifend vel, iaculis sed magna. Aenean tempus lacus vitae orci posuere porttitor eget non felis. Donec lectus elit, aliquam nec eleifend sit amet, vestibulum sed nunc."/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-DialogResponse"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DTV-preDefinedDialogTrueFalse" parent="Uif-True-False-DialogGroup"
+        p:progressiveRenderViaAJAX="true" p:progressiveRender="@{#form.renderedInLightBox}" p:hidden="true"
+        p:promptText="Is this a correct statement?"/>
+
+</beans>

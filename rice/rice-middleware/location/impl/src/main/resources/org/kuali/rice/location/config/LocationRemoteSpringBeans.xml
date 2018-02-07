@@ -1,0 +1,106 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/location/config/_LocationCommonSpringBeans.xml" />
+
+  <bean id="rice.location.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+    <property name="cacheManager" ref="locationLocalCacheManager" />
+  </bean>
+
+  <bean id="rice.location.remote.import" abstract="true" lazy-init="true"
+        class="org.kuali.rice.core.api.resourceloader.LazyResourceFactoryBean"
+        p:serviceNamespace-ref="rice.location.serviceNamespace"/>
+
+  <bean id="countryService"
+        parent="rice.location.remote.import"
+        p:serviceName="countryService"
+        p:objectType="org.kuali.rice.location.api.country.CountryService"/>
+
+  <bean id="campusService"
+        parent="rice.location.remote.import"
+        p:serviceName="campusService"
+        p:objectType="org.kuali.rice.location.api.campus.CampusService"/>
+
+  <bean id="stateService"
+        parent="rice.location.remote.import"
+        p:serviceName="stateService"
+        p:objectType="org.kuali.rice.location.api.state.StateService"/>
+
+  <bean id="countyService"
+        parent="rice.location.remote.import"
+        p:serviceName="countyService"
+        p:objectType="org.kuali.rice.location.api.county.CountyService"/>
+  
+  <bean id="postalCodeService"
+        parent="rice.location.remote.import"
+        p:serviceName="postalCodeService"
+        p:objectType="org.kuali.rice.location.api.postalcode.PostalCodeService"/>
+
+  <bean id="locationModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <property name="namespaceCode" value="KR-NS"/>
+    <property name="dataSourceName" value="locationDataSource"/>
+    <property name="initializeDataDictionary" value="true"/>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.location.</value>
+      </list>
+    </property>
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:org/kuali/rice/location/web/campus/Campus.xml</value>
+        <value>classpath:org/kuali/rice/location/web/campus/CampusType.xml</value>
+        <value>classpath:org/kuali/rice/location/web/country/Country.xml</value>
+        <value>classpath:org/kuali/rice/location/web/county/County.xml</value>
+        <value>classpath:org/kuali/rice/location/web/postalcode/PostalCode.xml</value>
+        <value>classpath:org/kuali/rice/location/web/state/State.xml</value>
+      </list>
+    </property>
+    <property name="externalizableBusinessObjectImplementations">
+      <map>
+        <entry key="org.kuali.rice.location.framework.country.CountryEbo"
+               value="org.kuali.rice.location.impl.country.CountryBo"/>
+        <entry key="org.kuali.rice.location.framework.state.StateEbo"
+               value="org.kuali.rice.location.impl.state.StateBo"/>
+        <entry key="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
+               value="org.kuali.rice.location.impl.postalcode.PostalCodeBo"/>
+        <entry key="org.kuali.rice.location.framework.county.CountyEbo"
+               value="org.kuali.rice.location.impl.county.CountyBo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusEbo"
+               value="org.kuali.rice.location.impl.campus.CampusBo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusTypeEbo"
+               value="org.kuali.rice.location.impl.campus.CampusTypeBo"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="locationServerModule" class="org.kuali.rice.location.impl.service.LocationRemoteModuleService">
+    <property name="moduleConfiguration" ref="locationModuleConfiguration"/>
+    <property name="kualiModuleService" ref="rice.location.import.kualiModuleService"/>
+  </bean>
+
+  <bean id="dataDictionaryService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="dataDictionaryService" />
+  </bean>
+
+</beans>

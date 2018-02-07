@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>DFAC_OAA.WorkgroupTypeDoctype</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>DFAC_OAA Workgroup Type Document Type</description>
+      <label>DFAC_OAA Workgroup Type Document Type</label>
+      <postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_Workgroup_Approvers</superUserGroupName>
+      <defaultExceptionGroupName namespace="DFAC_OAA">OAA_Workgroup_Approvers</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/Workgroup.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="DFAC_OAA Workgroup Approval" />
+          <requests name="DFAC_OAA Workgroup Approval" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="DFAC_OAA Workgroup Approval">
+          <activationType>P</activationType>
+          <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OfferRequest</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>Offer Request</description>
+      <label>Offer Request</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <reportingGroupName namespace="DFAC_OAA">DFAC_OAA.Reporting.Workgroup</reportingGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SearchStatus</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>Search Status</description>
+      <label>Search Status</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <reportingGroupName namespace="DFAC_OAA">DFAC_OAA.Reporting.Workgroup</reportingGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC_OAASearchStatusInformalOfferSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLExpectedStartDateSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLSalaryGradeSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>VacancyNotice</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>Vacancy Notice</description>
+      <label>Vacancy Notice</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <reportingGroupName namespace="DFAC_OAA">DFAC_OAA.Reporting.Workgroup</reportingGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLExpectedStartDateSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLSalaryGradeSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>WaiverRequest</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>Waiver Request</description>
+      <label>Waiver Request</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <reportingGroupName namespace="DFAC_OAA">DFAC_OAA.Reporting.Workgroup</reportingGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLSalaryGradeSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLExpectedStartDateSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LoadTest</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>Load Test</description>
+      <label>Load Test</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <reportingGroupName namespace="DFAC_OAA">DFAC_OAA.Reporting.Workgroup</reportingGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLSalaryGradeSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLExpectedStartDateSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>InterviewRequest</name>
+      <parent>OfficeOfAffirmativeAction</parent>
+      <description>Interview Request</description>
+      <label>Interview Request</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <reportingGroupName namespace="DFAC_OAA">DFAC_OAA.Reporting.Workgroup</reportingGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLTotalApplicantsSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLTotalAMFsReceievedSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLSalaryGradeSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+  </documentTypes>
+</data>
+

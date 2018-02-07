@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="EDL_CreateNew" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Create New eDocLite Document</title>
+    <para>To create a new eDocLite document to be routed in KEW, click on <emphasis
+        role="bold">Create Document</emphasis> in the row for eDocLite type wanted. It
+        will take users to different forms of eDocLites depending on the document function,
+        but they all have three general parts:<itemizedlist>
+            <listitem>
+                <para>Document header </para>
+            </listitem>
+            <listitem>
+                <para>Document body </para>
+            </listitem>
+            <listitem>
+                <para>Routing action and annotation, and note area </para>
+            </listitem>
+        </itemizedlist></para>
+    <section>
+        <title>Document Header</title>
+        <para>The Document Header contains the following fields: <table frame="none" tabstyle="striped">
+            <title>Document Header Attributes</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                <colspec colname="c2" colnum="2" colwidth="3.08*"/>
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Document Type</entry>
+                        <entry>The name defined by the document creator of this type of
+                            eDocLite.</entry>
+                    </row>
+                    <row>
+                        <entry>Document Status</entry>
+                        <entry>The status of this document based on its routing
+                            status.</entry>
+                    </row>
+                    <row>
+                        <entry>Create Date</entry>
+                        <entry>The date and time this document is created.</entry>
+                    </row>
+                    <row>
+                        <entry>Document ID</entry>
+                        <entry>The unique system generated ID for this document.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table></para>
+    </section>
+    <section>
+        <title>Document body</title>
+        <para>This portion of the document is where the user identifies the routing and
+            complete business function. </para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Document Body Attributes</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="2.92*"/>
+                    <thead>
+                        <row>
+                            <entry>Field</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>specifies the actions users are taking on the EDocLite
+                                forms, including <emphasis role="bold">editing</emphasis>
+                                and <emphasis role="bold">reviewing</emphasis>. Other
+                                general information can be stored here such as contact
+                                information, important notes, etc.</entry>
+                        </row>
+                        <row>
+                            <entry>Form</entry>
+                            <entry>Renders form fields and input areas for the user to
+                                complete information required, depends upon the specific
+                                eDocLite requirements.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+    </section>
+    <section>
+        <title>Routing Action and Annotation, and Note area</title>
+        <para>This area is used to add annotation and choose action to be taken on this
+            eDocLite document. Annotation is the comments associated with the routing
+            process. You can add them to different nodes of the routing process and take
+            actions on an eDocLite by adding annotations. The annotation appears in the
+            route log of eDocLite as comments. Notes are the comments associated with this
+            specific eDocLite form and appear with the form and not in the route log. </para>
+        <para>
+            <table frame="none" tabstyle="striped">
+                <title>Routing Action and Annotation, and Note Attributes</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="2.45*"/>
+                    <thead>
+                        <row>
+                            <entry>Field</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Set annotation</entry>
+                            <entry>The area to add annotation.</entry>
+                        </row>
+                        <row>
+                            <entry>Action buttons</entry>
+                            <entry>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>route: begins and continues routing the
+                                            eDocLite document.</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>save: saves the information currently on the
+                                            eDocLite document.</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>cancel: cancels the actions on this eDocLite
+                                            document, and the information on the form is not
+                                            saved.</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>create note</entry>
+                            <entry>Area where users can add notes and attach documents to
+                                this eDocLite form. This part keeps track of <emphasis
+                                    role="bold">Author, Date and time</emphasis>, and the
+                                <emphasis role="bold">Note</emphasis> added. Users have
+                                the right to add, edit and delete the notes they
+                                create.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </para>
+        <para>The following is one example of an eDocLite form:</para>
+        <para><inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KEW_Guide/edoclite_form.png" contentwidth="400"/>
+            </imageobject>
+        </inlinemediaobject></para>
+        <note><para>Notes that have been added to an eDocLite document can be edited or
+            deleted.</para></note>
+    </section>
+    <section>
+        <title>Extendable functions</title>
+        <para>eDocLites are highly customizable. New eDocLites can be designed for new
+            business and functional requirements. The document header and routing annotation
+            and notes parts will be same or similar, the form will be different. </para>
+        <para>eDocLites can be designed to include following functions:</para>
+        <section>
+            <title>Restricted read/write rights</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Some fields in eDocLite can be set as <emphasis role="keyword"
+                        >GlobalReadOnly</emphasis>. With this setting they are disabled
+                        and can't be edited by any user other than the author. </para>
+                </listitem>
+                <listitem>
+                    <para>Some fields in eDocLite can be set as <emphasis role="keyword"
+                        >ReadOnly</emphasis>, but users with rights can still edit them.
+                        After the initiator writes them they are disabled and become locked
+                        to some of the users in the routing process. But for users with
+                        proper rights in certain nodes in the routing process, the fields
+                        will become editable again. These users can take actions on them,
+                        such as modify, add, and return to a former routing node.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Hidden fields</title>
+            <para>To accommodate some business requirements, certain fields and notes can be
+                hidden from certain nodes in the routing process. For instance, some
+                administrative notes on a course waiver request will be hidden from students
+                when s/he gets the eDocLite form in the final stage of the routing
+                process.</para>
+        </section>
+    </section>
+</chapter>

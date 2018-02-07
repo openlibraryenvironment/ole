@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>rice-kim</artifactId>
+    <groupId>org.kuali.rice</groupId>
+    <version>2.3.6</version>
+  </parent>
+  <artifactId>rice-kim-api</artifactId>
+  <name>Rice KIM API</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>rice-core-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+    </dependency>
+  </dependencies>
+  <properties>
+    <svc.group.name>GroupService</svc.group.name>
+    <svc.group.wsdl>${wsdl.dir}/${svc.group.name}.wsdl</svc.group.wsdl>
+    <svc.permission.name>PermissionService</svc.permission.name>
+    <svc.permission.wsdl>${wsdl.dir}/${svc.permission.name}.wsdl</svc.permission.wsdl>
+    <svc.responsibility.name>ResponsibilityService</svc.responsibility.name>
+    <svc.responsibility.wsdl>${wsdl.dir}/${svc.responsibility.name}.wsdl</svc.responsibility.wsdl>
+    <svc.role.name>RoleService</svc.role.name>
+    <svc.role.wsdl>${wsdl.dir}/${svc.role.name}.wsdl</svc.role.wsdl>
+    <svc.kti.name>KimTypeInfoService</svc.kti.name>
+    <svc.kti.wsdl>${wsdl.dir}/${svc.kti.name}.wsdl</svc.kti.wsdl>
+    <svc.identity.name>IdentityService</svc.identity.name>
+    <svc.identity.wsdl>${wsdl.dir}/${svc.identity.name}.wsdl</svc.identity.wsdl>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-java2ws-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>groupService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.kim.api.group.GroupService</className>
+              <outputFile>${svc.group.wsdl}</outputFile>
+              <serviceName>GroupService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>permissionService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.kim.api.permission.PermissionService</className>
+              <outputFile>${svc.permission.wsdl}</outputFile>
+              <serviceName>PermissionService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>responsibilityService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.kim.api.responsibility.ResponsibilityService</className>
+              <outputFile>${svc.responsibility.wsdl}</outputFile>
+              <serviceName>ResponsibilityService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>roleService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.kim.api.role.RoleService</className>
+              <outputFile>${svc.role.wsdl}</outputFile>
+              <serviceName>RoleService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>kimTypeInfoService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.kim.api.type.KimTypeInfoService</className>
+              <outputFile>${svc.kti.wsdl}</outputFile>
+              <serviceName>KimTypeInfoService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>identityService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.kim.api.identity.IdentityService</className>
+              <outputFile>${svc.identity.wsdl}</outputFile>
+              <serviceName>IdentityService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-wsdls</id>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${svc.group.wsdl}</file>
+                  <classifier>${svc.group.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.permission.wsdl}</file>
+                  <classifier>${svc.permission.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.role.wsdl}</file>
+                  <classifier>${svc.role.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.kti.wsdl}</file>
+                  <classifier>${svc.kti.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.identity.wsdl}</file>
+                  <classifier>${svc.identity.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.apache.cxf</groupId>
+    								<artifactId>
+    									cxf-java2ws-plugin
+    								</artifactId>
+    								<versionRange>
+    									[2.7.0,)
+    								</versionRange>
+    								<goals>
+    									<goal>java2ws</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore />
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+</project>

@@ -1,0 +1,11 @@
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/KEWBootstrap.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/ApplicationConstantsContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/UserContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/WorkgroupContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/RuleAttributeContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/RuleTemplateContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/RuleContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/EDocLiteContent.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/EDocLiteRouting.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/EDocLiteStyle.xml=true
+${basedir}/src/test/resources/org/kuali/rice/kew/batch/data/BadFile.xml=false

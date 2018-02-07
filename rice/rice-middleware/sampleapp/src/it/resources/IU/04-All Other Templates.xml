@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+      <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-SchoolRouting</name>
+      <description>University Graduate School Office - School Routing</description>
+      <attributes>
+        <attribute>
+          <name>SchoolAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolPreRemonstrance</name>
+      <description>Pre Remonstrance Node - Graduate School Routing</description>
+      <attributes>
+        <attribute>
+          <name>CreditTypeAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-SES</name>
+      <description>SES Student Enrollment Service Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-School-Review</name>
+      <description>University Graduate School - Review Routing</description>
+      <attributes>
+        <attribute>
+          <name>SchoolAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice1</name>
+      <description>University Graduate School Office Routing 1st</description>
+      <attributes>
+        <attribute>
+          <name>CreditTypeAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-SES Pre Screen</name>
+      <description>Dean of Faculty Graduation Office Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolRemonstrance</name>
+      <description>University Graduate School Office Routing 2nd</description>
+      <attributes>
+        <attribute>
+          <name>CreditTypeAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice2</name>
+      <description>University Graduate School Office Routing 2nd</description>
+      <attributes>
+        <attribute>
+          <name>RemonstranceFiled</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>CreditTypeAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-Dean of Faculty</name>
+      <description>Dean of Faculty Graduation Office Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-Review</name>
+      <description>University Graduate School - Review Routing</description>
+      <attributes>
+        <attribute>
+          <name>SchoolAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-Department</name>
+      <description>University Graduate School - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>DepartmentAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-Department-Review</name>
+      <description>University Graduate School - Department Review Routing</description>
+      <attributes>
+        <attribute>
+          <name>DepartmentAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-DepartmentFYI</name>
+      <description>University Graduate School Office - Departmental Notification</description>
+      <attributes>
+        <attribute>
+          <name>DepartmentAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-SchoolFYI</name>
+      <description>University Graduate School Office - School Notification</description>
+      <attributes>
+        <attribute>
+          <name>SchoolAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>UniversityGraduateSchoolOffice-CurRev</name>
+      <description>Curriculum Review Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense</name>
+      <description>PhD Defense Announcement - Final Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.FYI</name>
+      <description>PhD Defense Announcement - FYI notification</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Department1b</name>
+      <description>PhD Defense Announcement - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Department1a</name>
+      <description>PhD Defense Announcement - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Department2b</name>
+      <description>PhD Defense Announcement - Department (second major) Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Department2a</name>
+      <description>PhD Defense Announcement - Department (second major) Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.InitiatorFYI</name>
+      <description>PhD Defense Announcement - Initiator notification of processed</description>
+      <attributes>
+        <attribute>
+          <name>PhDDefenseInitiatorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.NetId1a</name>
+      <description>PhDDefense.NetId1a optional Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDefenseNetIdAttribute1a</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>PhDDefenseNetworkIdRoleAttribute1a</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.NetId2a</name>
+      <description>PhDDefense.NetId2a optional Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDefenseNetIdAttribute2a</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>PhDDefenseNetworkIdRoleAttribute2a</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.NetId1b</name>
+      <description>PhDDefense.NetId1b optional Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDefenseNetIdAttribute1b</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>PhDDefenseNetworkIdRoleAttribute1b</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.NetId2b</name>
+      <description>PhDDefense.NetId2b optional Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDefenseNetIdAttribute2b</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>PhDDefenseNetworkIdRoleAttribute2b</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Department1FYI</name>
+      <description>PhD Defense Announcement - Departmental notification of processed (Major 1)</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Department2FYI</name>
+      <description>PhD Defense Announcement - Departmental notification of processed (Major 2)</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.Major2</name>
+      <description>MA Application and Recommendation for Advanced Degree - Major2 Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegMajorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.2</name>
+      <description>MA Application and Recommendation for Advanced Degree - Final Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.DeptFYI</name>
+      <description>MA Application and Recommendation for Advanced Degree - Department FYI Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegDeptAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.Major1</name>
+      <description>MA Application and Recommendation for Advanced Degree - Major1 Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegMajorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.MajorFYI</name>
+      <description>MA Application and Recommendation for Advanced Degree - Major FYI Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegMajorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.DualDegree</name>
+      <description>MA Application and Recommendation for Advanced Degree - Dual Degree Program Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegDualDegAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.1</name>
+      <description>MA Application and Recommendation for Advanced Degree - Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegCampusAttribute</name>
+          <required>true</required>
+        </attribute>
+        <attribute>
+          <name>MAAdvDegDualDegYNAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.Department2</name>
+      <description>MA Application and Recommendation for Advanced Degree - Department2 Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegDeptAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.Department1</name>
+      <description>MA Application and Recommendation for Advanced Degree - Department1 Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegDeptAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.IUPUI</name>
+      <description>MA Application and Recommendation for Advanced Degree - IUPUI Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegCampusAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.IUPUIFYI</name>
+      <description>MA Application and Recommendation for Advanced Degree - IUPUI Routing</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegCampusAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.FYI</name>
+      <description>MA App and Rec for Advanced Degree - notification of submitted app</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegCampusAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>MAAdvDeg.InitatorFYI</name>
+      <description>MA App and Rec for Advanced Degree - Initiator notification of degree awarded</description>
+      <attributes>
+        <attribute>
+          <name>MAAdvDegInitiatorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.Verify</name>
+      <description>PhD Defense Announcement - Data Verification Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>PhDDefense.PhDRecorder</name>
+      <description>PhD Defense Announcement - PhD Recorder Routing</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Member1</name>
+      <description>Committee Member 1</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeMember1NetworkIdRoleAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Member2</name>
+      <description>Committee Member 2</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeMember2NetworkIdRoleAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Member3</name>
+      <description>Committee Member 3</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeMember3NetworkIdRoleAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Member4</name>
+      <description>Committee Member 4</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeMember4NetworkIdRoleAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Member5</name>
+      <description>Committee Member 5</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeMember5NetworkIdRoleAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Member6</name>
+      <description>Committee Member 6</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeMember6NetworkIdRoleAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Department1a</name>
+      <description>Nomination of Research Committee - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Department1b</name>
+      <description>Nomination of Research Committee - Department Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Department2a</name>
+      <description>Nomination of Research Committee - Department (second major) Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Department2b</name>
+      <description>Nomination of Research Committee - Department (second major) Routing</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Department1FYI</name>
+      <description>Nomination of Research Committee - Departmental notification of processed (Major 1)</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept1Attribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.Department2FYI</name>
+      <description>Nomination of Research Committee - Departmental notification of processed (Major 2)</description>
+      <attributes>
+        <attribute>
+          <name>PhDDept2Attribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.DeptChairMajor1</name>
+      <description>Committee.DeptChairMajor1</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.DeptChairMajor2</name>
+      <description>Committee.DeptChairMajor2</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee</name>
+      <description>Graduate School Approval</description>
+    </ruleTemplate>
+    <ruleTemplate>
+      <name>Committee.InitatorFYI</name>
+      <description>Nomination of Research Committee - Initiator notification of processed</description>
+      <attributes>
+        <attribute>
+          <name>CommitteeInitiatorAttribute</name>
+          <required>true</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>

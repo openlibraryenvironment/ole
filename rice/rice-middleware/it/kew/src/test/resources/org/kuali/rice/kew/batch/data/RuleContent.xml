@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>KualiMaintenanceDocument</documentType>
+			<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+			<description>org rule</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>KualiOrgReviewAttribute</attribute>
+					<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>KU</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>KOOL</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>KualiFinancialDocument</documentType>
+			<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+			<description>base org rule for kuali docs</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>KualiOrgReviewAttribute</attribute>
+					<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>KU</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>KOOL</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>KualiFinancialDocument-Rule1</name>
+			<documentType>KualiFinancialDocument</documentType>
+			<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+			<description>main account rule</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>FISCAL-OFFICER</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>KualiAccountMaintenanceDocument</documentType>
+			<ruleTemplate>KualiChartTemplate</ruleTemplate>
+			<description>test rule on account doc</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>CHART-MANAGER</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+				<responsibility>
+					<role>UNIVERSITY-CHART-MANAGER</role>
+					<approvePolicy>F</approvePolicy>
+					<actionRequested>A</actionRequested>
+					<priority>2</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>ANamedRule</name>
+			<documentType>TestDocumentType</documentType>
+			<description>A named rule</description>
+			<expression type="someType">some expression</expression>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+	<ruleDelegations xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<ruleDelegation>
+			<parentResponsibility>
+				<parentRuleName>KualiFinancialDocument-Rule1</parentRuleName>
+				<role>FISCAL-OFFICER</role>
+			</parentResponsibility>
+			<delegationType>P</delegationType>
+			<rule>
+				<documentType>KualiFinancialDocument</documentType>
+				<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+				<description>primary delegation</description>
+				<forceAction>false</forceAction>
+				<responsibilities>
+					<responsibility>
+						<role>FISCAL-OFFICER-PRIMARY-DELEGATE</role>
+						<approvePolicy>F</approvePolicy>
+					</responsibility>
+				</responsibilities>
+			</rule>
+		</ruleDelegation>
+		<ruleDelegation>
+			<parentResponsibility>
+				<parentRuleName>KualiFinancialDocument-Rule1</parentRuleName>
+				<role>FISCAL-OFFICER</role>
+			</parentResponsibility>
+			<delegationType>S</delegationType>
+			<rule>
+				<documentType>KualiFinancialDocument</documentType>
+				<ruleTemplate>KualiAccountTemplate</ruleTemplate>
+				<description>secondary delegate</description>
+				<forceAction>false</forceAction>
+				<responsibilities>
+					<responsibility>
+						<role>FISCAL-OFFICER-SECONDARY-DELEGATE</role>
+						<approvePolicy>F</approvePolicy>
+					</responsibility>
+				</responsibilities>
+			</rule>
+		</ruleDelegation>
+	</ruleDelegations>
+</data>

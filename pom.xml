@@ -16,6 +16,7 @@
     </description>
     <url>http://${kuali.site.hostname}/ole/${project.version}</url>
     <modules>
+        <module>rice</module>
         <module>ole-app</module>
         <module>ole-docstore</module>
         <module>ole-common</module>
@@ -810,42 +811,6 @@
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
                 <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.kuali.db.ojb</groupId>
-                <artifactId>db-ojb</artifactId>
-                <version>1.0.4-patch9</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>commons-beanutils</artifactId>
-                        <groupId>commons-beanutils</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>xalan</groupId>
-                        <artifactId>xalan</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>xml-apis</groupId>
-                        <artifactId>xml-apis</artifactId>
-                    </exclusion>
-                    <!--Removing the asm 1.5.3 version that comes with OJB -->
-                    <exclusion>
-                        <groupId>asm</groupId>
-                        <artifactId>asm</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springmodules</groupId>
-                        <artifactId>spring-modules-ojb</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
         </dependencies>

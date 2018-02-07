@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <name>Rice Impex Master</name>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.rice</groupId>
+    <artifactId>rice-impex</artifactId>
+    <version>2.3.6</version>
+  </parent>
+  <artifactId>rice-impex-master</artifactId>
+  <properties>
+    <impex.username>RICE</impex.username>
+    <impex.password>RICE</impex.password>
+  </properties>
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <profiles>
+    <profile>
+      <id>commit</id>
+      <properties>
+        <impex.invalid.phase>none</impex.invalid.phase>
+      </properties>
+    </profile>
+    <profile>
+      <id>master</id>
+      <properties>
+        <impex.username>RICEMASTER</impex.username>
+        <impex.password>RICEMASTER</impex.password>
+        <impex.database>RICEMASTER</impex.database>
+      </properties>
+    </profile>
+    <profile>
+      <id>commitmaster</id>
+      <properties>
+        <impex.invalid.phase>process-resources</impex.invalid.phase>
+        <scm.phase>process-resources</scm.phase>
+      </properties>
+    </profile>
+    <profile>
+      <id>exportmaster</id>
+      <properties>
+        <impex.username>${export.db.username}</impex.username>
+        <impex.password>${export.db.password}</impex.password>
+        <impex.database>${export.db.username}</impex.database>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>export</id>
+                <phase>generate-resources</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>dataset</id>
+      <properties>
+        <impex.username>RICE${dataset.schema.prefix}${dataset.schema.suffix}</impex.username>
+        <impex.password>RICE${dataset.schema.prefix}${dataset.schema.suffix}</impex.password>
+        <impex.database>RICE${dataset.schema.prefix}${dataset.schema.suffix}</impex.database>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>cleanup</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <orderFile>NONE</orderFile>
+                  <resourceLocations>
+                    <resourceLocation>${dataset.cleanup.1}</resourceLocation>
+                    <resourceLocation>${dataset.cleanup.2}</resourceLocation>
+                  </resourceLocations>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>client</id>
+      <properties>
+        <dataset.schema.prefix>CLIENT</dataset.schema.prefix>
+        <dataset.script>client</dataset.script>
+      </properties>
+    </profile>
+    <profile>
+      <id>server</id>
+      <properties>
+        <dataset.schema.prefix>SERVER</dataset.schema.prefix>
+        <dataset.script>server</dataset.script>
+      </properties>
+    </profile>
+    <profile>
+      <id>demo</id>
+      <properties>
+        <dataset.schema.suffix>DEMO</dataset.schema.suffix>
+        <dataset.cleanup.1>classpath:demo-${dataset.script}-dataset-cleanup.sql</dataset.cleanup.1>
+      </properties>
+    </profile>
+    <profile>
+      <id>bootstrap</id>
+      <properties>
+        <dataset.schema.suffix>BOOTSTRAP</dataset.schema.suffix>
+        <dataset.cleanup.1>classpath:demo-${dataset.script}-dataset-cleanup.sql</dataset.cleanup.1>
+        <dataset.cleanup.2>classpath:bootstrap-${dataset.script}-dataset-cleanup.sql</dataset.cleanup.2>
+      </properties>
+    </profile>
+  </profiles>
+</project>

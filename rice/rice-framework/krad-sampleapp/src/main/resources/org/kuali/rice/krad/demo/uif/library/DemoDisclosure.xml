@@ -1,0 +1,177 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- Disclosure demo -->
+  <bean id="Demo-Disclosure-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoDisclosure.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.widget.Disclosure"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-Disclosure-Example1"/>
+        <ref bean="Demo-Disclosure-Example2"/>
+        <ref bean="Demo-Disclosure-Example3"/>
+        <ref bean="Demo-Disclosure-Example4"/>
+        <ref bean="Demo-Disclosure-Example5"/>
+        <ref bean="Demo-Disclosure-Example6"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-Disclosure-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Disclosure-Example1 start-->
+        <bean parent="Uif-VerticalBoxSection" p:headerText="Disclosure Section">
+          <!-- property to activate disclosure -->
+          <property name="disclosure.render" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField1"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField2"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- There are default beans that already have disclosure render defined to true for you -->
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Predefined Disclosure Section">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField3"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="inputField4"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Disclosure-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- closed -->
+  <bean id="Demo-Disclosure-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Disclosure-Example2 start-->
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Default Closed Section">
+          <!-- disclosure will be closed -->
+          <property name="disclosure.defaultOpen" value="false"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField5"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField6"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Disclosure-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- animation speed -->
+  <bean id="Demo-Disclosure-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Disclosure-Example3 start-->
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Section Header">
+          <!-- disclosure will open much slower -->
+          <property name="disclosure.animationSpeed" value="5000"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField7"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField8"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField9"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField10"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Disclosure-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- remove image -->
+  <bean id="Demo-Disclosure-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Disclosure-Example4 start-->
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Section Header">
+          <!-- default triangle disclosure image will not be shown -->
+          <property name="disclosure.renderImage" value="false"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField11"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField12"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Disclosure-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- change image -->
+  <bean id="Demo-Disclosure-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Disclosure-Example5 start-->
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Section Header">
+          <!-- default triangle disclosure image will not be shown -->
+          <property name="disclosure.collapseImageSrc" value="@{#ConfigProperties['application.url']}/images/collapse-black.png"/>
+          <property name="disclosure.expandImageSrc" value="@{#ConfigProperties['application.url']}/images/expand-black.png"/>
+
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField13"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField14"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Disclosure-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-Disclosure-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Disclosure-Example6 start-->
+        <bean parent="Uif-VerticalBoxSection" p:headerText="Disclosure Section (ajax retrieval)">
+          <!-- property to activate disclosure -->
+          <property name="disclosure.render" value="true"/>
+          <property name="disclosure.defaultOpen" value="false"/>
+          <property name="disclosure.ajaxRetrievalWhenOpened" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField15"/>
+              <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField16"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-Disclosure-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

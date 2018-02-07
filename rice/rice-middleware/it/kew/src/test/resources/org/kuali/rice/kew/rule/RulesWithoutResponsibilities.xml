@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<!-- Some test responsibility-less rules based on those from "RouteTemplateConfig.xml" -->
+		<rule>
+			<name>NoResponsibilitiesRule1</name>
+			<documentType>RiceDocument.RuleDocument</documentType>
+			<description>A rule with no responsibilities</description>
+			<forceAction>false</forceAction>
+		</rule>
+		<rule>
+			<name>NoResponsibilitiesRule2</name>
+			<documentType>RiceDocument.child1</documentType>
+			<description>Another rule without responsibilities</description>
+			<forceAction>false</forceAction>
+		</rule>
+		<rule>
+			<name>NoResponsibilitiesRule3</name>
+			<documentType>RiceDocument.child1child</documentType>
+			<description>A third rule lacking responsibilities</description>
+			<forceAction>false</forceAction>
+		</rule>
+		<!-- Some test group responsibility rules based on those from "RouteTemplateConfig.xml" -->
+		<rule>
+			<name>GroupRespRule1</name>
+			<documentType>RiceDocument.RuleDocument</documentType>
+			<description>A rule with a group responsibility</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">TestWorkgroup</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>GroupRespRule2</name>
+			<documentType>RiceDocument.child1</documentType>
+			<description>Another rule with a group responsibility</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">NonSIT</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>GroupRespRule3</name>
+			<documentType>RiceDocument.child1child</documentType>
+			<description>A third rule with a group responsibility</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<groupName namespace="KR-WKFLW">TestWorkgroup</groupName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

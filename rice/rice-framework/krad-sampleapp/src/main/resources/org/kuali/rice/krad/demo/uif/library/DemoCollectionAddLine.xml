@@ -1,0 +1,137 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- CollectionAddLine demo -->
+  <bean id="Demo-CollectionAddLine-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoCollectionAddLine.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.container.CollectionGroup"/>
+    <property name="docBookAnchor" value="d6813e8513"/>
+    <property name="exampleSize" value="LARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-CollectionAddLine-Example1"/>
+        <ref bean="Demo-CollectionAddLine-Example2"/>
+        <ref bean="Demo-CollectionAddLine-Example3"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- CollectionAddLine -->
+  <bean id="Demo-CollectionAddLine-Example1"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CollectionAddLine-Example1 start-->
+        <bean parent="Uif-Disclosure-TableCollectionSection">
+          <property name="headerText" value="Default Add Line" />
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject" />
+          <property name="propertyName" value="collection1" />
+          <property name="layoutManager.generateAutoSequence" value="true" />
+          <property name="layoutManager.richTable.render" value="true" />
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-CollectionAddLine-Example1 start-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- CollectionAddLine Lightbox-->
+  <bean id="Demo-CollectionAddLine-Example2"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CollectionAddLine-Example2 start-->
+        <bean parent="Uif-Disclosure-TableCollectionSection">
+          <property name="headerText" value="Add Via Lightbox Top" />
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject" />
+          <property name="propertyName" value="collection1_2" />
+          <property name="layoutManager.generateAutoSequence" value="true" />
+          <property name="layoutManager.richTable.render" value="true" />
+          <!--  addViaLightBox flag -->
+          <property name="addViaLightBox" value="true" />
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"/>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Disclosure-TableCollectionSection">
+          <property name="headerText" value="Add Via Lightbox Bottom" />
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject" />
+          <property name="propertyName" value="collection1_3" />
+          <property name="layoutManager.generateAutoSequence" value="true" />
+          <property name="layoutManager.richTable.render" value="true" />
+          <property name="addViaLightBox" value="true" />
+          <!--  addLinePlacement flag setting placement-->
+          <property name="addLinePlacement" value="BOTTOM" />
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-CollectionAddLine-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- CollectionAddLine Blank Line-->
+  <bean id="Demo-CollectionAddLine-Example3"  parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-CollectionAddLine-Example3 start-->
+        <bean parent="Uif-Disclosure-TableCollectionSection">
+          <property name="headerText" value="Add Blank Line" />
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject" />
+          <property name="propertyName" value="collection1_4" />
+          <property name="layoutManager.generateAutoSequence" value="true" />
+          <property name="layoutManager.richTable.render" value="true" />
+          <!--  renderAddBlankLineButton flag -->
+          <property name="renderAddBlankLineButton" value="true" />
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-CollectionAddLine-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+
+
+</beans>

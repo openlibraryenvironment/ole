@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <formView-bean entryPageId="Demo-CollectionGrouping-Page"
+                 formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm" headertext="Collection Grouping"
+                 id="Demo-CollectionGrouping">
+    <theme>
+      <kradTheme-bean/>
+    </theme>
+    <footer>
+      <formFooter-bean/>
+    </footer>
+    <items>
+      <page-bean id="Demo-CollectionGrouping-Page">
+        <items>
+          <spring:ref bean="Demo-CollectionGrouping-Section1"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section5"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section6"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section7"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section8"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section9"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section2"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section3"/>
+          <spring:ref bean="Demo-CollectionGrouping-Section4"/>
+        </items>
+      </page-bean>
+    </items>
+  </formView-bean>
+  <tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                               headertext="Basic Grouping" id="Demo-CollectionGrouping-Section1"
+                               layoutManager.renderSequenceField="false" propertyName="groupedList1" readOnly="true">
+    <spring:property name="layoutManager.groupingPropertyNames">
+      <spring:list>
+        <spring:value>field1</spring:value>
+      </spring:list>
+    </spring:property>
+    <items>
+      <inputField-bean label="Value 1" propertyName="field2"/>
+      <inputField-bean label="Value 2" propertyName="field3"/>
+      <inputField-bean label="Value 3" propertyName="field4"/>
+      <inputField-bean label="Group Value" propertyName="field1"/>
+    </items>
+  </tableCollectionSection-bean>
+  <collectionGroup-bean headertext="Basic Grouping with Totaling" id="Demo-CollectionGrouping-Section5"
+                        parent="Demo-CollectionGrouping-Section1">
+    <spring:property name="layoutManager.columnCalculations">
+      <spring:list>
+        <columnCalculationInfo-sum-bean propertyName="field2" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field3" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field4" showGroupTotal="true"/>
+      </spring:list>
+    </spring:property>
+  </collectionGroup-bean>
+  <collectionGroup-bean headertext="Basic Grouping with Totaling - Label left" id="Demo-CollectionGrouping-Section6"
+                        layoutManager.renderOnlyLeftTotalLabels="true" layoutManager.showGroupTotal="true"
+                        parent="Demo-CollectionGrouping-Section1">
+    <spring:property name="layoutManager.columnCalculations">
+      <spring:list>
+        <columnCalculationInfo-sum-bean propertyName="field2" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field3" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field4" showGroupTotal="true"/>
+      </spring:list>
+    </spring:property>
+    <items>
+      <inputField-bean label="Group Value" propertyName="field1"/>
+      <inputField-bean label="Value 1" propertyName="field2"/>
+      <inputField-bean label="Value 2" propertyName="field3"/>
+      <inputField-bean label="Value 3" propertyName="field4"/>
+    </items>
+  </collectionGroup-bean>
+  <collectionGroup-bean headertext="Basic Grouping with Totaling - Label left, total same column"
+                        id="Demo-CollectionGrouping-Section7" layoutManager.renderOnlyLeftTotalLabels="true"
+                        layoutManager.showGroupTotal="true" parent="Demo-CollectionGrouping-Section1">
+    <spring:property name="layoutManager.columnCalculations">
+      <spring:list>
+        <columnCalculationInfo-sum-bean propertyName="field2" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field3" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field4" showGroupTotal="true"/>
+      </spring:list>
+    </spring:property>
+    <items>
+      <inputField-bean label="Value 1" propertyName="field2"/>
+      <inputField-bean label="Value 2" propertyName="field3"/>
+      <inputField-bean label="Value 3" propertyName="field4"/>
+    </items>
+  </collectionGroup-bean>
+  <tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                               headertext="Multi-field grouping" id="Demo-CollectionGrouping-Section2"
+                               instructionalText="Multi-field grouping (grouping on multiple fields)       WITH multiple calculation types"
+                               layoutManager.renderSequenceField="false" propertyName="doubleGroupedList"
+                               readOnly="true">
+    <spring:property name="layoutManager.columnCalculations">
+      <spring:list>
+        <columnCalculationInfo-sum-bean propertyName="field4" showGroupTotal="true"/>
+        <columnCalculationInfo-max-bean propertyName="field4" showGroupTotal="true"/>
+      </spring:list>
+    </spring:property>
+    <spring:property name="layoutManager.groupingPropertyNames">
+      <spring:list>
+        <spring:value>field2</spring:value>
+        <spring:value>field1</spring:value>
+      </spring:list>
+    </spring:property>
+    <items>
+      <inputField-bean label="Semester" propertyName="field1"/>
+      <inputField-bean label="Year" propertyName="field2"/>
+      <inputField-bean label="Course" propertyName="field3"/>
+      <inputField-bean label="Credits" propertyName="field4"/>
+    </items>
+  </tableCollectionSection-bean>
+  <tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                               headertext="No Grouping Field Shown" id="Demo-CollectionGrouping-Section3"
+                               instructionalText="Grouping with totals for the third column only -       grouping field not shown on purpose"
+                               layoutManager.renderSequenceField="false" propertyName="groupedList2" readOnly="true">
+    <spring:property name="layoutManager.columnCalculations">
+      <spring:list>
+        <columnCalculationInfo-sum-bean propertyName="field4" showGroupTotal="true"/>
+      </spring:list>
+    </spring:property>
+    <spring:property name="layoutManager.groupingPropertyNames">
+      <spring:list>
+        <spring:value>field1</spring:value>
+      </spring:list>
+    </spring:property>
+    <items>
+      <inputField-bean label="Value 1" propertyName="field2"/>
+      <inputField-bean label="Value 2" propertyName="field3"/>
+      <inputField-bean label="Value 3" propertyName="field4"/>
+    </items>
+  </tableCollectionSection-bean>
+  <tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.UITestObject"
+                               headertext="Grouping with Adding and Totaling" id="Demo-CollectionGrouping-Section4"
+                               instructionalText="Grouping with Totals on all columns and allowing the group     field in addLine - note that the field that the collection is grouped on becomes readOnly after add -     this is one recommended KRAD pattern"
+                               layoutManager.renderSequenceField="false" propertyName="groupedList3"
+                               renderAddLine="true">
+    <spring:property name="layoutManager.columnCalculations">
+      <spring:list>
+        <columnCalculationInfo-sum-bean propertyName="field2" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field3" showGroupTotal="true"/>
+        <columnCalculationInfo-sum-bean propertyName="field4" showGroupTotal="true"/>
+      </spring:list>
+    </spring:property>
+    <spring:property name="layoutManager.groupingPropertyNames">
+      <spring:list>
+        <spring:value>field1</spring:value>
+      </spring:list>
+    </spring:property>
+    <items>
+      <inputField-bean label="Value 1" propertyName="field2"/>
+      <inputField-bean label="Value 2" propertyName="field3"/>
+      <inputField-bean label="Value 3" propertyName="field4"/>
+      <inputField-bean label="Group" propertyName="field1" readOnly="@{!#isAddLine}" required="true"/>
+    </items>
+  </tableCollectionSection-bean>
+  <collectionGroup-bean headertext="Grouping using Grouping prefix option" id="Demo-CollectionGrouping-Section8"
+                        layoutManager.groupingPrefix="Lines with value " parent="Demo-CollectionGrouping-Section1"/>
+  <collectionGroup-bean headertext="Grouping using custom groupingTitle" id="Demo-CollectionGrouping-Section9"
+                        instructionalText="When a groupingTitle is used groupingPropertyNames and groupingPrefix     are ignored.  This option gives full control of the grouping title to the dev but REQUIRES springEL     as part of the title."
+                        layoutManager.groupingTitle="Letter @{#lp.field1} in item"
+                        parent="Demo-CollectionGrouping-Section1"/>
+</spring:beans>

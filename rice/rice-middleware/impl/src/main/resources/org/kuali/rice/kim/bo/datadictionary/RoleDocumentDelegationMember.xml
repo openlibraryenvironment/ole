@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DocDelegationMember" parent="DocDelegationMember-parentBean"/>
+
+  <bean id="DocDelegationMember-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember" p:titleAttribute="delegationMemberId" p:objectLabel="Delegation Members">
+    <property name="attributes">
+      <list>
+        <ref bean="DocDelegationMember-delegationMemberId"/>
+        <ref bean="DocDelegationMember-roleMemberId"/>
+        <ref bean="DocDelegationMember-memberId"/>
+        <ref bean="DocDelegationMember-memberTypeCode"/>
+        <ref bean="DocDelegationMember-delegationTypeCode"/>
+        <ref bean="DocDelegationMember-memberNamespaceCode"/>
+        <ref bean="DocDelegationMember-memberName"/>
+        <ref bean="DocDelegationMember-activeFromDate"/>
+        <ref bean="DocDelegationMember-activeToDate"/>
+      </list>
+    </property>
+    
+  </bean>
+ 
+   <bean id="DocDelegationMember-delegationMemberId" parent="DocDelegationMember-delegationMemberId-parentBean"/>
+  <bean id="DocDelegationMember-delegationMemberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="delegationMemberId" p:forceUppercase="true" p:label="Delegation Member Identifier" p:shortLabel="Delegation Member Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="DocDelegationMember-roleMemberId" parent="DocDelegationMember-roleMemberId-parentBean"/>
+  <bean id="DocDelegationMember-roleMemberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleMemberId" p:forceUppercase="true" p:label="Role Member" p:shortLabel="Role Member" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="DocDelegationMember-memberId" parent="DocDelegationMember-memberId-parentBean"/>
+  <bean id="DocDelegationMember-memberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberId" p:forceUppercase="true" p:label="Member Identifier" p:shortLabel="Member Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
+  <bean id="DocDelegationMember-memberTypeCode" parent="DocDelegationMember-memberTypeCode-parentBean"/>
+  <bean id="DocDelegationMember-memberTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberTypeCode" p:forceUppercase="true" p:label="Member Type Code" p:shortLabel="Type Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kim.bo.options.MemberTypeValuesFinder"/>
+    </property>
+  </bean>
+
+  <bean id="DocDelegationMember-delegationTypeCode" parent="DocDelegationMember-delegationTypeCode-parentBean"/>
+  <bean id="DocDelegationMember-delegationTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="delegationTypeCode" p:forceUppercase="true" p:label="Delegation Type Code" p:shortLabel="Delegation Type Code" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kim.lookup.valuefinder.DelegationTypeValuesFinder"/>
+    </property>
+  </bean>
+
+  <bean id="DocDelegationMember-memberNamespaceCode" parent="DocDelegationMember-memberNamespaceCode-parentBean"/>
+  <bean id="DocDelegationMember-memberNamespaceCode-parentBean" parent="KimAttributes-namespaceCode" abstract="true" p:name="memberNamespaceCode" p:required="false" p:label="Member Namespace Code"/>
+
+  <bean id="DocDelegationMember-memberName" parent="DocDelegationMember-memberName-parentBean"/>
+  <bean id="DocDelegationMember-memberName-parentBean" parent="AttributeDefinition" abstract="true" p:name="memberName" p:forceUppercase="true" p:label="Member Name" p:shortLabel="Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+            
+  <bean id="DocDelegationMember-activeFromDate" parent="DocDelegationMember-activeFromDate-parentBean"/>
+  <bean id="DocDelegationMember-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+    <property name="label" value="Active From Date"/>
+    <property name="shortLabel" value="Active From Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+
+  <bean id="DocDelegationMember-activeToDate" parent="DocDelegationMember-activeToDate-parentBean"/>
+  <bean id="DocDelegationMember-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    <property name="name" value="activeToDate"/>
+    <property name="label" value="Active To Date"/>
+    <property name="shortLabel" value="Active To Dt"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+
+</beans>

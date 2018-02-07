@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+  <bean id="Uif-ContentElementBase" abstract="true" parent="Uif-ContentElementBase-parentBean"/>
+  <bean id="Uif-ContentElementBase-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.element.ContentElementBase">
+    <property name="readOnly" value="@{#parent.readOnly}"/>
+  </bean>
+
+  <bean id="Uif-ValidationMessagesBase" parent="Uif-ValidationMessagesBase-parentBean"/>
+  <bean id="Uif-ValidationMessagesBase-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.element.ValidationMessages"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/validationMessages.ftl"/>
+    <property name="templateName" value="uif_validationMessages"/>
+    <!--By default not displayed - all display is handled by the framework - do not change-->
+    <property name="style" value="display: none;"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-validationMessages</value>
+      </list>
+    </property>
+    <property name="displayMessages" value="true"/>
+    <property name="validationDataDefaults">
+      <map>
+        <entry key="summarize" value="true"/>
+        <entry key="displayMessages" value="true"/>
+        <entry key="collapseFieldMessages" value="true"/>
+        <entry key="showPageSummaryHeader" value="true"/>
+
+        <entry key="displayLabel" value="true"/>
+        <entry key="displayHeaderSummary" value="true"/>
+        <entry key="hasOwnMessages" value="false"/>
+        <entry key="pageLevel" value="false"/>
+        <entry key="forceShow" value="false"/>
+        <entry key="serverErrors" value="[]"/>
+        <entry key="serverWarnings" value="[]"/>
+        <entry key="serverInfo" value="[]"/>
+        <entry key="serverErrors" value="[]"/>
+      </map>
+    </property>
+  </bean>
+
+
+  <util:map id="Uif-GroupValidationMessages-DataDefaults">
+    <entry key="summarize" value="true"/>
+    <entry key="displayMessages" value="true"/>
+    <entry key="collapseFieldMessages" value="true"/>
+    <entry key="showPageSummaryHeader" value="true"/>
+    <entry key="displayLabel" value="true"/>
+    <entry key="displayHeaderSummary" value="true"/>
+    <entry key="hasOwnMessages" value="false"/>
+    <entry key="pageLevel" value="false"/>
+    <entry key="forceShow" value="false"/>
+    <entry key="isTableCollection" value="false"/>
+    <entry key="order" value="[]"/>
+    <entry key="sections" value="[]"/>
+    <entry key="errors" value="[]"/>
+    <entry key="warnings" value="[]"/>
+    <entry key="info" value="[]"/>
+    <entry key="serverErrors" value="[]"/>
+    <entry key="serverWarnings" value="[]"/>
+    <entry key="serverInfo" value="[]"/>
+  </util:map>
+
+  <util:map id="Uif-FieldValidationMessages-DataDefaults">
+    <entry key="displayMessages" value="true"/>
+    <entry key="useTooltip" value="true"/>
+    <entry key="messagingEnabled" value="true"/>
+    <entry key="hasOwnMessages" value="false"/>
+    <entry key="showIcons" value="false"/>
+    <entry key="errors" value="[]"/>
+    <entry key="warnings" value="[]"/>
+    <entry key="info" value="[]"/>
+    <entry key="serverErrors" value="[]"/>
+    <entry key="serverWarnings" value="[]"/>
+    <entry key="serverInfo" value="[]"/>
+  </util:map>
+
+  <bean id="Uif-FieldValidationMessages" parent="Uif-FieldValidationMessages-parentBean"/>
+  <bean id="Uif-FieldValidationMessages-parentBean" parent="Uif-ValidationMessagesBase"
+        class="org.kuali.rice.krad.uif.element.FieldValidationMessages">
+    <property name="useTooltip" value="true"/>
+    <property name="showIcons" value="false"/>
+  </bean>
+
+  <bean id="Uif-GroupValidationMessages" parent="Uif-GroupValidationMessages-parentBean"/>
+  <bean id="Uif-GroupValidationMessages-parentBean" parent="Uif-ValidationMessagesBase"
+        class="org.kuali.rice.krad.uif.element.GroupValidationMessages">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-groupValidationMessages</value>
+      </list>
+    </property>
+    <property name="displayFieldLabelWithMessages" value="true"/>
+    <property name="collapseAdditionalFieldLinkMessages" value="true"/>
+    <property name="displayHeaderMessageSummary" value="true"/>
+  </bean>
+
+  <bean id="Uif-PageValidationMessages" parent="Uif-PageValidationMessages-parentBean"/>
+  <bean id="Uif-PageValidationMessages-parentBean" parent="Uif-GroupValidationMessages"
+        class="org.kuali.rice.krad.uif.element.PageValidationMessages">
+    <property name="displayHeaderMessageSummary" value="false"/>
+    <property name="showPageSummaryHeader" value="true"/>
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-pageValidationMessages</value>
+      </list>
+    </property>
+    <property name="additionalKeysToMatch">
+      <list>
+        <value>GLOBAL_ERRORS</value>
+        <value>GLOBAL_WARNINGS</value>
+        <value>GLOBAL_INFO</value>
+        <!-- TODO: take this out once KNS is removed and the KRADConstant can be fixed -->
+        <value>GlobalMessages</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-Iframe" parent="Uif-Iframe-parentBean"/>
+  <bean id="Uif-Iframe-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Iframe"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/iframe.ftl"/>
+    <property name="templateName" value="uif_iframe"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-iFrame</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-Image" parent="Uif-Image-parentBean"/>
+  <bean id="Uif-Image-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Image"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/image.ftl"/>
+    <property name="templateName" value="uif_image"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-image</value>
+      </list>
+    </property>
+    <property name="captionHeaderPlacementAboveImage" value="true"/>
+  </bean>
+
+  <bean id="Uif-ImageCaptionHeader" parent="Uif-ImageCaptionHeader-parentBean"/>
+  <bean id="Uif-ImageCaptionHeader-parentBean" abstract="true" parent="Uif-HeaderFour"/>
+
+  <bean id="Uif-ImageCutineMessage" parent="Uif-ImageCutineMessage-parentBean"/>
+  <bean id="Uif-ImageCutineMessage-parentBean" abstract="true" parent="Uif-Message">
+    <property name="cssClasses" value="uif-cutlineMessage"/>
+  </bean>
+
+  <bean id="Uif-Label" parent="Uif-Label-parentBean"/>
+  <bean id="Uif-Label-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Label"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/label.ftl"/>
+    <property name="templateName" value="uif_label"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-label</value>
+      </list>
+    </property>
+    <property name="requiredMessage">
+      <bean parent="Uif-RequiredMessage" p:render="false"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-Link" parent="Uif-Link-parentBean"/>
+  <bean id="Uif-Link-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Link"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/link.ftl"/>
+    <property name="templateName" value="uif_link"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-link</value>
+      </list>
+    </property>
+    <property name="target" value="_self"/>
+  </bean>
+
+  <bean id="Uif-Space" parent="Uif-Space-parentBean"/>
+  <bean id="Uif-Space-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Space"
+        parent="Uif-ContentElementBase" scope="prototype">
+  </bean>
+
+  <bean id="Uif-DataTable" parent="Uif-DataTable-parentBean"/>
+  <bean id="Uif-DataTable-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.DataTable"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/dataTable.ftl"/>
+    <property name="templateName" value="uif_dataTable"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-tableCollectionLayout</value>
+        <value>uif-dataTable</value>
+      </list>
+    </property>
+    <property name="richTable">
+      <bean parent="Uif-PagedRichTable">
+        <property name="templateOptions">
+          <map merge="true">
+            <entry key="bRetrieve" value="true"/>
+            <entry key="bDeferRender" value="true"/>
+            <entry key="bAutoWidth" value="false"/>
+            <entry key="bProcessing" value="true"/>
+            <entry key="bScrollCollapse" value="true"/>
+            <entry key="bStateSave" value="true"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="Uif-Action" parent="Uif-Action-parentBean"/>
+  <bean id="Uif-Action-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Action"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/action.ftl"/>
+    <property name="templateName" value="uif_action"/>
+    <property name="focusOnIdAfterSubmit" value="SELF"/>
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-action</value>
+      </list>
+    </property>
+    <property name="loadingMessageText" value="Loading..."/>
+  </bean>
+
+  <bean id="Uif-ActionImage" parent="Uif-ActionImage-parentBean"/>
+  <bean id="Uif-ActionImage-parentBean" abstract="true" parent="Uif-Action">
+    <property name="libraryCssClasses">
+      <list/>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-actionImage</value>
+      </list>
+    </property>
+    <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+  </bean>
+
+  <bean id="Uif-PrimaryActionButton" parent="Uif-PrimaryActionButton-parentBean"/>
+  <bean id="Uif-PrimaryActionButton-parentBean" abstract="true" parent="Uif-Action">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-primary</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-primaryActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SecondaryActionButton" parent="Uif-SecondaryActionButton-parentBean"/>
+  <bean id="Uif-SecondaryActionButton-parentBean" abstract="true" parent="Uif-Action">
+    <property name="cssClasses">
+      <list>
+        <value>uif-secondaryActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-PrimaryActionButton-Small" parent="Uif-PrimaryActionButton-Small-parentBean"/>
+  <bean id="Uif-PrimaryActionButton-Small-parentBean" abstract="true" parent="Uif-PrimaryActionButton">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-small</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-smallActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SecondaryActionButton-Small" parent="Uif-SecondaryActionButton-Small-parentBean"/>
+  <bean id="Uif-SecondaryActionButton-Small-parentBean" abstract="true" parent="Uif-SecondaryActionButton">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-small</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-smallActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-PrimaryActionButton-Mini" parent="Uif-PrimaryActionButton-Mini-parentBean"/>
+  <bean id="Uif-PrimaryActionButton-Mini-parentBean" abstract="true" parent="Uif-PrimaryActionButton">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-mini</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-miniActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SecondaryActionButton-Mini" parent="Uif-SecondaryActionButton-Mini-parentBean"/>
+  <bean id="Uif-SecondaryActionButton-Mini-parentBean" abstract="true" parent="Uif-SecondaryActionButton">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-mini</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-miniActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-PrimaryActionButton-Large" parent="Uif-PrimaryActionButton-Large-parentBean"/>
+  <bean id="Uif-PrimaryActionButton-Large-parentBean" abstract="true" parent="Uif-PrimaryActionButton">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-large</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-largeActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SecondaryActionButton-Large" parent="Uif-SecondaryActionButton-Large-parentBean"/>
+  <bean id="Uif-SecondaryActionButton-Large-parentBean" abstract="true" parent="Uif-SecondaryActionButton">
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-large</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-largeActionButton</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-ActionLink" parent="Uif-ActionLink-parentBean"/>
+  <bean id="Uif-ActionLink-parentBean" abstract="true" parent="Uif-Action" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/actionLink.ftl"/>
+    <property name="templateName" value="uif_actionLink"/>
+    <property name="libraryCssClasses">
+      <list/>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-actionLink</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- RECOMMENDED: Use the navigation action fields to scroll to the top of the page when a navigation completes
+  rather than to the element that initiated the navigation, for general use in Navigation menus and actions which
+  perform page navigation-->
+  <bean id="Uif-NavigationActionLink" parent="Uif-NavigationActionLink-parentBean"/>
+  <bean id="Uif-NavigationActionLink-parentBean" abstract="true" parent="Uif-ActionLink" scope="prototype">
+    <property name="libraryCssClasses">
+      <list/>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-navigationActionLink</value>
+      </list>
+    </property>
+    <property name="performDirtyValidation" value="true"/>
+    <property name="jumpToIdAfterSubmit" value="TOP"/>
+    <property name="focusOnIdAfterSubmit" value="FIRST"/>
+  </bean>
+
+  <bean id="Uif-NavigationActionButton" parent="Uif-NavigationActionButton-parentBean"/>
+  <bean id="Uif-NavigationActionButton-parentBean" abstract="true" parent="Uif-PrimaryActionButton" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-navigationActionButton</value>
+      </list>
+    </property>
+    <property name="performDirtyValidation" value="true"/>
+    <property name="jumpToIdAfterSubmit" value="TOP"/>
+    <property name="focusOnIdAfterSubmit" value="FIRST"/>
+  </bean>
+
+  <bean id="Uif-SecondaryNavigationActionButton" parent="Uif-SecondaryNavigationActionButton-parentBean"/>
+  <bean id="Uif-SecondaryNavigationActionButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton"
+        scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-navigationActionButton</value>
+      </list>
+    </property>
+    <property name="performDirtyValidation" value="true"/>
+    <property name="jumpToIdAfterSubmit" value="TOP"/>
+    <property name="focusOnIdAfterSubmit" value="FIRST"/>
+  </bean>
+
+  <bean id="Uif-Message" parent="Uif-Message-parentBean"/>
+  <bean id="Uif-Message-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Message"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/message.ftl"/>
+    <property name="templateName" value="uif_message"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-message</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-InstructionalMessage" parent="Uif-InstructionalMessage-parentBean"/>
+  <bean id="Uif-InstructionalMessage-parentBean" abstract="true" parent="Uif-Message" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-instructionalMessage</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-ConstraintMessage" parent="Uif-ConstraintMessage-parentBean"/>
+  <bean id="Uif-ConstraintMessage-parentBean" abstract="true" parent="Uif-Message" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-constraintMessage</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-RequiredMessage" parent="Uif-RequiredMessage-parentBean"/>
+  <bean id="Uif-RequiredMessage-parentBean" abstract="true" parent="Uif-Message" scope="prototype"
+        p:messageText="*">
+    <property name="cssClasses">
+      <list>
+        <value>uif-requiredMessage</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-RequiredInstructionsMessage" parent="Uif-Message" p:messageText="* indicates required field">
+    <property name="cssClasses">
+      <list>
+        <value>uif-requiredInstructionsMessage</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-StateBased-RequiredInstructionsMessage" parent="Uif-Message"
+        p:messageText="* indicates required field.&lt;br&gt;** indicates required for next state.">
+    <property name="cssClasses">
+      <list>
+        <value>uif-requiredInstructionsMessage</value>
+      </list>
+    </property>
+  </bean>
+
+</beans>

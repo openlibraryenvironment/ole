@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>KualiMaintenanceDocument</name>
+			<description>KualiMaintenanceDocument</description>
+			<label>KualiMaintenanceDocument</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<!--  below will make the parser blow chunks if white space is not handled correctly -->
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<active>true</active>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+				</start>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+
+     <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+		<ruleAttribute>
+			<name>KualiOrgReviewAttribute</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>KualiOrgReviewAttribute</label>
+			<description>KualiOrgReviewAttribute</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="testAttr" title="testAttr" workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<!-- enforce attrib-level validation -->
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-before(//testAttr, ' ')) = wf:ruledata('testAttr')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlDocumentContent>
+					<department>%testAttr%</department>
+				</xmlDocumentContent>
+			</routingConfig>
+		</ruleAttribute>
+
+
+	</ruleAttributes>
+
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+                 xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+
+    <ruleTemplate allowOverwrite="ture">
+      <name>KualiOrgReviewTemplate1</name>
+      <description>KualiOrgReviewTemplate</description>
+      <attributes>
+        <attribute>
+          <name>KualiOrgReviewAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+  </ruleTemplates>
+
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType> KualiMaintenanceDocument </documentType>
+			<ruleTemplate> KualiOrgReviewTemplate1 </ruleTemplate>
+			<description>org rule</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute> KualiOrgReviewAttribute </attribute>
+					<ruleTemplate> KualiOrgReviewTemplate1 </ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>fin_coa_cd</key>
+							<value>KU</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>org_cd</key>
+							<value>KOOL</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user> bmcgough </user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

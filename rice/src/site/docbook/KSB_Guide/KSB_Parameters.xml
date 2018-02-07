@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_Parameters" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>KSB Parameters</title>
+
+    <para>Here is a comprehensive set of configuration parameters used to
+    configure the Kuali Service Bus.</para>
+
+    <section>
+      <title>Core Parameters</title>
+
+      <para><table frame="none" tabstyle="striped">
+          <title>Core Parameters</title>
+
+          <tgroup cols="3">
+            <colspec colname="c1" colnum="1" colwidth="0.9*"/>
+
+            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+            <colspec colname="c3" colnum="3" colwidth="0.6*"/>
+
+            <thead>
+              <row>
+                <entry>Core</entry>
+
+                <entry>Description</entry>
+
+                <entry>Default</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>serviceServletUrl</entry>
+
+                <entry>URL that maps to the KSB Servlet. It handles incoming
+                requests from the service bus.</entry>
+
+                <entry>${application.url}/remoting/</entry>
+              </row>
+
+              <row>
+                <entry>rice.ksb.config.allowSelfSignedSSL</entry>
+
+                <entry>Indicates if self-signed certificates are permitted for
+                https communication on the service bus</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>application.id</entry>
+
+                <entry>Application identifier for client application</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>keystore.file</entry>
+
+                <entry>Path to the keystore file to use for security</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>keystore.alias</entry>
+
+                <entry>Alias of the standalone server's key</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>keystore.password</entry>
+
+                <entry>Password to access the keystore and the server's
+                key</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>ksb.mode</entry>
+
+                <entry>Mode in which to load the KSB module</entry>
+
+                <entry>local</entry>
+              </row>
+
+              <row>
+                <entry>ksb.url</entry>
+
+                <entry>The URL of the KSB web application</entry>
+
+                <entry>${application.url}/ksb</entry>
+              </row>
+
+              <row>
+                <entry>rice.ksb.struts.config.files</entry>
+
+                <entry>The file that defines the struts context for the KRice
+                KSB struts module</entry>
+
+                <entry>/ksb/WEB-INF/struts-config.xml</entry>
+              </row>
+
+              <row>
+                <entry>dev.mode</entry>
+
+                <entry>If <emphasis role="italic">true</emphasis>, application
+                will not publish or consume services from the central service
+                registry, but will maintain a local copy of the registry. This
+                is intended only for client application development
+                purposes.</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>bam.enabled</entry>
+
+                <entry><para>If <emphasis role="italic">true</emphasis>, will
+                monitor and log the service calls made and general business
+                activity performed to the database. </para><para><emphasis
+                role="italic">Recommendation</emphasis>: Enable this only for
+                testing purposes, as there is a significant performance impact
+                when enabled.</para></entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>message.persistence</entry>
+
+                <entry>If <emphasis role="italic">true</emphasis>, messages
+                are stored in the database until sent. If <emphasis
+                role="italic">false</emphasis>, they are stored in
+                memory.</entry>
+
+                <entry>true</entry>
+              </row>
+
+              <row>
+                <entry>message.delivery</entry>
+
+                <entry>Specifies whether messages are sent synchronously are
+                asynchronously. Valid values are <emphasis
+                role="italic">synchronous</emphasis> or <emphasis
+                role="italic">async</emphasis></entry>
+
+                <entry>async</entry>
+              </row>
+
+              <row>
+                <entry>message.off</entry>
+
+                <entry>If set to <emphasis role="italic">true</emphasis>, then
+                messages will not be sent but will instead pile up in the
+                message queue. Intended for development and debugging purposes
+                only.</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>Routing.ImmediateExceptionRouting</entry>
+
+                <entry>If <emphasis role="italic">true</emphasis>, messages
+                will go immediately to exception routing if they fail, rather
+                than being retried</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>RouteQueue.maxRetryAttempts</entry>
+
+                <entry>Default number of times to retry messages that fail to
+                be delivered successfully.</entry>
+
+                <entry>5</entry>
+              </row>
+
+              <row>
+                <entry>RouteQueue.maxRetryAttemptsOverride</entry>
+
+                <entry>If set, will override the max retry setting for ALL
+                services, even if they have their own custom retry
+                setting.</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>ksb.org.quartz.*</entry>
+
+                <entry>Can define any property beginning with <emphasis
+                role="italic">ksb.org.quartz</emphasis> and it will be passed
+                to the internal KSB quartz configuration as a property
+                beginning with <emphasis role="italic">org.quartz</emphasis>
+                (more details below)</entry>
+
+                <entry/>
+              </row>
+
+              <row>
+                <entry>useQuartzDatabase</entry>
+
+                <entry>If <emphasis role="italic">true</emphasis>, then Quartz
+                scheduler in Rice will use a database-backed job store; if
+                <emphasis role="italic">false</emphasis>, then jobs will be
+                stored in memory</entry>
+
+                <entry>true</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+
+      <section>
+        <title>serviceServletUrl</title>
+
+        <para>The URL that resolves to the KSB servlet that handles incoming
+        requests from the service bus. All services exported onto the service
+        bus use this value to construct their endpoint URLs when they are
+        published to the service registry. See section below on configuring
+        the <emphasis role="italic">KSBDispatcherServlet</emphasis>. This
+        parameter should point to the absolute URL of where that servlet is
+        mapped. It should include a trailing slash.</para>
+      </section>
+
+      <section>
+        <title>application.id</title>
+
+        <para>An identifier that indicates the name of the <emphasis
+        role="italic">logical</emphasis> node on the service bus. If the
+        application is running in a cluster, this should be the same for each
+        machine in the cluster. This is used for namespacing of services,
+        among other things. All services exported from the client application
+        onto the service bus use this value as their default namespace unless
+        otherwise specified.</para>
+      </section>
+
+      <section>
+        <title>keystore.file, keystore.alias, keystore.password</title>
+
+        <para>See the documentation below on keystore management.</para>
+      </section>
+
+      <section>
+        <title>ksb.mode</title>
+
+        <para>Mode in which to load the KSB module. Valid values are <emphasis
+        role="italic">local</emphasis> and <emphasis
+        role="italic">embedded</emphasis>. There is currently no difference in
+        how the KSB module loads based on these settings. It will always try
+        to load the KSB struts module if a <emphasis
+        role="italic">KualiActionServlet</emphasis> is configured.</para>
+      </section>
+
+      <section>
+        <title>ksb.url</title>
+
+        <para>The URL of the KSB web application screens</para>
+      </section>
+
+      <section>
+        <title>rice.ksb.struts.config.files</title>
+
+        <para>The file that defines the struts context for the KRice KSB
+        struts module. The struts module is loaded automatically if a
+        <emphasis role="italic">KualiActionServlet</emphasis> is configured in
+        the <emphasis role="italic">web.xml</emphasis>.</para>
+      </section>
+
+      <section>
+        <title>dev.mode</title>
+
+        <para>Indicates whether this node should export and consume services
+        from the entire service bus. If set to <emphasis
+        role="italic">false</emphasis>, then the machine will not register its
+        services in the global service registry. Instead, it can only consume
+        services that it has available locally. In addition to this, other
+        nodes on the service bus will not be able to "see" this node and will
+        therefore not forward any messages to it.</para>
+      </section>
+
+      <section>
+        <title>message.persistence</title>
+
+        <para>If <emphasis role="italic">true</emphasis>, then messages will
+        be persisted to the datastore. Otherwise, they will only be stored in
+        memory. If message persistence is not turned on and the server is
+        shutdown while there are still messages that need to be sent, those
+        messages will be lost. For a production environment, it is recommended
+        that message persistence be set to <emphasis
+        role="italic">true</emphasis>.</para>
+      </section>
+
+      <section>
+        <title>message.delivery</title>
+
+        <para>Can be set to either <emphasis
+        role="italic">synchronous</emphasis> or <emphasis
+        role="italic">async</emphasis>. If this is set to <emphasis
+        role="italic">synchronous</emphasis>, then messages that are sent in
+        an asynchronous fashion using the KSB API will instead be sent
+        synchronously. This is useful in certain development and unit testing
+        scenarios. For a production environment, it is recommended that
+        message delivery be set to <emphasis
+        role="italic">async</emphasis>.</para>
+      </section>
+
+      <section>
+        <title>message.off</title>
+
+        <para>If set to <emphasis role="italic">true</emphasis> then
+        asynchronous messages will not be sent. In the case that message
+        persistence is turned on, they will be persisted in the message store
+        and can even be picked up later using the Message Fetcher. However, if
+        message persistence is turned off, these messages will be lost. This
+        can be useful in certain debugging or testing scenarios.</para>
+      </section>
+
+      <section>
+        <title>RouteQueue.maxRetryAttempts</title>
+
+        <para>Sets the default number of retries that will be executed if a
+        message fails to be sent. This retry count can also be customized for
+        a specific service. (See Exposing Services on the Bus)</para>
+      </section>
+
+      <section>
+        <title>RouteQueue.timeIncrement</title>
+
+        <para>Sets the default time increment between retry attempts. As with
+        <emphasis role="italic">RouteQueue.maxRetryAttempts</emphasis> this
+        can also be configured at the service level.</para>
+      </section>
+
+      <section>
+        <title>RouteQueue.maxRetryAttemptsOverride</title>
+
+        <para>If set with a number, it will temporarily set the retry attempts
+        for ALL services going into exception routing. A good way to prevent
+        all messages in a node that is having trouble from making it to
+        exception routing is by setting the number arbitrarily high. The
+        <emphasis role="italic">message.off</emphasis> param does the same
+        thing.</para>
+      </section>
+
+      <section>
+        <title>Routing.ImmediateExceptionRouting</title>
+
+        <para>If set to <emphasis role="italic">true</emphasis>, then messages
+        that fail to be sent will not be re-tried. Instead their <emphasis
+        role="italic">MessageExceptionHandler</emphasis> will be invoked
+        immediately.</para>
+      </section>
+
+      <section>
+        <title>useQuartzDatabase</title>
+
+        <para>When using the embedded Quartz scheduler started by the KSB,
+        indicates whether that Quartz scheduler should store its entries in
+        the database. If this is <emphasis role="italic">true</emphasis>, then
+        the appropriate Quartz properties should be set as well (see
+        ksb.org.quartz.* below).</para>
+      </section>
+
+      <section>
+        <title>ksb.org.quartz.*</title>
+
+        <para>Can be used to pass Quartz properties to the embedded Quartz
+        scheduler. See the configuration documentation on the Quartz site.
+        Essentially, any property prefixed with <emphasis
+        role="bold">ksb.org.quartz</emphasis>. will have the "<emphasis
+        role="italic">ksb.</emphasis>" portion stripped and will be sent as
+        configuration parameters to the embedded Quartz scheduler.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>KSB Configurer Properties</title>
+
+      <para>In addition to the configuration parameters available in the KRice
+      configuration system, the <emphasis
+      role="italic">KSBConfigurer</emphasis> bean has some properties that can
+      be injected to configure it:</para>
+
+      <section>
+        <title>exceptionMessagingScheduler</title>
+
+        <para>By default, the KSB uses an embedded Quartz scheduler for
+        scheduling the retry of messages that fail to be sent. If desired, a
+        Quartz scheduler can instead be injected into the KSBConfigurer and it
+        will use that scheduler instead. See Quartz Scheduling for more
+        detail.</para>
+      </section>
+
+      <section>
+        <title>messageDataSource</title>
+
+        <para>Specifies the <emphasis
+        role="bold">javax.sql.DataSource</emphasis> to use for storing the
+        asynchronous message queue. If not specified, this defaults to the
+        DataSource injected into the RiceConfigurer.</para>
+
+        <para>If this DataSource is injected, then the registryDataSource must
+        also be injected, and vice-versa.</para>
+      </section>
+
+      <section>
+        <title>registryDataSource</title>
+
+        <para>Specifies the<emphasis role="bold">
+        javax.sql.DataSource</emphasis> to use for reading and writing from
+        the Service Registry. If not specified, this defaults to the
+        DataSource injected into the RiceConfigurer.</para>
+
+        <para>If this DataSource is injected, then the <emphasis
+        role="bold">messageDataSource</emphasis> must also be injected, and
+        vice-versa.</para>
+      </section>
+
+      <section>
+        <title>overrideServices</title>
+
+          <para>See <link linkend="KSB_AcqInvServices">Acquiring and invoking services</link></para>
+      </section>
+
+      <section>
+        <title>Services</title>
+
+          <para>See <link linkend="KSB_AcqInvServices">Acquiring and invoking services</link></para>
+      </section>
+    </section>
+</chapter>

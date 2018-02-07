@@ -1,0 +1,241 @@
+package org.kuali.rdv;
+
+import static org.junit.Assert.*;
+
+import org.kuali.rice.krad.datadictionary.validator.ErrorReport;
+import org.kuali.rice.krad.datadictionary.validator.Validator;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.junit.*;
+
+/**
+ * Based on rdv controller in order to validate generated xml without the need for startup
+ */
+
+public class RiceSpringBeansValidationTest {
+    private ArrayList<String> xmlFiles;
+    private ArrayList<ErrorReport> reports;
+
+    private Validator validator;
+
+    private int fileErrorStatus;
+    private boolean failOnWarnings;
+    private String filePath;
+
+    // Properties file to register defaults
+    private final String UTILITY_PROPERTIES_FILE_PATH = "rdv-config.properties";
+    private final Properties properties = new Properties();
+
+    // fileErrorStatus Values
+    public static final int NOT_RAN = 0;
+    public static final int PASSED = 1;
+    public static final int FAILED = -1;
+
+    /**
+     * Constructor initializing defaults into the global variables
+     */
+    @Before
+    public void setUp() {
+        xmlFiles = new ArrayList<String>();
+        reports = new ArrayList<ErrorReport>();
+
+        validator = new Validator();
+
+        try {
+            InputStream is = ClassLoader.getSystemResourceAsStream(UTILITY_PROPERTIES_FILE_PATH);
+            properties.load(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        fileErrorStatus = NOT_RAN;
+    }
+
+    /**
+     * Loads the file paths for the core bean files
+     *
+     * @return A list of file paths to the files holding the core bean definitions
+     */
+    private String[] loadCoreXmls() {
+
+        String files[] = ((String) properties.get("ricedictionaryvalidator.corefiles")).split(properties.getProperty(
+                "delimiter"));
+
+        return files;
+    }
+
+    private void loadBaseValidationXmls() {
+
+        String files[] = ((String) properties.get("ricedictionaryvalidator.xmlfiles")).split(properties.getProperty(
+                "delimiter"));
+        for (int i = 0; i < files.length; i++) {
+            if (files[i] != null && files[i].length() > 0) {
+                System.out.println("loading - " + files[i]);
+                addFile(files[i]);
+            }
+        }
+    }
+
+    /**
+     * Runs the validations on the core and registered bean files then outputs the results based on the user's settings
+     */
+    @Test
+    public void validate() {
+        ArrayList<String> fileList = new ArrayList<String>();
+
+        String coreList[] = loadCoreXmls();
+
+        for (int i = 0; i < coreList.length; i++) {
+            fileList.add(coreList[i]);
+        }
+
+        loadBaseValidationXmls();
+        fileList.addAll(xmlFiles);
+
+        String files[] = new String[fileList.size()];
+        files = fileList.toArray(files);
+
+        reports = new ArrayList<ErrorReport>();
+
+        validator = new Validator();
+        boolean passed = validator.validate(files, getFailOnWarning());
+        if (!passed) {
+            writeValidationResults(validator, passed);
+        }
+
+        assertTrue("validation did not pass", passed);
+    }
+
+    /**
+     * Sets the failOnWarning
+     *
+     * @param fail - Status of whether the validation should fail if warnings are detect.
+     */
+    public void setFailOnWarnings(boolean fail) {
+        failOnWarnings = fail;
+    }
+
+    /**
+     * Sets the filePath to save results to when outputting to a file
+     *
+     * @param path - The file to save the results too.
+     */
+    public void setFilePath(String path) {
+        filePath = path;
+    }
+
+    /**
+     * Gets a file from the list of xml files
+     *
+     * @param index - Index of the file to get
+     * @return File path to the xml file
+     */
+    public String getFile(int index) {
+        return xmlFiles.get(index);
+    }
+
+    /**
+     * Gets the number of files in list of xml files
+     *
+     * @return The number of xml files set to be validated.
+     */
+    public int getFileSize() {
+        return xmlFiles.size();
+    }
+
+    /**
+     * Gets the status of the validation
+     *
+     * @return The integer representation for the status
+     */
+    public int getFileErrorStatus() {
+        return fileErrorStatus;
+    }
+
+    /**
+     * Gets the failOnWarning setting
+     *
+     * @return The status of whether validation should fail on warning
+     */
+    public boolean getFailOnWarning() {
+        return failOnWarnings;
+    }
+
+    /**
+     * Gets the file path where results are saved to if saving them to a file
+     *
+     * @return The file path results are saved too.
+     */
+    public String getFilePath() {
+        return filePath;
+    }
+
+    /**
+     * Gets the number of errors found in the validation
+     *
+     * @return The number of errors found in the validation.
+     */
+    public int getNumberOfErrors() {
+        return validator.getNumberOfErrors();
+    }
+
+    /**
+     * Gets the number of warnings found in the validation
+     *
+     * @return The number of warnings found in the validation
+     */
+    public int getNumberOfWarnings() {
+        return validator.getNumberOfWarnings();
+    }
+
+    /**
+     * Adds a file path to the list of files to be validated
+     *
+     * @param file The file path of a bean xml file
+     */
+    public void addFile(String file) {
+        xmlFiles.add(file);
+    }
+
+    /**
+     * Removes a file from the list of files to be validated
+     *
+     * @param index - Index of the file.
+     */
+    public void removeFile(int index) {
+        xmlFiles.remove(index);
+    }
+
+    /**
+     * Compiles the error reports from the validation into the list kept by the RDVStandaloneController
+     *
+     * @param validator - The validator being used.
+     */
+    private void compileReports(Validator validator) {
+        for (int i = 0; i < validator.getErrorReportSize(); i++) {
+            reports.add(validator.getErrorReport(i));
+        }
+    }
+
+    protected void writeValidationResults(Validator validator, boolean passed) {
+        System.out.println("---");
+        System.out.println("Passed: " + passed);
+        System.out.println("Number of Errors: " + validator.getNumberOfErrors());
+        System.out.println("Number of Warnings: " + validator.getNumberOfWarnings());
+
+        for (int i = 0; i < validator.getErrorReportSize(); i++) {
+            if (validator.getErrorReport(i).getErrorStatus() == ErrorReport.ERROR) {
+                System.out.println("ERROR: " + validator.getErrorReport(i).errorMessage());
+            } else {
+                System.out.println("WARNING: " + validator.getErrorReport(i).errorMessage());
+            }
+        }
+
+        System.out.println("---");
+    }
+}

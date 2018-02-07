@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+		<edl name="StudentInitiatedDrop_xml" title="Student Initiated Drop">
+			<security>not sure what goes here...</security>
+			<eventNotificationURL>http://localhost:8080/en-dev/snoop.jsp</eventNotificationURL>
+			<createInstructions>** Fill out the Course Drop Request.</createInstructions>
+			<instructions>** Review the Course Drop Request.</instructions>
+			<fieldDef name="institutionTerm" title="Institution/Term">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>30</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="studentUID" title="Student UID">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>30</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="studentName" title="Student Name">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>30</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="lastName" title="Last Name">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>15</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="firstName" title="First Name">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>15</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="middleName" title="Middle Name">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>5</value>
+					</meta>
+				</display>
+			</fieldDef>
+			<fieldDef name="studentProgram" title="Student Program">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>30</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="courseToBeDropped" title="CourseToBeDropped">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>30</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="subject" title="Subject">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>10</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="catNum" title="Cat #">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>6</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="classNum" title="Class #">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>6</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="units" title="Units">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>10</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="relatedCourse1" title="Related Course #1">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>20</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef name="relatedCourse2" title="Related Course #2">
+				<value/>
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>20</value>
+					</meta>
+				</display>
+				<validation required="true"/>
+			</fieldDef>
+			<fieldDef attributeName="DepartmentAttribute" name="department" title="Department/School Offering Class">
+				<value>AFRI COAS</value>
+				<display>
+					<type>select</type>
+					<values title="COAS-African American/African Diaspora Studies">AAAD COAS</values>
+					<values title="COAS-African Studies">AFRI COAS</values>
+					<values title="COAS-American Studies">AMST COAS</values>
+					<values title="COAS-Ancient Studies">ANCS COAS</values>
+					<values title="COAS-Animal Behavior">ABEH COAS</values>
+					<values title="COAS-Anthropology">ANTH COAS</values>
+					<values title="COAS-Apparel Merchandising/Interior Design">AMID COAS</values>
+					<values title="COAS-Astronomy">AST COAS</values>
+					<values title="COAS-Astrophysics">ASTP COAS</values>
+					<values title="COAS-Biochemistry, Interdisciplinary(COAS, MedSci, OPT)">BIOC COAS</values>
+					<values title="COAS-Biology">BIOL COAS</values>
+					<values title="COAS-Central Eurasian Studies">CEUS COAS</values>
+					<values title="COAS-Chemical Physics">CHPH COAS</values>
+					<values title="COAS-Chemistry">CHEM COAS</values>
+					<values title="COAS-Classical Studies">CLAS COAS</values>
+					<values title="COAS-Cognitive Science">COGS COAS</values>
+					<values title="COAS-Communication &amp; Culture">CMCL COAS</values>
+					<values title="COAS-Comparative Literature">CMLT COAS</values>
+					<values title="COAS-Criminal Justice">CJUS COAS</values>
+					<values title="COAS-Cultural Studies">CULS COAS</values>
+					<values title="COAS-East Asian Languages &amp; Cultures">EALC COAS</values>
+					<values title="COAS-Economics">ECON COAS</values>
+					<values title="COAS-English">ENG COAS</values>
+					<values title="COAS-Ethnomusicology">ETH COAS</values>
+					<values title="COAS-Film Studies">FIST COAS</values>
+					<values title="COAS-Fine Arts">FINA COAS</values>
+					<values title="COAS-Folklore &amp; Ethnomusicology">FOLK COAS</values>
+					<values title="COAS-French &amp; Italian">FRIT COAS</values>
+					<values title="COAS-Gender Studies">GNDR COAS</values>
+					<values title="COAS-Geography">GEOG COAS</values>
+					<values title="COAS-Geological Sciences">GEOL COAS</values>
+					<values title="COAS-German Studies, Institute of">GSI COAS</values>
+					<values title="COAS-German Studies">GER COAS</values>
+					<values title="COAS-History">HIST COAS</values>
+					<values title="COAS-History &amp; Philosophy of Science">HPSC COAS</values>
+					<values title="COAS-Human Dimensions of Global Environmental Change">HDGE COAS</values>
+					<values title="COAS-Human Evolutionary Studies">HVST COAS</values>
+					<values title="COAS-India Studies">INST COAS</values>
+					<values title="COAS-Medieval Studies">MEST COAS</values>
+					<values title="COAS-Inner Asian/Uralic Studies">URAL COAS</values>
+					<values title="COAS-Institute of Biblical/Literary Studies">IBLS COAS</values>
+					<values title="COAS-Jewish Studies">JSTU COAS</values>
+					<values title="COAS-Human Sexuality">KINS COAS</values>
+					<values title="COAS-Latin American &amp; Caribbean Studies">LTAM COAS</values>
+					<values title="COAS-Linguistics">LING COAS</values>
+					<values title="COAS-Mass Communication">MASS COAS</values>
+					<values title="COAS-Mathematical Physics">MAPH COAS</values>
+					<values title="COAS-Mathematics">MATH COAS</values>
+					<values title="COAS-Mythology">MYTH COAS</values>
+					<values title="COAS-Near Eastern Languages &amp; Cultures">NELC COAS</values>
+					<values title="COAS-Neural Science">NEUR COAS</values>
+					<values title="COAS-Performance Studies">PRST COAS</values>
+					<values title="COAS-Philosophy">PHIL COAS</values>
+					<values title="COAS-Physics">PHYS COAS</values>
+					<values title="COAS-Political Sciences">POLS COAS</values>
+					<values title="COAS-Psychology">PSY COAS</values>
+					<values title="COAS-Religious Studies">REL COAS</values>
+					<values title="COAS-Renaissance Studies">REN COAS</values>
+					<values title="COAS-Russian &amp; East European Institute">REEI COAS</values>
+					<values title="COAS-Scientific Computing">SCCO COAS</values>
+					<values title="COAS-Slavic Languages &amp; Literatures">SLAV COAS</values>
+					<values title="COAS-Sociology">SOC COAS</values>
+					<values title="COAS-Spanish &amp; Portuguese">HISP COAS</values>
+					<values title="COAS-Speech &amp; Hearing Science">SPHS COAS</values>
+					<values title="COAS-Telecommunications">TEL COAS</values>
+					<values title="COAS-TESOL/Applied Linguistics">LING COAS</values>
+					<values title="COAS-Theatre &amp; Drama">THTR COAS</values>
+					<values title="COAS-Victorian Studies">VICT COAS</values>
+					<values title="COAS-West European Studies">WEST COAS</values>
+					<values title="BUS-Business">BUS BUS</values>
+					<values title="EDUC-Education">EDUC EDUC</values>
+					<values title="HPER-Health, Physical Education &amp; Recreation">HPER HPER</values>
+					<values title="INFO-Human &amp; Computer Interaction">HCI INFO</values>
+					<values title="INFO-Computer Science">CSCI INFO</values>
+					<values title="INFO-Informatics">INFO INFO</values>
+					<values title="LAW-Law">LAW LAW</values>
+					<values title="SLIS-Liberary &amp; Information Sciences">SLIS SLIS</values>
+					<values title="MSP-Anatomy">ANAT MSP</values>
+					<values title="MSP-Pathology">PATH MSP</values>
+					<values title="MSP-Pharmacology">PHAR MSP</values>
+					<values title="MSP-Physiology">PHYS MSP</values>
+					<values title="MUS-Music">MUS MUS</values>
+					<values title="VSCI-Optometry">OPT VSCI</values>
+					<values title="VSCI-Vision Science">VSCI VSCI</values>
+					<values title="SPEA-Arts Administration">AADM SPEA</values>
+					<values title="SPEA-Environmental Programs">ENPR SPEA</values>
+					<values title="SPEA-Nonprofit Management">NOMA SPEA</values>
+					<values title="SPEA-Public Affairs">PUAF SPEA</values>
+					<values title="SPEA-Public Management">PUMA SPEA</values>
+					<values title="SPEA-Public Policy">PUPO SPEA</values>
+					<values title="SPEA-Reginal Economic Development">RED SPEA</values>
+					<values title="SPEA-Urban Affairs">URAF SPEA</values>
+					<values title="UGS-General Science">GSCI UGS</values>
+					<values title="UGS-Population Institute for Research/Training">GRAD UGS</values>
+					<values title="UGS-Social Studies">SSTD UGS</values>
+				</display>
+				<validation required="false"/>
+				<!-- accept a valid department, OR ATTRIB-ERROR, to force an attribute error 
+     <regex>AAAD COAS|AFRI COAS|AMST COAS|ANCS COAS|ATTRIB-ERROR</regex>-->
+				<!-- define a JS message that makes it clear there was a client-side JS validation error 
+     <message>[JS] Please choose a valid department (AAAD COAS|AFRI COAS|AMST COAS|ANCS COAS|ATTRIB-ERROR)</message>
+    </validation>
+    -->
+			</fieldDef>
+			<fieldDef name="instructor" title="Instructor of Class to be dropped">
+				<display>
+					<type>text</type>
+					<meta>
+						<name>size</name>
+						<value>30</value>
+					</meta>
+				</display>
+				<validation required="true">
+					<!-- test that a validation with no regex and not-required, is not enforced -->
+					<message>[JS] Javascript SHOULD NOT enforce instructor to be specified</message>
+				</validation>
+			</fieldDef>
+			
+		</edl>
+		<association>
+			<docType>StudentInitiatedDrop</docType>
+			<definition>StudentInitiatedDrop_xml</definition>
+			<style>StudentInitiatedDrop_xsl</style>
+			<active>true</active>
+		</association>
+	</edoclite>
+</data>

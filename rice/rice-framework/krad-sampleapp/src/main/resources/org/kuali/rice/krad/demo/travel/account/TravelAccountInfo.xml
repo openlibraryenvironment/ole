@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="TravelAccountInfo" parent="TravelAccountInfo-parentBean"/>
+  <bean id="TravelAccountInfo-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krad.demo.travel.account.TravelAccountInfo"/>
+    <property name="titleAttribute" value="number"/>
+    <property name="attributes">
+      <list>
+        <ref bean="TravelAccountInfo-number"/>
+        <ref bean="TravelAccountInfo-name"/>
+        <ref bean="TravelAccountInfo-createDate"/>
+        <ref bean="TravelAccountInfo-foId"/>
+        <ref bean="TravelAccountInfo-subAccount"/>
+        <ref bean="TravelAccountInfo-subAccountName"/>
+        <ref bean="TravelAccountInfo-subsidizedPercent"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Travel Account"/>
+    <property name="primaryKeys">
+      <list>
+        <value>number</value>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="fiscalOfficerInfo"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="foId" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="TravelAccountInfo-number" parent="TravelAccountInfo-number-parentBean"/>
+  <bean id="TravelAccountInfo-number-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Travel Account Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="constraintText" value="Must be 10 digits"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="10"/>
+    </property>    
+    <property name="summary" value="Travel Account Number"/>
+    <property name="name" value="number"/>
+    <property name="label" value="Travel Account Number"/>
+    <property name="description" value="Travel Account Number"/>
+  </bean>
+  
+  <bean id="TravelAccountInfo-name" parent="TravelAccountInfo-name-parentBean"/>
+  <bean id="TravelAccountInfo-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Account Name"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>     
+    <property name="summary" value="Account Name"/>
+    <property name="name" value="name"/>
+    <property name="label" value="Account Name"/>
+    <property name="description" value="Account Name"/>
+  </bean>
+  
+  <bean id="TravelAccountInfo-createDate" parent="TravelAccountInfo-createDate-parentBean"/>
+  <bean id="TravelAccountInfo-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createDate"/>
+    <property name="shortLabel" value="Date Created"/>
+    <property name="summary" value="Date Created"/>
+    <property name="label" value="Date Created"/>
+    <property name="description" value="Date Created"/>
+    <property name="controlField">
+      <bean parent="Uif-DateControl"/>
+    </property>     
+  </bean>
+
+  <bean id="TravelAccountInfo-foId" parent="TravelAccountInfo-foId-parentBean"/>
+  <bean id="TravelAccountInfo-foId-parentBean" abstract="true" parent="FiscalOfficerInfo-id">
+    <property name="name" value="foId"/>
+  </bean>
+
+  <bean id="TravelAccountInfo-subAccount" parent="TravelAccountInfo-number-parentBean">
+    <property name="name" value="subAccount"/>
+    <property name="shortLabel" value="Travel Sub Account Number"/>
+    <property name="label" value="Travel Sub Account Number"/>
+    <property name="description" value="Travel Sub Account Number"/>
+    <property name="summary" value=""/>
+  </bean>
+
+  <bean id="TravelAccountInfo-subAccountName" parent="TravelAccountInfo-name-parentBean">
+    <property name="name" value="subAccountName"/>
+    <property name="shortLabel" value="Sub Account Name"/>
+    <property name="label" value="Sub Account Name"/>
+    <property name="description" value="Sub Account Name"/>
+  </bean>
+
+  <bean id="TravelAccountInfo-subsidizedPercent" parent="AttributeReferenceDummy-percent">
+    <property name="name" value="subsidizedPercent"/>
+    <property name="shortLabel" value="Subsidized Percent"/>
+    <property name="label" value="Subsidized Percent"/>
+    <property name="description" value="Subsidized Percent"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="6" p:watermarkText="##.##"/>
+    </property>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:allowNegative="false" p:scale="2"/>
+    </property>
+  </bean>
+
+  <!-- views -->
+
+  <bean id="TravelAccountInfo-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Travel Account Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krad.demo.travel.account.TravelAccountInfo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.demo.travel.account.TravelAccountInfoInquiryViewHelperServiceImpl" />
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+             <property name="layoutManager.numberOfColumns" value="2"/>
+             <property name="items">
+               <list>
+                <bean parent="Uif-DataField" p:propertyName="number"/>
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-DataField" p:propertyName="subAccount"/>
+                <bean parent="Uif-DataField" p:propertyName="subAccountName"/>
+                <bean parent="Uif-DataField" p:propertyName="createDate"/>
+                <bean parent="Uif-DataField" p:propertyName="subsidizedPercent"/>
+                <bean parent="Uif-DataField" p:propertyName="foId"/>
+               </list>
+             </property>
+             <property name="headerText" value="Account Information"/>
+           </bean>
+      </list>
+    </property>
+  </bean>
+  
+</beans>

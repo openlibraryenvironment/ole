@@ -1,0 +1,184 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/coreservice/config/_CoreServiceOjbSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/coreservice/config/_CoreServiceCommonSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/coreservice/config/_CoreServiceBusSpringBeans.xml"/>
+
+  <bean id="rice.coreService.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+    <property name="cacheManager" ref="coreServiceDistributedCacheManager" />
+  </bean>
+
+  <bean id="coreServiceDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+    <property name="cacheManager" ref="coreServiceLocalCacheManager" />
+    <property name="serviceName" value="{http://rice.kuali.org/core/v2_0}coreServiceCacheAdminService" />
+  </bean>
+
+  <bean id="namespaceService" class="org.kuali.rice.coreservice.impl.namespace.NamespaceServiceImpl">
+    <property name="businessObjectService" ref="rice.coreService.import.businessObjectService"/>
+  </bean>
+
+  <bean id="componentSetDao" class="org.kuali.rice.coreservice.impl.component.ComponentSetDaoOjbImpl" lazy-init="true">
+    <property name="jcdAlias" value="coreServiceDataSource" />
+  </bean>
+
+  <bean id="componentService" class="org.kuali.rice.coreservice.impl.component.ComponentServiceImpl">
+    <property name="businessObjectService" ref="rice.coreService.import.businessObjectService"/>
+    <property name="componentSetDao" ref="componentSetDao"/>
+  </bean>
+
+  <bean id="parameterRepositoryService" class="org.kuali.rice.coreservice.impl.parameter.ParameterRepositoryServiceImpl">
+    <property name="businessObjectService" ref="rice.coreService.import.businessObjectService"/>
+    <property name="criteriaLookupService" ref="rice.coreService.import.criteriaLookupService"/>
+  </bean>
+
+  <bean id="parameterService" class="org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl">
+    <property name="parameterRepositoryService" ref="parameterRepositoryService"/>
+    <property name="kualiModuleService" ref="rice.coreService.import.kualiModuleService"/>
+    <property name="applicationId" value="${application.id}"/>
+  </bean>
+
+  <bean id="styleService" class="org.kuali.rice.coreservice.impl.style.StyleServiceImpl">
+    <property name="styleRepositoryService" ref="styleRepositoryService" />
+  </bean>
+
+  <bean id="rice.coreService.import.dataDictionaryService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="dataDictionaryService" />
+  </bean>
+
+  <bean id="rice.coreService.import.persistenceServiceOjb"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="persistenceServiceOjb" />
+  </bean>
+
+  <bean id="styleRepositoryService" class="org.kuali.rice.coreservice.impl.style.StyleRepositoryServiceImpl">
+    <property name="styleXmlParser" ref="styleXmlLoader" />
+    <property name="styleDao" ref="styleDao" />
+  </bean>
+
+  <bean id="styleXmlLoader" class="org.kuali.rice.coreservice.impl.style.StyleXmlParserImpl">
+    <property name="styleService" ref="styleService" />
+  </bean>
+
+  <bean id="styleXmlExporter" class="org.kuali.rice.coreservice.impl.style.StyleXmlExporter"/>
+
+  <bean id="rice.coreService.import.xmlImpexRegistry"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="xmlImpexRegistry" />
+  </bean>
+
+  <bean id="coreImpexRegistrations" class="org.kuali.rice.core.framework.impex.xml.XmlImpexRegistrationBean">
+    <property name="xmlImpexRegistry" ref="rice.coreService.import.xmlImpexRegistry" />
+    <property name="xmlLoadersToRegister">
+      <list>
+        <ref local="styleXmlLoader" />
+      </list>
+    </property>
+    <property name="xmlExportersToRegister">
+      <list>
+        <ref local="styleXmlExporter" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="coreServiceServerModuleConfiguration"
+        class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <property name="namespaceCode" value="KR-CR"/>
+    <property name="dataSourceName" value="coreServiceDataSource"/>
+    <property name="initializeDataDictionary" value="true"/>
+    <property name="dataDictionaryService" ref="rice.coreService.import.dataDictionaryService"/>
+    <property name="persistenceService" ref="rice.coreService.import.persistenceServiceOjb"/>
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:org/kuali/rice/coreservice/web/namespace/Namespace.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterType.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/component/Component.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/parameter/Parameter.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/component/ComponentMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/namespace/NamespaceMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/coreservice/web/parameter/ParameterTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/rice/core/web/cache/CacheAdmin.xml</value>
+        <!--<value>classpath:org/kuali/rice/core/web/impex/XmlIngester.xml</value>-->
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.coreservice.</value>
+      </list>
+    </property>
+	<property name="externalizableBusinessObjectImplementations">
+      <map>
+        <entry key="org.kuali.rice.coreservice.framework.component.ComponentEbo"
+               value="org.kuali.rice.coreservice.impl.component.ComponentBo"/>
+        <entry key="org.kuali.rice.coreservice.framework.namespace.NamespaceEbo"
+               value="org.kuali.rice.coreservice.impl.namespace.NamespaceBo"/>
+        <entry key="org.kuali.rice.coreservice.framework.parameter.ParameterEbo"
+               value="org.kuali.rice.coreservice.impl.parameter.ParameterBo"/>
+        <entry key="org.kuali.rice.coreservice.framework.parameter.ParameterTypeEbo"
+               value="org.kuali.rice.coreservice.impl.parameter.ParameterTypeBo"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="coreServiceServerModule" class="org.kuali.rice.coreservice.service.impl.CoreServiceModuleService">
+    <property name="moduleConfiguration" ref="coreServiceServerModuleConfiguration"/>
+    <property name="kualiModuleService" ref="rice.coreService.import.kualiModuleService"/>
+  </bean>
+
+  <bean id="rice.coreService.import.businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="businessObjectService"/>
+  </bean>
+
+  <bean id="rice.coreService.import.criteriaLookupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="criteriaLookupService" />
+	</bean>
+
+  <bean id="rice.coreService.transaction-proxies"
+        class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="interceptorNames">
+      <list>
+        <idref bean="matchAllTxInterceptor" />
+      </list>
+    </property>
+    <property name="beanNames">
+      <list>
+        <idref local="namespaceService" />
+        <idref local="componentService" />
+        <idref local="parameterRepositoryService" />
+        <idref local="styleService" />
+        <idref local="styleRepositoryService" />
+        <idref local="styleXmlLoader" />
+        <idref local="styleXmlExporter" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="componentBo" class="org.kuali.rice.coreservice.impl.component.ComponentBo">
+    <property name="namespaceService" ref="namespaceService" />
+  </bean>
+</beans>

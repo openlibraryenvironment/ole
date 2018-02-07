@@ -1,0 +1,1210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:dt="ns:workflow/DocumentType"
+        xmlns:rule="ns:workflow/Rule"
+        targetNamespace="ns:workflow/DocumentType"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified" xmlns:Q1="xsd">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl1.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Document Type schema
+    </documentation>
+  </annotation>
+
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+  <import namespace="ns:workflow/Rule" schemaLocation="resource:Rule"/>
+
+  <element name="documentTypes">
+    <complexType>
+      <sequence>
+        <element name="documentType" type="dt:DocumentTypeType" minOccurs="0" maxOccurs="unbounded">
+        	<annotation>
+        		<documentation>
+        		 A modifiable configuration parameter in the system.
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="DocumentTypeType">
+    <all>
+      <element name="name" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		The name of the document type will get in the database. This is typically the primary way a document type is
+    		referred to in routing.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="parent" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The name of this document type's parent document type. If the parent document type is not in the database at
+      		 the time this document type XML is parsed an error will be thrown.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="description" type="c:LongStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The description of the document type. This is referred to in the document type report and is searchable by.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="label" type="c:MandatoryLongStringType" minOccurs="1">
+      	<annotation>
+      		<documentation>
+      	 	 The label of the document type. This is intended to be the value displayed to end users when referring to the Document Type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="postProcessorName" type="c:ShortStringType" default="org.kuali.rice.kew.postprocessor.DefaultPostProcessor" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The class name that is the document type's post processor.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="authorizer" type="c:ShortStringType" minOccurs="0">
+        <annotation>
+            <documentation>
+                The class or service name of the DocumentTypeAuthorizer used to authorize routing actions
+            </documentation>
+        </annotation>
+      </element>
+
+      <element name="superUserGroupName" type="c:GroupNameType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		  The workflow group whose members are allowed to take Super User actions on documents of this document type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="superUserWorkgroupName" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		  DEPRECATED: use superUserGroupName instead.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="blanketApproveGroupName" type="c:GroupNameType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      	  	  The workflow group whose members are allowed to take blanket approve actions on documents of this document type.
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="blanketApproveWorkgroupName" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      	  	  DEPRECATED: use blanketApproveGroupName instead.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="blanketApprovePolicy" type="dt:BlanketApprovePolicyType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		An indicator of whether the approve policy is Any or None. Any – Anyone can blanket approve the document.
+      		None – no one can blanket approve the document.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="reportingGroupName" type="c:GroupNameType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		  The workflow group whose members are allowed to report against documents of this document type.
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="reportingWorkgroupName" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		  DEPRECATED: use reportingGroupName instead.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="defaultExceptionGroupName" type="c:GroupNameType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The workflow group that will act as the exception group for all route nodes defined for the document type.
+      		 If a routing problem occurs that prevents routing in any of these nodes the document will be marked as in the
+      		 Exception state and delivered to this group for completion.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="defaultExceptionWorkgroupName" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		  DEPRECATED: use defaultExceptionGroupName instead.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="docHandler" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      	   	 The dochandler URL of the document type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="helpDefinitionURL" type="c:LongStringType" minOccurs="0">
+        <annotation>
+            <documentation>
+             The help definition URL of the document type.
+            </documentation>
+        </annotation>
+      </element>
+
+      <element name="docSearchHelpURL" type="c:LongStringType" minOccurs="0">
+        <annotation>
+            <documentation>
+             The document search help URL for the document type.
+            </documentation>
+        </annotation>
+      </element>
+
+      <element name="notificationFromAddress" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      	  	 The "from" email address for notifications sent regarding this document type.
+      	    </documentation>
+      	</annotation>
+      </element>
+
+      <element name="emailStylesheet" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 The custom XSLT stylesheet to use to render immediate email reminders for this this document type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+	    <element name="applicationId" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+        	 Sets the id of the application which contains the workflow engine instance used to process documents of this type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="serviceNamespace" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+        	 DEPRECATED: use applicationId instead
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="active" type="boolean" default="false" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Determines whether document type is active. If not in the xml the document type will default to active.
+      		 So don't use this unless you are inactivating a documen type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="policies" type="dt:PoliciesType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Contains any policies associated with this document type. If not policies are included then
+      		 the parents policies are inherited.  If no parent exists the document will not be saved.  This element
+      		 is described further below.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="validApplicationStatuses" type="dt:DocStatusesType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Contains a set of application document statuses, optionally grouped in categories, that are associated with
+            this document type.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="attributes" type="dt:AttributesType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+     		 Attributes associated with this document type. This is used to associate a wide assortment of various types
+     		 of attributes including but not limited to doc search and action list custom attributes.
+      		</documentation>
+      	</annotation>
+      </element>
+
+     <!-- Don't use -->
+      <element name="routingVersion" type="integer" minOccurs="0"/>
+
+      <element name="routePaths" type="dt:RoutePathsType" minOccurs="0" maxOccurs="1">
+      	<annotation>
+      		<documentation>
+      			Defines the available route paths to the document type.  If none are defined the document type
+	  			inherits the parents route paths. More below.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="routeNodes" type="dt:RouteNodesType" minOccurs="0" maxOccurs="1">
+      	<annotation>
+      		<documentation>
+      		 Defines the routeNodes in the route path. More below.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="security" type="dt:SecurityType" minOccurs="0" maxOccurs="1">
+        <annotation>
+          <documentation>Defines the security in the document type.  More below</documentation>
+        </annotation>
+	  </element>
+
+    </all>
+    <attribute name="overwriteMode" use="optional">
+        <annotation>
+            <documentation>
+             Sets the overwrite mode (default is false). If overwrite mode is turned on a user may ingest only fields they 
+             wish to change on an existing document type
+            </documentation>
+        </annotation>
+    </attribute>
+  </complexType>
+
+  <!-- Defined in DocumentTypePolicy class -->
+  <simpleType name="BlanketApprovePolicyType">
+    <restriction base="string">
+      <enumeration value="NONE"/>
+      <enumeration value="none"/>
+      <enumeration value="ANY"/>
+      <enumeration value="any"/>
+    </restriction>
+  </simpleType>
+
+
+  <complexType name="AttributesType">
+    <sequence>
+      <element name="attribute" type="dt:AttributeType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 Encapsulates the attributes related to the document type. The attribute name is in this field and the
+  			 attribute definition is defined else where in the xml and associated with this name. Attributes relateable to
+  			 document types are doc search attributes and action list attributes.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="AttributeType">
+    <sequence>
+      <element name="name" type="c:ShortStringType" minOccurs="1">
+      	<annotation>
+      		<documentation>
+      		 Actual name of the attribute defined in the attribute xml.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="DocStatusesType">
+    <sequence>
+      <choice maxOccurs="unbounded">
+        <element ref="dt:status" /> <!-- see documentation in global element -->
+        <element name="category" type="dt:DocStatusCategoryType">
+          <annotation>
+            <documentation>
+              A grouping of application statuses for a document type.
+            </documentation>
+          </annotation>
+        </element>
+      </choice>
+    </sequence>
+  </complexType>
+
+  <element name="status" type="c:ShortStringType">
+    <annotation>
+      <documentation>
+        An application status for a document type.
+      </documentation>
+    </annotation>
+  </element>
+
+  <complexType name="DocStatusCategoryType">
+    <sequence>
+      <element ref="dt:status" minOccurs="1" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            An application status, belonging to the parent category, for a document type.
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+    <attribute name="name" type="c:ShortStringType" use="required"/>
+  </complexType>
+
+
+
+	<!-- encapsulates  policies of the document.  There are 4 policies 'DEFAULT_APPROVE',
+	 'INITIATOR_MUST_ROUTE' and 'LOOK_FUTURE'.
+	DEFAULT_APPROVE - determines whether a document will go processed without any approval requests.  If
+		a document has this policy set to false and doesn't generate and approval requests the document will
+		be put in exception routing, which is the exception workgroup associated with the last route node or the
+		workgroup defined in the 'defaultExceptionGroupName'.  This policy if not defined in this or a parent
+		document type defaults to true
+	INITIATOR_MUST_ROUTE - determines if the user that initiated a document must 'route' the document when it is
+		in the initiated state.  Defaults to true.
+	INITIATOR_MUST_SAVE - determines if the user that initiated a document must be the only one allowed to 'save'
+	    the document.  Defaults to true.
+	LOOK_FUTURE - determines whether the document can be brought into a simulated route from the route log.  A
+		simulation of where the document would end up if it where routed to completion now.  Defaults to false.
+	SUPPORTS_QUICK_INITIATE - indicates whether or not the document type should be displayed on the Quick Links
+	    so that users can quickly initiate instances of the document
+	NOTIFY_ON_SAVE - indicates whether or not notification should happen in the case of a request generated as the
+		result of a SAVE action on a document of this type
+	-->
+  <complexType name="PoliciesType">
+    <sequence>
+      <element name="policy" type="dt:PolicyType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 A modifiable policy parameter in the system.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="PolicyType">
+    <sequence>
+      <element name="name" type="dt:PolicyNameType" minOccurs="1">
+      	<annotation>
+      		<documentation>
+      		 The name of the policy; restricted by PolicyNameType.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="value" type="boolean" default="false" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A single policy. If this policy doesn't exist the parents policy will be used if no policy is available a
+      		 policy with a default value will be used.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="stringValue" type="dt:MediumStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A single policy. If this policy doesn't exist the parents policy will be used if no policy is available a
+      		 policy with a default value will be used.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element ref="dt:recipients" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <simpleType name="MediumStringType">
+      <restriction base="string">
+          <minLength value="0"/>
+          <maxLength value="1024"/>
+          <whiteSpace value="collapse"/>
+      </restriction>
+  </simpleType>
+
+  <complexType name="RoleIdentifier">
+    <annotation>
+      <documentation>Specifies a role to send Recall notifications to</documentation>
+    </annotation>
+    <sequence>
+      <annotation><documentation>Allows any child element</documentation></annotation>
+      <any minOccurs="0"/>
+    </sequence>
+    <attribute name="namespace" type="c:ShortStringType" use="required"/>
+    <attribute name="name" type="c:ShortStringType" use="required"/>
+  </complexType>
+
+  <element name="recipients">
+    <complexType>
+      <choice minOccurs="1" maxOccurs="unbounded">
+        <group ref="rule:ResponsibilityIdentifier"/>
+        <element name="role" type="dt:RoleIdentifier"/>
+      </choice>
+    </complexType>
+  </element>
+
+  <!-- Defined in DocumentTypePolicy class -->
+  <simpleType name="PolicyNameType">
+    <restriction base="string">
+      <enumeration value="DISAPPROVE"/>
+      <enumeration value="disapprove"/>
+      <enumeration value="DEFAULT_APPROVE"/>
+      <enumeration value="default_approve"/>
+      <enumeration value="ALLOW_UNREQUESTED_ACTION"/>
+      <enumeration value="allow_unrequested_action" /> 
+      <enumeration value="INITIATOR_MUST_ROUTE"/>
+      <enumeration value="initiator_must_route"/>
+      <enumeration value="INITIATOR_MUST_SAVE"/>
+      <enumeration value="initiator_must_save"/>
+      <enumeration value="INITIATOR_MUST_CANCEL"/>
+      <enumeration value="initiator_must_cancel"/>
+      <enumeration value="INITIATOR_MUST_BLANKET_APPROVE"/>
+      <enumeration value="initiator_must_blanket_approve"/>
+      <enumeration value="LOOK_FUTURE"/>
+      <enumeration value="look_future"/>
+      <enumeration value="SEND_NOTIFICATION_ON_SU_APPROVE"/>
+      <enumeration value="send_notification_on_su_approve"/>
+      <enumeration value="SUPPORTS_QUICK_INITIATE"/>
+      <enumeration value="supports_quick_initiate"/>
+      <enumeration value="NOTIFY_ON_SAVE"/>
+      <enumeration value="notify_on_save"/>
+      <enumeration value="USE_KEW_SUPERUSER_DOCHANDLER"/>
+      <enumeration value="use_kew_superuser_dochandler"/>
+      <enumeration value="DOCUMENT_STATUS_POLICY"/>
+      <enumeration value="document_status_policy"/>
+      <enumeration value="ALLOW_SU_POSTPROCESSOR_OVERRIDE"/>
+      <enumeration value="allow_su_postprocessor_override"/>
+      <enumeration value="enroute_error_suppression"/>
+      <enumeration value="ENROUTE_ERROR_SUPPRESSION"/>   
+      <enumeration value="FAIL_ON_INACTIVE_GROUP"/>
+      <enumeration value="fail_on_inactive_group"/>
+      <enumeration value="REGENERATE_ACTION_REQUESTS_ON_CHANGE"/>
+      <enumeration value="regenerate_action_requests_on_change"/>
+      <enumeration value="NOTIFY_PENDING_ON_RETURN"/>
+      <enumeration value="notify_pending_on_return"/>
+      <enumeration value="NOTIFY_COMPLETED_ON_RETURN"/>
+      <enumeration value="notify_completed_on_return"/>
+      <enumeration value="RECALL_NOTIFICATION"/>
+      <enumeration value="recall_notification"/>
+      <enumeration value="RECALL_VALID_ACTIONSTAKEN"/>
+      <enumeration value="recall_valid_actionstaken"/>
+      <enumeration value="SEND_NOTIFICATION_ON_SU_DISAPPROVE"/>
+      <enumeration value="send_notification_on_su_disapprove"/>
+      <enumeration value="ALLOW_SU_FINAL_APPROVAL"/>
+      <enumeration value="allow_su_final_approval"/>
+      <enumeration value="SUPPRESS_IMMEDIATE_EMAILS_ON_SU_ACTION"/>
+      <enumeration value="suppress_immediate_emails_on_su_action"/>
+    </restriction>
+  </simpleType>
+
+<!--  this is a very loose definition that really needs tightening.  A document type may include many route paths.
+Each route path is a series a steps a document of this takes through routing.  Here is some inline xml that should
+hopefully explain the layout of route paths, because of comments within comment '/*' will serve as comment markers
+This section of the xml is about tying a route together independent of definitions - so only names are used here.
+Definitions are applied to the names in the routeNodes section.
+
+
+			<routePaths>
+				/* a single route path is defined that contains a 'start' element.  This is the first route path
+				that the document will go down.  Only the first path should have a start element, otherwise bad
+				things.  */
+				<routePath>
+					/* this is the first node executed.  After this node is executed 'RequestNode1' */
+					<start name="Initial" nextNode="RequestNode1" />
+					/* this is a node that send ActionRequests after this node is executed we'll go to
+					node 'Split' */
+					<requests name="RequestNode1" nextNode="Split" />
+					/* Split nodes contain branches, which contain nodes that are executed in parallel.
+					All splits end in a join.  If one branch reaches the join first it will wait until all
+					other branches in that split reach the join, splits may be nested but cycles are NOT
+					supported */
+					<split name="Split" nextNode="MySubProcess">
+						<branch name="Branch 1">
+							/* the join node is defined as the next node because this branch is at an end */
+							<requests name="BranchRequestNode1" nextNode="Join" />
+						</branch>
+						/* this branch contains two request nodes that execute one after the other notice the last
+						last node's next node is the join.  This is critical. */
+						<branch name="Branch 2">
+							<requests name="BranchRequestNode2" nextNode="BranchRequestNode3"/>
+							<requests name="BranchRequestNode3" nextNode="Join" />
+						</branch>
+						/* the join that terminates this split */
+						<join name="Join" />
+					</split>
+					/* this is a reference a subprocess.  subprocesses are just another route path that follow all the
+					same rules defined above EXCEPT there is no start node */
+					<process name="MySubProcess" nextNode="Final" />
+					/* this is the last requests node after the document travels through this node the document will
+					go final */
+					<requests name="Final" />
+				</routePath>
+				/* the sub process is defined here.  Notice that is has a process name that is referred to from the
+				initial path and instead of a start element it defines an initialNode using an attribute. */
+				<routePath processName="MySubProcess" initialNode="Acknowledge">
+					<requests name="Acknowledge" nextNode="Approve" />
+					<requests name="Approve" />
+				</routePath>
+			</routePaths>
+
+		-->
+  <complexType name="RoutePathsType">
+    <sequence>
+      <element name="routePath" type="dt:RoutePathType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 A modifiable configuration parameter in the system.
+      		</documentation>
+      	</annotation>
+        <unique name="same_xpath_context_unique">
+          <selector xpath="*"/>
+          <field xpath="@name"/>
+        </unique>
+      </element>
+	</sequence>
+  </complexType>
+
+  <!-- why the dichotomy between <start> and initialNode= for subprocesses? -->
+  <complexType name="RoutePathType">
+    <!-- <sequence>
+      <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+    </sequence> -->
+    <sequence>
+      <element name="start" type="dt:PathNodeType" minOccurs="0" maxOccurs="1">
+     	<annotation>
+     		<documentation>
+     		Start the routing process.
+     		</documentation>
+     	</annotation>
+      </element>
+
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="requests" type="dt:PathNodeType">
+        	<annotation>
+        		<documentation>
+        		 Generate request to user or workgroup.
+        		</documentation>
+        	</annotation>
+        </element>
+        <element name="role" type="dt:PathNodeType">
+        	<annotation>
+        		<documentation>
+        		 Generate request to a Role
+        		</documentation>
+        	</annotation>
+        </element>
+        <element name="simple" type="dt:PathNodeType">
+        	<annotation>
+        		<documentation>
+        		 Execute some arbitrate nodes.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="dynamic" type="dt:PathNodeType">
+        	<annotation>
+        		<documentation>
+        		 Generate other nodes.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="process" type="dt:PathNodeType">
+        	<annotation>
+        		<documentation>
+        		 Group other nodes together.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="split" type="dt:SplitType">
+        	<annotation>
+        		<documentation>
+        		 Cause branches in the routing path.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <!-- not quite sure what exactly it means to have an orphan join -->
+        <element name="join" type="dt:NamedElementType">
+        	<annotation>
+        		<documentation>
+        		 Join branches back together.
+        		</documentation>
+        	</annotation>
+        </element>
+      </choice>
+    </sequence>
+    <attribute name="processName">
+    	<annotation>
+    		<documentation>
+    		 Name of the process.
+    		</documentation>
+    	</annotation>
+    </attribute>
+
+    <attribute name="initialNode">
+    	<annotation>
+    		<documentation>
+    		 Create node for the routing process.
+    		</documentation>
+    	</annotation>
+    </attribute>
+  </complexType>
+
+  <complexType name="NamedElementType">
+    <attribute name="name" type="c:ShortStringType" use="required">
+    	<annotation>
+    		<documentation>
+    		 Name for the element type.
+    		</documentation>
+    	</annotation>
+    </attribute>
+  </complexType>
+
+  <complexType name="PathNodeType">
+    <complexContent>
+      <extension base="dt:NamedElementType">
+	    <attribute name="nextNode" type="c:ShortStringType">
+	    	<annotation>
+	    		<documentation>
+	    		 Define the sequence of nodes for the routing process.
+	    		</documentation>
+	    	</annotation>
+	    </attribute>
+	    <attribute name="nextAppDocStatus" type="c:ShortStringType">
+	    	<annotation>
+	    		<documentation>
+	    		 Defines the application document status value to set when transitioning to this route node
+	    		</documentation>
+	    	</annotation>
+	    </attribute>
+	  </extension>
+	</complexContent>
+  </complexType>
+
+  <!-- SplitType extends the PathNodeType -->
+  <complexType name="SplitType">
+    <complexContent>
+      <extension base="dt:PathNodeType">
+        <sequence>
+          <!-- The DocTypeExportConfig.xml in org.kuali.rice.kew.xml.export tests has empty split
+               nodes, and orphan joins...I don't know what that means semantically but I'm changing
+               the schema to support it -->
+          <!-- changed minOccurs from 2 to 0 -->
+          <element name="branch" type="dt:BranchType" minOccurs="0" maxOccurs="unbounded">
+          	<annotation>
+          		<documentation>
+          		 A routing path.
+          		</documentation>
+          	</annotation>
+          </element>
+
+          <!-- changed minOccurs from 1 to 0 -->
+          <element name="join" type="dt:NamedElementType" minOccurs="0" maxOccurs="1">
+          	<annotation>
+          		<documentation>
+          		 Join branches back together.
+          		</documentation>
+          	</annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="BranchType">
+    <complexContent>
+        <extension base="dt:NamedElementType">
+          <!-- should this just be the same RoutePath content? -->
+          <sequence>
+            <element name="start" type="dt:PathNodeType" minOccurs="0" maxOccurs="1">
+            	<annotation>
+            		<documentation>
+            		 The starting point of the routing path.
+            		</documentation>
+            	</annotation>
+            </element>
+            <choice minOccurs="0" maxOccurs="unbounded">
+              <element name="requests" type="dt:PathNodeType">
+              	<annotation>
+              		<documentation>
+              		 Generate request to user or workgroup.
+              		</documentation>
+              	</annotation>
+              </element>
+			  <element name="role" type="dt:PathNodeType">
+        		<annotation>
+        		  <documentation>
+        		    Generate request to a Role
+        		  </documentation>
+        		</annotation>
+        	  </element>
+              <!-- I don't know what this type of route path node is. It is present in EngineConfig.xml in the engine test package. -->
+              <element name="simple" type="dt:PathNodeType">
+              	<annotation>
+              		<documentation>
+              		 Execute some arbitrate nodes.
+              		</documentation>
+              	</annotation>
+              </element>
+
+              <element name="dynamic" type="dt:PathNodeType">
+              	<annotation>
+              		<documentation>
+              		 Generate other nodes.
+              		</documentation>
+              	</annotation>
+              </element>
+              
+              <element name="process" type="dt:PathNodeType">
+        		<annotation>
+        			<documentation>
+        		 	Group other nodes together.
+        			</documentation>
+        		</annotation>
+        	</element>
+
+        	<element name="split" type="dt:SplitType">
+        		<annotation>
+        			<documentation>
+        		 	Cause branches in the routing path.
+        			</documentation>
+        		</annotation>
+        	</element>
+
+        	<!-- not quite sure what exactly it means to have an orphan join -->
+        	<element name="join" type="dt:NamedElementType">
+        		<annotation>
+        			<documentation>
+        		 	Join branches back together.
+        			</documentation>
+        		</annotation>
+        	</element>
+            </choice>
+          </sequence>
+        </extension>
+    </complexContent>
+  </complexType>
+
+<!--  this needs tightened up as much as the above element but we'll document it using an xml example again
+'/*' marks comments, we will make the complement to the example above
+
+	<routeNodes>
+	/* the start node.  this node may take 'adhoc' requests from the client app hence the activation policy. */
+	 <start name="Initial" >
+	   /* if P all approves will be activated at once for this node, if S they will be activated one at a time
+	   		parallel vs. sequential activation */
+		<activationType>P</activationType>
+	 </start>
+	 /* a request node.  we wont define all the request nodes above but they all must be defined */
+	 <requests name="RequestNode1">
+	 /* the activation of 'S' is sequential - approves are activated one at a time
+	 	activation of 'P' is parallel - approves are activated all at once.
+	 	*/
+	  <activationType>S</activationType>
+	 /* this is the rule template associated with the route node - defined in the rule template section of xml */
+	  <ruleTemplate>RoutingFormTemplate</ruleTemplate>
+	  /* if this is true then the document will go in exception routing if an approve request wasn't generated by
+	   the rule template */
+	  <mandatoryRoute>false</mandatoryRoute>
+	  /* if this is true the document will go into exception routing if approves are generated after this route node */
+	  <finalApproval>false</finalApproval>
+	  /* there can alternately be a 'routeModule' element.  This would be used instead of the ruleTemplate element
+	  and defines a route module that workflow will use instead of a ruleTemplate */
+	  <routeModule>org.kuali.rice.kew.routemodule.AFineRouteModule</routeModule>
+	 </requests>
+	 /* this is split node being defined */
+	 <split name="Split" />
+	 /* this is the process being defined */
+	 <process name="MySubProcess" />
+	 /* this is the join node being defined */
+	 <join name="Join" />
+-->
+  <complexType name="RouteNodesType">
+    <sequence>
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <!-- a lot of these just need mandatory route and final approval...
+             so they are all just RequestsNodeType -->
+        <element name="start" type="dt:RequestsNodeType">
+        	<annotation>
+        		<documentation>
+        		 The starting point of the routing path.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="requests" type="dt:RequestsNodeType">
+        	<annotation>
+     			<documentation>
+        		 Generate request to user or workgroup.
+        		</documentation>
+        	</annotation>
+        </element>
+        <element name="role" type="dt:RequestsNodeType">
+        	<annotation>
+     			<documentation>
+        		 Generate request to a Role
+        		</documentation>
+        	</annotation>
+        </element>
+        <element name="simple" type="dt:RequestsNodeType">
+        	<annotation>
+        		<documentation>
+        		 Execute some arbitrate nodes.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="dynamic" type="dt:RequestsNodeType">
+        	<annotation>
+        		<documentation>
+        		 Generate other nodes.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="split" type="dt:RequestsNodeType">
+        	<annotation>
+        		<documentation>
+        		 Cause branches in the routing path.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="process" type="dt:RequestsNodeType">
+        	<annotation>
+        		<documentation>
+        		 Group other nodes together.
+        		</documentation>
+        	</annotation>
+        </element>
+
+        <element name="join" type="dt:RequestsNodeType">
+        	<annotation>
+        		<documentation>
+        		 Join branches back together.
+        		</documentation>
+        	</annotation>
+        </element>
+      </choice>
+      <!-- <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/> -->
+    </sequence>
+  </complexType>
+
+  <complexType name="ActivatableNodeType">
+    <complexContent>
+      <extension base="dt:NamedElementType">
+        <sequence>
+          <choice>
+            <element name="exceptionGroupName" type="c:GroupNameType" minOccurs="0" maxOccurs="1">
+          		<annotation>
+          			<documentation>
+          			 Name of the exception group.
+          			</documentation>
+          		</annotation>
+            </element>
+
+           <element name="exceptionWorkgroupName" type="c:ShortStringType" minOccurs="0" maxOccurs="1">
+          		<annotation>
+          			<documentation>
+          			 DEPRECATED: use exceptionGroupName instead.
+          			</documentation>
+          		</annotation>
+            </element>
+
+            <element name="exceptionWorkgroup" type="c:ShortStringType" minOccurs="0" maxOccurs="1">
+            	<annotation>
+            		<documentation>
+           			 DEPRECATED: use exceptionGroupName instead.
+           		 	</documentation>
+            	</annotation>
+            </element>
+          </choice>
+          <element name="activationType" type="dt:ActivationTypeType" minOccurs="0" maxOccurs="1">
+          	<annotation>
+          		<documentation>
+          		 A set of values and parameters from the ActivationType.
+          		</documentation>
+          	</annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+
+  <!--
+    Added <type> element to RequestsNodeType as optional.
+    It is (presumably) mandatory for "simple" and "dynamic" node types, so that will have to be enforced
+    by the parser at this point.
+    Example:
+    <simple name="EmptyNode1">
+      <activationType>P</activationType>
+      <type>org.kuali.rice.kew.engine.node.InitialNode</type>
+    </simple>
+    <dynamic name="ChartOrg">
+      <type>org.kuali.rice.kew.routing.chartorgnode.ChartOrgRoutingNode</type>
+      <ruleTemplate>OrgRouting</ruleTemplate> /* org.kuali.rice.kew.routing.chartorgnode.OrganizationRoutingAttribute*/
+    </dynamic>
+  -->
+  <complexType name="RequestsNodeType">
+    <complexContent>
+      <extension base="dt:ActivatableNodeType" >
+        <sequence>
+          <choice>
+            <!-- FlexRM-style definition -->
+            <sequence>
+                <element name="ruleSelector" type="c:ShortStringType" minOccurs="0">
+                    <annotation>
+                        <documentation>
+                         The strategy by which to select rules for evaluation
+                        </documentation>
+                    </annotation>
+                </element>
+
+                <element name="ruleTemplate" type="c:ShortStringType" minOccurs="0" maxOccurs="1">
+                	<annotation>
+                		<documentation>
+                		 The ruleTemplate that applies to this routing node for a document type.
+                		</documentation>
+                	</annotation>
+                </element>
+            </sequence>
+
+            <!-- Custom route module definition -->
+            <element name="routeModule" type="c:MandatoryLongStringType" minOccurs="0" maxOccurs="1">
+            	<annotation>
+            		<documentation>
+             		 The module for the request node.
+            		</documentation>
+            	</annotation>
+            </element>
+
+            <element name="peopleFlows" type="dt:PeopleFlowsType" minOccurs="0" maxOccurs="1">
+              <annotation>
+                <documentation>A list of PeopleFlows which should be executed.</documentation>
+              </annotation>
+            </element>
+
+            <element name="rulesEngine" type="dt:RulesEngineType" minOccurs="0" maxOccurs="1">
+              <annotation>
+                <documentation>Provides integration with the KRMS engine.</documentation>
+              </annotation>
+            </element>
+
+          </choice>
+          <element name="mandatoryRoute" type="boolean" default="false" minOccurs="0" maxOccurs="1">
+          	<annotation>
+         		<documentation>
+          	     The compulsory routing path.
+          		</documentation>
+         	 </annotation>
+          </element>
+
+          <element name="finalApproval" type="boolean" default="false" minOccurs="0" maxOccurs="1">
+          	<annotation>
+          		<documentation>
+          		 Approval action for the routing process.
+          		</documentation>
+          	</annotation>
+          </element>
+
+          <element name="type" type="c:ShortStringType" minOccurs="0" maxOccurs="1">
+          	<annotation>
+         		<documentation>
+          		 The type uses for the request node in the routing process.
+          		</documentation>
+          	</annotation>
+         		 </element>
+          <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <!-- Defined in ActivationTypeEnum class -->
+  <simpleType name="ActivationTypeType">
+    <restriction base="string">
+      <enumeration value="S"/>
+      <enumeration value="s"/>
+      <enumeration value="P"/>
+      <enumeration value="p"/>
+      <enumeration value="R"/>
+      <enumeration value="r"/>
+      <enumeration value="SEQUENTIAL"/>
+      <enumeration value="sequential"/>
+      <enumeration value="SEQUENCE"/>
+      <enumeration value="sequence"/>
+      <enumeration value="PARALLEL"/>
+      <enumeration value="parallel"/>
+      <enumeration value="PRIORITY-PARALLEL"/>
+      <enumeration value="priority-parallel"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="SecurityType">
+    <choice minOccurs="0" maxOccurs="unbounded">
+      <element name="initiator" type="boolean" default="true" />
+      <element name="routeLogAuthenticated" type="boolean" default="true"  />
+      <element name="searchableAttribute" type="dt:SecuritySearchableAttributeType"/>
+      <element name="groupName" type="c:GroupNameType"/>
+      <element name="permission" type="dt:PermissionType"/>
+      <element name="workgroup" type="c:ShortStringType">
+          <annotation><documentation>DEPRECATED: use groupName instead.</documentation></annotation>
+      </element>
+      <!-- <element name="role" type="dt:SecurityRoleType"/>-->
+      <element name="securityAttribute" type="dt:SecurityAttribute"/>
+    </choice>
+    <attribute name="active" type="boolean" default="true" />
+  </complexType>
+
+  <complexType name="SecuritySearchableAttributeType">
+      <attribute name="name" type="c:ShortStringType" use="required" />
+      <attribute name="idType" type="dt:SecuritySearchableAttributeIDType" use="required" />
+  </complexType>
+
+  <complexType name="SecurityAttribute">
+      <attribute name="name" type="c:LongStringType" />
+      <attribute name="class" type="c:LongStringType" />
+  </complexType>
+
+  <simpleType name="SecuritySearchableAttributeIDType">
+    <restriction base="string">
+      <enumeration value="emplid"/>
+      <enumeration value="emplId"/>
+      <enumeration value="EMPLID"/>
+      <enumeration value="authenticationid"/>
+      <enumeration value="authenticationId"/>
+      <enumeration value="AUTHENTICATIONID"/>
+      <enumeration value="uuid"/>
+      <enumeration value="uuId"/>
+      <enumeration value="UUID"/>
+    </restriction>
+  </simpleType>
+  
+  <complexType name="PermissionType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="permissionDetail" type="dt:PermissionAttributeType" />
+        <element name="qualification" type="dt:PermissionAttributeType" />
+      </choice>
+	  <attribute name="namespace" type="c:ShortStringType" use="required">
+	    <annotation>
+	      <documentation>
+	        Permission Namespace
+	      </documentation>
+	    </annotation>
+	  </attribute>
+	  <attribute name="name" type="c:ShortStringType" use="required">
+	    <annotation>
+	      <documentation>
+	        Permission Name
+	      </documentation>
+	    </annotation>
+	  </attribute>
+  </complexType>
+
+  <complexType name="PermissionAttributeType">
+    <simpleContent>
+      <extension base="c:ShortStringType">
+	      <attribute name="name" type="c:ShortStringType" use="required">
+		    <annotation>
+		      <documentation>
+		        attribute name
+		      </documentation>
+		    </annotation>
+		  </attribute>
+	 </extension>
+	</simpleContent>	 
+  </complexType>
+ 
+  <simpleType name="ActionRequestedType">
+    <restriction base="string">
+      <!-- acknowledge -->
+      <enumeration value="K"/>
+      <!-- FYI -->
+      <enumeration value="F"/>
+      <!-- approve -->
+      <enumeration value="A"/>
+      <!-- complete -->
+      <enumeration value="C"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="PeopleFlowsType">
+    <sequence>
+      <element name="peopleFlow" type="dt:PeopleFlowType" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="PeopleFlowType">
+    <sequence>
+      <element name="actionRequested" type="dt:ActionRequestedType" minOccurs="0" maxOccurs="1" default="A"/>
+      <element name="name" type="c:NamedType" minOccurs="1" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="RulesEngineType">
+    <annotation>
+      <documentation>Defines how to integrate with the KRMS rules engine. One of either the 'executorName' or
+        'executorClass' attributes must be specified.
+      </documentation>
+    </annotation>
+    <!-- One or the other of the following attributes is required -->
+    <attribute name="executorName" type="c:ShortStringType" use="optional">
+      <annotation>
+        <documentation>The name of the RulesEngineExecutor to use at this node.</documentation>
+      </annotation>
+    </attribute>
+    <attribute name="executorClass" type="c:ShortStringType" use="optional">
+      <annotation>
+        <documentation>The fully-qualified class name of the RulesEngineExecutor to use at this node.
+        </documentation>
+      </annotation>
+    </attribute>
+  </complexType>
+
+</schema>

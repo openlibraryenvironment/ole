@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_ResourceLoader" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>The ResourceLoader Stack</title>
+    
+    <section>
+        <title>Overview</title>
+        
+        <para>Rice is composed of a set of modules that provide distinct
+            functionality and expose various services. <itemizedlist>
+                <listitem>
+                    <para>Services in Rice are accessible by the <emphasis
+                        role="bold">ResourceLoader</emphasis>, which can be thought of as
+                        analogous to Spring's <emphasis
+                            role="italic">BeanFactory</emphasis> interface. (In fact, Rice
+                        modules themselves back ResourceLoaders with Spring bean
+                        factories.)</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Services can be acquired by name. (Rice adds several
+                        additional concepts, including qualification of service names by
+                        namespaces.)</para>
+                </listitem>
+                
+                <listitem>
+                    <para>When the <emphasis role="bold">RiceConfigurer</emphasis> is
+                        instantiated, it constructs a GlobalResourceLoader that is
+                        composed of an initial <emphasis
+                            role="italic">RootResourceLoader</emphasis> (which may be provided
+                        by the application via the RiceConfigurer), as well as resource
+                        loaders supplied by each module:</para>
+                    
+                    <figure>
+                        <title>Global Resource Loader</title>
+                        
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/KSB_Guide/global_resource_loader2.png"
+                                    width="100%" scalefit="1"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </listitem>
+            </itemizedlist></para>
+        
+        <para>The <emphasis role="bold">GlobalResourceLoader</emphasis> is the
+            top-level entry point through which all application code should go to
+            obtain services. The <emphasis role="bold">getService</emphasis> call
+            will iterate through each registered ResourceLoader, looking for the
+            service of the specified name. If the service is found, it is returned,
+            but if it is <emphasis role="italic">not</emphasis> found, ultimately
+            the call will reach the <emphasis
+                role="bold">RemoteResourceLoader</emphasis>. The Root ResourceLoader is
+            registered by the KSB module that exposes services that have been
+            registered on the bus.</para>
+    </section>
+    
+    <section>
+        <title>Accessing and overriding Rice services and beans from
+            Spring</title>
+        
+        <section>
+            <title>ResourceLoaderFactoryBean</title>
+            
+            <para>In addition to programmatically acquiring service references,
+                you can also import Rice services into a Spring context with the help
+                of the <emphasis
+                    role="bold">GlobalResourceLoaderServiceFactoryBean</emphasis>:</para>
+            
+            <para>This bean is <emphasis role="italic">bean-name-aware</emphasis>
+                and will produce a bean of the same name obtained from Rice's resource
+                loader stack. The bean can then be wired in Spring like any other
+                bean.</para>
+        </section>
+        
+        <section>
+            <title>Installing an application root resource loader </title>
+            
+            <para>Applications can install their own root ResourceLoader to
+                override beans defined by Rice. To do so, inject a bean that
+                implements the ResourceLoader interface into the RiceConfigurer
+                rootResourceLoader property. For example:</para>
+            
+            <programlisting linenumbering = "numbered">&lt;!-- a Rice bean we want to override in our application --&gt;
+&lt;bean id="overriddenRiceBean" class="my.app.package.MyRiceServiceImpl"/&gt;
+
+&lt;!-- supplies services from this Spring context --&gt;
+&lt;bean id="appResourceLoader" class="org.kuali.rice.core.impl.resourceloader.SpringBeanFactoryResourceLoader"/&gt;
+&lt;bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"&gt;
+    &lt;property name="dataSource" ref="standaloneDataSource" /&gt;
+    &lt;property name="transactionManager" ref="atomikosTransactionManager" /&gt;
+    &lt;property name="userTransaction" ref="atomikosUserTransaction" /&gt;
+    &lt;property name="rootResourceLoader" ref="appResourceLoader"/&gt;
+&lt;/bean&gt;</programlisting>
+            
+            <warning>
+                <para><emphasis role="bold">Application ResourceLoader and Circular
+                    Dependencies</emphasis></para>
+                
+                <para>Be careful when mixing registration of an application root
+                    resourceloader and lookup of Rice services through the
+                    GlobalResourceLoader. If you are using an application resourceloader
+                    to override a Rice bean, but one of your application beans requires
+                    that bean to be injected during startup, you may create a circular
+                    dependency. In this case, you will either have to make sure you are
+                    not unintentionally exposing application beans (which may not yet
+                    have been fully initialized by Spring) in the application
+                    resourceloader, or you will have to arrange for the GRL lookup to
+                    occur lazily, after Spring initialization has completed (either
+                    programmatically or through a proxy).</para>
+            </warning>
+        </section>
+        
+        <section>
+            <title>Overriding Rice services: Alternate method</title>
+            
+            <para>A Rice-enabled webapp (including the Rice Standalone
+                distribution) contains a multiple module configurers, typically
+                defined in an xml Spring context file. These load the Rice modules.
+                Each module has its own ResourceLoader, which is typically backed by
+                an XML Spring context file. Overriding and/or setting global beans
+                and/or services (such as data sources and transaction managers) is
+                done as described above. However, because in each module services can
+                be injected into each other, overriding module services involves
+                overriding the respective module's Spring context file.</para>
+            
+            <para>The cleanest way to do this is to set the
+                rice.*.addtionalSpringFiles to an accessible spring beans file that
+                overrides one or more spring beans in the existing module's context.
+                Each rice module has a corresponding configuration parameter that can
+                be pointed to a file that will override any existing services.</para>
+            
+            <programlisting linenumbering = "numbered">&lt;param name="rice.kew.additionalSpringFiles"&gt;classpath:myapp/config/MyAppKewOverrideSpringBeans.xml&lt;/param&gt;
+
+&lt;param name="rice.ksb.additionalSpringFiles"&gt;classpath:myapp/config/MyAppKsbOverrideSpringBeans.xml&lt;/param&gt;
+
+&lt;param name="rice.krms.additionalSpringFiles"&gt;classpath:myapp/config/MyAppKrmsOverrideSpringBeans.xml&lt;/param&gt;
+
+&lt;param name="rice.kim.additionalSpringFiles"&gt;classpath:myapp/config/MyAppKimOverrideSpringBeans.xml&lt;/param&gt;</programlisting>
+            
+            <programlisting linenumbering = "numbered">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"&gt;
+&lt;!-- override of KNS encryption service --&gt;
+&lt;beans&gt;
+
+
+    &lt;!-- override encryption services --&gt;
+    &lt;bean id="encryptionService" class="edu.my.school.myapp.service.impl.MyEncryptionServiceImpl" lazy-init="true"&gt;
+        &lt;property name="cipherAlgorithm" value="${encryption.cipherAlg}"/&gt;
+        &lt;property name="keyAlgorithm" value="${encryption.keyAlg}"/&gt;
+        &lt;property name="key" value="${encryption.key}"/&gt;
+        &lt;property name="enabled" value="${encryption.busEncryption}"/&gt;
+    &lt;/bean&gt;
+
+&lt;/beans&gt;</programlisting>
+        </section>
+    </section>
+</chapter>

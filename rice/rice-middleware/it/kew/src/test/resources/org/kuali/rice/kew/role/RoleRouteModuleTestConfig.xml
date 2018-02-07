@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute RuleAttribute">
+		<ruleAttribute>
+			<name>RoleRouteModule-TestQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.TestQualifierResolver</className>
+			<label>RoleRouteModule-TestQualifierResolver</label>
+			<description>RoleRouteModule-TestQualifierResolver</description>
+			<type>QualifierResolver</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>RoleRouteModule-TestXPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>RoleRouteModule-TestXPathQualifierResolver</label>
+			<description>RoleRouteModule-TestXPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<resolverConfig>
+				<baseXPathExpression>/xmlData/chartOrg</baseXPathExpression>
+				<qualifier name="chart">
+					<xPathExpression>./chart</xPathExpression>
+				</qualifier>
+				<qualifier name="org">
+					<xPathExpression>./org</xPathExpression>
+				</qualifier>
+ 			</resolverConfig>
+		</ruleAttribute>
+	</ruleAttributes>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+ 		<documentType>
+			<name>RoleRouteModuleTest1</name>
+			<label>RoleRouteModuleTest1</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Role1"/>
+					<role name="Role1"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<role name="Role1">
+					<activationType>P</activationType>
+					<qualifierResolver>RoleRouteModule-TestQualifierResolver</qualifierResolver>
+          <responsibilityTemplateName>FirstApproveReview</responsibilityTemplateName>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>RoleRouteModuleTest2</name>
+			<label>RoleRouteModuleTest2</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Role1"/>
+					<role name="Role1"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<role name="Role1">
+					<activationType>P</activationType>
+					<qualifierResolverClass>org.kuali.rice.kew.role.TestQualifierResolver</qualifierResolverClass>
+					<responsibilityTemplateName>AllApproveReview</responsibilityTemplateName>
+				</role>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+</data>

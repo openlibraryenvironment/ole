@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SeqDocType</name>
+			<description>SeqDocType</description>
+			<label>SeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Acknowledge1" />
+					<requests name="Acknowledge1" nextNode="Acknowledge2" />
+					<requests name="Acknowledge2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge1">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="Acknowledge2">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>Ack2Template</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>ParallelDocType</name>
+			<description>ParallelDocType</description>
+			<label>ParallelDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="WorkflowDocument" />
+					<requests name="WorkflowDocument" nextNode="Split" />
+					<split name="Split" nextNode="WorkflowDocumentFinal">
+						<branch name="Branch 1">
+							<requests name="WorkflowDocument4" nextNode="Acknowledge1"/>
+							<requests name="Acknowledge1" nextNode="WorkflowDocument2" />
+							<requests name="WorkflowDocument2" nextNode="Join" />
+						</branch>
+						<branch name="Branch 2">
+							<requests name="WorkflowDocument5" nextNode="WorkflowDocument3"/>
+							<requests name="WorkflowDocument3" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="WorkflowDocumentFinal" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="WorkflowDocument">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+				</requests>
+				<split name="Split" />
+				<requests name="Acknowledge1">
+					<activationType>P</activationType>
+					<ruleTemplate>Ack1Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument2">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument3">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument4">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+				</requests>
+				<requests name="WorkflowDocument5">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocument5Template</ruleTemplate>
+				</requests>
+				<join name="Join" />
+				<requests name="WorkflowDocumentFinal">
+					<activationType>P</activationType>
+					<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack1Template</name>
+			<description>Acknowledgement 1 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>Ack2Template</name>
+			<description>Acknowledgement 2 Template</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument2Template</name>
+			<description>Workflow Document Template 2</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument3Template</name>
+			<description>Workflow Document Template 3</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument4Template</name>
+			<description>Workflow Document Template 4</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocument5Template</name>
+			<description>Workflow Document Template 5</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocumentFinalTemplate</name>
+			<description>Workflow Document Template Final</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Sequential Node Test Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Sequential Node Ack Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>SeqDocType</documentType>
+			<ruleTemplate>Ack2Template</ruleTemplate>
+			<description>Sequential Node Ack Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+			<description>Parallel Node Test Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>Ack1Template</ruleTemplate>
+			<description>Parallel Node Ack Rule 1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>temay</user>
+					<actionRequested>K</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocument2Template</ruleTemplate>
+			<description>Parallel Node Test Rule 2</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocument3Template</ruleTemplate>
+			<description>Parallel Node Test Rule 3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>pmckown</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocument4Template</ruleTemplate>
+			<description>Parallel Node Test Rule 4</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jitrue</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocument5Template</ruleTemplate>
+			<description>Parallel Node Test Rule 5</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>shenl</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ParallelDocType</documentType>
+			<ruleTemplate>WorkflowDocumentFinalTemplate</ruleTemplate>
+			<description>Parallel Node Test Rule Final</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>xqi</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

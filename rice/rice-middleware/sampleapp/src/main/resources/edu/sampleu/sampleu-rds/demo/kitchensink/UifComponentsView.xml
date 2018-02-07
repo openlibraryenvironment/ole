@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <formView-bean entryPageId="UifCompView-Page1" formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm"
+                 id="UifCompView"
+                 viewHelperServiceClass="edu.sampleu.demo.kitchensink.UIfComponentsViewHelperServiceImpl">
+    <help>
+      <help-bean externalHelpUrl="http://www.kuali.org/"/>
+    </help>
+    <navigation>
+      <spring:ref bean="UifCompView-Menu"/>
+    </navigation>
+    <items>
+      <accordionGroup-bean >
+      </accordionGroup-bean>
+      <page-bean id="UifCompView-Page1" parent="UifCompViewPageWithFooter">
+        <help>
+          <help-bean>
+            <helpDefinition>
+              <helpDefinition-bean parameterDetailType="TEST_COMPONENT" parameterName="TEST_PARAM"
+                                   parameterNamespace="KR-SAP" parent="HelpDefinition"/>
+            </helpDefinition>
+          </help-bean>
+        </help>
+        <items>
+          <spring:ref bean="UifCompView-AnchorLinks"/>
+          <spring:ref bean="UifCompView-TextFields"/>
+          <spring:ref bean="UifCompView-DateFields"/>
+          <spring:ref bean="UifCompView-SelectFields"/>
+          <spring:ref bean="UifCompView-OtherControls"/>
+          <jumpToTopLink-bean id="TopLink1"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page2" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="UifCompView-FieldGroups"/>
+          <spring:ref bean="UifCompView-MessageFields"/>
+          <spring:ref bean="UifCompView-SyntaxHighlighters"/>
+          <spring:ref bean="UifCompView-AttributeSecurity"/>
+          <spring:ref bean="UifCompView-ImageFields"/>
+          <spring:ref bean="UifCompView-ActionFields"/>
+          <spring:ref bean="UifCompView-LinkFields"/>
+          <spring:ref bean="UifCompView-OtherFields"/>
+          <spring:ref bean="UifCompView-ScrollableGroups"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page3" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="minMaxSection"/>
+          <spring:ref bean="requiredSection"/>
+          <spring:ref bean="preReqSection"/>
+          <spring:ref bean="mustOccursSection"/>
+          <spring:ref bean="caseConstraintSection"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page4" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="regex1"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page5" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="prog1"/>
+          <spring:ref bean="prog2"/>
+          <spring:ref bean="prog3"/>
+          <spring:ref bean="Uif-CollectionRefresh"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page6" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="lookups1"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page7" parent="UifCompViewPageWithFooter">
+        <items>
+          <primaryActionButton-bean id="Page7ActionButton" methodToCall="genCollectionServerMessages"/>
+          <spring:ref bean="collection1"/>
+          <spring:ref bean="collection2"/>
+          <spring:ref bean="collection6"/>
+          <spring:ref bean="collection3"/>
+          <spring:ref bean="collection4"/>
+          <spring:ref bean="collection5"/>
+          <spring:ref bean="UifCompView-CollectionList"/>
+        </items>
+        <header>
+          <editablePageHeader-bean/>
+        </header>
+      </page-bean>
+      <page-bean id="UifCompView-Page8" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="Demo-ButtonLevels"/>
+          <spring:ref bean="Demo-HeaderLevels"/>
+          <spring:ref bean="Demo-Disclosure-HeaderLevels"/>
+          <spring:ref bean="Demo-HeaderGroups"/>
+        </items>
+      </page-bean>
+      <page-bean componentSecurity.viewAuthz="true" id="UifCompView-Page9" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="UifCompView-SecureGroupView"/>
+          <spring:ref bean="UifCompView-SecureGroupEdit"/>
+          <spring:ref bean="UifCompView-SecureFields"/>
+          <spring:ref bean="UifCompView-SecureFieldGroups"/>
+          <spring:ref bean="UifCompView-SecureActions"/>
+          <spring:ref bean="UifCompView-SecureWidgets"/>
+          <spring:ref bean="UifCompView-SecureLineView"/>
+          <spring:ref bean="UifCompView-SecureLineEdit"/>
+          <spring:ref bean="UifCompView-SecureLineFields"/>
+          <spring:ref bean="UifCompView-SecureLineActions"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page10" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="remotableFieldsGroup"/>
+          <spring:ref bean="remotableFieldsCollection"/>
+          <spring:ref bean="miscGroup"/>
+          <spring:ref bean="toolTipGroup"/>
+          <spring:ref bean="UifCompDataTable"/>
+        </items>
+      </page-bean>
+      <page-bean id="UifCompView-Page11" parent="UifCompViewPageWithFooter">
+        <items>
+          <spring:ref bean="UifCompView-EventsIntroGroup"/>
+          <spring:ref bean="UifCompView-WindowEventsGroup"/>
+          <spring:ref bean="UifCompView-MouseEventsGroup"/>
+          <spring:ref bean="UifCompView-KeyEventsGroup"/>
+        </items>
+      </page-bean>
+    </items>
+    <theme>
+      <kradTheme-bean/>
+    </theme>
+    <additionalScriptFiles merge="true">
+      <spring:value>scripts/sampleapp.js</spring:value>
+    </additionalScriptFiles>
+  </formView-bean>
+  <page-bean id="UifCompViewPageWithFooter">
+    <footer>
+      <formFooter-bean/>
+    </footer>
+  </page-bean>
+  <formView-bean id="UifCompView_KNS" parent="UifCompView">
+    <theme>
+      <classicKnsTheme-bean/>
+    </theme>
+  </formView-bean>
+  <menuNavigationGroup-bean id="UifCompView-Menu">
+    <items>
+      <headerTwo-bean id="UifCompView-Header1"/>
+      <navigationActionLink-bean id="UifCompView-Navigation1" navigateToPageId="UifCompView-Page1"/>
+      <navigationActionLink-bean id="UifCompView-Navigation2" navigateToPageId="UifCompView-Page2"/>
+      <navigationActionLink-bean id="UifCompView-Navigation3" navigateToPageId="UifCompView-Page3"/>
+      <navigationActionLink-bean id="UifCompView-Navigation4" navigateToPageId="UifCompView-Page4"/>
+      <navigationActionLink-bean id="UifCompView-Navigation5" navigateToPageId="UifCompView-Page5"/>
+      <navigationActionLink-bean id="UifCompView-Navigation6" navigateToPageId="UifCompView-Page6"/>
+      <navigationActionLink-bean id="UifCompView-Navigation7" navigateToPageId="UifCompView-Page7"/>
+      <navigationActionLink-bean id="UifCompView-Navigation8" navigateToPageId="UifCompView-Page8"/>
+      <navigationActionLink-bean id="UifCompView-Navigation9" navigateToPageId="UifCompView-Page9"/>
+      <navigationActionLink-bean id="UifCompView-Navigation10" navigateToPageId="UifCompView-Page10"/>
+      <navigationActionLink-bean id="UifCompView-Navigation11" navigateToPageId="UifCompView-Page11"/>
+    </items>
+  </menuNavigationGroup-bean>
+  <verticalBoxSection-bean id="UifCompView-AnchorLinks">
+    <items>
+      <jumpToBottomLink-bean id="UifCompView-Header2"/>
+      <actionLink-bean actionScript="jumpToElementByName('field119');" id="ActionLinkField_JumpToField119"/>
+      <actionLink-bean actionScript="focusOnElementByName('field107');" id="ActionLinkField_FocusOnField107"/>
+      <actionLink-bean actionScript="focusOnElementById('myDate_control');" id="ActionLinkField_FocusOnIdMyDate"/>
+    </items>
+  </verticalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean id="UifCompView-TextFields">
+    <items>
+      <group-bean parent="UifCompView-TextFields1"/>
+      <group-bean parent="UifCompView-TextFields2"/>
+      <group-bean parent="UifCompView-TextFields3"/>
+      <group-bean parent="UifCompView-TextAreas"/>
+      <group-bean parent="UifCompView-PasswordFields"/>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-TextFields1">
+    <items>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field1">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="true" labelPlacement="TOP"
+                       propertyName="field100">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean defaultValue="val" fieldLabel.renderColon="true" propertyName="field101">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-TextFields2">
+    <items>
+      <inputField-bean id="UifCompView-Field102" labelPlacement="LEFT" propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="UifCompView-Field102B" labelPlacement="RIGHT" propertyName="field102">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field103">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field104">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" propertyName="field105">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-TextFields3">
+    <items>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field106">
+        <control>
+          <textControl-bean maxLength="40" size="30"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field107">
+        <control>
+          <textControl-bean size="60"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field108">
+        <control>
+          <textControl-bean size="30" textExpand="true"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field109">
+        <control>
+          <textControl-bean disabled="true" size="30"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field112"
+                       uppercaseValue="true">
+        <control>
+          <textControl-bean size="30"/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-PasswordFields">
+    <items>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field140">
+        <control>
+          <passwordControl-bean size="30"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field141">
+        <control>
+          <passwordControl-bean maxLength="10" size="15"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.renderColon="false" labelPlacement="TOP" propertyName="field142">
+        <control>
+          <passwordControl-bean disabled="true" size="30"/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-TextAreas">
+    <items>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field110">
+        <control>
+          <textAreaControl-bean cols="40" rows="5"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false" labelPlacement="TOP"
+                       propertyName="field111">
+        <control>
+          <textAreaControl-bean cols="50" rows="10" textExpand="true"/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <disclosure-horizontalBoxSection-bean id="UifCompView-DateFields">
+    <items>
+      <inputField-labelTop-bean propertyName="date1" required="true">
+        <control>
+          <dateControl-bean/>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean id="myDate" propertyName="date2" required="false">
+        <control>
+          <dateControl-bean>
+            <spring:property name="datePicker.templateOptions">
+              <spring:map>
+                <spring:entry key="showOn" value="button"/>
+                <spring:entry key="constrainInput" value="false"/>
+                <spring:entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+                <spring:entry key="buttonImageOnly" value="true"/>
+                <spring:entry key="showAnim" value="fadeIn"/>
+                <spring:entry key="showButtonPanel" value="true"/>
+                <spring:entry key="changeMonth" value="true"/>
+                <spring:entry key="changeYear" value="true"/>
+                <spring:entry key="numberOfMonths" value="1"/>
+              </spring:map>
+            </spring:property>
+          </dateControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean id="date3" propertyName="field132" required="false">
+        <control>
+          <dateControl-bean>
+            <spring:property name="datePicker.templateOptions">
+              <spring:map>
+                <spring:entry key="showOn" value="button"/>
+                <spring:entry key="dateFormat" value="mm-dd-y"/>
+                <spring:entry key="constrainInput" value="false"/>
+                <spring:entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+                <spring:entry key="buttonImageOnly" value="true"/>
+                <spring:entry key="showAnim" value="fadeIn"/>
+                <spring:entry key="showButtonPanel" value="true"/>
+                <spring:entry key="changeMonth" value="true"/>
+                <spring:entry key="changeYear" value="true"/>
+                <spring:entry key="numberOfMonths" value="1"/>
+              </spring:map>
+            </spring:property>
+          </dateControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean id="myDate4" propertyName="field133" required="false">
+        <validCharactersConstraint>
+          <basicDatePatternConstraint-bean/>
+        </validCharactersConstraint>
+        <control>
+          <dateControl-bean>
+            <spring:property name="datePicker.templateOptions">
+              <spring:map>
+                <spring:entry key="showOn" value="button"/>
+                <spring:entry key="dateFormat" value="mm-dd-yy"/>
+                <spring:entry key="constrainInput" value="false"/>
+                <spring:entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+                <spring:entry key="buttonImageOnly" value="true"/>
+                <spring:entry key="showAnim" value="fadeIn"/>
+                <spring:entry key="showButtonPanel" value="true"/>
+                <spring:entry key="changeMonth" value="true"/>
+                <spring:entry key="changeYear" value="true"/>
+                <spring:entry key="numberOfMonths" value="1"/>
+              </spring:map>
+            </spring:property>
+          </dateControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean id="myDate4B" propertyName="date4" required="false">
+        <control>
+          <dateControl-bean>
+            <spring:property name="datePicker.templateOptions">
+              <spring:map>
+                <spring:entry key="showOn" value="button"/>
+                <spring:entry key="dateFormat" value="mm-dd-yy"/>
+                <spring:entry key="constrainInput" value="false"/>
+                <spring:entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+                <spring:entry key="buttonImageOnly" value="true"/>
+                <spring:entry key="showAnim" value="fadeIn"/>
+                <spring:entry key="showButtonPanel" value="true"/>
+                <spring:entry key="changeMonth" value="true"/>
+                <spring:entry key="changeYear" value="true"/>
+                <spring:entry key="numberOfMonths" value="1"/>
+              </spring:map>
+            </spring:property>
+          </dateControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean id="myDate5" propertyName="date5" required="false">
+        <validCharactersConstraint>
+          <basicDatePatternConstraint-bean/>
+        </validCharactersConstraint>
+        <control>
+          <dateControl-bean>
+            <spring:property name="datePicker.templateOptions">
+              <spring:map>
+                <spring:entry key="showOn" value="button"/>
+                <spring:entry key="constrainInput" value="true"/>
+                <spring:entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+                <spring:entry key="buttonImageOnly" value="true"/>
+                <spring:entry key="showAnim" value="fadeIn"/>
+                <spring:entry key="showButtonPanel" value="true"/>
+                <spring:entry key="changeMonth" value="true"/>
+                <spring:entry key="changeYear" value="true"/>
+                <spring:entry key="numberOfMonths" value="1"/>
+              </spring:map>
+            </spring:property>
+          </dateControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean propertyName="date6">
+        <control>
+          <dateControl-bean>
+            <spring:property name="datePicker.templateOptions">
+              <spring:map>
+                <spring:entry key="showOn" value="both"/>
+                <spring:entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+                <spring:entry key="buttonImageOnly" value="true"/>
+                <spring:entry key="showAnim" value="fadeIn"/>
+                <spring:entry key="showButtonPanel" value="true"/>
+                <spring:entry key="changeMonth" value="true"/>
+                <spring:entry key="changeYear" value="true"/>
+                <spring:entry key="numberOfMonths" value="2"/>
+              </spring:map>
+            </spring:property>
+          </dateControl-bean>
+        </control>
+      </inputField-labelTop-bean>
+      <inputField-labelTop-bean propertyName="date7">
+        <control>
+          <dateControl-bean disabled="true"/>
+        </control>
+      </inputField-labelTop-bean>
+    </items>
+  </disclosure-horizontalBoxSection-bean>
+  <disclosure-verticalBoxSection-bean id="UifCompView-SelectFields">
+    <items>
+      <group-bean parent="UifCompView-Checkboxes"/>
+      <group-bean parent="UifCompView-RadioButtons"/>
+      <group-bean parent="UifCompView-OtherSelects"/>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-Checkboxes">
+    <items>
+      <inputField-bean defaultValue="true" propertyName="bField1">
+        <control>
+          <checkboxControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean propertyName="field114" width="auto">
+        <control>
+          <verticalCheckboxesControl-bean/>
+        </control>
+        <optionsFinder>
+          <spring:bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+        </optionsFinder>
+      </inputField-bean>
+      <inputField-bean propertyName="field115" width="auto">
+        <control>
+          <verticalCheckboxesControl-bean>
+            <options>
+              <keyLabelPair-bean key="1" value="Option 1"/>
+              <keyLabelPair-bean key="2" value="Option 2"/>
+              <keyLabelPair-bean key="3" value="Option 3"/>
+            </options>
+          </verticalCheckboxesControl-bean>
+        </control>
+      </inputField-bean>
+      <inputField-bean defaultValue="2" propertyName="field116" width="auto">
+        <control>
+          <verticalCheckboxesControl-bean disabled="true">
+            <options>
+              <keyLabelPair-bean key="1" value="Option 1"/>
+              <keyLabelPair-bean key="2" value="Option 2"/>
+              <keyLabelPair-bean key="3" value="Option 3"/>
+            </options>
+          </verticalCheckboxesControl-bean>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-RadioButtons">
+    <items>
+      <inputField-bean label="Radio 1" propertyName="field117" width="auto">
+        <control>
+          <verticalRadioControl-bean/>
+        </control>
+        <optionsFinder>
+          <spring:bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+        </optionsFinder>
+      </inputField-bean>
+      <inputField-bean label="Radio 2" propertyName="field118" width="auto">
+        <control>
+          <verticalRadioControl-bean>
+            <options>
+              <keyLabelPair-bean key="1" value="Radio 1"/>
+              <keyLabelPair-bean key="2" value="Radio 2"/>
+            </options>
+          </verticalRadioControl-bean>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <horizontalBoxSection-bean id="UifCompView-OtherSelects">
+    <items>
+      <inputField-bean defaultValue="4" propertyName="field119" width="auto">
+        <control>
+          <dropdownControl-bean/>
+        </control>
+        <optionsFinder>
+          <spring:bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues" p:blankOption="true"/>
+        </optionsFinder>
+      </inputField-bean>
+      <inputField-bean propertyName="field120" width="auto">
+        <control>
+          <multiSelectControl-bean options-ref="test-options" size="3"/>
+        </control>
+      </inputField-bean>
+    </items>
+  </horizontalBoxSection-bean>
+  <util:list id="test-options">
+    <keyLabelPair-bean key="1" value="Select 1"/>
+    <keyLabelPair-bean key="2" value="Select 2"/>
+    <keyLabelPair-bean key="3" value="Select 3"/>
+    <keyLabelPair-bean key="4" value="Select 4"/>
+    <keyLabelPair-bean key="4" value="Select 5"/>
+  </util:list>
+  <verticalBoxSection-bean id="UifCompView-OtherControls">
+    <items>
+      <inputField-bean propertyName="fileUpload">
+        <control>
+          <fileControl-bean size="30"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean id="UifCompView-TestPerson-PrincipalName" propertyName="testPerson.principalName">
+        <control>
+          <kimPersonControl-bean personNamePropertyName="testPerson.name" principalIdPropertyName="testPersonId"/>
+        </control>
+      </inputField-bean>
+      <inputField-bean propertyName="field131">
+        <control>
+          <spinnerControl-bean/>
+        </control>
+      </inputField-bean>
+      <inputField-bean propertyName="field132">
+        <control>
+          <spinnerControl-bean>
+            <spinner>
+              <spinner-bean>
+                <templateOptions merge="true">
+                  <spring:entry key="start" value="5"/>
+                  <spring:entry key="step" value="25"/>
+                  <spring:entry key="max" value="2500"/>
+                  <spring:entry key="numberFormat" value="C"/>
+                  <spring:entry key="culture" value="en-GB"/>
+                </templateOptions>
+              </spinner-bean>
+            </spinner>
+          </spinnerControl-bean>
+        </control>
+      </inputField-bean>
+      <inputField-bean propertyName="field133">
+        <control>
+          <spinnerControl-bean>
+            <spinner>
+              <spinner-bean>
+                <templateOptions merge="true">
+                  <spring:entry key="start" value="0.01"/>
+                  <spring:entry key="step" value="0.01"/>
+                  <spring:entry key="numberFormat" value="n"/>
+                  <spring:entry key="culture" value="en-EN"/>
+                </templateOptions>
+              </spinner-bean>
+            </spinner>
+          </spinnerControl-bean>
+        </control>
+      </inputField-bean>
+    </items>
+  </verticalBoxSection-bean>
+</spring:beans>

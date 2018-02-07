@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="IdentityManagementGroupDocument" parent="IdentityManagementGroupDocument-parentBean"/>
+
+  <bean id="IdentityManagementGroupDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="sessionDocument" value="true"/>
+    <property name="documentTypeName" value="IdentityManagementGroupDocument"/>
+    <property name="documentClass" value="org.kuali.rice.kim.document.IdentityManagementGroupDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kim.document.rule.IdentityManagementGroupDocumentRule"/> 
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kim.document.authorization.IdentityManagementKimDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase"/>
+    <!-- <property name="documentTypeCode" value="IMPN" /> -->
+    <property name="allowsCopy" value="true"/>
+    <property name="attributes">
+      <list>
+        <ref bean="IdentityManagementGroupDocument-documentNumber"/>
+        <ref bean="IdentityManagementGroupDocument-groupId"/>
+        <ref bean="IdentityManagementGroupDocument-groupTypeName"/>
+        <ref bean="IdentityManagementGroupDocument-groupNamespace"/>
+        <ref bean="IdentityManagementGroupDocument-groupName"/>
+        <ref bean="IdentityManagementGroupDocument-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementGroupDocument-groupId" parent="IdentityManagementGroupDocument-groupId-parentBean"/>
+  <bean id="IdentityManagementGroupDocument-groupId-parentBean" parent="AttributeDefinition" abstract="true" p:name="groupId" p:forceUppercase="true" p:label="Group Id" p:shortLabel="Group Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementGroupDocument-documentNumber" parent="IdentityManagementGroupDocument-documentNumber-parentBean"/>
+  <bean id="IdentityManagementGroupDocument-documentNumber-parentBean" parent="AttributeDefinition" abstract="true" p:name="documentNumber" p:forceUppercase="true" p:label="Document Number" p:shortLabel="Document Number" p:maxLength="14" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
+    </property>
+  </bean>
+  
+  <bean id="IdentityManagementGroupDocument-groupTypeName" parent="IdentityManagementGroupDocument-groupTypeName-parentBean"/>
+  <bean id="IdentityManagementGroupDocument-groupTypeName-parentBean" parent="AttributeDefinition" abstract="true" p:name="groupTypeName" p:forceUppercase="false" p:label="Group Type Name" p:shortLabel="Group Type Name" p:maxLength="100" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="IdentityManagementGroupDocument-groupNamespace" parent="IdentityManagementGroupDocument-groupNamespace-parentBean"/>
+  <bean id="IdentityManagementGroupDocument-groupNamespace-parentBean" parent="Group-namespaceCode" abstract="true" p:name="groupNamespace" p:required="true">
+  </bean>
+
+  <bean id="IdentityManagementGroupDocument-groupName" parent="IdentityManagementGroupDocument-groupName-parentBean"/>
+  <bean id="IdentityManagementGroupDocument-groupName-parentBean" parent="Group-name" abstract="true" p:name="groupName" p:required="true">
+  </bean>
+
+  <bean id="IdentityManagementGroupDocument-active" parent="IdentityManagementGroupDocument-active-parentBean"/>
+  <bean id="IdentityManagementGroupDocument-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+
+
+</beans>

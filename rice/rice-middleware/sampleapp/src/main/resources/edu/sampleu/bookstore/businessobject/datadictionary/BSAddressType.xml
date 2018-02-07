@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="BSAddresType" parent="BSAddresType-parentBean"/>
+  <bean id="BSAddresType-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="edu.sampleu.bookstore.bo.BSAddressType"/>
+    <property name="objectLabel" value="Address Type"/>
+    <property name="attributes">
+      <list>
+        <ref bean="BSAddresType-type"/>
+        <ref bean="BSAddresType-description"/>
+        <ref bean="BSAddresType-activeBean"/>
+      </list>
+    </property>
+    <property name="titleAttribute" value="type"/>
+    <property name="primaryKeys">
+      <list>
+        <value>type</value>
+      </list>
+    </property>
+  </bean>
+  <bean id="BSAddresType-type" parent="BSAddresType-type-parentBean"/>
+  <bean id="BSAddresType-type-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="type"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Address Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="maxLength" value="40"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="false"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="summary" value="Type identifying the Authr."/>
+    <property name="description" value="Type identifying the Authr."/>
+  </bean>
+  <bean id="BSAddresType-description" parent="BSAddresType-description-parentBean"/>
+  <bean id="BSAddresType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="100"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="50"/>
+    </property>
+    <property name="summary" value="Description for the address type."/>
+    <property name="description" value="Description for the address type."/>
+  </bean>
+  <bean id="BSAddresType-activeBean" parent="BSAddresType-activeBean-parentBean"/>
+  <bean id="BSAddresType-activeBean-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="active"/>
+    <property name="maxLength" value="1"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
+    <property name="summary" value="Active Indicator"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+    <property name="label" value="Active Indicator"/>
+    <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+  </bean>
+  <bean id="BSAddresType-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Address Type Inquiry"/>
+    <property name="dataObjectClassName" value="edu.sampleu.bookstore.bo.BSAddressType"/>
+    <property name="Items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Address Type Information"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="type"/>
+              <bean parent="Uif-InputField" p:propertyName="description"/>
+              <bean parent="Uif-InputField" p:propertyName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="BSAddresType-LookupView" parent="Uif-LookupView">
+		<property name="headerText" value="Address Type Book Store Lookup" />
+		<property name="dataObjectClassName" value="edu.sampleu.bookstore.bo.BSAddressType" />
+		<property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="type" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="type" />
+				<bean parent="Uif-DataField" p:propertyName="description" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
+			</list>
+		</property>
+	</bean>
+  
+</beans>

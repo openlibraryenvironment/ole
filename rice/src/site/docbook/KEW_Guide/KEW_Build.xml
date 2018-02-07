@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Build" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Steps to Building a KEW Application</title>
+        <section>
+            <title>Preface</title>
+            <para>In its simplest form, KEW is merely a set of services that can be used to submit
+                documents to a workflow engine and then interact with those documents as the
+                progress through the routing process. Therefore, there are many different ways to
+                build an application that uses KEW. Kuali Rice itself has a few built-in solutions
+                (eDocLite and KNS) that make it easier to build applications that use KEW.
+                Alternatively, an application can be built from scratch or retrofitted to use
+                KEW.</para>
+            <para>In this section, we will look at some common approaches to designing and building
+                an application which leverages KEW. However, it is by no means exhaustive and is
+                simply meant to get you started and give you ideas as you embark upon development of
+                your own applications that use Kuali Enterprise Workflow.</para>
+        </section>
+        <section>
+            <title>Initial Steps - Determine the Routing Rules</title>
+            <para>Determine to whom you want to route the document and when it should be routed. For
+                example, in the <emphasis role="bold">Travel Request Sample Workflow Client
+                    Application</emphasis>, the steps in the routing process are:<orderedlist>
+                    <listitem>
+                        <para>Someone submits a travel request for a traveler </para>
+                    </listitem>
+                    <listitem>
+                        <para>Traveler receives an <emphasis role="italic">Approve Action
+                                Item</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Traveler's supervisor receives <emphasis role="italic">Approve Action
+                                Item</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Traveler's dean/director receives <emphasis role="italic">Acknowledge
+                                Action Item</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Fiscal Officer for account(s) receives <emphasis role="italic">Approve
+                                Action Item</emphasis>
+                        </para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        <section>
+            <title>Configure the Process Definition</title>
+            <para>In KEW, process definitions are attached to <emphasis role="bold">Document
+                    Types</emphasis>. The Document Type allows for configuration of various pieces
+                of the business process in addition to the process definition.</para>
+            <para>The Document Type is defined in XML format. KEW can ingest files containing this
+                Document Type configuration to set up the specified workflows and then executes the
+                workflows based on that configuration.</para>
+            <para>One example of routing configuration is the Travel Request application. The
+                Document Type configuration is defined in the following four XML files:</para>
+            <para><emphasis role="bold">TravelRoutingConfiguration.xml </emphasis>- Defines the
+                    <emphasis role="bold">travelDocument</emphasis> Document Type, including
+                    <emphasis role="italic">PostProcessor</emphasis>, <emphasis role="italic"
+                    >docHandler</emphasis>, and <emphasis role="italic"
+                >routeNodes</emphasis>:</para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>TravelRequest&lt;/name>
+            &lt;description>Create a New Travel Request&lt;/description>
+            &lt;label>Travel Request&lt;/label>
+            &lt;postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor&lt;/postProcessorName>
+            &lt;superUserGroupName namespace="TVL">SuperUserGroup&lt;/superUserGroupName>
+            &lt;blanketApproveGroupName namespace="TVL">BlanketApproveGroup&lt;/blanketApproveGroupName>
+            &lt;defaultExceptionGroupName namespace="TVL">ExceptionGroup&lt;/defaultExceptionGroupName>
+
+            &lt;docHandler>${application.url}/travelDocument2.do?methodToCall=docHandler&lt;/docHandler>
+            &lt;routePaths>
+                &lt;routePath>
+                    &lt;start name="Initiated" nextNode="DestinationApproval" />
+                    &lt;requests name="DestinationApproval" nextNode="TravelerApproval" />
+                    &lt;requests name="TravelerApproval" nextNode="SupervisorApproval" />
+                    &lt;requests name="SupervisorApproval" nextNode="AccountApproval" />
+                    &lt;requests name="AccountApproval" />
+                &lt;/routePath>
+            &lt;/routePaths>
+            &lt;routeNodes>
+                &lt;start name="Initiated">
+                    &lt;activationType>P&lt;/activationType>
+                &lt;/start>
+                &lt;requests name="DestinationApproval">
+                    &lt;ruleTemplate>TravelRequest-DestinationRouting&lt;/ruleTemplate>
+                &lt;/requests>
+                &lt;requests name="TravelerApproval">
+                    &lt;ruleTemplate>TravelRequest-TravelerRouting&lt;/ruleTemplate>
+                &lt;/requests>
+                &lt;requests name="SupervisorApproval">
+                    &lt;ruleTemplate>TravelRequest-SupervisorRouting&lt;/ruleTemplate>
+                &lt;/requests>
+                &lt;requests name="AccountApproval">
+                    &lt;ruleTemplate>TravelRequest-AccountRouting&lt;/ruleTemplate>
+                &lt;/requests>
+            &lt;/routeNodes>
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data></programlisting>
+            <para><emphasis role="bold">TravelRuleAttributes.xml</emphasis> – Defines the attributes
+                used by the Workflow Engine to determine to whom to route to next:</para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        &lt;ruleAttribute>
+            &lt;name>EmployeeAttribute&lt;/name>
+            &lt;className>edu.sampleu.travel.workflow.EmployeeAttribute&lt;/className>
+            &lt;label>Employee Routing&lt;/label>
+            &lt;description>Employee Routing&lt;/description>
+            &lt;applicationId>TRAVEL&lt;/applicationId>
+            &lt;type>RuleAttribute&lt;/type>
+        &lt;/ruleAttribute>
+
+        &lt;ruleAttribute>
+            &lt;name>AccountAttribute&lt;/name>
+            &lt;className>edu.sampleu.travel.workflow.AccountAttribute&lt;/className>
+            &lt;label>Account Routing&lt;/label>
+            &lt;description>Account Routing&lt;/description>
+            &lt;applicationId>TRAVEL&lt;/applicationId>
+            &lt;type>RuleAttribute&lt;/type>
+        &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+&lt;/data>          </programlisting>
+            <para><emphasis role="bold">TravelRuleTemplates.xml</emphasis> - Defines the <emphasis
+                    role="bold">RuleTemplates</emphasis> that represent each routeNode listed in the
+                Document Type configuration:</para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        &lt;ruleTemplate allowOverwrite="true">
+            &lt;name>TravelRequest-DestinationRouting&lt;/name>
+            &lt;description>Destination Routing&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>DestinationAttribute&lt;/name>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+        &lt;ruleTemplate allowOverwrite="true">
+            &lt;name>TravelRequest-TravelerRouting&lt;/name>
+            &lt;description>Traveler Routing&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>EmployeeAttribute&lt;/name>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+        &lt;ruleTemplate allowOverwrite="true">
+            &lt;name>TravelRequest-SupervisorRouting&lt;/name>
+            &lt;description>Supervisor Routing&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>EmployeeAttribute&lt;/name>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+        &lt;ruleTemplate allowOverwrite="true">
+            &lt;name>TravelRequest-AccountRouting&lt;/name>
+            &lt;description>Travel Account Routing&lt;/description>
+            &lt;attributes>
+                &lt;attribute>
+                    &lt;name>AccountAttribute&lt;/name>
+                &lt;/attribute>
+            &lt;/attributes>
+        &lt;/ruleTemplate>
+    &lt;/ruleTemplates>
+    &lt;/data></programlisting>
+            <para><emphasis role="bold">TravelRules.xml</emphasis> - Defines the rules (a rule is a
+                combination of <emphasis role="italic">Document Type</emphasis>, <emphasis
+                    role="italic">Rule Template</emphasis> and <emphasis role="italic"
+                    >Responsibilities</emphasis>) that the workflow engine uses to determine to whom
+                to route to next:</para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        &lt;rule>
+            &lt;name>TravelRequest-DestinationLasVegas&lt;/name>
+            &lt;documentType>TravelRequest&lt;/documentType>
+            &lt;ruleTemplate>TravelRequest-DestinationRouting&lt;/ruleTemplate>
+            &lt;description>Destination Rule&lt;/description>
+            &lt;ruleExtensions>
+                &lt;ruleExtension>
+                    &lt;attribute>DestinationAttribute&lt;/attribute>
+                    &lt;ruleTemplate>TravelRequest-DestinationRouting&lt;/ruleTemplate>
+                    &lt;ruleExtensionValues>
+                        &lt;ruleExtensionValue>
+                            &lt;key>destination&lt;/key>
+                            &lt;value>las vegas&lt;/value>
+                        &lt;/ruleExtensionValue>
+                    &lt;/ruleExtensionValues>
+                &lt;/ruleExtension>
+            &lt;/ruleExtensions>
+            &lt;responsibilities>
+                &lt;responsibility>
+                    &lt;principalName>user4&lt;/principalName>
+                    &lt;actionRequested>A&lt;/actionRequested>
+                &lt;/responsibility>
+            &lt;/responsibilities>
+        &lt;/rule>
+        &lt;rule>
+            &lt;name>TravelRequest-EmployeeRole&lt;/name>
+            &lt;documentType>TravelRequest&lt;/documentType>
+            &lt;ruleTemplate>TravelRequest-TravelerRouting&lt;/ruleTemplate>
+            &lt;description>Traveler Routing&lt;/description>
+            &lt;responsibilities>
+                &lt;responsibility>
+                    &lt;role>edu.sampleu.travel.workflow.EmployeeAttribute!employee&lt;/role>
+                    &lt;actionRequested>A&lt;/actionRequested>
+                &lt;/responsibility>
+            &lt;/responsibilities>
+        &lt;/rule>
+        &lt;rule>
+            &lt;name>TravelRequest-SupervisorRole&lt;/name>
+            &lt;documentType>TravelRequest&lt;/documentType>
+            &lt;ruleTemplate>TravelRequest-SupervisorRouting&lt;/ruleTemplate>
+            &lt;description>Supervisor Routing&lt;/description>
+            &lt;responsibilities>
+                &lt;responsibility>
+                    &lt;role>edu.sampleu.travel.workflow.EmployeeAttribute!supervisr&lt;/role>
+                    &lt;actionRequested>A&lt;/actionRequested>
+                &lt;/responsibility>
+            &lt;/responsibilities>
+         &lt;/rule>
+        &lt;rule>
+            &lt;name>TravelRequest-DirectorRole&lt;/name>
+            &lt;documentType>TravelRequest&lt;/documentType>
+            &lt;ruleTemplate>TravelRequest-SupervisorRouting&lt;/ruleTemplate>
+            &lt;description>Dean/Director Routing&lt;/description>
+            &lt;responsibilities>
+                &lt;responsibility>
+                    &lt;role>edu.sampleu.travel.workflow.EmployeeAttribute!director&lt;/role>
+                    &lt;actionRequested>K&lt;/actionRequested>
+                &lt;/responsibility>
+            &lt;/responsibilities
+        &lt;/rule>
+        &lt;rule>
+            &lt;name>TravelRequest-FiscalOfficerRole&lt;/name>
+            &lt;documentType>TravelRequest&lt;/documentType>
+            &lt;ruleTemplate>TravelRequest-AccountRouting&lt;/ruleTemplate>
+            &lt;description>Fiscal Officer Routing&lt;/description>
+            &lt;responsibilities>
+                &lt;responsibility>
+                    &lt;role>edu.sampleu.travel.workflow.AccountAttribute!FO&lt;/role>
+                &lt;/responsibility>
+            &lt;/responsibilities>
+        &lt;/rule>
+    &lt;/rules>
+&lt;/data></programlisting>
+        </section>
+        <section>
+            <title>Client PlugIn Steps</title>
+            <para>Your plugin should contain Java classes that correspond to the attributes defined
+                in the XML configuration file. The Travel Request Sample Client contains two
+                attribute classes: <emphasis role="italic">EmployeeAttribute</emphasis> and
+                    <emphasis role="italic">AccountAttribute</emphasis>. Each of these classes
+                implements these two interfaces:</para>
+            <programlisting>org.kuali.rice.kew.rule.RoleAttribute
+org.kuali.rice.kew.rule.WorkflowAttribute</programlisting>
+            <para>Using the <emphasis role="italic">EmployeeAttribute</emphasis> as an example, here
+                are the implementations for the <emphasis role="italic">RoleAttribute</emphasis>
+                interface:</para>
+            <para><emphasis role="bold">getRoleNames()</emphasis> - Returns a list of role names to
+                display on the routing rule GUI in the KEW web application:</para>
+            <programlisting>private static final Map ROLE_INFO;
+
+static {
+    
+    ROLE_INFO = new TreeMap();
+    ROLE_INFO.put(EMPLOYEE_ROLE_KEY, "Employee");
+    ROLE_INFO.put(SUPERVISOR_ROLE_KEY, "Supervisor");
+    ROLE_INFO.put(DIRECTOR_ROLE_KEY, "Dean/Director");
+}
+
+public List getRoleNames() {
+    List roleNames = new ArrayList();
+    for (Iterator iterator = roles.keySet().iterator(); iterator.hasNext();) {
+        String roleName = (String) iterator.next();
+        roleNames.add(new Role(getClass(), roleName, roleName));
+    }    
+    return roleNames;
+}            </programlisting>
+            <para><emphasis role="bold">getQualifiedRoleNames()</emphasis> - Returns a list of
+                strings that represents the qualified role name for the given roleName and XML
+                docContent which is attached to the workflow document:</para>
+            <programlisting>/**
+     * Returns a String which represent the qualified role name of this role for the given
+        * roleName and docContent.
+        * @param roleName the role name (without class prefix)
+        * @param documentContent the document content
+*/
+
+public List&lt;String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
+    List&lt;String> qualifiedRoleNames = new ArrayList&lt;String>();
+    Map&lt;String, List&lt;String>> qualifiedRoles = (Map&lt;String, List&lt;String>>)roles.get(roleName);
+    if (qualifiedRoles != null) {
+        qualifiedRoleNames.addAll(qualifiedRoles.keySet());
+    } else {
+        throw new IllegalArgumentException("TestRuleAttribute does not support the given role " + roleName);
+    }
+    return qualifiedRoleNames;
+}</programlisting>
+            <para><emphasis role="bold">resolveQualifiedRole()</emphasis> - Returns a list of
+                workflow users that are members of the given Qualified Role. (Used to help determine
+                to whom to route the document.):</para>
+            <programlisting>/**
+  * Returns a List of Workflow Users which are members of the given qualified role.
+  * @param routeContext the RouteContext
+  * @param roleName the roleName (without class prefix)
+  * @param qualifiedRole one of the the qualified role names returned from the {@link #getQualifiedRoleNames(String, DocumentContent)} method
+  * @return ResolvedQualifiedRole containing recipients, role label (most likely the roleName), and an annotation
+*/
+
+public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
+    ResolvedQualifiedRole resolved = new ResolvedQualifiedRole();
+    Map&lt;String, List&lt;String>> qualifiedRoles = (Map&lt;String, List&lt;String>>)roles.get(roleName);
+
+    if (qualifiedRoles != null) {
+        List&lt;String> recipients = (List&lt;String>)qualifiedRoles.get(qualifiedRole);
+        if (recipients != null) {
+            resolved.setQualifiedRoleLabel(qualifiedRole);
+            resolved.setRecipients(convertPrincipalIdList(recipients));
+        } else {
+            throw new IllegalArgumentException("TestRuleAttribute does not support the qualified role " + qualifiedRole);
+        }
+ 
+    } else {
+        throw new IllegalArgumentException("TestRuleAttribute does not support the given role " + roleName);
+    }
+    return resolved;
+} </programlisting>
+            <para>Using the <emphasis role="italic">EmployeeAttribute</emphasis> example, here are
+                the implementations for the <emphasis role="italic">WorkflowAttribute</emphasis>
+                interface:</para>
+            <para><emphasis role="bold">getRoutingDataRows()</emphasis> – Returns a list of
+                    <emphasis role="italic">RoutingDataRows</emphasis> that contain the user
+                interface level presentation of the <emphasis role="italic">ruleData</emphasis>
+                fields. KEW uses the ruleData fields to determine where a given document would be
+                routed according to the associated rule:</para>
+            <programlisting>public List&lt;Row> getRoutingDataRows() {
+    List&lt;Row> rows = new ArrayList&lt;Row>();
+    List&lt;Field> fields = new ArrayList&lt;Field>();
+    fields.add(new Field("Traveler username", "", Field.TEXT, false, USERID_FORM_FIELDNAME, "", false, false, null, null));
+    rows.add(new Row(fields));
+    return rows;
+}            </programlisting>
+            <para><emphasis role="bold">getDocContent()</emphasis> - Returns a string containing
+                this Attribute's <emphasis role="italic">routingData</emphasis> values, formatted as
+                a series of XML tags:</para>
+            <programlisting>public String getDocContent() {
+    String docContent = "";
+
+    if (!StringUtils.isBlank(_uuid)) {
+        String uuidContent = XmlUtils.encapsulate(UUID_PARAMETER_TAGNAME, _uuid);
+
+        docContent = _attributeParser.wrapAttributeContent(uuidContent);
+    }
+
+    return docContent;
+}
+</programlisting>
+            <para><emphasis role="bold">validateRoutingData()</emphasis> - Validates <emphasis
+                    role="italic">routingData</emphasis> values in the incoming map and returns a
+                list of errors from the routing data. (The user interface calls <emphasis
+                    role="bold">validateRoutingData()</emphasis> during rule creation.):</para>
+            <programlisting>public List validateRoutingData(Map paramMap) {
+    List errors = new ArrayList();
+
+    String principalName = StringUtils.trim((String) paramMap.get(PRINCIPAL_NAME_FORM_FIELDNAME));
+    if (isRequired() &amp;&amp; StringUtils.isBlank(principalName)) {
+        errors.add(new WorkflowServiceErrorImpl("principalName is required", "accountattribute.principalName.required"));
+    }
+
+    if (!StringUtils.isBlank(principalName)) {
+        KimPrincipalInfo principal = KIMServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        if (principal == null) {
+            errors.add(new WorkflowServiceErrorImpl("unable to retrieve user for principalName '" + principalName + "'", "accountattribute.principalName.invalid"));
+        }
+    }
+    if ( errors.size() == 0 ) {
+        _principalName = principalName;
+    }
+    return errors;
+}</programlisting>
+        </section>
+        <section>
+            <title>Build PostProcessor and Services</title>
+            <para>The PostProcessor class should implement the interface:</para>
+            <programlisting>org.kuali.rice.kew.postprocessor.PostProcessorRemote</programlisting>
+            <para>You should use this interface for business logic that should execute when the
+                document transitions to a new status or when actions are taken on the document. The
+                PostProcessor for the Travel Request Client is the class: </para>
+            <programlisting>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</programlisting>
+            <para>that implements the doRouteStatusChange() method to update the status of the
+                travel document in the Travel database. The KualiPostProcessor in this case is the
+                standard PostProcessor used on all documents that are built on the KNS
+                framework.</para>
+        </section>
+        <section>
+            <title>Package PlugIn</title>
+            <para>Depending on how the application has been developed (i.e. embedded workflow engine
+                vs. using the engine as a remote service) it may be necessary to package components
+                like the PostProcessor into a plug-in. See the Workflow PlugIn Guide for details on
+                how to do this.</para>
+        </section>
+        <section>
+            <title>Client Web Application Steps</title>
+            <section>
+                <title>Build the Web Application</title>
+                <para>Begin to build a Kuali Enterprise Workflow the same as you build any other
+                    Java-enabled web application. You build it with all the business logic for the
+                    application and, for example, communication to the workflow engine using web
+                    services.</para>
+                <para>As an example, the Travel Request Client Web Application uses Struts, Spring, and
+                    OJB.</para>
+            </section>
+            <section>
+                <title>Build the Service that Connects to the Workflow Engine</title>
+                <para>For the rest of this section, this guide refers to the Java application
+                    communicating with the Kuali Enterprise Workflow as the <emphasis role="italic"
+                        >Client Application</emphasis>. The Client Application needs a service that
+                    will interact with the workflow system. This service will perform actions such
+                    as locating a document in the workflow system and routing the document. </para>
+                <para>Below are examples from the Travel Request Sample Client. The methods in the
+                        <emphasis role="italic">TravelDocumentService</emphasis> class find a
+                        <emphasis role="italic">TravelDocument</emphasis> in the workflow system,
+                    save and route a <emphasis role="italic">TravelDocument</emphasis>, and validate
+                    a <emphasis role="italic">TravelDocument</emphasis>.</para>
+                <para><emphasis role="bold">findByDocHeaderId()</emphasis> - Finds a Document in the
+                workflow engine:</para>
+                <programlisting>public TravelDocument findByDocHeaderId(Long docHeaderId, String principalId) {
+    if (docHeaderId == null) {
+        throw new IllegalArgumentException("invalid (null) docHeaderId");
+    }
+    TravelDocument result = travelDocumentDao.findByDocHeaderId(docHeaderId);
+    if (result != null) {
+        // convert DocAccountJoins into FinancialAccounts
+        ArrayList accounts = new ArrayList();
+        for (Iterator joins = result.getDocAccountJoins().iterator(); joins.hasNext();) {
+            DocumentAccountJoin join = (DocumentAccountJoin) joins.next();
+
+            FinancialAccount account = financialAccountService.findByAccountNumber(join.getAccountNumber());
+
+            accounts.add(account);
+        }
+        result.setFinancialAccounts(accounts);
+        try {
+            WorkflowDocument document = new WorkflowDocument( principalId, result.getDocHeaderId());
+        } catch (WorkflowException e) {
+            LOG.error("caught WorkflowException: ", e);
+            throw new RuntimeException(e);
+        }
+    }
+    return result;
+}                </programlisting>
+                <para>The <emphasis role="bold">TravelDocumentServiceImpl</emphasis> class populates
+                    the attribute values on the workflow document (Employee, Account) that will be
+                    used for future routing. It does this by calling its <emphasis role="italic"
+                        >getEmployeeAttribute</emphasis>() and <emphasis role="italic"
+                        >getAccountAttribute</emphasis>() methods and adding the results to the
+                    workflow document by calling the <emphasis role="italic"
+                        >addAttributeDefinition</emphasis>() method.</para>
+                <programlisting>private WorkflowAttributeDefinitionVO getEmployeeAttribute(TravelDocument travelDocument) {
+    WorkflowAttributeDefinitionDTO attrDef = new WorkflowAttributeDefinitionDTO("edu.sampleu.travel.workflow.EmployeeAttribute");
+    String principalName = travelDocument.getTravelerUsername();
+    attrDef.addConstructorParameter(principalName);
+    return attrDef;
+}
+
+
+
+private List getAccountAttributes(TravelDocument travelDocument) {
+    List accounts = travelDocument.getFinancialAccounts();
+    List accountAttributes = new ArrayList();
+    for (Iterator accountIterator = accounts.iterator(); accountIterator.hasNext();) {
+        WorkflowAttributeDefinitionDTO attrDef = new WorkflowAttributeDefinitionDTO("edu.sampleu.travel.workflow.AccountAttribute");
+        FinancialAccount account = (FinancialAccount)accountIterator.next();
+        attrDef.addConstructorParameter(account.getAccountNumber());
+        accountAttributes.add(attrDef);
+    }
+    return accountAttributes;
+}
+</programlisting>
+            </section>
+            <section>
+                <title>Build the Action Class with Workflow Lifecycle Methods</title>
+                <para>In the Travel Request Sample Client, the <emphasis role="bold"
+                        >WorkflowDocHandlerAction</emphasis> struts action class calls the workflow
+                    lifecycle methods (approve, acknowledge, etc.) on the workflow document.</para>
+                <para><emphasis role="bold">WorkflowDocHandlerAction</emphasis> - Take approve
+                    action. (Each workflow action - acknowledge, complete, etc. - is like
+                    this):</para>
+                <programlisting>public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    LOG.info("entering approve() method ...");
+    DocHandlerForm docHandlerForm = (DocHandlerForm) form;
+    WorkflowDocument document = docHandlerForm.getWorkflowDocument()
+ document.approve(docHandlerForm.getAnnotation());
+    saveDocumentActionMessage("general.routing.approved", request);
+    LOG.info("forwarding to actionTaken from approve()");
+    return mapping.findForward("actionTaken");
+
+}
+</programlisting>
+                <para>Set up the <emphasis role="bold">WorkflowDocument</emphasis> in the <emphasis
+                        role="bold">initializeBaseFormState()</emphasis> method of the <emphasis
+                        role="bold">DispatchActionBase</emphasis> from which the Struts action
+                    classes inherit. Obtain the workflow document with this line of code:</para>
+                <programlisting>String principalId = getUserSession(request).getPrincipalId();
+WorkflowDocument document = new WorkflowDocument(principalId, docId);
+</programlisting>
+            </section>
+            <section>
+                <title>Package the Web Application</title>
+                <para>Package the Client Application (client web application) for deployment the way
+                    you normally package web applications. The Travel Request Sample Web Application
+                    does this with an Ant build script. The <emphasis role="italic">dist</emphasis>
+                    step of the<emphasis role="italic"> build.xml</emphasis> script builds the
+                        <emphasis role="italic">SampleWorkflowClient.war</emphasis> file.</para>
+            </section>
+        </section>
+        <section>
+            <title>Final Steps</title>
+            <section>
+                <title>Deploy the PlugIn</title>
+                <para>Deploy the plugin to your workflow installation. Copy the plugin directory
+                    structure to your application plugins directory. Please see the Workflow Plugin
+                    Guide for more information.</para>
+            </section>
+            <section>
+                <title>Deploy the Client Web Application</title>
+                <para>Deploy the Client Web Application to your Application server the way you
+                    normally deploy web applications.</para>
+            </section>
+        </section>
+</chapter>

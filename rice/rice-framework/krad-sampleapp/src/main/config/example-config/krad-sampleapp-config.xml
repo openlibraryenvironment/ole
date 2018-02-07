@@ -1,0 +1,42 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+
+  <param name="kr.incident.mailing.list"></param>
+
+  <param name="datasource.username">FILL</param>
+  <param name="datasource.password">FILL</param>
+  <param name="datasource.url">jdbc:mysql://localhost:3306/FILL</param>
+  <param name="datasource.ojb.platform">MySQL</param>
+  <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+  <param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
+
+  <param name="keystore.alias">rice</param>
+  <param name="keystore.file">security/rice.keystore</param>
+  <param name="keystore.password">r1c3pw</param>
+
+  <param name="dev.mode">true</param>
+  <param name="enable.nonproduction.data.unmasking">true</param>
+  <param name="portal.show.sample.app">true</param>
+
+  <param name="mail.relay.server">localhost</param>
+  <param name="mailing.list.batch">mailing.list.batch</param>
+  <param name="encryption.key">7IC64w6ksLU</param>
+
+  <!--param name="rice.kr.additionalSpringFiles">classpath:org/kuali/rice/devtools/krad/datadictionary/ReloadingDataDictionarySpringBeans.xml</param-->
+</config>

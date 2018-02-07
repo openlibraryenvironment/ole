@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="BookType" parent="BookType-parentBean"/>
+  <bean id="BookType-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="edu.sampleu.bookstore.bo.BookType"/>
+    <property name="objectLabel" value="Book Type"/>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="books" p:label="Books" p:shortLabel="Books" p:elementLabel="Book"/>
+      </list>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="BookType-typeCode"/>
+        <ref bean="BookType-name"/>
+        <ref bean="BookType-description"/>
+        <ref bean="BookType-active"/>
+      </list>
+    </property>
+    <property name="titleAttribute" value="name"/>
+    <property name="primaryKeys">
+      <list>
+        <value>name</value>
+      </list>
+    </property>
+  </bean>
+  <bean id="BookType-typeCode" parent="BookType-typeCode-parentBean"/>
+  <bean id="BookType-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="typeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Book Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="40"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="false"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="summary" value="Code identifying the book type."/>
+    <property name="description" value="Code identifying the book type."/>
+  </bean>
+  <bean id="BookType-name" parent="BookType-name-parentBean"/>
+  <bean id="BookType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Book Type Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="100"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="summary" value="Name identifying the book type."/>
+    <property name="description" value="Name identifying the book type."/>
+  </bean>
+  <bean id="BookType-description" parent="BookType-description-parentBean"/>
+  <bean id="BookType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Book Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="500"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="100"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="summary" value="Description identifying the book type."/>
+    <property name="description" value="Description identifying the book type."/>
+  </bean>
+  <bean id="BookType-active" parent="BookType-active-parentBean"/>
+  <bean id="BookType-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="active"/>
+    <property name="maxLength" value="1"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
+    <property name="summary" value="Active Indicator"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+    <property name="label" value="Active Indicator"/>
+    <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+  </bean>
+  <bean id="BookType-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Book Type Inquiry"/>
+    <property name="dataObjectClassName" value="edu.sampleu.bookstore.bo.BookType"/>
+    <property name="Items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Book Type Information"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="typeCode"/>
+              <bean parent="Uif-InputField" p:propertyName="name"/>
+              <bean parent="Uif-InputField" p:propertyName="description"/>
+              <bean parent="Uif-InputField" p:propertyName="active"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-Disclosure-StackedCollectionSection">
+          <property name="headerText" value="Books"/>
+          <property name="collectionObjectClass" value="edu.sampleu.bookstore.bo.Book"/>
+          <property name="propertyName" value="books"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="title"/>
+              <bean parent="Uif-InputField" p:propertyName="isbn"/>
+              <bean parent="Uif-InputField" p:propertyName="price"/>
+              <bean parent="Uif-InputField" p:propertyName="rating"/>
+              <bean parent="Uif-InputField" p:propertyName="publisher"/>
+              <bean parent="Uif-InputField" p:propertyName="publicationDate"/>
+            </list>
+          </property>
+          <property name="layoutManager.summaryFields">
+            <list>
+              <value>title</value>
+            </list>
+          </property>
+          <property name="layoutManager.summaryTitle" value="Book" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="BookType-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Book Type Lookup"/>
+    <property name="dataObjectClassName" value="edu.sampleu.bookstore.bo.BookType"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="typeCode"/>
+        <bean parent="Uif-DataField" p:propertyName="name"/>
+        <bean parent="Uif-DataField" p:propertyName="description"/>
+        <bean parent="Uif-DataField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean>  
+</beans>

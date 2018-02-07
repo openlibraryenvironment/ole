@@ -1,0 +1,827 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" xml:id="data_dictionary" version="5.0">
+  <title> The Data Dictionary </title>
+  <section>
+    <title> Introduction to the Data Dictionary </title>
+    <para>The data dictionary is the main repository for metadata storage and provides the glue to
+      combining classes related to a single piece of functionality. The data dictionary is specified
+      in XML and allows for quick changes to be made to functionality. The Data Dictionary files use
+      the Spring Framework for configuration, so the notation and parsing operation will match that
+      of the files that define the module configurers.</para>
+    <para>The contents of the data dictionary are defined by two sets of vocabularies; the
+            'business object' and the 'document' data.</para>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>The Data Dictionary is a repository of metadata primarily describing data
+                        objects and their properties</para>
+        </listitem>
+        <listitem>
+          <para>Metadata is provided through Spring bean XML</para>
+        </listitem>
+        <listitem>
+          <para>Use of Spring allows for easy overriding by implementers</para>
+        </listitem>
+        <listitem>
+          <para>Data dictionary files are configured through the module
+                        configuration</para>
+        </listitem>
+        <listitem>
+          <para>Much functionality provided by the KRAD frameworks rely on the metadata
+                        provided by the data dictionary</para>
+        </listitem>
+        <listitem>
+          <para>In addition to describing data objects, the data dictionary is also used
+                        to configure framework behavior (for example 'business rule class')</para>
+        </listitem>
+        <listitem>
+          <para>The data dictionary beans are loaded into a separate Spring bean container
+                        whose information can be accessed through the Data Dictionary Service</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title> Attribute Definitions </title>
+    <para>Attribute definitions are used to provide metadata about the attributes (i.e. fields)
+            of a business object. The following is a sampling of attribute definitions from the
+            CampusImpl business object data dictionary file:</para>
+    <programlisting linenumbering = "numbered">
+&lt;bean id=&quot;Campus-campusCode-parentBean&quot; abstract=&quot;true&quot; parent=&quot;AttributeDefinition&quot;&gt;
+    &lt;property name=&quot;forceUppercase&quot; value=&quot;true&quot;/&gt;
+    &lt;property name=&quot;shortLabel&quot; value=&quot;Campus Code&quot;/&gt;
+    &lt;property name=&quot;maxLength&quot; value=&quot;2&quot;/&gt;
+    &lt;property name=&quot;validationPattern&quot;&gt;
+        &lt;bean parent=&quot;AlphaNumericValidationPattern&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;required&quot; value=&quot;true&quot;/&gt;
+    &lt;property name=&quot;control&quot;&gt;
+        &lt;bean parent=&quot;TextControlDefinition&quot; p:size=&quot;2&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;summary&quot; value=&quot;Campus Code&quot;/&gt;
+    &lt;property name=&quot;name&quot; value=&quot;campusCode&quot;/&gt;
+    &lt;property name=&quot;label&quot; value=&quot;Campus Code&quot;/&gt;
+    &lt;property name=&quot;description&quot; value=&quot;The code uniquely identifying a particular campus.&quot;/&gt;
+&lt;/bean&gt;
+        </programlisting>
+    <para>In client applications, it is common that several business objects share a field
+            representing the same type of data. For example, a country's postal code may occur in
+            many different tables. In these circumstances, the use of a parent bean reference
+            (parent=&quot;Country-postalCountryCode") definition allows the reuse of parts of a standard
+            definition from the &quot;master&quot; business object. For instance, the StateImpl business
+            object (business object data dictionary file State.xml) references the postalCountryCode
+            property of the CountryImpl (business object data dictionary file Country.xml). Because
+            the postalCountryCode fields in StateImpl and CountryImpl are identical, a simple
+            attribute definition bean in the Business Object data dictionary file (State.xml) can be
+            used:</para>
+    <programlisting linenumbering = "numbered">
+&lt;bean id=&quot;State-postalCountryCode&quot; parent=&quot;Country-postalCountryCode-parentBean&quot;/&gt;</programlisting>
+    <para>The definition of the
+            Country-postalCountryCode-parentBean bean is seen inside the Country.xml file (for the
+            CountryImpl business object):</para>
+    <programlisting linenumbering = "numbered">
+&lt;bean id=&quot;Country-postalCountryCode-parentBean&quot; abstract=&quot;true&quot; parent=&quot;AttributeDefinition&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;postalCountryCode&quot;/&gt;
+    &lt;property name=&quot;forceUppercase&quot; value=&quot;true&quot;/&gt;
+    &lt;property name=&quot;label&quot; value=&quot;Country Code&quot;/&gt;
+    &lt;property name=&quot;shortLabel&quot; value=&quot;Country Code&quot;/&gt;
+    &lt;property name=&quot;maxLength&quot; value=&quot;2&quot;/&gt;
+    &lt;property name=&quot;validationPattern&quot;&gt;
+        &lt;bean parent=&quot;AlphaNumericValidationPattern&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;required&quot; value=&quot;true&quot;/&gt;
+    &lt;property name=&quot;control&quot;&gt;
+        &lt;bean parent=&quot;TextControlDefinition&quot; p:size=&quot;2&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;summary&quot; value=&quot;Postal Country Code&quot;/&gt;
+    &lt;property name=&quot;description&quot; value=&quot;The code uniquely identify a country.&quot;/&gt;
+&lt;/bean&gt;
+        </programlisting>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>An Attribute Definition provides metadata about a single data object
+                        property</para>
+        </listitem>
+        <listitem>
+          <para>Created with a bean whose parent is "AttributeDefinition" (or another
+                        attribute definition bean)</para>
+        </listitem>
+        <listitem>
+          <para>Properties that can be configured include:<itemizedlist>
+              <listitem>
+                <para>name (required) – name of the property on the data object the
+                                    definition describes</para>
+              </listitem>
+              <listitem>
+                <para>label – label text to use when rendering the property</para>
+              </listitem>
+              <listitem>
+                <para>shortLabel – short label text to use when rendering the
+                                    property</para>
+              </listitem>
+              <listitem>
+                <para>minLength/maxLength – min and max length a value for this
+                                    property can have</para>
+              </listitem>
+              <listitem>
+                <para>required – whether a value for this property is always
+                                    required (usually refers to persistence requiredness)</para>
+              </listitem>
+              <listitem>
+                <para>validationPattern – a validation constraint that applies to
+                                    any property value</para>
+              </listitem>
+              <listitem>
+                <para>controlField (and control) – the control component to use by
+                                    default when rendering the property</para>
+              </listitem>
+              <listitem>
+                <para>summary/description – help information for the property</para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title> Data Object and Business Object Entries </title>
+    <para>Data Object entries provide the KRAD framework extra metadata about a data object
+            which is not provided by the persistence mapping or the class itself.</para>
+    <para>The data object entry contains information about:<itemizedlist>
+        <listitem>
+          <para>Descriptive labels for each attribute in the data object (data dictionary
+                        terminology uses the term "attribute" to refer to fields with getter/setter
+                        methods)</para>
+        </listitem>
+        <listitem>
+          <para>Primary keys for the data object</para>
+        </listitem>
+        <listitem>
+          <para>Metadata about each attribute </para>
+        </listitem>
+        <listitem>
+          <para>How input fields on HTML pages should be rendered for an attribute (e.g.
+                        textbox, drop down, etc.)</para>
+        </listitem>
+        <listitem>
+          <para>Relationships and collections that exists for the data object</para>
+        </listitem>
+      </itemizedlist></para>
+    <para>The following is an example of a data object entry:</para>
+    <programlisting linenumbering = "numbered">&#160; 
+&lt;bean id=&quot;Book&quot; parent=&quot;Book-parentBean&quot;/&gt;
+&lt;bean id=&quot;Book-parentBean&quot; abstract=&quot;true&quot; parent=&quot;DataObjectEntry&quot;&gt;
+    &lt;property name=&quot;dataObjectClass&quot; value=&quot;edu.sampleu.bookstore.bo.Book&quot;/&gt;
+    &lt;property name=&quot;objectLabel&quot; value=&quot;Book&quot;/&gt;
+    &lt;property name=&quot;collections&quot;&gt;
+        &lt;list&gt;
+            &lt;bean parent=&quot;CollectionDefinition&quot; p:name=&quot;authors&quot; p:label=&quot;Authors&quot; p:shortLabel=&quot;Authors&quot; 
+             p:elementLabel=&quot;Author&quot;/&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;attributes&quot;&gt;
+        &lt;list&gt;
+            &lt;ref bean=&quot;Book-id&quot;/&gt;
+            &lt;ref bean=&quot;Book-title&quot;/&gt;
+            &lt;ref bean=&quot;Book-typeCode&quot;/&gt;
+            &lt;ref bean=&quot;Book-isbn&quot;/&gt;
+            &lt;ref bean=&quot;Book-publisher&quot;/&gt;
+            &lt;ref bean=&quot;Book-publicationDate&quot;/&gt;
+            &lt;ref bean=&quot;Book-price&quot;/&gt;
+            &lt;ref bean=&quot;Book-rating&quot;/&gt;
+            &lt;ref bean=&quot;Book-bookType-name&quot;/&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;titleAttribute&quot; value=&quot;id&quot;/&gt;
+    &lt;property name=&quot;primaryKeys&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;id&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+        </programlisting>
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>A Data Object (or Business Object) Entry provides metadata about a data
+                        object</para>
+        </listitem>
+        <listitem>
+          <para>Created with a bean whose parent is "DataObjectEntry" (or extending
+                        another data object entry bean)</para>
+        </listitem>
+        <listitem>
+          <para>Properties that can be configured include:</para>
+          <itemizedlist>
+            <listitem>
+              <para>dataObjectClass(required) – full classname for the data object
+                                    being described</para>
+            </listitem>
+            <listitem>
+              <para>objectLabel – label text to use when rendering a data object
+                                    record</para>
+            </listitem>
+            <listitem>
+              <para>dataObjectClass(required) – full classname for the data object
+                                    being described</para>
+            </listitem>
+            <listitem>
+              <para>objectLabel – label text to use when rendering a data object
+                                    record</para>
+            </listitem>
+            <listitem>
+              <para>primaryKeys – list of property names that make up the primary
+                                    keys</para>
+            </listitem>
+            <listitem>
+              <para>titleAttribute – name of the property to use as a record
+                                    identifier </para>
+            </listitem>
+            <listitem>
+              <para>attributes – list of attribute definitions for properties
+                                    contained in the data object</para>
+            </listitem>
+            <listitem>
+              <para>relationships/collections – list of relationship (1-1) and
+                                    collection (1-many) definitions for the data object</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title> Relationship and Collection Definitions </title>
+    <para>Coming Soon!</para>
+<!--TODO: Add content here
+         -->  </section>
+  <section xml:id="constraints">
+    <title> Constraints </title>
+    <para>Constraints define what the acceptable values for a field are. </para>
+    <para>There are a variety of constraints that can be defined at either the InputField level or
+      the AttributeDefinition level. These constraints go by the exact same property name at both
+      levels. Keep in mind that constraints defined at the InputField level always override those at
+      the AttributeDefinition level (when the field is backed by an AttributeDefinition).</para>
+    <para>Constraints are applied during a process called Validation. Validation can occur on the
+      client during user input, on the server during a submit process, or both. By default,
+      client-side validation is on and server-side validation is off for FormViews in Rice
+      2.0.</para>
+    <para>Some constraints mimic those that were in available in the Rice KNS framework and go by
+      similar names. To help identify which constraints are new and should be used to build KRAD
+      compatible InputFields and AttributeDefinitions, the constraints are all followed by a suffix
+      in both their bean and java class names of "Constraint".</para>
+    <para>All constraints are enforced client-side during validation, unless noted below. </para>
+    <section>
+      <title>Simple Constraint Properties</title>
+      <para><emphasis role="keyword">Required</emphasis></para>
+      <para>Property: required</para>
+      <para>Values: true if required otherwise false</para>
+      <para>When a field is required, the field must have some input value for it to be considered
+        valid</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:required=&quot;true&quot; p:propertyName=&quot;field1&quot;&gt;...&lt;/bean&gt;</programlisting>
+      <para><emphasis role="keyword">MinLength</emphasis></para>
+      <para>Property: minLength</para>
+      <para>Values: integer, 0 or greater</para>
+      <para>When a minLength is set, the input value's character length cannot be less than
+                minLength.</para>
+      <para><emphasis role="keyword">MaxLength</emphasis></para>
+      <para>Property: maxLength</para>
+      <para>Values: integer - 0 or greater</para>
+      <para>When a maxLength is set, the input value's character length cannot be greater than
+        maxLength. MaxLength should be set to a greater value than minLength (if set).</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:minLength=&quot;1&quot; p:maxLength=&quot;8&quot;&#160;p:propertyName=&quot;field1&quot;&gt;...&lt;/bean&gt;</programlisting>
+      <para><emphasis role="keyword">ExclusiveMin</emphasis></para>
+      <para>Property: exclusiveMin</para>
+      <para>Values: String representing a number or date value</para>
+      <para>When exclusiveMin is set to a number, and the input's value is a number, that number
+        must be greater than exclusiveMin. If exclusiveMin is set to a date, and the input's value
+        is a date, that date must be greater than exclusiveMin. Note that for dates, exclusiveMin
+        validation is <emphasis role="italic">not enforced client-side</emphasis>, but the
+        DatePicker widget will limit date selection based on this value (though the widget will
+        limit min inclusively - not exclusively - so values should still be checked
+        server-side).</para>
+      <para><emphasis role="keyword">InclusiveMax</emphasis></para>
+      <para>Property: inclusiveMax</para>
+      <para>Values: String representing a number or date value</para>
+      <para>When inclusiveMax is set to a number and the input's value is a number, that number must
+        be less than, or equal to, inclusiveMax. If inclusiveMax is set to a date and the input's
+        value is a date, that date must be less than, or equal to, inclusiveMax. Note that for
+        dates, inclusiveMax validation is <emphasis role="italic">not enforced
+          client-side</emphasis>, but the DatePicker widget will limit date selection based on this
+        value.</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:exclusiveMin=&quot;0&quot; p:inclusiveMax=&quot;500&quot;&#160;p:propertyName=&quot;field1&gt;...&lt;/bean&gt;</programlisting>
+      <para><emphasis role="keyword">dataType</emphasis></para>
+      <para>Property: dataType</para>
+      <para>Values: STRING, MARKUP, DATE, TRUNCATED_DATE, BOOLEAN, INTEGER, FLOAT, DOUBLE,
+                LONG, DATETIME</para>
+      <para>When dataType is set to one of the above types, it checks to see if the input's value
+        can be converted into that type. This is <emphasis role="italic">not enforced
+          client-side</emphasis> and can only be enforced during server-side validation.</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:dataType=&quot;INTEGER&quot; p:propertyName=&quot;field1&quot;&gt;...&lt;/bean&gt;</programlisting>
+      <para><emphasis role="keyword"> minOccurs/maxOccurs </emphasis></para>
+      <para>This constraint is not yet fully supported. The name and location may change in the
+        future. Future intended use is to constrain total collection items in a collection.</para>
+      <section>
+        <title>SimpleConstraint</title>
+        <para>The SimpleConstraint class is a constraint that contains all of the simple constraint
+          properties (identified above) within it. These are:</para>
+        <itemizedlist>
+          <listitem>
+            <para>required</para>
+          </listitem>
+          <listitem>
+            <para>maxLength</para>
+          </listitem>
+          <listitem>
+            <para>minLength</para>
+          </listitem>
+          <listitem>
+            <para>exclusiveMin</para>
+          </listitem>
+          <listitem>
+            <para>inclusiveMax</para>
+          </listitem>
+          <listitem>
+            <para>dataType</para>
+          </listitem>
+          <listitem>
+            <para>minOccurs/maxOccurs</para>
+          </listitem>
+        </itemizedlist>
+        <para>The SimpleContraint is used within InputField to store the settings you can set
+          directly through its simple constraint properties. SimpleConstraint itself can also be set
+          directly on the InputField bean, and will override all settings that may have been set
+          through a simple constraint property on InputField. Beyond this usage, SimpleConstraint's
+          main role is to allow the usage of simple constraints in CaseConstraints.</para>
+      </section>
+      <section>
+        <title>Complex Constraints</title>
+        <para>The rest of the constraints allow more complex validation to occur on input values.
+          All of these constraints allow the setting of a messageKey property if you would like to
+          redefine the message that is shown when validation encounters an error. By default, all
+          complex constraints already have a message predefined with parameters generated for that
+          message, and it is recommended you use the already defined messages in most cases, except
+          for a few when noted below. The base beans for all of the following constraints are
+          defined in DataDictionaryBaseTypes.xml.</para>
+      </section>
+    </section>
+    <section>
+      <title>Validation Patterns</title>
+      <para>ValidCharacterConstraints allow you to constrain the allowed input on a field to a set
+        combination of characters by using regex (Regular Expressions). There are a variety of
+        predefined ValidCharacterConstraints available in KRAD, but the ability to easily create
+        your own is available as well using standard regex. A ValidCharacterConstraint is set
+        through the validCharacterConstraint property on either an InputField or
+        AttributeDefinition. This constraint mimics, but enhances, constraints available in the
+        original KNS called ValidationPatterns. <emphasis role="italic">However, do not use
+          ValidationPatterns in KRAD as they are deprecated and no longer used.</emphasis></para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field62&quot;&gt;
+    &lt;property name=&quot;validCharactersConstraint&quot;&gt;
+        &lt;bean parent=&quot;AlphaNumericPatternConstraint&quot; /&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+                </programlisting>
+      <para>The predefined beans for ValidCharacterConstraint are:</para>
+      <para><emphasis role="keyword">AlphaNumericPatternConstraint</emphasis></para>
+      <para>Only alphabetic and numeric characters allowed.</para>
+      <para><emphasis role="keyword">AlphaPatternConstraint</emphasis></para>
+      <para>Only alphabetic characters allowed.</para>
+      <para><emphasis role="keyword">AnyCharacterPatternConstraint</emphasis></para>
+      <para>Only keyboard characters are allowed. Specifically, these are ASCII characters x21
+        through x7E in hexadecimal. Whitespace is not allowed by default, unless enabled through the
+        allowWhitespace flag.</para>
+      <para><emphasis role="keyword">CharsetPatternConstraint</emphasis></para>
+      <para>Allows any characters set through its validCharacters property.</para>
+      <para><emphasis role="keyword">NumericPatternConstraint</emphasis></para>
+      <para>Only numeric characters allowed.</para>
+      <para><emphasis role="keyword">AlphaNumericWithBasicPunc</emphasis></para>
+      <para>Only alphabetic and numeric characters with whitespace, question marks, exclamation
+        points, periods, parentheses, double quotes, apostrophes, forward slashes, dashes, colons,
+        and semi-colons allowed. This is an additional configuration of
+        AlphaNumericPatternConstraint with some "allow" flags turned on.</para>
+      <para><emphasis role="keyword">AlphaWithBasicPunc</emphasis></para>
+      <para>Only alphabetic characters with whitespace, question marks, exclamation points, periods,
+        parentheses, double quotes, apostrophes, forward slashes, dashes, colons, and semi-colons
+        allowed. This is an additional configuration of AlphaPatternConstraint with some "allow"
+        flags turned on.</para>
+      <para><emphasis role="keyword">NumericWithOperators</emphasis></para>
+      <para>Only numeric characters with whitespace, asterisks, pluses, periods, parentheses,
+        forward slashes, dashes, and equals signs, dashes allowed. This is an additional
+        configuration of NumericPatternConstraint with some "allow" flags turned on.</para>
+      <para><emphasis role="keyword">FixedPointPatternConstraint</emphasis></para>
+      <para>Only allows a numeric value where the precision property represents the maximum number
+        of numbers allowed, and scale represents the maximum numbers after the decimal point. For
+        example, a FixedPointPatternConstraint with precision 5 and scale 2 would allow: 2, 555,
+        555.11; but would not allow: 111.222, 1.222, 5555 (this is actually the value 5555.00, so it
+        is not allowed).</para>
+      <para><emphasis role="keyword">IntegerPatternConstraint</emphasis></para>
+      <para>Allows any valid integer (but does not restrict length or range). There are optional
+        flags for allowing negative integers, only negative integers, or not allowing zero as
+        input.</para>
+      <para><emphasis role="keyword">DatePatternConstraint</emphasis></para>
+      <para>Allows any date to be input that is a valid date in the system. Any format defined in
+        the configuration parameter "STRING_TO_DATE_FORMATS" is allowed.</para>
+      <para><emphasis role="keyword">BasicDatePatternConstraint</emphasis></para>
+      <para>Allows a subset of the default date formats defined by DatePatternConstraint. These
+        formats represent the most common input for date values: MM/dd/yy, MM/dd/yyyy, MM-dd-yy, and
+        MM-dd-yyyy. It is recommended that this constraint be used on fields which use the
+        DatePicker widget.</para>
+      <para><emphasis role="keyword">ConfigurationBasedRegexPatternConstraint</emphasis></para>
+      <para>The following constraints are configurations of the
+        ConfigurationBasedRegexPatternConstraint which have a patternConstraintKey that is used to
+        retrieve a regex pattern by key in ApplicationResources.properties (or any other imported
+        properties file). This differs from the above ValidCharactersConstraints because those
+        generate their regex based on flags and options set on them. These constraints can easily
+        have their functionality modified by changing the regex they use in any imported properties
+        file.</para>
+      <tip>
+        <title>Custom Regex Constraints</title>
+        <para>You can easily define your own ConfigurationBasedRegexPatternContraint
+                        bean by setting your own messageKey and patternConstraintKey to something that
+                        you have defined in a properties file. </para>
+      </tip>
+      <para><emphasis role="keyword">FloatingPointPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.floatingPoint</para>
+      <para>Allows any valid floating point value (does not limit length or range). In other words,
+        any number which may include a decimal point.</para>
+      <para><emphasis role="keyword">PhoneNumberPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.phoneNumber</para>
+      <para>Allows any valid US phone number in this format: ###-###-####.</para>
+      <para><emphasis role="keyword">TimePatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.time12</para>
+      <para>Allows any valid time in 12 hour format, seconds and leading 0s are optional.</para>
+      <para><emphasis role="keyword">Time24HPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.time24</para>
+      <para>Allows any valid time in 24 hour format, seconds and leading 0s are optional.</para>
+      <para><emphasis role="keyword">UrlPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.url</para>
+      <para>Allows any valid url; the prefixes http://, https://, or ftp:// are
+                    required.</para>
+      <para><emphasis role="keyword">NoWhitespacePatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.noWhitespace</para>
+      <para>Any characters except for whitespace are allowed.</para>
+      <para><emphasis role="keyword">JavaClassPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.javaClass</para>
+      <para>Only values that would be valid java class names are allowed.</para>
+      <para><emphasis role="keyword">EmailAddressPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.emailAddress</para>
+      <para>Only valid email addresses are allowed.</para>
+      <para><emphasis role="keyword">TimestampPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.timestamp</para>
+      <para>Only valid timestamp values are allowed.</para>
+      <para><emphasis role="keyword">YearPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.year</para>
+      <para>Any year from the 1600s to the 2100s is allowed.</para>
+      <para><emphasis role="keyword">MonthPatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.month</para>
+      <para>Any valid month, by number, is allowed.</para>
+      <para><emphasis role="keyword">ZipcodePatternConstraint</emphasis></para>
+      <para>patternConstraintKey: validationPatternRegex.zipcode</para>
+      <para>Any valid US zip code, with or without its 4 number postfix, is
+                    allowed.</para>
+    </section>
+    <section>
+      <title>Custom Validation Patterns</title>
+      <para>In addition to the above defined ValidCharacterConstraints, you can define your own
+        ValidCharactersConstraint by defining the regex property "value" directly. This is an
+        additional configuration option, similar to defining a custom
+        ConfigurationBasedRegexPatternConstraint, the only difference being that the regex value is
+        defined at the bean level and in a ConfigurationBasedRegexPatternConstraint it is defined in
+        an imported properties file. Both custom configurations must have a messageKey
+        defined.</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:instructionalText=&quot;custom valid characters
+    constraint - this one accepts only 1 alpha character followed by a period&#160; and
+    then followed by a number (a.8, b.0, etc)&quot; p:propertyName=&quot;field1&quot;&gt;
+    &lt;property name=&quot;validCharactersConstraint&quot;&gt;
+        &lt;bean parent=&quot;ValidCharactersConstraint&quot; p:value=&quot;<emphasis role="bold">^[a-zA-Z]\.[0-9]$&quot;</emphasis>
+            p:messageKey=&quot;validation.aDotNumTest&quot;/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+                </programlisting>
+    </section>
+    <section>
+      <title>Prerequisite Constraints</title>
+      <para>A prerequisite constraint defines what fields must be filled out with this field (the
+        field that the PrerequisiteConstraint is defined on). When this field is filled out, it
+        requires the field set in the "propertyName" property of the PrerequisiteConstraint to be
+        filled out as a result. </para>
+      <para>During client-side validation, whether that field comes after or before that field is
+        irrelevant, as the UI will only notify the user when appropriate. For example, if you
+        haven't yet visited a field that is now required, the user will only be notified of an error
+        after they have first visited this newly required field and have not filled it out.
+        Alternatively, if the field that is now required comes before the field that requires it,
+        the user will be notified immediately. These mechanisms are set up to prevent the UI from
+        showing errors before the user had a chance to interact with the corresponding field within
+        the overall page flow.</para>
+      <para>A field can have any number of PrerequisiteConstraints in their
+                    "dependencyConstraints" property. </para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field1&quot; &gt;
+    &lt;property name=&quot;dependencyConstraints&quot;&gt;
+        &lt;list&gt;
+            &lt;bean parent=&quot;PrerequisiteConstraint&quot; p:propertyName=&quot;field7&quot;/&gt;
+            &lt;bean parent=&quot;PrerequisiteConstraint&quot; p:propertyName=&quot;field8&quot;/&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+                </programlisting>
+      <tip>
+        <title>Prerequisite Constraints</title>
+        <para>A useful and common technique is to put a prerequisite constraint on both fields that
+          may require each other (example case: a measurement requires both a value and a unit,
+          neither make sense without the other). </para>
+      </tip>
+    </section>
+    <section>
+      <title>Must Occur Constraints</title>
+      <para>MustOccurConstraint is used to identify fields that are required before this field can
+        be filled out. This is different from PrerequisiteConstraints because the number of fields
+        required from a different set of fields can be defined.</para>
+      <para>The MustOccurConstraint's min and max properties define how many PrerequisiteConstraints
+        (defined in its "prerequisiteConstraints" property) in combination with the
+        MustOccurConstraints (defined its "mustOccurConstraints" property) must be satisfied for
+        this MustOccurConstraint to pass. Essentially, either a satisfied PrerequisiteConstraint or
+        a satisfied MustOccurConstraint counts as one toward the min/max. </para>
+      <para>The following MustOccurConstraint is valid when field11 has a value, or is valid when
+        both field12 and field13 has a value (min="2" and max="2" in the nested MustOccursConstraint
+        enforces that both must be filled out). However, in this case, filling out all three fields
+        is also valid because of min="1" and max="2" on the top level constraint (there is one
+        PrerequisiteConstraint and one MustOccursConstraint at the top level). Alternatively,
+        setting a max="1" at the top level would make this constraint only allow one of the two
+        conditions to be satisfied (otherwise, it would be invalid).</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field1&quot;&gt;
+    &lt;property name=&quot;mustOccurConstraints&quot;&gt;
+        &lt;list&gt;
+            &lt;bean parent=&quot;MustOccurConstraint&quot;&gt;
+                &lt;property name=&quot;min&quot; value=&quot;1&quot; /&gt;
+                &lt;property name=&quot;max&quot; value=&quot;2&quot; /&gt;
+                    &lt;property name=&quot;prerequisiteConstraints&quot;&gt;
+                        &lt;list&gt;
+                            &lt;bean parent=&quot;PrerequisiteConstraint&quot; p:propertyName=&quot;field11&quot;/&gt;
+                        &lt;/list&gt;
+                    &lt;/property&gt;
+                &lt;property name=&quot;mustOccurConstraints&quot;&gt;
+                    &lt;list&gt;
+                        &lt;bean parent=&quot;MustOccurConstraint&quot;&gt;
+                            &lt;property name=&quot;min&quot; value=&quot;2&quot; /&gt;
+                            &lt;property name=&quot;max&quot; value=&quot;2&quot; /&gt;
+                            &lt;property name=&quot;prerequisiteConstraints&quot;&gt;
+                                &lt;list&gt;
+                                    &lt;bean parent=&quot;PrerequisiteConstraint&quot; p:propertyName=&quot;field12&quot; /&gt;
+                                    &lt;bean parent=&quot;PrerequisiteConstraint&quot; p:propertyName=&quot;field13&quot; /&gt;
+                                &lt;/list&gt;
+                            &lt;/property&gt;
+                        &lt;/bean&gt;
+                    &lt;/list&gt;
+                &lt;/property&gt;
+            &lt;/bean&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+                </programlisting>
+      <note>
+        <title>Must Occurs Constraint Message</title>
+        <para>Because of the complexity that some MustOccurConstraints can achieve, the message
+          generated by MustOccurConstraint by default may not always be accurate or easy to
+          understand. It is recommended that you define your own messageKey for complex
+          MustOccurConstraints. </para>
+      </note>
+    </section>
+    <section>
+      <title>Case Constraints</title>
+      <para>A CaseConstraint provides the ability to only apply a certain constraint when a defined
+        case/condition is satisfied. The constraint or constraints used can be any of the above
+        constraints, in addition to nesting another CaseConstraint within itself. </para>
+      <para>CaseConstraint has the following properties:</para>
+      <para>propertyName - the name of the field the case is using in the condition.</para>
+      <para>operator - the name of the operator to use in the condition. By default, this operator
+        is EQUALS. Other operators available are NOT_EQUAL, GREATER_THAN_EQUAL, LESS_THAN_EQUAL,
+        GREATER_THAN, LESS_THAN, and HAS_VALUE (the field defined in propertyName just has to have
+        any value to trigger the case constraint when HAS_VALUE is used).</para>
+      <para>caseSensitive - set this to true if the condition should be caseSensitive when
+                comparing values.</para>
+      <para>WhenConstraint list - a list of WhenConstraints which define the values for the
+        condition to be satisfied. If one of the values in the "values" property satisfies the
+        condition, the constraint defined in this WhenConstraint is applied to this field. Note that
+        the value can also be the value of another field defined by the "valuePath" property –
+        however, this does not work client-side in this release. The WhenConstraint also defines the
+        "constraint" to be applied if the condition is satisfied with that value.</para>
+      <para>In order to define an "ANDed" CaseConstraint, nest another CaseConstraint into a
+        WhenConstraint property. Alternatively, defining multiple WhenConstraints define an "ORed"
+        CaseConstraint. Also, to apply multiple constraints for one value use multiple
+        WhenConstraints with the same value defined.</para>
+      <para>The following code makes field1 required when field2 is equal to "valueA" or "valueB".
+        It also makes field1 only allow alphanumeric input when field2 is equal to "valueA".</para>
+      <programlisting linenumbering = "numbered">
+&lt;bean parent=&quot;Uif-InputField&quot; p:propertyName=&quot;field1&quot;&gt;
+    &lt;property name=&quot;caseConstraint&quot;&gt;
+        &lt;bean parent=&quot;CaseConstraint&quot;&gt;
+            &lt;property name=&quot;propertyName&quot; value=&quot;field2&quot; /&gt;
+            &lt;property name=&quot;whenConstraint&quot;&gt;
+                &lt;list&gt;
+                    &lt;bean parent=&quot;WhenConstraint&quot;&gt;
+                        &lt;property name=&quot;values&quot;&gt;
+                            &lt;list&gt;
+                                &lt;value&gt;valueA&lt;/value&gt;
+                                &lt;value&gt;valueB&lt;/value&gt;
+                            &lt;/list&gt;
+                        &lt;/property&gt;
+                        &lt;property name=&quot;constraint&quot;&gt;
+                            &lt;bean parent=&quot;RequiredConstraint&quot; /&gt;
+                        &lt;/property&gt;
+                    &lt;/bean&gt;
+                    &lt;bean parent=&quot;WhenConstraint&quot;&gt;
+                        &lt;property name=&quot;value&quot; value=&quot;valueA&quot; /&gt;
+                        &lt;property name=&quot;constraint&quot;&gt;
+                            &lt;bean parent=&quot;AlphaNumericPatternConstraint&quot; /&gt;
+                        &lt;/property&gt;
+                    &lt;/bean&gt;
+                &lt;/list&gt;
+            &lt;/property&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+            </programlisting>
+    </section>
+    <section>
+      <title>State-based Validation and Constraints</title>
+      <para>State-Based Validation allows you to change what validations (in other words, what
+        Constraints) are applied to an object's fields as it moves through states over time, through
+        user interaction, or any other mechanism that may affect a "state" of an object. One example
+        of states in practice is workflow status. </para>
+      <para>If you do not setup states, the view is considered stateless and all Constraints that you setup will apply at all times (note: this behavior is unchanged from prior releases).
+</para>
+      <para><emphasis role="bold">To setup state-based validation you must set the stateMapping
+          property with a StateMapping object. The object MUST include a list of states and these
+          states MUST be in order that the states are changed.</emphasis>
+      </para>
+      <para> In addition to the states themselves, you can define a map for specifying what the state's name will be in the text of validation messages.  The map <emphasis role="keyword">stateNameMessageKeyMap</emphasis> takes the state as a key and a messageKey as a value for its entries.  The messageKey is used to retrieve the human readable version of the message from the ConfigurationService.
+</para>
+      <para>The <emphasis role="keyword">statePropertyName</emphasis> property of StateMapping allows you to specify the name/path to the property on the form which represents the state.  By default this is set to "state" (meaning on the root form UifFormBase, stateMapping will use the "state" property to determine the state of the object).  This can be changed to anything and is used with the new property of View called stateObjectBindingPath (the path to the "state" property will be determined as stateObjectBindingPath + statePropertyName).
+</para>
+      <para>The <emphasis role="keyword">customClientSideValidationStates</emphasis> property is used strictly to define what state the client-side validation (see corresponding section) should use to validate during user interaction.  By default, client-side validation will always validate against the "n+1" state.  What that means is that client-side validation will always validate against the NEXT state (if one exists, otherwise the current state) of the object because that is what the user is trying to get to. </para>
+      <para>To change this behavior the customClientSideValidationStates map can be used to define what client-side validation will be used at each state.  Its entries take the state of the object as the key and the state you want the client-side validation to validate against at that state as the value.  States which don't have a custom client-side validation state default to the "n+1" case, as normal.</para>
+      <para>Example of stateMapping with some of these properties set (note that state names themselves are for example purposes only):</para>
+      <para><programlisting linenumbering = "numbered">   &lt;property name=&quot;stateMapping&quot;&gt;
+      &lt;bean parent=&quot;StateMapping&quot;&gt;
+        &lt;property name=&quot;states&quot;&gt;
+          &lt;list&gt;
+            &lt;value&gt;state1&lt;/value&gt;
+            &lt;value&gt;state2&lt;/value&gt;
+            &lt;value&gt;state3&lt;/value&gt;
+            &lt;value&gt;state4&lt;/value&gt;
+            &lt;value&gt;state5&lt;/value&gt;
+          &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;property name=&quot;stateNameMessageKeyMap&quot;&gt;
+          &lt;map&gt;
+            &lt;entry key=&quot;state1&quot; value=&quot;demo.state1&quot;/&gt;
+            &lt;entry key=&quot;state2&quot; value=&quot;demo.state2&quot;/&gt;
+            &lt;entry key=&quot;state3&quot; value=&quot;demo.state3&quot;/&gt;
+            &lt;entry key=&quot;state4&quot; value=&quot;demo.state4&quot;/&gt;
+            &lt;entry key=&quot;state5&quot; value=&quot;demo.state5&quot;/&gt;
+          &lt;/map&gt;
+        &lt;/property&gt;
+        &lt;property name=&quot;customClientSideValidationStates&quot;&gt;
+          &lt;map&gt;
+            &lt;entry key=&quot;state1&quot; value=&quot;state3&quot;/&gt;
+          &lt;/map&gt;
+        &lt;/property&gt;
+      &lt;/bean&gt;
+    &lt;/property&gt;</programlisting></para>
+      <para>This example has 5 states, it defines a message key  for each state, and for client-side validation when the view&apos;s object is in &quot;state1&quot; the client will validate against &quot;state3&quot; (it will also validate against &quot;state3&quot; in &quot;state2&quot; as normal).  It is retrieving the current state of the object from the &quot;state&quot; property at the root of the form (default).</para>
+      <para>StateMapping also has some helper methods that can be called:</para>
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="keyword">getCurrentState</emphasis> retrieves what is the current state of the object this stateMapping is for</para>
+        </listitem>
+        <listitem>
+          <para><emphasis role="keyword">getNextState</emphasis> which gets the next expected state (this does not take into account customClientSideValidationStates).
+</para>
+        </listitem>
+      </itemizedlist>
+      <para>After you have the StateMapping object defined, you need to define states on your validation constraints to use state-based validation. </para>
+        <section>
+          <title>Defining Constraint state Information</title>
+          <para>
+        Constraints without states defined fallback to "stateless" and will always apply for all states.
+BaseConstraints now have a property called states.  This represents the list of states at which that constraint applies.  If the list is empty or null, the constraint will apply at every state.  If the list contains at least 1 item, the constraint will apply at ONLY the states specified.  To limit the amount of xml required when entering states, there are some helper patterns allowed in this list.  These are:
+</para>
+      <para><emphasis role="bold">"+"</emphasis>: when entering a state name followed by a plus sign, this means the constraint is applied to that state and every state afterwards. Examples: "state1+", "I+"
+</para>
+      <para><emphasis role="bold">"&gt;"</emphasis>: used for ranges.  The constraint will apply from one state to another state, and every state in between. Examples: "state1&gt;state3", "I&gt;S"
+</para>
+      <para>Of course, you can just list single states by name in the list as well. </para>
+      <para>These patterns can be mixed in the list itself.  Example:  p:states="state1, state3&gt;state4, state6+"
+</para>
+      <para>In addition, other than determining if the constraint applies at a specific state or not, Constraints can also change fundamentally over time.  An example of this may be that what is allowed to be input in a field becomes stricter over state transitions.  To accomplish this, constraints (BaseConstraint.java) now have a property called <emphasis role="keyword">constraintStateOverrides</emphasis> which contains a list of replacements for the constraint they are configured on.  Constraints in this list must be compatible with the constraint they are replacing; for example, ValidCharacterConstraints should only be replaced with other ValidCharacterConstraints (and its child classes), etc.  Overrides that do not match or are not valid siblings/children classes of the constraint they are overriding will throw an exception.</para>
+      <para><emphasis role="bold">Constraints in this list MUST have the states at which they apply defined; the replacement will override the constraint they are configured on at the states they specify. Overrides which do not have states specified will throw an exception. </emphasis></para>
+      <para>Rules for constraintStateOverrides:
+</para>
+      <itemizedlist>
+        <listitem><para>Overrides, if configured, always take precedence over their parent when they apply. If no
+              overrides match the state, or if the constraintStateOverrides list is empty, the
+              parent constraint will apply (if it is applicable for the state).</para></listitem>
+        <listitem><para>If there are there are 2 overrides that both apply at the same state, the last on the list will always take precedence.</para></listitem>
+      </itemizedlist>
+      </section>
+        <section>
+          <title>State-based Validation at the Controller</title>
+        <para>
+        While the client-side validation is automatic (always validates against "n+1" unless configured otherwise), the server-side validation is completely up to the implementer.  If you would like to validate your View (or alternatively DataDictionaryEntry), there are methods provided to do so.  The main point is that server validation is NOT automatic and is application controlled.  These new state-based validation methods are (some overloaded version not noted here):
+</para>
+      <para><emphasis role="bold">
+        For ViewValidationService (should be used for KRAD views):
+      </emphasis></para>
+      <itemizedlist>
+        <listitem><para><emphasis role="keyword">validateView(View view)</emphasis> - This is the main validation method that should be used when validating Views. This method validates against the current state if state based validation is setup.</para></listitem>
+        <listitem><para><emphasis role="keyword">validateView(View view, ViewModel model, String forcedValidationState)</emphasis> - Validate the view against the specific validationState instead of the default (current state). If forcedValidationState is null, validates against the current state, if state-based validation is setup.</para></listitem>
+        <listitem><para><emphasis role="keyword">validateViewAgainstNextState(View view, ViewModel model) </emphasis>- Validate the view against the next state based on the order of the states in the view's StateMapping. This will validate against current state + 1. If there is no next state, this will validate against the current state.</para></listitem>
+        <listitem><para><emphasis role="keyword">validateViewSimulation(View view, ViewModel model)</emphasis> - Simulate view validation - this will run all validations against all states from the current state to the last state in the list of states in the view&apos;s stateMapping. Validation errors received for the current state will be added as errors to the MessageMap. Validation errors for future states will be warnings.</para></listitem>
+      </itemizedlist>
+      <para><emphasis role="bold">For DictionaryValidationService </emphasis>(recommended only when you don't have a view.  Also note that state-based validation only works for DataDictionaryEntry backed objects with StateMappings setup):
+</para>
+      <itemizedlist>
+        <listitem><para><emphasis role="keyword">validate(Object object)</emphasis> – Validates against the current state (if state-based validation is set up).</para></listitem>
+        <listitem><para><emphasis role="keyword">validateAgainstState(Object object, String validationState) </emphasis>– validates against the state specified by validationState.</para></listitem>
+        <listitem><para><emphasis role="keyword">validateAgainstNextState(Object object)</emphasis> – validates against the next state as defined by the state mapping.</para></listitem>
+      </itemizedlist>
+      <para>What is done in response to validation errors is also completely up to the implementation of the controller logic (it is recommended you halt action and return back the same view passed in, this will automatically display the discovered validation errors for the user).
+</para>
+      <para>Example of validating and checking errors (this simple example only changes the state on successful validation):
+</para>
+      <programlisting linenumbering = "numbered">//inside a controller method
+KRADServiceLocatorWeb.getViewValidationService().validateView(form.getPostedView(), form, &quot;state2&quot;);
+if(!GlobalVariables.getMessageMap().hasErrors()){
+   //do whatever you need to do on after a successful
+   //validation here (save, submit, etc)
+   form.setState(&quot;state2&quot;);
+}
+
+return getUIFModelAndView(form);</programlisting>
+      <figure>
+        <title>State-based Validation Server Errors</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="../images/KRAD_Guide/statebasedValidation.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>In this image, you may notice the &quot;**&quot; indicator.  In KRAD, this means the field is required for the next state.</para>
+    </section>
+      <section>
+        <title>State-based Validation helper beans</title>
+            <para>There are a few beans available for use to help with a couple aspects of state based validation:</para>
+      <itemizedlist>
+        <listitem><para><emphasis role="keyword">StateMapping</emphasis> - base StateMapping bean to parent from, defaults statePropertyName to &quot;state&quot;</para></listitem>
+        <listitem><para><emphasis role="keyword">WorkflowStateMapping</emphasis> - suggested workflow StateMapping bean properties, for use with documents. Important: use only if you know your state-based validation is tied directly to workflow status.</para></listitem>
+        <listitem><para><emphasis role="keyword">Uif-StateBased-RequiredInstructionsMessage</emphasis> - message that indicates that &quot;**&quot; means required for the next state. May be enhanced in the future to tell the user what the actual next state is.</para></listitem>
+      </itemizedlist>
+      </section>  
+    </section>
+  </section>
+  <section>
+    <title> Data Dictionary Services </title>
+    <para>Coming Soon!</para>
+<!-- TODO: Add content here.
+          -->  </section>
+  <section>
+    <title>The DATAOBJECTMETADATASERVICE</title>
+    <para>Coming Soon!</para>
+<!-- TODO: Add content here.
+          -->  </section>
+  <section>
+    <title> Extending the Data Dictionary </title>
+    <para>Coming Soon!</para>
+<!-- TODO: Add content here.
+          -->  </section>
+</chapter>

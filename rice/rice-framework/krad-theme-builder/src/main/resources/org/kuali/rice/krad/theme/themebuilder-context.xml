@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:property-placeholder/>
+
+  <bean class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
+    <property name="executables">
+      <util:list>
+        <bean class="org.kuali.rice.krad.theme.ThemeBuilder">
+          <property name="webappSourceDir" value="${webapp.source.dir}"/>
+          <property name="themeBuilderOutputDir" value="${theme.builder.output.dir}"/>
+          <property name="themeExcludesStr" value="${theme.builder.excludes}"/>
+          <property name="projectVersion" value="${project.version}"/>
+          <property name="additionalThemeDirectoriesStr" value="${theme.builder.theme.adddirs}"/>
+          <property name="additionalPluginDirectoriesStr" value="${theme.builder.plugin.adddirs}"/>
+          <property name="themePreProcessors">
+            <list>
+              <bean class="org.kuali.rice.krad.theme.preprocessor.LessThemePreProcessor"/>
+            </list>
+          </property>
+          <property name="skipThemeProcessing" value="${theme.skip.theme.processing}"/>
+        </bean>
+      </util:list>
+    </property>
+  </bean>
+</beans>

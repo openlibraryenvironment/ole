@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Kuali Rice ${project.version} Release Notes</title>
+        <edition>${project.version}</edition>
+        <pubdate>Released: ${docbook.build.timestamp}</pubdate>
+    </info>
+    <section xml:id="overview" xreflabel="Overview">
+        <title>Overview</title>
+        <para>Welcome to Rice ${project.version}! </para>
+        <section>
+            <title>Release Highlights</title>
+            <para>This version of Rice is a patch release consisting of bug fixes and small items
+        needed by Kuali application partners. There are no database changes and it should be a
+        drop-in replacement.</para>
+        </section>
+        <section>
+            <title>Download</title>
+            <para>Kuali Rice ${project.version} can be downloaded from the Rice website at <link xlink:show="new" xlink:href="http://kuali.org/rice/download">http://kuali.org/rice/download</link>.</para>
+            <para>There are three different distributions of Rice available: source, binary and
+                server. Please read the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/IG.html">Installation Guide</link> for
+                more details on each of these distributions.</para>
+            <para>Applications can also consume Rice from the maven site at <link
+                    xlink:href="http://search.maven.org/#search|ga|1|org.kuali.rice"
+                    >http://search.maven.org/#search|ga|1|org.kuali.rice</link>.</para>
+        </section>
+        <section>
+            <title>Documentation</title>
+            <para>API Documentation can be found at <link xlink:show="new" xlink:href="http://site.kuali.org/rice/${project.version}/apidocs/index.html">http://site.kuali.org/rice/${project.version}/apidocs/index.html</link></para>
+            <para>Formal documentation can be found at <link xlink:show="new"
+                    xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/index.html"
+                    >http://site.kuali.org/rice/${project.version}/reference/html/index.html</link>.
+                This documentation is still in the process of review and update  which will continue
+                through subsequent releases, so please follow the notes in each document to report
+                any outdated information.</para>
+        </section>
+        <section>
+            <title>Contact</title>
+            <para>If you encounter any difficulty, please don't hesitate to contact the Rice team on
+                our public collaboration mailing list at <email>rice.collab@kuali.org</email>.
+                Please indicate that you are using the ${project.version} version of Rice.</para>
+        </section>
+    </section>
+    <section xml:id="items_addressed_in_rice">
+        <title>Items Addressed in Rice ${project.version}</title>
+      
+      <section>
+        <title>Bug Fix</title>
+        <para>
+          <itemizedlist>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-10345'>KULRICE-10345</link>] - Required * does not appear on left descriptor column in maintenance documents</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-11816'>KULRICE-11816</link>] - Expanded Text Area broken</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-11862'>KULRICE-11862</link>] -  When editing maintenance doc, fields with refreshWhenChangedPropertyNames renders wrong when refresh</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12021'>KULRICE-12021</link>] - Kim Attribute problem when multiple attributes have the same name</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12037'>KULRICE-12037</link>] - Newer Rice 2.3.x releases are ignoring a KRAD field's default value finder class</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12058'>KULRICE-12058</link>] - Custom property editor not being invoked for java.sql.Time</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12374'>KULRICE-12374</link>] - Provide method to create disapproval note text in DocumentControllerBase</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12457'>KULRICE-12457</link>] - KRMS error and cache flush messages not appearing right</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12485'>KULRICE-12485</link>] - Adding/Removing a role doesn't take effect even if you clear the kim cache</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+      </section>
+      
+      
+      <section>
+        <title>Task</title>
+        <para>
+          <itemizedlist>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-11579'>KULRICE-11579</link>] - Add memberQualifiers parameter to RoleTypeService.convertQualificationForMemberRoles</para>
+            </listitem>
+            <listitem>
+              <para>[<link xlink:href='https://jira.kuali.org/browse/KULRICE-12417'>KULRICE-12417</link>] - Correct errors in the installation guide's "Building the Rice Database" section</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+      </section>
+      
+      
+      
+      
+    </section>
+</article>

@@ -1,0 +1,789 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="conditional_logic" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+         version="5.0">
+  <title>Conditional Logic</title>
+  <section>
+    <title>Conditional Logic</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+  </section>
+  <section>
+    <title>Presentation Controllers and Authorizers</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+  </section>
+  <section>
+    <title>Configuration with Expressions</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+    <section>
+      <title>Spring EL</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>An expression language statement can be specified within the UIF XML
+              to conditionally set a property value
+            </para>
+          </listitem>
+          <listitem>
+            <para>An expression starts with the delimiter '@{' and ends with '}'</para>
+          </listitem>
+          <listitem>
+            <para>A property value can contain a single expression, or several
+              expressions within other literal text (eg 'liter text @{expresson} more
+              @{another expression}')
+            </para>
+          </listitem>
+          <listitem>
+            <para>Expressions are evaluated using the Spring EL engine during the views
+              apply model phase
+            </para>
+          </listitem>
+          <listitem>
+            <para>Some of the features supported by Spring EL include:</para>
+            <itemizedlist>
+              <listitem>
+                <para>Literal expressions</para>
+              </listitem>
+              <listitem>
+                <para>Boolean and relational operators</para>
+              </listitem>
+              <listitem>
+                <para>Regular expressions</para>
+              </listitem>
+              <listitem>
+                <para>Class expressions</para>
+              </listitem>
+              <listitem>
+                <para>Accessing properties, arrays, lists, maps</para>
+              </listitem>
+              <listitem>
+                <para>Method invocation</para>
+              </listitem>
+              <listitem>
+                <para>Relational operators</para>
+              </listitem>
+              <listitem>
+                <para>Assignment</para>
+              </listitem>
+              <listitem>
+                <para>Calling constructors</para>
+              </listitem>
+              <listitem>
+                <para>Bean references</para>
+              </listitem>
+              <listitem>
+                <para>Array construction</para>
+              </listitem>
+              <listitem>
+                <para>Inline lists</para>
+              </listitem>
+              <listitem>
+                <para>Ternary operator</para>
+              </listitem>
+              <listitem>
+                <para>Variables</para>
+              </listitem>
+              <listitem>
+                <para>User defined functions</para>
+              </listitem>
+              <listitem>
+                <para>Collection projection</para>
+              </listitem>
+              <listitem>
+                <para>Collection selection</para>
+              </listitem>
+              <listitem>
+                <para>Templated expressions</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>By default, an expression term is evaluated against the model object.
+              For example, if our expression is '@{field1}', the expression will
+              evaluate the value of field1 on the model. Paths are formed in the usual
+              manner (dot for nested, brackets for lists and maps)
+            </para>
+          </listitem>
+          <listitem>
+            <para>Expression terms can also go against a variable. Variables are
+              indicated using the '#' prefix (eg '@{#variable.property}'). The
+              following variables are available within the UIF (note some of the
+              variables are only available in certain contexts)
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>collectionGroup – For a property on a collection group, or any
+                  component within the group, this variable can be used to refer
+                  to the collection group component instance
+                </para>
+              </listitem>
+              <listitem>
+                <para>ConfigProperties – A map of the Rice configuration properties.
+                  The map key is the config property name and the map value is the
+                  config property value
+                </para>
+              </listitem>
+              <listitem>
+                <para>component – Refers to the component instance the property is
+                  configured on. Note when setting a nested property, the
+                  component variable will point to the nested component, not the
+                  component bean the property tag belongs to
+                </para>
+              </listitem>
+              <listitem>
+                <para>Constants – Constants from the KRADConstants class</para>
+              </listitem>
+              <listitem>
+                <para>DocumentEntry – When on a document view refers to the data
+                  dictionary document entry
+                </para>
+              </listitem>
+              <listitem>
+                <para>index – When on a component within a collection group line,
+                  refers to the index of the line the component is being rendered
+                  for
+                </para>
+              </listitem>
+              <listitem>
+                <para>isAddLine - When on a component within a collection group
+                  line, indicates if the line being rendered is the add
+                  line
+                </para>
+              </listitem>
+              <listitem>
+                <para>line - When on a component within a collection group line,
+                  refers to the data object for the collection line the component
+                  is being rendered for
+                </para>
+              </listitem>
+              <listitem>
+                <para>parentLine - Refers to the parent collection line (parent to a
+                  sub collection) allowing access to the sub collection size with
+                  '@{#parentLine.subCollectionName.size()}' from within the sub
+                  collection
+                </para>
+              </listitem>
+              <listitem>
+                <para>readOnlyLine - When on a component within a collection group
+                  line, indicates if the line for which the component is being
+                  rendered for is read-only
+                </para>
+              </listitem>
+              <listitem>
+                <para>manager – Refers to the layout manager instance for the parent
+                  group (note if within a nested group, the manager instance will
+                  be that of the direct parent)
+                </para>
+              </listitem>
+              <listitem>
+                <para>node – For tree components refers to the current node the
+                  component is being rendered for
+                </para>
+              </listitem>
+              <listitem>
+                <para>nodePath – For tree components refers to the path for the node
+                  the component is being rendered for
+                </para>
+              </listitem>
+              <listitem>
+                <para>parent – Refers to the immediate parent component</para>
+              </listitem>
+              <listitem>
+                <para>UifConstants – Constants from the UifConstants class</para>
+              </listitem>
+              <listitem>
+                <para>view – Refers to the view instance the component belongs
+                  to
+                </para>
+              </listitem>
+              <listitem>
+                <para>ViewHelper – The view helper instance configured for the view
+                  (note this is a convenient way to create and call custom methods
+                  from EL)
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Component Context</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>All components contain a property named context which is a Map
+              type
+            </para>
+          </listitem>
+          <listitem>
+            <para>The context map holds various key/value pairs that build the context
+              for a component
+            </para>
+          </listitem>
+          <listitem>
+            <para>The context map is then used for:</para>
+            <itemizedlist>
+              <listitem>
+                <para>Building EL variables</para>
+              </listitem>
+              <listitem>
+                <para>Getting references to other components from a method (such as
+                  the finalize method)
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>Common objects (such as those listed under EL variables) are inserted
+              into the context map by the framework, however custom context entries
+              can be added through XML or code
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Built-In and Custom Functions</title>
+      <para>There are a variety of functions built-in to the framework that can be called from
+        SpringEL. These can even be expanded with your own custom functions.
+      </para>
+      <para>Add content here!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <note>
+          <para>All UIF functions need to be prepended with #. For example, #isAssignableFrom.</para>
+        </note>
+        <itemizedlist>
+          <listitem>
+            <para>The UIF provides a number of functions that can be called from within
+              an expression (see ExpressionFunctions class):
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>boolean #isAssignableFrom(Class&lt;?&gt; assignableClass,
+                  Class&lt;?&gt; objectClass) – Used to check whether a class
+                  (such as a class configured for a property) is assignable to
+                  another class
+                </para>
+              </listitem>
+              <listitem>
+                <para>boolean #empty(Object value) – Used to check whether a given
+                  value is empty (null or empty string) (eg
+                  '@{!#empty(field1)}')
+                </para>
+              </listitem>
+              <listitem>
+                <para>boolean#emptyList(List&lt;?> list) - if the empty is null or
+                  contains no items, returns true (eg '@{!#empty(list)}'
+                </para>
+              </listitem>
+              <listitem>
+                <para>boolean#listContains(List&lt;?> list, Object[] values) - Check
+                  to see if the list contains the values passed in. The values
+                  can be string or numeric and should match the content type being
+                  stored in the list. If the list is String and the values passed
+                  in are not string, toString() conversion will be used. Returns
+                  true if the values are in the list and both lists are non-empty,
+                  false otherwise. Example usage:
+                  "@{#listContains(checkboxesField2, {'2','3'})}" or
+                  "@{#listContains(checkboxesField2, 1)}".
+                </para>
+              </listitem>
+              <listitem>
+                <para>String #getName(Class&lt;?&gt; clazz) – Returns the name for a
+                  class
+                </para>
+              </listitem>
+              <listitem>
+                <para>String #getParm(String namespaceCode, String componentCode,
+                  String parameterName) – Retrieves the value for a system
+                  parameter as a String
+                </para>
+              </listitem>
+              <listitem>
+                <para>Boolean #getParmInd(String namespaceCode, String componentCode,
+                  String parameterName) – Retrieves the value for a system
+                  parameter as a Boolean
+                </para>
+              </listitem>
+              <listitem>
+                <para>boolean #hasPerm(String namespaceCode, String permissionName)
+                  – Checks whether the current user has the given KIM
+                  permission
+                </para>
+              </listitem>
+              <listitem>
+                <para>boolean #hasPermDtls(String namespaceCode, String
+                  permissionName, Map&lt;String, String&gt;
+                  permissionDetails,Map&lt;String, String&gt; roleQualifiers) –
+                  Checks whether the current user has the given KIM permission
+                  matching the details and role qualifiers
+                </para>
+              </listitem>
+              <listitem>
+                <para>boolean #hasPermTmpl(String namespaceCode, String templateName,
+                  Map&lt;String, String&gt; permissionDetails,Map&lt;String,
+                  String&gt; roleQualifiers) – Checks whether the current user has
+                  a KIM permission for the template name that matches the details
+                  and qualifiers
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>Custom functions can be added to the ViewHelperService implementation
+              and invoked by #ViewHelperService.functionName (for example
+              "@{#ViewHelper.getLowestAmount(field1, field2, 'true')}")
+            </para>
+          </listitem>
+          <listitem>
+            <para>In addition, for new global functions, the ExpressionEvaluatorService
+              can be overridden to register new expression functions
+            </para>
+          </listitem>
+          <listitem>
+            <para>Finally, recall that Spring allows us to call any method on an object
+              we have a reference to
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Custom Variables</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+  </section>
+  <section>
+    <title>Component Modifiers</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>Component modifiers allows us to perform a modification on a component
+            (and its nested components) through code
+          </para>
+        </listitem>
+        <listitem>
+          <para>Component modifiers are created by implementing the interface
+            org.kuali.rice.krad.uif.modifier.ComponentModifier which requires
+            implementing the method<emphasis role="keyword"
+                    >performModification</emphasis>(View view, Object model, Component
+            component)
+          </para>
+        </listitem>
+        <listitem>
+          <para>One or more component modifiers may be associated with a component with
+            the
+            <emphasis role="keyword">componentModifiers</emphasis>
+            List property
+          </para>
+        </listitem>
+        <listitem>
+          <para>Component modifiers can be conditionally applied by setting the
+            runCondition property
+          </para>
+        </listitem>
+        <listitem>
+          <para>Some examples of component modifiers in the UIF include the LabelSeparator
+            (pull the label component for a field into a separate group item) and the
+            MaintenanceCompareModifer (creates a field for the 'old' data object)
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Property Replacers</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>Property replacers can be used to configur a replacement for a component
+            property based on a condition
+          </para>
+        </listitem>
+        <listitem>
+          <para>A component can contain one or more property replacers configured with the
+            propertyReplacers List property
+          </para>
+        </listitem>
+        <listitem>
+          <para>A property replacer is created using a bean with parent
+            'Uif-ConditionalBeanPropertyReplacer'
+          </para>
+        </listitem>
+        <listitem>
+          <para>The following properties are supported by a property replacer:</para>
+          <itemizedlist>
+            <listitem>
+              <para>propertyName – Name of the property on the component the property
+                replacer is configured on (note can be nested) that should be
+                replaced
+              </para>
+            </listitem>
+            <listitem>
+              <para>condition – The condition (EL expression) to evaluate for the
+                replacement. If the condtion is true, the property value will be
+                replaced, otherwise it will not be
+              </para>
+            </listitem>
+            <listitem>
+              <para>replacement – The object the property should be replaced with when
+                the condition is true. In most cases this is a component, but can be
+                a primitive type, a collection (possibly of components), or another
+                type
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>Using property replacers, we can do such things as replacing a control
+            based on a condition, replacing the entire group items list, replacing a
+            layout manager, and so on
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Collection Filters</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+    <section role="NotInToc">
+      <title>Recap</title>
+      <itemizedlist>
+        <listitem>
+          <para>The lines displayed for a collection group can be filtered by using a
+            org.kuali.rice.krad.uif.container.CollectionFilter object
+          </para>
+        </listitem>
+        <listitem>
+          <para>To create a collection filter, we must implement the interface method:
+            List&lt;Integer&gt; filter(View view, Object model, CollectionGroup
+            collectionGroup)
+          </para>
+        </listitem>
+        <listitem>
+          <para>One or more collection filters can be applied to a collection group using
+            the List property filters
+          </para>
+        </listitem>
+        <listitem>
+          <para>The UIF provides a filter implementation that allows filtering of the
+            collection using an expression
+          </para>
+        </listitem>
+        <listitem>
+          <para>To use this filter we create a bean with parent
+            'Uif-ConditionalCollectionFilter'. Then we set the property expression to
+            the filtering expression. Lines will only be displayed if the expression
+            evaluates to true for that line
+          </para>
+        </listitem>
+        <listitem>
+          <para>Another example of a collection filter within the UIF is the
+            ActiveCollectionFilter. This filter is added automatically to a collection
+            group when the collection object class implements the Inactivatable
+            interface (a button is also rendered allowing the user to toggle the
+            filter)
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section>
+    <title>Code Support</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+      -->
+    <section>
+      <title>Overriding with the ViewHelperService</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>Through a custom view helper service, we can implement custom logic
+              for configuring components
+            </para>
+          </listitem>
+          <listitem>
+            <para>During the view processing, the default view helper service provides
+              the following methods for custom logic:
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>performCustomInitialization</para>
+              </listitem>
+              <listitem>
+                <para>performCustomApplyModel</para>
+              </listitem>
+              <listitem>
+                <para>performCustomFinalize</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>We can implement one of these methods with code that conditionally
+              sets component properties
+            </para>
+          </listitem>
+          <listitem>
+            <para>Specific component instances can be acquired by the component
+              id
+            </para>
+          </listitem>
+          <listitem>
+            <para>We then hook up our view helper service with a view using the
+              <emphasis role="keyword">viewHelperServiceClass</emphasis>
+              property
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Component Finalization</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>The UIF provides a more convenient way of configuring components with
+              code called Component Finalization
+            </para>
+          </listitem>
+          <listitem>
+            <para>First we create a method that returns void and accepts the following arguments:</para>
+            <itemizedlist>
+              <listitem>
+                <para>component – the component which we want to modify</para>
+              </listitem>
+              <listitem>
+                <para>model – the model object (contains the data and the
+                  view)
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>Next we set the
+              <emphasis role="keyword">finalizeMethodToCall</emphasis>
+              property (available on all components) to the name of the created
+              method
+            </para>
+          </listitem>
+          <listitem>
+            <para>With just the finalize method set, the framework assumes the method is
+              available on the configured view helper service
+            </para>
+          </listitem>
+          <listitem>
+            <para>We can implement our method in another class (such as a static class
+              or a service)
+            </para>
+          </listitem>
+          <listitem>
+            <para>To invoke a class besides the view helper, we must configure the
+              <emphasis role="keyword">finalizeMethodInvoker</emphasis>
+              property
+            </para>
+          </listitem>
+          <listitem>
+            <para>Our finalize method can take additional arguments if needed. We pass
+              these arguments using the
+              <emphasis role="keyword"
+                      >finalizeMethodAdditionalArguments
+              </emphasis>
+              property
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Group Initialization</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+    </section>
+    <section>
+      <title>The Component Factory</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>In code, we are not limited to just setting values on existing
+              components, but can create new components as well
+            </para>
+          </listitem>
+          <listitem>
+            <para>For example, we can completely create the content for a group through
+              code
+            </para>
+          </listitem>
+          <listitem>
+            <para>Generally when creating components in code, we want to reuse the setup
+              defaults (template, style classes, …)
+            </para>
+          </listitem>
+          <listitem>
+            <para>Therefore instead of creating a new component instance ourselves, we
+              can get a new component instance from the Spring container
+            </para>
+          </listitem>
+          <listitem>
+            <para>To help with this, the ComponentFactory class is provided</para>
+          </listitem>
+          <listitem>
+            <para>The component factory contains methods to get new instances of the
+              KRAD provided components, for example:
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>getInputField()</para>
+              </listitem>
+              <listitem>
+                <para>getTextControl()</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>In addition, some overloaded methods exist for convenient property setting:</para>
+            <itemizedlist>
+              <listitem>
+                <para>getInputField(String propertyName, String label)</para>
+              </listitem>
+              <listitem>
+                <para>getInputField(String propertyName, String label,
+                  UifConstants.ControlType controlType)
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>The return components are initialized according to their corresponding
+              beans
+            </para>
+          </listitem>
+          <listitem>
+            <para>Once a new component instance is returned, properties can be changed
+              as needed
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>Copying Components</title>
+      <para>Coming Soon!</para>
+      <!-- TODO: Add content here.
+      -->
+      <section role="NotInToc">
+        <title>Recap</title>
+        <itemizedlist>
+          <listitem>
+            <para>In certain situations, we might wish to create a new component
+              by copying an existing component
+            </para>
+          </listitem>
+          <listitem>
+            <para>By copying a component, we inherit the state from the component that
+              was copied
+            </para>
+          </listitem>
+          <listitem>
+            <para>The framework makes extensive use of component copying through
+              its prototype functionality (when dynamically generating components in
+              code)
+            </para>
+          </listitem>
+          <listitem>
+            <para>KRAD provides the utility class ComponentUtils which contains
+              methods for copying components
+            </para>
+          </listitem>
+          <listitem>
+            <para>These include:</para>
+            <itemizedlist>
+              <listitem>
+                <para>&lt;T extends Component&gt; T copy(T component) – copy
+                  component
+                </para>
+              </listitem>
+              <listitem>
+                <para>&lt;T extends Component&gt; T copy(T component, String
+                  idSuffix) – copy component and add suffix to the id of the
+                  created component
+                </para>
+              </listitem>
+              <listitem>
+                <para>&lt;T extends Component&gt; T copyComponent(T component,
+                  String addBindingPrefix, String idSuffix) – copy component,
+                  adjust id, and adjust binding for components that are
+                  DataBinding
+                </para>
+              </listitem>
+              <listitem>
+                <para>&lt;T extends Component&gt; List&lt;T&gt;
+                  copyComponentList(List&lt;T&gt; components, String idSuffix) –
+                  copy all components into a new list of components and adjust
+                  ids
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+  </section>
+</chapter>

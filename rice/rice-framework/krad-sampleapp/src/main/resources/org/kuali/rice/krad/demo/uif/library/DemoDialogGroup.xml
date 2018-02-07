@@ -1,0 +1,241 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <!-- DialogGroup demo -->
+  <bean id="Demo-DialogGroup-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoDialogGroup.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.container.DialogGroup"/>
+    <property name="docBookAnchor" value="d6813e8513"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-DialogGroup-Example1"/>
+        <ref bean="Demo-DialogGroup-Example2"/>
+        <ref bean="Demo-DialogGroup-Example3"/>
+        <ref bean="Demo-DialogGroup-Example4"/>
+        <ref bean="Demo-DialogGroup-Example5"/>
+        <!--<ref bean="Demo-DialogGroup-Example6"/>-->
+        <ref bean="Demo-DialogGroup-Example7"/>
+        <ref bean="Demo-DialogGroup-Example8"/>
+        <ref bean="Demo-DialogGroup-Example9"/>
+        <ref bean="Demo-DialogGroup-Example10"/>
+        <ref bean="Demo-DialogGroup-Example11"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example1 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('dialogGroupFromHidden');"/>
+        <bean id="dialogGroupFromHidden" parent="Uif-DialogGroup"/>
+        <!-- ex:Demo-DialogGroup-Example1 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example2 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxContent('Hello, I am a lightbox with &lt;b&gt;HTML&lt;/b&gt; content.');"/>
+        <!-- ex:Demo-DialogGroup-Example2 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example3 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('preDefinedDialogOkCancel');"/>
+        <bean id="preDefinedDialogOkCancel" parent="Uif-OK-Cancel-DialogGroup"/>
+        <!-- ex:Demo-DialogGroup-Example3 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example4 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('radioButtonDialog');"/>
+        <bean id="radioButtonDialog" parent="Uif-RadioButton-DialogGroup">
+          <property name="explanation">
+            <bean parent="Uif-DialogExplanation" p:render="true">
+              <property name="control">
+                <bean parent="Uif-VerticalRadioControl">
+                  <property name="options">
+                    <list>
+                      <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1"/>
+                      <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2"/>
+                      <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3"/>
+                    </list>
+                  </property>
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-DialogGroup-Example4 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example5 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('progressiveDialogGroup');"/>
+        <bean id="progressiveDialogGroup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+          <property name="hidden" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label"/>
+              <bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/"/>
+              <bean parent="Uif-VerticalBoxSection">
+                <property name="items">
+                  <list>
+                    <bean id="progressiveDialogLongText" parent="Uif-Label"/>
+                  </list>
+                </property>
+              </bean>
+              <bean id="progressiveDialogGroupInputField4" parent="Uif-InputField" p:label="Progressive Disclose" p:width="auto" p:propertyName="inputField4">
+                <property name="control">
+                  <bean parent="Uif-VerticalRadioControl">
+                    <property name="options">
+                      <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="hide" p:value="Hide Group" />
+                        <bean parent="Uif-KeyLabelPair" p:key="show" p:value="Show Group" />
+                      </list>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+              <bean id="progressiveDialogRenderedSection" parent="Uif-HorizontalBoxSection" p:progressiveRender="inputField4 eq 'show'" p:disclosure.render="false">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-Label"/>
+                  </list>
+                </property>
+              </bean>
+              <bean id="progressiveDialogAdditionalText" parent="Uif-Label"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-DialogGroup-Example5 end-->
+      </list>
+    </property>
+  </bean>
+  <!--<bean id="Demo-DialogGroup-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!- - ex:Demo-DialogGroup-Example6 start- ->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('ImageDialog');"/>
+        <bean id="ImageDialog" parent="Uif-ImageField" p:hidden="true" p:fieldLabel.render="false"
+              p:source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg"/>
+        <!- - ex:Demo-DialogGroup-Example6 end- ->
+      </list>
+    </property>
+  </bean>-->
+  <bean id="Demo-DialogGroup-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example7 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxUrl('http://kuali.org');"/>
+        <!-- ex:Demo-DialogGroup-Example7 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example8 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('AjaxDialog');"/>
+        <bean id="AjaxDialog" parent="Uif-True-False-DialogGroup"
+              p:progressiveRenderViaAJAX="true" p:progressiveRender="@{#form.renderedInLightBox}" p:hidden="true"/>
+        <!-- ex:Demo-DialogGroup-Example8 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example9" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example9 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('SimpleGroup');" />
+        <bean id="SimpleGroup" parent="Uif-VerticalBoxSection">
+          <property name="hidden" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label" />
+              <bean parent="Uif-VerticalBoxSection">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-Label" />
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-DialogResponse"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-DialogGroup-Example9 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example10" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example10 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('ExpressionDialog');"/>
+        <bean id="ExpressionDialog" parent="Uif-DialogGroup">
+          <property name="hidden" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-MessageField" p:fieldLabel.style="font-weight:bold;"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-DialogGroup-Example10 end-->
+      </list>
+    </property>
+  </bean>
+  <bean id="Demo-DialogGroup-Example11" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-DialogGroup-Example11 start-->
+        <bean parent="Uif-PrimaryActionButton" p:actionScript="showLightboxComponent('ExtendedDialog');"/>
+        <bean id="ExtendedDialog" parent="Uif-DialogGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Label" />
+              <bean parent="Uif-VerticalBoxSection">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-Label" />
+                    <bean parent="Uif-Label" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-DialogGroup-Example11 end-->
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,123 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+	<jdbc-connection-descriptor jcd-alias="coreServiceDataSource" default-connection="false" jdbc-level="3.0" eager-release="false" batch-mode="false"
+		useAutoCommit="0" ignoreAutoCommitExceptions="false">
+		<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+        <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+			<attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
+		</sequence-manager>
+	</jdbc-connection-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.namespace.NamespaceBo" table="KRCR_NMSPC_T">
+    <field-descriptor name="code" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+
+    <field-descriptor name="applicationId" column="APPL_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.parameter.ParameterTypeBo" table="KRCR_PARM_TYP_T">
+    <field-descriptor name="code" column="PARM_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.component.ComponentBo" table="KRCR_CMPNT_T">
+    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="code" column="CMPNT_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="namespace" class-ref="org.kuali.rice.coreservice.impl.namespace.NamespaceBo"
+                          auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="namespaceCode" target-field-ref="code"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.component.DerivedComponentBo" table="KRCR_DRVD_CMPNT_T">
+    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="code" column="CMPNT_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="componentSetId" column="CMPNT_SET_ID" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.component.ComponentSetBo" table="KRCR_CMPNT_SET_T">
+    <field-descriptor name="componentSetId" column="CMPNT_SET_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="lastUpdateTimestamp" column="LAST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="checksum" column="CHKSM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.parameter.ParameterBo" table="KRCR_PARM_T">
+    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="componentCode" column="CMPNT_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="name" column="PARM_NM" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="value" column="VAL" jdbc-type="VARCHAR"/>
+    <field-descriptor name="description" column="PARM_DESC_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="parameterTypeCode" column="PARM_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="evaluationOperatorCode" column="EVAL_OPRTR_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="applicationId" column="APPL_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    <reference-descriptor name="component" class-ref="org.kuali.rice.coreservice.impl.component.ComponentBo"
+                          auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="namespaceCode"/>
+      <foreignkey field-ref="componentCode" target-field-ref="code"/>
+    </reference-descriptor>
+    <reference-descriptor name="derivedComponent" class-ref="org.kuali.rice.coreservice.impl.component.DerivedComponentBo"
+                          auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="namespaceCode"/>
+      <foreignkey field-ref="componentCode" target-field-ref="code"/>
+    </reference-descriptor>
+    <reference-descriptor name="parameterType" class-ref="org.kuali.rice.coreservice.impl.parameter.ParameterTypeBo"
+                          auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="parameterTypeCode" target-field-ref="code"/>
+    </reference-descriptor>
+    <reference-descriptor name="namespace" class-ref="org.kuali.rice.coreservice.impl.namespace.NamespaceBo"
+                          auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="namespaceCode" target-field-ref="code"/>
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.rice.coreservice.impl.style.StyleBo" table="KRCR_STYLE_T">
+    <field-descriptor column="STYLE_ID" name="id" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                      sequence-name="KREW_EDL_S"/>
+    <field-descriptor column="NM" name="name" jdbc-type="VARCHAR"/>
+    <field-descriptor column="XML" name="xmlContent" jdbc-type="CLOB"/>
+    <field-descriptor column="ACTV_IND" name="active" jdbc-type="BIT"
+                      conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion3"/>
+    <field-descriptor column="OBJ_ID" name="objectId" jdbc-type="VARCHAR" indexed="true"/>
+    <field-descriptor column="VER_NBR" name="versionNumber" jdbc-type="BIGINT" locking="true"/>
+  </class-descriptor>
+
+</descriptor-repository>

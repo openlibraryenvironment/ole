@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0" isolation-level="repeatable-read">
+  <!-- Connection descriptor -->
+  <jdbc-connection-descriptor jcd-alias="kenDataSource" default-connection="false" jdbc-level="3.0" eager-release="false" batch-mode="false"
+		useAutoCommit="0" ignoreAutoCommitExceptions="false">
+	  <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+      <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+			<attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
+		</sequence-manager>
+	</jdbc-connection-descriptor>
+
+  <!-- Class/table mappings -->
+  <!-- NOTIFICATIONS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationBo" table="KREN_NTFCTN_T">
+    <field-descriptor name="id" column="NTFCTN_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_NTFCTN_S" />
+    <field-descriptor name="deliveryType" column="DELIV_TYP" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="creationDateTimeValue" column="CRTE_DTTM" jdbc-type="TIMESTAMP" nullable="false" />
+    <field-descriptor name="sendDateTimeValue" column="SND_DTTM" jdbc-type="TIMESTAMP" nullable="true" />
+    <field-descriptor name="autoRemoveDateTimeValue" column="AUTO_RMV_DTTM" jdbc-type="TIMESTAMP" nullable="true" />
+    <field-descriptor name="title" column="TTL" jdbc-type="VARCHAR" nullable="true" />
+    <field-descriptor name="content" column="CNTNT" jdbc-type="CLOB" nullable="false" />
+    <field-descriptor name="processingFlag" column="PROCESSING_FLAG" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="lockedDateValue" column="LOCKD_DTTM" jdbc-type="TIMESTAMP" indexed="false" nullable="true"/>
+    <field-descriptor name="docTypeName" column="DOC_TYP_NM" jdbc-type="VARCHAR" nullable="true"/>
+    <!-- <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/> -->
+
+    <!-- Anonymous keys - our foreign keys -->
+    <field-descriptor name="producerId" column="PRODCR_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+    <field-descriptor name="contentTypeId" column="CNTNT_TYP_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+    <field-descriptor name="notificationChannelId" column="CHNL_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+    <field-descriptor name="priorityId" column="PRIO_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+
+    <!-- Object references -->
+    <reference-descriptor name="priority" class-ref="org.kuali.rice.ken.bo.NotificationPriorityBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="priorityId" />
+    </reference-descriptor>
+    <reference-descriptor name="contentType" class-ref="org.kuali.rice.ken.bo.NotificationContentTypeBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="contentTypeId" />
+    </reference-descriptor>
+    <reference-descriptor name="channel" class-ref="org.kuali.rice.ken.bo.NotificationChannelBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="notificationChannelId" />
+    </reference-descriptor>
+    <reference-descriptor name="producer" class-ref="org.kuali.rice.ken.bo.NotificationProducerBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="producerId" />
+    </reference-descriptor>
+
+    <!-- List references -->
+    <collection-descriptor name="recipients" element-class-ref="org.kuali.rice.ken.bo.NotificationRecipientBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="id" sort="ASC" />
+        <inverse-foreignkey field-ref="notificationId" />
+    </collection-descriptor>
+    <collection-descriptor name="senders" element-class-ref="org.kuali.rice.ken.bo.NotificationSenderBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="id" sort="ASC" />
+        <inverse-foreignkey field-ref="notificationId" />
+    </collection-descriptor>
+  </class-descriptor>
+
+  <!-- NOTIFICATION_CHANNELS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationChannelBo" table="KREN_CHNL_T">
+    <field-descriptor name="id" column="CHNL_ID" jdbc-type="BIGINT" primarykey="true" indexed="true" autoincrement="true" sequence-name="KREN_CHNL_S" />
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="subscribable" column="SUBSCRB_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion2" jdbc-type="CHAR" nullable="false" />
+
+    <!-- List references -->
+    <!-- This class uses the specified collection descriptor b/c it is an M:N mapping -->
+    <!-- Deletes must be done directly on the join object -->
+    <collection-descriptor name="producers" element-class-ref="org.kuali.rice.ken.bo.NotificationProducerBo"
+        auto-retrieve="true" auto-update="true" auto-delete="false" indirection-table="KREN_CHNL_PRODCR_T"
+        collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList">
+        <orderby name="id" sort="ASC" />
+        <fk-pointing-to-this-class column="CHNL_ID"/>
+        <fk-pointing-to-element-class column="PRODCR_ID"/>
+    </collection-descriptor>
+    <collection-descriptor name="recipientLists" element-class-ref="org.kuali.rice.ken.bo.NotificationRecipientListBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="id" sort="ASC" />
+        <inverse-foreignkey field-ref="channelId" />
+    </collection-descriptor>
+    <collection-descriptor name="reviewers" element-class-ref="org.kuali.rice.ken.bo.NotificationChannelReviewerBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="id" sort="ASC" />
+        <inverse-foreignkey field-ref="channelId" />
+    </collection-descriptor>
+    <collection-descriptor name="subscriptions" element-class-ref="org.kuali.rice.ken.bo.UserChannelSubscriptionBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="id" sort="ASC" />
+        <inverse-foreignkey field-ref="channelId" />
+    </collection-descriptor>
+  </class-descriptor>
+
+  <!-- NOTIFICATION_CONTENT_TYPES -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationContentTypeBo" table="KREN_CNTNT_TYP_T">
+    <field-descriptor name="id" column="CNTNT_TYP_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_CNTNT_TYP_S" />
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="version" column="CNTNT_TYP_VER_NBR" jdbc-type="INTEGER" nullable="false" />
+    <field-descriptor name="current" column="CUR_IND" jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversionTF"/>
+    <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="xsd" column="XSD" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="xsl" column="XSL" jdbc-type="VARCHAR" nullable="false" />
+  </class-descriptor>
+
+  <!-- NOTIFICATION_PRIORITIES -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationPriorityBo" table="KREN_PRIO_T">
+    <field-descriptor name="id" column="PRIO_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_PRIO_S" />
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="order" column="PRIO_ORD" jdbc-type="INTEGER" nullable="false" />
+  </class-descriptor>
+
+  <!-- NOTIFICATION_PRODUCERS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationProducerBo" table="KREN_PRODCR_T">
+    <field-descriptor name="id" column="PRODCR_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_PRODCR_S" />
+    <field-descriptor name="name" column="NM" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR" nullable="false" />
+    <field-descriptor name="contactInfo" column="CNTCT_INFO" jdbc-type="VARCHAR" nullable="false" />
+
+    <!-- List references -->
+    <!-- This class uses the specified collection descriptor b/c it is an M:N mapping -->
+    <!-- Deletes must be done directly on the join object -->
+    <collection-descriptor name="channels" element-class-ref="org.kuali.rice.ken.bo.NotificationChannelBo"
+        auto-retrieve="true" auto-update="true" auto-delete="false" indirection-table="KREN_CHNL_PRODCR_T"
+        collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList">
+        <orderby name="id" sort="ASC" />
+        <fk-pointing-to-this-class column="PRODCR_ID"/>
+        <fk-pointing-to-element-class column="CHNL_ID"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+  <!-- NOTIFICATION_REVIEWERS  -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationChannelReviewerBo" table="KREN_RVWER_T">
+    <field-descriptor name="id" column="RVWER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_RVWER_S" />
+    <field-descriptor name="reviewerId" column="PRNCPL_ID" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="reviewerType" column="TYP" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+
+    <field-descriptor name="channelId" column="CHNL_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+    <reference-descriptor name="channel" class-ref="org.kuali.rice.ken.bo.NotificationChannelBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="channelId" />
+    </reference-descriptor>
+  </class-descriptor>
+
+  <!-- NOTIFICATION_RECIPIENTS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationRecipientBo" table="KREN_RECIP_T">
+    <field-descriptor name="id" column="RECIP_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_RECIP_S" />
+    <field-descriptor name="notificationId" column="NTFCTN_ID" jdbc-type="BIGINT" indexed="true" nullable="false" />
+    <field-descriptor name="recipientId" column="PRNCPL_ID" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="recipientType" column="RECIP_TYP_CD" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+  </class-descriptor>
+
+  <!-- NOTIFICATION_RECIPIENTS_LISTS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationRecipientListBo" table="KREN_RECIP_LIST_T">
+    <field-descriptor name="id" column="RECIP_LIST_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_RECIP_LIST_S" />
+    <field-descriptor name="recipientId" column="RECIP_ID" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="recipientType" column="RECIP_TYP_CD" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+
+    <!-- Anonymous keys - our foreign keys -->
+    <field-descriptor name="channelId" column="CHNL_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+
+    <!-- Object references -->
+    <reference-descriptor name="channel" class-ref="org.kuali.rice.ken.bo.NotificationChannelBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="channelId" />
+    </reference-descriptor>
+  </class-descriptor>
+
+  <!-- NOTIFICATION_SENDERS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationSenderBo" table="KREN_SNDR_T">
+    <field-descriptor name="id" column="SNDR_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_SNDR_S" />
+    <field-descriptor name="notificationId" column="NTFCTN_ID" jdbc-type="BIGINT" indexed="true" nullable="false" />
+    <field-descriptor name="senderName" column="NM" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+  </class-descriptor>
+
+  <!-- USER_CHANNEL_SUBSCRIPTIONS -->
+  <class-descriptor class="org.kuali.rice.ken.bo.UserChannelSubscriptionBo" table="KREN_CHNL_SUBSCRP_T">
+    <field-descriptor name="id" column="CHNL_SUBSCRP_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_CHNL_SUBSCRP_S" />
+    <field-descriptor name="userId" column="PRNCPL_ID" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+
+    <!-- Anonymous keys - our foreign keys -->
+    <field-descriptor name="channelId" column="CHNL_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+
+    <!-- Object references -->
+    <reference-descriptor name="channel" class-ref="org.kuali.rice.ken.bo.NotificationChannelBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="channelId" />
+    </reference-descriptor>
+  </class-descriptor>
+
+  <!-- NOTIFICATION_MESSAGE_DELIVERIES -->
+  <class-descriptor class="org.kuali.rice.ken.bo.NotificationMessageDelivery" table="KREN_NTFCTN_MSG_DELIV_T">
+    <field-descriptor name="id" column="NTFCTN_MSG_DELIV_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_NTFCTN_MSG_DELIV_S" />
+    <field-descriptor name="messageDeliveryStatus" column="STAT_CD" jdbc-type="VARCHAR" indexed="false" nullable="false" />
+    <field-descriptor name="userRecipientId" column="RECIP_ID" jdbc-type="VARCHAR" indexed="true" nullable="false" />
+    <field-descriptor name="deliverySystemId" column="SYS_ID" jdbc-type="VARCHAR" indexed="false" nullable="true" />
+    <field-descriptor name="lockedDateValue" column="LOCKD_DTTM" jdbc-type="TIMESTAMP" indexed="false" nullable="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    <!-- Anonymous keys - our foreign keys -->
+    <field-descriptor name="notificationId" column="NTFCTN_ID" jdbc-type="BIGINT" access="anonymous" indexed="true" nullable="false" />
+
+    <!-- Object references -->
+    <reference-descriptor name="notification" class-ref="org.kuali.rice.ken.bo.NotificationBo" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="notificationId" />
+    </reference-descriptor>
+  </class-descriptor>
+</descriptor-repository>

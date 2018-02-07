@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0" isolation-level="repeatable-read">
+    <!-- Connection descriptor -->
+    <jdbc-connection-descriptor
+        jcd-alias="kcbDataSource"
+        default-connection="false"
+        jdbc-level="3.0"
+        eager-release="false"
+        batch-mode="false"
+        useAutoCommit="0"
+        ignoreAutoCommitExceptions="false">
+        <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+        <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+            <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
+        </sequence-manager>
+    </jdbc-connection-descriptor>
+
+    <!-- Messages -->
+    <class-descriptor class="org.kuali.rice.kcb.bo.Message" table="KREN_MSG_T">
+        <field-descriptor name="id" column="MSG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_MSG_S" />
+        <field-descriptor name="originId" column="ORGN_ID" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="deliveryType" column="DELIV_TYP" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="creationDateTime" column="CRTE_DTTM" jdbc-type="TIMESTAMP" nullable="false" />
+        <field-descriptor name="title" column="TTL" jdbc-type="VARCHAR" nullable="true" />
+        <field-descriptor name="channel" column="CHNL" jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="producer" column="PRODCR" jdbc-type="VARCHAR" nullable="true" />
+        <field-descriptor name="content" column="CNTNT" jdbc-type="CLOB" nullable="false" />
+        <field-descriptor name="contentType" column="CNTNT_TYP" jdbc-type="VARCHAR" nullable="true" />
+        <field-descriptor name="url" column="URL" jdbc-type="VARCHAR" nullable="true" />
+        <field-descriptor name="recipient" column="RECIP_ID" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="lockVerNbr" column="VER_NBR" jdbc-type="INTEGER" locking="true" />
+    </class-descriptor>
+
+    <!-- MessageDelivery_s -->
+    <class-descriptor class="org.kuali.rice.kcb.bo.MessageDelivery" table="KREN_MSG_DELIV_T">
+        <field-descriptor name="id" column="MSG_DELIV_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_MSG_DELIV_S" />
+        <field-descriptor name="deliveryStatus" column="STAT_CD" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="delivererTypeName" column="TYP_NM" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="delivererSystemId" column="SYS_ID" jdbc-type="VARCHAR"  nullable="true" />
+        <field-descriptor name="processCount" column="PROC_CNT" jdbc-type="INTEGER" nullable="false" />
+        <field-descriptor name="lockedDate" column="LOCKD_DTTM" jdbc-type="TIMESTAMP" nullable="true" />
+        <field-descriptor name="lockVerNbr" column="VER_NBR" jdbc-type="INTEGER" locking="true" />
+
+        <!-- Anonymous keys - our foreign keys -->
+        <field-descriptor name="messageId" column="MSG_ID" jdbc-type="BIGINT" access="anonymous"  nullable="false" />
+
+        <!-- Object references -->
+        <reference-descriptor name="message" class-ref="org.kuali.rice.kcb.bo.Message" auto-retrieve="true" auto-update="false" auto-delete="false">
+            <foreignkey field-ref="messageId" />
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <!-- RecipientPreference_s -->
+    <class-descriptor class="org.kuali.rice.kcb.bo.RecipientPreference" table="KREN_RECIP_PREFS_T">
+        <field-descriptor name="id" column="RECIP_PREFS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_RECIP_PREF_S" />
+        <field-descriptor name="recipientId" column="RECIP_ID" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="property" column="PROP" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="value" column="VAL" jdbc-type="VARCHAR"  nullable="true" />
+        <field-descriptor name="lockVerNbr" column="VER_NBR" jdbc-type="INTEGER" locking="true" />
+    </class-descriptor>
+    
+    <!-- RecipientDelivererConfig_s -->
+    <class-descriptor class="org.kuali.rice.kcb.bo.RecipientDelivererConfig" table="KREN_RECIP_DELIV_T">
+        <field-descriptor name="id" column="RECIP_DELIV_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KREN_RECIP_DELIV_S" />
+        <field-descriptor name="recipientId" column="RECIP_ID" jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="channel" column="CHNL" jdbc-type="VARCHAR"  nullable="false" />
+        <field-descriptor name="delivererName" column="NM" jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="lockVerNbr" column="VER_NBR" jdbc-type="INTEGER" locking="true" />
+    </class-descriptor>
+
+</descriptor-repository>

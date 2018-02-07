@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+		<documentType>
+			<name>SinglePeopleFlow-Parallel-Approve</name>
+      <label>SinglePeopleFlow-Parallel-Approve</label>
+      <description>Routes to a simple people flow using parallel activation.</description>
+      <docHandler>none</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="PeopleFlows" />
+					<requests name="PeopleFlows" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="PeopleFlows">
+					<activationType>P</activationType>
+					<peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow1</name>
+            </peopleFlow>
+					</peopleFlows>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+    <documentType>
+      <name>SinglePeopleFlow-Sequential-Approve</name>
+      <label>SinglePeopleFlow-Sequential-Approve</label>
+      <description>Routes to a simple people flow using sequential activation.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>S</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow1</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>SinglePeopleFlow-PriorityParallel-Approve</name>
+      <label>SinglePeopleFlow-PriorityParallel-Approve</label>
+      <description>Routes to a simple people flow using priority-parallel activation.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow2</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>MultiplePeopleFlow-PriorityParallel</name>
+      <label>MultiplePeopleFlow-PriorityParallel</label>
+      <description>Routes to three different people flows using priority-parallel activation.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow1</name>
+            </peopleFlow>
+            <peopleFlow>
+              <actionRequested>K</actionRequested>
+              <name namespace="TEST">PeopleFlow2</name>
+            </peopleFlow>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow3</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>DelegatePeopleFlow-PriorityParallel-Approve</name>
+      <label>MultiplePeopleFlow-PriorityParallel</label>
+      <description>Routes to a simple people flow with delegates using priority-parallel activation.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow1</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-JustKimDelegate</name>
+      <label>RoleDelegatePeopleFlow-JustKimDelegate</label>
+      <description>Routes to a role with just KIM delegates.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow4</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-PrimaryDelegate</name>
+      <label>RoleDelegatePeopleFlow-PrimaryDelegate</label>
+      <description>Routes to a role with a PPF primary delegate that is also a role.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow5</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-SecondaryDelegate</name>
+      <label>RoleDelegatePeopleFlow-SecondaryDelegate</label>
+      <description>Routes to a role with a PPF secondary delegate that is also a role.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow6</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-DelegateRoleHasKimDelegate</name>
+      <label>RoleDelegatePeopleFlow-DelegateRoleHasKimDelegate</label>
+      <description>Routes to a role with a PPF primary delegate that is a role having a KIM delegate.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow7</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-PrincipalMemberHasRoleDelegate</name>
+      <label>RoleDelegatePeopleFlow-PrincipalMemberHasRoleDelegate</label>
+      <description>Routes to a principal member having a role as its delegate.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow8</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-RoleMemberHasPrincipalDelegate</name>
+      <label>RoleDelegatePeopleFlow-RoleMemberHasPrincipalDelegate</label>
+      <description>Routes to a role with a principal member having a principal as its delegate.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow9</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-MultipleRoleMembers</name>
+      <label>RoleDelegatePeopleFlow-MultipleRoleMembers</label>
+      <description>Routes to a role with two principal members having a role with two principal members as its delegate.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow10</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-MultipleRoleMembers-FirstApprove</name>
+      <label>RoleDelegatePeopleFlow-MultipleRoleMembers-FirstApprove</label>
+      <description>Routes to a role with two principal members having a role with two principal members as its delegate.
+      Both use the FIRST approve policy.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow11</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>RoleDelegatePeopleFlow-MultipleRoleMembers-DelegateFirstApprove</name>
+      <label>RoleDelegatePeopleFlow-MultipleRoleMembers-DelegateFirstApprove</label>
+      <description>Routes to a role with two principal members having a role with two principal members as its delegate.
+        The member role uses the ALL approve policy, and the delegate uses the FIRST approve policy.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow12</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+
+    <documentType>
+      <name>GroupDelegatePeopleFlow-MultipleRoleMembers</name>
+      <label>GroupDelegatePeopleFlow-MultipleRoleMembers</label>
+      <description>Routes to a group with two principal members having a role with two principal members as its delegate.
+        the role uses the ALL approve policy.</description>
+      <docHandler>none</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PeopleFlows" />
+          <requests name="PeopleFlows" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+        <requests name="PeopleFlows">
+          <activationType>R</activationType>
+          <peopleFlows>
+            <peopleFlow>
+              <name namespace="TEST">PeopleFlow13</name>
+            </peopleFlow>
+          </peopleFlows>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+
+</data>

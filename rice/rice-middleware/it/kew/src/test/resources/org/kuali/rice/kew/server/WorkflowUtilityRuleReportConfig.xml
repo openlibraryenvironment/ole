@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>OrgReviewTestDocType</name>
+			<description>OrgReviewTestDocument</description>
+			<label>SeqDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="OrgReviewNode" />
+					<requests name="OrgReviewNode" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="OrgReviewNode">
+					<activationType>P</activationType>
+					<ruleTemplate>OrgReviewTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>OrgReviewAttribute</name>
+			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+			<label>Rule Test Org Review Attribute</label>
+			<description>Org Review Attribute for Rule Test</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="chartCode" title="Chart Code" workflowType="ALL">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>wf:xstreamsafe('//chartCode') = wf:ruledata('chartCode')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<fieldDef name="orgCode" title="Org Code" workflowType="ALL">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>wf:xstreamsafe('//orgCode') = wf:ruledata('orgCode')</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>OrgReviewTemplate</name>
+			<description>Org Review Template</description>
+			<attributes>
+				<attribute>
+					<name>OrgReviewAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+	    <rule>
+	      <documentType>OrgReviewTestDocType</documentType>
+            <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	      <description>OrgReviewTemplate Rule for Rule Test UA-FMOP (Fake)</description>
+	      <forceAction>true</forceAction>
+          <ruleExtensions>
+	        <ruleExtension>
+	          <attribute>OrgReviewAttribute</attribute>
+	          <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	          <ruleExtensionValues>
+	            <ruleExtensionValue>
+	              <key>chartCode</key>
+	              <value>UA</value>
+	            </ruleExtensionValue>
+	            <ruleExtensionValue>
+	              <key>orgCode</key>
+	              <value>FMOP</value>
+	            </ruleExtensionValue>
+	          </ruleExtensionValues>
+	        </ruleExtension>
+	      </ruleExtensions>
+          <responsibilities>
+	        <responsibility>
+	          <groupName namespace="KR-WKFLW">Org_Review_Group</groupName>
+	          <actionRequested>A</actionRequested>
+	          <priority>1</priority>
+	        </responsibility>
+	      </responsibilities>
+	    </rule>
+	    <rule>
+	      <documentType>OrgReviewTestDocType</documentType>
+            <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	      <description>OrgReviewTemplate Rule for Rule Test UA-VPIT (Fake)</description>
+	      <forceAction>true</forceAction>
+          <ruleExtensions>
+	        <ruleExtension>
+	          <attribute>OrgReviewAttribute</attribute>
+	          <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	          <ruleExtensionValues>
+	            <ruleExtensionValue>
+	              <key>chartCode</key>
+	              <value>UA</value>
+	            </ruleExtensionValue>
+	            <ruleExtensionValue>
+	              <key>orgCode</key>
+	              <value>VPIT</value>
+	            </ruleExtensionValue>
+	          </ruleExtensionValues>
+	        </ruleExtension>
+	      </ruleExtensions>
+          <responsibilities>
+	        <responsibility>
+	          <groupName namespace="KR-WKFLW">Org_Review_Group_2</groupName>
+	          <actionRequested>F</actionRequested>
+	          <priority>4</priority>
+	        </responsibility>
+	      </responsibilities>
+	    </rule>
+	    <rule>
+	      <documentType>OrgReviewTestDocType</documentType>
+            <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	      <description>OrgReviewTemplate Rule for Rule Test BA-FMOP(Fake)</description>
+	      <forceAction>true</forceAction>
+          <ruleExtensions>
+	        <ruleExtension>
+	          <attribute>OrgReviewAttribute</attribute>
+	          <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	          <ruleExtensionValues>
+	            <ruleExtensionValue>
+	              <key>chartCode</key>
+	              <value>BA</value>
+	            </ruleExtensionValue>
+	            <ruleExtensionValue>
+	              <key>orgCode</key>
+	              <value>FMOP</value>
+	            </ruleExtensionValue>
+	          </ruleExtensionValues>
+	        </ruleExtension>
+	      </ruleExtensions>
+          <responsibilities>
+	        <responsibility>
+	          <user>user1</user>
+	          <actionRequested>K</actionRequested>
+	          <priority>2</priority>
+	        </responsibility>
+	      </responsibilities>
+	    </rule>
+	    <rule>
+	      <documentType>OrgReviewTestDocType</documentType>
+            <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	      <description>OrgReviewTemplate Rule 2 for Rule Test BA-FMOP(Fake)</description>
+	      <forceAction>true</forceAction>
+          <ruleExtensions>
+	        <ruleExtension>
+	          <attribute>OrgReviewAttribute</attribute>
+	          <ruleTemplate>OrgReviewTemplate</ruleTemplate>
+	          <ruleExtensionValues>
+	            <ruleExtensionValue>
+	              <key>chartCode</key>
+	              <value>BA</value>
+	            </ruleExtensionValue>
+	            <ruleExtensionValue>
+	              <key>orgCode</key>
+	              <value>FMOP</value>
+	            </ruleExtensionValue>
+	          </ruleExtensionValues>
+	        </ruleExtension>
+	      </ruleExtensions>
+          <responsibilities>
+	        <responsibility>
+	          <user>rkirkend</user>
+	          <actionRequested>K</actionRequested>
+	          <priority>2</priority>
+	        </responsibility>
+	      </responsibilities>
+	    </rule>
+	</rules>
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+			<id>3746</id>
+			<name>Org_Review_Group</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>Org Review Approvers</description>
+			<members>
+				<principalName>bmcgough</principalName>
+			</members>
+		</group>
+		<group>
+			<id>3747</id>
+			<name>Org_Review_Group_2</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>Org Review Approvers 2</description>
+			<members>
+				<principalName>user1</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>ewestfal</principalName>
+			</members>
+		</group>
+	</groups>
+</data>

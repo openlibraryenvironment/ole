@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+        <ruleAttribute>
+            <name>KRABizRuleAttribute</name>
+            <description>KRABizRuleAttribute description</description>
+            <label>KRABizRuleAttribute label</label>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="field" title="some field" workflowType="ALL">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="true" />
+                    <fieldEvaluation>
+                        <xpathexpression>
+                            '1' = wf:ruledata('field')
+                        </xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+    </ruleAttributes>
+
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate>
+            <name>KRABizRule</name>
+            <description>A KRA business (non-meta) rule</description>
+            <attributes>
+                <attribute>
+                    <name>KRABizRuleAttribute</name>
+                    <required>true</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+    </ruleTemplates>
+
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>KRAMetaRuleTest</name>
+            <label>KRAMetaRuleTest doc label</label>
+            <docHandler>has to be defined</docHandler>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <routePaths>
+                <routePath>
+                    <start name="initial" nextNode="approval" />
+                    <requests name="approval"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="initial"/>
+                <requests name="approval">
+                    <!--
+                      serial activation so that when results of multiple rule evaluations are accumulated/collated
+                      they are activated in turn...
+                    -->
+                    <activationType>S</activationType>
+                    <ruleSelector>Named</ruleSelector>
+                    <ruleName>KRAMetaRule</ruleName>
+                </requests>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <!-- this always succeeds -->
+        <rule>
+            <name>KRABizRule1</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <description>KRABizRule1 mandatory description</description>
+            <expression type="BSF:groovy">
+                import org.kuali.rice.kew.rule.*
+                import org.kuali.rice.kew.engine.node.*
+
+                print 'KRABizRule1 is executing...'
+
+                // do something fancy...store some state
+                BranchState state = new BranchState()
+                state.setKey("cookie")
+                state.setValue("I'm a cookie from KRABizRule1 and at the tone it's " + new java.util.Date())
+                state.setBranch(routeContext.getNodeInstance().getBranch())
+                routeContext.getNodeInstance().getBranch().addBranchState(state)
+
+                return new RuleExpressionResult(rule, true)
+            </expression>
+        </rule>
+        <!-- this will fail because the extension value will not match -->
+        <rule>
+            <name>KRABizRule2</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <ruleTemplate>KRABizRule</ruleTemplate>
+            <description>KRABizRule2 mandatory description</description>
+            <ruleExtensions>
+                <ruleExtension>
+                    <attribute>KRABizRuleAttribute</attribute>
+                    <ruleTemplate>KRABizRule</ruleTemplate>
+                    <ruleExtensionValues>
+                        <ruleExtensionValue>
+                            <key>field</key>
+                            <value>5</value>
+                        </ruleExtensionValue>
+                    </ruleExtensionValues>
+                </ruleExtension>
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><user>user1</user></responsibility>
+            </responsibilities>
+        </rule>
+        <!-- this will succeed because the extension value DOES match -->
+        <rule>
+            <name>KRABizRule3</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <ruleTemplate>KRABizRule</ruleTemplate>
+            <description>KRABizRule3 mandatory description</description>
+            <ruleExtensions>
+                <ruleExtension>
+                    <attribute>KRABizRuleAttribute</attribute>
+                    <ruleTemplate>KRABizRule</ruleTemplate>
+                    <ruleExtensionValues>
+                        <ruleExtensionValue>
+                            <key>field</key>
+                            <value>1</value>
+                        </ruleExtensionValue>
+                    </ruleExtensionValues>
+                </ruleExtension>
+            </ruleExtensions>
+        </rule>
+        <rule>
+            <name>KRABizRule4</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <description>KRABizRule4 mandatory description</description>
+            <expression type="BSF:groovy">
+                import org.kuali.rice.kew.rule.*
+                import org.kuali.rice.kew.engine.node.*
+
+                print 'KRABizRule4 is executing...'
+
+                BranchState state = routeContext.getNodeInstance().getBranch().getBranchState("cookie")
+                if (state == null)
+                    throw new RuntimeException("Hey, where's my cookie!")
+
+                print 'KRABizRule4 found a cookie from KRABizRule1: ' + state.getValue()
+
+                return new RuleExpressionResult(rule, true, rule.getDefinition().getResponsibilities())
+            </expression>
+            <responsibilities>
+                <responsibility><user>user2</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>KRABizRule5</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <description>KRABizRule4 mandatory description</description>
+            <expression type="BSF:groovy">
+                import org.kuali.rice.kew.rule.*
+                print "KRABizRule5 is executing..."
+                return new RuleExpressionResult(rule, true, rule.getDefinition().getResponsibilities())
+            </expression>
+            <responsibilities>
+                <responsibility><user>user3</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>KRAMetaRule</name>
+            <documentType>KRAMetaRuleTest</documentType>
+            <description>KRAMetaRule mandatory description</description>
+            <!-- this groovy expression should be equivalent to the former KRAMetaRule expresssion:
+              KRABizRule1: true;
+              KRABizRule2: false;
+              KRABizRule3: true;
+              KRABizRule4: next;
+              KRABizRule5: true;
+            -->
+            <expression type="KRAMeta:groovy">
+                success = false
+                if (metarule.evalRule("KRABizRule1", true)) {
+                    if (!metarule.evalRule("KRABizRule2", false)) {
+                        if (metarule.evalRule("KRABizRule3", true)) {
+                            metarule.evalRule("KRABizRule4")
+                            if (metarule.evalRule("KRABizRule5", true)) {
+                                success = true
+                            }
+                        }
+                    }
+                }
+
+                return metarule.getResult(success)
+            </expression>
+        </rule>
+    </rules>
+</data>

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -76,6 +77,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         holdingsRecord.setCreatedBy(holdings.getCreatedBy());
         holdingsRecord.setCreatedDate(createdDate());
+        holdingsRecord.setUpdatedBy(holdings.getCreatedBy());
+        holdingsRecord.setUpdatedDate(createdDate());
         String content = holdings.getContent();
         OleHoldings oleHoldings = workHoldingOlemlRecordProcessor.fromXML(content);
         holdingsRecord.setStaffOnlyFlag(holdings.isStaffOnly());
@@ -181,10 +184,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
         getBusinessObjectService().save(holdingsRecord);
         if (oleHoldings.getStatisticalSearchingCode() != null) {
-            HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = saveHoldingsStatisticalSearchCode(oleHoldings.getStatisticalSearchingCode(), holdingsRecord.getHoldingsId());
-//            if(holdingsStatisticalSearchRecord !=null){
-//                holdingsRecord.setHoldingsStatisticalSearchId(holdingsStatisticalSearchRecord.getHoldingsStatisticalSearchId());
-//            }
+            List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecord = saveHoldingsStatisticalSearchCode(oleHoldings.getStatisticalSearchingCode(), holdingsRecord.getHoldingsId());
+            if(CollectionUtils.isNotEmpty(holdingsStatisticalSearchRecord)){
+                holdingsRecord.setHoldingsStatisticalSearchRecords(holdingsStatisticalSearchRecord);
+            }
         }
         if (oleHoldings.getExtentOfOwnership() != null) {
             saveEHoldingsExtentOfOwnerShip(oleHoldings.getExtentOfOwnership(), holdingsRecord.getHoldingsId());
@@ -263,10 +266,11 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         return authenticationTypeRecord;
     }
 
-    private HoldingsStatisticalSearchRecord saveHoldingsStatisticalSearchCode(StatisticalSearchingCode statisticalSearchingCode, String holdingsId) {
+    private List<HoldingsStatisticalSearchRecord> saveHoldingsStatisticalSearchCode(StatisticalSearchingCode statisticalSearchingCode, String holdingsId) {
         if (StringUtils.isNotEmpty(statisticalSearchingCode.getCodeValue())) {
             StatisticalSearchRecord statisticalSearchRecord = saveStatisticalSearchRecord(statisticalSearchingCode);
             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = null;
+            List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecordList = new ArrayList<>();
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = (List<HoldingsStatisticalSearchRecord>) getBusinessObjectService().findMatching(HoldingsStatisticalSearchRecord.class, getHoldingsMap(holdingsId));
             if(holdingsStatisticalSearchRecords != null && holdingsStatisticalSearchRecords.size() > 0) {
                 holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecords.get(0);
@@ -281,7 +285,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
             }
             getBusinessObjectService().save(holdingsStatisticalSearchRecord);
-            return holdingsStatisticalSearchRecord;
+            holdingsStatisticalSearchRecordList.add(holdingsStatisticalSearchRecord);
+            return holdingsStatisticalSearchRecordList;
         }
         return null;
     }
@@ -463,6 +468,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             } else if(StringUtils.isEmpty(callNumber.getNumber())){
                 if (callNumber.getShelvingOrder() != null) {
                     holdingsRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+                } else {
+                    callNumber.setShelvingScheme(new ShelvingScheme());
                 }
                 callNumber.getShelvingScheme().setFullValue("");
                 CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
@@ -1227,7 +1234,18 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
         if (holdingsRecord.getHoldingsStatisticalSearchRecords() != null && holdingsRecord.getHoldingsStatisticalSearchRecords().size() > 0) {
             StatisticalSearchingCode statisticalSearchingCode = new StatisticalSearchingCode();
-            statisticalSearchingCode.setCodeValue(holdingsRecord.getHoldingsStatisticalSearchRecords().get(0).getStatisticalSearchRecord().getCode());
+            if(holdingsRecord.getHoldingsStatisticalSearchRecords().get(0).getStatisticalSearchRecord() != null) {
+                statisticalSearchingCode.setCodeValue(holdingsRecord.getHoldingsStatisticalSearchRecords().get(0).getStatisticalSearchRecord().getCode());
+            } else {
+                if (StringUtils.isNotBlank(holdingsRecord.getHoldingsStatisticalSearchRecords().get(0).getStatisticalSearchId())) {
+                    Map<String, String> statisticalIdMap = new HashMap<>();
+                    statisticalIdMap.put("statisticalSearchId", holdingsRecord.getHoldingsStatisticalSearchRecords().get(0).getStatisticalSearchId());
+                    StatisticalSearchRecord statisticalSearchRecord = getBusinessObjectService().findByPrimaryKey(StatisticalSearchRecord.class, statisticalIdMap);
+                    if (statisticalSearchRecord != null) {
+                        statisticalSearchingCode.setCodeValue(statisticalSearchRecord.getCode());
+                    }
+                }
+            }
             oleHoldings.setStatisticalSearchingCode(statisticalSearchingCode);
 
         }
@@ -1620,6 +1638,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             callNumber = cNum.getNumber();
             if (cNum.getShelvingScheme() != null) {
                 callNumberType = cNum.getShelvingScheme().getCodeValue();
+            }
+            if (cNum.getShelvingOrder()!=null){
+                cNum.getShelvingOrder().setFullValue("");
             }
         }
         // Check if CallNumber is present

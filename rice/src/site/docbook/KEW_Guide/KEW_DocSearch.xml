@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_DocSearch" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Customizing Document Search</title>
+        <para>Each document carries an XML payload that describes metadata. You can specify pieces
+            of that metadata to be indexed and searched on. This area focuses on the interface for
+            searching through that data. For each <emphasis role="bold">Document Search</emphasis>
+            page, you must setup the XML configuration files to define the search criteria and
+            result fields. </para>
+        <section>
+            <title>Custom Search Screen</title>
+            <para>As an example of customizing a Document Search screen, we'll use a customized
+                    <emphasis role="bold">Offer Request</emphasis> screen:</para>
+            <figure><title>Custom Search Screen:Offer Request Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/offer_request_search.png" scalefit="1" width="100%" />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <section>
+                <title>What are custom document search attributes? </title>
+                <para>Custom document search attributes are associated with a document type. They
+                    specify which pieces of document data will be made searchable for documents of
+                    that type. When you take action on a document in the workflow engine, a
+                    background process extracts the custom search attributes from the document and
+                    adds them to a database table where they can be queried as part of a custom
+                    document search. These custom search attributes are defined and associated along
+                    with document types in WorkflowData XML files, and are added to Rice via the XML
+                    ingester. They are defined within (using XPath notation)
+                    /data/ruleAttributes/ruleAttribute tags, and are associated with specific
+                    document types within /data/documentTypes/documentType/attributes/attribute
+                    tags. </para>
+                <para>A custom search attribute's logic is defined in a Java class that implements
+                    the SearchAttribute interface. A SearchableAttribute implementation defines: <itemizedlist>
+                        <listitem>
+                            <para>What parts of the document content will be made searchable </para>
+                        </listitem>
+                        <listitem>
+                            <para>Which fields will be present in the document search interface
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Which columns will be shown in the search results </para>
+                        </listitem>
+                        <listitem>
+                            <para>What is considered valid user input for the custom search fields
+                            </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>There is a built in SearchAttribute implementation, SearchableXMLAttribute,
+                    that is highly configurable via XML and will meet most requirements. If there is
+                    need for more complex or specific behavior, a custom SearchAttribute
+                    implementation can be written and utilized as well.</para>
+                <para><emphasis role="bold">DocumentSearchAttributes</emphasis> is much like
+                        <emphasis role="bold">XMLRuleAttributes</emphasis>, except that
+                    DocumentSearchAttributes is responsible for drawing input fields on the Document
+                    Search form and collecting data for the query, as opposed to analyzing data for
+                    routing evaluation (done by XMLRuleAttributes).</para>
+            </section>
+        </section>
+        <section>
+            <title>Hide Search Fields and Result Columns</title>
+            <para>In a search configuration, the <emphasis role="bold">&lt;visibility></emphasis>
+                tag lets you configure search criteria to be included or excluded from the entry of
+                search criteria or from the search results. You can use the <emphasis role="bold"
+                    >&lt;visibility></emphasis> tag on all field(s) and column(s) in the Document
+                Search results except for <emphasis role="bold">Document Id</emphasis> and <emphasis
+                    role="bold">Route Log</emphasis>, which must always be visible.</para>
+            <section>
+                <title>Hide a result column</title>
+                <programlisting>&lt;visibility>
+    &lt;column visible="false"/>
+
+&lt;/visibility>
+</programlisting>
+            </section>
+            <section>
+                <title>Hide a search field</title>
+                <programlisting>&lt;visibility>
+    &lt;field visible="false"/>
+&lt;/visibility>
+</programlisting>
+            </section>
+            <section>
+                <title>Field and column visibility based on workgroup membership</title>
+                <para>Use code like this in the XML file to display column(s) and field(s) based on
+                    the user's workgroup:</para>
+                <programlisting>&lt;visibility>
+    &lt;field>
+        &lt;isMemberOfWorkgroup>WorkflowAdmin&lt;/isMemberOfWorkgroup>
+    &lt;/field>
+    &lt;column>
+        &lt;isMemberOfWorkgroup>WorkflowAdmin&lt;/isMemberOfWorkgroup>
+    &lt;/column>
+&lt;/visibility>
+</programlisting>
+                <para>The example above indicates that the field and column only display for users
+                    who are a member of the workgroup, <emphasis role="italic"
+                        >WorkflowAdmin</emphasis>.</para>
+            </section>
+            <section>
+                <title>Configure visibility for both field and column</title>
+                <para>A shortcut to configure the visibility for both fields and columns is the
+                        <emphasis role="bold">&lt;fieldAndColumn></emphasis> tag. A
+                    &lt;fieldAndColumn> example:</para>
+                <programlisting>&lt;visibility>
+    &lt;fieldAndColumn>
+        &lt;isMemberOfWorkgroup>WorkflowAdmin&lt;/isMemberOfWorkgroup>
+    &lt;/fieldAndColumn>
+&lt;/visibility>
+</programlisting>
+            </section>
+            <section>
+                <title>No field visibility</title>
+                <para>Declaring <emphasis role="bold">&lt;type></emphasis> as hidden is equivalent
+                    to setting visibility to false. An example of <emphasis role="bold"
+                        >&lt;type></emphasis> and <emphasis role="bold">&lt;visibility></emphasis>,
+                    equivalent to a hidden field:</para>
+                <programlisting>&lt;searchingConfig>
+    &lt;fieldDef name="department" title="Department">
+        &lt;display>
+            &lt;type>text&lt;/type>
+        &lt;/display>
+        &lt;visibility>
+            &lt;field visible="false"/>
+        &lt;/visibility>
+        &lt;fieldEvaluation>
+            &lt;xpathexpression>normalize-space(substring-before(//department, ' '))&lt;/xpathexpression>
+        &lt;/fieldEvaluation>
+    &lt;/fieldDef>
+
+&lt;/searchingConfig>
+
+
+&lt;!-- The above is equivalent to the following searching configuration -->
+
+&lt;searchingConfig>
+    &lt;fieldDef name="department" title="Department">
+        &lt;display>
+            &lt;type>hidden&lt;/type>
+        &lt;/display>
+        &lt;fieldEvaluation>
+            &lt;xpathexpression>normalize-space(substring-before(//department, ' '))&lt;/xpathexpression
+>
+        &lt;/fieldEvaluation>
+    &lt;/fieldDef>
+
+&lt;/searchingConfig>
+</programlisting>
+            </section>
+        </section>
+        <section>
+            <title>Configure Lookup Function</title>
+            <para>To make a lookupable available on the Document Search screen, you can use the
+                    <emphasis role="bold">&lt;quickfinder></emphasis> tag in the attribute
+                definition. You can use the terms <emphasis role="italic">quickfinder</emphasis>,
+                    <emphasis role="italic">lookup</emphasis>, and <emphasis role="italic"
+                    >lookupable</emphasis> interchangeably. </para>
+            <para>For example, you could set up an organizational hierarchic concept such as
+                    <emphasis role="bold">Charts and Orgs</emphasis> to implement a search. You
+                could set up the code to perform this search using the <emphasis role="bold"
+                    >ChartOrgLookupableImpl</emphasis> institutional plugin. This is an example of a
+                standard lookupable component.</para>
+            <para>In the institutional plug-in, <emphasis role="bold"
+                    >ChartOrgLookupableImpl</emphasis> is identified in the
+                LookupableServiceExtension by the name of <emphasis role="bold"
+                    >ChartOrgLookupableImplservice</emphasis>. <emphasis role="bold"
+                    >ChartOrgLookupableImpl</emphasis> exposes two return parameters, which are:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Fin_coa_cd</emphasis>: Represents the chart code
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Org_cd</emphasis>: Represents the organization
+                            code </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>An XML example of setting up a lookupable on the Document Search screen: <emphasis
+                    role="bold">ChartOrgSearchAttribute.xml</emphasis></para>
+            <programlisting>&lt;ruleAttribute>
+    &lt;name>ChartOrgSearchAttribute&lt;/name>
+    &lt;className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute&lt;/className>
+    &lt;label>TestQuickfinderSearchAttribute&lt;/label>
+    &lt;description>TestQuickfinderSearchAttribute&lt;/description>
+    &lt;type>SearchableXmlAttribute&lt;/type>
+    &lt;searchingConfig>
+        &lt;fieldDef name="chart" title="Chart">
+            &lt;display>
+                &lt;type>text&lt;/type>
+            &lt;/display>
+            &lt;quickfinder service="ChartOrgLookupableImplService" appliesTo="fin_coa_cd" draw="false"/>
+            &lt;fieldEvaluation>
+                &lt;xpathexpression>//chart&lt;/xpathexpression>
+            &lt;/fieldEvaluation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="org" title="Organization">
+            &lt;display>
+                &lt;type>text&lt;/type>
+            &lt;/display>
+            &lt;quickfinder service="ChartOrgLookupableImplService" appliesTo="org_cd" draw="true"/>
+            &lt;fieldEvaluation>
+                &lt;xpathexpression>//org&lt;/xpathexpression>
+            &lt;/fieldEvaluation>
+        &lt;/fieldDef>
+        &lt;xmlSearchContent>
+            &lt;chartOrg>
+                &lt;chart>%chart%&lt;/chart>
+                &lt;org>%org%&lt;/org>
+            &lt;/chartOrg>
+        &lt;/xmlSearchContent>
+    &lt;/searchingConfig>
+&lt;/ruleAttribute>
+</programlisting>
+            <para>In the XML example above, there are two <emphasis role="bold"
+                    >&lt;quickfinder></emphasis> tags representing the <emphasis role="bold">Chart
+                    (fin_coa_cd)</emphasis> and <emphasis role="bold">Org (org_cd)</emphasis>
+                search. Notice the <emphasis role="bold">draw</emphasis> attribute for the <emphasis
+                    role="bold">Org (org_cd)</emphasis> search is set <emphasis role="bold"
+                    >true</emphasis>. This means that a search icon will be displayed on the
+                Document Search screen. Based on the XML code above, the final Document Search
+                screen looks like this:</para>
+            <figure><title>Custom Document Search: Department Example</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/document_search.png" scalefit="1" width="100%"  />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section xml:id="documentSearch.applicationDocumentStatus" xreflabel="Customizing Document Search: Application Document Status">
+        <title>Application Document Status</title>
+        <para>If the &lt;validApplicationStatuses> configuration is specified in the document type
+            definition, then setting the Document Type on the Document Search page will display a
+            multi-select input titled "Application Document Status" that allows you to search by
+            application statuses or status categories.
+        </para>
+        <figure><title>Document Search Screen: Application Document Status Example</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KEW_Guide/doc_search_application_status.png" scalefit="1" width="100%" />
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>In the figure above, <emphasis role="bold">Pre-Submit</emphasis> is a category of statuses containing
+            <emphasis role="bold">Initiated</emphasis> and <emphasis role="bold">Validated</emphasis> which
+            are individual statuses.  Selecting <emphasis role="bold">Pre-Submit</emphasis> and searching will return
+            identical results to selecting both <emphasis role="bold">Initiated</emphasis> and <emphasis role="bold">
+            Validated</emphasis> and then searching.
+        </para>
+        <para>Please see <xref linkend="policies.documentStatusPolicy"/> for configuration details.</para>
+        </section>
+        <section>
+            <title>Define Keyword Search</title>
+            <para>XMLSearchableAttributeStdFloatRang is an XML searchable attribute that enhances
+                the keyword search function. It provides multiple searchable elements for a user to
+                select under the &lt;searchingConfig> section. This example is the
+                XMLSearchableAttributeStdFloatRang attribute in the default setting:</para>
+            <programlisting>&lt;ruleAttribute>
+    &lt;name>XMLSearchableAttributeStdFloatRange&lt;/name>
+    &lt;className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute&lt;/className>
+    &lt;label>XML Searchable attribute&lt;/label>
+    &lt;description>XML Searchable attribute&lt;/description>
+    &lt;type>SearchableXmlAttribute&lt;/type>
+    &lt;searchingConfig>
+        &lt;fieldDef name="testFloatKey" title="Float in the Water">
+            &lt;display>
+                &lt;type>text&lt;/type>
+            &lt;/display>
+            &lt;searchDefinition dataType="float">
+                &lt;rangeDefinition inclusive="false">
+                    &lt;lower label="starting"/>
+                    &lt;upper label="ending"/>
+                &lt;/rangeDefinition>
+            &lt;/searchDefinition>
+            &lt;fieldEvaluation>
+                &lt;xpathexpression>//putWhateverWordsIwantInsideThisTag/testFloatKey/value&lt;/xpathexpression>
+            &lt;/fieldEvaluation>
+        &lt;/fieldDef>
+        &lt;xmlSearchContent>
+            &lt;putWhateverWordsIwantInsideThisTag>
+                &lt;testFloatKey>
+                    &lt;value>%testFloatKey%&lt;/value>
+                &lt;/testFloatKey>
+            &lt;/putWhateverWordsIwantInsideThisTag>
+        &lt;/xmlSearchContent>
+    &lt;/searchingConfig>
+&lt;/ruleAttribute>
+</programlisting>
+            <caution><para>Cautions about the &lt;searchingConfig> section:<orderedlist>
+                        <listitem>
+                            <para><emphasis role="bold">&lt;searchDefinition></emphasis> identifies
+                                the search data type and search ranges. </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">&lt;rangeDefinition></emphasis> contains
+                                both the <emphasis role="bold">&lt;lower></emphasis> and <emphasis
+                                    role="bold">&lt;upper></emphasis> elements that set up the
+                                parameters for the range search. </para>
+                        </listitem>
+                        <listitem>
+                            <para>If you set the <emphasis role="bold"
+                                    >&lt;display>&lt;type></emphasis> tag to be date, then KEW
+                                automatically sets: <emphasis role="bold">&lt;searchDefinition
+                                    dataType="datetime"></emphasis>. </para>
+                        </listitem>
+                        <listitem>
+                            <para>If the data type that you enter is not a <emphasis role="italic"
+                                    >datetime</emphasis>, then KEW sets all <emphasis role="italic"
+                                    >datePicker</emphasis> attributes to <emphasis role="italic"
+                                    >false</emphasis>. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Based on the <emphasis role="bold">dataType</emphasis> you enter,
+                                    <emphasis role="italic">datePicker</emphasis> changes the
+                                default setting to either <emphasis role="italic">true</emphasis> or
+                                    <emphasis role="italic">false</emphasis>. </para>
+                        </listitem>
+                        <listitem>
+                            <para>To use a range search, you can either set <emphasis role="bold"
+                                    >&lt;searchDefinition rangeSearch="true"></emphasis> or put the
+                                tag <emphasis role="bold">&lt;rangeDefinition></emphasis> under the
+                                    <emphasis role="bold">&lt;searchDefinition></emphasis> tag.
+                                Either way, KEW will force a range search. </para>
+                        </listitem>
+                    </orderedlist></para></caution>
+        </section>
+        <section>
+            <title>Custom Search Criteria Processing</title>
+            <section>
+                <title>URL Parameter Options</title>
+                <para>You can modify the search criteria and the display of the search screen by
+                    passing in URL parameters. Only use this method when the configuration desired
+                    is <emphasis role="italic">preferable</emphasis> and not <emphasis role="italic"
+                        >required</emphasis>. If a particular piece of the search criteria is
+                        <emphasis role="italic">required</emphasis>, please see the section below
+                    titled, Using a Custom Search Criteria Processor.</para>
+                <section>
+                    <title>Force the link to display the Detailed Search screen</title>
+                    <para>Use the parameter <emphasis role="bold">isAdvancedSearch</emphasis> and
+                        set the value to <emphasis role="bold">YES</emphasis>.</para>
+                </section>
+                <section>
+                    <title>Show or Hide All Criteria and/or the Workflow Header Bar</title>
+                    <para>The default value of each of these parameters must be set to true to show
+                        both the criteria and the header bar. <itemizedlist>
+                            <listitem>
+                                <para>To hide the header bar, use the URL parameter <emphasis
+                                        role="bold">headerBarEnabled</emphasis> and set the value to
+                                        <emphasis role="italic">false</emphasis>. </para>
+                            </listitem>
+                            <listitem>
+                                <para>To hide the search criteria (including the buttons), use the
+                                    URL parameter <emphasis role="bold"
+                                        >searchCriteriaEnabled</emphasis> and set the value to
+                                        <emphasis role="italic">false</emphasis>. </para>
+                            </listitem>
+                        </itemizedlist></para>
+                </section>
+                <section>
+                    <title>Passing in Common Search Criteria Values</title>
+                    <para>Common search criteria fields can be populated by supplying their values in the URL query parameters.  For example, the following URL specifies a search on <emphasis role="bold">KualiNotification</emphasis> documents with initiator <emphasis role="bold">user1</emphasis>:</para>
+                    <programlisting>http://yourlocalip:8080/DocumentSearch.do?documentTypeName=KualiNotification&amp;initiatorPrincipalName=user1</programlisting>
+                    <para>Common search criteria fields include:</para>
+                    <itemizedlist>
+                      <listitem>
+                        <para><emphasis role="bold">documentTypeName</emphasis> - the document type name</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">documentId</emphasis> - the document id</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">initiatorPrincipalName</emphasis> - the initiator principal name</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">dateCreated</emphasis> - the document creation date</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">approverPrincipalName</emphasis> - the approver principal name (use with advanced search)</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">viewerPrincipalName</emphasis> - the viewer principal name (use with advanced search)</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">applicationDocumentId</emphasis> - the application-supplied document id (use with advanced search)</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">dateApproved</emphasis> - the approval date (use with advanced search)</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">dateLastModified</emphasis> - the last modified date (use with advanced search)</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">dateFinalized</emphasis> - the finalization date (use with advanced search)</para>
+                      </listitem>
+                      <listitem>
+                        <para><emphasis role="bold">title</emphasis> - the document title(use with advanced search)</para>
+                      </listitem>
+                    </itemizedlist>
+                    <para>For a comprehensive list of search criteria fields, consult the
+                          <programlisting>org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo</programlisting> class.</para>
+                </section>
+                <section>
+                    <title>The CURRENT_USER variable</title>
+                    <para>In addition to literal field values, the 'CURRENT_USER' special token is dynamically replaced with an identifier for the currently authenticated user when the search is executed.  This value can be supplied in any field (typically a field that takes a principal name or id).  Several variants allow embedding different types of user ids:</para>
+                    <itemizedlist>
+                      <listitem>
+                        <para><emphasis role="bold">CURRENT_USER</emphasis>,
+<emphasis role="bold">CURRENT_USER.principalName</emphasis>,
+<emphasis role="bold">CURRENT_USER.authenticationId</emphasis>,
+<emphasis role="bold">CURRENT_USER.a</emphasis>
+ - the current user principal name</para>
+                      </listitem>
+                      <listitem><para>
+<emphasis role="bold">CURRENT_USER.principalId</emphasis>,
+<emphasis role="bold">CURRENT_USER.workflowId</emphasis>,
+<emphasis role="bold">CURRENT_USER.w</emphasis>
+ - the current user principal id</para>
+                      </listitem>
+                      <listitem><para>
+<emphasis role="bold">CURRENT_USER.emplId</emphasis>,
+<emphasis role="bold">CURRENT_USER.e</emphasis>
+ - the current user employee id</para>
+                      </listitem>
+                    </itemizedlist>                        
+                      <para>Example:</para>
+                      <programlisting>http://yourlocalip:8080/DocumentSearch.do?documentTypeName=KualiNotification&amp;initiatorPrincipalName=CURRENT_USER</programlisting>
+                </section>
+                <section>
+                    <title>Passing in Searchable Attribute Values</title>
+                    <para>Searchable attributes can be specified via URL parameters by prefixing the searchable
+                          attribute field name with <emphasis role="bold">documentAttribute.</emphasis>.</para>
+                    <para>Here is an example using two <emphasis role="bold"
+                            >&lt;fieldDef></emphasis> objects with names <emphasis role="italic"
+                            >firstname</emphasis> and <emphasis role="italic"
+                        >lastname</emphasis>:</para>
+                    <programlisting>http://yourlocalip:8080/DocumentSearch.do?documentAttribute.firstname=John&amp;documentAttribute.lastname=Smith</programlisting>
+                </section>
+            </section>
+            <section>
+                <title>Using a Custom Search Criteria Processor</title>
+                <para>The best way to do custom criteria processing is to implement a custom class
+                    that extends the class <emphasis role="bold"
+                        >org.kuali.rice.kew.docsearch.DocumentSearchCriteriaProcessor</emphasis>.
+                    This file is ingested as a Workflow Attribute in KEW, using the <emphasis
+                        role="bold">&lt;type></emphasis> of <emphasis role="bold"
+                        >DocumentSearchCriteriaProcessorAttribute</emphasis>. Once the Workflow
+                    Attribute is ingested, you can set the name value of the ingested attribute on
+                    one or more document type xml definitions in the Attributes section. A document
+                    type can only have one Criteria Processor Attribute. </para>
+                <para>Creating a child class of the <emphasis role="bold"
+                        >DocumentSearchCriteriaProcessor</emphasis> class, a client can override
+                    various methods to modify the behavior of the search. The <emphasis role="bold"
+                        >DocumentSearchCriteriaProcessor</emphasis> class can access the
+                    WorkflowUser object of the user performing the search. By having access to these
+                    objects, a custom processor class could implement dynamic hiding and showing of
+                    specific criteria fields based on ordinary user's data or search field
+                    data.</para>
+                <section>
+                    <title>Show or Hide All Criteria and/or the Workflow Header Bar</title>
+                    <para>Here are some helpful methods that you may override from the <emphasis
+                            role="bold">DocumentSearchCriteriaProcessor</emphasis> class file to
+                        hide or display full criteria (including buttons) and/or the header bar:<itemizedlist>
+                            <listitem>
+                                <para><emphasis role="bold">isHeaderBarDisplayed()</emphasis> – If
+                                    this function returns <emphasis role="italic">false</emphasis>,
+                                    KEW hides the header bar on both the advanced and basic search
+                                    screens (default return value is <emphasis role="italic"
+                                        >true</emphasis>). </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold"
+                                        >isBasicSearchCriteriaDisplayed()</emphasis> – If this
+                                    function returns <emphasis role="italic">false</emphasis>, KEW
+                                    hides criteria on the basic search screen (default return value
+                                    is <emphasis role="italic">true</emphasis>). </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold"
+                                        >isAdvancedSearchCriteriaDisplayed()</emphasis> – If this
+                                    function returns <emphasis role="italic">false</emphasis>, KEW
+                                    hides the criteria on the advanced search screen (default return
+                                    value is <emphasis role="italic">true</emphasis>). </para>
+                            </listitem>
+                        </itemizedlist></para>
+                </section>
+                <section>
+                    <title>Hiding Specific Fields or Criteria Using Field Key Values</title>
+                    <para>The DocumentSearchCriteriaProcessor class has methods that allow classes
+                        to extend from it for basic field display. This is based on static string
+                        key values and makes it easier for clients to allow basic field display or
+                        to hide particular fields, whether they are searchable attributes or
+                        standard Document Search fields.</para>
+                    <para>You may override these methods from the <emphasis role="bold"
+                            >DocumentSearchCriteriaProcessor</emphasis> class to do specific field
+                        hiding by returning a list of string keys:<itemizedlist>
+                            <listitem>
+                                <para><emphasis role="bold">getGlobalHiddenFieldKeys()</emphasis> –
+                                    This function returns a list of keys (strings) for fields to be
+                                    hidden on both the basic and advanced search screen. </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold"
+                                        >getBasicSearchHiddenFieldKeys()</emphasis> – This function
+                                    returns a list of keys (strings) for fields to be hidden on the
+                                    basic search screen. </para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold"
+                                        >getAdvancedSearchHiddenFieldKeys()</emphasis> – This
+                                    function returns a list of keys (strings) for fields to be
+                                    hidden on the advanced search screen. </para>
+                            </listitem>
+                        </itemizedlist></para>
+                    <para>You can find the standard Document Search field key names in the class
+                        file <emphasis role="bold"
+                            >org.kuali.rice.kew.docsearch.DocumentSearchCriteriaProcessor</emphasis>.
+                        They are constants prefixed by the text <emphasis role="bold"
+                            >CRITERIA_KEY_</emphasis>. For example, the static criteria key for the
+                            <emphasis role="bold">Document Id</emphasis> field is <emphasis
+                            role="bold"
+                            >DocumentSearchCriteriaProcessor.CRITERIA_KEY_DOCUMENT_ID</emphasis>.</para>
+                    <para>A client can also use searchable attribute <emphasis role="bold"
+                            >&lt;fieldDef></emphasis> name values to hide fields in the same way
+                        that you use constants. If a particular searchable attribute <emphasis
+                            role="bold">&lt;fieldDef></emphasis> name exists in a list returned by
+                        one of the above <emphasis role="bold">hidden field key</emphasis> methods,
+                        the criteria processor class overrides the default behavior of that
+                            <emphasis role="bold">&lt;fieldDef></emphasis> searchable attribute for
+                        visibility.</para>
+                    <para>Here is a general example of a custom criteria processor class that
+                        extends <emphasis role="bold"
+                            >StandardDocumentSearchCriteriaProcessor</emphasis>:</para>
+                    <programlisting>public class CustomDocumentSearchCriteriaProcessor extends DocumentSearchCriteriaProcessor {
+
+/**
+     
+  *  Always hide the header bar on all search screens
+     
+  */
+   
+    @Override
+    public boolean isHeaderBarDisplayed() {
+        return Boolean.FALSE;
+    
+    }
+
+    
+
+/**
+  *  Always hide all criteria and buttons on the advanced search screen
+     
+  */
+    
+    @Override
+    public Boolean isAdvancedSearchCriteriaDisplayed() {
+        return Boolean.FALSE;
+    }
+
+
+/**
+  *  Hide the Initiator Criteria field on both Basic and Advanced Search screens
+  */
+    @Override
+    public List&lt;String> getGlobalHiddenFieldKeys() {
+        List&lt;String> hiddenKeys = super.getGlobalHiddenFieldKeys();
+        hiddenKeys.add(DocumentSearchCriteriaProcessor.CRITERIA_KEY_INITIATOR);
+        return hiddenKeys;
+    }
+
+
+/**
+  *  Hide the Document Title criteria field on the basic search screen
+  *  Hide the searchable attribute field with name 'givenname' on the basic search screen
+  */
+    @Override
+    public List&lt;String> getBasicSearchHiddenFieldKeys() {
+        List&lt;String> hiddenKeys = super.getAdvancedSearchHiddenFieldKeys();
+        hiddenKeys.add(DocumentSearchCriteriaProcessor.CRITERIA_KEY_DOCUMENT_TITLE);
+        hiddenKeys.add("givenname");
+        return hiddenKeys;
+    }
+
+
+/**
+  *  Hide the Document Title criteria field on the advanced search screen
+  *  Hide the searchable attribute field with name 'givenname' on the basic search screen
+  */
+    
+    @Override
+    public List&lt;String> getAdvancedSearchHiddenFieldKeys() {
+        List&lt;String> hiddenKeys = super.getAdvancedSearchHiddenFieldKeys();
+        hiddenKeys.add(DocumentSearchCriteriaProcessor.CRITERIA_KEY_DOCUMENT_TITLE);
+        hiddenKeys.add("givenname");
+        return hiddenKeys;
+    
+    }
+}
+</programlisting>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Custom Search Generation</title>
+            <para>The best way to do custom search generation or processing is to implement a custom
+                class that extends the class <emphasis role="bold"
+                    >org.kuali.rice.kew.impl.document.lookup.DocumentSearchGenerator</emphasis>. This file is
+                ingested as a Workflow Attribute in KEW using the <emphasis role="bold"
+                    >&lt;type></emphasis> value of DocumentSearchGeneratorAttribute. Once the
+                Workflow Attribute is ingested, the name value of the ingested attribute can be set
+                on one or more document type xml definitions in the Attributes section. A Document
+                Type can only have one Search Generator Attribute.</para>
+            <para>Using an extension of the <emphasis role="bold">DocumentSearchGenerator</emphasis>
+                class, a client has access to override various methods to modify the behavior of the
+                search. Also, the <emphasis role="bold">DocumentSearchGenerator</emphasis> class has
+                helper methods that may be used to get the WorkflowUser object of the user
+                performing the search. </para>
+            <section>
+                <title>Implementing a Custom Result Set Limit</title>
+                <para>To implement a custom result set limit, simply override the method <emphasis
+                        role="bold">getDocumentSearchResultSetLimit()</emphasis> from the <emphasis
+                        role="bold">StandardDocumentSearchGenerator</emphasis> class.</para>
+            </section>
+        </section>
+        <section>
+            <title>Custom Search Results</title>
+            <para>You can create a Custom Search Result table using an XML rule attribute of the
+                type <emphasis role="bold"
+                >DocumentSearchRsultXMLResultProcessorAttribute</emphasis>.</para>
+            <para>The <emphasis role="italic">standard</emphasis> Search Result table:</para>
+            <figure><title>Standard Doc Search Results Set</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/standard_search_result_table.png" scalefit="1" width="100%"  />
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>The Standard Search Result fields: <itemizedlist>
+                    <listitem>
+                        <para>Document Id </para>
+                    </listitem>
+                    <listitem>
+                        <para>Document Type </para>
+                    </listitem>
+                    <listitem>
+                        <para>Title </para>
+                    </listitem>
+                    <listitem>
+                        <para>Status </para>
+                    </listitem>
+                    <listitem>
+                        <para>Initiator </para>
+                    </listitem>
+                    <listitem>
+                        <para>Date Created </para>
+                    </listitem>
+                    <listitem>
+                        <para>Route log </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>The fields of <emphasis role="bold">Document Id</emphasis> and <emphasis
+                    role="bold">Route Log</emphasis> are always shown in the farthest left and right
+                columns of the Search Result table. These fields cannot be hidden. You can add both
+                columns a second time in the XML search result attributes if needed.</para>
+            <section>
+                <title>Custom XML Document Search Result Processor Attribute</title>
+                <para>An example of a custom XML result processor: </para>
+                <programlisting>&lt;ruleAttribute>
+    &lt;name>KualiContractsAndGrantsDocSearchResultProcessor&lt;/name>
+
+    &lt;className>org.kuali.rice.kew.docsearch.xml.DocumentSearchXMLResultProcessorImpl&lt;/className>
+    &lt;label>Contracts &amp;amp; Grants Document Search Result Processor&lt;/label>
+    &lt;description>Attribute to allow for custom search results for Contracts &amp;amp; Grants documents&lt;/description>
+    &lt;type>DocumentSearchXMLResultProcessorAttribute&lt;/type>
+    &lt;searchResultConfig overrideSearchableAttributes="false" showStandardSearchFields="false">
+        &lt;column name="docTypeLabel" />
+        &lt;column name="docRouteStatusCodeDesc" />
+        &lt;column name="initiator" />
+        &lt;column name="dateCreated" />
+    &lt;/searchResultConfig>
+
+&lt;/ruleAttribute>
+</programlisting>
+                <para>The result of the code displayed above is a Search Result table with these
+                    columns: <itemizedlist>
+                        <listitem>
+                            <para>Document Id </para>
+                        </listitem>
+                        <listitem>
+                            <para>Document Type </para>
+                        </listitem>
+                        <listitem>
+                            <para>Status </para>
+                        </listitem>
+                        <listitem>
+                            <para>Initiator </para>
+                        </listitem>
+                        <listitem>
+                            <para>Date Created </para>
+                        </listitem>
+                        <listitem>
+                            <para>Route Log </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>The key for the search result customization is focused on the elements and
+                    column tag(s) under the &lt;searchResultConfig>.</para>
+                    <para>Attributes that are included in the &lt;searchResultConfig> tag:</para><itemizedlist>
+                            <listitem>
+                                <para><emphasis role="bold">overrideSearchableAttributes</emphasis>:
+                                    The indicator of whether to display the column <emphasis
+                                        role="italic">name</emphasis> attributes defined by the
+                                    searchAttribute fieldDef 'name's configured by setting the
+                                        <emphasis role="italic">true</emphasis> or <emphasis
+                                        role="italic">false</emphasis>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para><emphasis role="italic">true</emphasis>: Display
+                                                the &lt;column> <emphasis role="italic"
+                                                  >name</emphasis> attributes based on
+                                                searchAttribute fieldDef names. </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para><emphasis role="italic">false</emphasis>: Display
+                                                the <emphasis role="italic">name</emphasis> based on
+                                                the &lt;column> attribute. </para>
+                                        </listitem>
+                                    </itemizedlist></para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">showStandardSearchFields</emphasis>: The
+                                    indicator of whether to display the standard search fields by
+                                    setting the value <emphasis role="italic">true</emphasis> or
+                                        <emphasis role="italic">false</emphasis>. <itemizedlist>
+                                        <listitem>
+                                            <para><emphasis role="italic">true</emphasis>: Display
+                                                the search result with the standard result fields;
+                                                the <emphasis role="italic">name</emphasis>
+                                                attribute of the &lt;column> tag should match the
+                                                values in the java file <emphasis role="italic"
+                                                  >DocumentSearchResult.java</emphasis>. </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para><emphasis role="italic">false</emphasis>: Display
+                                                the search result based on the custom result fields.
+                                            </para>
+                                        </listitem>
+                                    </itemizedlist></para>
+                            </listitem>
+                        </itemizedlist>                
+                <para>Attributes that can be added in a &lt;column> tag:</para>
+                <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">Name</emphasis>: The key for connecting the
+                                value of a particular attribute. For example, <emphasis
+                                    role="italic">routeHeaderId</emphasis> equals <emphasis
+                                    role="italic">Document Id</emphasis>. For more information about
+                                the attribute key, please refer to the Key reference table below.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Title</emphasis>: The title of the field
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Sortable</emphasis>: The indicator of
+                                whether to sort the search result by setting the value <emphasis
+                                    role="italic">true</emphasis> or <emphasis role="italic"
+                                    >false</emphasis>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para><emphasis role="italic">true</emphasis>: Sort option
+                                            for this column is enabled to sort either alphabetically
+                                            or numerically depending on attribute type. </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para><emphasis role="italic">false</emphasis>: Sort option
+                                            for this column is disabled. </para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </itemizedlist>
+                <para>For &lt;column> with sortable = <emphasis role="italic">true</emphasis>, the
+                    field title becomes a link and when a user clicks the link, KEW sorts the
+                    results by that column.</para>
+                <para>An example of a custom ruleAttribute:</para>
+                <programlisting>&lt;ruleAttribute>
+    &lt;name>KualiContractsAndGrantsDocSearchResultProcessor&lt;/name>
+
+    &lt;className>org.kuali.rice.kew.docsearch.xml.DocumentSearchXMLResultProcessorImpl&lt;/className>
+    &lt;label>Contracts &amp;amp; Grants Document Search Result Processor&lt;/label>
+    &lt;description>Attribute to allow for custom search results for Contracts &amp;amp; Grants documents&lt;/description>
+    &lt;type>DocumentSearchXMLResultProcessorAttribute&lt;/type>
+    &lt;searchResultConfig overrideSearchableAttributes="true" showStandardSearchFields="false">
+        &lt;column name="docTypeLabel" />
+        &lt;column name="docRouteStatusCodeDesc" />
+        &lt;column name="initiator" />
+        &lt;column name="dateCreated" />
+        &lt;column name="proposal_number" />
+        &lt;column name="chart" />
+        &lt;column name="organization" />
+        &lt;column name="proposal_award_status" />
+        &lt;column name="agency_report_name" />
+    &lt;/searchResultConfig>
+&lt;/ruleAttribute>
+</programlisting>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Key Reference Table: Default field names and reference keys </title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                            <thead>
+                                <row>
+                                    <entry>Field</entry>
+                                    <entry>Key</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry>Document Id </entry>
+                                    <entry>routeHeaderId </entry>
+                                </row>
+                                <row>
+                                    <entry>Document Type </entry>
+                                    <entry>docTypeLabel </entry>
+                                </row>
+                                <row>
+                                    <entry>Title </entry>
+                                    <entry>documentTitle </entry>
+                                </row>
+                                <row>
+                                    <entry>Status </entry>
+                                    <entry>docRouteStatusCodeDesc </entry>
+                                </row>
+                                <row>
+                                    <entry>Initiator </entry>
+                                    <entry>initiator </entry>
+                                </row>
+                                <row>
+                                    <entry>Date Created </entry>
+                                    <entry>dateCreated </entry>
+                                </row>
+                                <row>
+                                    <entry>Route Log </entry>
+                                    <entry>routeLog </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+            <section>
+                <title>Custom Document Search Result Processor Class File</title>
+                <para>You may also use a custom Document Search Result Processor by extending the
+                    class <emphasis role="bold"
+                        >org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor</emphasis>
+                    and overriding individual methods.</para>
+            </section>
+        </section>
+        <section>
+            <title>Differences between SearchableAttribute and RuleAttribute</title>
+            <itemizedlist>
+                <listitem>
+                    <para>SearchableAttribute does NOT have a <emphasis role="bold"
+                            >workflowType</emphasis> attribute in the field tag. </para>
+                </listitem>
+                <listitem>
+                    <para>For SearchableAttribute, <emphasis role="bold">xpathexpression</emphasis>
+                        indicates the value's location in the document; it does not use <emphasis
+                            role="bold">wf:ruledata('')</emphasis>. For RuleAttribute,
+                        xpathexpression is a Boolean expression. </para>
+                </listitem>
+                <listitem>
+                    <para>SearchableAttribute uses xmlSearchContent instead of xmlDocumentContent;
+                        xmlDocumentContent is for RuleAttribute. </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Document Security</title>
+            <para>Kuali Enterprise Workflow provides a declarative mechanism to facilitate
+                Document-level security for these three screens:<itemizedlist>
+                    <listitem>
+                        <para>Document Search </para>
+                    </listitem>
+                    <listitem>
+                        <para>Route Log </para>
+                    </listitem>
+                    <listitem>
+                        <para>Doc Handler Redirection </para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Overview</title>
+            <orderedlist>
+                <listitem>
+                    <para>You can create a security definition on a <emphasis role="bold">Document
+                            Type</emphasis>, which allows you to apply varying levels and types of
+                        security. </para>
+                </listitem>
+                <listitem>
+                    <para>This definition is inheritable through the Document Type hierarchy.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>If security is defined on a Document Type, rows for that Document Type
+                        that are returned from a search apply the security constraints and filter
+                        the row if the constraints fail. </para>
+                </listitem>
+                <listitem>
+                    <para>Security constraints are evaluated against a document when its <emphasis
+                            role="bold">Route Log</emphasis> is accessed. If the security
+                        constraints fail, the user receives a <emphasis role="italic">Not
+                            Authorized</emphasis> message. </para>
+                </listitem>
+                <listitem>
+                    <para>Security constraints are evaluated against a document when a <emphasis
+                            role="bold">Doc Handler</emphasis> link is clicked from either the
+                            <emphasis role="bold">Action List</emphasis> or <emphasis role="bold"
+                            >Document Search</emphasis>. If the security constraints fail, the user
+                        receives a <emphasis role="italic">Not Authorized</emphasis> message.
+                    </para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Security Definition</title>
+            <para>You can define the security constraints in the Document Type XML. Here's a sample
+            of the XML format:</para>
+            <programlisting>&lt;documentType>
+    ....
+    &lt;security>
+        &lt;securityAttribute class="org.kuali.security.SecurityFilterAttribute"/>
+        &lt;securityAttribute name="TestSecurityAttribute"/>
+        &lt;initiator>true&lt;/initiator>
+        &lt;routeLogAuthenticated>true&lt;/routeLogAuthenticated>
+        &lt;searchableAttribute idType="emplid" name="emplid"/>
+        &lt;group>MyWorkgroup&lt;/group>
+        &lt;role allowed="true">FACULTY&lt;/role>
+        &lt;role allowed="true">STAFF&lt;/role>
+    &lt;/security>
+    ....
+
+&lt;/documentType>
+</programlisting>
+            <para>There is an implicit <emphasis role="bold">OR</emphasis> in the evaluation of
+                these constraints. Thus, the definition above states that the authenticated user has
+                access to the document if:<itemizedlist>
+                    <listitem>
+                        <para>The attribute <emphasis role="bold"
+                                >org.kuali.security.SecurityFilterAttribute</emphasis> defines the
+                            user as having access <emphasis role="bold">OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The attribute defined in the system by the name <emphasis role="bold"
+                                >TestSecurityAttribute</emphasis> defines the user as having access
+                                <emphasis role="bold">OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The user is the initiator of the document <emphasis role="bold"
+                                >OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The user is on the Route Log of the document <emphasis role="bold"
+                                >OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The user's EMPL ID is equal to the searchable attribute on the
+                            document with the key of <emphasis role="italic">emplid</emphasis>
+                            <emphasis role="bold">OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The user is a member of the <emphasis role="italic"
+                                >MyWorkgroup</emphasis> workgroup <emphasis role="bold"
+                                >OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The user has the FACULTY role <emphasis role="bold">OR</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>The user has the STAFF role </para>
+                    </listitem>
+                </itemizedlist></para>
+            <section>
+                <title>&lt;initiator></title>
+                <para>Validates that the authenticated user is or isn't the initiator of the
+                    document.</para>
+            </section>
+            <section>
+                <title>&lt;routeLogAuthenticated></title>
+                <para>Validates that the authenticated user is or isn't <emphasis role="italic"
+                        >Route Log Authenticated</emphasis>.</para>
+                <para><emphasis role="italic">Route Log Authenticated</emphasis> means that one of
+                    these is true:<orderedlist>
+                        <listitem>
+                            <para>The user is the initiator of the document. </para>
+                        </listitem>
+                        <listitem>
+                            <para>The user has taken action on the document. </para>
+                        </listitem>
+                        <listitem>
+                            <para>The user has received a request for the document (either directly
+                                or as the member of a workgroup). </para>
+                        </listitem>
+                    </orderedlist></para>
+                <para><emphasis role="italic">Route Log Authenticated</emphasis> checks for security
+                    but <emphasis role="bold">does not</emphasis> simulate or check future
+                    requests.</para>
+            </section>
+            <section>
+                <title>&lt;securityAttribute></title>
+                <para>Validates based on a custom-defined class. Class must have implemented the
+                        <emphasis role="italic">SecurityAttribute</emphasis> interface class. There
+                    are two methods of defining a security attribute:<itemizedlist>
+                        <listitem>
+                            <para>KEW Attribute Name: Specify an already-defined attribute (via KEW
+                            XML ingestion) using the XML attribute <emphasis role="italic"
+                                >name</emphasis> . </para>
+                        <para> (Use of applicationId in a ruleAttribute specification sets the id of
+                            the application which contains the implementation of the security
+                            attribute.)</para>
+                            <programlisting>&lt;documentType>
+    ....
+
+    &lt;security>
+        &lt;securityAttribute name="TestSecurityAttribute"/>
+    &lt;/security>
+    ...
+.
+&lt;/documentType>
+</programlisting>
+                        </listitem>
+                        <listitem>
+                        <para>Class Name: Define the fully qualified class name using the XML
+                            attribute class.
+                            </para>
+                        <para>(Use of Class Name is limited to classes which are
+                            locally defined.)</para>
+                        <programlisting>&lt;documentType>
+    ....
+    &lt;security>
+        &lt;securityAttribute class="org.kuali.security.SecurityFilterAttribute"/>
+    &lt;/security>
+    ....
+
+&lt;/documentType>
+</programlisting>
+                    </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+                <title>&lt;searchableAttribute></title>
+                <para>Validate that the authenticated User ID of the given idType is equivalent to
+                    the searchable attribute field with the given name.</para>
+                <para>The following id types are valid:<itemizedlist>
+                        <listitem>
+                            <para>emplid </para>
+                        </listitem>
+                        <listitem>
+                            <para>authenticationid </para>
+                        </listitem>
+                        <listitem>
+                            <para>uuid </para>
+                        </listitem>
+                        <listitem>
+                            <para>workflowid </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+                <title>&lt;group></title>
+                <para>Validate that the authenticated user is a member of the workgroup with the
+                    given name.</para>
+            </section>
+            <section>
+                <title>&lt;role></title>
+                <para>Validate that the authenticated user has the given role. The existence and
+                    names of these roles are determined by your setup in KEW. (You can create these
+                    roles when you implement <emphasis role="italic"
+                        >WebAuthenticationService</emphasis>.) Typically, the roles mirror your
+                    organization structure.</para>
+                <para>For example, you may choose to expose these roles:<itemizedlist>
+                        <listitem>
+                            <para>STAFF </para>
+                        </listitem>
+                        <listitem>
+                            <para>FACULTY </para>
+                        </listitem>
+                        <listitem>
+                            <para>ALUMNI </para>
+                        </listitem>
+                        <listitem>
+                            <para>STUDENT </para>
+                        </listitem>
+                        <listitem>
+                            <para>FORMER-STUDENT </para>
+                        </listitem>
+                        <listitem>
+                            <para>APPLICANT </para>
+                        </listitem>
+                        <listitem>
+                            <para>ENROLLED </para>
+                        </listitem>
+                        <listitem>
+                            <para>ADMITTED </para>
+                        </listitem>
+                        <listitem>
+                            <para>PROSPECT </para>
+                        </listitem>
+                        <listitem>
+                            <para>GRADUATE </para>
+                        </listitem>
+                        <listitem>
+                            <para>UNDERGRADUATE </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>If the role is marked as <emphasis role="bold">allowed=true</emphasis>, than
+                    anyone with that role passes the security constraint. If the role is marked as
+                        <emphasis role="bold">allowed=false</emphasis>, then if the individual has
+                    the given disallowed role but none of the allowed roles, he or she fails the
+                    security check.</para>
+            </section>
+        </section>
+        <section>
+            <title>Order of Evaluation</title>
+            <para>The security constraints are evaluated in the following order. If any single
+                constraint passes, it bypasses evaluating the remaining constraints.<orderedlist>
+                    <listitem>
+                        <para>Security attribute </para>
+                    </listitem>
+                    <listitem>
+                        <para>Initiator </para>
+                    </listitem>
+                    <listitem>
+                        <para>Role </para>
+                    </listitem>
+                    <listitem>
+                        <para>Workgroup </para>
+                    </listitem>
+                    <listitem>
+                        <para>Searchable attribute </para>
+                    </listitem>
+                    <listitem>
+                        <para>Route log authenticated </para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        <section>
+            <title>Security - Warning Messages</title>
+            <para>These security scenarios generate security warning messages:</para>
+            <section>
+                <title>Document Search</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>If no rows are filtered because of security, the user sees the search
+                            result without any warning message on the <emphasis role="bold">Document
+                                Search</emphasis> page. </para>
+                    </listitem>
+                    <listitem>
+                        <para>If rows are filtered because of security, a red warning message on top
+                            of the <emphasis role="bold">Document Search</emphasis> page shows how
+                            many rows were filtered. For example, "19 rows were filtered for
+                            security purposes." </para>
+                    </listitem>
+                    <listitem>
+                        <para>If the initial result set returns more than the search result
+                            threshold (500 rows), and rows in the set subsequently get filtered
+                            because of security, then a red warning message shows how many rows were
+                            returned and filtered. For example, "Too many results returned,
+                            displaying only the first 450. 50 rows were filtered for security
+                            purpose. Please refine your search." </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Route Log and Doc Handler</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>If the defined security constraints stop a user from viewing a
+                            document, a red warning message shows at the top of the page if they
+                            attempt to access the Route Log. For example, "You are not authorized to
+                            access this portion of the application." </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+        <section>
+            <title>Service Layer</title>
+            <para>In an out-of-the-box installation of KEW, Document Security is handled by
+                org.kuali.rice.kew.doctype.DocumentSecurityServiceImpl, which implements the
+                org.kuali.rice.kew.doctype.DocumentSecurityService service interface.</para>
+        </section>
+</chapter>

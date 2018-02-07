@@ -1,0 +1,457 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <formView entryPageId="dataAttributesView-Page1" formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm"
+            headertext="Data Attributes View" id="dataAttributesView_selenium" parent="Uif-FormView">
+    <navigation>
+      <ref bean="dataAttributesView-Menu"/>
+    </navigation>
+    <items>
+      <pageGroup headertext="Data Attributes - Page 1" id="dataAttributesView-Page1" parent="Uif-Page">
+        <items>
+          <ref bean="dataAttributesView-BoxSection1"/>
+          <ref bean="dataAttributesView-BoxSection2"/>
+        </items>
+      </pageGroup>
+    </items>
+  </formView>
+  <navigationGroup id="dataAttributesView-Menu" parent="Uif-TabNavigationGroup">
+    <items>
+      <ref bean="navigationLink_attrs"/>
+    </items>
+  </navigationGroup>
+  <action actionLabel="Page 1" id="navigationLink_attrs" navigateToPageId="dataAttributesView-Page1"
+          parent="Uif-NavigationActionLink">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </action>
+  <group headertext="InputFields" id="dataAttributesView-BoxSection1"
+         instructionalText="Items are rendered one after another vertically down the page"
+         layoutManager.orientation="VERTICAL" parent="Uif-Disclosure-VerticalBoxSection">
+    <items>
+      <ref bean="textInputField_attrs"/>
+      <ref bean="textAreaInputField_attrs"/>
+      <ref bean="dropDown_attrs"/>
+      <ref bean="datePicker_attrs"/>
+      <ref bean="checkBox_attrs"/>
+      <ref bean="radioButton_attrs"/>
+      <ref bean="fileUpload_attrs"/>
+      <ref bean="userControl_attrs"/>
+      <ref bean="spinnerControl_attrs"/>
+      <ref bean="hiddenControl_attrs"/>
+    </items>
+  </group>
+  <group headertext="Various Fields" id="dataAttributesView-BoxSection2"
+         instructionalText="Items are rendered one after another vertically down the page"
+         layoutManager.orientation="VERTICAL" parent="Uif-Disclosure-VerticalBoxSection">
+    <items>
+      <ref bean="imageField_attrs"/>
+      <ref bean="actionLink-noImage_attrs"/>
+      <ref bean="actionLink-imageRight_attrs"/>
+      <ref bean="actionLink-imageLeft_attrs"/>
+      <ref bean="imageAction_attrs"/>
+      <ref bean="buttonTextOnly_attrs"/>
+      <ref bean="buttonImageBottom_attrs"/>
+      <ref bean="buttonImageLeft_attrs"/>
+      <ref bean="buttonImageRight_attrs"/>
+      <ref bean="buttonImageTop_attrs"/>
+      <ref bean="linkField_attrs"/>
+      <ref bean="messageField_attrs"/>
+      <ref bean="spaceField_attrs"/>
+      <ref bean="iframe_attrs"/>
+      <ref bean="linkElement_attrs"/>
+    </items>
+  </group>
+  <inputField constraintText="Constraint text" id="textInputField_attrs"
+              instructionalText="Instructions Instructions Instructions" label="Field Label" parent="Uif-InputField"
+              propertyName="field1" required="true">
+    <control>
+      <textControl parent="Uif-TextControl" size="30" watermarkText="Enter Data">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </textControl>
+    </control>
+    <fieldLabel.dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </fieldLabel.dataAttributes>
+  </inputField>
+  <inputField constraintText="Constraint text" fieldLabel.cssClasses="labelTop" fieldLabel.renderColon="false"
+              id="textAreaInputField_attrs" instructionalText="Instructions Instructions Instructions"
+              label="Field Label" labelPlacment="TOP" parent="Uif-InputField" propertyName="field2" required="true">
+    <control>
+      <textAreaControl cols="40" parent="Uif-TextAreaControl" rows="5" textExpand="true" watermarkText="Text Here...">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </textAreaControl>
+    </control>
+  </inputField>
+  <inputField id="dropDown_attrs" label="Field 1" parent="GenericTextField" propertyName="field88">
+    <control>
+      <selectControl parent="Uif-DropdownControl">
+        <options>
+          <spring:bean parent="Uif-KeyLabelPair">
+            <spring:property name="key" value="Fruits"/>
+            <spring:property name="value" value="Fruits"/>
+          </spring:bean>
+          <spring:bean parent="Uif-KeyLabelPair">
+            <spring:property name="key" value="Vegetables"/>
+            <spring:property name="value" value="Vegetables"/>
+          </spring:bean>
+          <spring:bean parent="Uif-KeyLabelPair">
+            <spring:property name="key" value="None"/>
+            <spring:property name="value" value="none"/>
+          </spring:bean>
+        </options>
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </selectControl>
+    </control>
+  </inputField>
+  <inputField id="datePicker_attrs"
+              instructionalText="Custom options: show on focus, different animation, and show 2 months at once"
+              label="Date 2" parent="Uif-InputField" propertyName="field3">
+    <control>
+      <textControl parent="Uif-DateControl">
+        <datePicker.templateOptions>
+          <entry key="showOn" value="both"/>
+          <entry key="buttonImage" value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif"/>
+          <entry key="buttonImageOnly" value="true"/>
+          <entry key="showAnim" value="fadeIn"/>
+          <entry key="showButtonPanel" value="true"/>
+          <entry key="changeMonth" value="true"/>
+          <entry key="changeYear" value="true"/>
+          <entry key="numberOfMonths" value="2"/>
+        </datePicker.templateOptions>
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </textControl>
+    </control>
+  </inputField>
+  <inputField defaultValue="true" id="checkBox_attrs"
+              instructionalText="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by default"
+              label="Checkbox" parent="Uif-InputField" propertyName="bField1">
+    <control>
+      <checkboxControl parent="Uif-CheckboxControl">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </checkboxControl>
+    </control>
+  </inputField>
+  <inputField id="radioButton_attrs"
+              instructionalText="RadioGroupControl using explicitly defined key-value pairs from the DD" label="Radio 2"
+              parent="Uif-InputField" propertyName="field5" width="auto">
+    <control>
+      <radioGroupControl parent="Uif-VerticalRadioControl">
+        <options>
+          <spring:bean parent="Uif-KeyLabelPair">
+            <spring:property name="key" value="1"/>
+            <spring:property name="value" value="Radio 1"/>
+          </spring:bean>
+          <spring:bean parent="Uif-KeyLabelPair">
+            <spring:property name="key" value="2"/>
+            <spring:property name="value" value="Radio 2"/>
+          </spring:bean>
+        </options>
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </radioGroupControl>
+    </control>
+  </inputField>
+  <inputField id="fileUpload_attrs" instructionalText="Use to upload files" label="File Control" parent="Uif-InputField"
+              propertyName="fileUpload">
+    <control>
+      <fileControl parent="Uif-FileControl" size="30">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </fileControl>
+    </control>
+  </inputField>
+  <inputField id="userControl_attrs"
+              instructionalText="Type user id and user full name will display after tabbing, or use lookup to select a person"
+              label="User Control" parent="Uif-InputField" propertyName="testPerson.principalName">
+    <control>
+      <userControl parent="Uif-KimPersonControl" personNamePropertyName="testPerson.name"
+                   principalIdPropertyName="testPersonId">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </userControl>
+    </control>
+  </inputField>
+  <inputField id="spinnerControl_attrs"
+              instructionalText="Click the arrows on the right side of the control to increment/decrement the value"
+              label="Spinner Control" parent="Uif-InputField" propertyName="field131">
+    <control>
+      <spinnerControl parent="Uif-SpinnerControl">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </spinnerControl>
+    </control>
+  </inputField>
+  <imageField altText="computer programming" captionHeaderText="Image Caption Text" cssClasses="kr-photo"
+              cutlineText="Image cutline text here" fieldLabel.render="false" id="imageField_attrs"
+              image.id="imageField_image_attrs" parent="Uif-ImageField"
+              source="@{#ConfigProperties['krad.externalizable.images.url']}computer_programming.jpg">
+    <image.dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </image.dataAttributes>
+  </imageField>
+  <action abstract="true" id="Uif-ActionLink-with-data-attributes" parent="Uif-ActionLink">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </action>
+  <action actionLabel="ActionLinkField" actionScript="alert('You clicked the link');" id="actionLink-noImage_attrs"
+          parent="Uif-ActionLink-with-data-attributes"/>
+  <action actionImagePlacement="RIGHT" actionLabel="ActionLinkField image right"
+          actionScript="alert('You clicked a button');" id="actionLink-imageRight_attrs"
+          parent="Uif-ActionLink-with-data-attributes">
+    <actionImage>
+      <image altText="Search" parent="Uif-Image"
+             source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+    </actionImage>
+  </action>
+  <action actionLabel="ActionLinkField image left (default)" actionScript="alert('You clicked a button');"
+          id="actionLink-imageLeft_attrs" parent="Uif-ActionLink-with-data-attributes">
+    <actionImage>
+      <image altText="Search" parent="Uif-Image"
+             source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+    </actionImage>
+  </action>
+  <action id="Uif-PrimaryActionButton-with-data-attributes" parent="Uif-PrimaryActionButton">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </action>
+  <action actionImagePlacement="IMAGE_ONLY" actionScript="alert('You clicked a button');" id="imageAction_attrs"
+          parent="Uif-PrimaryActionButton-with-data-attributes">
+    <actionImage>
+      <image altText="ActionImageField demonstration" parent="Uif-Image"
+             source="@{#ConfigProperties['krad.externalizable.images.url']}down.png"/>
+    </actionImage>
+  </action>
+  <action actionLabel="ActionField" actionScript="alert('You clicked a button');" id="buttonTextOnly_attrs"
+          parent="Uif-PrimaryActionButton-with-data-attributes"/>
+  <action actionImagePlacement="BOTTOM" actionLabel="Image BOTTOM" actionScript="alert('You clicked a button');"
+          id="buttonImageBottom_attrs" parent="Uif-PrimaryActionButton-with-data-attributes">
+    <actionImage>
+      <image parent="Uif-Image" source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+    </actionImage>
+  </action>
+  <action actionImagePlacement="TOP" actionLabel="Image TOP" actionScript="alert('You clicked a button');"
+          id="buttonImageTop_attrs" parent="Uif-PrimaryActionButton-with-data-attributes">
+    <actionImage>
+      <image parent="Uif-Image" source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+    </actionImage>
+  </action>
+  <action actionImagePlacement="LEFT" actionLabel="Image LEFT" actionScript="alert('You clicked a button');"
+          id="buttonImageLeft_attrs" parent="Uif-PrimaryActionButton-with-data-attributes">
+    <actionImage>
+      <image parent="Uif-Image" source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+    </actionImage>
+  </action>
+  <action actionImagePlacement="RIGHT" actionLabel="Image RIGHT" actionScript="alert('You clicked a button');"
+          id="buttonImageRight_attrs" parent="Uif-PrimaryActionButton-with-data-attributes">
+    <actionImage>
+      <image parent="Uif-Image" source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"/>
+    </actionImage>
+  </action>
+  <linkField href="http://www.kuali.org" id="linkField_attrs" label="LinkField is used for href links"
+             linkText="Kuali Website" parent="Uif-LinkField">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </linkField>
+  <message cssClasses="fl-font-size-150,fl-input-outline" id="messageField_attrs" messageText="Welcome"
+           parent="Uif-Message">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </message>
+  <inputField id="hiddenControl_attrs" parent="Uif-InputField" propertyName="field6" render="true" showLabel="false">
+    <control>
+      <hiddenControl parent="Uif-HiddenControl">
+        <dataAttributes>
+          <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+          <entry key="transitions" value="3"/>
+          <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+          <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+          <entry key="dataRoleAttribute" value="role"/>
+          <entry key="dataMetaAttribute" value="meta"/>
+          <entry key="dataTypeAttribute" value="type"/>
+        </dataAttributes>
+      </hiddenControl>
+    </control>
+  </inputField>
+  <spaceField id="spaceField_attrs" parent="Uif-SpaceField">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </spaceField>
+  <iFrame height="550px" id="iframe_attrs" parent="Uif-Iframe" source="http://www.kuali.org" width="800px">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </iFrame>
+  <link href="http://wiki.kuali.org" id="linkElement_attrs" linkText="Kuali Wiki" parent="Uif-Link" target="_blank"
+        title="opens in new window">
+    <dataAttributes>
+      <entry key="iconTemplateName" value="cool-icon-%s.png"/>
+      <entry key="transitions" value="3"/>
+      <entry key="capitals" value="{kenya:'nairobi', uganda:'kampala', tanzania:'dar'}"/>
+      <entry key="intervals" value="{short:2, medium:5, long:13}"/>
+      <entry key="dataRoleAttribute" value="role"/>
+      <entry key="dataMetaAttribute" value="meta"/>
+      <entry key="dataTypeAttribute" value="type"/>
+    </dataAttributes>
+  </link>
+</spring:beans>

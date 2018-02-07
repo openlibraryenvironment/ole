@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="PropositionBo" parent="PropositionBo-parentBean"/>
+  <bean id="PropositionBo-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PropositionBo-id"/>
+        <ref bean="PropositionBo-description"/>
+        <ref bean="PropositionBo-ruleId"/>
+        <ref bean="PropositionBo-typeId"/>
+        <ref bean="PropositionBo-propositionTypeCode"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Proposition"/>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PropositionBo-id" parent="PropositionBo-id-parentBean"/>
+  <bean id="PropositionBo-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Proposition Id"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="id"/>
+    <property name="label" value="Proposition Id"/>
+  </bean>
+
+  <bean id="PropositionBo-description" parent="PropositionBo-description-parentBean"/>
+  <bean id="PropositionBo-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="100"/>
+    </property>
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+  </bean>
+
+  <bean id="PropositionBo-typeId" parent="PropositionBo-typeId-parentBean"/>
+  <bean id="PropositionBo-typeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Type Id"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="typeId"/>
+    <property name="label" value="Proposition Type Id"/>
+  </bean>
+
+  <bean id="PropositionBo-ruleId" parent="PropositionBo-ruleId-parentBean"/>
+  <bean id="PropositionBo-ruleId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Rule Id"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="ruleId"/>
+    <property name="label" value="Rule Id"/>
+  </bean>
+
+  <bean id="PropositionBo-propositionTypeCode" parent="PropositionBo-propositionTypeCode-parentBean"/>
+  <bean id="PropositionBo-propositionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Type Code"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="propositionTypeCode"/>
+    <property name="label" value="Proposition Type Code"/>
+  </bean>
+
+</beans>

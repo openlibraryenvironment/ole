@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Parms" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>KEW System Parameters</title>
+        <section>
+            <title>System Parameters Covered</title>
+            <para>
+                <table frame="none" pgwide="1" tabstyle="striped">
+                    <?dbfo table-width="100%" ?>
+                    <title>KEW System Parameters</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.95*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.05*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.63*"/>
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Value</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>MAX_MEMBERS_PER_PAGE</entry>
+                                <entry>20</entry>
+                                <entry>The maximum number of role or group members to display at
+                                    once on their documents. If the number is above this value, the
+                                    document will switch into a paging mode with only this many rows
+                                    displayed at a time.</entry>
+                            </row>
+                            <row>
+                                <entry>PREFIXES</entry>
+                                <entry>Ms;Mrs;Mr;Dr</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>SUFFIXES</entry>
+                                <entry>Jr;Sr;Mr;Md</entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>CHECK_ENCRYPTION_SERVICE_OVERRIDE_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag for enabling/disabling (Y/N) the demonstration
+                                    encryption check.</entry>
+                            </row>
+                            <row>
+                                <entry>DATE_TO_STRING_FORMAT_FOR_FILE_NAME</entry>
+                                <entry>yyyyMMdd</entry>
+                                <entry>A single date format string that the DateTimeService will use
+                                    to format dates to be used in a file name when
+                                    DateTimeServiceImpl.toDateStringForFilename(Date) is called. For
+                                    a more technical description of how characters in the parameter
+                                    value will be interpreted, please consult the Java Documentation
+                                    for java.text.SimpleDateFormat. Any changes will be applied when
+                                    the application is restarted.</entry>
+                            </row>
+                            <row>
+                                <entry>DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE</entry>
+                                <entry>MM/dd/yyyy</entry>
+                                <entry>A single date format string that the DateTimeService will use
+                                    to format a date to be displayed on a web page. For a more
+                                    technical description of how characters in the parameter value
+                                    will be interpreted, please consult the Java Documentation for
+                                    java.text.SimpleDateFormat. Any changes will be applied when the
+                                    application is restarted.</entry>
+                            </row>
+                            <row>
+                                <entry>DEFAULT_COUNTRY</entry>
+                                <entry>US</entry>
+                                <entry>Used as the default country code when relating records that
+                                    do not have a country code to records that do have a country
+                                    code, e.g. validating a zip code where the country is not
+                                    collected.</entry>
+                            </row>
+                            <row>
+                                <entry>ENABLE_DIRECT_INQUIRIES_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag for enabling/disabling direct inquiries on screens that
+                                    are drawn by the nervous system (i.e. lookups and maintenance
+                                    documents)</entry>
+                            </row>
+                            <row>
+                                <entry>ENABLE_FIELD_LEVEL_HELP_IND</entry>
+                                <entry>N</entry>
+                                <entry>Indicates whether field level help links are enabled on
+                                    lookup pages and documents.</entry>
+                            </row>
+                            <row>
+                                <entry>MAX_FILE_SIZE_DEFAULT_UPLOAD</entry>
+                                <entry>5M</entry>
+                                <entry>Maximum file upload size for the application. Must be an
+                                    integer, optionally followed by "K", "M", or "G". Only used if
+                                    no other upload limits are in effect.</entry>
+                            </row>
+                            <row>
+                                <entry>SENSITIVE_DATA_PATTERNS</entry>
+                                <entry>[0-9]{9};[0-9]{3}-[0-9]{2}-[0-9]{4}</entry>
+                                <entry>A semi-colon delimited list of regular expressions that
+                                    identify potentially sensitive data in strings. These patterns
+                                    will be matched against notes, document explanations, and
+                                    routing annotations.</entry>
+                            </row>
+                            <row>
+                                <entry>STRING_TO_DATE_FORMATS</entry>
+                                <entry>MM/dd/yy;MM-dd-yy;MMMM dd, yyyy;MMddyy</entry>
+                                <entry>A semi-colon delimited list of strings representing date
+                                    formats that the DateTimeService will use to parse dates when
+                                    DateTimeServiceImpl.convertToSqlDate(String) or
+                                    DateTimeServiceImpl.convertToDate(String) is called. Note that
+                                    patterns will be applied in the order listed (and the first
+                                    applicable one will be used). For a more technical description
+                                    of how characters in the parameter value will be interpreted,
+                                    please consult the Java Documentation for
+                                    java.text.SimpleDateFormat. Any changes will be applied when the
+                                    application is restarted.</entry>
+                            </row>
+                            <row>
+                                <entry>STRING_TO_TIMESTAMP_FORMATS</entry>
+                                <entry>MM/dd/yyyy hh:mm a</entry>
+                                <entry>A semi-colon delimited list of strings representing date
+                                    formats that the DateTimeService will use to parse date and
+                                    times when DateTimeServiceImpl.convertToDateTime(String) or
+                                    DateTimeServiceImpl.convertToSqlTimestamp(String) is called.
+                                    Note that patterns will be applied in the order listed (and the
+                                    first applicable one will be used). For a more technical
+                                    description of how characters in the parameter value will be
+                                    interpreted, please consult the Java Documentation for
+                                    java.text.SimpleDateFormat. Any changes will be applied when the
+                                    application is restarted.</entry>
+                            </row>
+                            <row>
+                                <entry>TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME</entry>
+                                <entry>yyyyMMdd-HH-mm-ss-S</entry>
+                                <entry>A single date format string that the DateTimeService will use
+                                    to format a date and time string to be used in a file name when
+                                    DateTimeServiceImpl.toDateTimeStringForFilename(Date) is called.
+                                    For a more technical description of how characters in the
+                                    parameter value will be interpreted, please consult the Java
+                                    Documentation for java.text.SimpleDateFormat. Any changes will
+                                    be applied when the application is restarted.</entry>
+                            </row>
+                            <row>
+                                <entry>TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE</entry>
+                                <entry>MM/dd/yyyy hh:mm a</entry>
+                                <entry>A single date format string that the DateTimeService will use
+                                    to format a date and time to be displayed on a web page. For a
+                                    more technical description of how characters in the parameter
+                                    value will be interpreted, please consult the Java Documentation
+                                    for java.text.SimpleDateFormat. Any changes will be applied when
+                                    the application is restarted.</entry>
+                            </row>
+                            <row>
+                                <entry>ACTIVE_FILE_TYPES</entry>
+                                <entry>collectorInputFileType; procurementCardInputFileType;
+                                    enterpriseFeederFileSetType; assetBarcodeInventoryInputFileType;
+                                    customerLoadInputFileType</entry>
+                                <entry>Batch file types that are active options for the file upload
+                                    screen.</entry>
+                            </row>
+                            <row>
+                                <entry>SCHEDULE_ADMIN_GROUP</entry>
+                                <entry>KR-WKFLW:WorkflowAdmin</entry>
+                                <entry>The workgroup to which a user must be assigned to modify
+                                    batch jobs.</entry>
+                            </row>
+                            <row>
+                                <entry>DEFAULT_CAN_PERFORM_ROUTE_REPORT_IND</entry>
+                                <entry>N</entry>
+                                <entry>If Y, the Route Report button will be displayed on the
+                                    document actions bar if the document is using the default
+                                    DocumentAuthorizerBase.getDocumentActionFlags to set the
+                                    canPerformRouteReport property of the returned
+                                    DocumentActionFlags instance.</entry>
+                            </row>
+                            <row>
+                                <entry>EXCEPTION_GROUP</entry>
+                                <entry>KR-WKFLW:WorkflowAdmin</entry>
+                                <entry>The workgroup to which a user must be assigned to perform
+                                    actions on documents in exception routing status.</entry>
+                            </row>
+                            <row>
+                                <entry>MAX_FILE_SIZE_ATTACHMENT</entry>
+                                <entry>5M</entry>
+                                <entry>Maximum attachment uploads size for the application. Used by
+                                    KualiDocumentFormBase. Must be an integer, optionally followed
+                                    by "K", "M", or "G".</entry>
+                            </row>
+                            <row>
+                                <entry>PESSIMISTIC_LOCK_ADMIN_GROUP</entry>
+                                <entry>KFS:KUALI_ROLE_SUPERVISOR</entry>
+                                <entry>Workgroup which can perform admin deletion and lookup
+                                    functions for Pessimistic Locks.</entry>
+                            </row>
+                            <row>
+                                <entry>SEND_NOTE_WORKFLOW_NOTIFICATION_ACTIONS</entry>
+                                <entry>K</entry>
+                                <entry>Some documents provide the functionality to send notes to
+                                    another user using a workflow FYI or acknowledge functionality.
+                                    This parameter specifies the default action that will be used
+                                    when sending notes. This parameter should be one of the
+                                    following 2 values: "K" for acknowledge or "F" for "fyi".
+                                    Depending on the notes and workflow service implementation,
+                                    other values may be possible.</entry>
+                            </row>
+                            <row>
+                                <entry>SESSION_TIMEOUT_WARNING_MESSAGE_TIME</entry>
+                                <entry>5</entry>
+                                <entry>The number of minutes before a session expires. That user
+                                    should be warned when a document uses pessimistic
+                                    locking.</entry>
+                            </row>
+                            <row>
+                                <entry>SUPERVISOR_GROUP</entry>
+                                <entry>KR-WKFLW:WorkflowAdmin</entry>
+                                <entry>Workgroup which can perform almost any function within
+                                    Kuali.</entry>
+                            </row>
+                            <row>
+                                <entry>MULTIPLE_VALUE_RESULTS_EXPIRATION_SECONDS</entry>
+                                <entry>86400</entry>
+                                <entry>Lookup results may continue to be persisted in the DB long
+                                    after they are needed. This parameter represents the maximum
+                                    amount of time, in seconds, that the results will be allowed to
+                                    persist in the DB before they are deleted from the DB.</entry>
+                            </row>
+                            <row>
+                                <entry>MULTIPLE_VALUE_RESULTS_PER_PAGE</entry>
+                                <entry>100</entry>
+                                <entry>Maximum number of rows that will be displayed on a look-up
+                                    results screen.</entry>
+                            </row>
+                            <row>
+                                <entry>RESULTS_DEFAULT_MAX_COLUMN_LENGTH</entry>
+                                <entry>70</entry>
+                                <entry>If a maxLength attribute has not been set on a lookup result
+                                    field in the data dictionary, then the result column's max
+                                    length will be the value of this parameter. Set this parameter
+                                    to 0 for an unlimited default length or a positive value (i.e.
+                                    greater than 0) for a finite max length.</entry>
+                            </row>
+                            <row>
+                                <entry>RESULTS_LIMIT</entry>
+                                <entry>200</entry>
+                                <entry>Maximum number of results returned in a look-up
+                                    query.</entry>
+                            </row>
+                            <row>
+                                <entry>MAX_AGE</entry>
+                                <entry>86400</entry>
+                                <entry>Pending attachments are attachments that do not yet have a
+                                    permanent link with the associated Business Object (BO). These
+                                    pending attachments are stored in the
+                                    attachments.pending.directory (defined in the configuration
+                                    service). If the BO is never persisted, then this attachment
+                                    will become orphaned (i.e. not associated with any BO), but will
+                                    remain in this directory. The PurgePendingAttachmentsStep batch
+                                    step deletes these pending attachment files that are older than
+                                    the value of this parameter. The unit of this value is seconds.
+                                    Do not set this value too short, as this will cause problems
+                                    attaching files to BOs.</entry>
+                            </row>
+                            <row>
+                                <entry>NUMBER_OF_DAYS_SINCE_LAST_UPDATE</entry>
+                                <entry>1</entry>
+                                <entry>Determines the age of the session document records that the
+                                    step will operate on, e.g. if this parameter is set to 4, the
+                                    rows with a last update timestamp older that 4 days prior to
+                                    when the job is running will be deleted.</entry>
+                            </row>
+                            <row>
+                                <entry>CUTOFF_TIME</entry>
+                                <entry>02:00:00:AM</entry>
+                                <entry>Controls when the daily batch schedule should terminate. The
+                                    scheduler service implementation compares the start time of the
+                                    schedule job from quartz with this time on day after the
+                                    schedule job started running.</entry>
+                            </row>
+                            <row>
+                                <entry>CUTOFF_TIME_NEXT_DAY_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Controls whether when the system is comparing the schedule
+                                    start day &amp; time with the scheduleStep_CUTOFF_TIME
+                                    parameter, it considers the specified time to apply to the day
+                                    after the schedule starts.</entry>
+                            </row>
+                            <row>
+                                <entry>STATUS_CHECK_INTERVAL</entry>
+                                <entry>30000</entry>
+                                <entry>Time in milliseconds that the scheduleStep should wait
+                                    between iterations.</entry>
+                            </row>
+                            <row>
+                                <entry>ACTION_LIST_DOCUMENT_POPUP_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag to specify if clicking on a Document ID from the Action
+                                    List will load the Document in a new window.</entry>
+                            </row>
+                            <row>
+                                <entry>ACTION_LIST_ROUTE_LOG_POPUP_IND</entry>
+                                <entry>N</entry>
+                                <entry>Flag to specify if clicking on a Route Log from the Action
+                                    List will load the Route Log in a new window.</entry>
+                            </row>
+                            <row>
+                                <entry>EMAIL_NOTIFICATION_TEST_ADDRESS</entry>
+                                <entry/>
+                                <entry>Default email address used for testing.</entry>
+                            </row>
+                            <row>
+                                <entry>HELP_DESK_NAME_GROUP</entry>
+                                <entry>KR-WKFLW:WorkflowAdmin</entry>
+                                <entry>The name of the group who has access to the "Help Desk"
+                                    feature on the Action List.</entry>
+                            </row>
+                            <row>
+                                <entry>PAGE_SIZE_THROTTLE</entry>
+                                <entry/>
+                                <entry>Throttles the number of results returned on all users Action
+                                    Lists, regardless of their user preferences. This is intended to
+                                    be used in a situation where excessively large Action Lists are
+                                    causing performance issues.</entry>
+                            </row>
+                            <row>
+                                <entry>SEND_EMAIL_NOTIFICATION_IND</entry>
+                                <entry>N</entry>
+                                <entry>Flag to determine whether or not to send email
+                                    notification.</entry>
+                            </row>
+                            <row>
+                                <entry>KIM_PRIORITY_ON_DOC_TYP_PERMS_IND</entry>
+                                <entry>N</entry>
+                                <entry>Flag for enabling/disabling document type permission checks
+                                    to use KIM Permissions as priority over Document Type
+                                    policies.</entry>
+                            </row>
+                            <row>
+                                <entry>MAXIMUM_NODES_BEFORE_RUNAWAY</entry>
+                                <entry/>
+                                <entry>The maximum number of nodes the workflow engine will process
+                                    before it determines the process is a runaway process. This is
+                                    to prevent infinite "loops" in the workflow engine.</entry>
+                            </row>
+                            <row>
+                                <entry>SHOW_ATTACHMENTS_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag to specify whether or not a file upload box is displayed
+                                    for KEW notes which allows for uploading of an attachment with
+                                    the note.</entry>
+                            </row>
+                            <row>
+                                <entry>SHOW_BACK_DOOR_LOGIN_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag to show the backdoor login.</entry>
+                            </row>
+                            <row>
+                                <entry>TARGET_FRAME_NAME</entry>
+                                <entry>iframe_51148</entry>
+                                <entry>Defines the target iframe name that the KEW internal portal
+                                    uses for its menu links.</entry>
+                            </row>
+                            <row>
+                                <entry>DOCUMENT_SEARCH_POPUP_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag to specify if clicking on a Document ID from Document
+                                    Search will load the Document in a new window.</entry>
+                            </row>
+                            <row>
+                                <entry>DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND</entry>
+                                <entry>N</entry>
+                                <entry>Flag to specify if clicking on a Route Log from Document
+                                    Search will load the Route Log in a new window.</entry>
+                            </row>
+                            <row>
+                                <entry>FETCH_MORE_ITERATION_LIMIT</entry>
+                                <entry/>
+                                <entry>Limit of fetch more iteration for document searches.</entry>
+                            </row>
+                            <row>
+                                <entry>RESULT_CAP</entry>
+                                <entry/>
+                                <entry>Maximum number of documents to return from a search.</entry>
+                            </row>
+                            <row>
+                                <entry>DOCUMENT_TYPE_SEARCH_INSTRUCTION</entry>
+                                <entry>Enter document type information below and click
+                                    search.</entry>
+                                <entry>Instructions for searching document types.</entry>
+                            </row>
+                            <row>
+                                <entry>DEBUG_TRANSFORM_IND</entry>
+                                <entry>N</entry>
+                                <entry>Defines whether the debug transform is enabled for
+                                    eDocLite.</entry>
+                            </row>
+                            <row>
+                                <entry>USE_XSLTC_IND</entry>
+                                <entry>N</entry>
+                                <entry>Defines whether XSLTC is used for eDocLite.</entry>
+                            </row>
+                            <row>
+                                <entry>IS_LAST_APPROVER_ACTIVATE_FIRST_IND</entry>
+                                <entry/>
+                                <entry>A flag to specify whether the
+                                    WorkflowInfo.isLastApproverAtNode(...) API method attempts to
+                                    active requests first, prior to execution.</entry>
+                            </row>
+                            <row>
+                                <entry>REPLACE_INSTRUCTION</entry>
+                                <entry>Enter the reviewer to replace.</entry>
+                                <entry>Instructions for replacing a reviewer.</entry>
+                            </row>
+                            <row>
+                                <entry>FROM_ADDRESS</entry>
+                                <entry>rice.test@kulai.org</entry>
+                                <entry>Default from email address for notifications. If not set,
+                                    this value defaults to admin@localhost. </entry>
+                            </row>
+                            <row>
+                                <entry>NOTE_CREATE_NEW_INSTRUCTION</entry>
+                                <entry>Create or modify note information.</entry>
+                                <entry>Instructions for creating a new note.</entry>
+                            </row>
+                            <row>
+                                <entry>RESTRICT_DOCUMENT_TYPES</entry>
+                                <entry/>
+                                <entry>Comma separated list of Document Types to exclude from the
+                                    Rule Quicklinks.</entry>
+                            </row>
+                            <row>
+                                <entry>CUSTOM_DOCUMENT_TYPES</entry>
+                                <entry/>
+                                <entry>Defines custom Document Type processes to use for certain
+                                    types of routing rules.</entry>
+                            </row>
+                            <row>
+                                <entry>DELEGATE_LIMIT</entry>
+                                <entry>20</entry>
+                                <entry>Specifies that maximum number of delegation rules that will
+                                    be displayed on a Rule inquiry before the screen shows a count
+                                    of delegate rules and provides a link for the user to show
+                                    them.</entry>
+                            </row>
+                            <row>
+                                <entry>GENERATE_ACTION_REQUESTS_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Flag to determine whether or not a change to a routing rule
+                                    should be applied retroactively to existing documents.</entry>
+                            </row>
+                            <row>
+                                <entry>ROUTE_LOG_POPUP_IND</entry>
+                                <entry>F</entry>
+                                <entry>Flag to specify if clicking on a Route Log from a Routing
+                                    Rule inquiry will load the Route Log in a new window.</entry>
+                            </row>
+                            <row>
+                                <entry>RULE_CACHE_REQUEUE_DELAY</entry>
+                                <entry>5000</entry>
+                                <entry>Amount of time after a rule change is made before the rule
+                                    cache update message is sent.</entry>
+                            </row>
+                            <row>
+                                <entry>RULE_CREATE_NEW_INSTRUCTION</entry>
+                                <entry>Please select a rule template and document type.</entry>
+                                <entry>Instructions for creating a new rule.</entry>
+                            </row>
+                            <row>
+                                <entry>RULE_LOCKING_ON_IND</entry>
+                                <entry>Y</entry>
+                                <entry>Defines whether rule locking it enabled.</entry>
+                            </row>
+                            <row>
+                                <entry>RULE_SEARCH_INSTRUCTION</entry>
+                                <entry>Use fields below to search for rules.</entry>
+                                <entry>Instructions for the rule search.</entry>
+                            </row>
+                            <row>
+                                <entry>RULE_TEMPLATE_CREATE_NEW_INSTRUCTION</entry>
+                                <entry>Enter a rule template name and description. Please select all
+                                    necessary rule attributes for this template.</entry>
+                                <entry>Instructions for creating new rule templates.</entry>
+                            </row>
+                            <row>
+                                <entry>RULE_TEMPLATE_SEARCH_INSTRUCTION</entry>
+                                <entry>Use fields below to search for rule templates.</entry>
+                                <entry>Instructions for the rule template search.</entry>
+                            </row>
+                            <row>
+                                <entry>NOTIFY_EXCLUDED_USERS_IND</entry>
+                                <entry/>
+                                <entry><para>Defines a group name (in the format "namespace:name") which
+                                    contains members who should never receive notification action
+                                    requests from KEW. Notification requests in KEW are generated
+                                    when someone disapproves or blanket approves are exist to notify
+                                    other approvers that these actions have taken place. </para> 
+                                    <para>The most
+                                    common use for this is in the case of "system" users who
+                                    participate in workflow transactions. In these cases, since they
+                                    aren't actual users who would be checking their action list, it
+                                    doesn't make sense to send them requests since they won't ever
+                                    be fulfilled.</para> </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+</chapter>

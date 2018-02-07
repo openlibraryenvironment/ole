@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Reporting" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Reporting Guide</title>
+    <section>
+        <title>Reporting Features</title>
+        <para>KEW provides various options for reporting on and simulation of routing scenarios.
+            There is a GUI for performing these reporting functions as well as an API that you
+            can use to run routing reports against the system.</para>
+    </section>
+    <section>
+        <title>The Routing Report Screen</title>
+        <para>From the Rice main menu there is a link to the <emphasis role="bold">Routing
+            Report</emphasis> screen. From this set of screens you can enter various
+            criteria for running reports against the routing engine. The output of this
+            reporting is a simulated view of the <emphasis role="bold">Route Log</emphasis>,
+            displaying the result of the report.</para>
+    </section>
+    <section>
+        <title>The Report APIs</title>
+        <para>The KEW client API also provides facilities for running reports against the
+            routing engine. At the core of KEW is a <emphasis role="bold">Simulation
+                Engine</emphasis> that is responsible for running these types of reports. The
+            method for executing these reports is on the Workflow Info object that is part of
+            the client API. The method is defined:</para>
+        <programlisting>public DocumentDetailVO routingReport(ReportCriteriaVO reportCriteria) throws WorkflowException;</programlisting>
+        <para>This method takes the report criteria and returns the results of the routing
+            report.</para>
+    </section>
+    <section>
+        <title>Report Criteria</title>
+        <para>The routing report operates under two basic modes:<orderedlist>
+            <listitem>
+                <para>Reports that run against existing Documents </para>
+            </listitem>
+            <listitem>
+                <para>Reports that simulate a Document from a Document Type </para>
+            </listitem>
+        </orderedlist></para>
+        <para>In each these cases there are certain properties that you need to set on the
+            ReportCriteriaVO to obtain the desired results.</para>
+        <para>In the first case, the report runs against a document that has already been
+            created in the system. This document already has a Document Id and may be en route.
+            Using this style of reporting, you can run simulations to determine where the
+            document will go in future route nodes. For example, to run a simulation against an
+            existing document to determine to whom it will route in the future, execute this
+            code:</para>
+        <section>
+            <title>Routing Report against a Document</title>
+            <programlisting>WorkflowInfo info = new WorkflowInfo();
+RoutingReportCriteriaVO criteria = new ReportCriteriaVO(new Long(1234));
+DocumentDetailVO results = info.routingReport(criteria);
+// examine results...
+</programlisting>
+            <para>This runs a report against the document with ID 1234, starting at the active
+                nodes of the document and continuing to the terminal nodes of the document. The
+                DocumentDetailVO will contain the Action Requests generated during the report
+                simulation.</para>
+            <para>You can also stop the report at a particular node or once Rice generates a
+                request for a particular user. For example, to stop the report simulation at a
+                node or when Rice generates a certain user's request, configure the report
+                criteria like this:</para>
+        </section>
+        <section>
+            <title>Terminate Report at Node or User</title>
+            <programlisting>WorkflowInfo info = new WorkflowInfo();
+
+RoutingReportCriteriaVO criteria = new ReportCriteriaVO(new Long(1234), "MyNodeName");
+criteria.setTargetUsers(new UserIdVO[] { new NetworkIdVO("ewestfal") });
+
+DocumentDetailVO results = info.routingReport(criteria);
+</programlisting>
+            <para>This executes the report until it reaches a node named <emphasis role="bold"
+                >MyNodeName</emphasis> or a request is generated for user <emphasis
+                    role="bold">ewestfal</emphasis>.</para>
+            <para>In the second style of reporting, the report is run against an arbitrary
+                Document Type and the simulation engine creates a temporary document against
+                which to run the report. When setting up the report criteria for these
+                scenarios, you usually populate the XML content of the document on the criteria
+                (provided that the routing of that document evaluates the XML). Also, the
+                criteria need to be configured with the valid node names (or rule templates)
+                against which the report should be run. For example, to run a Document Type
+                report, you can invoke the routing report this way:</para>
+        </section>
+        <section>
+            <title>Report against a Document Type</title>
+            <programlisting>WorkflowInfo info = new WorkflowInfo();
+RouteReportCriteriaVO criteria = new ReportCriteriaVO("MyDocumentType");
+
+criteria.setXmlContent("&lt;accountNumber>1234&lt;/accountNumber>");
+
+criteria.setNodeNames(new String[] { "MyNodeName" });
+DocumentDetailVO results = info.routingReport(criteria);
+</programlisting>
+            <para>The code above simulates the generation of requests for <emphasis role="bold"
+                >MyDocumentType</emphasis> at the <emphasis role="bold"
+                    >MyNodeName</emphasis> node with the XML given. This sort of reporting is
+                especially useful if you simply need to determine what rules in the rule system
+                will fire and generate action requests under a particular scenario.</para>
+            <para>As an alternative to specifying the node names, you can also specify rule
+                template names. This is simply another way to target a specific node in the
+                document. It searches the Document Type definition for nodes with the specified
+                rule templates and then runs the report against those nodes. Currently, the rule
+                template must exist on a node in the Document Type definition or an error will
+                be thrown. In the case of our previous example, you could simply change the line
+                that sets the node names on the criteria to:</para>
+            <programlisting>criteria.setRuleTemplateNames(new String[] { "MyRuleTemplate" });</programlisting>
+            <para>As above, this is primarily useful for determining who will have requests
+                generated to them from the KEW rule system.</para>
+        </section>
+    </section>
+    <section>
+        <title>Interpreting Report Results</title>
+        <para>As we've seen, the object returned by the Routing Report is an instance of
+            DocumentDetailVO. This object extends RouteHeaderVO and provides three more pieces
+            of data along with it:<orderedlist>
+                <listitem>
+                    <para>An array of ActionRequestVO objects representing the action requests
+                        on the document </para>
+                </listitem>
+                <listitem>
+                    <para>An array of ActionTakenVO objects representing the actions that have
+                        been performed against the document </para>
+                </listitem>
+                <listitem>
+                    <para>An array of RouteNodeInstanceVO objects that represent nodes in the
+                        document path </para>
+                </listitem>
+            </orderedlist></para>
+        <para>For reporting, the most important piece of data here is typically the
+            ActionRequestVO objects. After running a report, this array contains the Action
+            Requests that were generated as the result of the simulation. So, for example, in
+            the example above where we run a document type report against the <emphasis
+                role="bold">MyRuleTemplate</emphasis> rule template, this array contains all of
+            the Action Requests that were generated to users or workgroups during the report
+            simulation.</para>
+    </section>
+</chapter>

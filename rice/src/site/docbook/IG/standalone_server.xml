@@ -1,0 +1,1254 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="standalone_server" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Standalone Server Setup</title>
+    <para>This chapter is designed to provide simple step-by-step instructions on how to set up a
+        Kuali Rice standalone server intended for enterprise deployment. The same steps can be used
+        to set up a standalone server locally for development purposes, you would just install the
+        database on the same machine.</para>
+    <para>The steps to install and setup a standalone server with Kuali Rice are:</para>
+    <orderedlist>
+        <listitem>
+            <para>Determine your expected load and storage needs and consult the Suggested Server
+                Hardware section for guidance. Install OS.</para>
+        </listitem>
+        <listitem>
+            <para>Install &amp; configure the database management system.</para>
+        </listitem>
+        <listitem>
+            <para>Install &amp; configure required software</para>
+        </listitem>
+        <listitem>
+            <para>Install and configure Tomcat.</para>
+        </listitem>
+        <listitem>
+            <para>Install and configure Rice.</para>
+        </listitem>
+        <listitem>
+            <para>Launch the sample application.</para>
+        </listitem>
+        <listitem>
+            <para>Set up a Keystore.</para>
+        </listitem>
+    </orderedlist>
+    <note><para>Rather than install and setup as the root user on systems designed for production, you may
+            want to create a non-privileged user named something like 'rice' to use for this
+            purpose.</para></note>
+    <section>
+        <title>Suggested Server Hardware</title>
+        <para>Note that hardware needs may vary depending on the amount of expected load, the
+            operating system being used, and the number of applications that are integrated with
+            Kuali Rice. Kuali Rice is typically deployed as a standalone server with the database
+            server separate from the application server. </para>
+        <para>The recommended minimum requirements are as follows:<itemizedlist>
+            <listitem>
+                <para>Processor 1.5 GHz or faster (2 GHz preferred)</para>
+            </listitem>
+            <listitem>
+                <para>1024 MB (1 GB) of RAM or more</para>
+            </listitem>
+            <listitem>
+                <para>100 Mbit/s network card (gigabit preferred)</para>
+            </listitem>
+            <listitem>
+                <para>200 MB of hard disk space (for Tomcat server and web application)</para>
+                    <note><para>Additional space needed if storing attachments.</para></note>
+            </listitem>
+        </itemizedlist></para>
+        <para>See <link linkend="appendix_server_configs">Example Server Configurations</link> in
+            the appendix for examples of hardware and software configurations of Kuali Rice
+            servers.</para>
+    </section>
+    <section xml:id="install_db">
+        <title>Installing and Configuring the Database Management System</title>
+        <para>Kuali Rice was developed using two relational database management systems: <emphasis
+                role="bold">MySQL</emphasis> and <emphasis role="bold">Oracle</emphasis>. The
+            typical production install involves running the Rice server separate from the database
+            server, however both can be run on the same machine for development purposes.</para>
+        <para>Rice runs, and has been tested with the following versions:<itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Oracle</emphasis>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Oracle Database 10g</para>
+                        </listitem>
+                        <listitem>
+                            <para>Oracle Database 11g</para>
+                        </listitem>
+                        <listitem>
+                            <para>Oracle Express Edition (XE)</para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>Use the Oracle JDBC Driver to connect to these databases.</para>
+                <para>Ensure that the Oracle database you intend to use encodes character data in a
+                    UTF variant by default. For Oracle XE, this entails downloading the "Universal"
+                    flavor of the binary, which uses AL32UTF8.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">MySQL</emphasis><itemizedlist>
+                    <listitem>
+                        <para>MySQL 5.1.+</para>
+                    </listitem>
+                </itemizedlist></para>
+                <para>Use the MySQL Connector/J (5.1.+) to connect to MySQL databases.</para>
+            </listitem>
+        </itemizedlist></para>
+        <para>You should be able to adapt Rice to other standard relational databases (e.g., Sybase,
+            Microsoft SQL Server, DB2, etc.). However, this Installation Guide does not provide
+            information for running Rice with these products.</para>
+        <section xml:id ="database_software_locations">
+            <title>Locations for Database Software</title>
+            <para>Below are locations from which Oracle and MySQL could be downloaded at the time of
+                release of Rice ${project.version}.</para>
+            <table frame="none" tabstyle="striped">
+                <title>Locations for Database Software</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="4.11*"/>
+                    <thead>
+                        <row>
+                            <entry>Software</entry>
+                            <entry>Download Location</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Oracle Standard and Enterprise Editions </entry>
+                            <entry><link
+                                xlink:href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html"
+                                >http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html</link></entry>
+                        </row>
+                        <row>
+                            <entry>Oracle Express Edition</entry>
+                            <entry><link
+                                xlink:href="http://www.oracle.com/technetwork/database/express-edition/downloads/index.html"
+                                >http://www.oracle.com/technetwork/database/express-edition/downloads/index.html</link></entry>
+                        </row>
+                        <row>
+                            <entry>Oracle JDBC DB Driver</entry>
+                            <entry><link
+                                xlink:href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html"
+                                >http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</link></entry>
+                        </row>
+                        <row>
+                            <entry>MySQL </entry>
+                            <entry><link xlink:href="http://www.mysql.com/downloads/"
+                                >http://www.mysql.com/downloads/</link></entry>
+                        </row>
+                        <row>
+                            <entry>MySQL Connector/J JDBC Driver</entry>
+                            <entry><link xlink:href="http://www.mysql.com/products/connector/j/"
+                                >http://www.mysql.com/products/connector/j/</link></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        <section xml:id="mysql_db_prep">
+            <title>MySQL Database Preparation</title>
+            <para>Kuali Rice supports both MySQL and Oracle databases. However, MySQL is easier to
+                install than Oracle and uses less machine resources so many developers prefer to use
+                that when getting started with Rice.</para>
+            <section>
+                <title>Installation</title>
+                <para>The installation steps for MySQL are going to be different for each platform.
+                    Please download the latest version MySQL Server from the location listed in the
+                    <link linkend="database_software_locations">Locations for Database Software</link> section of this document and follow the installation
+                    instructions for your platform.</para>
+                <note>
+                    <para>You may be required to create an account on the MySQL site in order to
+                        download the software.</para>
+                    <para>Please be sure to follow the instructions for installing MySQL on your
+                        platform very carefully. If downloading for Mac OS X, <emphasis role="bold"
+                            >be careful</emphasis> to download the appropriate version for your
+                        platform (32-bit vs. 64-bit and 10.6 vs 10.7)</para>
+                </note>
+            </section>
+            <section>
+                <title>Configuration</title>
+                <para>There are a few MySQL database configuration options that are required in
+                    order for Kuali Rice to work properly. These will need to be set in either your
+                    <emphasis role="bold">my.cnf</emphasis> or <emphasis role="bold"
+                        >my.ini</emphasis> file. The location and names of these files will differ
+                    depending on which platform you are working on. For details on where these files
+                    can be found, see the following document:</para>
+                <para><link xlink:href="http://dev.mysql.com/doc/refman/5.1/en/option-files.html"
+                    >http://dev.mysql.com/doc/refman/5.1/en/option-files.html</link></para>
+                <para>Once you have located this file, please add the following options, paying
+                    special attention to the line that needs to be commented out:</para>
+                <programlisting linenumbering = "numbered">[mysqld]
+transaction-isolation=READ-COMMITTED
+max_connections=1000 <co xml:id="max_connections-co" linkends="max_connections"/>
+...
+# Be sure to comment this out if it's in the file!!! <co xml:id="log_bin-co" linkends="log_bin"/>
+#log-bin=mysql-bin</programlisting>
+                <note>
+                <calloutlist>
+                    <callout arearefs="max_connections-co" xml:id="max_connections"><para>Leaving the max_connections at the default value of 151 may result in a "too many connections" error. Please see <link xlink:href="http://docs.oracle.com/cd/E17952_01/refman-5.6-en/too-many-connections.html">this link</link> for more information.</para></callout>
+                </calloutlist>
+                </note>
+                <para>Note that the <emphasis role="bold">[mysqld]</emphasis> section may already be
+                        in your my.cnf file. If so, you can just add the options listed above underneath
+                        that section.</para>
+                <caution>
+                    <calloutlist>
+                    <callout arearefs="log_bin-co" xml:id="log_bin"><para>It is very important that you comment out <emphasis role="bold"
+                        >log-bin</emphasis>. Otherwise you will end up with some very bad
+                        problems later!</para></callout>
+                    </calloutlist>
+                </caution>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>Before verifying your mysql installation you will need to ensure that MySQL is
+                    running. Some of the platform-specific packages will set this up automatically
+                    (or allow you to install yourself in the case of Mac OS X). If MySQL is not
+                    starting automatically you can start it using a command like the following
+                    example from Mac OS X:</para>
+                <programlisting>sudo /usr/local/mysql/bin/mysqld_safe</programlisting>
+                <para>This will start the MySQL server.</para>
+                <para>To verify that you can actually connect to the server, execute the following
+                    at the command line:</para>
+                <programlisting>mysql -u root -p</programlisting>
+                <para>This should bring you to a command line client interface for the MySQL server.
+                    Type "show databases;" and press return. You should see output similar to the
+                    following.</para>
+                <programlisting>Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.1.50-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+This software comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to modify and redistribute it under the GPL v2 license
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
++--------------------+
+3 rows in set (0.13 sec)
+
+mysql> </programlisting>
+            </section>
+            <section>
+                <title>Install the JDBC Driver</title>
+                <para>Kuali Rice uses the MySQL Connector/J product as the native JDBC driver. Please
+                    download this driver from the location specified in the <link
+                        linkend="database_software_locations">Locations for Database Software</link>
+                    section of this Guide.</para>
+                <para>Once you have downloaded the JDBC driver that corresponds to your version of
+                    MySQL, copy it to <emphasis role="bold">/java/drivers</emphasis>. <emphasis
+                        role="bold">/java/drivers</emphasis> is a hard coded directory that the Rice
+                    scripts use as a default directory in which to search for drivers when the
+                    installation scripts are running.</para>
+            </section>
+        </section>    
+        <section xml:id="oracle_db_prep">
+            <title>Oracle Database Preparation</title>
+            <section>
+                <title>Installation</title>
+                <para>The installation steps for Oracle are going to be different for each platform and
+                    version of Oracle. Please download from the location listed in the <link
+                        linkend="database_software_locations">Locations for Database Software</link>
+                    section of this document and follow the installation instructions for your
+                    platform.</para>
+                <para>To run the database completely on your local machine, we recommend installing
+                    Oracle Express (XE). Please refer to the <link linkend="database_software_locations"
+                        >Locations for Database Software</link> section of this Installation Guide to
+                    find the download location for this software.</para>
+            </section>
+            <section>
+                <title>Configuration</title>
+                <para>By default, OracleXE registers a web user interface on port 8080. This is the
+                    same port that the standalone version of Rice is preconfigured to use. To avoid
+                    a port conflict, you must change the port that the OracleXE web user interface
+                    uses with the Oracle XE admin webapp:
+                    <figure>
+                        <title>Oracle XE admin webapp</title>
+                        <mediaobject>    
+                            <imageobject>
+                                <imagedata fileref="../images/oracle_xe_admin_webapp.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </para>
+                <para>If you prefer, you can use the Oracle SQL tool described here to change the
+                    OracleXE web user interface port: <link
+                        xlink:href="http://daust.blogspot.com/2006/01/xe-changing-default-http-port.html"
+                        >http://daust.blogspot.com/2006/01/xe-changing-default-http-port.html</link></para>
+                <para>Please edit your hosts file with an entry to refer to your Oracle database.
+                    When this Installation Guide refers to the Oracle database host server, it will
+                    be referred to in the examples as koracle.</para>
+                <para>Now edit the hosts file and add this:</para>
+                <programlisting linenumbering = "numbered">&lt;ip address of mysql server&gt; koracle</programlisting>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>To connect to the supporting Oracle database (i.e., run scripts, view database
+                    tables, etc.), we recommend installing the Squirrel SQL client.  Please see the
+                    <link linkend="squirrel_SQL">section on Squirrel SQL</link> for more information.</para>
+            </section>
+            <section>
+                <title>Install the JDBC Driver</title>
+                <para>Kuali Rice uses the standard Oracle JDBC driver as the native JDBC driver. <orderedlist>
+                        <listitem>
+                            <para>Please download this driver from the location specified in the
+                                    <link linkend="database_software_locations">Locations for
+                                    Database Software</link> section of this Guide.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Once you have downloaded the JDBC driver that corresponds to your
+                                version of Oracle, copy it to <emphasis role="bold"
+                                    >/java/drivers</emphasis>. <emphasis role="bold"
+                                    >/java/drivers</emphasis> is a hard coded directory that the
+                                Rice scripts use as a default directory in which to search for
+                                drivers when the installation scripts are running.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Use the <link
+                                    xlink:href="http://maven.apache.org/plugins/maven-install-plugin"
+                                    >maven-install-plugin</link> to copy ojdbc14.jar into your local
+                                maven repository.</para>
+                            <programlisting>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0 -Dpackaging=jar -Dfile=ojdbc14.jar</programlisting>
+                        </listitem>
+                        <listitem>
+                            <para>You should see output similar to this if the jar gets installed
+                                correctly. </para>
+                            <programlisting linenumbering = "numbered">[INFO] Installing ojdbc14.jar to /.m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar</programlisting>
+                        </listitem>
+                    </orderedlist></para>
+            </section>
+        </section>
+        <section xml:id="sql_client_sw">
+            <title>Suggested SQL Client Software</title>
+            <para>To examine and test your database setup, SQL client software is useful. Any SQL client
+                software that will connect to a MySQL or Oracle database will work. Two tools used by
+                the development team are the <emphasis role="bold">mysql</emphasis> command-line client
+                and SQuirrel SQL.</para>
+            <section xml:id="mysql_client_sw">
+                <title>mysql client software</title>
+                <para>The <emphasis role="bold">mysql</emphasis> command-line client only works with MySQL
+                    and is usually installed with the MySQL Server software. An example of connection to
+                    MySQL as root and then switching to a database named <emphasis role="bold"
+                        >test</emphasis> can be found below:</para>
+                <programlisting>Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.1.50-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+This software comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to modify and redistribute it under the GPL v2 license
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Database changed</programlisting>
+            </section>
+            <section xml:id="squirrel_SQL">
+                <title>SQuirrel SQL</title>
+                <para>Tools like SQuirrel SQL use JDBC to access the database and will work with both
+                    MySQL and Oracle databases. You can download and install it from the following
+                    URL:</para>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><link xlink:href="http://squirrel-sql.sourceforge.net/"
+                                >http://squirrel-sql.sourceforge.net/</link></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <section>
+                    <title>With MySQL</title>
+                    <para>Connecting to a MySQL database with the name <emphasis role="bold">test</emphasis>
+                        would have a JDBC URL like the following: <emphasis role="bold"
+                            >jdbc:mysql://localhost:3306/test</emphasis>.</para>
+                </section>
+                <section>
+                    <title>With Oracle</title>
+                    <para>Connecting to an Oracle database would have a JDBC URL like the following:
+                        <emphasis role="bold">jdbc:oracle:thin:@localhost:1521:XE</emphasis>.</para>
+                    <para>The Rice SQL files use slash '/' as the statement delimiter. You may have to
+                        configure your SQL client appropriately so it can run the Rice SQL. In SQuirreL, you
+                        do this in Session->Session Properties->SQL->Statement Separator.</para>
+                </section>
+            </section>
+        </section>
+    </section> 
+    <section xml:id="install_sw">
+        <title>Install and Configure Required Software</title>
+        <section>
+            <title>Overview</title>
+            <para>Kuali Rice requires the following software to be setup and configured:<itemizedlist>
+                <listitem>
+                    <para>Sun Microsystems Java Development Kit (JDK 1.6.x or 1.7.x)</para>
+                    <warning>
+                        <para>You must use a JDK and not a Java runtime environment (JRE); the JDK
+                                you use must be version 1.6.x or 1.7.x. Additionally, Rice has not
+                                been tested on JDKs other than Sun. So alternative implementations
+                                like OpenJDK should be used at your own risk.</para>
+                    </warning>
+                </listitem>
+                <listitem>
+                    <para>Maven 3</para>
+                </listitem>
+            </itemizedlist></para>
+        </section>
+        <section xml:id="environment_variables">
+            <title>Environment Variables</title>
+            <para>First, some environment variables need to be configured.</para>
+                <section>
+                    <title>Mac OS X</title>
+                    <para>Environment variables in Mac OS X can be set in a number of ways, but here we will
+                        show how to modify or create the .profile files in your user home directory. On OS X
+                        your user home directory is typically located at /Users/&lt;username>,</para>
+                    <para>An example .profile can be found below:</para>
+                    <programlisting>M2_HOME=/usr/local/maven
+MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=768m"
+GROOVY_HOME=/usr/local/groovy
+JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.7/Home
+CATALINA_HOME=/usr/local/tomcat
+MYSQL_HOME=/usr/local/mysql
+    
+PATH="$ANT_HOME/bin:$M2_HOME/bin:$GROOVY_HOME/bin:$CATALINA_HOME:$MYSQL_HOME/bin:$PATH"
+export PATH ANT_HOME ANT_OPTS M2_HOME MAVEN_OPTS GROOVY_HOME JAVA_HOME CATALINA_HOME MYSQL_HOME</programlisting>
+                    <note><para>It is important to export your environment variables once they are defined as the
+                        file above does.</para></note>
+                </section>
+                <section>
+                    <title>Windows XP</title>
+                    <para>To get to the screen where you can define environment variables on Windows XP
+                        follow these steps:<orderedlist>
+                            <listitem>
+                                <para>Click on the "Start" button in the bottom left-hand corner.</para>
+                            </listitem>
+                            <listitem>
+                                <para>On the resulting screen, right click on "My Computer".</para>
+                            </listitem>
+                            <listitem>
+                                <para>In the context menu, click on "Properties".</para>
+                            </listitem>
+                            <listitem>
+                                <para>This will open up the "System Properties" dialog window.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Click on the "Advanced" tab.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Click on the "Environment Variables" button.</para>
+                            </listitem>
+                            <listitem>
+                                <para>You will see the screen where you can edit existing
+                                environment variables or define new ones.</para>
+<!--                                <para>&lt;TODO: Insert screen shot here></para>     -->
+                            </listitem>
+                        </orderedlist></para>
+                </section>
+                <section>
+                    <title>Windows Vista and Windows 7</title>
+                    <para>To get to the screen where you can define environment variables on Windows Vista
+                        or Windows 7 follow these steps:<orderedlist>
+                            <listitem>
+                                <para>Click on the "Start" button in the bottom left-hand corner.</para>
+                            </listitem>
+                            <listitem>
+                                <para>On the resulting screen, right click on "Computer".</para>
+                            </listitem>
+                            <listitem>
+                              <para>In the context menu, click on "Properties".</para>
+                            </listitem>
+                            <listitem>
+                                <para>This will open up the Control Panel "System" dialog.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Click on the "Advanced system settings".</para>
+                            </listitem>
+                            <listitem>
+                                <para>In the resulting window, click on the "Environment Variables..."
+                                    button.</para>
+                            </listitem>
+                            <listitem>
+                                <para>You will see the screen where you can edit existing environment
+                                    variables or define new ones.</para>
+<!--                                <para>&lt;TODO: Insert screen shot here></para> -->
+                            </listitem>
+                        </orderedlist></para>
+                    <note><para>The windows command line console must be closed and reopened in order for environment
+                       variable changes to be effective.</para></note>
+                </section>
+        </section> 
+       <section xml:id="Java_SDK">
+            <title>Java SDK</title>
+            <section>
+                <title>Installation</title>
+                <para>You should download and install the latest version of JDK 6 or JDK 7. If you
+                    are on Windows, you can download it from the following URL: <link
+                        xlink:href="http://www.oracle.com/technetwork/java/javase/downloads/index.html"
+                        >http://www.oracle.com/technetwork/java/javase/downloads/index.html</link>.</para>
+                <para>If you are on a Mac, then Java 6 or Java 7 should already be installed if you
+                    are up to date with the latest updates from Apple.</para>
+            </section>
+            <section>
+                <title>Configuration</title>
+                <para>You will also want to set up your <emphasis role="bold">JAVA_HOME</emphasis>
+                    environment variable to point to the installation directory of your JDK. In both
+                    Windows and Mac environments, the <emphasis role="bold">java</emphasis> executable
+                    program should already be on your path. But if it is not, you will want to include
+                    <emphasis role="bold">JAVA_HOME/bin</emphasis> in your <emphasis role="bold"
+                        >PATH</emphasis> environment variable.</para>
+                <para>If you do not know how to do this, see the <command
+                    linkend="environment_variables">Environment Variables</command> section above
+                    for your platform.</para>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>In order to verify that your JDK has been installed successfully, open a command
+                    prompt and type the following:</para>
+                <programlisting>java -version</programlisting>
+                <para>You should see output similar to the following:</para>
+                <programlisting>java version "1.7.0_10"
+Java(TM) SE Runtime Environment (build 1.7.0_10-b18)
+Java HotSpot(TM) Client VM (build 23.6-b04, mixed mode)</programlisting>
+                <para>If you receive an error indicating that the "java" command could not be found,
+                    please ensure that the java command is on your machine's <emphasis role="bold"
+                        >PATH</emphasis> environment variable.</para>
+              <para>To prevent potential out of memory errors when running Rice,
+                you should set your <emphasis role="bold">JAVA_OPTS</emphasis> environment to a
+                value like the following:</para>
+              <programlisting>JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=768m"</programlisting>
+              <para>If you do not know how to do this, see the <link
+                      linkend="environment_variables">Environment Variables</link> section above
+                for your platform.</para>
+            </section>
+        </section>
+        <!-- TODO: Determine if we need to add a section for ant or if we're done here -->
+        <section xml:id="Maven">
+            <title>Maven</title>
+            <para>Maven is the primary build tool used by the Kuali Rice project. Maven is based on a
+                project object model (POM) that defines various standards and conventions surrounding
+                the organization of a project. This facilitates a set of standard build goals and
+                lifecycle phases (such as compile, test, package, etc.)</para>
+            <section>
+                <title>Installation</title>
+                <para>To download version 3 of Maven, use the following link: <link
+                    xlink:href="http://maven.apache.org/download.html"
+                    >http://maven.apache.org/download.html</link></para>
+                <para>Once you have downloaded the zip file, unzip it to a location of your
+                    choosing.</para>
+            </section>    
+            <section>
+                <title>Configuration</title>
+                <para>You will want to set your <emphasis role="bold">M2_HOME</emphasis> environment
+                    variable to point to the location where you unzipped Maven. You will additionally
+                    want to include <emphasis role="bold">M2_HOME/bin</emphasis> in your <emphasis
+                        role="bold">PATH</emphasis> environment variable so that maven can be executed
+                    from the command line without having to specify the full path.</para>
+                <para>Finally, to prevent potential out of memory errors when compiling Rice with Maven,
+                    you should set your <emphasis role="bold">MAVEN_OPTS</emphasis> environment to a
+                    value like the following:</para>
+                <programlisting>MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=768m"</programlisting>
+                <para>If you do not know how to do this, see the <link
+                    linkend="environment_variables">Environment Variables</link> section above
+                    for your platform.</para>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>In order to verify that Maven has been installed successfully and is available on
+                    the path, open a command prompt and type the following:</para>
+                <programlisting>mvn -version</programlisting>
+                <para>You should see output like the following:</para>
+                <programlisting>Apache Maven 3.0.3 (r1075438; 2011-02-28 10:31:09-0700)
+Maven home: /usr/local/maven
+Java version: 1.6.0_26, vendor: Apple Inc.
+Java home: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+Default locale: en_US, platform encoding: MacRoman
+OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programlisting>
+                <para>If you receive an error indicating hat the "mvn" command could not be found,
+                    please ensure that the directory that includes the mvn executable (<emphasis
+                        role="bold">M2_HOME/bin</emphasis>) is on your machine's <emphasis role="bold"
+                            >PATH</emphasis> environment variable.</para>
+            </section>
+        </section>
+        <section xml:id="Apache_Tomcat">
+            <title>Install and Setup Apache Tomcat</title>
+            <para>Kuali Rice ${project.version} supports the following Tomcat versions:<itemizedlist>
+                    <listitem>
+                        <para>Tomcat 6 (Servlet API 2.5, JSP 2.1) </para>
+                    </listitem>
+                    <listitem>
+                        <para>Tomcat 7 (Servlet API 3.0, JSP 2.2) </para>
+                    </listitem>
+            </itemizedlist></para>
+            <para>Please visit the <link xlink:href="http://tomcat.apache.org/">Apache Tomcat
+                    site</link> for information on how to install and configure Tomcat.</para>
+            <para>Other servlet containers can be used with Kuali Rice, but this guide will focus on
+                Tomcat.</para>
+        </section>
+        <section xml:id="Rice_SW">
+            <title>Install Rice software from distribution</title>
+            <para>The quickest way to get Rice installed on a standalone server is to download the
+                    <emphasis role="bold">Standalone Server</emphasis> distribution from the <link
+                    xlink:href="http://kuali.org/rice/download">kuali.org download site</link>. Once
+                downloaded, decompress the software.</para>
+        </section>
+    </section>    
+    <section xml:id="Rice_DB">
+        <title>Building the Rice Database</title>
+        <section>
+            <title>Load Impex Data with Maven</title>
+            <orderedlist>
+                <listitem>
+                    <para>Change to the directory <emphasis role="bold">db/impex</emphasis> located
+                        where you decompressed the software.</para>
+                </listitem>
+                <listitem>
+                    <para>Decide which type of server you want to install.
+                        <itemizedlist>
+                            <listitem>If you want to install a full Rice development environment, change
+                                to the directory <emphasis role="bold">master</emphasis>.  This will
+                                create a database named <emphasis role="bold">RICE</emphasis> by default.
+                                This is the recommended way to get started developing with Rice.
+                            </listitem>
+                            <listitem>If you want a production standalone Rice install, change to the
+                                directory <emphasis role="bold">server/bootstrap</emphasis>.  This will
+                                create a database named <emphasis role="bold">RICESERVERBOOTSTRAP</emphasis>
+                                by default.
+                            </listitem>
+                            <listitem>If you want to install some demonstration data on top of the production
+                                standalone Rice install, change to the directory <emphasis role="bold">server/demo</emphasis>.
+                                This will create a database named <emphasis role="bold">RICESERVERDEMO</emphasis>
+                                by default.
+                            </listitem>
+                            <listitem>
+                                The <emphasis role="bold">client</emphasis> folder is for client applications
+                                that connect to Rice separately and is not needed at this stage.
+                            </listitem>
+                        </itemizedlist>
+                        <note>Selecting to install the master or demo databases is for testing only.  There
+                            is no easy way to remove this data once it is in your database.  Only select these
+                            options if you are in a development or testing environment.</note>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Verify that Maven can connect to your database instance.</para>
+                    <para>
+                        <emphasis role="bold">Running Locally:</emphasis>
+                        <itemizedlist>
+                            <listitem>
+                                <para>MySQL</para>
+                                <programlisting>mvn validate -Pdb,mysql -Dimpex.dba.password=[dbapassword]</programlisting>
+                            </listitem>
+                            <listitem>
+                                <para>Oracle</para>
+                                <programlisting>mvn validate -Pdb,oracle -Dimpex.dba.password=[dbapassword]</programlisting>
+                            </listitem>
+                        </itemizedlist>
+                    </para>
+                    <para>
+                        <emphasis role="bold">Connecting to a remote database:</emphasis>
+                        <itemizedlist>
+                            <listitem>
+                                <para>MySQL</para>
+                                <programlisting>mvn validate -Pdb,mysql -Dimpex.dba.url=jdbc:mysql://[your-mysql-instance]/ -Dimpex.dba.password=[dbapassword]</programlisting>
+                            </listitem>
+                            <listitem>
+                                <para>Oracle</para>
+                                <programlisting>mvn validate -Pdb,oracle -Dimpex.url=jdbc:oracle:thin:@[your-oracle-server]:1521:XE -Dimpex.dba.password=[dbapassword]</programlisting>
+                            </listitem>
+                        </itemizedlist>
+                    </para>
+                    <note>
+                        <para>Some setup may be necessary if the setup for connecting as an administrator to your
+                          database differs from the base install.  For example, if the username to connect to
+                          the database engine (often known as the 'admin' or 'root' user) is different in your
+                          setup, then you may have to add the following parameter:
+                          <programlisting>-Dimpex.dba.username=[dbaUsername]</programlisting>
+                          If for MySQL the 'root' user does not have a password (which is the default on a new
+                          install), you can either remove the parameter altogether:
+                          <programlisting>mvn validate -Pdb,mysql</programlisting>
+                          or specify 'NONE':
+                          <programlisting>mvn validate -Pdb,mysql -Dimpex.dba.password=NONE</programlisting>
+                        </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Review the options for creating your database.  The commands in the next step
+                        will verify the connection and create a new user and schema based on the default name.
+                        So, if you choose to install inside the <emphasis role="bold">master</emphasis>
+                        directory, it will create a user and schema named <emphasis role="bold">RICE</emphasis>.
+                        If you wish to change this, you can add one or more of these options to the following
+                        commands.
+                        <itemizedlist>
+                            <listitem>
+                                <emphasis role="bold">-Dimpex.username=[username]</emphasis>: Controls the user
+                                name that is created to access the schema.
+                            </listitem>
+                            <listitem>
+                                <emphasis role="bold">-Dimpex.password=[password]</emphasis>: Controls the password
+                                for the user that is created to access the schema.
+                            </listitem>
+                            <listitem>
+                                <emphasis role="bold">-Dimpex.database=[database]</emphasis>: (MySQL only) Controls
+                                the schema name that is created.
+                            </listitem>
+                        </itemizedlist>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Load the data set.</para>
+                    <para><emphasis role="bold">Running Locally:</emphasis><itemizedlist>
+                        <listitem>
+                            <para>MySQL</para>
+                            <programlisting>mvn clean install -Pdb,mysql -Dimpex.dba.password=[dbapassword] </programlisting>
+                        </listitem>
+                        <listitem>
+                            <para>Oracle</para>
+                            <programlisting>mvn clean install -Pdb,oracle -Dimpex.dba.password=[dbapassword] </programlisting>
+                        </listitem>
+                    </itemizedlist></para>
+                    <para><emphasis role="bold">Connecting to a remote database:</emphasis><itemizedlist>
+                        <listitem>
+                            <para>MySQL</para>
+                            <programlisting>mvn clean install -Pdb,mysql  -Dimpex.dba.url=jdbc:mysql://[your-mysql-instance]/ -Dimpex.dba.password=[dbapassword] </programlisting>
+                        </listitem>
+                        <listitem>
+                            <para>Oracle</para>
+                            <programlisting>mvn clean install -Pdb,oracle -Dimpex.url=jdbc:oracle:thin:@[your-oracle-server]:1521:XE  -Dimpex.dba.password=[dbapassword] </programlisting>
+                        </listitem>
+                    </itemizedlist></para>
+                </listitem>
+                <listitem>
+                    <para>Wait for the maven process to build your database (it may take a little
+                        while, especially if this is the first time you've done it and maven has to
+                        download impex and other plugins).</para>
+                </listitem>
+                <listitem>
+                    <para>You should get the following message at the end of the process.</para>
+                    <programlisting linenumbering = "numbered">[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------ </programlisting>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Verifying your Database Installation</title>
+            <para>At this point, your Kuali Rice database should be successfully installed. To
+                verify this, log into your database and verify the number of tables that are
+                present. There should be at least 200 (the number will be different for mysql and
+                oracle).</para>
+        </section>
+    </section>    
+    <section xml:id="Rice_Config">
+        <title>Configure Rice</title>
+        <section>
+            <title>Deploying the WAR file</title>
+            <para>
+                <orderedlist>
+                    <listitem>
+                        <para>Copy the kr-dev.war file from the base directory of the server
+                            distribution to the directory that contains web applications in your
+                            servlet container. For Tomcat, this is <emphasis role="bold"
+                                >[Tomcat-root-directory]/webapps</emphasis>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Copy the database-specific JDBC driver to the
+                        [Tomcat-root-directory]/lib. Examples:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>MySQL</para>
+                                <para>
+                                    <programlisting>cp -p /java/drivers/mysql-connector-java-5.1.5-bin.jar /usr/local/tomcat/lib</programlisting>
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>Oracle</para>
+                                <para>
+                                    <programlisting>cp -p /java/drivers/ojdbc14.jar /usr/local/tomcat/lib</programlisting>
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                <listitem><para>Configure the rice-config.xml File. By default when it starts, Rice attempts to read the <emphasis role="bold"
+                        >rice-config.xml</emphasis> configuration file from the paths in this order:<orderedlist>
+                        <listitem>
+                            <para>/usr/local/rice/rice-config.xml </para>
+                        </listitem>
+                        <listitem>
+                            <para>${rice.base}../../../conf/rice-config.xml </para>
+                        </listitem>
+                        <listitem>
+                            <para>${rice.base}../../conf/rice-config.xml </para>
+                        </listitem>
+                        <listitem>
+                            <para>${additional.config.locations} </para>
+                        </listitem>
+                    </orderedlist></para>
+                <para>The value for <emphasis role="bold">rice.base</emphasis> is calculated using
+                    different locations until a valid location is found. Kuali calculates it using
+                    these locations in this sequence:<orderedlist>
+                        <listitem>
+                            <para>ServletContext.getRealPath("/") </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">catalina.base</emphasis> system property
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>The current working directory</para>
+                        </listitem>
+                    </orderedlist></para>
+                <para>On Windows it also checks the following location:<orderedlist>
+                        <listitem>
+                            <para>%USERPROFILE%\kuali\main\dev</para>
+                        </listitem>
+                    </orderedlist>
+                </para>
+                <para>An example <emphasis role="bold">rice-config.xml</emphasis> file is included
+                    in the server distribution under
+                    <emphasis role="bold">config/web/src/main/config/example-config</emphasis>.
+                </para>
+                <para>Modify the following database parameters in the
+                    <emphasis role="bold">rice-config.xml</emphasis> file.  The values should conform
+                    to the values you selected in the
+                    <link linkend="Rice_DB">Building the Rice Database</link> section of this guide.
+                </para>
+                <para>
+                    <programlisting>datasource.url=jdbc:mysql://localhost:3306/rice
+datasource.username=rice
+datasource.password=rice
+datasource.url=jdbc:mysql://remoteMySQLServerComputerName:3306/rice
+datasource.username=rice
+datasource.password=rice</programlisting>
+                    </para>
+                    <para>If you are using Oracle, the JDBC URL will have this
+                        general form:</para>
+                    <para>
+                        <programlisting>datasource.url=jdbc:oracle:thin:@remoteMySQLServerComputerName:1521:ORACLE_SID</programlisting>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>At this point, you are ready to try to bring up the Tomcat
+                        server with the Rice web application:</para>
+                    <para>
+                        <programlisting>cd /usr/local/tomcat/bin
+./startup.sh</programlisting>
+                    </para>
+                </listitem>
+                <listitem>    
+                    <para>Check if Tomcat and Rice started successfully:</para>
+                    <para>
+                        <programlisting>cd /usr/local/tomcat/logs
+tail -n 500 -f catalina.out</programlisting>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>If your Rice server started up successfully, browse to the
+                        site <emphasis role="bold"
+                            >http://yourlocalip:8080/kr-dev</emphasis>. You should
+                        see the Rice portal screen which will look something like
+                        this: </para>
+                    <figure>
+                        <title>Rice Portal Main Menu</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/rice_portal_main_menu.png" scalefit="1" width="100%" contentdepth="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+            </listitem></orderedlist>
+            </para>
+            </section>
+             <section xml:id="rice_config_parameters"> 
+                    <title>Parameters</title>
+                <para>The tables below have the basic set of parameters for <emphasis role="bold"
+                    >rice-config.xml</emphasis> that you need to get an instance of Rice running.
+                Please use these tables as a beginning reference to modify your <emphasis
+                    role="bold">rice-config.xml</emphasis> file. </para>
+                <warning>
+                    <para>Make sure the <emphasis role="bold">application.url</emphasis> and
+                        database user name and password are set correctly.</para>
+                </warning>  
+                <table frame="none" tabstyle="striped">
+                    <title>Core </title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.56*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.39*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter</entry>
+                                <entry>Description</entry>
+                                <entry>Examples or Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>application.url </entry>
+                                <entry>The external URL used to access the Rice web
+                                    interface; edit only the fully-qualified domain name and
+                                    port of the server </entry>
+                                <entry>http://yourlocalip:8080/kuali-rice-url</entry>
+                            </row>
+                            <row>
+                                <entry>app.context.name</entry>
+                                <entry><para>Context name of the web application</para>
+                                    <itemizedlist>
+                                        <listitem>
+                                          <para>Essentially, the name of the WAR file</para>
+                                        </listitem>
+                                        <listitem>
+                                          <para>Used to build the path for images and help
+                                          URLs</para>
+                                        </listitem>
+                                    </itemizedlist></entry>
+                                <entry>kuali-rice-url
+                                    (This value should not be changed)
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><para>context.names._____</para><para>*See note below</para></entry>
+                                <entry><para>The context name of each web application, including
+                                    Rice, needs to be specified when the supplied portal is used. The parameter must start with "context.names." and may have a suffix of your choice (i.e. context.names.rice, context.names.kfs, context.names.kc)</para>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>context.names.app defaults to app.context.name (i.e. no configuration needed for bundled setup or the server that hosts the portal)</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>No configuration needed when the application context name is blank</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Used with default iframe portal when accessing servers</para>
+                                        </listitem>
+                                    </itemizedlist></entry>
+                                <entry>kuali-rice-web-app-url
+                                </entry>
+                            </row>
+                            <row>
+                                <entry>log4j.settings.path </entry>
+                                <entry>Path to log4j.properties file. If the file does not
+                                    exist, you must create it.</entry>
+                                <entry>/usr/local/rice/log4j.properties</entry>
+                            </row>
+                            <row>
+                                <entry>log4j.settings.reloadInterval</entry>
+                                <entry>interval (in minutes) to check for changes to the
+                                    log4j.properties file</entry>
+                                <entry>5</entry>
+                            </row>
+                            <row>
+                                <entry>mail.smtp.host</entry>
+                                <entry>SMTP host name or IP (This param is not in the
+                                    default config.) </entry>
+                                <entry>localhost</entry>
+                            </row>
+                            <row>
+                                <entry>config.location</entry>
+                                <entry>Location of configuration file to load
+                                    environment-specific configuration parameters (This
+                                    param is not in the default config.) </entry>
+                                <entry>/usr/local/rice/rice-config-${environment}.xml</entry>
+                            </row>
+                            <row>
+                                <entry>sample.enabled</entry>
+                                <entry>Enable the sample application</entry>
+                                <entry>boolean</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                 <note><para>*context.names.____: Each content source that is served from an application server that uses a
+                    context name will need a context.names.&lt;webappcontext> parameter. Replace the
+                    &lt;webappcontext> with a unique suffix of your choosing. Specify the context
+                    name of the web application server as the value of this parameter.</para><para>By default context.names.app is set to app.context.name. This allows bundled mode usage
+                    without additional configuration. With standalone mode, the server that hosts
+                    the portal also doesn't need any additional configurations thanks to
+                    context.names.app.</para><para>
+                         
+                             <emphasis role="bold">Example:</emphasis> KFS is used with a standalone Rice server.</para><para>
+                         
+                         KFS URL:http://www.example.com:8080/kfs-test/portal.do</para><para>
+                         Rice URL:http://www.example.com:8080/rice-test/portal.do</para><para>
+                         
+                         The following additional configuration is needed in the kfs-config.xml:</para><para>
+                         
+                             <code>&lt;param name="context.names.rice">rice-test&lt;/param></code></para><para> A <code>&lt;param name="context.names.kfs">kfs-test&lt;/param></code> is not needed since
+                    "kfs-test" is specified as the app.context.name.</para>
+                     <para>
+                         
+                         <emphasis role="bold">Example:</emphasis> KFS is used with a standalone Rice server.</para><para>
+                         
+                         KFS URL:http://www.example.com:8080/kfs-test/portal.do</para><para>
+                             Rice URL:http://www.example.com:8080/portal.do</para><para>
+                         
+                         
+                         No additional configuration is needed.
+                         Specifying <code>&lt;param name="context.names.rice">&lt;/param></code> would be acceptable as well.</para><para>
+                         
+                             <emphasis role="bold">Example:</emphasis> KFS is used with bundled Rice server.
+                         No additional configuration is needed.
+                 </para></note>
+            <table frame="none" tabstyle="striped">
+                <title>Database</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.2*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+                    <colspec colname="c3" colnum="3" colwidth="2.14*"/>
+                    <thead>
+                        <row>
+                            <entry>Parameter</entry>
+                            <entry>Description</entry>
+                            <entry>Examples or Values</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                            <row>
+                                <entry>datasource.ojb.platform </entry>
+                                <entry>Name of OJB platform to use for the database </entry>
+                                <entry>Oracle9i or MySQL</entry>
+                            </row>
+                            <row>
+                                <entry>datasource.platform </entry>
+                                <entry>Rice platform implementation for the database </entry>
+                                <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>org.kuali.rice.core.framework.persistence.platform.DerbyPlatform</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>org.kuali.rice.core.framework.persistence.platform.OraclePlatform</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform
+                                          </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry>datasource.driver.name </entry>
+                                <entry>JDBC driver for the database </entry>
+                                <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                          <para>org.apache.derby.jdbc.EmbeddedDriver,</para>
+                                        </listitem>
+                                        <listitem>
+                                          <para>oracle.jdbc.driver.OracleDriver</para>
+                                        </listitem>
+                                        <listitem>
+                                          <para>com.mysql.jdbc.Driver </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry>datasource.username </entry>
+                                <entry>User name for connecting to the server database </entry>
+                                <entry>rice</entry>
+                            </row>
+                            <row>
+                                <entry>datasource.password </entry>
+                                <entry>Password for connecting to the server database </entry>
+                                <entry/>
+                            </row>
+                            <row>
+                                <entry>datasource.url </entry>
+                                <entry>JDBC URL of database to connect to </entry>
+                                <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>jdbc:oracle:thin:@localhost:1521:XE</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>jdbc:mysql://localhost:3306/kuldemo </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry>datasource.pool.minSize </entry>
+                                <entry>Minimum number of connections to hold in the pool </entry>
+                                <entry>an integer value suitable for your environment</entry>
+                            </row>
+                            <row>
+                                <entry>datasource.pool.maxSize </entry>
+                                <entry>Maximum number of connections to allocate in the pool </entry>
+                                <entry>an integer value suitable for your environment</entry>
+                            </row>
+                            <row>
+                                <entry>datasource.pool.maxWait </entry>
+                                <entry>Maximum amount of time (in ms) to wait for a connection from
+                                    the pool </entry>
+                                <entry>10000</entry>
+                            </row>
+                            <row>
+                                <entry>datasource.pool.validationQuery </entry>
+                                <entry>Query to validate connections from the database </entry>
+                                <entry>select 1 from dual</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <table frame="none" tabstyle="striped">
+                    <title>KSB</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+                        <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter</entry>
+                                <entry>Description</entry>
+                                <entry>Examples or Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>serviceServletUrl </entry>
+                                <entry>URL that maps to the KSBDispatcherServlet (include a trailing
+                                    slash); This param is not in the default config. </entry>
+                                <entry></entry>
+                            </row>
+                            <row>
+                                <entry>keystore.file </entry>
+                                <entry>Path to the keystore file to use for security </entry>
+                                <entry>/usr/local/rice/rice.keystore</entry>
+                            </row>
+                            <row>
+                                <entry>keystore.alias </entry>
+                                <entry>Alias of the standalone server's key </entry>
+                                <entry>see section entitled Generating the Keystore</entry>
+                            </row>
+                            <row>
+                                <entry>keystore.password </entry>
+                                <entry>Password to access the keystore and the server's key </entry>
+                                <entry>see section entitled Generating the Keystore</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table> 
+                <table frame="none" tabstyle="striped">
+                    <title>KEN</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+                        <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter</entry>
+                                <entry>Description</entry>
+                                <entry>Examples or Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>notification.basewebappurl </entry>
+                                <entry>Base URL of the KEN web application (This param is not in the
+                                    default config.) </entry>
+                                <entry></entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table> 
+                <table frame="none" tabstyle="striped">
+                    <title>KEW</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+                        <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter</entry>
+                                <entry>Description</entry>
+                                <entry>Examples or Values</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>workflow.url </entry>
+                                <entry>URL to the KEW web module</entry>
+                                <entry>${application.url}/kew</entry>
+                            </row>
+                            <row>
+                                <entry>plugin.dir </entry>
+                                <entry>Directory from which plugins will be loaded </entry>
+                                <entry>/usr/local/rice/plugins</entry>
+                            </row>
+                            <row>
+                                <entry>attachment.dir.location </entry>
+                                <entry>Directory where attachments will be stored (This param is not
+                                    in the default config.) </entry>
+                                <entry/>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>   
+              </section>     
+            </section>
+    <section xml:id="keystore">
+        <title>Setup a Keystore</title>
+        <para>For client applications to consume secured services hosted from a Rice server, you
+            must generate a keystore. As an initial setup, you can use the keystore provided by
+            Rice. Once a keystore is generated, you must configure the KSB to use the
+            keystore.</para>
+        <section>
+            <title>Generating a Keystore</title>
+            <para>There are three ways to get this keystore:<orderedlist>
+                <listitem>
+                    <para>If you are doing a source code build of Rice, it is in the directory <emphasis
+                        role="bold">&lt;source root>/security</emphasis> and it has a file name of
+                        <emphasis role="bold">rice.keystore</emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>The keystore is also located in the server distribution under the security
+                        directory. </para>
+                </listitem>
+                <listitem>
+                    <para>You can generate the keystore yourself. Please refer to the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KSB_Guide.html#security_and_keystores">Security and Keystores</link> 
+                        section in the KSB Guide for the steps to accomplish this.</para>
+                </listitem>
+            </orderedlist></para>
+        </section>
+        <section>
+            <title>Configure KSB to use the keystore</title>
+            <para>You must have these params in the xml config to allow KSB to use the keystore:</para>
+            <para>
+                <programlisting linenumbering = "numbered">&lt;param name="keystore.file">/usr/local/rice/rice.keystore&lt;/param>
+&lt;param name="keystore.alias">rice&lt;/param>
+&lt;param name="keystore.password">r1c3pw&lt;/param>            </programlisting>
+            </para>    
+            <itemizedlist>
+                <listitem>
+                    <para>keystore.file - The location of the keystore</para>
+                </listitem>
+                <listitem>
+                    <para>keystore.alias - The alias used in creating the keystore above</para>
+                </listitem>
+                <listitem>
+                    <para>keystore.password - This is the password of the alias AND the keystore. This
+                        assumes that the keystore is set up so that these are the same. </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

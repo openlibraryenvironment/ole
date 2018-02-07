@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+<bean id="KEW-StatView" parent="Uif-FormView">
+    <property name="id" value="KEW-StatView"/>
+    <property name="headerText" value="Workflow Statistics"/>
+    <property name="formClass" value="edu.sampleu.kew.krad.form.StatsForm"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="page1" p:autoFocus="false" p:validationMessages.displayFieldLabelWithMessages="false">
+           <property name="items">
+             <list>
+		          <ref bean="aggregatesSection"/>
+		          <ref bean="dateRangesSection"/>
+         	 </list>
+          </property> 
+        </bean> 
+      </list>
+    </property>    
+    <property name="footer">
+	<ref bean="Footer_RefreshCancel" />
+   </property>
+</bean>
+
+   <bean id="aggregatesSection" parent="Uif-GridSection" p:disclosure.render="false" p:layoutManager.numberOfColumns="4">
+      <property name="headerText" value="Aggregates"/>
+      <property name="fieldBindByNamePrefix" value="stats"/>
+      <property name="items">
+        <list>
+        	<bean parent="Uif-InputField" p:propertyName="numDocTypes" p:fieldLabel.align="right" p:label="Number of Document Types" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	       <bean parent="Uif-InputField" p:propertyName="numUsers" p:label="Number of Users" p:fieldLabel.align="right" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2"/>
+	       <bean parent="Uif-InputField" p:propertyName="numActionItems" p:fieldLabel.align="right" p:label="Number of Active Items In All Action Lists" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2"/>
+	       <bean parent="Uif-Label" p:labelText="Number of Documents Initiated in the Last 30 Days" p:colSpan="2" p:align="right" p:requiredMessage.render="false"/>
+	       
+	       <bean id="testSection4" parent="Uif-Disclosure-GridSection" p:disclosure.render="false" p:colSpan="2">
+      		 <property name="layoutManager">
+        	 	<bean parent="Uif-GridLayoutBase"/>
+      	     </property>
+      		 <property name="items">
+        		<list>
+        			<ref bean="docInfoCollection"/>
+        		</list>	
+      		</property> 
+   		  </bean>  
+   		</list>
+   	  </property>
+  </bean>   
+  
+  <bean id="docInfoCollection" parent="Uif-StackedCollectionSection" p:disclosure.render="false" p:header.render="false">
+  <!-- <bean id="docInfoCollection" parent="Uif-TableCollectionSection" p:disclosure.render="false" p:header.render="false" p:layoutManager.numberOfColumns="2"> -->
+      <property name="collectionObjectClass" value="org.kuali.rice.core.api.util.ConcreteKeyValue"/>
+      <property name="propertyName" value="stats.numInitiatedDocsByDocType"/>
+      <property name="items">
+        <list>
+          <!-- <bean parent="Uif-Label" p:labelText="#line.key"/>
+          <bean parent="Uif-Label" p:labelText="#line.value"/> -->
+          <bean parent="Uif-InputField" p:propertyName="key"  p:showLabel="false" p:readOnly="true"/>
+	       <bean parent="Uif-InputField" p:propertyName="value"  p:showLabel="false" p:readOnly="true"/>
+        </list>
+      </property>  
+      <property name="renderAddLine" value="false"/>
+      <property name="renderLineActions" value="false"/>
+   </bean> 
+   
+    <bean id="dateRangesSection" parent="Uif-GridSection" p:disclosure.render="false" p:layoutManager.numberOfColumns="4">
+      <property name="headerText" value="Date Range"/>
+      <property name="items">
+        <list>
+        	<bean parent="Uif-InputField" p:propertyName="begDate" p:label="Begin Date">
+	           <property name="control">
+              		<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+               </property>
+	        </bean>
+	        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date">
+	           <property name="control">
+              		<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+               </property>
+	        </bean>
+	        <bean parent="Uif-Label" p:labelText="Routing Status" p:colSpan="2" p:requiredMessage.render="false" p:align="center" p:renderColon="false"/>
+            <bean parent="Uif-Label" p:labelText="Number of Documents for Date Range" p:colSpan="2" p:requiredMessage.render="false" p:align="center" p:renderColon="false"/>
+        	<!-- <bean parent="Uif-InputField" p:propertyName="stats.approvedNumber" p:fieldLabel.align="right" p:label="APPROVED" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" /> -->
+	        <bean parent="Uif-InputField" p:propertyName="stats.canceledNumber" p:fieldLabel.align="right" p:label="CANCELED" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        <bean parent="Uif-InputField" p:propertyName="stats.disapprovedNumber" p:fieldLabel.align="right" p:label="DISAPPROVED" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        
+	        <bean parent="Uif-InputField" p:propertyName="stats.enrouteNumber" p:fieldLabel.align="right" p:label="ENROUTE" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        <bean parent="Uif-InputField" p:propertyName="stats.exceptionNumber" p:fieldLabel.align="right" p:label="EXCEPTION" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        <bean parent="Uif-InputField" p:propertyName="stats.finalNumber" p:fieldLabel.align="right" p:label="FINAL" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        <bean parent="Uif-InputField" p:propertyName="stats.initiatedNumber" p:fieldLabel.align="right" p:label="INITIATED" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        <bean parent="Uif-InputField" p:propertyName="stats.processedNumber" p:fieldLabel.align="right" p:label="PROCESSED" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+	        <bean parent="Uif-InputField" p:propertyName="stats.savedNumber" p:fieldLabel.align="right" p:label="SAVED" p:readOnly="true" p:colSpan="2" p:fieldLabel.colSpan="2" />
+   		</list>
+   	  </property>
+  </bean>   
+  
+ <bean id="Footer_RefreshCancel" parent="Uif-FooterBase">
+      <property name="items">
+        <list> 
+          <bean parent="Uif-PrimaryActionButton" p:methodToCall="refresh" p:actionLabel="refresh"/>
+          <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" />
+        </list>
+      </property>
+  </bean>  
+  
+</beans>

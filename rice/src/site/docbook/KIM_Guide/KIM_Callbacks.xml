@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Callbacks" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>KimTypeService Callbacks</title>
+    
+    <section>
+        <title>Implementing Custom KIM Types</title>
+        
+        <para>KIM uses the concept of "types" to define additional attributes
+            for it's various objects (such as groups, roles, permissions, etc.) and
+            to affect their behavior.</para>
+        
+        <para>All custom type services must implement a sub-interface of
+            <code>org.kuali.rice.kim.framework.type.KimTypeService</code> based on
+            the kind of custom type being created and the KIM objects it will be
+            related to. The current type services supported by KIM are as
+            follows:<itemizedlist>
+                <listitem>
+                    <para><code>GroupTypeService</code></para>
+                </listitem>
+                
+                <listitem>
+                    <para><code>RoleTypeService</code></para>
+                </listitem>
+                
+                <listitem>
+                    <para><code>PermissionTypeService</code></para>
+                </listitem>
+                
+                <listitem>
+                    <para><code>ResponsibilityTypeService</code></para>
+                </listitem>
+                
+                <listitem>
+                    <para><code>DelegationTypeService</code></para>
+                </listitem>
+            </itemizedlist></para>
+        
+        <para>In addition to the interfaces provided above, KIM provides a
+            standard set of implementations of each of these which can be extended
+            by your application in order to inherit standard default behavior
+            (including integration with the KNS Data Dictionary for reading and
+            defining custom attributes). More detailed information about these base
+            classes can be found in the KIM javadocs. Your custom type service class
+            should extend the appropriate subclass and only override the methods
+            necessary to implement your custom behavior. Use the methods in these
+            classes as the basis for your custom code.</para>
+        
+        <para>For example, you might define a custom
+            <code>PermissionTypeService</code> by extending
+            <code>org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase</code>
+            as follows:</para>
+        
+        <programlisting>import org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase;
+
+public class MyPermissionTypeService extends PermissionTypeServiceBase {
+
+    @Override
+    protected boolean performMatch(Map&lt;String, String&gt; inputMap, Map&lt;String, String&gt; storedMap) {
+        if (some_condition_is_true) {
+            // perform custom matching logic
+            ...
+        } else {
+            return super.performMatch(inputMap, storedMap); // execute the default logic from base class
+        }
+    }
+
+}
+                </programlisting>
+        
+        <para>Detailed documentation on the specific methods which can be
+            implemented on <code>KimTypeService</code> and it's various
+            sub-interfaces can be found in the KIM javadocs.</para>
+    </section>
+    
+    <section>
+        <title>Configuring Custom KIM Types</title>
+        
+        <para>Groups, Roles, Permissions, Responsibilities, and Delegations can
+            all have custom types in KIM. These custom types can be mapped back to
+            the KIM type services that you create. In order to do this, there are a
+            few things you must do:<itemizedlist>
+                <listitem>
+                    <para>Register the KIM Type which points to your custom type
+                        service</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Update any of the "typed" KIM objects that you want to point
+                        to your new KIM type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Publish your KIM type service so that it is available on the
+                        Kuali Service Bus and the Rice resource loader framework</para>
+                </listitem>
+            </itemizedlist>Currently, there is no way to register a new KIM Type
+            without updating the KIM database using SQL. Fortunately, this is a
+            fairly simple thing to do. The database table storing KIM Types is named
+            <code>KRIM_TYP_T</code>. An example of how to insert a new KIM Type into
+            this table in Oracle is below:<programlisting>INSERT INTO KRIM_TYP_T (
+    KIM_TYP_ID,
+    NMSPC_CD,
+    NM,
+    SRVC_NM,
+    OBJ_ID)
+VALUES (
+    KRIM_TYP_ID_S.NEXTVAL,
+    'MyNamespace',
+    'MyPermissionType',
+    '{http://myapp.myu.edu}myPermissionTypeService',
+    SYS_GUID()) </programlisting></para>
+        
+        <para>One of the most important things to note about this is the service
+            name (SRVC_NM) column. As we can see in the example above, for this KIM
+            type we are linking it to a service named
+            <code>{http://myapp.myu.edu}myPermissionTypeService</code>. This is how
+            KIM will look up your custom type service whenever it needs to load and
+            invoke it.<footnote>
+                <para>While the service name here is a single string value, it will
+                    be parsed into a <code>javax.xml.namespace.QName</code> object using
+                    that classes <code>valueOf(...)</code> method. This means that, for
+                    our example of
+                    <code>{http://myapp.myu.edu}myPermissionTypeService</code>, it will
+                    get parsed into a QName which is equivalent to <code>new
+                        QName("http://myapp.myu.edu",
+                        "myPermissionTypeService")</code>.</para>
+            </footnote> It does this through the Rice resource loading framework
+            which includes locally available services defined in Spring as well as
+            services published on the Kuali Service Bus. For KIM type services, it's
+            generally required to deploy them onto the KSB because the user
+            interface components of KIM will use these when determining which custom
+            attributes may need to be displayed and collected on it's various
+            screens.</para>
+        
+        <para>More information on how to publish these services can be found in
+            the next section.</para>
+        
+        <para>Once the KIM type has been registered, it will be assigned an ID,
+            this is the value of the <code>KIM_TYP_ID</code> column after the record
+            has been inserted. This ID can then be used to associate the type with
+            the appropriate and desired data elements in KIM.</para>
+        
+        <para>For example, to associate the custom
+            <code>PermissionTypeService</code> you created earlier with one of your
+            permission templates, you can execute the following SQL (assuming the ID
+            of your new KIM type is 10000):<programlisting>UPDATE KRIM_PERM_TMPL_T SET KIM_TYP_ID = '10000'
+WHERE NMSPC_CD = 'MyNamespace' AND NM = 'MyPermissionTemplate'</programlisting></para>
+        
+        <para>Once this is complete, any existing or new permissions you create
+            with this template will use your custom KIM type and it's associated
+            type service.</para>
+    </section>
+    
+    <section>
+        <title>Publishing Custom KIM Types to the Kuali Service Bus</title>
+        
+        <para>As mentioned previously, KIM type services should be published
+            onto the Kuali Service Bus in order to allow the KIM user interface
+            functionality (which is typically deployed on the Rice Standalone
+            Server) to access the services remotely. Since KIM type services are
+            considered "callback" services because of the fact that the standalone
+            server makes callbacks to them, the
+            <code>org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter</code>
+            should be used.</para>
+        
+        <para>Information on how to export and publish a callback service can be
+            found in <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KSB_Guide.html#callback_service_exporter">
+                CallbackServiceExporter section of the KSB Guide</link>.</para>
+        
+        <para>Assuming you have already wired up your custom
+            PermissionTypeService implementation in your Spring file under a bean id
+            of "myPermissionTypeService", an example Spring configuration which will
+            publish the service would look like the following:<programlisting>&lt;bean id="myPermissionTypeService.exporter"
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:callbackService-ref="myPermissionTypeService"
+      p:serviceNameSpaceURI="http://myapp.myu.edu"
+      p:localServiceName="myPermissionTypeService"
+      p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService"/&gt;</programlisting></para>
+    </section>
+</chapter>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+  <!-- is there a simpler way to define extension values...so that I don't have to define
+       this bogus attribute and rule template? -->
+
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+    <ruleAttribute>
+      <name>TestAttribute</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>TestAttribute</label>
+      <description>TestAttribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="TestAttribute" title="TestAttribute" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>
+              true
+            </xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+
+    <ruleAttribute>
+      <name>TestAttribute2</name>
+      <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+      <label>TestAttribute2</label>
+      <description>TestAttribute2</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="TestAttribute2" title="TestAttribute2" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>
+              true
+            </xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+
+  </ruleAttributes>
+
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+                 xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate allowOverwrite="true">
+      <name>TestTemplate</name>
+      <description>TestTemplate</description>
+      <attributes>
+        <attribute>
+          <name>TestAttribute</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>TestAttribute2</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+    <ruleTemplate allowOverwrite="true">
+      <name>TestTemplate2</name>
+      <description>TestTemplate2</description>
+      <attributes>
+        <attribute>
+          <name>TestAttribute</name>
+          <required>false</required>
+        </attribute>
+        <attribute>
+          <name>TestAttribute2</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+  </ruleTemplates>
+
+  <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>TestDocumentType</documentType>
+            <ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>DuplicateTestRule</description>
+			<forceAction>false</forceAction>
+      <ruleExtensions>
+        <ruleExtension>
+          <attribute>TestAttribute</attribute>
+          <ruleTemplate>TestTemplate</ruleTemplate>
+          <ruleExtensionValues>
+            <ruleExtensionValue>
+              <key>color</key>
+              <value>green</value>
+            </ruleExtensionValue>
+            <ruleExtensionValue>
+              <key>shape</key>
+              <value>square</value>
+            </ruleExtensionValue>
+          </ruleExtensionValues>
+        </ruleExtension>
+      </ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<principalName>user1</principalName>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_ExceptionMessaging" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>KSB Exception Messaging</title>
+    
+    <para>Exception Messaging is the set of services and configuration options
+        that handle messages that cannot be delivered successfully. Exception
+        Messaging is primarily used by configuring your service using the
+        properties outlined in KSB Module Configuration. When services are
+        configured to use message persistence and there is a problem invoking a
+        service, the persisted message or service call is relied upon to make
+        another call to that service until the call is either:<orderedlist>
+            <listitem>
+                <para>Successful</para>
+            </listitem>
+            
+            <listitem>
+                <para>Certain configuration policies have been met and the message
+                    goes into the Exception state</para>
+            </listitem>
+        </orderedlist></para>
+    
+    <para>The Exception state means that KSB can't doing anything more with
+        this message. The message will not invoke properly. That generally means
+        that some sort of technical intervention is required by both the consumer
+        and the provider of the service to determine what the problem is.</para>
+    
+    <para>All Exception behavior is configurable at the service level by
+        setting the name of the class to be used as MessageExceptionHandler. This
+        class determines what to do when a client of a service cannot invoke a
+        message. The DefaultMessageExceptionHandler is enough to meet most
+        requirements.</para>
+    
+    <para>When a message is put into the Exception state, KSB puts it back
+        into the message store and marks it with a status of 'E'. At that point,
+        it is up to the person responsible for monitoring this node on the bus to
+        determine what to do with the message.</para>
+    
+    <para>Because the node exposing the service configures the
+        MessageExceptionHandler, any clients depending on the service need that
+        MessageExceptionHandler and any dependent code and configuration.</para>
+</chapter>

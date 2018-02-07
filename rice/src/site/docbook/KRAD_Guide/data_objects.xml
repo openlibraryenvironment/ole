@@ -1,0 +1,832 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="data_objects" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title> Data Objects </title>
+    <section>
+        <title> Data Objects and Business Objects </title>
+        <section>
+            <title>Data Objects</title>
+            <para>We begin our training for the Kuali Rapid Application Development framework with the
+                data access layer. Enterprise applications generally have a large number of CRUD (Create
+                Read Update Delete) operations; therefore, the access of data is a very important
+                concern of development. KRAD builds on top of other tools to provide general facilities
+                that greatly reduce the development time. These facilities are known as the KRAD
+                Persistence Framework. </para>
+            <para>The foundation of the KRAD Persistence Framework is the third party ORM (Object
+                Relational Mapping) tool. ORM tools target the persistence of data with a relational
+                database. This is achieved by mapping a Java object that contains the data to one or
+                more database tables. When a persistence operation is requested, the ORM tool performs
+                the work of translating the request along with the corresponding object(s) to the
+                necessary DML statement. This provides a great advantage to the application as it
+                generally requires no database dependent code (database specific code might be required
+                in certain cases). More information on particular ORM tooling will be provided in the
+                sections 'OJB Primer' and 'Using JPA'. </para>
+            <para>In order to prepare our application for persisting data using an ORM tool, we must
+                build the objects that will hold the application data. From the established data model,
+                we can determine the objects needed using a mapping strategy. Although the strategies
+                and options available depend on the ORM solution we are using, generally we have the
+                following mapping options: <orderedlist>
+                    <listitem>
+                        <para> One table to one object </para>
+                    </listitem>
+                    <listitem>
+                        <para> One table to multiple objects (polymorphism) </para>
+                    </listitem>
+                    <listitem>
+                        <para> Multiple tables to one object </para>
+                    </listitem>
+                </orderedlist></para>
+            <para>Once we have determined how an object will relate with its database table(s), each
+                object property is associated with a table column through configuration. This
+                configuration will also give the ORM tool information on data type conversion and
+                constraints. The final piece to our object mapping is specifying any relationships.
+                This includes one-to-one, one-to-many, and many-to-many relationships. </para>
+            <tip><para>Referential Integrity: It is not required to have referential integrity set up in the database
+                    for relationships declared for the persistent metadata. However, it is generally
+                    good practice to do so.</para></tip>
+            <para>Now let's set aside the mapping concerns and have a closer look at our 'data' objects.
+                Technically, these objects are not complex at all. First, they must adhere to the POJO
+                (Plain Old Java Object) and JavaBean guidelines. These guidelines are as follows: <orderedlist>
+                    <listitem>
+                        <para>Is Serializable (implements the java.io. Serializable interface) </para>
+                    </listitem>
+                    <listitem>
+                        <para>Has a no-arg constructor </para>
+                    </listitem>
+                    <listitem>
+                        <para>Provides property getter and setter methods using the conventional
+                            (get{PropertyName} for getter, set{PropertyName} for setter, and
+                            is{PropertyName} for Booleans) </para>
+                    </listitem>
+                </orderedlist></para>
+            <para>In addition to the 'primitive' property types a data object may contain, a data
+                object may also be composed of nested data objects (representing a one-to-one
+                relationship), or a collection of data objects (representing a one-to-many
+                relationship). </para>
+            <tip><para><emphasis role="keyword">Related Data Objects</emphasis>: It is important to setup the related
+                    data object properties. As we will see later on, the framework can take care of
+                    many things for us automatically based on the metadata derived from these
+                    relationships. </para></tip>
+            <para>Next, well that's it! However, as we will see in just a bit, in order to take
+                advantage of the additional persistence features KRAD provides, there is one
+                additional thing we need to add. </para>
+            <para>KRAD refers to any object that provides data as a 'Data Object'. Data objects provide
+                a very central role in an enterprise application. Within the suggested KRAD
+                architecture, they are not bound to just the data access layer, but can freely move
+                between the other application layers as well. This means we can use data objects in our
+                services, and we can use them to build our user interfaces. </para>
+            <tip><para><emphasis role="keyword">'Data Object'</emphasis>: The 'Data Object' term can refer to objects
+                    that are mapped to a persistence mechanism, but also might not be. For example,
+                    it might be an object whose data is assembled by a service call, which in turn
+                    interacts with other persisted objects or other services. This flexibility is
+                    important for allowing other KRAD modules to be used with a variety of data
+                    sources and strategies.</para></tip>
+            <para><emphasis role="bold">Best Practice</emphasis>: Keep data objects simple! Try to avoid
+                introducing any business logic or presentation logic into the objects. </para>
+        </section>
+        <section>
+            <title>Business Objects </title>
+            <para>A special type of data object in KRAD is known as a Business Object. These are
+                data objects that implement the interface org.kuali.rice.krad.bo.BusinessObject.
+                There are two primary types of business object: those that persist to the database
+                and those that do not. Those business objects that do persist to the database should
+                implement the org.kuali.rice.krad.bo.PersistableBusinessObject interface. This
+                interface adds persistence related methods that are invoked throughout the
+                framework. </para>
+            <para>Generally, when creating a new data object, it is more convenient to extend one of
+                the provided base classes that implement the necessary interfaces. For persistable
+                objects, this base class is org.kuali.rice.krad.bo. PersistableBusinessObjectBase.
+                Within this base class, default implementations for the persistable methods exist
+                along with properties for the common fields required for all persisted objects.
+                These are described in more detail later on in this section. Business objects that
+                do not persist to the database can extend
+                org.kuali.rice.krad.bo.TransientBusinessObjectBase. </para>
+            <tip><para><emphasis role="keyword">Transient Business Objects</emphasis>: Transient business objects were
+                    necessary in earlier versions of Rice, due to the framework requiring all
+                    objects to be business objects (including the UI generation). With version 2.0
+                    of Rice and KRAD, this restriction no longer exists; therefore there is really
+                    no need for the transient business object concept. </para></tip>
+            <para>In order to take advantage of all the features KRAD provides, it is recommended
+                that all persistable objects (and therefore tables) contain two properties: <orderedlist>
+                    <listitem>
+                        <para>Version Number – This property holds a version for the record that is
+                            maintained by the ORM tool to perform optimistic locking. The number is
+                            initially set to 0. Each time the record is updated, the version number
+                            is incremented. Before updating the record, the ORM tool performs a
+                            comparison between the version number on the data object, and the
+                            version number of the record in the database. If they are different, the
+                            tool knows the record has been updated since the record was pulled and
+                            throws an optimistic lock exception. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Object Id – This property holds a GUID value for each record in the
+                            database. This is used in the framework as an alternate key for the
+                            record. Example usages of the object id include the notes and
+                            attachments framework. Notes are associated with a record by its object
+                            id. Another example is its use within the multi-value lookup framework.
+                            Selected records are identified and retrieved based on their unique
+                            object ids. </para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+        <section>
+            <title>Special Business Objects </title>
+            <para>Additional functionality exists for a few special types of business objects. One
+                of these special types is business objects that have an active status. That is, each
+                record has a state of active (which generally means the record is valid for using)
+                or inactive (meaning the record should not be used due to being old or not currently
+                valid). Objects of this type should implement the Inactivatable interface. This
+                interface requires the methods isActive() and setActive(Boolean active) to be
+                implemented. </para>
+            <para>The simplest form of inactivatable business objects are those that maintain a
+                single field that indicates the active status as a Boolean field. Another common
+                case is that of an active date range (also known as effective dating). These objects
+                maintain two fields that work together for determining the active status. This first
+                of these fields is the active begin date which indicates the date on which the
+                record becomes active. This field can have a null value indicating the record is
+                active for all dates before the end date. The second field is the active end date
+                which indicates the date on which the record becomes inactive. This field can have a
+                null value indicating the record has no inactive date set. </para>
+            <para> Record is active if:
+                <programlisting linenumbering = "numbered">(activeFromDate == null ||
+    asOfDate >= activeFromDate.getMillis()) &amp;&amp;  (activeToDate == null ||
+    asOfDate &lt; activeToDate.getMillis());   </programlisting>
+                where the asOfDate is the current date or a date we wish to simulate the active
+                check for. </para>
+            <para>For inactivatable business objects that use effective dating, the
+                org.kuali.rice.krad.bo.InactivatableFromToImpl class can be extended which holds the
+                necessary properties and implements the logic necessary to determine the active
+                status (note that this class implements the Inactivatable and InactivatableFromTo
+                interfaces). </para>
+            <para>When an object is marked as inactivatable, KRAD will give us some nice features
+                for handling the active status: <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Validation of active status for foreign key
+                                fields </emphasis></para>
+                        <para>As we will see later on in the section 'Automatic Validation', KRAD
+                            can perform a lot of the common validation tasks for us. One of these is
+                            known as default existence checks. This is validation that is performed
+                            on one or more user inputted fields to verify the value given exists in
+                            the related database table. To perform this validation, the framework
+                            uses the configured relationship for the inputted fields (inputted
+                            fields are the foreign keys). In addition to performing the existence
+                            checks, we can ask for the active status to be verified as well. If the
+                            record exists but the active flag is false, an error message will be
+                            displayed to the user. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Inactivation Blocking </emphasis></para>
+                        <para>Changing the active status for a record to false (or inactive) is
+                            known as inactivation. Problems with data integrity can occur if we
+                            inactivate a record that is referenced (by a foreign key relationship)
+                            by another active record. For these cases we want to ensure the record
+                            with the relationship is inactivated before the related record. Using a
+                            feature known as Inactivation Blocking we can disallow the user from
+                            inactivating a record when this condition exists. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Inactive Collection Row Filtering</emphasis>
+                        </para>
+                        <para>When displaying a collection with the UIF (User Interface Framework)
+                            whose items implement the Inactivatable interface, a filter is presented
+                            allow the user to view all records or only those that are active.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Key Value Finders</emphasis>
+                        </para>
+                        <para>UI controls like the select and radio group can get their option
+                            values from a class known as KeyValueFinder (more on this in 'Types of
+                            Controls'). For easy building of these option classes, the UIF provides
+                            a generic configurable KeyValueFinder that will exclude inactive records
+                            from the options list if the option providing class implements
+                            Inactivatable. </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Another special type of business objects are code/name objects. These objects all
+                contain a field that represents a code, and a field that gives the name for that
+                code (or description). In many cases these are the only two fields present. Business
+                objects of this type should implement the org.kuali.rice.krad.bo.KualiCode interface
+                (or extend org.kuali.rice.krad.bo.KualiCodeBase). When presenting code values that
+                have a related object of type KualiCode, the framework will do translation to
+                display the name or the code and name. </para>
+            <tip><para><emphasis role="bold">Planned Feature</emphasis></para>
+                <para><emphasis role="bold">Code Table:</emphasis> In the future KRAD will provide
+                    the facilities for storing KualiCode objects in a single code table. This will
+                    allow new codes to be created quickly (without the need for a table and
+                    mapping). </para></tip>
+        </section>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Data objects are standard JavaBeans that hold application data. Generally,
+                        the data from these objects is persisted to the database with use of an ORM
+                        tool.</para>
+                </listitem>
+                <listitem>
+                    <para>Metadata provides the mapping between a data object class and a database
+                        table. Each object property is mapped to a table field, and one-to-one,
+                        one-to-many, and many-to-many relationships can be configured. </para>
+                </listitem>
+                <listitem>
+                    <para>Data objects are a central piece to the KRAD framework. These objects and
+                        their metadata are used to provide features such as inquiries, lookups,
+                        maintenance, and validation. </para>
+                </listitem>
+                <listitem>
+                    <para>A business object is a special kind of data object that provides
+                        properties and methods for persistence and other framework functionality.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>All persistable data objects should have the version number and object id
+                        properties. </para>
+                </listitem>
+                <listitem>
+                    <para>Business objects that have an active status implement the Inactivatable
+                        interface.</para>
+                </listitem>
+                <listitem>
+                    <para>KRAD provides additional functionality for inactivatable objects. </para>
+                </listitem>
+                <listitem>
+                    <para>KualiCode represents a business object that has a code and name property.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>OJB Primer </title>
+        <para><link xlink:href="http://db.apache.org/ojb/">Apache ObJectRelationalBridge</link>
+            (OJB) is an Object/Relational mapping tool that allows transparent persistence for Java
+            Objects against relational databases. OJB takes care of building and executing all the
+            necessary database statements (SQL) for managing the persistence of an application's
+            data. This not only saves a lot of development time, but also allows for easier support
+            of multiple database vendors. This section will cover the basics of OJB necessary for
+            KRAD development. </para>
+        <tip><para>The OJB Project: OJB is a 'dead' project, meaning no active work is being done to enhance the
+                codebase. Rice is in the process of migrating from OJB to <link
+                    xlink:href="http://www.oracle.com/technetwork/articles/javaee/jpa-137156.html"
+                    >JPA</link> (Java Persistence Architecture) with a Hibernate backend. The
+                timeline for completion of that work is in 2013 with the release of Rice 2.3. It is
+                possible currently to use JPA in a Rice application, however some of the persistence
+                features provided need to be implemented by the application.</para></tip>
+        <para>We make use of OJB with XML that provides the mapping metadata. Generally each
+            application module has one or more files that contain this XML. These files are picked
+            up through the module configuration (see New Project Setup):
+            <programlisting linenumbering = "numbered">&lt;bean id="sampleAppModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    ... 
+    &lt;property name="databaseRepositoryFilePaths">
+        &lt;list>
+            &lt;value>OJB-repository-sampleapp.xml&lt;/value>
+        &lt;/list>
+    &lt;/property>
+&lt;/bean>    </programlisting></para>
+        <section>
+            <title> OJB XML METADATA </title>
+            <para>All OJB files must begin with the standard XML declaration, and then the OJB
+                doctype tag (root element):
+                <programlisting linenumbering = "numbered">&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;descriptor-repository version="1.0">
+...
+&lt;/descriptor-repository>  </programlisting></para>
+            <para>Next, our OJB file must contain a jdbc-connection-descriptor which configures the
+                database connection OJB will use for the contained mappings:
+                <programlisting linenumbering = "numbered">&lt;jdbc-connection-descriptor
+    jcd-alias="dataSource"  default-connection="false"
+    jdbc-level="3.0" eager-release="false" batch-mode="false" useAutoCommit="0"
+    ignoreAutoCommitExceptions="false">  &lt;object-cache
+    class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />  
+    &lt;sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+        &lt;attribute attribute-name="property.prefix" attribute- value="datasource.ojb.sequenceManager" />
+    &lt;/sequence-manager>
+&lt;/jdbc-connection-descriptor>   </programlisting></para>
+            <para>Note that jcd-alias="dataSource" refers to the name of the data source configured
+                in spring bean XML. Also note the use of the Rice ConfigurableSequenceManager. This
+                allows configuration through the Rice configuration API of the sequence for a
+                property (such as starting sequence value). </para>
+        </section>
+        <section>
+            <title>CLASS DESCRIPTORS </title>
+            <para>New data object mappings are added to OJB by adding a class-descriptor tag. One or
+                more class descriptors can be added to an OJB file after the
+                jdbc-connection-descriptor. With the class descriptor, we must specify the fully
+                qualified java class for mapping with the class attribute and the database table
+                name with the table attribute:
+                <programlisting linenumbering = "numbered">&lt;class-descriptor class="org.kuali.rice.krad.demo.travel.account.TravelAccount" table="TRV_ACCT">
+    ... 
+&lt;/class-descriptor>      </programlisting></para>
+        </section>
+        <section>
+            <title>FIELD DESCRIPTORS </title>
+            <para>Now that we have our object-table mapping with the class descriptor, we can start
+                mapping the primitive fields of our object using a field-descriptor tag. We place
+                the field descriptors inside our class descriptor, indicating they all belong to
+                that class. With the field descriptor we must specify the property name using the
+                name attribute, and the table column name using the column attribute. In addition,
+                we need to specify the JDBC type for the table column using the jdbc-type attribute.
+                This indicates to OJB how it should convert the value between the database and
+                object layers. </para>
+            <programlisting linenumbering = "numbered">&lt;field-descriptor name="name" column="acct_name" jdbc-type="VARCHAR" /&gt;     </programlisting>
+            <para> Some common jdbc types and their corresponding Java type are as follows: <table
+                frame="all" tabstyle="striped">
+                    <title>JDBC Types to Java Type</title>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>JDBC Type</entry>
+                                <entry>Java Type</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry> VARCHAR </entry>
+                                <entry> String </entry>
+                            </row>
+                            <row>
+                                <entry> NUMERIC </entry>
+                                <entry> BigDecimal </entry>
+                            </row>
+                            <row>
+                                <entry> DECIMAL </entry>
+                                <entry> BigDecimal </entry>
+                            </row>
+                            <row>
+                                <entry> INTEGER </entry>
+                                <entry> int </entry>
+                            </row>
+                            <row>
+                                <entry> BIGINT </entry>
+                                <entry> long </entry>
+                            </row>
+                            <row>
+                                <entry> DOUBLE </entry>
+                                <entry> double </entry>
+                            </row>
+                            <row>
+                                <entry> DATE </entry>
+                                <entry> java.sql.Date </entry>
+                            </row>
+                            <row>
+                                <entry> TIMESTAMP </entry>
+                                <entry> java.sql.Timestamp </entry>
+                            </row>
+                            <row>
+                                <entry> CLOB </entry>
+                                <entry> clob </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table></para>
+        </section>
+        <section>
+            <title> DATATYPE CONVERSION </title>
+            <para>Based on the given jdbc type, OJB can then convert the database value to the
+                appropriate type for the base Java types. However, KRAD provides some additional
+                data types, and applications may develop their own as well. In these cases, OJB will
+                not be able to convert the value itself. However, OJB does provide a conversion
+                facility that we can hook into and perform the necessary conversion. </para>
+            <para>We must create a class that implements the OJB interface
+                org.apache.ojb.broker.accesslayer.conversions.FieldConversion. This requires us to
+                then implement two methods. The first is named javaToSql and is invoked to convert
+                the custom Java type to one of the Java types supported by OJB. The second method is
+                named sqlToJava and is invoked to convert the value coming from the database to our
+                custom type. In short, OJB will perform the standard conversion based on the table
+                above, then invoke our converter class to convert from the base Java type to the
+                custom type. </para>
+            <programlisting>public class OjbKualiDecimalFieldConversion implements FieldConversion {
+    private static final long serialVersionUID = 2450111778124335242L;  
+    /** 
+     * @see FieldConversion#javaToSql(Object) 
+     */  
+
+    public Object javaToSql(Object source) { 
+        Object converted = source;  
+        if (source instanceof KualiDecimal) { 
+            converted = ((KualiDecimal) source).bigDecimalValue();
+        }  
+        return converted; 
+    }
+                 
+    /** 
+      * @see FieldConversion#sqlToJava(Object) 
+      */ 
+
+    public Object sqlToJava(Object source) { 
+        Object converted = source;  
+        if (source instanceof BigDecimal) { 
+            converted = new KualiDecimal((BigDecimal) source);  
+        }  return converted; 
+    }
+}   </programlisting>
+            <para>This is an example of a converter provided by KRAD for the custom KualiDecimal
+                type. In the javaToSql method, we are converting the KualiDecimal to a BigDecimal,
+                which OJB can then convert to the JDBC type. In the sqlToJava method, we take the
+                BigDecimal value coming from the database and create a new KualiDecimal type. </para>
+            <para>Once we have a converter class (or one is provided), we need to tell OJB to use it
+                by specifying the full class name for the converter on the field descriptor using
+                the conversion attribute:
+                <programlisting linenumbering = "numbered"> &lt;field-descriptor name="price"
+        column="PRICE" jdbc-type="DECIMAL"
+        conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>  </programlisting></para>
+            <para> It is necessary to add the conversion attribute for each property that has a
+                custom type. </para>
+        </section>
+        <section>
+            <title>RICE CUSTOM DATATYPES </title>
+            <para> Rice provides the following custom data types and OJB converters: <table
+                frame="all" tabstyle="striped">
+                    <title>Custom Data Types and OJB Converters</title>
+                    <tgroup cols="3">
+                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                        <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry> Datatype </entry>
+                                <entry> Purpose </entry>
+                                <entry> Converter </entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry> KualiDecimal </entry>
+                                <entry>
+                                    <para>Provides a standard paradigm for handling BigDecimal
+                                    </para>
+                                </entry>
+                                <entry>OjbKualiDecimalFieldConversion </entry>
+                            </row>
+                            <row>
+                                <entry> KualiInteger </entry>
+                                <entry>
+                                    <para>Provides a standard paradigm for handling BigInteger
+                                    </para>
+                                </entry>
+                                <entry> OjbKualiIntegerFieldConversion </entry>
+                            </row>
+                            <row>
+                                <entry> KualiPercent </entry>
+                                <entry>
+                                    <para>Essentially the same as KualiDecimal with the addition of
+                                        extra constructors </para>
+                                </entry>
+                                <entry> OjbKualiIntegerFieldConversion </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table></para>
+            <para>These three data types provide a standard way of handling scale and rounding. In
+                the case of KualiDecimal, the scale is set to 2, and the rounding behavior is 'Round
+                Half Up'. KualiInteger has a scale of 0, and uses 'Round Half Up' rounding as well
+                (for operations with decimal types). </para>
+            <tip><para><emphasis role="keyword">Round Half Up</emphasis>: Round Half Up is a common rounding strategy in
+                    particular within financial applications. To calculate the rounded value, we add
+                    0.5 to the value and then use the floor function (largest integer that does not
+                    exceed value). For example, 23.5 rounds to 24, 23.4 round to 23, -23.5 rounds to
+                    -23, -23.6 rounds to -24. </para></tip>
+            <para>In addition to the convertors provided by Rice for the custom data types, a few
+                additional special convertors are provided. </para>
+            <para>The first of these is OjbCharBooleanConversion. A typical practice in legacy
+                systems (before the introduction of database Boolean types) is to represent a
+                Boolean by a single character string. Some common mappings are 'T' for true : 'F'
+                for false, or 'Y' for true : 'N' for false. The Rice Boolean converter can be
+                specified for a field to convert these string values to the correct Boolean property
+                type. Other variations of the Boolean converter exist for other mapping strategies
+                such as '1' : '0', 'A' : 'I', 'true' : 'false', and 'yes' : 'no'. </para>
+            <para>Finally, Rice provides a converter for encrypting secure database contents. The
+                name of this converter is OjbKualiEncryptDecryptFieldConversion. This converter
+                relies on the EncryptionService implementation to perform the encryption. Values are
+                encrypted for storing in the database and then decrypted for object population. </para>
+        </section>
+        <section>
+            <title> OTHER FIELD DESCRIPTOR ATTRIBUTES </title>
+            <para>All field descriptors must have the name, column, and jdbc-type attributes. In
+                addition to these we can make use of other OJB attributes to provide further column
+                information. </para>
+            <para>Foremost among these is the primarykey attribute. This attribute simply takes a
+                Boolean value of true (by default false for all columns) to indicate the column for
+                the field descriptor is a primary key. All class descriptors must have at least one
+                field descriptor with the primarykey="true" attribute. OJB uses the primary key
+                information in many places, including determining whether to do an insert or update
+                statement (see 'The BusinessObjectService' for more information). In addition,
+                primary keys are used for linking relationships. </para>
+            <para>Compound keys are configured by adding the primarykey="true" attribute to more
+                than one field:
+                <programlisting linenumbering = "numbered">&lt;class-descriptor class="org.kuali.rice.kew.doctype.DocumentTypePolicy" table="KREW_DOC_TYP_PLCY_RELN_T">
+    &lt;field-descriptor name="documentTypeId" column="DOC_TYP_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    &lt;field-descriptor name="policyName" column="DOC_PLCY_NM" jdbc-type="VARCHAR" primarykey="true"/>
+...          </programlisting></para>
+            <para>A single primary key field can also be a surrogate key for which a sequence is
+                used to generate the key values. We can indicate to OJB that the primary key is a
+                sequence using the autoincrement and sequence-name attributes:
+                <programlisting linenumbering = "numbered">&lt;class-descriptor class="edu.sampleu.bookstore.bo.Book" table="BK_BOOK_T">
+    &lt;field-descriptor name="id" column="BOOK_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" 
+     sequence-name="BK_BOOK_ID_S" /> 
+...  </programlisting></para>
+            <para>In this class descriptor for Book, we have a primary key field named 'id'.
+                Furthermore, the values for the book id field are generated by a sequence named
+                'BK_BOOK_ID_S'. When OJB performs an insert on the BK_BOOK_T table, it will retrieve
+                the next value from the book id sequence and use it as the id for the new record. </para>
+            <tip><para><emphasis role="keyword">Sequence Name</emphasis>: Requiredness of the sequence-name attribute
+                    depends on the sequence manager being used (configured through the
+                    jdbc-connection-descriptor). OJB supports several sequence managers that have
+                    different strategies for generating the ID (some not requiring an actual
+                    database sequence). However, the recommendation is to use the provided Rice
+                    sequence manager which does rely on a database sequence. </para></tip>
+            <para>Now that we have our primary key fields set, recall the recommendation that all
+                persisted objects carry the version number and object id properties. We can map
+                these properties with the follow field descriptors:
+                <programlisting linenumbering = "numbered">&lt;field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+&lt;field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />   </programlisting></para>
+            <para>Note the locking and indexed attributes. The locking attribute tells OJB to use
+                this column to perform optimistic locking and only one field descriptor may have
+                this attribute set to true. The indexed attribute indicates to OJB that we have a
+                database index on this field. OJB can then use that information for optimizing
+                queries. </para>
+        </section>
+        <section>
+            <title> REFERENCE DESCRIPTORS </title>
+            <para>After mapping all of the class primitive fields using field descriptors, we must
+                then map our relationships to other data objects. In code, these relationships are
+                properties just like the primitive fields that persist to table columns. However,
+                the difference with these properties is their type is another data object (in the
+                case of 1-1) or a collection of other data objects (in the case of 1-many). </para>
+            <para>First, let's take the case of 1-1 relationships. To map these we use the
+                reference-descriptor tag. A class descriptor can contain one or more
+                reference-descriptor tags. When using a reference descriptor tag we must specify the
+                name attribute which holds the name of the property we are describing (similar to
+                the name attribute in a field descriptor). Then we must specify the class of the
+                related object using the class-ref attribute. </para>
+            <para>For example, suppose we had the following property in our Book data object that
+                references a BookType:
+                <programlisting>public class Book extends PersistableBusinessObjectBase {   
+...
+    private BookType bookType;       </programlisting></para>
+            <para> Our corresponding reference descriptor will then be:
+                <programlisting linenumbering = "numbered">&lt;reference-descriptor name="bookType" class-ref="edu.sampleu.bookstore.bo.BookType"/&gt;     </programlisting></para>
+            <para>We are not quite finished though with our reference descriptor. OJB can now
+                determine we have a foreign key relationship from Book to BookType, and it knows the
+                primary key fields for BookType, but which fields of Book are the actual foreign
+                keys? To fill in this information, within our reference descriptor we must add a
+                foreign key field for each primary key field of BookType. </para>
+            <programlisting linenumbering = "numbered">&lt;reference-descriptor name="bookType" class-ref="edu.sampleu.bookstore.bo.BookType">
+    &lt;foreignkey field-ref="typeCode" />
+&lt;/reference-descriptor></programlisting>
+            <para>When using the foreignkey tag, we must specify the field-ref attribute whose value
+                is the name of the field in the class holding the relationship (in this case Book)
+                that is the foreign key. The number of foreignkey tags must match the number of
+                primary key fields in our class descriptor. Note also the order the foreign keys are
+                declared must match the order in which they join to the primary keys. For example,
+                if our reference target class has primary key fields code and subCode, and we have
+                foreign keys fkCode and fkSubCode, the following configuration would be incorrect:
+                <programlisting linenumbering = "numbered">&lt;reference-descriptor name="subCode" class-ref="edu.sampleu.SubCode">
+    &lt;foreignkey field-ref="fkSubCode"/>
+    &lt;foreignkey field-ref="fkCode" />
+&lt;/reference-descriptor></programlisting></para>
+            <para>Here the order of foreign keys is reversed which will cause OJB to join the
+                fkSubCode with code, and fkCode with subCode. </para>
+            <para>Similar to the field descriptor, OJB provides additional attributes we can specify
+                for a reference descriptor. Three of these attributes are prefixed with 'auto-' and
+                designate how OJB should handle the reference during retrieve, update (or insert),
+                and delete operations. The first of these is the auto-retrieve attribute, and
+                indicates whether the reference should be retrieved when the main (or parent) object
+                is retrieved. The attribute can be specified as 'false' (reference should not be
+                retrieved) or 'true' (reference will be retrieved). When auto-retrieve=false is
+                specified, the reference object will be null on the main object after retrieval. OJB
+                provides mechanisms for retrieving the reference through code, which will be
+                discussed in the upcoming section 'Reference Refreshing'. </para>
+            <para>The auto-update attribute specifies whether the reference object should be updated
+                when an update is done on the main object. This attribute can have a value of 'none'
+                – meaning no update should happen for the reference – and 'object' – meaning the
+                reference record should be updated with the main object. In addition, an option of
+                'link' can be specified, which is just relevant for one-to-many relationships. This
+                performs an update on the indirection table, but not the actual reference table. </para>
+            <para>The final auto attribute is auto-delete, which indicates whether the reference
+                object should be deleted when the main object is deleted. Similar to auto-update,
+                'none', 'link', or 'object' can be given for the value. </para>
+            <para>Care must be taken when setting the auto-retrieve attribute. Having the reference
+                ready without having to make an extra call is a great programming convenience.
+                However, performance can suffer due to the time required to initially load the
+                reference objects with the main object, in particular for objects with several
+                relationships. Furthermore, optimizing the auto-retrieve setting can be difficult,
+                due to it being a global setting, and the developer often not knowing when the
+                reference data will be needed. Don't worry though; OJB has another attribute we can
+                use! This attribute is named proxy and can have a value of 'true' or 'false' (the
+                default). Adding proxy=true to our reference descriptor allows OJB to use lazy
+                loading for our reference. Essentially, this allows us to use the reference when
+                needed without making an additional call, but the full record is not loaded
+                initially with the main object which will help performance. To make this work, OJB
+                will initially create a proxy object for the property value. When a method is
+                invoked on the proxy object (such as a getter or setter), OJB will fetch the record
+                and populate the reference object. </para>
+            <tip>    
+                <para><emphasis role="bold">Using Proxies</emphasis>: Note that using proxy=true
+                    changes when the reference object is loaded, and works best for cases where the
+                    reference record is often not needed. For cases where the reference record is
+                    usually needed, loading up front with the main object is a better choice. In
+                    particular, proxies can lead to issues with a large number of SQL calls being
+                    made when generating the UI. </para>
+                <para>Using the proxy attribute on a reference can also cause issues with code
+                    logic. Recall that OJB will not attempt to retrieve the reference upfront when
+                    proxy=true is given, and sets the value for our reference property to the proxy.
+                    One side effect of this is that doing a standard null check on a reference
+                    object can give us false information. </para>
+                <para>For example, suppose we do a null check on our bookType reference and if not
+                    null return the name of the book type:
+                    <programlisting>if ((book != null) &amp;&amp; (book.getBookType() != null)) { 
+    return book.getBookType().getName();  
+}   </programlisting></para>
+                <para>In this example, it is possible to get a NullPointerException on our return
+                    statement! This is because initially OJB has set the bookType property to the
+                    Proxy object, which is not null. When we invoke the getName() property, OJB will
+                    then attempt to execute the retrieval of the book type. Now it is possible that
+                    book type does not exist, which will cause the bookType object to be null. Then
+                    invoking getName() on a null will cause the NullPointerException.</para>
+            </tip>
+        </section>
+        <section>
+            <title>Collection Descriptors</title>
+            <para>Similar to the reference descriptor, the collection descriptor maps a reference
+                (nested) data object in the database. However, collection descriptors are used for
+                one-to-many relationships where the property is a List type. </para>
+            <para>To map these we use the collection-descriptor tag. A class descriptor can contain
+                one or more collection-descriptor tags. When using a collection descriptor tag, we
+                must specify the name attribute which holds the name of the property we are
+                describing (similar to the name attribute n reference descriptor). Then we must
+                specify the class of the related object using the class-ref attribute (again similar
+                to reference descriptor). </para>
+            <para>For example, suppose we had the following property in our Book data object that
+                references a List of Authors:
+                <programlisting>public class Book extends PersistableBusinessObjectBase {  
+    ... 
+    private List&lt;Author> authors;   </programlisting></para>
+            <para> Our corresponding collection descriptor will then be:
+                <programlisting linenumbering = "numbered">&lt;collection-descriptor name="authors" class-ref="edu.sampleu.bookstore.bo.Author"/&gt;     </programlisting></para>
+            <para>When configuring a collection descriptor, the foreign key direction goes from the
+                target class to the source. That is, we need to specify the field in the target
+                class (in this case Author) that maps to the primary key of the source class (Book).
+                This is done using the inverse-foreignkey tag:
+                <programlisting linenumbering = "numbered">&lt;collection-descriptor name="bookType" class-ref="edu.sampleu.bookstore.bo.Author">
+    &lt;inverse-foreignkey field-ref="bookId" />  
+&lt;/collection-descriptor>        </programlisting></para>
+            <para>The collection descriptor supports the same auto-x attributes we saw in reference
+                descriptor. <xref linkend="fig5"/> gives a picture of the reference and collection descriptors </para>
+            <para><figure xml:id="fig5">
+                <title>Building Blocks</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRAD_Guide/OJB_descriptors.png"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+        </section>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <itemizedlist>
+                <listitem>
+                    <para>OJB is an Object/Relational mapping tool that allows transparent
+                        persistence of Java objects. </para>
+                </listitem>
+                <listitem>
+                    <para>Because OJB is not active, the Rice project is converting to JPA. </para>
+                </listitem>
+                <listitem>
+                    <para>Object mappings are defined with XML in OJB files. </para>
+                </listitem>
+                <listitem>
+                    <para>These XML files are picked up through the module configuration. </para>
+                </listitem>
+                <listitem>
+                    <para>A class descriptor is a tag that maps a Java object to a database table. </para>
+                </listitem>
+                <listitem>
+                    <para>A OJB file can contain one or more class descriptors. </para>
+                </listitem>
+                <listitem>
+                    <para>A field descriptor is a tag nested within a class descriptor that maps a
+                        property of the object to a column. </para>
+                </listitem>
+                <listitem>
+                    <para>On the field descriptor we must specify the jdbc-type so OJB knows how to
+                        convert the data (both directions). </para>
+                </listitem>
+                <listitem>
+                    <para>OJB does not know how to convert custom data types such as KualiDecimal. </para>
+                </listitem>
+                <listitem>
+                    <para>In these cases, we need to implement a FieldConversion class that performs
+                        the conversion of data.</para>
+                </listitem>
+                <listitem>
+                    <para>Rice provides the following OJB field convertors: <itemizedlist>
+                            <listitem>
+                                <para>OjbKualiDecimalFieldConversion – used to convert between a
+                                    KualiDecimal and a Java BigDecimal.</para>
+                            </listitem>
+                            <listitem>
+                                <para>OjbKualiIntegerFieldConversion – used to convert between a
+                                    KualiInteger and a Java BigInteger.</para>
+                            </listitem>
+                            <listitem>
+                                <para>OjbKualiPercentFieldConversion – used to convert between a
+                                    KualiPercent and a Java BigDecimal.</para>
+                            </listitem>
+                            <listitem>
+                                <para>OjbCharBooleanConversion – used to convert between varchar
+                                    fields ('T-F', '1- 0', 'yes-no', 'true-false') and boolean
+                                    types.</para>
+                            </listitem>
+                            <listitem>
+                                <para>OjbKualiEncryptDecryptFieldConversion – used to
+                                    encrypt/decrypt the field value. </para>
+                            </listitem>
+                        </itemizedlist></para>
+                </listitem>
+                <listitem>
+                    <para>On the field descriptor we can also specify the attributes: <itemizedlist>
+                            <listitem>
+                                <para>primarykey – indicates the field is a primary key. </para>
+                            </listitem>
+                            <listitem>
+                                <para>autoincrement, sequence-name – indicates the field value
+                                    should be auto- incremented using the given sequence name. </para>
+                            </listitem>
+                            <listitem>
+                                <para>indexed – indicates there is an index on the column. </para>
+                            </listitem>
+                        </itemizedlist></para>
+                </listitem>
+                <listitem>
+                    <para>A reference descriptor is a tag within a class descriptor that maps a
+                        one-to-one relationship between the class and another mapped class. </para>
+                </listitem>
+                <listitem>
+                    <para>When configuring a reference descriptor we must specify the foreign key
+                        field(s). </para>
+                </listitem>
+                <listitem>
+                    <para>On the reference descriptor we can also specify the attributes: <itemizedlist>
+                            <listitem>
+                                <para>auto-retrieve – indicates whether the reference object should
+                                    be retrieved when the parent object is. </para>
+                            </listitem>
+                            <listitem>
+                                <para>auto-update – indicates whether the reference object should be
+                                    updated when the parent object is. </para>
+                            </listitem>
+                            <listitem>
+                                <para>auto-delete – indicates whether the reference object should be
+                                    deleted when the parent object is. </para>
+                            </listitem>
+                        </itemizedlist></para>
+                </listitem>
+                <listitem>
+                    <para>proxy – indicates the reference object should be proxied, meaning it will
+                        be fetched when needed (when a method is invoked). </para>
+                </listitem>
+                <listitem>
+                    <para>A collection descriptor is a tag within a class descriptor that maps a
+                        one-to-many relationship between the class and another mapped class. </para>
+                </listitem>
+                <listitem>
+                    <para>When configuring a reference descriptor we must specify the inverse
+                        foreign key field(s). </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+<!-- TODO
+    <section>
+        <title> The Business Object Service </title>
+        <para></para>
+    </section>
+    <section>
+        <title> Building DAOs and using Spring Templates </title>
+        <para></para>
+    </section>
+    <section>
+        <title> Persistence Metadata </title>
+        <para></para>
+    </section>
+-->    
+</chapter>

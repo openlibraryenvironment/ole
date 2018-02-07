@@ -1,0 +1,74 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<edlConfig>
+	<preProcessors>
+		<preProcessor>org.kuali.rice.edl.impl.components.EstablishUserAction</preProcessor>
+		<preProcessor>org.kuali.rice.edl.impl.components.RefreshFromLookupComponent</preProcessor>
+		<preProcessor>org.kuali.rice.edl.impl.components.WorkflowDocumentActions</preProcessor>
+		<preProcessor>org.kuali.rice.edl.impl.components.VersioningPreprocessor</preProcessor>
+		<preProcessor>org.kuali.rice.edl.impl.components.PageHandler</preProcessor>
+		<preProcessor>org.kuali.rice.edl.impl.components.BrowserHandler</preProcessor>
+	</preProcessors>
+	<postProcessors>
+		<postProcessor>org.kuali.rice.edl.impl.components.SelectControlEDLComponent</postProcessor>
+		<postProcessor>org.kuali.rice.edl.impl.components.ValidationComponent</postProcessor>
+        <postProcessor>org.kuali.rice.edl.impl.components.GlobalAttributeComponent</postProcessor>
+		<postProcessor>org.kuali.rice.edl.impl.components.WorkflowDocumentActions</postProcessor>
+		<postProcessor>org.kuali.rice.edl.impl.components.WorkflowDocumentState</postProcessor>
+		<postProcessor>org.kuali.rice.edl.impl.components.PerformLookupComponent</postProcessor>
+		<postProcessor>org.kuali.rice.edl.impl.components.NoteConfigComponent</postProcessor>
+        <postProcessor>org.kuali.rice.edl.impl.components.AnnotationComponent</postProcessor>
+	</postProcessors>
+	<configProcessors>
+		<configProcessor>
+			<xpathExp>count(./@attributeName) = 1</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.AttributeEDLConfigComponent</className>
+		</configProcessor>
+		<configProcessor>
+			<xpathExp>display/type = 'networkId'</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.NetworkIdWorkflowEDLConfigComponent</className>
+		</configProcessor>
+		<configProcessor>
+			<xpathExp>display/type = 'workgroupName'</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.WorkgroupWorkflowEDLConfigComponent</className>
+		</configProcessor>
+		<configProcessor>
+			<xpathExp>display/type = 'universityId'</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.UniversityIdWorkflowEDLConfigComponent</className>
+		</configProcessor>
+		<configProcessor>
+			<xpathExp>display/type = 'select' or display/type = 'select_refresh' or display/type = 'text' or display/type = 'password' or display/type = 'radio' or display/type = 'checkbox' or display/type = 'textarea' or display/type = 'hidden'</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.SimpleWorkflowEDLConfigComponent</className>
+		</configProcessor>
+		<configProcessor>
+			<xpathExp>name() = 'instructions' or name() = 'createInstructions'</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.InstructionsEDLComponent</className>
+		</configProcessor>
+		<configProcessor>
+			<xpathExp>name() = 'javascript'</xpathExp>
+			<className>org.kuali.rice.edl.impl.components.JavascriptEDLComponent</className>
+		</configProcessor>
+	</configProcessors>
+
+	<!--
+
+	<stateComponents>
+		<stateComponent>org.kuali.rice.edl.impl.TestStateComponent</stateComponent>
+	</stateComponents>
+	 -->
+</edlConfig>

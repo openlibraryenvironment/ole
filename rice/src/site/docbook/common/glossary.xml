@@ -1,0 +1,2186 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<glossary xml:id="glossary" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Glossary</title>
+    <glossdiv>
+        <title>A</title>
+        <glossentry xml:id="glossary.action.list">
+            <glossterm>Action List</glossterm>
+            <glossdef>
+                <para>A list of the user's notification and workflow items. Also called the user's
+                    Notification List. Clicking an item in the Action List displays details about
+                    that notification, if the item is a notification, or displays that document, if
+                    it is a workflow item. The user will usually load the document from their Action
+                    List in order to take the requested action against it, such as approving or
+                    acknowledging the document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.action.list.type">
+            <glossterm>Action List Type</glossterm>
+            <glossdef>
+                <para>This tells you if the Action List item is a notification or a more specific
+                    workflow request item. When the Action List item is a notification, the Action
+                    List Type is "Notification."</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.action.request">
+            <glossterm>Action Request</glossterm>
+            <glossdef>
+                <para>A request to a user or Workgroup to take action on a document. It designates
+                    the type of action that is requested, which includes:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Approve: requests an approve or disapprove action.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete: requests a completion of the contents of a document. This
+                            action request is displayed in the Action List after the user saves an
+                            incomplete document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Acknowledge: requests an acknowledgment by the user that the document
+                            has been opened - the doc will not leave the Action List until
+                            acknowledgment has occurred; however, the document routing will not be
+                            held up and the document will be permitted to transaction into the
+                            processed state if neccessary.</para>
+                    </listitem>
+                    <listitem>
+                        <para>FYI: a notification to the user regarding the document. Documents
+                            requesting FYI can be cleared directly from the Action List. Even if a
+                            document has FYI requests remaining, it will still be permitted to
+                            transition into the FINAL state.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.action.request.hierarchy">
+            <glossterm>Action Request Hierarchy</glossterm>
+            <glossdef>
+                <para>Action requests are hierarchical in nature and can have one parent and
+                    multiple children.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.action.requested">
+            <glossterm>Action Requested</glossterm>
+            <glossdef>
+                <itemizedlist>
+                    <para>The action one needs to take on a document; also the type of action that
+                        is requested by an Action Request. Actions that may be requested of a user
+                        are: </para>
+                    <listitem>
+                        <para>Acknowledge: requests that the users states he or she has reviewed the
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Approve: requests that the user either Approve or Disapprove a
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete: requests the user to enter additional information in a
+                            document so that the content of the document is complete.</para>
+                    </listitem>
+                    <listitem>
+                        <para>FYI: intended to simply makes a user aware of the document.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.action.taken">
+            <glossterm>Action Taken</glossterm>
+            <glossdef>
+                <itemizedlist>
+                    <para>An action taken on a document by a <glossterm linkend="glossary.reviewer"
+                            >Reviewer</glossterm> in response to an Action Request. The Action Taken
+                        may be:</para>
+                    <listitem>
+                        <para>Acknowledged: Reviewer has viewed and acknowledged document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Approved: Reviewer has approved the action requested on
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Blanket Approved: Reviewer has requested a blanket approval up to a
+                            specified point in the route path on the document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Canceled: Reviewer has canceled the document. The document will not be
+                            routed to any more reviewers.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Cleared FYI: Reviewer has viewed the document and cleared all of his
+                            or her pending FYI(s) on this document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Completed: Reviewer has completed and supplied all data requested on
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Created Document: User has created a document</para>
+                    </listitem>
+                    <listitem>
+                        <para>Disapproved: Reviewer has disapproved the document. The document will
+                            not being routed to any subsequent reviewers for approval. Acknowledge
+                            Requests are sent to previous approvers to inform them of the
+                            disapproval.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Logged Document: Reviewer has added a message to the Route Log of the
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Moved Document: Reviewer has moved the document either backward or
+                            forward in its routing path.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Returned to Previous Node: Reviewer has returned the document to a
+                            previous routing node. When a Reviewer does this, all the actions taken
+                            between the current node and the return node are removed and all the
+                            pending requests on the document are deactivated.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Routed Document: Reviewer has submitted the document to the workflow
+                            engine for routing.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Saved: Reviewer has saved the document for later completion and
+                            routing.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Approved Document: <glossterm linkend="glossary.superuser"
+                                >Superuser</glossterm> has approved the entire document, any
+                            remaining routing is cancelled.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Approved Node: Superuser has approved the document through
+                            all nodes up to (but not including) a specific node. When the document
+                            gets to that node, the normal Action Requests will be created.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Approved Request: Superuser has approved a single pending
+                            Approve or Complete Action Request. The document then goes to the next
+                            routing node.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Cancelled: Superuser has canceled the document. A Superuser
+                            can cancel a document without a pending Action Request to him/her on the
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Disapproved: Superuser has disapproved the document. A
+                            Superuser can disapprove a document without a pending Action Request to
+                            him/her on the document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Superuser Returned to Previous Node: Superuser has returned the
+                            document to a previous routing node. A Superuser can do this without a
+                            pending Action Request to him/her on the document.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.activated">
+            <glossterm>Activated</glossterm>
+            <glossdef>
+                <para>The state of an action request when it is has been sent to a user's Action
+                    List.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.activation">
+            <glossterm>Activation</glossterm>
+            <glossdef>
+                <para>The process by which requests appear in a user's Action List</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.activation.type">
+            <glossterm>Activation Type</glossterm>
+            <glossdef>
+                <para>Defines how a route node handles activation of Action Requests. There are two
+                    standard activation types:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Sequential: Action Requests are activated one at a time based on
+                            routing priority. The next Action Request isn't activated until the
+                            previous request is satisfied.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Parallel: All Action Requests at the route node are activated
+                            immediately, regardless of priority</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.active.indicator">
+            <glossterm>Active Indicator</glossterm>
+            <glossdef>
+                <para>An indicator specifying whether an object in the system is active or not. Used
+                    as an alternative to complete removal of an object.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.ad.hoc.routing">
+            <glossterm>Ad Hoc Routing</glossterm>
+            <glossdef>
+                <para>A type of routing used to route a document to users or groups that are not in
+                    the Routing path for that Document Type. When the Ad Hoc Routing is complete,
+                    the routing returns to its normal path.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.annotation">
+            <glossterm>Annotation</glossterm>
+            <glossdef>
+                <para>Optional comments added by a <glossterm linkend="glossary.reviewer"
+                        >Reviewer</glossterm> when taking action. Intended to explain or clarify the
+                    action taken or to advise subsequent Reviewers.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.approve">
+            <glossterm>Approve</glossterm>
+            <glossdef>
+                <para>A type of workflow action button. Signifies that the document represents a
+                    valid business transaction in accordance with institutional needs and policies
+                    in the user's judgment. A single document may require approval from several
+                    users, at multiple route levels, before it moves to final status.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.approver">
+            <glossterm>Approver</glossterm>
+            <glossdef>
+                <para>The user who approves the document. As a document moves through Workflow, it
+                    moves one route level at a time. An Approver operates at a particular route
+                    level of the document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.attachment">
+            <glossterm>Attachment</glossterm>
+            <glossdef>
+                <para>The pathname of a related file to attach to a Note. Use the "Browse..." button
+                    to open the file dialog, select the file and automatically fill in the
+                    pathname.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.attribute.type">
+            <glossterm>Attribute Type</glossterm>
+            <glossdef>
+                <para>Used to strongly type or categorize the values that can be stored for the
+                    various attributes in the system (e.g., the value of the arbitrary key/value
+                    pairs that can be defined and associated with a given parent object in the
+                    system).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.authentication">
+            <glossterm>Authentication</glossterm>
+            <glossdef>
+                <para>The act of logging into the system. The Out of the box (OOTB) authenticaton
+                    implementation in Rice does not require a password as it is intended for testing
+                    puposes only. This is something that must be enabled as part of an
+                    implementation. Various authentication solutions exist, such as CAS or
+                    Shibboleth, that an implementer may want to use depending on their needs.
+                </para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.authorization">
+            <glossterm>Authorization</glossterm>
+            <glossdef>
+                <para>Authorization is the permissions that an authenticated user has for performing
+                    actions in the system.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.author.universal.id">
+            <glossterm>Author Universal ID</glossterm>
+            <glossdef>
+                <para>A free-form text field for the full name of the Author of the Note, expressed
+                    as "Lastname, Firstname Initial"</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>B</title>
+        <glossentry xml:id="glossary.base.rule.attribute">
+            <glossterm>Base Rule Attribute</glossterm>
+            <glossdef>
+                <para>The standard fields that are defined and collected for every <glossterm
+                        linkend="glossary.routing.rule">Routing Rule</glossterm> These
+                    include:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Active: A true/false flag to indicate if the Routing Rule is active.
+                            If false, then the rule will not be evaluated during routing.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Document Type: The <glossterm linkend="glossary.document.type"
+                                >Document Type</glossterm> to which the Routing Rule applies.</para>
+                    </listitem>
+                    <listitem>
+                        <para>From Date: The inclusive start date from which the Routing Rule will
+                            be considered for a match.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Force Action: a true/false flag to indicate if the review should be
+                            forced to take action again for the requests generated by this rule,
+                            even if they had taken action on the document previously.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Name: the name of the rule, this serves as a unique identifier for the
+                            rule. If one is not specified when the rule is created, then it will be
+                            generated.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Rule Template: The Rule Template used to create the Routing
+                            Rule.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To Date: The inclusive end date to which the Routing Rule will be
+                            considered for a match.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.blanket.approval">
+            <glossterm>Blanket Approval</glossterm>
+            <glossdef>
+                <para>Authority that is given to designated <glossterm linkend="glossary.reviewer"
+                        >Reviewers</glossterm> who can approve a document to a chosen route point. A
+                    Blanket Approval bypasses approvals that would otherwise be required in the
+                        <glossterm linkend="glossary.routing">Routing</glossterm> For an authorized
+                    Reviewer, the <glossterm linkend="glossary.doc.handler">Doc Handler</glossterm>
+                    typically displays the Blanket Approval button along with the other options.
+                    When a Blanket Approval is used, the Reviewers who are skipped are sent
+                    Acknowledge requests to notify them that they were bypassed.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.blanket.approve.workgroup">
+            <glossterm>Blanket Approve Workgroup</glossterm>
+            <glossdef>
+                <para>A workgroup that has the authority to Blanket Approve a document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.branch">
+            <glossterm>Branch</glossterm>
+            <glossdef>
+                <para>A path containing one or more Route Nodes that a document traverses during
+                    routing. When a document enters a <glossterm linkend="glossary.split.node">Split
+                        Node</glossterm> multiple branches can be created. A <glossterm
+                        linkend="glossary.join.node">Join Node</glossterm> joins multiple branches
+                    together.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.business.rule">
+            <glossterm>Business Rule</glossterm>
+            <glossdef>
+                <orderedlist>
+                    <listitem>
+                        <para>Describes the operations, definitions and constraints that apply to an
+                            organization in achieving its goals.</para>
+                    </listitem>
+                    <listitem>
+                        <para>A restriction to a function for a business reason (such as making a
+                            specific object code unavailable for a particular type of disbursement).
+                            Customizable business rules are controlled by Parameters.</para>
+                    </listitem>
+                </orderedlist>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>C</title>
+        <glossentry xml:id="glossary.campus">
+            <glossterm>Campus</glossterm>
+            <glossdef>
+                <para>Identifies the different fiscal and physical operating entities of an
+                    institution.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.campus.type">
+            <glossterm>Campus Type</glossterm>
+            <glossdef>
+                <para>Designates a campus as physical only, fiscal only or both.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.cancel">
+            <glossterm>Cancel</glossterm>
+            <glossdef>
+                <para>A workflow action available to document initiators on documents that have not
+                    yet been routed for approval. Denotes that the document is void and should be
+                    disregarded. Canceled documents cannot be modified in any way and do not route
+                    for approval.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.canceled">
+            <glossterm>Canceled</glossterm>
+            <glossdef>
+                <para>A routing status. The document is denoted as void and should be
+                    disregarded.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.cas">
+            <glossterm>CAS - Central Authentication Service</glossterm>
+            <glossdef>
+                <para><link xlink:href="http://www.jasig.org/cas"/> - An open source authentication
+                    framework. Kuali Rice provides support for integrating with CAS as an
+                    authentication provider (among other authentication solutions) and also provides
+                    an implementation of a CAS server that integrates with Kuali Identity
+                    Management.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.client">
+            <glossterm>Client</glossterm>
+            <glossdef>
+                <para>A Java Application Program Interface (API) for interfacing with the Kuali
+                    Enterprise Workflow Engine.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.client.server">
+            <glossterm>Client/Server</glossterm>
+            <glossdef>
+                <para>The use of one computer to request the services of another computer over a
+                    network. The workstation in an organization will be used to initiate a business
+                    transaction (e.g., a budget transfer). This workstation needs to gather
+                    information from a remote database to process the transaction, and will
+                    eventually be used to post new or changed information back onto that remote
+                    database. The workstation is thus a Client and the remote computer that houses
+                    the database is the Server.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.close">
+            <glossterm>Close</glossterm>
+            <glossdef>
+                <para>A workflow action available on documents in most statuses. Signifies that the
+                    user wishes to exit the document. No changes to Action Requests, Route Logs or
+                    document status occur as a result of a Close action. If you initiate a document
+                    and close it without saving, it is the same as canceling that document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.comma.separated.value">
+            <glossterm>Comma-separated value</glossterm>
+            <glossdef>
+                <para>A file format using commas as delimiters utilized in import and export
+                    functionality.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.complete">
+            <glossterm>Complete</glossterm>
+            <glossdef>
+                <para>A pending action request to a user to submit a saved document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.completed">
+            <glossterm>Completed</glossterm>
+            <glossdef>
+                <para>The action taken by a user or group in response to a request in order to
+                    finish populating a document with information, as evidenced in the Document
+                    Route Log.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.country.restricted.indicator">
+            <glossterm>Country Restricted Indicator</glossterm>
+            <glossdef>
+                <para>Field used to indicate if a country is restricted from use in procurement. If
+                    there is no value then there is no restriction.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.creation.date">
+            <glossterm>Creation Date</glossterm>
+            <glossdef>
+                <para>The date on which a document is created.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="csv">
+            <glossterm>CSV</glossterm>
+            <glossdef>
+                <para>See <glossterm linkend="glossary.comma.separated.value">comma-separated
+                        value</glossterm></para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>D</title>
+        <glossentry xml:id="glossary.date.approved">
+            <glossterm>Date Approved</glossterm>
+            <glossdef>
+                <para>The date on which a document was most recently approved.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.date.finalized">
+            <glossterm>Date Finalized</glossterm>
+            <glossdef>
+                <para>The date on which a document enters the FINAL state. At this point, all
+                    approvals and acknowledgments are complete for the document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.deactivation">
+            <glossterm>Deactivation</glossterm>
+            <glossdef>
+                <para>The process by which requests are removed from a user's <glossterm
+                        linkend="glossary.action.list">Action List</glossterm></para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.delegate">
+            <glossterm>Delegate</glossterm>
+            <glossdef>
+                <para>A user who has been registered to act on behalf of another user. The Delegate
+                    acts with the full authority of the Delegator. Delegation may be either
+                        <glossterm linkend="glossary.primary.delegate">Primary
+                        Delegation</glossterm> or <glossterm linkend="glossary.secondary.delegate"
+                        >Secondary Delegation</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.delegate.action.list">
+            <glossterm>Delegate Action List</glossterm>
+            <glossdef>
+                <para>A separate Action List for Delegate actions. When a Delegate selects a
+                    Delegator for whom to act, an Action List of all documents sent to the Delegator
+                    is displayed.</para>
+                <para>For both <glossterm linkend="glossary.primary.delegate">Primary</glossterm>
+                    and <glossterm linkend="glossary.secondary.delegate">Secondary
+                        Delegation</glossterm> the Delegate may act on any of the entries with the
+                    full authority of the Delegator.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.disapprove">
+            <glossterm>Disapprove</glossterm>
+            <glossdef>
+                <para>A workflow action that allows a user to indicate that a document does not
+                    represent a valid business transaction in that user's judgment. The initiator
+                    and previous approvers will receive Acknowledgment requests indicating the
+                    document was disapproved.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.disapproved">
+            <glossterm>Disapproved</glossterm>
+            <glossdef>
+                <para>A status that indicates the document has been disapproved by an approver as a
+                    valid transaction and it will not generate the originally intended
+                    transaction.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.doc.handler">
+            <glossterm>Doc Handler</glossterm>
+            <glossdef>
+                <para>The Doc Handler is a web interface that a Client uses for the appropriate
+                    display of a document. When a user opens a document from the Action List or
+                    Document Search, the Doc Handler manages access permissions, content format, and
+                    user options according to the requirements of the Client.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.doc.handler.url">
+            <glossterm>Doc Handler URL</glossterm>
+            <glossdef>
+                <para>The URL for the <glossterm linkend="glossary.doc.handler">Doc
+                        Handler</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.doc.nbr">
+            <glossterm>Doc Nbr</glossterm>
+            <glossdef>
+                <para>See <glossterm linkend="glossary.document.number">Document
+                    Number</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document">
+            <glossterm>Document</glossterm>
+            <glossdef>
+                <para>Also see <glossterm linkend="glossary.e-doc">E-Doc</glossterm>.</para>
+                <para>An electronic document containing information for a business transaction that
+                    is routed for Actions in KEW. It includes information such as Document ID, Type,
+                    Title, Route Status, Initiator, Date Created, etc. In KEW, a document typically
+                    has XML content attached to it that is used to make routing decisions.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.id">
+            <glossterm>Document Id</glossterm>
+            <glossdef>
+                <para>See <glossterm linkend="glossary.document.number">Document
+                    Number</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.number">
+            <glossterm>Document Number</glossterm>
+            <glossdef>
+                <para>A unique, sequential, system-assigned number for a document</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.operation">
+            <glossterm>Document Operation</glossterm>
+            <glossdef>
+                <para>A workflow screen that provides an interface for authorized users to
+                    manipulate the XML and other data that defines a document in workflow. It allows
+                    you to access and open a document by Document ID for the purpose of performing
+                    operations on the document. </para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.search">
+            <glossterm>Document Search</glossterm>
+            <glossdef>
+                <para>A web interface in which users can search for documents. Users may search by a
+                    combination of document properties such as Document Type or Document ID, or by
+                    more specialized properties using the Detailed Search. Search results are
+                    displayed in a list similar to an Action List.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.status">
+            <glossterm>Document Status</glossterm>
+            <glossdef>
+                <para>See also <glossterm linkend="glossary.route.status">Route
+                    Status</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.title">
+            <glossterm>Document Title</glossterm>
+            <glossdef>
+                <para>The title given to the document when it was created. Depending on the Document
+                    Type, this title may have been assigned by the Initiator or built automatically
+                    based on the contents of the document. The Document Title is displayed in both
+                    the Action List and Document Search.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.type">
+            <glossterm>Document Type</glossterm>
+            <glossdef>
+                <para>The Document Type defines the routing definition and other properties for a
+                    set of documents. Each document is an instance of a Document Type and conducts
+                    the same type of business transaction as other instances of that Document
+                    Type.</para>
+                <itemizedlist>
+                    <para>Document Types have the following characteristics:</para>
+                    <listitem>
+                        <para>They are specifications for a document that can be created in
+                            KEW</para>
+                    </listitem>
+                    <listitem>
+                        <para>They contain identifying information as well as policies and other
+                            attributes</para>
+                    </listitem>
+                    <listitem>
+                        <para>They defines the Route Path executed for a document of that type
+                            (Process Definition)</para>
+                    </listitem>
+                    <listitem>
+                        <para>They are hierarchical in nature may be part of a hierarchy of Document
+                            Types, each of which inherits certain properties of its <glossterm
+                                linkend="glossary.parent.document.type">Parent Document
+                                Type</glossterm>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>They are typically defined in XML, but certain properties can be
+                            maintained from a graphical interface</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.type.hierarchy">
+            <glossterm>Document Type Hierarchy</glossterm>
+            <glossdef>
+                <para>A hierarchy of Document Type definitions. Document Types inherit certain
+                    attributes from their parent Document Types. This hierarchy is also leveraged by
+                    various pieces of the system, including the Rules engine when evaluating rule
+                    sets and KIM when evaluating certain Document Type-based permissions.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.type.label">
+            <glossterm>Document Type Label</glossterm>
+            <glossdef>
+                <para>The human-readable label assigned to a Document Type.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.type.name">
+            <glossterm>Document Type Name</glossterm>
+            <glossdef>
+                <para>The assigned name of the document type. It must be unique.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.document.type.policy">
+            <glossterm>Document Type Policy</glossterm>
+            <glossdef>
+                <para>These advise various checks and authorizations for instances of a Document
+                    Type during the routing process.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.drilldown">
+            <glossterm>Drilldown</glossterm>
+            <glossdef>
+                <para>A link that allows a user to access more detailed information about the
+                    current data. These links typically take the user through a series of inquiries
+                    on different business objects.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.dynamic.node">
+            <glossterm>Dynamic Node</glossterm>
+            <glossdef>
+                <para>An advanced type of <glossterm linkend="glossary.route.node">Route
+                        Node</glossterm> that can be used to generate complex routing paths on the
+                    fly. Typically used whenever the route path of a document cannot be statically
+                    defined and must be completely derived from document data.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>E</title>
+        <glossentry xml:id="glossary.ecl">
+            <glossterm>ECL</glossterm>
+            <glossdef>
+                <orderedlist>
+                    <listitem>
+                        <para>An acronym for Educational Community License.</para>
+                    </listitem>
+                    <listitem>
+                        <para>All Kuali software and material is available under the Educational
+                            Community License and may be adopted by colleges and universities
+                            without licensing fees. The open licensing approach also provides
+                            opportunities for support and implementation assistance from commercial
+                            affiliates.</para>
+                    </listitem>
+                </orderedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.e-doc">
+            <glossterm>E-Doc</glossterm>
+            <glossdef>
+                <para>An abbreviation for electronic documents, also a shorthand reference to
+                    documents created with eDocLite.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.edoclite">
+            <glossterm>eDocLite</glossterm>
+            <glossdef>
+                <para>A framework for quickly building workflow-enabled documents. Allows you to
+                    define document screens in XML and render them using XSL style sheets.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.embedded.client">
+            <glossterm>Embedded Client</glossterm>
+            <glossdef>
+                <para>A type of client that runs an embedded workflow engine.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.employee.status">
+            <glossterm>Employee Status</glossterm>
+            <glossdef>
+                <para>Found on the Person Document; defines the employee's current employment
+                    classification (for example, "A" for Active).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.employee.type">
+            <glossterm>Employee Type</glossterm>
+            <glossdef>
+                <para>Found on the Person Document; defines the employee's position classification
+                    (for example, "P" for Professional).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.entity">
+            <glossterm>Entity</glossterm>
+            <glossdef>
+                <para>An Entity record houses identity information for a given Person, Process,
+                    System, etc. Each Entity is categorized by its association with an Entity
+                    Type.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.entity.attribute">
+            <glossterm>Entity Attribute</glossterm>
+            <glossdef>
+                <para>Entities have directory-like information called Entity Attributes that are
+                    associated with them</para>
+                <para>Entity Attributes make up the identity information for an Entity
+                    record.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.entity.type">
+            <glossterm>Entity Type</glossterm>
+            <glossdef>
+                <para>Provides categorization to Entities. For example, a "System" could be
+                    considered an Entity Type because something like a batch process may need to
+                    interfact with the application.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.exception">
+            <glossterm>Exception</glossterm>
+            <glossdef>
+                <para>A workflow routing status indicating that the document routed to an exception
+                    queue because workflow has encountered a system error when trying to process the
+                    document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.exception.messaging">
+            <glossterm>Exception Messaging</glossterm>
+            <glossdef>
+                <para>The set of services and configuration options that are responsible for
+                    handling messages when they cannot be successfully delivered. Exception
+                    Messaging is set up when you configure KSB using the properties outlined in KSB
+                    Module Configuration.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.exception.routing">
+            <glossterm>Exception Routing</glossterm>
+            <glossdef>
+                <para>A type of routing used to handle error conditions that occur during the
+                    routing of a document. A document goes into Exception Routing when the workflow
+                    engine encounters an error or a situation where it cannot proceed, such as a
+                    violation of a Document Type Policy or an error contacting external services.
+                    When this occurs, the document is routed to the parties responsible for handling
+                    these exception cases. This can be a group configured on the document or a
+                    responsibility configured in KIM. Once one of these responsible parties has
+                    reviewed the situation and approved the document, it will be resubmitted to the
+                    workflow engine to attempt the processing again.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.extended.attributes">
+            <glossterm>Extended Attributes</glossterm>
+            <glossdef>
+                <para>Custom, table-driven business object attributes that can be established by
+                    implementing institutions.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.extension.rule.attribute">
+            <glossterm>Extension Rule Attribute</glossterm>
+            <glossdef>
+                <para>One of the rule attributes added in the definition of a rule template that
+                    extends beyond the base rule attributes to differentiate the routing rule. A
+                    Required Extension Attribute has its "Required" field set to True in the rule
+                    template. Otherwise, it is an Optional Extension Attribute. Extension attributes
+                    are typically used to add additional fields that can be collected on a rule.
+                    They also define the logic for how those fields will be processed during rule
+                    evaluation.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>F</title>
+        <glossentry xml:id="glossary.field.lookup">
+            <glossterm>Field Lookup</glossterm>
+            <glossdef>
+                <para>The round magnifying glass icon found next to fields throughout the GUI that
+                    allow the user to look up reference table information and display (and select
+                    from) a list of valid values for that field.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.final">
+            <glossterm>Final</glossterm>
+            <glossdef>
+                <para>A workflow routing status indicating that the document has been routed and has
+                    no pending approval or acknowledgement requests.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.flexible.route.management">
+            <glossterm>Flexible Route Management</glossterm>
+            <glossdef>
+                <para>A standard KEW routing scheme based on rules rather than dedicated table-based
+                    routing.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.flexrm">
+            <glossterm>FlexRM (Flexible Route Module)</glossterm>
+            <glossdef>
+                <para>The Route Module that performs the Routing for any Routing Rule is defined
+                    through FlexRM. FlexRM generates Action Requests when a Rule matches the data
+                    value contained in a document. An abbreviation of "Flexible Route Module." A
+                    standard KEW routing scheme that is based on rules rather than dedicated
+                    table-based routing.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.force.action">
+            <glossterm>Force Action</glossterm>
+            <glossdef>
+                <para>A true/false flag that indicates if previous Routing for approval will be
+                    ignored when an <glossterm linkend="glossary.action.request">Action
+                        Request</glossterm> is generated. The flag is used in multiple contexts
+                    where requests are generated (e.g., rules, ad hoc routing). If Force Action is
+                    False, then prior Actions taken by a user can satisfy newly generated requests.
+                    If it is True, then the user needs to take another Action to satisfy the
+                    request.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.fyi">
+            <glossterm>FYI</glossterm>
+            <glossdef>
+                <para>A workflow action request that can be cleared from a user's Action List with
+                    or without opening and viewing the document. A document with no pending approval
+                    requests but with pending Acknowledge requests is in Processed status. A
+                    document with no pending approval requests but with pending FYI requests is in
+                    Final status. See also <glossterm linkend="glossary.ad.hoc.routing">Ad Hoc
+                        Routing</glossterm> and <glossterm linkend="glossary.action.request">Action
+                        Request</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>G</title>
+        <glossentry xml:id="glossary.group">
+            <glossterm>Group</glossterm>
+            <glossdef>
+                <para>A Group has members that can be either <glossterm
+                        linkend="glossary.principal">Principals</glossterm> or other Groups
+                    (nested). Groups essentially become a way to organize Entities (via Principal
+                    relationships) and other Groups within logical categories.</para>
+                <para>Groups can be given authorization to perform actions within applications by
+                    assigning them as members of <glossterm linkend="glossary.role"
+                        >Roles</glossterm>.</para>
+                <para>Groups can also have arbitrary identity information (i.e., <glossterm
+                        linkend="glossary.group.attribute">Group Attributes</glossterm> hanging
+                    from them. Group Attributes might be values for "Office Address," "Group
+                    Leader," etc.</para>
+                <para>Groups can be maintained at runtime through a user interface that is capable
+                    of workflow.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.group.attribute">
+            <glossterm>Group Attribute</glossterm>
+            <glossdef>
+                <para>Groups have directory-like information called Group Attributes hanging from
+                    them. "Group Phone Number" and "Team Leader" are examples of Group
+                    Attributes.</para>
+                <para>Group Attributes make up the identity information for a Group record.</para>
+                <para>Group Attributes can be maintained at runtime through a user interface that is
+                    capable of workflow.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>H</title>
+        <glossentry xml:id="glossary.hierarchical.tree.structure">
+            <glossterm>Hierarchical Tree Structure</glossterm>
+            <glossdef>
+                <para>A hierarchical representation of data in a graphical form.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>I</title>
+        <glossentry xml:id="glossary.initialized">
+            <glossterm>Initialized</glossterm>
+            <glossdef>
+                <para>The state of an Action Request when it is first created but has not yet been
+                    Activated (sent to a user's Action List).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.initiated">
+            <glossterm>Initiated</glossterm>
+            <glossdef>
+                <para>A workflow routing status indicating a document has been created but has not
+                    yet been saved or routed. A Document Number is automatically assigned by the
+                    system.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.initiator">
+            <glossterm>Initiator</glossterm>
+            <glossdef>
+                <para>A user role for a person who creates (initiates or authors) a new document for
+                    routing. Depending on the permissions associated with the Document Type, only
+                    certain users may be able to initiate documents of that type.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.inquiry">
+            <glossterm>Inquiry</glossterm>
+            <glossdef>
+                <para>A screen that allows a user to view information about a business
+                    object.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>J</title>
+        <glossentry xml:id="glossary.join.node">
+            <glossterm>Join Node</glossterm>
+            <glossdef>
+                <para>The point in the routing path where multiple branches are joined together. A
+                    Join Node typically has a corresponding <glossterm linkend="glossary.split.node"
+                        >Split Node</glossterm> for which it joins the branches.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>K</title>
+        <glossentry xml:id="glossary.kc">
+            <glossterm>KC - Kuali Coeus</glossterm>
+            <glossdef>
+                <para>TODO</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kca">
+            <glossterm>KCA - Kuali Commercial Affiliates</glossterm>
+            <glossdef>
+                <para>A designation provided to commercial affiliates who become part of the Kuali
+                    Partners Program to provide for-fee guidance, support, implementation, and
+                    integration services related to the Kuali software. Affiliates hold no ownership
+                    of Kuali intellectual property, but are full KPP participants. Affiliates may
+                    provide packaged versions of Kuali that provide value for installation or
+                    integration beyond the basic Kuali software. Affiliates may also offer other
+                    types of training, documentation, or hosting services.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kcb">
+            <glossterm>KCB – Kuali Communications Broker</glossterm>
+            <glossdef>
+                <para>KCB is logically related to KEN. It handles dispatching messages based on user
+                    preferences (email, SMS, etc.).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.ken">
+            <glossterm>KEN - Kuali Enterprise Notification</glossterm>
+            <glossdef>
+                <itemizedlist>
+                    <para>A key component of the Enterprise Integration layer of the architecture
+                        framework. Its features include:</para>
+                    <listitem>
+                        <para>Automatic Message Generation and Logging </para>
+                    </listitem>
+                    <listitem>
+                        <para>Message integrity and delivery standards</para>
+                    </listitem>
+                    <listitem>
+                        <para>Delivery of notifications to a user's Action List</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kew">
+            <glossterm>KEW – Kuali Enterprise Workflow</glossterm>
+            <glossdef>
+                <para>Kuali Enterprise Workflow is a general-purpose electronic routing
+                    infrastructure, or workflow engine. It manages the creation, routing, and
+                    processing of electronic documents (eDocs) necessary to complete a transaction.
+                    Other applications can also use Kuali Enterprise Workflow to automate and
+                    regulate the approval process for the transactions or documents they
+                    create.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kfs">
+            <glossterm>KFS – Kuali Financial System</glossterm>
+            <glossdef>
+                <para>Delivers a comprehensive suite of functionality to serve the financial system
+                    needs of all Carnegie-Class institutions. An enhancement of the proven
+                    functionality of Indiana University's Financial Information System (FIS), KFS
+                    meets GASB and FASB standards while providing a strong control environment to
+                    keep pace with advances in both technology and business. Modules include
+                    financial transactions, general ledger, chart of accounts, contracts and grants,
+                    purchasing/accounts payable, labor distribution, budget, accounts receivable and
+                    capital assets.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kim">
+            <glossterm>KIM – Kuali Identity Management</glossterm>
+            <glossdef>
+                <para>A Kuali Rice module, Kuali Identity Management provides a standard API for
+                    persons, groups, roles and permissions that can be implemented by an
+                    institution. It also provdies an out of the box reference implementation that
+                    allows for a university to use Kuali as their Identity Management
+                    solution.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kns">
+            <glossterm>KNS – Kuali Nervous System</glossterm>
+            <glossdef>
+                <para>A core technical module composed of reusable code components that provide the
+                    common, underlying infrastructure code and functionality that any module may
+                    employ to perform its functions (for example, creating custom attributes,
+                    attaching electronic images, uploading data from desktop applications,
+                    lookup/search routines, and database interaction).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kuali.partners.program">
+            <glossterm>KPP - Kuali Partners Program</glossterm>
+            <glossdef>
+                <para>The Kuali Partners Program (KPP) is the means for organizations to get
+                    involved in the Kuali software community and influence its future through voting
+                    rights to determine software development priorities. Membership dues pay staff
+                    to perform Quality Assurance (QA) work, release engineering, packaging,
+                    documentation, and other work to coordinate the timely enhancement and release
+                    of quality software and other services valuable to the members. Partners are
+                    also encouraged to tender functional, technical, support or administrative staff
+                    members to the Kuali Foundation for specific periods of time.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.krad">
+            <glossterm>KRAD - Kuali Rapid Application Development</glossterm>
+            <glossdef>
+                <para>TODO</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.krms">
+            <glossterm>KRMS - Kuali Rules Management System</glossterm>
+            <glossdef>
+                <para>TODO</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kuali.student">
+            <glossterm>KS - Kuali Student</glossterm>
+            <glossdef>
+                <para>Delivers a means to support students and other users with a student-centric
+                    system that provides real-time, cost-effective, scalable support to help them
+                    identify and achieve their goals while simplifying or eliminating administrative
+                    tasks. The high-level entities of person (evolving roles-student, instructor,
+                    etc.), time (nested units of time - semesters, terms, classes), learning unit
+                    (assigned to any learning activity), learning result (grades, assessments,
+                    evaluations), learning plan (intentions, activities, major, degree), and
+                    learning resources (instructors, classrooms, equipment). The concierge function
+                    is a self-service information sharing system that aligns information with needs
+                    and tasks to accomplish goals. The support for integration of locally-developed
+                    processes provides flexibility for any institution's needs.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.ksb">
+            <glossterm>KSB – Kuali Service Bus</glossterm>
+            <glossdef>
+                <itemizedlist>
+                    <para>Provides an out-of-the-box service architecture and runtime environment
+                        for Kuali Applications. It is the cornerstone of the Service Oriented
+                        Architecture layer of the architectural reference framework. The Kuali
+                        Service Bus consists of:</para>
+                    <listitem>
+                        <para>A services registry and repository for identifying and instantiating
+                            services</para>
+                    </listitem>
+                    <listitem>
+                        <para>Run time monitoring of messages</para>
+                    </listitem>
+                    <listitem>
+                        <para>Support for synchronous and asynchronous service and message
+                            paradigms</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kuali">
+            <glossterm>Kuali</glossterm>
+            <glossdef>
+                <orderedlist>
+                    <listitem>
+                        <para>Pronounced "ku-wah-lee". A partnership organization that produces a
+                            suite of community-source, modular administrative software for
+                            Carnegie-class higher education institutions. See also <glossterm
+                                linkend="glossary.kuali.foundation">Kuali Foundation</glossterm>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>(n.) A humble kitchen wok that plays an important role in a successful
+                            kitchen.</para>
+                    </listitem>
+                </orderedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kuali.foundation">
+            <glossterm>Kuali Foundation</glossterm>
+            <glossdef>
+                <para>Employs staff to coordinate partner efforts and to manage and protect the
+                    Foundation's intellectual property. The Kuali Foundation manages a growing
+                    portfolio of enterprise software applications for colleges and universities. A
+                    lightweight Foundation staff coordinates the activities of Foundation members
+                    for critical software development and coordination activities such as source
+                    code control, release engineering, packaging, documentation, project management,
+                    software testing and quality assurance, conference planning, and educating and
+                    assisting members of the Kuali Partners program.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.kuali.rice">
+            <glossterm>Kuali Rice</glossterm>
+            <glossdef>
+                <para>Provides an enterprise-class middleware suite of integrated products that
+                    allow both Kuali and non-Kuali applications to be built in an agile fashion,
+                    such that developers are able to react to end-user business requirements in an
+                    efficient manner to produce high-quality business applications. Built with
+                    Service Oriented Architecture (SOA) concepts in mind, KR enables developers to
+                    build robust systems with common enterprise workflow functionality, customizable
+                    and configurable user interfaces with a clean and universal look and feel, and
+                    general notification features to allow for a consolidated list of work "action
+                    items." All of this adds up to providing a re-usable development framework that
+                    encourages a simplified approach to developing true business functionality as
+                    modular applications.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>L</title>
+        <glossentry xml:id="glossary.last.modified.date">
+            <glossterm>Last Modified Date</glossterm>
+            <glossdef>
+                <para>The date on which the document was last modified (e.g., the date of the last
+                    action taken, the last action request generated, the last status changed,
+                    etc.).</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>M</title>
+        <glossentry xml:id="glossary.maintenance.document">
+            <glossterm>Maintenance Document</glossterm>
+            <glossdef>
+                <para>An e-doc used to establish and maintain a table record.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.message">
+            <glossterm>Message</glossterm>
+            <glossdef>
+                <para>The full description of a <glossterm linkend="glossary.notification.message"
+                        >notification message</glossterm>. This is a specific field that can be
+                    filled out as part of the Simple Message or Event Message form. This can also be
+                    set by the programmatic interfaces when sending notifications from a client
+                    system.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.message.queue">
+            <glossterm>Message Queue</glossterm>
+            <glossdef>
+                <para>Allows administrators to monitor messages that are flowing through the Service
+                    Bus. Messages can be edited, deleted or forwarded to other machines for
+                    processing from this screen.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>N</title>
+        <glossentry xml:id="glossary.namespace">
+            <glossterm>Namespace</glossterm>
+            <glossdef>
+                <para>A Namespace is a way to scope both <glossterm linkend="glossary.permission"
+                        >Permissions</glossterm> and <glossterm linkend="glossary.entity.attribute"
+                        >Entity Attributes</glossterm> Each Namespace instance is one level of
+                    scoping and is one record in the system. For example, "KRA" or "KC" or "KFS"
+                    could be a Namespace. Or you could further break those up into finer-grained
+                    Namespaces such that they would roughly correlate to functional modules within
+                    each application. Examples could be "KRA Rolodex", "KC Grants", "KFS Chart of
+                    Accounts".</para>
+                <para>Out of the box, the system is bootstrapped with numerous Rice namespaces which
+                    correspond to the different modules. There is also a default namespace of
+                    "KUALI".</para>
+                <para>Namespaces can be maintained at runtime through a maintenance document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.note.text">
+            <glossterm>Note Text</glossterm>
+            <glossdef>
+                <para>A free-form text field for the text of a Note</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.notification.content">
+            <glossterm>Notification Content</glossterm>
+            <glossdef>
+                <para>This section of a <glossterm linkend="glossary.notification.message"
+                        >notification message</glossterm> which displays the actual full message for
+                    the notification along with any other content-type-specific fields.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.notification.message">
+            <glossterm>Notification Message</glossterm>
+            <glossdef>
+                <para>The overall Notification item or Notification Message that a user sees when
+                    she views the details of a notification in her Action List. A Notification
+                    Message contains not only common elements such as Sender, Channel, and Title,
+                    but also content-type-specific fields.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>O</title>
+        <glossentry xml:id="glossary.ootb">
+            <glossterm>OOTB</glossterm>
+            <glossdef>
+                <para>Stands for "out of the box" and refers to the base deliverable of a given
+                    feature in the system.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.optimistic.locking">
+            <glossterm>Optimistic Locking</glossterm>
+            <glossdef>
+                <para>A type of "locking" that is placed on a database row by a process to prevent
+                    other processes from updating that row before the first process is complete. A
+                    characteristic of this locking technique is that another user who wants to make
+                    modifications at the same time as another user is permitted to, but the first
+                    one who submits their changes will have them applied. Any subsequent changes
+                    will result in the user being notified of the optimistic lock and their changes
+                    will not be applied. This technique assumes that another update is
+                    unlikely.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.optional.rule.extension.attribute">
+            <glossterm>Optional Rule Extension Attribute</glossterm>
+            <glossdef>
+                <para>An Extension Attribute that is not required in a Rule Template. It may or may
+                    not be present in a <glossterm linkend="glossary.routing.rule">Routing
+                        Rule</glossterm> created from the Template. It can be used as a conditional
+                    element to aid in deciding if a Rule matches. These Attributes are simply
+                    additional criteria for the Rule matching process.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.org.doc.number">
+            <glossterm>Org Doc #</glossterm>
+            <glossdef>
+                <para>The originating document number.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.organization">
+            <glossterm>Organization</glossterm>
+            <glossdef>
+                <para>Refers to a unit within the institution such as department, responsibility
+                    center, campus, etc.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.organization.code">
+            <glossterm>Organization Code</glossterm>
+            <glossdef>
+                <para>Represents a unique identifier assigned to units at many different levels
+                    within the institution (for example, department, responsibility center, and
+                    campus).</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>P</title>
+        <glossentry xml:id="glossary.parameter.component.code">
+            <glossterm>Parameter Component Code</glossterm>
+            <glossdef>
+                <para>Code identifying the parameter Component.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.parameter.description">
+            <glossterm>Parameter Description</glossterm>
+            <glossdef>
+                <para>This field houses the purpose of this parameter.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.parameter.name">
+            <glossterm>Parameter Name</glossterm>
+            <glossdef>
+                <para>This will be used as the identifier for the parameter. Parameter values will
+                    be accessed using this field and the namespace as the key.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.parameter.type.code">
+            <glossterm>Parameter Type Code</glossterm>
+            <glossdef>
+                <para>Code identifying the parameter type. Parameter Type Code is the primary key
+                    for its' table.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.parameter.value">
+            <glossterm>Parameter Value</glossterm>
+            <glossdef>
+                <para>This field houses the actual value associated with the parameter.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.parent.document.type">
+            <glossterm>Parent Document Type</glossterm>
+            <glossdef>
+                <para>A Document Type from which another <glossterm linkend="glossary.document.type"
+                        >Document Type</glossterm> derives. The child type can inherit certain
+                    properties of the parent type, any of which it may override. A Parent Document
+                    Type may have a parent as part of a hierarchy of document types.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.parent.rule">
+            <glossterm>Parent Rule</glossterm>
+            <glossdef>
+                <para>A Routing Rule in KEW from which another Routing Rule derives. The child Rule
+                    can inherit certain properties of the parent Rule, any of which it may override.
+                    A Parent Rule may have a parent as part of a hierarchy of Rules.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.permission">
+            <glossterm>Permission</glossterm>
+            <glossdef>
+                <para>Permissions represent fine grained actions that can be mapped to functionality
+                    within a given system. Permissions are scoped to <glossterm
+                        linkend="glossary.namespace">Namespace</glossterm> which roughly correlate
+                    to modules or sections of functionality within a given system.</para>
+                <para>A developer would code authorization checks in their application against these
+                    permissions.</para>
+                <para>Some examples would be: "canSave", "canView", "canEdit", etc.</para>
+                <para>Permissions are aggregated by <glossterm linkend="glossary.role"
+                        >Roles</glossterm>.</para>
+                <para>Permissions can be maintained at runtime through a user interface that is
+                    capable of workflow; however, developers still need to code authorization checks
+                    against them in their code, once they are set up in the system.</para>
+                <orderedlist>
+                    <para>Attributes</para>
+                    <listitem>
+                        <para>Id - a system generated unique identifier that is the primary key for
+                            any Permission record in the system</para>
+                    </listitem>
+                    <listitem>
+                        <para>Name - the name of the permission; also a human understandable unique
+                            identifier</para>
+                    </listitem>
+                    <listitem>
+                        <para>Description - a full description of the purpose of the Permission
+                            record</para>
+                    </listitem>
+                    <listitem>
+                        <para>Namespace - the reference to the associated <glossterm
+                                linkend="glossary.namespace">Namespace</glossterm></para>
+                    </listitem>
+                </orderedlist>
+                <orderedlist>
+                    <para>Relationships</para>
+                    <listitem>
+                        <para>Permission to <glossterm linkend="glossary.role">Role</glossterm> -
+                            many to many; this relationship ties a Permission record to a Role that
+                            is authorized for the Permission</para>
+                    </listitem>
+                    <listitem>
+                        <para>Permission to <glossterm linkend="glossary.namespace"
+                                >Namespace</glossterm> - many to one; this relationship allows for
+                            scoping of a Permission to a Namespace that contains functionality which
+                            keys its authorization checking off of said </para>
+                    </listitem>
+                </orderedlist>
+                <para/>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.person.identifier">
+            <glossterm>Person Identifier</glossterm>
+            <glossdef>
+                <para>The username of an individual user who receives the document ad hoc for the
+                    Action Requested</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.person.role">
+            <glossterm>Person Role</glossterm>
+            <glossdef>
+                <para>Creates or maintains the list used in selection of personnel when preparing
+                    the Routing Form document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.pessimistic.locking">
+            <glossterm>Pessimistic Locking</glossterm>
+            <glossdef>
+                <para>A type of lock placed on a database row by a process to prevent other
+                    processes from reading or updating that row until the first process is finished.
+                    This technique assumes that another update is likely.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.plugins">
+            <glossterm>Plugins</glossterm>
+            <glossdef>
+                <para>A plugin is a packaged set of code providing essential services that can be
+                    deployed into the Rice standalone server. Plugins usually contains only classes
+                    used in routing such as custom rules or searchable attributes, but can contain
+                    client application specific services. They are usually used only by clients
+                    being implemented by the 'Thin Client' method</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.post.processor">
+            <glossterm>Post Processor</glossterm>
+            <glossdef>
+                <para>A routing component that is notified by the workflow engine about various
+                    events pertaining to the routing of a specific document (e.g., node transition,
+                    status change, action taken). The implementation of a Post Processor is
+                    typically specific to a particular set of Document Types. When all required
+                    approvals are completed, the engine notifies the Post Processor accordingly. At
+                    this point, the Post Processor is responsible for completing the business
+                    transaction in the manner appropriate to its Document Type.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.posted.date.time.stamp">
+            <glossterm>Posted Date/Time Stamp</glossterm>
+            <glossdef>
+                <para>A free-form text field that identifies the time and date at which the Notes is
+                    posted.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.postal.code">
+            <glossterm>Postal Code</glossterm>
+            <glossdef>
+                <para>Defines zip code to city and state cross-references.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.preferences">
+            <glossterm>Preferences</glossterm>
+            <glossdef>
+                <para>User options in an Action List for displaying the list of documents. Users can
+                    click the Preferences button in the top margin of the Action List to display the
+                    Action List Preferences screen. On the Preferences screen, users may change the
+                    columns displayed, the background colors by Route Status, and the number of
+                    documents displayed per page.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.primary.delegate">
+            <glossterm>Primary Delegation</glossterm>
+            <glossdef>
+                <para>The Delegator turns over full authority to the Delegate. The Action Requests
+                    for the Delegator only appear in the Action List of the Primary Delegate. The
+                    Delegation must be registered in KEW or KIM to be in effect.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.principal">
+            <glossterm>Principal</glossterm>
+            <glossdef>
+                <para>A Principal represents an <glossterm linkend="glossary.entity"
+                        >Entity</glossterm> that can authenticate into the system. One can roughly
+                    correlate a Principal to a login username. Entities can exist in KIM without
+                    having permissions or authorization to do anything; therefore, a Principal must
+                    exist and must be associated with an Entity in order for it to have access
+                    privileges. All authorization that is not specific to <glossterm
+                        linkend="glossary.group">Groups</glossterm> is tied to a Principal.</para>
+                <para>In other words, an Entity is for identity while a Principal is for access
+                    management.</para>
+                <para>Also note that an Entity is allowed to have multiple Principals associated
+                    with it. The use case typically given here is that a person may apply to a
+                    school and receive one log in for the application system; however, once
+                    accepted, they may receive their official login, but use the same identity
+                    information set up for their Entity record.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.processed">
+            <glossterm>Processed</glossterm>
+            <glossdef>
+                <para>A routing status indicating that the document has no pending approval requests
+                    but still has one or more pending acknowledgement requests.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>R</title>
+        <glossentry xml:id="glossary.recipient.type">
+            <glossterm>Recipient Type</glossterm>
+            <glossdef>
+                <para>The type of entity that is receiving an Action Request. Can be a user,
+                    workgroup, or role.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.required.rule.extension.attribute">
+            <glossterm>Required Rule Extension Attribute</glossterm>
+            <glossdef>
+                <para>An Extension Attribute that is required in a Rule Template. It will be present
+                    in every Routing Rule created from the Template.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.responsibility">
+            <glossterm>Responsibility</glossterm>
+            <glossdef>
+                <para>See <glossterm linkend="glossary.responsible.party">Responsible
+                        Party</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.responsibility.id">
+            <glossterm>Responsibility Id</glossterm>
+            <glossdef>
+                <para>A unique identifier representing a particular responsibility on a rule (or
+                    from a <glossterm linkend="glossary.route.module">route module</glossterm> This
+                    identifier stays the same for a particular responsibility no matter how many
+                    times a rule is modified.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.responsible.party">
+            <glossterm>Responsible Party</glossterm>
+            <glossdef>
+                <para>The Reviewer defined on a routing rule that receives requests when the rule is
+                    successfully executed. Each routing rule has one or more responsible parties
+                    defined.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.reviewer">
+            <glossterm>Reviewer</glossterm>
+            <glossdef>
+                <para>A user acting on a document in his/her <glossterm
+                        linkend="glossary.action.list">Action List</glossterm> and who has received
+                    an <glossterm linkend="glossary.action.request">Action Request</glossterm> for
+                    the document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.rice">
+            <glossterm>Rice</glossterm>
+            <glossdef>
+                <para>An abbreviation for Kuali Rice.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.role">
+            <glossterm>Role</glossterm>
+            <glossdef>
+                <para>Roles aggregate <glossterm linkend="glossary.permission"
+                        >Permissions</glossterm> When Roles are given to <glossterm
+                        linkend="glossary.entity">Entities</glossterm> (via their relationship
+                    with Principals) or <glossterm linkend="glossary.group">Groups</glossterm> an
+                    authorization for all associated Permissions is granted.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.route.header.id">
+            <glossterm>Route Header Id</glossterm>
+            <glossdef>
+                <para>Another name for the <glossterm linkend="glossary.document.id">Document
+                        Id</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.route.log">
+            <glossterm>Route Log</glossterm>
+            <glossdef>
+                <para>Displays information about the routing of a document. The Route Log is usually
+                    accessed from either the Action List or a Document Search. It displays general
+                    document information about the document and a detailed list of Actions Taken and
+                    pending <glossterm linkend="glossary.action.request">Action Requests</glossterm>
+                    for the document. The Route Log can be considered an audit trail for a
+                    document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.route.module">
+            <glossterm>Route Module</glossterm>
+            <glossdef>
+                <para>A routing component that the engine uses to generate action requests at a
+                    particular <glossterm linkend="glossary.route.node">Route Node</glossterm>.
+                        <glossterm linkend="glossary.flexrm">FlexRM</glossterm> (Flexible Route
+                    Module) is a general Route Module that is rule-based. Clients can define their
+                    own Route Modules that can conduct specialized Routing based on routing tables
+                    or any other desired implementation.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.route.node">
+            <glossterm>Route Node</glossterm>
+            <glossdef>
+                <para>Represents a step in the routing process of a document type. Route node
+                    "instances" are created dynamically as a document goes through its routing
+                    process and can be defined to perform any function. The most common functions
+                    are to generate Action Requests or to split or join the route path. </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Simple: do some arbitrary work</para>
+                    </listitem>
+                    <listitem>
+                        <para>Requests: generate action requests using a Route Module or the Rules
+                            engine</para>
+                    </listitem>
+                    <listitem>
+                        <para>Split: split the route path into one or more parallel branches</para>
+                    </listitem>
+                    <listitem>
+                        <para>Join: join one or more branches back together</para>
+                    </listitem>
+                    <listitem>
+                        <para>Sub Process: execute another route path inline</para>
+                    </listitem>
+                    <listitem>
+                        <para>Dynamic: generate a dynamic route path</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.route.path">
+            <glossterm>Route Path</glossterm>
+            <glossdef>
+                <para>The path a document follows during the routing process. Consists of a set of
+                    route nodes and branches. The route path is defined as part of the <glossterm
+                        linkend="glossary.document.type">document type</glossterm>
+                    definition.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.route.status">
+            <glossterm>Route Status</glossterm>
+            <glossdef>
+                <itemizedlist>
+                    <para>The status of a document in the course of its routing:</para>
+                    <listitem>
+                        <para>Approved: These documents have been approved by all required reviewers
+                            and are waiting additional postprocessing.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Cancelled: These documents have been stopped. The document's initiator
+                            can 'Cancel' it before routing begins or a reviewer of the document can
+                            cancel it after routing begins. When a document is cancelled, routing
+                            stops; it is not sent to another Action List. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Disapproved: These documents have been disapproved by at least one
+                            reviewer. Routing has stopped for these documents.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Enroute: Routing is in progress on these documents and an action
+                            request is waiting for someone to take action.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Exception: A routing exception has occurred on this document. Someone
+                            from the Exception Workgroup for this Document Type must take action on
+                            this document, and it has been sent to the Action List of this
+                            workgroup.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Final: All required approvals and all acknowledgements have been
+                            received on these documents. No changes are allowed to a document that
+                            is in Final status.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Initiated: A user or a process has created this document, but it has
+                            not yet been routed to anyone's Action List.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Processed: These documents have been approved by all required users,
+                            and is completed on them. They may be waiting for Acknowledgements. No
+                            further action is needed on these documents.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Saved: These documents have been saved for later work. An author
+                            (initiator) can save a document before routing begins or a reviewer can
+                            save a document before he or she takes action on it. When someone saves
+                            a document, the document goes on that person's Action List.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.routed.by.user">
+            <glossterm>Routed By User</glossterm>
+            <glossdef>
+                <para>The user who submits the document into routing. This is often the same as the
+                    Initiator. However, for some types of documents they may be different.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.routing">
+            <glossterm>Routing</glossterm>
+            <glossdef>
+                <para>The process of moving a document through its route path as defined in its
+                    Document Type. Routing is executed and administered by the workflow engine. This
+                    process will typically include generating Action Requests and processing actions
+                    from the users who receive those requests. In addition, the Routing process
+                    includes callbacks to the Post Processor when there are changes in document
+                    state. </para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.routing.priority">
+            <glossterm>Routing Priority</glossterm>
+            <glossdef>
+                <para>A number that indicates the routing priority; a smaller number has a higher
+                    routing priority. Routing priority is used to determine the order that requests
+                    are activated on a route node with sequential activation type.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.routing.rule">
+            <glossterm>Routing Rule</glossterm>
+            <glossdef>
+                <para>A record that contains the data for the <glossterm
+                        linkend="glossary.rule.attribute">Rule Attributes</glossterm> specified in
+                    a <glossterm linkend="glossary.rule.template">Rule Template</glossterm> It is an
+                    instance of a Rule Template populated to determine the appropriate Routing. The
+                    Rule includes the Base Attributes, Required Extension Attributes, Responsible
+                    Party Attributes, and any Optional Extension Attributes that are declared in the
+                    Rule Template. Rules are evaluated at certain points in the routing process and,
+                    when they fire, can generate Action Requests to the responsible parties that are
+                    defined on them.</para>
+                <itemizedlist>
+                    <para>Technical considerations for a Routing Rules are:</para>
+                    <listitem>
+                        <para>Configured via a GUI (or imported from XML)</para>
+                    </listitem>
+                    <listitem>
+                        <para>Created against a Rule Template and a Document Type</para>
+                    </listitem>
+                    <listitem>
+                        <para>The Rule Template and it's list of Rule Attributes define what fields
+                            will be collected in the Rule GUI</para>
+                    </listitem>
+                    <listitem>
+                        <para>Rules define the users, groups and/or roles who should receive action
+                            requests</para>
+                    </listitem>
+                    <listitem>
+                        <itemizedlist>
+                            <para>Available Action Request Types that Rules can route</para>
+                            <listitem>
+                                <para>Complete</para>
+                            </listitem>
+                            <listitem>
+                                <para>Approve</para>
+                            </listitem>
+                            <listitem>
+                                <para>Acknowledge</para>
+                            </listitem>
+                            <listitem>
+                                <para>FYI</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>During routing, Rule Evaluation Sets are "selected" at each node.
+                            Default is to select by Document Type and Rule Template defined on the
+                            Route Node</para>
+                    </listitem>
+                    <listitem>
+                        <para>Rules match (or 'fire') based on the evaluation of data on the
+                            document and data contained on the individual rule</para>
+                    </listitem>
+                    <listitem>
+                        <itemizedlist>
+                            <para>Examples</para>
+                            <listitem>
+                                <para>If dollar amount is greater than $10,000 then send an Approval
+                                    request to Joe.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If department is "HR" request an Acknowledgment from the
+                                    HR.Acknowledgers workgroup.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.rule.attribute">
+            <glossterm>Rule Attribute</glossterm>
+            <glossdef>
+                <para>Rule attributes are a core KEW data element contained in a document that
+                    controls its Routing. It participates in routing as part of a Rule Template and
+                    is responsible for defining custom fields that can be rendered on a routing
+                    rule. It also defines the logic for how rules that contain the attribute data
+                    are evaluated.</para>
+                <itemizedlist>
+                    <para>Technical considerations for a Rule Attribute are:</para>
+                    <listitem>
+                        <para>They might be backed by a Java class to provide lookups and
+                            validations of appropriate values.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Define how a Routing Rule evaluates document data to determine whether
+                            or not the rule data matches the document data.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Define what data is collected on a rule.</para>
+                    </listitem>
+                    <listitem>
+                        <para>An attribute typically corresponds to one piece of data on a document
+                            (i.e dollar amount, department, organization, account, etc.).</para>
+                    </listitem>
+                    <listitem>
+                        <para>Can be written in Java or defined using XML (with matching done by
+                            XPath).</para>
+                    </listitem>
+                    <listitem>
+                        <para>Can have multiple GUI fields defined in a single attribute.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.rule.quickLinks">
+            <glossterm>Rule QuickLinks</glossterm>
+            <glossdef>
+                <para>A list of document groups with their document hierarchies and actions that can
+                    be selected. For specific document types, you can create the rule
+                    delegate.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.rule.template">
+            <glossterm>Rule Template</glossterm>
+            <glossdef>
+                <para>A Rule Template serves as a pattern or design for the routing rules. All of
+                    the Rule Attributes that include both Required and _Optional_ are contained in
+                    the Rule Template; it defines the structure of the routing rule of FlexRM. The
+                    Rule Template is also used to associate certain Route Nodes on a document type
+                    to routing rules.</para>
+                <itemizedlist>
+                    <para>Technical considerations for a Rule Templates are:</para>
+                    <listitem>
+                        <para>They are a composition of Rule Attributes</para>
+                    </listitem>
+                    <listitem>
+                        <para>Adding a 'Role' attribute to a template allows for the use of the Role
+                            on any rules created against the template</para>
+                    </listitem>
+                    <listitem>
+                        <para>When rule attributes are used for matching on rules, each attribute is
+                            associated with the other attributes on the template using an implicit
+                            'and' logic attributes</para>
+                    </listitem>
+                    <listitem>
+                        <para>Can be used to define various other aspects to be used by the rule
+                            creation GUI such as rule data defaults (effective dates, ignore
+                            previous, available request types, etc)</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>S</title>
+        <glossentry xml:id="glossary.save">
+            <glossterm>Save</glossterm>
+            <glossdef>
+                <para>A workflow action button that allows the Initiator of a document to save their
+                    work and close the document. The document may be retrieved from the initiator's
+                    Action List for completion and routing at a later time.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.saved">
+            <glossterm>Saved</glossterm>
+            <glossdef>
+                <para>A routing status indicating the document has been started but not yet
+                    completed or routed. The Save action allows the initiator of a document to save
+                    their work and close the document. The document may be retrieved from the
+                    initiator's action list for completion and routing at a later time.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.searchable.attributes">
+            <glossterm>Searchable Attributes</glossterm>
+            <glossdef>
+                <para>Attributes that can be defined to index certain pieces of data on a document
+                    so that it can be searched from the <glossterm
+                        linkend="glossary.document.search">Document Search
+                    screen</glossterm>.</para>
+                <itemizedlist>
+                    <para>Technical considerations for a Searchable Attributes are:</para>
+                    <listitem>
+                        <para>They are responsible for extracting and indexing document data for
+                            searching</para>
+                    </listitem>
+                    <listitem>
+                        <para>They allow for custom fields to be added to Document Search for
+                            documents of a particular type</para>
+                    </listitem>
+                    <listitem>
+                        <para>They are configured as an attribute of a Document Type</para>
+                    </listitem>
+                    <listitem>
+                        <para>They can be written in Java or defined in XML by using Xpath to
+                            facilitate matching</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.secondary.delegate">
+            <glossterm>Secondary Delegation</glossterm>
+            <glossdef>
+                <para>The Secondary Delegate acts as a temporary backup Delegator who acts with the
+                    same authority as the primary Approver/the Delegator when the Delegator is not
+                    available. Documents appear in the Action Lists of both the Delegator and the
+                    Delegate. When either acts on the document, it disappears from both Action
+                    Lists.</para>
+                <para>Secondary Delegation is often configured for a range of dates and it must be
+                    registered in KEW or KIM to be in effect.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.service.registry">
+            <glossterm>Service Registry</glossterm>
+            <glossdef>
+                <para>Displays a read-only view of all of the services that are exposed on the
+                    Service Bus and includes information about them (for example, IP Address, or
+                    Endpoint URL).</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.simple.node">
+            <glossterm>Simple Node</glossterm>
+            <glossdef>
+                <para>A type of node that can perform any function desired by the implementer. An
+                    example implementation of a simple node is the node that generates Action
+                    Requests from route modules.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.soa">
+            <glossterm>SOA</glossterm>
+            <glossdef>
+                <para>An acronym for Service Oriented Architecture.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.special.condition.routing">
+            <glossterm>Special Condition Routing</glossterm>
+            <glossdef>
+                <para>This is a generic term for additional route levels that might be triggered by
+                    various attributes of a transaction. They can be based on the type of document,
+                    attributes of the accounts being used, or other attributes of the transaction.
+                    They often represent special administrative approvals that may be
+                    required.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.split.node">
+            <glossterm>Split Node</glossterm>
+            <glossdef>
+                <para>A node in the routing path that can split the route path into multiple
+                    branches.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.spring">
+            <glossterm>Spring</glossterm>
+            <glossdef>
+                <para>The <link xlink:href="http://www.springsource.org/">Spring Framework</link> is
+                    an open source application framework for the Java platform.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.state">
+            <glossterm>State</glossterm>
+            <glossdef>
+                <para>Defines U.S. Postal Service codes used to identify states.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.status">
+            <glossterm>Status</glossterm>
+            <glossdef>
+                <para>On an Action List; also known as Route Status. The current location of the
+                    document in its routing path.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.submit">
+            <glossterm>Submit</glossterm>
+            <glossdef>
+                <para>A workflow action button used by the initiator of a document to begin workflow
+                    routing for that transaction. It moves the document (through workflow) to the
+                    next level of approval. Once a document is submitted, it remains in 'ENROUTE'
+                    status until all approvals have taken place.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.superuser">
+            <glossterm>Superuser</glossterm>
+            <glossdef>
+                <para>A user who has been given special permission to perform Superuser Approvals
+                    and other Superuser actions on documents of a certain Document Type.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.superuser.approval">
+            <glossterm>Superuser Approval</glossterm>
+            <glossdef>
+                <para>Authority given Superusers to approve a document of a chosen Route Node. A
+                    Superuser Approval action bypasses approvals that would otherwise be required in
+                    the Routing. It is available in Superuser Document Search. In most cases,
+                    reviewers who are skipped are not sent Acknowledge Action Requests.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.superuser.document.search">
+            <glossterm>Superuser Document Search</glossterm>
+            <glossdef>
+                <para>A special mode of Document Search that allows Superusers to access documents
+                    in a special Superuser mode and perform administrative functions on those
+                    documents. Access to these documents is governed by the user's membership in the
+                    Superuser Workgroup as defined on a particular Document Type.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>T</title>
+        <glossentry xml:id="glossary.thread.pool">
+            <glossterm>Thread pool</glossterm>
+            <glossdef>
+                <para>A technique that improves overall system performance by creating a pool of
+                    threads to execute multiple tasks at the same time. A task can execute
+                    immediately if a thread in the pool is available or else the task waits for a
+                    thread to become available from the pool before executing.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.title">
+            <glossterm>Title</glossterm>
+            <glossdef>
+                <para>A short summary of the notification message. This field can be filled out as
+                    part of the Simple Message or Event Message form. In addition, this can be set
+                    by the programmatic interfaces when sending notifications from a client
+                    system.</para>
+                <para>This field is equivalent to the "Subject" field in an email.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>U</title>
+        <glossentry xml:id="glossary.url">
+            <glossterm>URL</glossterm>
+            <glossdef>
+                <para>An acronym for Uniform Resource Locator.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.user">
+            <glossterm>User</glossterm>
+            <glossdef>
+                <para>A person who can log in and use the application. This term is synonymous with
+                    "Principal" in KIM.  "Whereas Entity Id represents a unique Person, Principal Id
+                    represents a set of login information for that Person." </para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>V</title>
+        <glossentry xml:id="glossary.viewer">
+            <glossterm>Viewer</glossterm>
+            <glossdef>
+                <para>A user(s) who views a document during the routing process. This includes users
+                    who have action requests generated to them on a document.</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>W</title>
+        <glossentry xml:id="glossary.web.service.client">
+            <glossterm>Web Service Client</glossterm>
+            <glossdef>
+                <para>A type of client that connects to a standalone KEW server using Web
+                    Services.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.wildcard">
+            <glossterm>Wildcard</glossterm>
+            <glossdef>
+                <para>A character that may be substituted for any of a defined subset of all
+                    possible characters.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.workflow">
+            <glossterm>Workflow</glossterm>
+            <glossdef>
+                <para>Electronic document routing, approval and tracking. Also known as Workflow
+                    Services or Kuali Enterprise Workflow (KEW). The Kuali infrastructure service
+                    that electronically routes an e-doc to its approvers in a prescribed sequence,
+                    according to established business rules based on the e-doc content. See also
+                        <glossterm linkend="glossary.kew">Kuali Enterprise
+                    Workflow</glossterm>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.workflow.engine">
+            <glossterm>Workflow Engine</glossterm>
+            <glossdef>
+                <para>The component of KEW that handles initiating and executing the route path of a
+                    document.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.workflow.quickLinks">
+            <glossterm>Workflow QuickLinks</glossterm>
+            <glossdef>
+                <itemizedlist>
+                    <para>A web interface that provides quick navigation to various functions in
+                        KEW. These include:</para>
+                    <listitem>
+                        <para>Quick EDoc Watch: The last five Actions taken by this user. The user
+                            can select and repeat these actions.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Quick EDoc Search: The last five EDocs searched for by this user. The
+                            user can select one and repeat that search.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Quick Action List: The last five document types the user took action
+                            with. The user can select one and repeat that action.</para>
+                    </listitem>
+                </itemizedlist>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>X</title>
+        <glossentry xml:id="glossary.xml">
+            <glossterm>XML</glossterm>
+            <glossdef>
+                <para>See also <glossterm linkend="glossary.xml.ingester">XML
+                    Ingester</glossterm>.</para>
+                <orderedlist>
+                    <listitem>
+                        <para>An acronym for Extensible Markup Language.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Used for data import/export.</para>
+                    </listitem>
+                </orderedlist>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.xml.ingester">
+            <glossterm>XML Ingester</glossterm>
+            <glossdef>
+                <para>A workflow function that allows you to browse for and upload XML data.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="glossary.xml.ruleAttribute">
+            <glossterm>XML RuleAttribute</glossterm>
+            <glossdef>
+                <para>Similar in functionality to a RuleAttribute but built using XML only</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+</glossary>

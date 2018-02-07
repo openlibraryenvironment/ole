@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="tuning_rice" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Tuning Kuali Rice ${project.version}</title>
+    <para>Performance tuning is an art form in and of itself, and tuning Kuali Rice is no exception.
+        Here are some items we've found that may help with your tuning issues. Additionally, we are
+        collecting performance tuning information in the Kuali Rice wiki at <link
+            xlink:href="https://wiki.kuali.org/x/2hOeEg"
+        >https://wiki.kuali.org/x/2hOeEg</link>.</para>
+    <section xml:id="JVM_Tuning">
+        <title>JVM Tuning</title>
+        <para>To avoid OutOfMemoryError errors, tune the JVM by increasing the allocated
+            memory.</para>
+        <para>Add these lines to the catalina.sh file in the tomcat/bin directory:</para>
+        <para><programlisting>JAVA_OPTS="-Xmx=512m –XX:MaxPermSize=256m"</programlisting></para>
+    </section>
+</chapter>

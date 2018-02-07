@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- This is similar to the "ChildParentTestConfig1.xml" file in org.kuali.rice.kew.doctype, but with different documents. -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>PCITestChild2</name>
+            <parent>PCITestParent1</parent>
+            <label>PCITestChild2</label>
+            <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+        </documentType>
+        <documentType>
+            <name>PCITestChild4</name>
+            <parent>PCITestChild2</parent>
+            <label>PCITestChild4</label>
+        </documentType>
+        <documentType>
+            <name>PCITestParent1</name>
+            <label>PCITestParent1</label>
+            <postProcessorName>mocks.MockPostProcessor</postProcessorName>
+        </documentType>
+        <documentType>
+            <name>PCITestChild6</name>
+            <parent>PCITestParent2</parent>
+            <label>PCITestChild6</label>
+        </documentType>
+        <documentType>
+            <name>PCITestParent2</name>
+            <label>PCITestParent2</label>
+        </documentType>
+    </documentTypes>
+</data>

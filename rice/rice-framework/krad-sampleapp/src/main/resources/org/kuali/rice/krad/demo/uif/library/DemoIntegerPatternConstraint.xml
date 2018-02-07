@@ -1,0 +1,87 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- IntegerPatternConstraint demo -->
+  <bean id="Demo-IntegerPatternConstraint-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoIntegerPatternConstraint.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.datadictionary.validation.constraint.IntegerPatternConstraint"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-IntegerPatternConstraint-Example1"/>
+        <ref bean="Demo-IntegerPatternConstraint-Example2"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-IntegerPatternConstraint-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-IntegerPatternConstraint-Example1 start-->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField1"
+              p:constraintText="Positive integer or zero only">
+          <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint"/>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-IntegerPatternConstraint-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- Flags -->
+  <bean id="Demo-IntegerPatternConstraint-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-IntegerPatternConstraint-Example2 start-->
+        <!-- negative integers allowed -->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="inputField2"
+              p:constraintText="Positive, negative, or zero integer">
+          <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+          </property>
+        </bean>
+
+        <!-- zero not allowed -->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="inputField3"
+              p:constraintText="Any positive non-zero integer">
+          <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:omitZero="true"/>
+          </property>
+        </bean>
+
+        <!-- ONLY negative integers allowed -->
+        <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="inputField4"
+              p:constraintText="Only negative integers (non-zero) allowed">
+          <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:onlyNegative="true" p:omitZero="true"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-IntegerPatternConstraint-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

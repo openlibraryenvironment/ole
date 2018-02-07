@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+      <group>
+        <name>TestUserGroup</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>Group for test user</description>
+        <active>true</active>
+        <type>
+          <namespace>KR-WKFLW</namespace>
+          <name>Document Type, Routing Node &amp; Action Information</name>
+        </type>
+        <attributes>
+          <attribute key="documentTypeName" value="Doc"/>
+          <attribute key="routeNodeName" value="P"/>
+          <attribute key="required" value="false"/>
+          <attribute key="actionDetailsAtRoleMemberLevel" value="false"/>
+        </attributes>
+        <members>
+          <principalName>ewestfal</principalName>
+          <principalName>rkirkend</principalName>
+          <principalId>2015</principalId>
+          <groupName>
+            <name>TestWorkgroup</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+          <!-- <principalId>imbad</principalId>-->
+        </members>
+      </group>
+      <group>
+        <name>TestUserGroup</name>
+        <namespace>KR-WKFLW</namespace>
+        <description>Group for test user</description>
+        <active>true</active>
+        <type>
+          <namespace>KR-WKFLW</namespace>
+          <name>Document Type, Routing Node &amp; Action Information</name>
+        </type>
+        <attributes>
+          <attribute key="required" value="false"/>
+          <attribute key="actionDetailsAtRoleMemberLevel" value="false"/>
+        </attributes>
+        <members>
+          <principalName>ewestfal</principalName>
+          <principalName>rkirkend</principalName>
+          <principalId>2015</principalId>
+          <groupName>
+            <name>TestWorkgroup</name>
+            <namespace>KR-WKFLW</namespace>
+          </groupName>
+          <!-- <principalId>imbad</principalId>-->
+        </members>
+      </group>
+  </groups>
+</data>

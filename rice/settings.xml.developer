@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <!--
+    This is the recommended Maven settings.xml file for Kuali developers to use when building the 
+    Rice source code.
+
+    The private developer repository contains artifacts that are not licensed for public 
+    redistribution.  (Oracle's JDBC drivers, for example).  Kuali developers with a 
+    signed CLA on file with the Kuali foundation, can contact their development manager
+    for the password to the private repo and fill that in below.  This is the same
+    settings.xml used by the automated build servers and will insulate you from any issues
+    related to downloading Oracle jdbc drivers.
+   -->  
+
+  <!-- 
+   Create a mirror for "*" so Maven will download all artifacts via Kuali's Nexus cluster
+   
+   Kuali's Nexus proxies Maven Central and also provides access to a handful of artifacts
+   Maven Central does not have
+   -->
+  <mirrors>
+    <mirror>
+      <id>kuali.private</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://nexus.kuali.org/content/groups/developer</url>
+    </mirror>
+  </mirrors>
+  <servers>
+    <server>
+      <id>kuali.private</id>
+      <username>developer</username>
+      <password>[kuali developer password]</password>
+    </server>
+  </servers>
+</settings>
+

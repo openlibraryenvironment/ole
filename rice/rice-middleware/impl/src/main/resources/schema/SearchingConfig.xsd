@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:ra="ns:workflow/RuleAttribute"
+        xmlns:ed="ns:workflow/EDocLite"
+        targetNamespace="ns:workflow/RuleAttribute"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+ 
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+ 
+      http://www.opensource.org/licenses/ecl1.php
+ 
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Rule Attribute Searching Config schema
+    </documentation>
+  </annotation>
+
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+  <!-- Xerces DOES NOT like it when you import a namespace at different times
+      from different schema files, and will throw inscrutable error messages
+      about not being able to find definitions in the namespace (maybe because
+      it just picks one of the schemas to use as the "canonical" one?)
+      Here's the clue google gave me:
+      http://www.oxygenxml.com/pipermail/oxygen-user/2004-August/000290.html
+      So just make sure to always import a namespace from whatever the root
+      schema is for all definitions in that namespace.  Since I didn't want
+      to generate lots of extra constituent namespaces, some children EDocLite and
+      RuleAttribute definitions are "<include>"ed in their respective top-level
+      schema docs.
+      -->
+  <import namespace="ns:workflow/EDocLite" schemaLocation="resource:EDocLite"/>
+
+  <element name="searchingConfig" type="ra:SearchingConfigType"/>
+
+  <!-- this is almost identical to the EDocLiteDef.xsd -->
+  <complexType name="SearchingConfigType">
+    <sequence>
+      <element name="field" type="ra:SearchingConfigFieldType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 field(s) for the searcing Configuration.
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="xmlSearchContent" type="ra:XmlSearchContentType" minOccurs="0" maxOccurs="1">
+      	<annotation>
+      		<documentation>
+      		 xml search funtion in the system.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <!-- extends the EDocLite FieldType to add <fieldEvaluation> element -->
+  <complexType name="SearchingConfigFieldType">
+    <complexContent>
+      <extension base="ed:FieldType">
+        <sequence>
+          <element name="fieldEvaluation" type="ra:FieldEvaluationType">
+          	<annotation>
+          		<documentation>
+                A modifiable field evaluation parameter in the system.
+          		</documentation>
+          	</annotation>
+          </element>
+        </sequence>
+        <attribute name="workflowType" default="ALL">
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="ALL"/>
+              <enumeration value="RULE"/>
+              <enumeration value="REPORT"/>
+            </restriction>
+          </simpleType>
+        </attribute>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="FieldEvaluationType">
+    <sequence>
+      <element name="xpathexpression" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 Defines the xpath expression that's used to execute a rule match for a rule attribute or
+      		 extract search data for indexing in the case of a searchable attribute.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <!-- this is the optional custom user-supplied document which undergoes variable replacement -->
+  <complexType name="XmlSearchContentType">
+    <sequence>
+      <!-- with processContents="lax" I think we have the best of both worlds:
+           we don't have to specify a schema here, but IF the user specifies
+           a namespace and schema on the element they supply for this 'any'
+           element, THEN validation will be attempted on their schema (I think) -->
+      <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+    </sequence>
+  </complexType>
+
+</schema>

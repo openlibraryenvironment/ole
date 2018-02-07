@@ -1,0 +1,373 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- Breadcrumbs demo -->
+  <bean id="Demo-Breadcrumbs-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoBreadcrumbs.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.view.View"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-Breadcrumbs-Example1"/>
+        <ref bean="Demo-Breadcrumbs-Example2"/>
+        <ref bean="Demo-Breadcrumbs-Example3"/>
+        <ref bean="Demo-Breadcrumbs-Example4"/>
+        <ref bean="Demo-Breadcrumbs-Example5"/>
+        <ref bean="Demo-Breadcrumbs-Example6"/>
+        <ref bean="Demo-Breadcrumbs-Example7"/>
+        <ref bean="Demo-Breadcrumbs-Example8"/>
+        <ref bean="Demo-Breadcrumbs-Example9"/>
+        <ref bean="Demo-Breadcrumbs-Example10"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Default Breadcrumbs"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View1&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Home ParentLocation"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View2&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="ParentLocation Chain/Trail"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View3&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="ParentLocation View and Page"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View4&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="preView and prePage breadcrumbs"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View5&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Override Breadcrumb Label"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View6&amp;methodToCall=start&amp;inputField1=avalue1"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Homeward Path Breadcrumbs"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View7&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Path-based Breadcrumbs"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View8&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example9" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Breadcrumb Overrides"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View9&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Example10" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Link" p:linkText="Sibling Breadcrumbs"
+              p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View10&amp;methodToCall=start"
+              p:target="_blank"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View1" parent="Demo-Breadcrumbs-BaseView"></bean>
+
+  <bean id="Demo-Breadcrumbs-View2" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example2 start-->
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation">
+        <property name="parentViewLabel" value="Home"/>
+        <property name="parentViewUrl.viewId" value="KradSampleAppHome"/>
+        <property name="parentViewUrl.controllerMapping" value="/kradsampleapp"/>
+      </bean>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example2 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View3" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example3 start-->
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation">
+        <property name="parentViewLabel" value="My Parent View"/>
+        <property name="parentViewUrl.viewId" value="Demo-Breadcrumbs-ParentView"/>
+        <property name="parentViewUrl.controllerMapping" value="/kradsampleapp"/>
+      </bean>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example3 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View4" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example4 start-->
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation">
+        <property name="parentViewLabel" value="My Parent View"/>
+        <property name="parentViewUrl.viewId" value="Demo-Breadcrumbs-ParentView"/>
+        <property name="parentViewUrl.controllerMapping" value="/kradsampleapp"/>
+
+        <property name="parentPageUrl.viewId" value="Demo-Breadcrumbs-ParentView"/>
+        <property name="parentPageUrl.pageId" value="Demo-Breadcrumbs-Page2"/>
+        <property name="parentPageUrl.controllerMapping" value="/kradsampleapp"/>
+      </bean>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example4 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View5" parent="Demo-Breadcrumbs-BaseView">
+    <property name="entryPageId" value="Demo-Breadcrumbs-Page2"/>
+    <!-- ex:Demo-Breadcrumbs-Example5 start-->
+    <property name="breadcrumbOptions.preViewBreadcrumbs">
+      <list>
+        <bean parent="Uif-BreadcrumbItem" p:label="Application"
+              p:url.href="@{#ConfigProperties['application.url']}"/>
+      </list>
+    </property>
+    <property name="breadcrumbOptions.prePageBreadcrumbs">
+      <list>
+        <bean parent="Uif-BreadcrumbItem" p:label="Previous Page"
+              p:url.viewId="Demo-Breadcrumbs" p:url.pageId="Demo-Breadcrumbs-Page1"
+              p:url.controllerMapping="/kradsampleapp"/>
+      </list>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example5 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View6" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example6 start-->
+    <property name="breadcrumbItem.label" value="View (@{inputField1})"/>
+    <!-- ex:Demo-Breadcrumbs-Example6 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View7" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example7 start-->
+    <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+      <list>
+        <bean parent="Uif-BreadcrumbItem">
+          <property name="label" value="Home"/>
+          <property name="url.href" value="@{#ConfigProperties['application.url']}"/>
+        </bean>
+      </list>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example7 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View8" parent="Demo-Breadcrumbs-BaseView" p:style="height: 600px;">
+    <!-- ex:Demo-Breadcrumbs-Example8 start-->
+    <property name="breadcrumbs.usePathBasedBreadcrumbs" value="true"/>
+
+    <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+      <list>
+        <bean parent="Uif-BreadcrumbItem">
+          <property name="label" value="Home"/>
+          <property name="url.href" value="@{#ConfigProperties['application.url']}"/>
+        </bean>
+      </list>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example8 end-->
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page">
+          <property name="headerText" value="Page 1 Title"/>
+          <property name="items">
+            <list>
+              <!-- ex:Demo-Breadcrumbs-Example8 start-->
+              <!-- query parameter "flow" on the href is what continues the history flow (continues the path-based breadcrumbs) -->
+              <bean parent="Uif-Link" p:linkText="Click me to continue chaining path-based breadcrumbs"
+                    p:href="@{#ConfigProperties['krad.url']}/kradsampleapp?viewId=Demo-Breadcrumbs-View8&amp;methodToCall=start&amp;flow=@{flowKey}"/>
+              <!-- ex:Demo-Breadcrumbs-Example8 end-->
+            </list>
+          </property>
+        </bean>
+        <ref bean="Demo-Breadcrumbs-Page2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View9" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example9 start-->
+    <property name="breadcrumbOptions.breadcrumbOverrides">
+      <list>
+        <bean parent="Uif-BreadcrumbItem" p:label="Application"
+              p:url.href="@{#ConfigProperties['application.url']}"/>
+        <bean parent="Uif-BreadcrumbItem" p:label="Breadcrumbs Demo"
+              p:url.viewId="Demo-Breadcrumbs-View" p:url.controllerMapping="/kradsampleapp"/>
+        <bean parent="Uif-BreadcrumbItem" p:label="Override Demo"
+              p:url.viewId="Demo-Breadcrumbs-View9" p:url.controllerMapping="/kradsampleapp"/>
+        <bean parent="Uif-BreadcrumbItem" p:label="Demo Page"
+              p:url.viewId="Demo-Breadcrumbs-View9" p:url.pageId="Demo-Breadcrumbs-Page1"
+              p:url.controllerMapping="/kradsampleapp"/>
+      </list>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example9 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-View10" parent="Demo-Breadcrumbs-BaseView">
+    <!-- ex:Demo-Breadcrumbs-Example10 start-->
+    <property name="breadcrumbItem.siblingBreadcrumbComponent">
+      <bean parent="Uif-InputField" p:label="Navigate to" p:propertyName="viewId">
+        <property name="control">
+          <bean parent="Uif-DropdownControl">
+            <property name="options">
+              <list>
+                <bean parent="Uif-KeyValueLocation" p:key="Demo-Breadcrumbs-View" p:value="Breadcrumbs"
+                      p:location.viewId="Demo-Breadcrumbs-View"
+                      p:location.controllerMapping="/kradsampleapp"/>
+                <bean parent="Uif-KeyValueLocation" p:key="Demo-InputField-View" p:value="Rich Messages View"
+                      p:location.viewId="Demo-InputField-View"
+                      p:location.controllerMapping="/kradsampleapp"/>
+                <bean parent="Uif-KeyValueLocation" p:key="Demo-Action-View" p:value="ReadOnly Test View"
+                      p:location.viewId="Demo-Action-View"
+                      p:location.controllerMapping="/kradsampleapp"/>
+                <bean parent="Uif-KeyValueLocation" p:key="Demo-OptionsListControl-View" p:value="Client Disable View"
+                      p:location.viewId="Demo-OptionsListControl-View"
+                      p:location.controllerMapping="/kradsampleapp"/>
+              </list>
+            </property>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example10 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-BaseView" parent="Uif-FormView" p:style="padding-top: 0;">
+    <!-- ex:Demo-Breadcrumbs-Example1 start-->
+    <property name="headerText" value="View Title"/>
+    <!-- ex:Demo-Breadcrumbs-Example1 end-->
+    <property name="navigation">
+      <ref bean="Demo-Breadcrumbs-Menu"/>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="Demo-Breadcrumbs-Page1"/>
+        <ref bean="Demo-Breadcrumbs-Page2"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-Breadcrumbs-Example3 start-->
+  <bean id="Demo-Breadcrumbs-ParentView" parent="Demo-Breadcrumbs-BaseView">
+    <property name="headerText" value="View Title"/>
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation">
+        <property name="parentViewLabel" value="Home"/>
+        <property name="parentViewUrl.viewId" value="KradSampleAppHome"/>
+        <property name="parentViewUrl.controllerMapping" value="/kradsampleapp"/>
+      </bean>
+    </property>
+    <!-- ex:Demo-Breadcrumbs-Example3 end-->
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Menu" parent="Uif-MenuNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
+        <bean parent="Uif-NavigationActionLink" p:actionLabel="Page 1"
+              p:navigateToPageId="Demo-Breadcrumbs-Page1"/>
+        <bean parent="Uif-NavigationActionLink" p:actionLabel="Page 2"
+              p:navigateToPageId="Demo-Breadcrumbs-Page2"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Page1" parent="Uif-Page">
+    <!-- ex:Demo-Breadcrumbs-Example1 start-->
+    <property name="headerText" value="Page 1 Title"/>
+    <!-- ex:Demo-Breadcrumbs-Example1 end-->
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField1"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField2"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField3"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField4"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField5"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField6"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField7"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField8"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField9"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField10"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField11"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField12"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField13"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField14"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField15"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField16"/>
+        <bean parent="Uif-InputField-LabelTop" p:label="Field" p:propertyName="inputField17"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Breadcrumbs-Page2" parent="Demo-Breadcrumbs-Page1" p:headerText="Page 2 Title"/>
+
+
+</beans>

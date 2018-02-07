@@ -61,9 +61,9 @@
         <property name="items">
             <list>
                 <bean id="circRenew_selectAll" parent="Uif-SecondaryActionButton" p:actionLabel="Select All"
-                      p:actionScript="jq('.renewItemCBClass').attr('checked','true');"  />
+                      p:actionScript="jq('.renewItemCBClass').attr('checked','true');"  p:style = "margin-top:20px"/>
                 <bean id="circRenew_deselectAll" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All"
-                      p:actionScript="jq('.renewItemCBClass').removeAttr('checked');" />
+                      p:actionScript="jq('.renewItemCBClass').removeAttr('checked');" p:style = "margin-top:20px"/>
             </list>
         </property>
     </bean>
@@ -80,8 +80,8 @@
             <bean id="circ_renewFooters" parent="Uif-LookupResultsFooter">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="jq('.renewItemCBClass').attr('checked','true');"/>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="jq('.renewItemCBClass').removeAttr('checked');"/>
+                        <bean id="circRenew_selectAll_top" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="jq('.renewItemCBClass').attr('checked','true');"/>
+                        <bean id="circRenew_deselectAll_top" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="jq('.renewItemCBClass').removeAttr('checked');"/>
                     </list>
                 </property>
             </bean>

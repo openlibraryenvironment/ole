@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="TermBo" parent="TermBo-parentBean"/>
+  <bean id="TermBo-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.TermBo"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+      <list>
+        <ref bean="TermBo-id"/>
+        <ref bean="TermBo-description"/>
+        <ref bean="TermBo-specificationId"/>
+        <ref bean="TermBo-specificationNamespace"/>
+        <ref bean="TermBo-specificationName"/>
+        <ref bean="TermBo-specificationType"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Term"/>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+
+  <bean id="TermBo-id" parent="TermBo-id-parentBean"/>
+  <bean id="TermBo-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="ID"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="name" value="id"/>
+    <property name="label" value="ID"/>
+  </bean>
+
+  <bean id="TermBo-description" parent="TermBo-description-parentBean"/>
+  <bean id="TermBo-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="controlField">
+      <bean parent="Uif-TextAreaControl" p:cols="40" p:rows="1" p:textExpand="true" />
+    </property>
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+  </bean>
+
+  <bean id="TermBo-specificationId" parent="TermBo-specificationId-parentBean"/>
+  <bean id="TermBo-specificationId-parentBean" abstract="true" parent="TermSpecificationBo-id" p:required="true">
+    <property name="name" value="specification.id"/>
+  </bean>
+
+  <bean id="TermBo-specificationName" parent="TermBo-specificationName-parentBean"/>
+  <bean id="TermBo-specificationName-parentBean" abstract="true" parent="TermSpecificationBo-name">
+    <property name="name" value="specification.name"/>
+  </bean>
+
+  <bean id="TermBo-specificationNamespace" parent="TermBo-specificationNamespace-parentBean"/>
+  <bean id="TermBo-specificationNamespace-parentBean" abstract="true" parent="TermSpecificationBo-namespace">
+    <property name="name" value="specification.namespace"/>
+  </bean>
+
+  <bean id="TermBo-specificationType" parent="TermBo-specificationType-parentBean"/>
+  <bean id="TermBo-specificationType-parentBean" abstract="true" parent="TermSpecificationBo-type">
+    <property name="name" value="specification.type"/>
+  </bean>
+
+
+  <!-- Maintenance View -->
+
+  <bean id="TermMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.TermBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.krms.impl.ui.TermMaintainable"/>
+    <property name="documentTypeName" value="TermMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.krms.impl.rule.TermBusRule" />
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Term-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Term"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.TermBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krms.impl.ui.TermMaintainable"/>
+    <property name="mergeWithPageItems" value="false"/>
+    <property name="items">
+      <list>
+        <ref bean="Term-MainSection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Term-MainSection" parent="Uif-VerticalBoxSection">
+    <property name="headerText" value="Term" />
+    <property name="items">
+      <list>
+        <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+          <property name="items">
+            <list>
+
+              <bean parent="Uif-InputField" p:propertyName="description" p:label="Description">
+                <!-- property name="control">
+                  <bean parent="Uif-TextAreaControl"/>
+                </property -->
+
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="specification.namespace" p:label="Namespace" p:required="true">
+                <property name="optionsFinderClass" value="org.kuali.rice.coreservice.web.namespace.NamespaceValuesFinder"/>
+                <property name="control">
+                  <bean parent="Uif-DropdownControl"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="specificationId" p:label="Specification ID" p:required="true">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="30"/>
+                </property>
+
+                <property name="quickfinder">
+                  <bean parent="Uif-QuickFinder"
+                        p:dataObjectClassName="org.kuali.rice.krms.impl.repository.TermSpecificationBo">
+                    <property name="fieldConversions">
+                      <map>
+                        <entry key="id" value="specificationId"/>
+                        <entry key="name" value="specification.name"/>
+                        <entry key="namespace" value="specification.namespace"/>
+                        <entry key="type" value="specification.type"/>
+                        <entry key="description" value="specification.description"/>
+                      </map>
+                    </property>
+                    <property name="lookupParameters">
+                      <map>
+                        <entry key="specification.namespace" value="namespace"/>
+                        <entry key="specification.name" value="name"/>
+                        <entry key="specification.id" value="id"/>
+                      </map>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="specification.name" p:label="Name" p:readOnly="true">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="30"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="specification.type" p:label="Value Class" p:readOnly="true">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="30"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="specification.description" p:label="Specification Description" p:readOnly="true">
+                <property name="control">
+                  <bean parent="Uif-TextAreaControl" p:cols="80" p:rows="3"/>
+                </property>
+              </bean>
+
+              <bean parent="TermSpec-Categories" p:readOnly="true" p:propertyName="specification.categories" p:colSpan="2" />
+
+              <bean parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="2" p:colSpan="2"
+                    p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.specificationId"
+                    p:renderHeader="@{document.newMaintainableObject.dataObject.specificationId != null and document.newMaintainableObject.dataObject.specificationId.trim() != ''}"
+                    p:headerText="Term Parameters" >
+
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="parametersMap"
+                          p:fetchingMethodToCall="retrieveCustomAttributes"/>
+                  </list>
+                </property>
+              </bean>
+
+            </list>
+          </property>
+        </bean>
+
+        <!-- custom attributes on term -->
+        <!--
+        <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"
+              p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.agenda.typeId"
+              p:headerText="Type Attributes"
+              p:renderHeader="@{document.newMaintainableObject.dataObject.agenda.typeId != null and document.newMaintainableObject.dataObject.agenda.typeId != ''}">
+
+          <property name="items">
+            <list>
+              <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customAttributesMap"
+                    p:fetchingMethodToCall="retrieveCustomAttributes"/>
+            </list>
+          </property>
+        </bean>
+        -->
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- Inquiry View -->
+
+
+  <bean id="TermBo-InquiryView" parent="TermBo-InquiryView-parentBean"/>
+  <bean id="TermBo-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Term Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.TermBo"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-VerticalBoxSection">
+          <property name="header.headerText" value="Term" />
+          <property name="items">
+          <list>
+            <ref bean="TermBo-InquiryView-term"/>
+            <ref bean="TermBo-InquiryView-parameters"/>
+          </list>
+          </property>
+        </bean>
+        <ref bean="TermBo-InquiryView-termSpecification"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="TermBo-InquiryView-term" parent="TermBo-InquiryView-term-parentBean"/>
+  <bean id="TermBo-InquiryView-term-parentBean" abstract="true" parent="Uif-GridGroup">
+    <property name="layoutManager.numberOfColumns" value="2"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="id"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="TermBo-InquiryView-parameters" parent="TermBo-InquiryView-parameters-parentBean"/>
+  <bean id="TermBo-InquiryView-parameters-parentBean" abstract="true" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
+     <property name="headerText" value="Term Parameters"/>
+     <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.repository.TermParameterBo"/>
+     <property name="propertyName" value="parameters"/>
+     <property name="layoutManager.renderSequenceField" value="false"/>
+     <property name="items">
+       <list>
+         <bean parent="Uif-InputField" p:propertyName="id"/>
+         <bean parent="Uif-InputField" p:propertyName="name"/>
+         <bean parent="Uif-InputField" p:propertyName="value"/>
+        </list>
+     </property>
+  </bean>
+
+  <bean id="TermBo-InquiryView-termSpecification" parent="TermBo-InquiryView-termSpecification-parentBean"/>
+  <bean id="TermBo-InquiryView-termSpecification-parentBean" abstract="true" parent="Uif-Disclosure-GridSection">
+    <property name="layoutManager.numberOfColumns" value="2"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="specification.id"/>
+        <bean parent="Uif-InputField" p:propertyName="specification.name"/>
+        <bean parent="Uif-InputField" p:propertyName="specification.namespace"/>
+        <bean parent="Uif-InputField" p:propertyName="specification.type"/>
+      </list>
+    </property>
+    <property name="headerText" value="Term Specification"/>
+  </bean>
+
+  <!-- Lookup View -->
+
+
+  <bean id="TermBo-LookupView" parent="TermBo-LookupView-parentBean" />
+  <bean id="TermBo-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="headerText" value="Term Lookup"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.TermBo"/>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="specification.namespace"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="specification.name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="specification.type"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="id"/>
+        <bean parent="Uif-DataField" p:propertyName="description"/>
+        <bean parent="Uif-DataField" p:propertyName="specification.id" p:label="Specification ID"/>
+        <bean parent="Uif-DataField" p:propertyName="specification.namespace"/>
+        <bean parent="Uif-DataField" p:propertyName="specification.name"/>
+        <bean parent="Uif-DataField" p:propertyName="specification.type"/>
+      </list>
+    </property>
+  </bean>
+</beans>

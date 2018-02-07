@@ -1,0 +1,134 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+  <!-- SelectControl demo -->
+  <bean id="Demo-SelectControl-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoSelectControl.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.control.SelectControl"/>
+    <property name="docBookAnchor" value="d7339e5838"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-SelectControl-Example1"/>
+        <ref bean="Demo-SelectControl-Example2"/>
+        <ref bean="Demo-SelectControl-Example3"/>
+        <ref bean="Demo-SelectControl-Example4"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-SelectControl-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-SelectControl-Example1 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField1" p:width="auto" >
+          <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="org.kuali.rice.krad.demo.uif.options.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-SelectControl-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+    <!-- MultiSelectControl -->
+  <bean id="Demo-SelectControl-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-SelectControl-Example2 start-->
+          <bean parent="Uif-InputField-LabelTop" p:propertyName="inputField2" >
+          <property name="control">
+            <bean parent="Uif-MultiSelectControl" p:size="3" p:options-ref="test-options"/>
+          </property>
+
+        </bean>
+        <!-- ex:Demo-SelectControl-Example2 end-->
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-SelectControl-Example2 start-->
+  <util:list id="test-options">
+    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select 1"/>
+    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Select 2"/>
+    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Select 3"/>
+    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Select 4"/>
+    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Select 5"/>
+  </util:list>
+  <!-- ex:Demo-SelectControl-Example2 end-->
+
+  <!-- SelectControl with keyvalue set-->
+  <bean id="Demo-SelectControl-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+          <!-- ex:Demo-SelectControl-Example3 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField1" p:width="auto" >
+          <property name="control">
+            <bean parent="Uif-DropdownControl" p:disabled="true"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="org.kuali.rice.krad.demo.uif.options.SimpleTestKeyValues" p:blankOption="true"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-SelectControl-Example3 end-->
+
+      </list>
+    </property>
+  </bean>
+
+  <!-- Nav select -->
+  <bean id="Demo-SelectControl-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+
+          <!-- ex:Demo-SelectControl-Example4 start-->
+        <bean parent="Uif-InputField" p:label='Dropdown Navigation' p:instructionalText="Navigate on dropdown selection"
+              p:width="auto">
+          <property name="control">
+            <bean parent="Uif-DropdownControl">
+              <property name="options">
+                <list>
+                  <bean parent="Uif-KeyValueLocation" p:key="1" p:value="" p:location.href=""/>
+                  <bean parent="Uif-KeyValueLocation" p:key="2" p:value="Kuali.org"
+                        p:location.href="http://www.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="3" p:value="Jira"
+                        p:location.href="https://jira.kuali.org"/>
+                  <bean parent="Uif-KeyValueLocation" p:key="4" p:value="InputField Demo"
+                        p:location.viewId="Demo-InputField-View"
+                        p:location.controllerMapping="/kradsampleapp"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-SelectControl-Example4 end-->
+
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

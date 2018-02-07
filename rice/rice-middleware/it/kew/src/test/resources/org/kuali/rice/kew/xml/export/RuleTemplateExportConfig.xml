@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>WorkflowDocumentAttribute</name>
+			<className>none</className>
+			<label>Workflow Document Attribute Label</label>
+			<description>
+				Workflow Document Attribute Description
+			</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>WorkflowDocumentAttribute2</name>
+			<className>none2</className>
+			<label>Workflow Document Attribute Label 2</label>
+			<description>
+				Workflow Document Attribute Description 2
+			</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>ChartOrg</name>
+			<className>none2</className>
+			<label>Workflow Document Attribute Label 2</label>
+			<description>
+				Workflow Document Attribute Description 2
+			</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate"
+		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>WorkflowDocumentDelegationTemplate</name>
+			<description>
+				Workflow Document Delegation Template
+			</description>
+			<attributes>
+				<attribute>
+					<name>WorkflowDocumentAttribute</name>
+					<required>true</required>
+				</attribute>
+				<attribute>
+					<name>WorkflowDocumentAttribute2</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+			<!-- TODO add options here when those are implemented -->
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+			<delegationTemplate>WorkflowDocumentDelegationTemplate</delegationTemplate>
+			<attributes>
+				<attribute>
+					<name>WorkflowDocumentAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+			<!-- TODO add options here when those are implemented -->
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>TestyTheTemplate</name>
+			<description>TestyTheTemplate</description>
+			<attributes>
+				<attribute>
+					<name>ChartOrg</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+			<ruleDefaults>
+				<description>Testy Me A Template</description>
+				<fromDate>01/11/2006</fromDate>
+				<toDate>01/01/2100</toDate>
+				<forceAction>true</forceAction>
+				<active>false</active>
+				<defaultActionRequested>A</defaultActionRequested>
+				<supportsComplete>false</supportsComplete>
+				<supportsApprove>true</supportsApprove>
+				<supportsAcknowledge>false</supportsAcknowledge>
+				<supportsFYI>false</supportsFYI>
+			</ruleDefaults>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>TestyTheDelegateTemplate</name>
+			<description>TestyTheDelegateTemplate</description>
+			<attributes>
+				<attribute>
+					<name>ChartOrg</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+			<ruleDefaults>
+				<delegationType>P</delegationType>
+				<description>Testy Me A Delegate Template</description>
+				<forceAction>false</forceAction>
+				<active>true</active>
+			</ruleDefaults>
+		</ruleTemplate>
+	</ruleTemplates>
+
+</data>

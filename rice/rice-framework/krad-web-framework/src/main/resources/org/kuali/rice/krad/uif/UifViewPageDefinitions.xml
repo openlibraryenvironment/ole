@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- View Themes -->
+
+  <!-- Bean for setting the default theme for views -->
+  <bean id="GlobalTheme" parent="Uif-KbootTheme"/>
+
+  <bean id="Uif-KbootTheme" parent="Uif-KbootTheme-parentBean"/>
+  <bean id="Uif-KbootTheme-parentBean" abstract="true" parent="Uif-RiceViewTheme">
+    <property name="name" value="kboot"/>
+  </bean>
+
+  <!-- Base Views -->
+
+  <bean id="Uif-View" abstract="true" parent="Uif-View-parentBean"/>
+  <bean id="Uif-View-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.View" scope="prototype" parent="Uif-ComponentBase">
+    <property name="applicationHeader" ref="Uif-GlobalApplicationHeader"/>
+    <property name="applicationFooter" ref="Uif-GlobalApplicationFooter"/>
+    <property name="template" value="/krad/WEB-INF/ftl/components/view/view.ftl"/>
+    <property name="templateName" value="uif_view"/>
+    <property name="theme">
+      <bean parent="GlobalTheme"/>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-view</value>
+      </list>
+    </property>
+    <property name="useLibraryCssClasses" value="true"/>
+    <property name="viewTypeName" value="DEFAULT"/>
+    <property name="viewName" value="default"/>
+    <property name="viewHelperServiceClass"
+              value="org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl"/>
+    <property name="persistFormToSession" value="true"/>
+    <property name="presentationControllerClass" value="org.kuali.rice.krad.uif.view.ViewPresentationControllerBase"/>
+    <property name="authorizerClass" value="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
+    <property name="breadcrumbs">
+      <bean parent="Uif-Breadcrumbs"/>
+    </property>
+    <property name="breadcrumbOptions">
+      <bean parent="Uif-BreadcrumbOptions"/>
+    </property>
+    <property name="breadcrumbItem">
+      <bean parent="Uif-BreadcrumbItem">
+        <property name="renderAsLink" value="true"/>
+      </bean>
+    </property>
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation"/>
+    </property>
+    <property name="growlMessagingEnabled" value="true"/>
+    <property name="growls">
+      <bean parent="Uif-Growls"/>
+    </property>
+    <property name="navigationBlockUI">
+      <bean parent="Uif-BlockUI"
+            p:blockingImageSource="@{#ConfigProperties['krad.externalizable.images.url']}loading.gif"/>
+    </property>
+    <property name="refreshBlockUI">
+      <bean parent="Uif-BlockUI"
+            p:blockingImageSource="@{#ConfigProperties['krad.externalizable.images.url']}loader.gif"/>
+    </property>
+    <property name="unifiedHeader" value="true"/>
+    <property name="header">
+      <bean parent="Uif-ViewHeader"/>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+    <property name="expressionVariables">
+      <map>
+        <entry key="editModes" value="#view.editModes"/>
+        <entry key="actionFlags" value="#view.actionFlags"/>
+      </map>
+    </property>
+    <property name="help">
+      <bean parent="Uif-Help"/>
+    </property>
+    <property name="mergeWithPageItems" value="true"/>
+  </bean>
+
+  <bean id="Uif-FormView" abstract="true" parent="Uif-FormView-parentBean"/>
+  <bean id="Uif-FormView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.FormView" parent="Uif-View">
+    <property name="cssClasses">
+      <list>
+        <value>uif-formView</value>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase"/>
+    </property>
+  </bean>
+
+  <!-- Common Views -->
+
+  <bean id="Uif-MessageView" parent="Uif-MessageView-parentBean"/>
+  <bean id="Uif-MessageView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.MessageView" parent="Uif-FormView">
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="message">
+      <bean parent="Uif-Message">
+        <property name="cssClasses">
+          <list>
+            <value>uif-applicationMessage</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="singlePageView" value="true"/>
+    <property name="persistFormToSession" value="false"/>
+    <property name="breadcrumbs.render" value="false"/>
+  </bean>
+
+  <bean id="Uif-SessionTimeoutView" parent="Uif-SessionTimeoutView-parentBean"/>
+  <bean id="Uif-SessionTimeoutView-parentBean" parent="Uif-MessageView">
+    <property name="messageText" value="[b]Your Session has timed out and the request could not be completed.[/b]"/>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.SessionTimeoutForm"/>
+  </bean>
+
+  <bean id="Uif-LoggedOutView" parent="Uif-LoggedOutView-parentBean"/>
+  <bean id="Uif-LoggedOutView-parentBean" parent="Uif-MessageView">
+    <property name="messageText" value="You have been successfully logged out. To relogin return to the&amp;nbsp;[0]."/>
+    <property name="message.inlineComponents">
+      <list>
+        <bean parent="Uif-Link" p:href="@{#ConfigProperties['application.url']}" p:linkText="home screen"
+              p:target="_self"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-Page" parent="Uif-Page-parentBean"/>
+  <bean id="Uif-Page-parentBean" abstract="true" class="org.kuali.rice.krad.uif.container.PageGroup" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/group/pageGroup.ftl"/>
+    <property name="templateName" value="uif_pageGroup"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-page</value>
+      </list>
+    </property>
+    <property name="validationMessages">
+      <bean parent="Uif-PageValidationMessages"/>
+    </property>
+    <property name="breadcrumbOptions">
+      <bean parent="Uif-PageBreadcrumbOptions"/>
+    </property>
+    <property name="breadcrumbItem">
+      <bean parent="Uif-BreadcrumbItem">
+        <property name="renderAsLink" value="false"/>
+      </bean>
+    </property>
+    <property name="header">
+      <bean parent="Uif-PageHeader">
+        <!-- default set here so page header will always be generated -->
+        <property name="headerText" value="&amp;nbsp;"/>
+      </bean>
+    </property>
+    <property name="disclosure">
+      <bean parent="Uif-Disclosure"/>
+    </property>
+    <property name="layoutManager">
+      <bean parent="Uif-VerticalBoxLayout"/>
+    </property>
+    <property name="instructionalMessage">
+      <bean parent="Uif-InstructionalMessage"/>
+    </property>
+    <property name="readOnly" value="@{#parent.readOnly}"/>
+    <property name="autoFocus" value="true"/>
+    <property name="disclosure.render" value="false"/>
+    <property name="help">
+      <bean parent="Uif-Help"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-Disclosure-Page" parent="Uif-Disclosure-Page-parentBean"/>
+  <bean id="Uif-Disclosure-Page-parentBean" abstract="true" parent="Uif-Page">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="header">
+      <ref bean="Uif-EditablePageHeader"/>
+    </property>
+  </bean>
+
+</beans>

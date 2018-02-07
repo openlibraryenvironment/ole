@@ -1,0 +1,438 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <formView entryPageId="UifLayoutView-Page1" formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm"
+            headertext="Layout View" id="UifLayoutView" parent="Uif-FormView">
+    <navigation>
+      <ref bean="UifLayoutView-Menu"/>
+    </navigation>
+    <items>
+      <pageGroup headertext="Basic Layouts - Box" id="UifLayoutView-Page1" parent="Uif-Page">
+        <items>
+          <ref bean="UifLayoutView-BoxSection1"/>
+          <ref bean="UifLayoutView-BoxSection2"/>
+          <ref bean="UifLayoutView-BoxLayoutFluidContainers"/>
+        </items>
+      </pageGroup>
+      <pageGroup headertext="Nested Layouts - Box" id="UifLayoutView-Page2" parent="Uif-Page">
+        <items>
+          <ref bean="UifLayoutView-BoxHorizontalNestedVertical"/>
+          <ref bean="UifLayoutView-BoxVerticalNestedHorizontal"/>
+          <ref bean="UifLayoutView-BoxNestedControls"/>
+        </items>
+      </pageGroup>
+      <pageGroup headertext="Basic Layout - Grid" id="UifLayoutView-Page3" parent="Uif-Page">
+        <items>
+          <ref bean="gridGroup-1"/>
+          <ref bean="gridGroup-2"/>
+          <ref bean="gridGroup-3"/>
+          <ref bean="gridGroup-4"/>
+          <ref bean="gridGroup-5"/>
+        </items>
+      </pageGroup>
+      <pageGroup headertext="Nested Layouts - Grid" id="UifLayoutView-Page4" parent="Uif-Page">
+        <items>
+          <ref bean="gridGroupNested-1"/>
+          <ref bean="gridGroupNested-2"/>
+        </items>
+      </pageGroup>
+    </items>
+  </formView>
+
+  <navigationGroup id="UifLayoutView-Menu" parent="Uif-TabNavigationGroup">
+    <items>
+      <action actionLabel="Basic Layouts - Box" navigateToPageId="UifLayoutView-Page1"
+              parent="Uif-NavigationActionLink"/>
+      <action actionLabel="Nested Layouts - Box" navigateToPageId="UifLayoutView-Page2"
+              parent="Uif-NavigationActionLink"/>
+      <action actionLabel="Basic Layouts - Grid" navigateToPageId="UifLayoutView-Page3"
+              parent="Uif-NavigationActionLink"/>
+      <action actionLabel="Nested Layouts - Grid" navigateToPageId="UifLayoutView-Page4"
+              parent="Uif-NavigationActionLink"/>
+    </items>
+  </navigationGroup>
+  <inputField abstract="true" constraintText="Constraint text" fieldLabel.cssClasses="labelTop"
+              fieldLabel.renderColon="false" id="TextAreaTestField"
+              instructionalText="Instructions Instructions Instructions" label="Field Label" labelPlacment="TOP"
+              parent="Uif-InputField" required="true">
+    <control>
+      <textAreaControl cols="40" parent="Uif-TextAreaControl" rows="5" textExpand="true" watermarkText="Text Here..."/>
+    </control>
+  </inputField>
+  <inputField abstract="true" constraintText="Constraint text" id="TestInputField"
+              instructionalText="Instructions Instructions Instructions" label="Field Label"
+              parent="Uif-InputField-LabelTop" required="true">
+    <control>
+      <textControl parent="Uif-TextControl" size="30" watermarkText="Enter Data"/>
+    </control>
+  </inputField>
+  <group headertext="Box Layout Vertical" id="UifLayoutView-BoxSection1"
+         instructionalText="Items are rendered one after another vertically down the page"
+         layoutManager.orientation="VERTICAL" parent="Uif-Disclosure-VerticalBoxSection">
+    <items>
+      <inputField parent="TestInputField" propertyName="field1"/>
+      <inputField parent="TestInputField" propertyName="field2"/>
+      <inputField parent="TestInputField" propertyName="field3"/>
+      <inputField parent="TestInputField" propertyName="field4"/>
+    </items>
+  </group>
+  <group headertext="Box Layout Horizontal" id="UifLayoutView-BoxSection2"
+         instructionalText="Items are rendered horizontally to fill the available room, then wrap down. Adjust the window size to see the wrapping"
+         parent="Uif-Disclosure-HorizontalBoxSection">
+    <items>
+      <group parent="UifLayoutView-BoxHorizontal1"/>
+      <group parent="UifLayoutView-BoxHorizontal2"/>
+    </items>
+  </group>
+  <group headertext="Box Layout 3 Across" id="UifLayoutView-BoxHorizontal1" parent="Uif-HorizontalBoxSection">
+    <items>
+      <inputField parent="TestInputField" propertyName="field5"/>
+      <inputField parent="TestInputField" propertyName="field6"/>
+      <inputField parent="TestInputField" propertyName="field7"/>
+    </items>
+  </group>
+  <group headertext="Box Layout 8 Across" id="UifLayoutView-BoxHorizontal2" parent="Uif-HorizontalBoxSection">
+    <items>
+      <inputField parent="TestInputField" propertyName="field13"/>
+      <inputField parent="TestInputField" propertyName="field14"/>
+      <inputField parent="TestInputField" propertyName="field15"/>
+      <inputField parent="TestInputField" propertyName="field16"/>
+      <inputField parent="TestInputField" propertyName="field17"/>
+      <inputField parent="TestInputField" propertyName="field18"/>
+      <inputField parent="TestInputField" propertyName="field19"/>
+      <inputField parent="TestInputField" propertyName="field20"/>
+    </items>
+  </group>
+   <group headertext="Box Layout Horizontal with Nested Vertical Groups" id="UifLayoutView-BoxHorizontalNestedVerticajhdsa
+         instructionalText="Box layouts are nested with different orientations to form complex layouts. Here groups with vertical orientation are nested within horizontal group."
+         parent="Uif-Disclosure-HorizontalBoxSection">
+    <items>
+      <group parent="Uif-VerticalBoxGroup">
+        <items>
+          <inputField parent="TestInputField" propertyName="field1"/>
+          <inputField parent="TestInputField" propertyName="field2"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxGroup">
+        <items>
+          <inputField parent="TestInputField" propertyName="field3"/>
+          <inputField parent="TestInputField" propertyName="field4"/>
+          <inputField parent="TestInputField" propertyName="field5"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxGroup">
+        <items>
+          <inputField parent="TestInputField" propertyName="field6"/>
+        </items>
+      </group>
+    </items>
+  </group>
+  <group headertext="Box Layout Vertical with Nested Horizontal Groups" id="UifLayoutView-BoxVerticalNestedHorizontal"
+         instructionalText="In this case we have nested groups with horizontal orientation inside a vertically orientated group."
+         parent="Uif-Disclosure-VerticalBoxSection">
+    <items>
+      <group parent="Uif-HorizontalBoxGroup">
+        <items>
+          <inputField parent="TestInputField" propertyName="field7"/>
+          <inputField parent="TestInputField" propertyName="field8"/>
+        </items>
+      </group>
+      <group parent="Uif-HorizontalBoxGroup">
+        <items>
+          <inputField parent="TestInputField" propertyName="field9"/>
+          <inputField parent="TestInputField" propertyName="field10"/>
+          <inputField parent="TestInputField" propertyName="field11"/>
+        </items>
+      </group>
+      <group parent="Uif-HorizontalBoxGroup">
+        <items>
+          <inputField parent="TestInputField" propertyName="field12"/>
+        </items>
+      </group>
+    </items>
+  </group>
+  <group headertext="Box Layout Nested with Various Controls" id="UifLayoutView-BoxNestedControls"
+         instructionalText="Here box layouts are nested more than one level and we are using various controls and label placement."
+         parent="Uif-Disclosure-HorizontalBoxSection">
+    <items>
+      <group parent="Uif-VerticalBoxGroup">
+        <items>
+          <inputField label="Field Label" parent="Uif-InputField-LabelTop" propertyName="field13">
+            <control>
+              <textAreaControl cols="40" parent="Uif-TextAreaControl" rows="5"/>
+            </control>
+          </inputField>
+          <group layoutManager.itemStyleClasses="boxLayoutHorizontalItem-tight" parent="Uif-HorizontalBoxGroup">
+            <items>
+              <inputField label="Field Label" parent="Uif-InputField" propertyName="bField1">
+                <control>
+                  <checkboxControl parent="Uif-CheckboxControl"/>
+                </control>
+              </inputField>
+              <inputField label="Field Label" parent="Uif-InputField" propertyName="bField2">
+                <control>
+                  <checkboxControl parent="Uif-CheckboxControl"/>
+                </control>
+              </inputField>
+              <inputField label="Field Label" parent="Uif-InputField" propertyName="bField3">
+                <control>
+                  <checkboxControl parent="Uif-CheckboxControl"/>
+                </control>
+              </inputField>
+            </items>
+          </group>
+          <group parent="Uif-HorizontalBoxGroup">
+            <items>
+              <action actionLabel="Select All" actionScript="alert('You clicked a button');"
+                      parent="Uif-PrimaryActionButton-Small"/>
+              <action actionLabel="Select None" actionScript="alert('You clicked a button');"
+                      parent="Uif-PrimaryActionButton-Small"/>
+            </items>
+          </group>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxGroup">
+        <items>
+          <group layoutManager.itemStyleClasses="boxLayoutHorizontalItem-tight" parent="Uif-HorizontalBoxGroup">
+            <items>
+              <inputField label="Field Label" parent="Uif-InputField" propertyName="field14">
+                <control>
+                  <textControl parent="Uif-TextControl" size="15"/>
+                </control>
+              </inputField>
+              <action actionLabel="Action" actionScript="alert('You clicked a button');"
+                      parent="Uif-PrimaryActionButton"/>
+            </items>
+          </group>
+          <group layoutManager.itemStyleClasses="boxLayoutHorizontalItem-tight" parent="Uif-HorizontalBoxGroup">
+            <items>
+              <inputField label="Field Label" parent="Uif-InputField" propertyName="field15">
+                <control>
+                  <textControl parent="Uif-TextControl" size="4"/>
+                </control>
+              </inputField>
+              <message messageText="* message here" parent="Uif-Message"/>
+            </items>
+          </group>
+        </items>
+      </group>
+      <group parent="Uif-HorizontalBoxGroup">
+        <items>
+          <inputField label="Field Label" parent="Uif-InputField-LabelTop" propertyName="field16">
+            <control>
+              <selectControl parent="Uif-DropdownControl"/>
+            </control>
+            <optionsFinder>
+              <spring:bean class="edu.sampleu.travel.document.keyvalue.SimpleTestKeyValues"/>
+            </optionsFinder>
+          </inputField>
+          <group parent="Uif-VerticalBoxGroup">
+            <items>
+              <inputField label="Field Label" parent="Uif-InputField-LabelTop" propertyName="field17">
+                <control>
+                  <textControl parent="Uif-DateControl" size="30"/>
+                </control>
+              </inputField>
+              <inputField parent="TestInputField" propertyName="field18"/>
+              <inputField parent="TestInputField" propertyName="field19"/>
+            </items>
+          </group>
+        </items>
+      </group>
+    </items>
+  </group>
+  <group disclosure.render="false" headertext="Section Title" id="gridGroup-1"
+         instructionalText="GroupGridLayout default settings" parent="Uif-GridSection">
+    <cssClasses>
+      <value>group_header</value>
+    </cssClasses>
+    <items>
+      <inputField parent="TestInputField" propertyName="field25"/>
+      <inputField parent="TextAreaTestField" propertyName="field26"/>
+      <inputField parent="TestInputField" propertyName="field27"/>
+    </items>
+  </group>
+  <group disclosure.render="false" headertext="Section Title" id="gridGroup-2"
+         instructionalText="GroupGridLayout number of columns = 4" layoutManager.numberOfColumns="4"
+         parent="Uif-GridSection">
+    <cssClasses>
+      <value>group_header</value>
+    </cssClasses>
+    <items>
+      <inputField parent="TestInputField" propertyName="field28"/>
+      <inputField parent="TextAreaTestField" propertyName="field29"/>
+      <inputField parent="TestInputField" propertyName="field30"/>
+      <inputField parent="TextAreaTestField" propertyName="field31"/>
+      <inputField parent="TestInputField" propertyName="field32"/>
+      <inputField parent="TextAreaTestField" propertyName="field33"/>
+    </items>
+  </group>
+  <group disclosure.render="false" headertext="Section Title" id="gridGroup-3"
+         instructionalText="GroupGridLayout number of columns = 4, fields have colspan settings"
+         layoutManager.numberOfColumns="4" parent="Uif-GridSection">
+    <cssClasses>
+      <value>group_header</value>
+    </cssClasses>
+    <items>
+      <inputField parent="TestInputField" propertyName="field34"/>
+      <inputField parent="TextAreaTestField" propertyName="field35"/>
+      <inputField ColSpan="2" fieldLabel.colSpan="2" instructionalText="Colspan 2" parent="TestInputField"
+                  propertyName="field36"/>
+      <inputField ColSpan="3" fieldLabel.colSpan="1" instructionalText="Colspan 3" parent="TextAreaTestField"
+                  propertyName="field37"/>
+      <inputField ColSpan="2" fieldLabel.colSpan="2" instructionalText="Colspan 2" parent="TestInputField"
+                  propertyName="field38"/>
+    </items>
+  </group>
+  <group id="gridGroup-4" instructionalText="GridGroup Layout number of columns 2" layoutManager.numberOfColumns="2"
+         layoutManager.renderAlternatingHeaderColumns="false" parent="Uif-GridGroup" title="Title" width="85%">
+    <items>
+      <group parent="Uif-VerticalBoxSection" rowSpan="5">
+        <items>
+          <inputField instructionalText="RowSpan 5" parent="TextAreaTestField" propertyName="field35"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+    </items>
+  </group>
+  <group id="gridGroup-5" instructionalText="GridGroup Layout number of columns 3 and multiple rowspans and colspans"
+         layoutManager.numberOfColumns="3" layoutManager.renderAlternatingHeaderColumns="false" parent="Uif-GridGroup"
+         title="Title" width="85%">
+    <items>
+      <group parent="Uif-VerticalBoxSection" rowSpan="2">
+        <items>
+          <inputField instructionalText="RowSpan 2" parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection" rowSpan="3">
+        <items>
+          <inputField instructionalText="RowSpan 3" parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group ColSpan="2" parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField instructionalText="ColSpan 2" parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+      <group parent="Uif-VerticalBoxSection">
+        <items>
+          <inputField parent="TestInputField" propertyName="field34"/>
+        </items>
+      </group>
+    </items>
+  </group>
+  <group disclosure.render="false" headertext="Section Title" id="gridGroupNested-1"
+         instructionalText="GroupGridLayout 2 columns with two nested groups" layoutManager.numberOfColumns="2"
+         parent="Uif-GridSection">
+    <cssClasses>
+      <value>group_header</value>
+    </cssClasses>
+    <items>
+      <group parent="gridGroup-1"/>
+      <group parent="gridGroup-1"/>
+    </items>
+  </group>
+  <group disclosure.render="false" headertext="Section Title" id="gridGroupNested-2"
+         instructionalText="GroupGridLayout default settings, 2 nested groups" parent="Uif-GridSection">
+    <cssClasses>
+      <value>group_header</value>
+    </cssClasses>
+    <items>
+      <group parent="gridGroup-2"/>
+      <group parent="gridGroup-3"/>
+    </items>
+  </group>
+</spring:beans>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="SampleBO" parent="SampleBO-parentBean"/>
+
+  <bean id="SampleBO-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.test.service.PersonServiceImplTest$SampleBO" p:titleAttribute="anAttribute" p:objectLabel="Sample BO" p:inquiryDefinition-ref="SampleBO-inquiryDefinition" p:lookupDefinition-ref="SampleBO-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="SampleBO-anAttribute"/>
+        <ref bean="SampleBO-anotherAttribute"/>
+        <ref bean="SampleBO-personAttribute.principalName"/>
+        <ref bean="SampleBO-personPrincipalId"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="personAttribute"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="personPrincipalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="personAttribute.principalName" p:targetName="principalName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>    
+  </bean>
+
+  <bean id="SampleBO-anAttribute" parent="SampleBO-anAttribute-parentBean"/>
+  <bean id="SampleBO-anAttribute-parentBean" parent="AttributeDefinition" abstract="true" p:name="anAttribute" p:forceUppercase="false" p:label="An Attribute" p:shortLabel="An Attribute" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="SampleBO-anotherAttribute" parent="SampleBO-anotherAttribute-parentBean"/>
+  <bean id="SampleBO-anotherAttribute-parentBean" parent="AttributeDefinition" abstract="true" p:name="anotherAttribute" p:forceUppercase="false" p:label="Another Attribute" p:shortLabel="Another Attribute" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="SampleBO-personAttribute.principalName" parent="SampleBO-personAttribute.principalName-parentBean"/>
+  <bean id="SampleBO-personAttribute.principalName-parentBean" parent="AttributeDefinition" abstract="true" p:name="personAttribute.principalName" p:forceUppercase="false" p:label="Principal Name" p:shortLabel="Principal Name" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="SampleBO-personPrincipalId" parent="SampleBO-personPrincipalId-parentBean"/>
+  <bean id="SampleBO-personPrincipalId-parentBean" parent="AttributeDefinition" abstract="true" p:name="personPrincipalId" p:forceUppercase="false" p:label="Person Principal Id" p:shortLabel="Person Principal Id" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="SampleBO-inquiryDefinition" parent="SampleBO-inquiryDefinition-parentBean"/>
+
+  <bean id="SampleBO-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Sample B O Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Sample B O Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="anAttribute"/>
+              <bean parent="FieldDefinition" p:attributeName="anotherAttribute"/>
+              <bean parent="FieldDefinition" p:attributeName="personAttribute.principalName"/>
+              <bean parent="FieldDefinition" p:attributeName="personPrincipalId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SampleBO-lookupDefinition" parent="SampleBO-lookupDefinition-parentBean"/>
+
+  <bean id="SampleBO-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Sample B O Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>anAttribute</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="anAttribute"/>
+        <bean parent="FieldDefinition" p:attributeName="anotherAttribute"/>
+      <bean parent="FieldDefinition" p:attributeName="personAttribute.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="personPrincipalId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="anAttribute"/>
+        <bean parent="FieldDefinition" p:attributeName="anotherAttribute"/>
+      <bean parent="FieldDefinition" p:attributeName="personAttribute.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="personPrincipalId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SampleChildBOWithPerson" parent="SampleChildBOWithPerson-parentBean"/>
+
+  <bean id="SampleChildBOWithPerson-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.test.service.PersonServiceImplTest$SampleChildBOWithPerson" p:titleAttribute="childsAttribute" p:objectLabel="Sample Child B O With Person">
+    <property name="attributes">
+      <list>
+        <ref bean="SampleChildBOWithPerson-childsAttribute"/>
+        <ref bean="SampleChildBOWithPerson-childsPersonAttribute.principalName"/>
+        <ref bean="SampleChildBOWithPerson-childsPersonPrincipalId"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="childsPersonAttribute"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="childsPersonPrincipalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="childsPersonAttribute.principalName" p:targetName="principalName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>    
+  </bean>
+
+  <bean id="SampleChildBOWithPerson-childsAttribute" parent="SampleChildBOWithPerson-childsAttribute-parentBean"/>
+  <bean id="SampleChildBOWithPerson-childsAttribute-parentBean" parent="AttributeDefinition" abstract="true" p:name="childsAttribute" p:forceUppercase="false" p:label="Child Attribute" p:shortLabel="Child Attribute" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="SampleChildBOWithPerson-childsPersonAttribute.principalName" parent="SampleChildBOWithPerson-childsPersonAttribute.principalName-parentBean"/>
+  <bean id="SampleChildBOWithPerson-childsPersonAttribute.principalName-parentBean" parent="AttributeDefinition" abstract="true" p:name="childsPersonAttribute.principalName" p:forceUppercase="false" p:label="Child Principal Name" p:shortLabel="Child Principal Name" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+  <bean id="SampleChildBOWithPerson-childsPersonPrincipalId" parent="SampleChildBOWithPerson-childsPersonPrincipalId-parentBean"/>
+  <bean id="SampleChildBOWithPerson-childsPersonPrincipalId-parentBean" parent="AttributeDefinition" abstract="true" p:name="childsPersonPrincipalId" p:forceUppercase="false" p:label="Childs Person Principal Id" p:shortLabel="Childs Person Principal Id" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+
+
+
+
+
+
+
+
+
+
+
+
+  <bean id="SampleBOMaintenanceDocument" parent="SampleBOMaintenanceDocument-parentBean"/>
+
+  <bean id="SampleBOMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.rice.kim.test.service.PersonServiceImplTest$SampleBO" p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" p:documentTypeName="SampleBOMaintenanceDocument" p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" p:documentAuthorizerClass="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase">
+
+    <property name="lockingKeys">
+      <list>
+        <value>anAttribute</value>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="personAttribute" p:attributeToHighlightOnFail="personAttribute.principalName"/>
+      </list>
+    </property>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SampleBOMaintenanceDocument-MainSection"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SampleBOMaintenanceDocument-MainSection" parent="SampleBOMaintenanceDocument-MainSection-parentBean"/>
+
+  <bean id="SampleBOMaintenanceDocument-MainSection-parentBean" abstract="true" parent="MaintainableSectionDefinition" p:title="Sample B O Maintenance">
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="anAttribute" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="anotherAttribute" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personPrincipalId" p:required="true"/>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="childBos"/>
+          <property name="businessObjectClass" value="org.kuali.rice.kim.test.service.PersonServiceImplTest$SampleChildBOWithPerson"/>
+          <property name="summaryTitle" value="Child BOs"/>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="childsAttribute" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="childsPersonAttribute.principalName" p:required="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+
+</beans>

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="ken_notifications" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+        <title>KEN Notifications</title>
+        <para>This document provides information about the attributes of a Notification. These
+            attributes are elements such as message content, who is sending the notification, who
+            should receive it, etc. Kuali Enterprise Notification (KEN) supports an arbitrary number
+            of Content Types, such as a simple message or an event notification. Each Content Type
+            consists of a common set of attributes and a content attribute.</para>
+        <section>
+            <title>Common Notification Attributes</title>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Common Notification Attributes</title>
+                    <tgroup cols="5">
+                        <colspec colname="c1" colnum="1" colwidth="0.6*"/>
+                        <colspec colname="c2" colnum="2" colwidth="0.6*"/>
+                        <colspec colname="c3" colnum="3" colwidth="0.3*"/>
+                        <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+                        <colspec colname="c5" colnum="5" colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Name </entry>
+                                <entry>Type </entry>
+                                <entry>Required</entry>
+                                <entry>Description </entry>
+                                <entry>Example </entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>channel </entry>
+                                <entry>string </entry>
+                                <entry>yes </entry>
+                                <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Name of a channel </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Must be registered </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                                <entry>Library Events </entry>
+                            </row>
+                            <row>
+                                <entry>producer </entry>
+                                <entry>string </entry>
+                                <entry>yes </entry>
+                                <entry>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Name of the producing system</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Must be registered and given authority to send
+                                                messages on behalf of the <emphasis role="italic"
+                                                  >&lt;Library Events></emphasis> channel </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </entry>
+                                <entry>Library Calendar System </entry>
+                            </row>
+                            <row>
+                                <entry>senders </entry>
+                                <entry>a list of strings </entry>
+                                <entry>yes </entry>
+                                <entry>A list of the names of people on whose behalf the message is
+                                    being sent </entry>
+                                <entry>TestUser1, TestUser2 </entry>
+                            </row>
+                            <row>
+                                <entry>recipients </entry>
+                                <entry>a list of strings </entry>
+                                <entry>yes </entry>
+                                <entry>A list of the names of groups or users to whom the message is
+                                    being sent </entry>
+                                <entry>library-staff-group, TestUser1, TestUser2 </entry>
+                            </row>
+                            <row>
+                                <entry>deliveryType</entry>
+                                <entry>string</entry>
+                                <entry>yes </entry>
+                                <entry>fyi or ack </entry>
+                                <entry>fyi </entry>
+                            </row>
+                            <row>
+                                <entry>sendDateTime</entry>
+                                <entry>datetime </entry>
+                                <entry>no </entry>
+                                <entry>When to send the notification </entry>
+                                <entry>2006-01-01 00:00:00.0 </entry>
+                            </row>
+                            <row>
+                                <entry>autoRemoveDateTime</entry>
+                                <entry>datetime </entry>
+                                <entry>no </entry>
+                                <entry>When to remove the notification </entry>
+                                <entry>2006-01-02 00:00:00.0 </entry>
+                            </row>
+                            <row>
+                                <entry>priority</entry>
+                                <entry>string</entry>
+                                <entry>yes</entry>
+                                <entry>An arbitrary priority; these must be registered in KEN; the
+                                    system comes with defaults of <emphasis role="italic"
+                                        >normal</emphasis>, <emphasis role="italic">low</emphasis>,
+                                    and <emphasis role="italic">high</emphasis>
+                                </entry>
+                                <entry>normal </entry>
+                            </row>
+                            <row>
+                                <entry>contentType</entry>
+                                <entry>string</entry>
+                                <entry>yes</entry>
+                                <entry>Name for the content; KEN comes set up with <emphasis
+                                        role="italic">simple</emphasis> and <emphasis role="italic"
+                                        >event</emphasis>; new contentTypes must be registered in
+                                    KEN </entry>
+                                <entry>simple</entry>
+                            </row>
+                            <row>
+                                <entry>content </entry>
+                                <entry>see below </entry>
+                                <entry>yes</entry>
+                                <entry>The actual content </entry>
+                                <entry>see below</entry>
+                            </row>
+                            <row>
+                                <entry>docTypeName</entry>
+                                <entry>string</entry>
+                                <entry>no</entry>
+                                <entry>The name of a custom KEW document type to be used to route this
+                                        Notification with different security parameters. Typically
+                                        different than the default "KualiNotification" and can be left
+                                        blank if the default is desired.</entry>
+                                <entry>KualiNotification</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+    <section>
+        <title>Notification Priority</title>
+        <para>The priority of a notification indicates its importance. It has no effect on how KEN
+            processes the notification, but KEN can use it when delivering a message to determine
+            how to present the notification.</para>
+        <para>Each priority has these attributes:<itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">ID</emphasis> – This numeric value defines the order
+                    that KEN displays the priorities in the user interface. The lowest ID is
+                    displayed at the top of the selection field and is the default value. The
+                    remaining priorities are listed in the selection field in ascending ID
+                    order. Each priority must have a unique ID, but there is no requirement for
+                    the IDs to be consecutive or to start with a particular value. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Name</emphasis> – This is the text displayed to the
+                    user in the user interface. Each priority must have a unique name. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Description</emphasis> – This text further describes
+                    the priority. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Order</emphasis> – This numeric value determines the
+                    relative importance of the priority, with lower order numbers indicating a
+                    higher importance. Although not required, each priority should have a unique
+                    order value. There is no requirement for the order values to be consecutive
+                    or to start with a particular value. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Version</emphasis> – This numeric value lets you
+                    perform optimistic locking on the database row. It is initialized to one
+                    when the row is created and should be incremented each time the row is
+                    updated. </para>
+            </listitem>
+        </itemizedlist></para>
+        <para>By default, three priorities are defined in KEN:<table frame="none" tabstyle="striped">
+            <title>Notification: Priority Attributes</title>
+            <tgroup cols="4">
+                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+                <thead>
+                    <row>
+                        <entry>ID</entry>
+                        <entry>Name</entry>
+                        <entry>Description</entry>
+                        <entry>Order</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>1</entry>
+                        <entry>Normal</entry>
+                        <entry>Normal priority</entry>
+                        <entry>2</entry>
+                    </row>
+                    <row>
+                        <entry>2</entry>
+                        <entry>Low</entry>
+                        <entry>A low priority</entry>
+                        <entry>3</entry>
+                    </row>
+                    <row>
+                        <entry>3</entry>
+                        <entry>High</entry>
+                        <entry>A high priority</entry>
+                        <entry>1</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table></para>
+    </section>
+    <section xml:id="notif_content">
+            <title>Message Content</title>
+            <para>Notifications are differentiated using the <emphasis role="italic"
+                    >contentType</emphasis> attribute and the contents of the <emphasis
+                    role="italic">content</emphasis> element. The <emphasis role="italic"
+                    >content</emphasis> element can be as simple as a message string or it may be a
+                complex structure. For example, a simple notification may only contain a message
+                string, whereas an <emphasis role="italic">Event</emphasis> Content Type might
+                contain a summary, description, location, and start and end dates and times.
+                Examples of the <emphasis role="italic">Simple</emphasis> and <emphasis
+                    role="italic">Event</emphasis> Content Types:</para>
+            <section>
+                <title>Sample XML for a Simple Notification</title>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- A Simple Notification Message -->
+&lt;notification xmlns="ns:notification/NotificationRequest"
+    xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance
+    xsi:schemaLocation="ns:notification/NotificationRequest
+    resource:notification/NotificationRequest">
+    &lt;!-- this is the name of the notification channel -->
+    &lt;!-- that has been registered in the system -->
+    &lt;channel>Campus Status Announcements&lt;/channel>
+
+
+    &lt;!-- this is the name of the producing system -->
+    &lt;!-- the value must match a registered producer -->
+    &lt;producer>Campus Announcements System&lt;/producer>
+
+    &lt;!-- these are the people that the message is sent on -->
+    &lt;!-- behalf of -->
+    &lt;senders>
+        &lt;sender>John Fereira&lt;/sender>
+    &lt;/senders>
+
+
+    &lt;!-- who is the notification going to? -->
+    &lt;recipients>
+        &lt;group>Everyone&lt;/group>
+        &lt;user>jaf30&lt;/user>
+    &lt;/recipients>
+
+
+    &lt;!--  fyi or acknowledge -->
+    &lt;deliveryType>fyi&lt;/deliveryType>
+
+
+    &lt;!-- optional date and time that a notification should be sent -->
+    &lt;!-- use this for scheduling a single future notification to happen -->
+    &lt;sendDateTime>2006-01-01T00:00:00&lt;/sendDateTime>
+
+
+    &lt;!-- optional date and time that a notification should be removed -->
+    &lt;!-- from all recipients' lists, b/c the message no longer applies -->
+    &lt;autoRemoveDateTime>3000-01-01T00:00:00&lt;/autoRemoveDateTime>
+
+
+    &lt;!-- this is the name of the priority of the message -->
+    &lt;!-- priorities are registered in the system, so your value -->
+    &lt;!-- here must match one of the registered priorities -->
+    &lt;priority>Normal&lt;/priority>
+
+
+    &lt;title>School is Closed&lt;/title>
+
+
+    &lt;!-- this is the name of the content type for the message -->
+    &lt;!-- content types are registered in the system, so your value -->
+    &lt;!-- here must match one of the registered contents -->
+    &lt;contentType>Simple&lt;/contentType>
+
+
+    &lt;!-- actual content of the message -->
+    &lt;content xmlns="ns:notification/ContentTypeSimple"
+        xsi:schemaLocation="ns:notification/ContentTypeSimple
+        resource:notification/ContentTypeSimple">
+		
+        &lt;message>Snow Day! School is closed.&lt;/message>
+    &lt;/content>
+&lt;/notification>
+</programlisting>
+            </section>
+            <section>
+                <title>Sample XML for an Event Notification</title>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+
+
+&lt;notification xmlns="ns:notification/NotificationMessage"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="ns:notification/NotificationMessage
+    resource:notification/NotificationMessage">
+    &lt;!-- this is the name of the notification channel -->
+    &lt;!-- that has been registered in the system -->
+    &lt;channel>Concerts Coming to Campus&lt;/channel>
+
+
+    &lt;!-- this is the name of the producing system -->
+    &lt;!-- the value must match a registered producer -->
+    &lt;producer>Campus Events Office&lt;/producer>
+
+
+    &lt;!-- these are the people that the message is sent on -->
+    &lt;!-- behalf of -->
+    &lt;senders>
+        &lt;sender>ag266&lt;/sender>
+        &lt;sender>jaf30&lt;/sender>
+    &lt;/senders>
+
+
+    &lt;!-- who is the notification going to? -->
+        &lt;recipients>
+            &lt;group>Group X&lt;/group>
+            &lt;group>Group Z&lt;/group>
+            &lt;user>ag266&lt;/user>
+            &lt;user>jaf30&lt;/user>
+            &lt;user>arh14&lt;/user>
+        &lt;/recipients>
+
+
+    &lt;!--  fyi or acknowledge -->
+    &lt;deliveryType>fyi&lt;/deliveryType>
+
+
+    &lt;!-- optional date and time that a notification should be sent -->
+    &lt;!-- use this for scheduling a single future notification to happen -->
+    &lt;sendDateTime>2006-01-01 00:00:00.0&lt;/sendDateTime>
+
+
+    &lt;!-- optional date and time that a notification should be removed -->
+    &lt;!-- from all recipients' lists, b/c the message no longer applies -->
+    &lt;autoRemoveDateTime>2007-01-01 00:00:00.0&lt;/autoRemoveDateTime>
+
+
+    &lt;!-- this is the name of the priority of the message -->
+    &lt;!-- priorities are registered in the system, so your value -->
+    &lt;!-- here must match one of the registered priorities -->
+    &lt;priority>Normal&lt;/priority>
+
+
+    &lt;!-- this is the name of the content type for the message -->
+    &lt;!-- content types are registered in the system, so your value -->
+    &lt;!-- here must match one of the registered contents -->
+    &lt;contentType>Event&lt;/contentType>
+
+
+    &lt;!-- actual content of the message -->
+    &lt;content>
+        &lt;message>CCC presents The Strokes at Cornell&lt;/message>
+
+        
+        &lt;!-- an event that it happening on campus -->
+        &lt;event xmlns="ns:notification/ContentEvent" 
+            xsi:schemaLocation="ns:notification/ContentEvent
+            resource:notification/ContentEvent">
+            &lt;summary>CCC presents The Strokes at Cornell&lt;/summary>
+            &lt;description>blah blah blah&lt;/description>
+            &lt;location>Barton Hall&lt;/location>
+            &lt;startDateTime>2006-01-01T00:00:00&lt;/startDateTime>
+            &lt;stopDateTime>2007-01-01T00:00:00&lt;/stopDateTime>
+        &lt;/event>
+    &lt;/content>
+&lt;/notification>
+</programlisting>
+            </section>
+        </section>
+        <section xml:id="notif_response">
+            <title>Notification Response</title>
+            <para>When KEN sends a notification, it always returns a response. This is an outline in
+            XML of that response:</para>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;response>
+    &lt;status>success&lt;/status>
+&lt;/response>
+</programlisting>
+        </section>
+</chapter>

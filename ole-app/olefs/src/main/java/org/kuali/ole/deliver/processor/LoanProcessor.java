@@ -17,6 +17,7 @@ import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.form.OleLoanForm;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.service.OleNoticeService;
 import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.service.*;
@@ -2150,7 +2151,7 @@ public class LoanProcessor extends PatronBillResolver {
         LOG.debug("Inside the getBibliographicRecord method");
 
         BibMarcRecord bibMarcRecord = new BibMarcRecord();
-        bibMarcRecord.setLeader("#####na##a22#####uu#4500");
+        bibMarcRecord.setLeader("     na  a22     uu 4500");
         List<org.kuali.ole.docstore.common.document.content.bib.marc.DataField> dataFieldList = new ArrayList<org.kuali.ole.docstore.common.document.content.bib.marc.DataField>();
         org.kuali.ole.docstore.common.document.content.bib.marc.DataField titleDataField = new org.kuali.ole.docstore.common.document.content.bib.marc.DataField();
         titleDataField.setTag(OLEConstants.MARC_EDITOR_TITLE_245);
@@ -2721,14 +2722,55 @@ public class LoanProcessor extends PatronBillResolver {
         } catch (Exception e) {
             LOG.error("Ecxeption while getting patron home mail id", e);
         }
-        OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
-        contentForSendMail.append(oleDeliverBatchService.generateMailContentFromPatronBill(oleLoanDocument, olePatronDocument, feeTypeName, String.valueOf(fineAmount), patronBillPayment));
+
+        String emailSubject = null;
+
+        if(feeTypeName.equalsIgnoreCase(OLEConstants.LOST_ITEM_PROCESSING_FEE) || feeTypeName.equalsIgnoreCase(OLEConstants.OVERDUE_FINE)){
+            oleLoanDocument.setFeeTypeName(feeTypeName);
+            oleLoanDocument.setFineBillNumber(patronBillPayments.getBillNumber());
+
+            oleLoanDocument.setFineAmount(fineAmount.doubleValue());
+            oleLoanDocument.setFineItemDue(feeType.getDueDate());
+
+            List<OleLoanDocument> oleLoanDocuments = new ArrayList<>();
+            oleLoanDocuments.add(oleLoanDocument);
+
+            String noticeType = null;
+
+            if(feeTypeName.equalsIgnoreCase(OLEConstants.LOST_ITEM_PROCESSING_FEE)){
+                noticeType = OLEConstants.LOST_ITEM_PROCESSING_FEE_NOTICE;
+            }else if(feeTypeName.equalsIgnoreCase(OLEConstants.OVERDUE_FINE)){
+                noticeType = OLEConstants.OVERDUE_FINE_NOTICE;
+            }
+
+            Map<String,String> noticeTypeMap = new HashMap<>();
+            noticeTypeMap.put("noticeType",noticeType);
+
+            List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBos = (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeTypeMap);
+
+            OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = null;
+
+            if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBos) && oleNoticeContentConfigurationBos.size() > 0){
+                oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBos.get(0);
+
+                if(oleNoticeContentConfigurationBo != null){
+                    emailSubject = oleNoticeContentConfigurationBo.getNoticeSubjectLine();
+                    NoticeMailContentFormatter noticeMailContentFormatter = new FineNoticeEmailContentFormatter();
+                    contentForSendMail.append(noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments,oleNoticeContentConfigurationBo));
+                }
+            }
+        }else{
+            emailSubject = feeTypeName;
+            OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
+            contentForSendMail.append(oleDeliverBatchService.generateMailContentFromPatronBill(oleLoanDocument, oleLoanDocument.getOlePatron(), feeTypeName, String.valueOf(new KualiDecimal(fineAmount)), patronBillPayment));
+        }
+
         OleMailer oleMail = GlobalResourceLoader.getService("oleMailer");
         String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleLoanDocument.getItemLocation());
         if (replyToEmail != null) {
-            oleMail.sendEmail(new EmailFrom(replyToEmail), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+            oleMail.sendEmail(new EmailFrom(replyToEmail), new EmailTo(patronMail), new EmailSubject((emailSubject != null ? emailSubject: "" )), new EmailBody(contentForSendMail.toString()), true);
         } else {
-            oleMail.sendEmail(new EmailFrom(getParameter(OLEParameterConstants.NOTICE_FROM_MAIL)), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+            oleMail.sendEmail(new EmailFrom(getParameter(OLEParameterConstants.NOTICE_FROM_MAIL)), new EmailTo(patronMail), new EmailSubject((emailSubject != null ? emailSubject: "" )), new EmailBody(contentForSendMail.toString()), true);
         }
         if (LOG.isInfoEnabled()){
             LOG.info("Mail send successfully to " + patronMail);

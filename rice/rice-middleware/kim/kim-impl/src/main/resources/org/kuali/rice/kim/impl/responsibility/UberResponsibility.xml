@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="ResponsibilityImpl" parent="ResponsibilityImpl-parentBean"/>
+
+  <bean id="ResponsibilityImpl-parentBean" abstract="true" parent="BusinessObjectEntry" 
+        p:businessObjectClass="org.kuali.rice.kim.impl.responsibility.UberResponsibilityBo"
+        p:titleAttribute="id"
+        p:objectLabel="Uber Responsibility"
+        p:inquiryDefinition-ref="ResponsibilityImpl-inquiryDefinition" 
+        p:lookupDefinition-ref="ResponsibilityImpl-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="ResponsibilityImpl-template.namespaceCode"/>
+        <ref bean="ResponsibilityImpl-template.name"/>
+        <ref bean="ResponsibilityImpl-namespaceCode"/>
+        <ref bean="ResponsibilityImpl-id"/>
+        <ref bean="ResponsibilityImpl-name"/>
+        <ref bean="ResponsibilityImpl-assignedToRoleNamespaceForLookup"/>
+        <ref bean="ResponsibilityImpl-assignedToRoleNameForLookup"/>
+        <ref bean="ResponsibilityImpl-assignedToPrincipalNameForLookup"/>
+        <ref bean="ResponsibilityImpl-assignedToGroupNamespaceForLookup"/>
+        <ref bean="ResponsibilityImpl-assignedToGroupNameForLookup"/>
+        <ref bean="ResponsibilityImpl-templateId"/>
+        <ref bean="ResponsibilityImpl-roleId"/>
+        <ref bean="ResponsibilityImpl-principalId"/>
+        <ref bean="ResponsibilityImpl-groupId"/>
+        <ref bean="ResponsibilityImpl-attributeValue"/>
+        <ref bean="ResponsibilityImpl-detailObjectsValues"/>
+        <ref bean="ResponsibilityImpl-detailObjectsToDisplay"/>
+        <ref bean="ResponsibilityImpl-assignedToRolesToDisplay"/>
+        <ref bean="ResponsibilityImpl-detailCriteria"/>
+        <ref bean="ResponsibilityImpl-active"/>
+      </list>
+    </property>
+	<property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="attributeDetails" p:label="Responsibility Detail Values" p:shortLabel="Detail Values" p:elementLabel="Detail Values"/>
+        <bean parent="CollectionDefinition" p:name="assignedToRoles" p:label="Assigned Roles" p:shortLabel="Assigned Roles" p:elementLabel="Assigned Roles"/>
+
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <!--<bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="template"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="template.id" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="template.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>-->
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assignedToRole"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="assignedToRole.id" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="assignedToRole.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assignedToPrincipal"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="assignedToPrincipal.principalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="assignedToPrincipal.principalName" p:targetName="principalName"/>
+            </list>
+          </property>
+		</bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assignedToGroup"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="assignedToGroup.id" p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="assignedToGroup.name" p:targetName="name"/>
+            </list>
+          </property>
+		</bean>
+	</list>
+	</property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-template.namespaceCode" parent="ResponsibilityImpl-template.namespaceCode-parentBean"/>
+  <bean id="ResponsibilityImpl-template.namespaceCode-parentBean" parent="RoleBo-namespaceCode" abstract="true" p:name="template.namespaceCode" p:label="Template Namespace" p:shortLabel="Template Namespace">
+  </bean>
+    
+  <bean id="ResponsibilityImpl-templateId" parent="ResponsibilityImpl-templateId-parentBean"/>
+  <bean id="ResponsibilityImpl-templateId-parentBean" parent="AttributeDefinition" abstract="true" p:name="template.id" p:label="Template Identifier" p:shortLabel="Template Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+    
+
+  <bean id="ResponsibilityImpl-roleId" parent="ResponsibilityImpl-roleId-parentBean"/>
+  <bean id="ResponsibilityImpl-roleId-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToRole.id" p:label="Role Identifier" p:shortLabel="Role Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-principalId" parent="ResponsibilityImpl-principalId-parentBean"/>
+  <bean id="ResponsibilityImpl-principalId-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToPrincipal.principalId" p:label="Principal Identifier" p:shortLabel="Principal Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-groupId" parent="ResponsibilityImpl-groupId-parentBean"/>
+  <bean id="ResponsibilityImpl-groupId-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToGroup.id" p:label="Group Identifier" p:shortLabel="Group Identifier" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+  
+  <bean id="ResponsibilityImpl-attributeValue" parent="ResponsibilityImpl-attributeValue-parentBean"/>
+  <bean id="ResponsibilityImpl-attributeValue-parentBean" parent="ResponsibilityAttribute-attributeValue" abstract="true"/>
+  
+  <bean id="ResponsibilityImpl-template.name" parent="ResponsibilityImpl-template.name-parentBean"/>
+  <bean id="ResponsibilityImpl-template.name-parentBean" parent="AttributeDefinition" abstract="true" p:name="template.name" p:label="Template Name" p:shortLabel="Template Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+  
+  
+  <bean id="ResponsibilityImpl-namespaceCode" parent="ResponsibilityImpl-namespaceCode-parentBean"/>
+  <bean id="ResponsibilityImpl-namespaceCode-parentBean" parent="RoleBo-namespaceCode" abstract="true" p:name="namespaceCode" p:label="Responsibility Namespace" p:shortLabel="Responsibility Namespace">
+  </bean>
+  
+  <bean id="ResponsibilityImpl-id" parent="ResponsibilityImpl-id-parentBean"/>
+  <bean id="ResponsibilityImpl-id-parentBean" parent="AttributeDefinition" abstract="true" p:name="id" p:label="Responsibility Identifier" p:shortLabel="Responsibility Identifier" p:maxLength="10" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="ResponsibilityImpl-name" parent="ResponsibilityImpl-name-parentBean"/>
+  <bean id="ResponsibilityImpl-name-parentBean" abstract="true" parent="KimType-name">
+    <property name="name" value="name"/>
+    <property name="label" value="Responsibility Name"/>
+    <property name="shortLabel" value="Responsibility Name"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>    
+    <property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true" p:allowUnderscore="true" p:allowPeriod="true" p:allowParenthesis="true" p:allowDollar="true" p:allowForwardSlash="true"/>
+	</property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-assignedToRoleNamespaceForLookup" parent="ResponsibilityImpl-assignedToRoleNamespaceForLookup-parentBean"/>
+  <bean id="ResponsibilityImpl-assignedToRoleNamespaceForLookup-parentBean" parent="RoleBo-namespaceCode" abstract="true" p:name="assignedToRoleNamespaceForLookup" p:label="Role Namespace" p:shortLabel="Role Namespace">
+  </bean>
+
+  <bean id="ResponsibilityImpl-assignedToRoleNameForLookup" parent="ResponsibilityImpl-assignedToRoleNameForLookup-parentBean"/>
+  <bean id="ResponsibilityImpl-assignedToRoleNameForLookup-parentBean" parent="RoleBo-name" abstract="true" p:name="assignedToRole.name">
+  </bean>
+
+  <bean id="ResponsibilityImpl-assignedToPrincipalNameForLookup" parent="ResponsibilityImpl-assignedToPrincipalNameForLookup-parentBean"/>
+  <bean id="ResponsibilityImpl-assignedToPrincipalNameForLookup-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToPrincipal.principalName" p:label="Principal Name" p:shortLabel="Principal Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+  
+    <bean id="ResponsibilityImpl-assignedToGroupNamespaceForLookup" parent="ResponsibilityImpl-assignedToGroupNamespaceForLookup-parentBean"/>
+  <bean id="ResponsibilityImpl-assignedToGroupNamespaceForLookup-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToGroupNamespaceForLookup" p:label="Group Namespace" p:shortLabel="Group Namespace" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-assignedToGroupNameForLookup" parent="ResponsibilityImpl-assignedToGroupNameForLookup-parentBean"/>
+  <bean id="ResponsibilityImpl-assignedToGroupNameForLookup-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToGroup.name" p:label="Group Name" p:shortLabel="Group Name" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>    
+
+	<bean id="ResponsibilityImpl-detailObjects" parent="ResponsibilityImpl-detailObjects-parentBean"/>
+		<bean id="ResponsibilityImpl-detailObjects-parentBean" parent="AttributeDefinition" abstract="true" p:name="detailObjectsValues" p:label="Responsibility Detail Values" p:shortLabel="Detail Values" p:maxLength="40" p:required="false">
+		<property name="control">
+	     <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+          
+  <bean id="ResponsibilityImpl-detailObjectsValues" parent="ResponsibilityImpl-detailObjectsValues-parentBean"/>
+  <bean id="ResponsibilityImpl-detailObjectsValues-parentBean" parent="AttributeDefinition" abstract="true" p:name="detailObjectsValues" p:label="Responsibility Detail Values" p:shortLabel="Detail Values" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-detailCriteria" parent="ResponsibilityImpl-detailCriteria-parentBean"/>
+  <bean id="ResponsibilityImpl-detailCriteria-parentBean" parent="AttributeDefinition" abstract="true" p:name="detailCriteria" p:label="Responsibility Detail Criteria" p:shortLabel="Detail Criteria" p:maxLength="200" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-detailObjectsToDisplay" parent="ResponsibilityImpl-detailObjectsValues" p:name="detailObjectsToDisplay">
+  </bean>
+  
+  <bean id="ResponsibilityImpl-assignedToRolesToDisplay" parent="ResponsibilityImpl-assignedToRolesToDisplay-parentBean"/>
+  <bean id="ResponsibilityImpl-assignedToRolesToDisplay-parentBean" parent="AttributeDefinition" abstract="true" p:name="assignedToRolesToDisplay" p:label="Granted to Roles" p:shortLabel="Granted to Roles" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="ResponsibilityImpl-active" parent="ResponsibilityImpl-active-parentBean"/>
+  <bean id="ResponsibilityImpl-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+    
+  <bean id="ResponsibilityImpl-inquiryDefinition" parent="ResponsibilityImpl-inquiryDefinition-parentBean"/>
+  <bean id="ResponsibilityImpl-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Responsibility Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Responsibility Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="template.namespaceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="template.name"/>
+        	  <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        	  <bean parent="FieldDefinition" p:attributeName="name"/>
+			</list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Responsibility Detail Values"/>
+          <property name="inquiryFields">
+            <list>
+				<bean parent="InquiryCollectionDefinition">
+	                <property name="attributeName" value="attributeDetails"/>
+	                <property name="businessObjectClass" value="org.kuali.rice.kim.impl.responsibility.ResponsibilityAttributeBo"/>
+	                <property name="numberOfColumns" value="2"/>
+	                <property name="inquiryFields">
+						<list>
+		                    <bean parent="FieldDefinition" p:attributeName="kimAttribute.attributeName"/>
+		                    <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+		                </list>
+		            </property>
+		            <property name="summaryFields">
+		                  <list>
+		                    <bean parent="FieldDefinition" p:attributeName="kimAttribute.attributeName"/>
+		                    <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+		                  </list>
+	                </property>
+		        </bean>
+			</list>
+		  </property>
+		</bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Responsibility Assigned Roles"/>
+          <property name="inquiryFields">
+            <list>
+				<bean parent="InquiryCollectionDefinition">
+	                <property name="attributeName" value="assignedToRoles"/>
+	                <property name="businessObjectClass" value="org.kuali.rice.kim.impl.role.RoleBo"/>
+	                <property name="numberOfColumns" value="3"/>
+	                <property name="inquiryFields">
+						<list>
+		                    <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+		                    <bean parent="FieldDefinition" p:attributeName="name"/>
+		                    <bean parent="FieldDefinition" p:attributeName="kimRoleType.name"/>
+		                </list>
+		            </property>
+		            <property name="summaryFields">
+		                  <list>
+		                    <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+		                    <bean parent="FieldDefinition" p:attributeName="name"/>
+		                    <bean parent="FieldDefinition" p:attributeName="kimRoleType.name"/>
+		                  </list>
+	                </property>
+		        </bean>
+			</list>
+		  </property>
+		</bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.rice.kim.impl.responsibility.ResponsibilityInquirableImpl"/>
+  </bean>
+
+  <bean id="ResponsibilityImpl-lookupDefinition" parent="ResponsibilityImpl-lookupDefinition-parentBean"/>
+  <bean id="ResponsibilityImpl-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Responsibility Lookup">
+    <property name="lookupableID" value="responsibilityLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>id</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="template.namespaceCode" p:noLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="template.name" p:noLookup="true"/>
+       	  <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="name" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToRoleNamespaceForLookup"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToRole.name" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToPrincipal.principalName" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToGroupNamespaceForLookup"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToGroup.name" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+          <bean parent="FieldDefinition" p:attributeName="detailCriteria"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToRole.id"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToPrincipal.principalId"/>
+          <bean parent="FieldDefinition" p:attributeName="template.id"/>
+          <bean parent="FieldDefinition" p:attributeName="assignedToGroup.id"/>
+          <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="template.namespaceCode"/>
+          <bean parent="FieldDefinition" p:attributeName="template.name"/>
+       	  <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="name"/>
+       	  <bean parent="FieldDefinition" p:attributeName="detailObjectsToDisplay"/>
+       	  <bean parent="FieldDefinition" p:attributeName="assignedToRolesToDisplay"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

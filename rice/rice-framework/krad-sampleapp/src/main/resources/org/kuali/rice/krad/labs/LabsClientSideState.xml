@@ -1,0 +1,184 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="Lab-ClientSideState" parent="Uif-FormView">
+    <property name="headerText" value="Client Side State"/>
+    <property name="header.rightGroup">
+      <ref bean="Uif-DisclosureActionsGroup"/>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="Lab-ClientSideState-Page1"/>
+        <ref bean="Lab-ClientSideState-Page2"/>
+      </list>
+    </property>
+    <property name="navigation">
+      <ref bean="Lab-ClientSideState-Menu"/>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase">
+        <property name="items">
+          <list>
+            <bean parent="Uif-PrimaryActionButton" p:methodToCall="refresh" p:actionLabel="Refresh - Ajax"/>
+            <bean parent="Uif-PrimaryActionButton" p:methodToCall="refresh" p:actionLabel="Refresh - Non-Ajax"
+                  p:ajaxSubmit="false"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Link" p:linkText="Go Forward - Test Back Button State" p:target="_self"
+                    p:href="@{#ConfigProperties['krad.url']}/lookup?dataObjectClassName=org.kuali.rice.krad.demo.travel.account.TravelAccount&amp;showMaintenanceLinks=true"/>
+            </list>
+          </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="Lab-ClientSideState-Page1" parent="Uif-Page" p:headerText="Page 1"
+        p:instructionalText="View for testing maintaining of client side state">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Section 1 Disclosure">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="SubSection 1 Disclosure">
+              </bean>
+
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="SubSection 2 Disclosure">
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Section 2 Disclosure">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="SubSection 1 Disclosure">
+              </bean>
+
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="SubSection 2 Disclosure">
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Disclosure-VerticalBoxSection" p:headerText="Section 3 Disclosure">
+          <property name="items">
+            <list>
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="SubSection 1 Disclosure">
+              </bean>
+
+              <bean parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="SubSection 2 Disclosure">
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Disclosure-TableCollectionSection">
+          <property name="headerText" value="Collection Inactive Filter"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UIInactivatableTestObject"/>
+          <property name="propertyName" value="inactivatableCollection"/>
+          <property name="layoutManager.generateAutoSequence" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"/>
+              <bean parent="Uif-InputField" p:label="Active" p:propertyName="active">
+                <property name="control">
+                  <bean parent="Uif-CheckboxControl"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Disclosure-TableCollectionSection">
+          <property name="headerText" value="Collection Inactive Filter 2"/>
+          <!-- our data object must implement org.kuali.rice.core.api.mo.common.active.Inactivatable -->
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UIInactivatableTestObject"/>
+          <property name="propertyName" value="inactivatableCollection2"/>
+          <property name="layoutManager.generateAutoSequence" value="true"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1"/>
+              <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"/>
+              <bean parent="Uif-InputField" p:label="Active" p:propertyName="active">
+                <property name="control">
+                  <bean parent="Uif-CheckboxControl"/>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-TabSection" p:headerText="Active Tab State">
+          <property name="items">
+            <list>
+              <bean parent="Lab-ClientSideState-TabGroup1" p:id="Lab-ClientSideState-TabGroup1"/>
+              <bean parent="Lab-ClientSideState-TabGroup2" p:id="Lab-ClientSideState-TabGroup2"/>
+              <bean parent="Lab-ClientSideState-TabGroup3" p:id="Lab-ClientSideState-TabGroup3"/>
+            </list>
+          </property>
+          <property name="tabsWidget.defaultActiveTabId" value="Lab-ClientSideState-TabGroup2"/>
+        </bean>
+
+        <bean parent="Uif-Disclosure-TableCollectionSection" p:headerText="Collection State">
+           <property name="collectionObjectClass" value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+           <property name="propertyName" value="collection1"/>
+           <property name="layoutManager.generateAutoSequence" value ="true"/>
+           <property name="items">
+             <list>
+               <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"/>
+               <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"/>
+               <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"/>
+               <bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"/>
+             </list>
+           </property>
+         </bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Lab-ClientSideState-Page2" parent="Lab-ClientSideState-Page1" p:headerText="Page 2"/>
+
+  <bean id="Lab-ClientSideState-TabGroup1" parent="Uif-HorizontalBoxSection" p:headerText="Tab Group One"/>
+  <bean id="Lab-ClientSideState-TabGroup2" parent="Uif-HorizontalBoxSection" p:headerText="Tab Group Two"/>
+  <bean id="Lab-ClientSideState-TabGroup3" parent="Uif-HorizontalBoxSection" p:headerText="Tab Group Three"/>
+
+  <bean id="Lab-ClientSideState-Menu" parent="Uif-MenuNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
+        <bean parent="Uif-NavigationActionLink" p:actionLabel="Page 1" p:navigateToPageId="Lab-ClientSideState-Page1"/>
+        <bean parent="Uif-NavigationActionLink" p:actionLabel="Page 2" p:navigateToPageId="Lab-ClientSideState-Page2"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

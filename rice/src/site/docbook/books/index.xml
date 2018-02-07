@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Kuali Rice ${project.version} Documentation Portal</title>
+    </info>
+    <para><emphasis role="bold">Released: ${docbook.build.timestamp}</emphasis></para>
+    <section xml:id="download" xreflabel="Download">
+        <title>Download</title>
+        <itemizedlist>
+            <listitem><para><link xlink:show="new" xlink:href="http://kuali.org/rice/download">Download Kuali Rice ${project.version}</link></para></listitem>
+            <listitem>
+                <para>Maven Repository - <link
+                        xlink:show="new" xlink:href="http://nexus.kuali.org/content/groups/public/"
+                        >http://nexus.kuali.org/content/groups/public/</link></para>
+            </listitem>
+            <listitem>
+                <para>From Kuali svn repository - <link
+                        xlink:show="new" xlink:href="http://svn.kuali.org/repos/rice/tags/rice-${project.version}"
+                    >http://svn.kuali.org/repos/rice/tags/rice-${project.version}</link></para>
+            </listitem>
+        </itemizedlist>        
+    </section>
+    <section>
+        <title>Release Documentation</title>
+        <para>
+            <orderedlist>
+                <listitem>
+                    <para><emphasis role="bold">Release Notes</emphasis> (<link xlink:show="new"
+                            xlink:href="release-notes.html">HTML</link> / <link xlink:show="new"
+                            xlink:href="../pdf/release-notes.pdf">PDF</link> ) - List of changes </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Installation Guide</emphasis> (<link
+                            xlink:show="new" xlink:href="IG.html">HTML</link> /<link xlink:show="new" xlink:href="../pdf/IG.pdf"
+                            >PDF</link> ) - How to install Kuali Rice (for technical administrators
+                        and developers)</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Introduction to Rice</emphasis> (<link
+                            xlink:show="new" xlink:href="Intro_To_Rice.html">HTML</link> /<link
+                            xlink:show="new" xlink:href="../pdf/Intro_To_Rice.pdf">PDF</link> ) - Introduction to
+                        Rice Concepts and Architecture</para>
+                </listitem>
+                <listitem>
+                    <para>Development Frameworks</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">KRAD Guide</emphasis> (<link xlink:show="new"
+                                    xlink:href="KRAD_Guide.html">HTML</link> /<link xlink:show="new"
+                                    xlink:href="../pdf/KRAD_Guide.pdf">PDF</link> ) - Manual on how
+                                to get started and use Kuali Rapid Application Development (KRAD),
+                                Rice's primary development framework.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">eDocLite</emphasis>(<link xlink:show="new"
+                            xlink:href="eDocLite_Guide.html">HTML</link> /<link xlink:show="new"
+                                xlink:href="../pdf/eDocLite_Guide.pdf">PDF</link> ) - Manual on how
+                            to get started and use eDocLite.</para>
+                    </listitem>
+                   <listitem>
+                        <para>KNS - See the <link xlink:show="new"
+                                    xlink:href="http://site.kuali.org/rice/2.2.5/reference/html/portal.html"
+                                    >2.2.5 documentation</link> for reference information on the
+                                deprecated, older development framework. KNS is expected to be
+                                removed in Rice 3.0.</para>
+                    </listitem>
+                </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>Middleware Components</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">KEN Guide</emphasis> (<link xlink:show="new"
+                                    xlink:href="KEN_Guide.html">HTML</link> / <link xlink:show="new"
+                                    xlink:href="../pdf/KEN_Guide.pdf">PDF</link> ) - Kuali
+                                Enterprise Notification </para>
+                    </listitem>   
+                    <listitem>
+                        <para><emphasis role="bold">KEW Guide</emphasis> (<link xlink:show="new"
+                                    xlink:href="KEW_Guide.html">HTML</link> / <link xlink:show="new"
+                                    xlink:href="../pdf/KEW_Guide.pdf">PDF</link> ) - Kuali
+                                Enterprise Workflow </para>
+                    </listitem>  
+                    <listitem>
+                        <para><emphasis role="bold">KIM Guide</emphasis> (<link xlink:show="new"
+                                    xlink:href="KIM_Guide.html">HTML</link> / <link xlink:show="new"
+                                    xlink:href="../pdf/KIM_Guide.pdf">PDF</link> ) - Kuali Identity
+                                Management </para>
+                    </listitem>  
+                    <listitem>
+                        <para><emphasis role="bold">KSB Guide</emphasis> (<link xlink:show="new"
+                                    xlink:href="KSB_Guide.html">HTML</link> / <link xlink:show="new"
+                                    xlink:href="../pdf/KSB_Guide.pdf">PDF</link> ) - Kuali Service
+                                Bus </para>
+                    </listitem>   
+                    <listitem>
+                        <para><emphasis role="bold">KRMS Guide</emphasis> (<link xlink:show="new"
+                                    xlink:href="KRMS_Guide.html">HTML</link> / <link
+                                    xlink:show="new" xlink:href="../pdf/KRMS_Guide.pdf">PDF</link> )
+                                - Kuali Rules Management System</para>
+                    </listitem> 
+                </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>Reference</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold"><link xlink:show="new"
+                                    xlink:href="http://site.kuali.org/rice/${project.version}/apidocs/index.html"
+                                    >Javadocs</link></emphasis> - Api Reference for Developers</para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <link xlink:show="new" xlink:href="database_diagrams.html"><emphasis role="bold">Database Diagrams</emphasis></link>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold"><link xlink:show="new" xlink:href="Help.html">Online
+                                    Help</link></emphasis></para>
+                    </listitem>
+                </itemizedlist>
+                </listitem>       
+            </orderedlist>
+        </para>
+    </section>
+    <section>
+        <title>Learn More and Get Involved</title>
+        <itemizedlist>
+            <listitem><para><link xlink:show="new" xlink:href="http://kuali.org/kis/projectTeams/team/111">Joining the Mailing List</link> - Create a KIS account or Login to add or remove yourself from this group</para></listitem>
+            <listitem><para><link xlink:show="new" xlink:href="https://wiki.kuali.org/display/KULRICE/Collaboration">Collaborate</link></para></listitem>
+            <listitem><para><link xlink:show="new" xlink:href="https://wiki.kuali.org/display/CONTRIB/Home">Contribute</link></para></listitem>
+            <listitem><para>Visit Kuali Rice Website - <link xlink:show="new" xlink:href="http://kuali.org/rice">http://kuali.org/rice</link></para></listitem>
+            <listitem>
+                <para><link xlink:show="new" xlink:href="http://kuali.org/kd/">Attend Kuali
+                        Days</link></para>
+            </listitem>
+            <listitem>
+                <para><link xlink:show="new"
+                        xlink:href="https://wiki.kuali.org/display/KULRICE/Home">Kuali Rice
+                        Development Wiki</link> - information about the Rice project, developer
+                    documentation, and more</para>
+            </listitem>
+            <listitem>
+                <para><link xlink:show="new" xlink:href="https://jira.kuali.org/browse/KULRICE"
+                        >Issue Tracking</link></para>
+            </listitem>
+        </itemizedlist>
+    </section>
+
+</article>

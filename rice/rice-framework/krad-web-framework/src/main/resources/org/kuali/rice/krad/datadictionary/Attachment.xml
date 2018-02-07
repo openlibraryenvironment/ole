@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="Attachment" parent="Attachment-parentBean"/>
+
+  <bean id="Attachment-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.krad.bo.Attachment"/>
+    <property name="inquiryDefinition">
+      <ref bean="Attachment-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Attachment-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="Attachment-attachmentFileName"/>
+        <ref bean="Attachment-attachmentFileSize"/>
+        <ref bean="Attachment-attachmentIdentifier"/>
+        <ref bean="Attachment-attachmentMimeTypeCode"/>
+        <ref bean="Attachment-attachmentTypeCode"/>
+        <ref bean="Attachment-noteIdentifier"/>
+        <ref bean="Attachment-versionNumber"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Attachment"/>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Attachment-attachmentFileName" parent="Attachment-attachmentFileName-parentBean"/>
+
+  <bean id="Attachment-attachmentFileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="250"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:cols="80" p:rows="5"/>
+    </property>
+    <property name="summary" value="attachmentFileName"/>
+    <property name="name" value="attachmentFileName"/>
+    <property name="label" value="Attachment File Name"/>
+    <property name="description" value="attachmentFileName description..."/>
+  </bean>
+  <bean id="Attachment-attachmentFileSize" parent="Attachment-attachmentFileSize-parentBean"/>
+
+  <bean id="Attachment-attachmentFileSize-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Size"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+    <property name="summary" value="attachmentFileSize"/>
+    <property name="name" value="attachmentFileSize"/>
+    <property name="label" value="Attachment File Size"/>
+    <property name="description" value="attachmentFileSize description..."/>
+  </bean>
+  <bean id="Attachment-attachmentIdentifier" parent="Attachment-attachmentIdentifier-parentBean"/>
+
+  <bean id="Attachment-attachmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="36"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="38"/>
+    </property>
+    <property name="summary" value="attachmentIdentifier"/>
+    <property name="name" value="attachmentIdentifier"/>
+    <property name="label" value="Attachment Identifier"/>
+    <property name="description" value="attachmentIdentifier description..."/>
+  </bean>
+  <bean id="Attachment-attachmentMimeTypeCode" parent="Attachment-attachmentMimeTypeCode-parentBean"/>
+
+  <bean id="Attachment-attachmentMimeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
+    </property>
+    <property name="summary" value="attachmentMimeTypeCode"/>
+    <property name="name" value="attachmentMimeTypeCode"/>
+    <property name="label" value="Attachment Mime Type Code"/>
+    <property name="description" value="attachmentMimeTypeCode description..."/>
+  </bean>
+  <bean id="Attachment-attachmentTypeCode" parent="Attachment-attachmentTypeCode-parentBean"/>
+
+  <bean id="Attachment-attachmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="summary" value="attachmentTypeCode"/>
+    <property name="name" value="attachmentTypeCode"/>
+    <property name="label" value="Attachment Type Code"/>
+    <property name="description" value="attachmentTypeCode description..."/>
+  </bean>
+  <bean id="Attachment-noteIdentifier" parent="Attachment-noteIdentifier-parentBean"/>
+
+  <bean id="Attachment-noteIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+    <property name="summary" value="noteIdentifier"/>
+    <property name="name" value="noteIdentifier"/>
+    <property name="label" value="Note Identifier"/>
+    <property name="description" value="noteIdentifier description..."/>
+  </bean>
+  <bean id="Attachment-versionNumber" parent="Attachment-versionNumber-parentBean"/>
+
+  <bean id="Attachment-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Attachment-inquiryDefinition" parent="Attachment-inquiryDefinition-parentBean"/>
+
+  <bean id="Attachment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="attachmentFileName"/>
+              <bean parent="FieldDefinition" p:attributeName="attachmentFileSize"/>
+              <bean parent="FieldDefinition" p:attributeName="attachmentIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="attachmentMimeTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="attachmentTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="noteIdentifier"/>
+            </list>
+          </property>
+          <property name="title" value=""/>
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="Attachment Inquiry"/>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Attachment-lookupDefinition" parent="Attachment-lookupDefinition-parentBean"/>
+
+  <bean id="Attachment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="attachmentFileName"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentFileSize"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentMimeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="noteIdentifier"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="attachmentFileName"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentFileSize"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentMimeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="attachmentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="noteIdentifier"/>
+      </list>
+    </property>
+    <property name="title" value="Attachment Lookup"/>
+  </bean>
+</beans>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ac="ns:workflow/ApplicationConstants"
+        xmlns:u="ns:workflow/User"
+        xmlns:g="ns:workflow/Group"
+        xmlns:dt="ns:workflow/DocumentType"
+        xmlns:ra="ns:workflow/RuleAttribute"
+        xmlns:rt="ns:workflow/RuleTemplate"
+        xmlns:rc="ns:workflow/Rule"
+        xmlns:ss="ns:workflow/Style"
+        xmlns:ed="ns:workflow/EDocLite"
+        targetNamespace="ns:workflow"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl1.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Universal workflow data schema
+    </documentation>
+  </annotation>
+
+  <import namespace="ns:workflow/ApplicationConstants" schemaLocation="resource:ApplicationConstants"/>
+  <import namespace="ns:workflow/User" schemaLocation="resource:User"/>
+  <import namespace="ns:workflow/Group" schemaLocation="resource:Group"/>
+  <import namespace="ns:workflow/DocumentType" schemaLocation="resource:DocumentType"/>
+  <import namespace="ns:workflow/RuleAttribute" schemaLocation="resource:RuleAttribute"/>
+  <import namespace="ns:workflow/RuleTemplate" schemaLocation="resource:RuleTemplate"/>
+  <import namespace="ns:workflow/Rule" schemaLocation="resource:Rule"/>
+  <import namespace="ns:workflow/EDocLite" schemaLocation="resource:EDocLite"/>
+  <import namespace="ns:workflow/Style" schemaLocation="resource:Style"/>
+
+  <!-- root workgroups element made up of workgroups type -->
+  <element name="data">
+    <complexType>
+      <!-- ORDER:
+        ApplicationConstants
+        UserService
+        Group
+        DocumentType
+        RuleAttribute
+        RuleTemplate
+        Rule
+        Help
+        EDocLite -->
+      <all>
+        <!-- do we want to allow MULTIPLE definitions of the same type in a single doc? -->
+        <!-- just one for now -->
+        <element ref="ac:ApplicationConstants" minOccurs="0"/>
+        <element ref="u:users" minOccurs="0"/>
+        <element ref="g:groups" minOccurs="0"/>
+        <element ref="ra:ruleAttributes" minOccurs="0"/>
+        <element ref="rt:ruleTemplates" minOccurs="0"/>
+        <element ref="dt:documentTypes" minOccurs="0"/>
+        <element ref="rc:rules" minOccurs="0"/>
+        <element ref="rc:ruleDelegations" minOccurs="0"/>
+        <element ref="ss:styles" minOccurs="0"/>
+        <element ref="ed:edoclite" minOccurs="0"/>
+      </all>
+    </complexType>
+  </element>
+
+</schema>

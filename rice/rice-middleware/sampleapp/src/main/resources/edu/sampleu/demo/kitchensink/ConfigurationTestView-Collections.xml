@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="ConfigurationTestView-Collections" parent="Uif-FormView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation"/>
+    </property>
+    <property name="headerText" value="Collection Test View"/>
+    <property name="entryPageId" value="Collections-DefaultTests"/>
+    <property name="navigation">
+      <ref bean="ConfigurationTestView-Collections-Menu"/>
+    </property>
+    <property name="items">
+      <list>
+        <ref bean="Collections-DefaultTests"/>
+        <ref bean="Collections-AddBlankLine"/>
+        <ref bean="Collections-AddViaLightbox"/>
+        <ref bean="Collections-ColumnSequence"/>
+        <ref bean="Collections-SaveRow"/>
+      </list>
+    </property>
+    <property name="formClass" value="edu.sampleu.demo.kitchensink.UifComponentsTestForm"/>
+    <property name="growlMessagingEnabled" value="true"/>
+  </bean>
+
+  <bean id="ConfigurationTestView-Collections-Menu" parent="Uif-TabNavigationGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Collections-DefaultTests"
+              p:actionLabel="Default"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Collections-AddBlankLine"
+              p:actionLabel="Add Blank Line"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Collections-AddViaLightbox"
+              p:actionLabel="Add Via Lightbox"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Collections-ColumnSequence"
+              p:actionLabel="Column Sequence"/>
+        <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Collections-SaveRow"
+              p:actionLabel="Save Row"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--COLLECTION PAGES-->
+
+  <bean id="Collections-DefaultTests" parent="Uif-Page" p:headerText="Default Tests">
+    <property name="items">
+      <list>
+        <ref bean="Collections-Base-TableLayout"/>
+        <ref bean="Collections-Base-StackLayout"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Collections-AddBlankLine" parent="Uif-Page" p:headerText="Add Blank Line">
+    <property name="items">
+      <list>
+        <ref bean="Collections-AddBlankLine-TableTop"/>
+        <ref bean="Collections-AddBlankLine-TableBottom"/>
+        <ref bean="Collections-AddBlankLine-StackTop"/>
+        <ref bean="Collections-AddBlankLine-StackBottom"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Collections-AddViaLightbox" parent="Uif-Page" p:headerText="Add Via Lightbox">
+    <property name="items">
+      <list>
+        <ref bean="Collections-AddViaLightbox-TableTop"/>
+        <ref bean="Collections-AddViaLightbox-TableBottom"/>
+        <ref bean="Collections-AddViaLightbox-StackTop"/>
+        <ref bean="Collections-AddViaLightbox-StackBottom"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Collections-ColumnSequence" parent="Uif-Page" p:headerText="Column Sequence">
+    <property name="items">
+      <list>
+        <ref bean="Collections-ColumnSequence-TableDefault"/>
+        <ref bean="Collections-ColumnSequence-TableLeft"/>
+        <ref bean="Collections-ColumnSequence-TableThird"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Collections-SaveRow" parent="Uif-Page" p:headerText="Save Row">
+    <property name="items">
+      <list>
+        <ref bean="Collections-SaveRow-Table"/>
+        <ref bean="Collections-SaveRow-Stack"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--COLLECTIONS BASE BEANS-->
+  <!--COLLECTIONS BASE BEANS : TABLE LAYOUT-->
+
+  <bean id="Collections-Base-TableLayout" parent="Uif-Disclosure-TableCollectionSection"
+        p:layoutManager.numberOfColumns="4">
+    <property name="headerText" value="Table Layout"/>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="propertyName" value="list1"/>
+    <property name="layoutManager.generateAutoSequence" value="true"/>
+    <property name="layoutManager.richTable.render" value="true"/>
+    <property name="layoutManager.columnCalculations">
+      <list>
+        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field1" p:calculateOnKeyUp="true"/>
+        <bean parent="Uif-ColumnCalculationInfo-Average" p:propertyName="field2" p:calculationFunctionExtraData="3"/>
+        <bean parent="Uif-ColumnCalculationInfo-Min" p:propertyName="field3"/>
+        <bean parent="Uif-ColumnCalculationInfo-Max" p:propertyName="field4"/>
+      </list>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:fieldLabel.cellCssClasses="demo-customHeader"
+              p:propertyName="field1" p:required="true" p:cellCssClasses="demo-customCell1,demo-customCell2"/>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2"
+              p:required="true" p:cellCssClasses="demo-customCell3"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4"
+              p:required="true">
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--COLLECTIONS BASE BEANS : STACK LAYOUT-->
+
+  <bean id="Collections-Base-StackLayout" parent="Uif-Disclosure-StackedCollectionSection">
+    <property name="headerText" value="Stack Layout"/>
+    <property name="collectionObjectClass" value="edu.sampleu.demo.kitchensink.UITestObject"/>
+    <property name="propertyName" value="list3"/>
+    <property name="layoutManager.summaryTitle" value="Line Summary"/>
+    <property name="layoutManager.summaryFields" value="field1"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2" p:required="true"/>
+        <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3"/>
+        <bean parent="Uif-InputField" p:label="Field 4" p:propertyName="field4"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--ADD BLANK LINE-->
+
+  <!--ADD BLANK LINE : TABLE LAYOUT-->
+
+  <bean id="Collections-AddBlankLine-TableTop" parent="Collections-Base-TableLayout">
+    <property name="headerText" value="Table Layout With Add Blank line TOP (default)"/>
+    <property name="renderAddBlankLineButton" value="true"/>
+  </bean>
+
+  <bean id="Collections-AddBlankLine-TableBottom" parent="Collections-AddBlankLine-TableTop">
+    <property name="headerText" value="Table Layout With Add Blank line BOTTOM"/>
+    <property name="propertyName" value="list2"/>
+    <property name="addLinePlacement" value="BOTTOM"/>
+  </bean>
+
+  <!--ADD BLANK LINE : STACK LAYOUT-->
+
+  <bean id="Collections-AddBlankLine-StackTop" parent="Collections-Base-StackLayout">
+    <property name="headerText" value="Stack Layout With Add Blank line TOP (default)"/>
+    <property name="renderAddBlankLineButton" value="true"/>
+  </bean>
+
+  <bean id="Collections-AddBlankLine-StackBottom" parent="Collections-AddBlankLine-StackTop">
+    <property name="headerText" value="Stack Layout With Add Blank line BOTTOM"/>
+    <property name="propertyName" value="list4"/>
+    <property name="addLinePlacement" value="BOTTOM"/>
+  </bean>
+
+  <!--ADD VIA LIGHTBOX-->
+
+  <!--ADD VIA LIGHTBOX : TABLE LAYOUT-->
+
+  <bean id="Collections-AddViaLightbox-TableTop" parent="Collections-Base-TableLayout">
+    <property name="headerText" value="Table Layout Add Via Lightbox TOP"/>
+    <property name="addViaLightBox" value="true"/>
+    <property name="layoutManager.separateAddLine" value="true"/>
+  </bean>
+
+  <bean id="Collections-AddViaLightbox-TableBottom" parent="Collections-AddViaLightbox-TableTop">
+    <property name="headerText" value="Table Layout With Add Via Lightbox BOTTOM"/>
+    <property name="propertyName" value="list2"/>
+    <property name="addLinePlacement" value="BOTTOM"/>
+  </bean>
+
+  <!--ADD VIA LIGHTBOX : STACK LAYOUT-->
+
+  <bean id="Collections-AddViaLightbox-StackTop" parent="Collections-Base-StackLayout">
+    <property name="headerText" value="Stack Layout With Add Via Lightbox TOP"/>
+    <property name="addViaLightBox" value="true"/>
+  </bean>
+
+  <bean id="Collections-AddViaLightbox-StackBottom" parent="Collections-AddViaLightbox-StackTop">
+    <property name="headerText" value="Stack Layout With Add Via Lightbox BOTTOM"/>
+    <property name="propertyName" value="list4"/>
+    <property name="addLinePlacement" value="BOTTOM"/>
+  </bean>
+
+  <!--COLUMN SEQUENCE-->
+
+  <bean id="Collections-ColumnSequence-TableDefault" parent="Collections-Base-TableLayout">
+    <property name="headerText" value="Table Layout Action Column Default"/>
+  </bean>
+
+  <bean id="Collections-ColumnSequence-TableLeft" parent="Collections-Base-TableLayout">
+    <property name="headerText" value="Table Layout Action Column Left"/>
+    <property name="propertyName" value="list2"/>
+    <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
+  </bean>
+
+  <bean id="Collections-ColumnSequence-TableThird" parent="Collections-Base-TableLayout">
+    <property name="headerText" value="Table Layout Action Column 3"/>
+    <property name="propertyName" value="list3"/>
+    <property name="layoutManager.actionColumnPlacement" value="3"/>
+  </bean>
+
+  <!--SAVE ROW-->
+  <!--SAVE ROW : TABLE-->
+
+  <bean id="Collections-SaveRow-Table" parent="Collections-Base-TableLayout">
+    <property name="headerText" value="Table Layout With Save Row"/>
+    <property name="renderSaveLineActions" value="true"/>
+  </bean>
+
+  <!--SAVE ROW : STACK-->
+
+  <bean id="Collections-SaveRow-Stack" parent="Collections-Base-StackLayout">
+    <property name="headerText" value="Stack Layout With Save Row"/>
+    <property name="renderSaveLineActions" value="true"/>
+    <property name="propertyName" value="list2"/>
+  </bean>
+
+</beans>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/ken/config/_KenCommonSpringBeans.xml" />
+  <import resource="classpath:org/kuali/rice/ken/config/_KenOjbSpringBeans.xml" />
+  <import resource="classpath:org/kuali/rice/kcb/config/_KcbOjbSpringBeans.xml" />
+  <import resource="classpath:org/kuali/rice/ken/config/_KenLocalServiceBusSpringBeans.xml" />
+
+  <!-- SERVICES -->
+    <bean id="messageContentService" class="org.kuali.rice.ken.service.impl.NotificationMessageContentServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+      <constructor-arg><ref local="notificationContentTypeService"/></constructor-arg>
+    </bean>
+
+    <bean id="kenApiService" class="org.kuali.rice.ken.service.impl.KENAPIServiceImpl">
+      <property name="notificationChannelService" ref="notificationChannelService"/>
+      <property name="userPreferenceService" ref="userPreferenceService"/>
+
+    </bean>
+
+    <bean id="notificationService" class="org.kuali.rice.ken.service.impl.NotificationServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+      <constructor-arg><ref local="kenNotificationDao"/></constructor-arg>
+      <constructor-arg><ref local="messageContentService"/></constructor-arg>
+      <constructor-arg><ref local="notificationAuthorizationService"/></constructor-arg>
+      <constructor-arg><ref local="notificationRecipientService"/></constructor-arg>
+      <constructor-arg><ref local="notificationWorkflowDocumentService"/></constructor-arg>
+      <constructor-arg><ref local="notificationMessageDeliveryService"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationContentTypeService" class="org.kuali.rice.ken.service.impl.NotificationContentTypeServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationChannelService" class="org.kuali.rice.ken.service.impl.NotificationChannelServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+    </bean>
+
+    <bean id="userPreferenceService" class="org.kuali.rice.ken.service.impl.UserPreferenceServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+      <constructor-arg><ref local="notificationChannelService"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationAuthorizationService" class="org.kuali.rice.ken.service.impl.NotificationAuthorizationServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationRecipientService" class="org.kuali.rice.ken.service.impl.NotificationRecipientServiceKimImpl" />
+
+    <bean id="notificationWorkflowDocumentService" class="org.kuali.rice.ken.service.impl.NotificationWorkflowDocumentServiceImpl">
+      <constructor-arg><ref local="messageContentService"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationMessageDeliveryResolverService" class="org.kuali.rice.ken.service.impl.NotificationMessageDeliveryResolverServiceImpl">
+      <constructor-arg><ref local="notificationService"/></constructor-arg>
+      <constructor-arg><ref local="notificationRecipientService"/></constructor-arg>
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+      <constructor-arg><ref bean="transactionManager"/></constructor-arg>
+      <constructor-arg><ref bean="resolverExecutor"/></constructor-arg>
+      <constructor-arg><ref local="userPreferenceService"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationMessageDeliveryAutoRemovalService" class="org.kuali.rice.ken.service.impl.NotificationMessageDeliveryAutoRemovalServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+      <constructor-arg><ref bean="transactionManager"/></constructor-arg>
+      <constructor-arg><ref bean="autoRemovalExecutor"/></constructor-arg>
+      <constructor-arg><ref local="notificationMessageDeliveryService"/></constructor-arg>
+    </bean>
+
+    <bean id="sendNotificationService" class="org.kuali.rice.ken.service.impl.SendNotificationServiceKewXmlImpl">
+      <constructor-arg><ref local="notificationService"/></constructor-arg>
+    </bean>
+
+    <bean id="notificationMessageDeliveryService" class="org.kuali.rice.ken.service.impl.NotificationMessageDeliveryServiceImpl">
+      <constructor-arg><ref local="kenGenericDao"/></constructor-arg>
+      <constructor-arg><ref local="kenNotificationMessegeDeliveryDao"/></constructor-arg>
+    </bean>
+
+    <!-- END SERVICES -->
+
+  <!-- DAOS -->
+  <!-- OJB-->
+  <bean id="kenGenericDao" class="org.kuali.rice.core.impl.persistence.dao.GenericDaoOjb">
+      <property name="jcdAlias">
+          <value>kenDataSource</value>
+      </property>
+  </bean>
+
+  <bean id="kenNotificationDao" class="org.kuali.rice.ken.dao.impl.NotificationDaoOjb">
+      <property name="jcdAlias">
+          <value>kenDataSource</value>
+      </property>
+  </bean>
+
+  <bean id="kenNotificationMessegeDeliveryDao" class="org.kuali.rice.ken.dao.impl.NotificationMessegeDeliveryDaoOjb">
+      <property name="jcdAlias">
+          <value>kenDataSource</value>
+      </property>
+  </bean>
+  <!-- END DAOS -->
+
+  <bean id="resolverExecutor" class="java.util.concurrent.ThreadPoolExecutor">
+        <constructor-arg><value>1</value></constructor-arg> <!--  core pool size -->
+        <constructor-arg><value>5</value></constructor-arg> <!-- max pool size -->
+        <constructor-arg><value>30</value></constructor-arg> <!-- idle thread keepalive time -->
+        <constructor-arg>
+            <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                <property name="staticField"><value>java.util.concurrent.TimeUnit.SECONDS</value></property>
+            </bean>
+        </constructor-arg>
+        <constructor-arg><bean class="java.util.concurrent.LinkedBlockingQueue"/></constructor-arg>
+    </bean>
+
+    <bean id="autoRemovalExecutor" class="java.util.concurrent.ThreadPoolExecutor">
+        <constructor-arg><value>1</value></constructor-arg> <!--  core pool size -->
+        <constructor-arg><value>5</value></constructor-arg> <!-- max pool size -->
+        <constructor-arg><value>30</value></constructor-arg> <!-- idle thread keepalive time -->
+        <constructor-arg>
+            <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                <property name="staticField"><value>java.util.concurrent.TimeUnit.SECONDS</value></property>
+            </bean>
+        </constructor-arg>
+        <constructor-arg><bean class="java.util.concurrent.LinkedBlockingQueue"/></constructor-arg>
+    </bean>
+
+  <!-- Quartz beans -->
+
+  <!-- Define the job(s) -->
+  <!-- Resolve Notification Message Deliveries Job -->
+  <bean id="resolveNotificationMessageDeliveriesJob"
+      class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+      <property name="targetObject" ref="notificationMessageDeliveryResolverService" />
+      <property name="targetMethod" value="resolveNotificationMessageDeliveries" />
+      <property name="concurrent" value="${notification.concurrent.jobs}" />
+  </bean>
+
+  <!-- Message Delivery Auto Remove Job -->
+  <bean id="processAutoRemovalOfDeliveredNotificationMessageDeliveriesJob"
+      class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+      <property name="targetObject" ref="notificationMessageDeliveryAutoRemovalService" />
+      <property name="targetMethod" value="processAutoRemovalOfDeliveredNotificationMessageDeliveries" />
+      <property name="concurrent" value="${notification.concurrent.jobs}" />
+  </bean>
+
+  <!-- Define the trigger(s) -->
+  <!-- Set up the trigger for Resolving the Notification Message Deliveries (a.k.a. the periodic interval that this will run at) -->
+  <bean id="resolveNotificationMessageDeliveriesJobTrigger"
+      class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+      <property name="jobDetail" ref="resolveNotificationMessageDeliveriesJob" />
+      <property name="startDelay" value="${notification.resolveMessageDeliveriesJob.startDelayMS}" />
+      <property name="repeatInterval" value="${notification.resolveMessageDeliveriesJob.intervalMS}" />
+  </bean>
+  <!-- Set up the trigger for the Notification Message Delivery Auto-Remove Job (a.k.a. the periodic interval that this will run at) -->
+  <bean id="processAutoRemovalOfDeliveredNotificationMessageDeliveriesJobTrigger"
+      class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+      <property name="jobDetail" ref="processAutoRemovalOfDeliveredNotificationMessageDeliveriesJob" />
+      <property name="startDelay" value="${notification.processAutoRemovalJob.startDelayMS}" />
+      <property name="repeatInterval" value="${notification.processAutoRemovalJob.intervalMS}" />
+  </bean>
+
+  <!-- Configure the Quartz job scheduler -->
+  <bean id="notificationScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+      <property name="triggers">
+          <list>
+              <ref bean="resolveNotificationMessageDeliveriesJobTrigger" />
+<!--
+              <ref bean="processUndeliveredNotificationMessageDeliveriesJobTrigger" />
+-->
+              <ref bean="processAutoRemovalOfDeliveredNotificationMessageDeliveriesJobTrigger" />
+          </list>
+      </property>
+      <property name="autoStartup"><value>${notification.quartz.autostartup}</value></property>
+  </bean>
+
+  <!-- end quartz -->
+
+  <!-- START JPA CONFIGURATION -->
+  <bean id="kenEntityManagerFactory" class="org.kuali.rice.krad.app.persistence.jpa.RiceEntityManagerProxyFactoryBean">
+    <constructor-arg value="rice.ken"/>
+    <constructor-arg ref="kenDataSource"/>
+  </bean>
+
+  <bean id="kenEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+  	<property name="entityManagerFactory" ref="kenEntityManagerFactory"/>
+  </bean>
+  <!-- END JPA CONFIGURATION -->
+
+
+
+
+
+
+
+  <!-- KCB stuff (Always loaded with local KEN)-->
+      <!-- Eagerly-init KCB initializer; sets OJB platform dynamically for now -->
+        <bean id="initializer" class="org.kuali.rice.kcb.config.KCBInitializer" lazy-init="false" depends-on="ojbConfigurer">
+            <property name="messageProcessingTrigger" ref="periodicMessageProcessingTrigger"/>
+            <property name="messageProcessingJobDetail" ref="messageProcessingJobDetail"/>
+        <property name="scheduler" ref="rice.ksb.scheduler"></property>
+        </bean>
+
+        <!-- All of the beans listed in the beanNames/list section are considered transactional -->
+        <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+            <property name="interceptorNames">
+                <list>
+                    <idref bean="matchAllTxInterceptor" />
+                </list>
+            </property>
+            <property name="beanNames">
+                <list>
+                    <value>messagingService</value>
+                    <value>messageService</value>
+                    <value>messageDeliveryService</value>
+                    <value>messageDelivererRegistryService</value>
+                    <value>recipientPreferenceService</value>
+                    <value>emailService</value>
+                    <value>kenIntegrationService</value>
+                    <value>kcbGenericDao</value>
+                </list>
+            </property>
+        </bean>
+        <!--  END PROPAGATION REQUIRED TX DECLARATIONS -->
+
+        <!-- SERVICES -->
+
+        <bean id="messagingService" class="org.kuali.rice.kcb.service.impl.MessagingServiceImpl">
+            <property name="jobName"><value>${kcb.quartz.job.name}</value></property>
+            <property name="jobGroup"><value>${kcb.quartz.group}</value></property>
+            <property name="messageService"><ref local="messageService"/></property>
+            <property name="messageDeliveryService"><ref local="messageDeliveryService"/></property>
+            <property name="recipientPreferenceService"><ref local="recipientPreferenceService"/></property>
+            <property name="synchronous"><value>${kcb.messaging.synchronous}</value></property>
+        </bean>
+
+        <bean id="messageService" class="org.kuali.rice.kcb.service.impl.MessageServiceImpl">
+            <property name="genericDao"><ref local="kcbGenericDao"/></property>
+        </bean>
+
+        <bean id="messageDeliveryService" class="org.kuali.rice.kcb.service.impl.MessageDeliveryServiceImpl">
+            <property name="genericDao"><ref local="kcbGenericDao"/></property>
+            <property name="maxProcessAttempts"><value>${kcb.maxProcessAttempts}</value></property>
+        </bean>
+
+        <bean id="messageDelivererRegistryService" class="org.kuali.rice.kcb.service.impl.MessageDelivererRegistryServiceImpl"/>
+
+        <bean id="recipientPreferenceService" class="org.kuali.rice.kcb.service.impl.RecipientPreferenceServiceImpl">
+            <property name="genericDao"><ref local="kcbGenericDao"/></property>
+        </bean>
+
+        <bean id="mailer" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="mailer" />
+        </bean>
+
+        <bean id="emailService" class="org.kuali.rice.kcb.service.impl.EmailServiceImpl">
+            <property name="weburl" value="${ken.url}"/>
+            <property name="mailer" ref="mailer" />
+        </bean>
+
+        <bean id="kenIntegrationService" class="org.kuali.rice.kcb.service.impl.KENIntegrationServiceDirectImpl">
+            <property name="dataSource" ref="kcbDataSource"/>
+        </bean>
+
+        <!-- END SERVICES -->
+
+        <!-- DAOS -->
+
+        <bean id="kcbGenericDao" class="org.kuali.rice.core.impl.persistence.dao.GenericDaoOjb">
+            <property name="jcdAlias">
+                <value>kcbDataSource</value>
+            </property>
+        </bean>
+
+        <!-- END DAOS -->
+
+        <!-- Quartz jobs -->
+
+        <bean id="messageProcessingJobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+            <property name="group" value="${kcb.quartz.group}"/>
+            <property name="name" value="${kcb.quartz.job.name}"/>
+            <property name="description">
+                <value>
+                    Job that handles asynchronous delivery and dismissal of MessageDeliveries
+                </value>
+            </property>
+            <property name="jobClass" value="org.kuali.rice.kcb.quartz.MessageProcessingJob" />
+            <property name="durability" value="true"/>
+            <!-- this should result in the job being run after startup if there were any pending triggers -->
+            <property name="requestsRecovery" value="true"/>
+        </bean>
+
+        <bean id="periodicMessageProcessingTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+            <property name="name" value="PeriodicMessageProcessingTrigger"/>
+            <property name="group" value="${kcb.quartz.group}"/>
+            <property name="jobName" value="${kcb.quartz.job.name}"/>
+            <property name="jobGroup" value="${kcb.quartz.group}"/>
+            <property name="description">
+                <value>
+                    Trigger that periodically runs the KCB message processing job
+                </value>
+            </property>
+            <property name="startDelay"><value>${kcb.messageprocessing.startDelayMS}</value></property>
+            <property name="repeatInterval"><value>${kcb.messageprocessing.repeatIntervalMS}</value></property>
+        </bean>
+
+    <!-- END KCB -->
+
+  <!-- Eager-init notification lifecycle -->
+  <bean id="lifecycle" class="org.kuali.rice.ken.core.NotificationLifeCycle" lazy-init="false" depends-on="ojbConfigurer"/>
+
+  <bean id="rice.ksb.scheduler"
+		class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="rice.ksb.scheduler" />
+	</bean>
+</beans>

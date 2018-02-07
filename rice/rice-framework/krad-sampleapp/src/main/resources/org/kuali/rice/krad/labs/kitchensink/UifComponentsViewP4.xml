@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="regex1" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+		<property name="disclosure.render" value="false" />
+		
+		<property name="items">
+			<list>
+				<bean parent="GenericTextField" p:propertyName="field50">
+					<property name="validCharactersConstraint">
+						<bean parent="FixedPointPatternConstraint" p:precision="5"
+							p:scale="2" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field51">
+          <property name="control">
+            <bean id="regex1-field51-textControl" parent="Uif-TextControl" p:size="30"/>
+          </property>
+					<property name="validCharactersConstraint">
+						<bean parent="FloatingPointPatternConstraint"
+							p:allowNegative="true" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field77">
+					<property name="validCharactersConstraint">
+						<bean parent="IntegerPatternConstraint" p:allowNegative="true" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field52">
+					<property name="validCharactersConstraint">
+						<bean parent="PhoneNumberPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field53">
+					<property name="validCharactersConstraint">
+						<bean parent="JavaClassPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field54">
+					<property name="validCharactersConstraint">
+						<bean parent="EmailAddressPatternConstraint" />
+					</property>
+				</bean>
+        <bean parent="GenericTextField" p:propertyName="field84">
+					<property name="validCharactersConstraint">
+						<bean parent="UrlPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field55">
+					<property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field75">
+					<property name="validCharactersConstraint">
+						<bean parent="BasicDatePatternConstraint" />
+					</property>
+				</bean>
+        <bean parent="GenericTextField" p:propertyName="field82">
+					<property name="validCharactersConstraint">
+						<bean parent="TimePatternConstraint" />
+					</property>
+				</bean>
+        <bean parent="GenericTextField" p:propertyName="field83">
+					<property name="validCharactersConstraint">
+						<bean parent="Time24HPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field56">
+					<property name="validCharactersConstraint">
+						<bean parent="TimestampPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field57">
+					<property name="validCharactersConstraint">
+						<bean parent="YearPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field58">
+					<property name="validCharactersConstraint">
+						<bean parent="MonthPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field61">
+					<property name="validCharactersConstraint">
+						<bean parent="ZipcodePatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field62">
+					<property name="validCharactersConstraint">
+						<bean parent="AlphaNumericPatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field63">
+					<property name="validCharactersConstraint">
+						<bean parent="AlphaNumericPatternConstraint"
+							p:allowWhitespace="true" p:allowUnderscore="true"
+							p:allowForwardSlash="true" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field64">
+					<property name="validCharactersConstraint">
+						<bean parent="AlphaPatternConstraint" p:allowWhitespace="true"
+							p:allowComma="true" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field76">
+					<property name="validCharactersConstraint">
+						<bean parent="AlphaPatternConstraint" p:allowAll="true" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field65">
+					<property name="validCharactersConstraint">
+						<bean parent="NoWhitespacePatternConstraint" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field66">
+					<property name="validCharactersConstraint">
+						<bean parent="CharsetPatternConstraint" p:validChars="abcABC" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field67">
+					<property name="validCharactersConstraint">
+						<bean parent="NumericPatternConstraint" p:allowParenthesis="true"
+							p:allowDash="true" />
+					</property>
+				</bean>
+				<bean parent="GenericTextField" p:propertyName="field68">
+					<property name="validCharactersConstraint">
+						<bean parent="ValidCharactersConstraint" p:value="^[a-zA-Z]\.[0-9]$"
+							p:messageKey="validation.aDotNumTest" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

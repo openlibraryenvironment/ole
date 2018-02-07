@@ -1,0 +1,243 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/kew/config/KewEmbeddedSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/kew/config/_KewLocalOjbSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/kew/config/_KewLocalServiceBusSpringBeans.xml"/>
+
+  <!-- the distributed cache manager that calls into the kewCacheAdminService on the ksb -->
+  <bean id="kewDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator"
+        p:cacheManager-ref="kewLocalCacheManager"
+        p:serviceName="{http://rice.kuali.org/kew/v2_0}kewCacheAdminService"/>
+
+  <bean id="rice.kew.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl"
+        p:cacheManager-ref="kewDistributedCacheManager"/>
+
+  <!-- Serves as the target service for cache flush notifications sent from embedded KEW applications -->
+  <bean id="kewCacheDistributionQueue"
+        class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+        p:cacheManager-ref="kewDistributedCacheManager"/>
+
+  <bean id="kewCacheDistributionQueue.exporter" parent="kewServiceExporter" p:exportIf="kewCacheDistributionQueue.expose">
+    <property name="serviceDefinition">
+      <bean parent="kewService"
+            p:service-ref="kewCacheDistributionQueue"
+            p:localServiceName="kewCacheDistributionQueue"
+            p:queue="true"/>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.import.styleService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="styleService"/>
+
+  <bean id="enEmailContentService"
+        class="org.kuali.rice.kew.mail.service.impl.StyleableEmailContentServiceImpl"
+        lazy-init="true"
+        p:styleService-ref="rice.kew.import.styleService"/>
+
+  <bean id="rice.kew.import.mailer"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="mailer"/>
+
+  <bean id="enActionListEmailService"
+        class="org.kuali.rice.kew.mail.service.impl.CustomizableActionListEmailServiceImpl">
+    <property name="deploymentEnvironment">
+      <value>${environment}</value>
+    </property>
+    <property name="emailContentGenerator" ref="enEmailContentService"/>
+    <property name="mailer" ref="rice.kew.import.mailer"/>
+  </bean>
+
+  <bean id="rice.kew.import.businessObjectService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="businessObjectService"/>
+
+  <bean id="rice.kew.kewTypeRepositoryService" class="org.kuali.rice.kew.impl.repository.KewTypeBoServiceImpl">
+    <property name="businessObjectService" ref="rice.kew.import.businessObjectService"/>
+  </bean>
+
+  <!--  ResponsibilityIdService -->
+  <bean id="enResponsibilityIdService"
+        class="org.kuali.rice.kew.responsibility.service.impl.ResponsibilityIdServiceImpl" lazy-init="true">
+    <property name="responsibilityIdDAO" ref="enResponsibilityIdDAO"/>
+  </bean>
+
+  <bean id="rice.kew.peopleFlowService" class="org.kuali.rice.kew.impl.peopleflow.PeopleFlowServiceImpl">
+    <property name="businessObjectService" ref="rice.kew.import.businessObjectService"/>
+    <property name="kewTypeRepositoryService" ref="rice.kew.kewTypeRepositoryService"/>
+    <property name="responsibilityIdService" ref="enResponsibilityIdService"/>
+  </bean>
+
+  <!--  RuleDelegationService -->
+  <bean id="enRuleDelegationService" class="org.kuali.rice.kew.rule.service.impl.RuleDelegationServiceImpl"
+        lazy-init="true">
+    <property name="ruleDelegationDAO">
+      <ref bean="enRuleDelegationDAO"/>
+    </property>
+  </bean>
+
+  <!--  RuleService -->
+  <bean id="enRuleServiceInternal" class="org.kuali.rice.kew.rule.service.impl.RuleServiceInternalImpl"
+        lazy-init="true">
+    <property name="ruleDAO">
+      <ref bean="enRuleDAO"/>
+    </property>
+    <property name="ruleResponsibilityDAO">
+      <ref bean="enRuleResponsibilityDAO"/>
+    </property>
+  </bean>
+
+    <!--  StatsService -->
+  <bean id="enStatsService" class="org.kuali.rice.kew.stats.service.impl.StatsServiceImpl">
+    <property name="statsDAO">
+      <ref bean="enStatsDAO"/>
+    </property>
+  </bean>
+
+  <bean id="rice.kew.preferencesService" class="org.kuali.rice.kew.preferences.service.impl.PreferencesServiceImpl" />
+
+  <!--  NoteService -->
+  <bean id="enNoteService" class="org.kuali.rice.kew.notes.service.impl.NoteServiceImpl">
+    <property name="noteDAO" ref="enNoteDAO"/>
+    <property name="attachmentService">
+      <bean class="org.kuali.rice.kew.notes.service.impl.AttachmentServiceImpl">
+        <property name="attachmentDir" value="${attachment.dir.location}"/>
+      </bean>
+    </property>
+  </bean>
+
+  <!--  QuickLinksService -->
+  <bean id="enQuickLinksService" class="org.kuali.rice.kew.quicklinks.service.impl.QuickLinksServiceImpl">
+    <property name="quickLinksDAO" ref="enQuickLinksDAO"/>
+  </bean>
+
+  <bean id="rice.kew.groupMembershipChangeQueue" class="org.kuali.rice.kew.impl.group.GroupMembershipChangeQueueImpl"/>
+
+  <bean id="rice.kew.noteService" class="org.kuali.rice.kew.impl.note.NoteServiceImpl">
+    <property name="noteDao" ref="enNoteDAO"/>
+  </bean>
+
+  <bean id="rice.kew.import.criteriaLookupService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="criteriaLookupService"/>
+  </bean>
+
+  <bean id="rice.kew.ruleService" class="org.kuali.rice.kew.impl.rule.RuleServiceImpl"
+        p:businessObjectService-ref="rice.kew.import.businessObjectService"
+        p:criteriaLookupService-ref="rice.kew.import.criteriaLookupService"/>
+
+  <bean id="rice.kew.extensionRepositoryService"
+        class="org.kuali.rice.kew.impl.extension.ExtensionRepositoryServiceImpl">
+    <property name="ruleAttributeService" ref="enRuleAttributeService"/>
+  </bean>
+
+  <bean id="rice.kew.ruleValidationAttributeResolver"
+        class="org.kuali.rice.kew.validation.RuleValidationAttributeResolverImpl"/>
+
+  <bean id="rice.kew.immediateEmailReminderQueue" class="org.kuali.rice.kew.impl.mail.ImmediateEmailReminderQueueImpl"/>
+
+  <!-- XML parsing/export has not been promoted out of KEW into the core yet, until then let's wire up the GroupXmlServiceImpl here -->
+  <bean id="enGroupXmlService" class="org.kuali.rice.kew.xml.GroupXmlServiceImpl"/>
+  <bean id="enUserXmlService" class="org.kuali.rice.kew.xml.UserXmlServiceImpl"/>
+
+  <bean id="rice.kew.import.xmlImpexRegistry"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="xmlImpexRegistry"/>
+
+  <bean id="kewImpexRegistrations" class="org.kuali.rice.core.framework.impex.xml.XmlImpexRegistrationBean">
+    <property name="xmlImpexRegistry" ref="rice.kew.import.xmlImpexRegistry"/>
+
+    <property name="xmlLoadersToRegister">
+      <list>
+        <ref local="enUserXmlService"/>
+        <ref local="enRuleAttributeService"/>
+        <ref local="enGroupXmlService"/>
+        <ref local="enRuleTemplateService"/>
+        <ref local="enDocumentTypeService"/>
+        <ref local="enRuleServiceInternal"/>
+        <ref local="enRuleDelegationService"/>
+      </list>
+    </property>
+    <property name="xmlExportersToRegister">
+      <list>
+        <ref local="enRuleAttributeService"/>
+        <ref local="enGroupXmlService"/>
+        <ref local="enRuleTemplateService"/>
+        <ref local="enDocumentTypeService"/>
+        <ref local="enRuleServiceInternal"/>
+        <ref local="enRuleDelegationService"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="enXmlPollerService" class="org.kuali.rice.kew.batch.XmlPollerServiceImpl">
+    <property name="xmlPendingLocation">
+      <value>${data.xml.pending.location}</value>
+    </property>
+    <property name="xmlCompletedLocation">
+      <value>${data.xml.loaded.location}</value>
+    </property>
+    <property name="xmlProblemLocation">
+      <value>${data.xml.problem.location}</value>
+    </property>
+    <property name="xmlParentDirectory">
+      <value>${data.xml.root.location}</value>
+    </property>
+    <property name="pollIntervalSecs">
+      <value>${data.xml.pollIntervalSecs}</value>
+    </property>
+    <property name="initialDelaySecs">
+      <value>${initialDelaySecs}</value>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="interceptorNames">
+      <list>
+        <idref bean="matchAllTxInterceptor"/>
+      </list>
+    </property>
+    <property name="beanNames">
+      <list>
+        <idref local="enRuleAttributeService"/>
+        <idref local="enRuleTemplateService"/>
+        <idref local="enRuleServiceInternal"/>
+        <idref local="enResponsibilityIdService"/>
+        <idref local="enRuleDelegationService"/>
+        <idref local="enStatsService"/>
+        <idref local="enNoteService"/>
+        <idref local="rice.kew.groupMembershipChangeQueue"/>
+        <idref local="enActionListEmailService"/>
+        <idref local="enQuickLinksService"/>
+        <idref local="rice.kew.noteService"/>
+        <idref local="rice.kew.preferencesService"/>
+        <idref local="rice.kew.ruleService"/>
+        <idref local="rice.kew.extensionRepositoryService"/>
+        <idref local="rice.kew.kewTypeRepositoryService"/>
+        <idref local="rice.kew.peopleFlowService"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

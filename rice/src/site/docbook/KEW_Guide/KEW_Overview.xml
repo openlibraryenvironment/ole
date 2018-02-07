@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_Overview" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>KEW</title>
+    <section>
+        <title>What is Kuali Enterprise Workflow?</title>
+        <section>
+            <title>What is workflow, in general?</title>
+            <para><emphasis role="italic">Workflow</emphasis> is a very general term and means
+                different things in different contexts. For example, it may mean the sequence of
+                approvals needed for a Leave Request or it may refer to a complex scientific
+                procedure. </para>
+            <para>In our context of enterprise applications within a higher education institution,
+                we're usually talking about business process management when we discuss workflow.
+                Usually, this revolves around business rules, authorizations, and routing for
+                approval.</para>
+            <para>A simple example is a leave request system. It needs some workflow to get the
+                necessary people (supervisor, etc.) to approve it. This is one example of the
+                routing and approval side of a workflow.</para>
+            <para>You may also have business rules in workflow that dictate that some people get
+                automatic approval for leave requests. This is a business rule detail that workflow
+                executes by automatically routing these types of requests past the approval
+                steps.</para>
+        </section>
+        <section>
+            <title>What is Kuali Enterprise Workflow, in particular?</title>
+            <para>The Kuali Enterprise Workflow (KEW) product revolves around routing and approval
+                of documents. It is a stand-alone <emphasis role="italic">workflow engine</emphasis>
+                upon which you can integrate other enterprise applications to do routing and
+                approvals.</para>
+            <para>In addition, KEW contains an <emphasis role="bold">eDocLite</emphasis> system.
+                This is a mechanism to create simple data-entry forms directly in KEW. You can also
+                create routing rules around eDocLite forms. eDocLite forms are the rough equivalent
+                of the basic, one- or two-page forms that are commonly used to process business and
+                get signature approvals. </para>
+            <para>The benefit of eDocLite in KEW is that it does <emphasis role="italic"
+                >not</emphasis> require a separate application. You can use eDocLite in KEW
+                simply by setting up the forms that your institution or department needs.</para>
+            <para>Overall, KEW is based on documents. In KEW, each document has a collection of
+                transactions or <emphasis role="italic">things to be done</emphasis>. Each
+                transaction is approved or denied individually in KEW.</para>
+            <para>For example, John Doe may use a <emphasis role="italic">Leave Request</emphasis>
+                document in KEW to ask for a week off in June. The KEW Leave Request document
+                contains enough information for his supervisor to make a decision about John's
+                leave. (The document may use data keys to retrieve external information, such as
+                John's past Leave Requests and available hours.) Once John submits his Leave
+                Request, KEW routes it to John's supervisor for approval. Depending on how John's
+                department has configured KEW for routing Leave Requests, after John's supervisor
+                approves or denies his request, KEW may route it to more people for further action
+                to be taken.</para>
+            <para>Once John's Leave Request document is processed, it triggers a <emphasis
+                role="bold">PostProcessor</emphasis>, which can perform any desired additional
+                processing. This is most commonly used to "finalize" the business transaction once
+                all approvers have signed off on it. In this particular example, it might call
+                another service that would update records in the Leave Request application's
+                database, indicating that the individual has successfully scheduled leave during
+                that time period. </para>
+            <para>In addition, the KEW <emphasis role="bold">PostProcessor</emphasis> contains hooks
+                for all the stages that a document goes through. For example, an external
+                application may use a KEW workflow for routing and approval of documents, and that
+                application may take action at each change in state of a routed document.</para>
+        </section>
+        <section>
+            <title>What problems or functions does KEW solve? </title>
+            <para>The primary benefit of KEW workflow is the correct routing for approval of
+                documents. It enforces your business-specific rules about who needs to approve what
+                documents, in which scenarios.</para>
+            <para><emphasis role="bold">Simple Workflow Example</emphasis></para>
+            <para>Leave Request: Each person has one other person (possibly more) who needs to
+                approve his or her leave requests. In this context, KEW is the system that
+                manages both the approval structure and the leave requests themselves (the
+                actual approvals).</para>
+            <para><emphasis role="bold">More Complex Workflow Example</emphasis></para>
+            <para>Purchasing Desktop Computers: You may need several business rules in KEW for
+                this, such as a rule to enforce:<orderedlist>
+                    <listitem>
+                        <para>A strategic alliance requires that you buy from one vendor unless
+                            there is a justification to not do so </para>
+                    </listitem>
+                    <listitem>
+                        <para>General purchasing approval by the Purchasing Department is
+                            required when the cost of the purchase exceeds a certain limit
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Approval by the account owners who fund the purchase is required
+                        </para>
+                    </listitem>
+                </orderedlist></para>
+            <para>In this example, KEW requires an approval if:<itemizedlist>
+                <listitem>
+                    <para>The strategic alliance is not used </para>
+                </listitem>
+                <listitem>
+                    <para>The cost limit for Purchasing Department approval is exceeded
+                    </para>
+                </listitem>
+            </itemizedlist></para>
+            <para>The workflow also requires an approval by the signer (or delegate) for each
+                spending account that you use for the purchase.</para>
+            <para>In KEW, <emphasis role="bold">Approval Types</emphasis> are set up such as account
+                approver, supervisor, or organizational/department hierarchy approver. An Approval
+                Type contains the applicable routing and approval rules. Once you create an approval
+                type, those routing and approval rules are available for other workflow clients and
+                scenarios. This creates a <emphasis role="italic">tipping point</emphasis>
+                situation, in which the more applications and business processes you set up through
+                workflow, the easier it gets to do new ones.</para>
+            <para>In addition, KEW can help you with distributed management of approval structures.
+                Each group at your institution (each college, unit, division, etc.) can create their
+                own approval and workflow structure for their group, and you can centrally manage
+                the workflow above those groups. This allows groups to manage their own internal
+                controls and structures, while still being subject to higher-level institutional
+                controls.</para>
+        </section>
+        <section>
+            <title>What problems does KEW NOT solve?</title>
+            <para>KEW is not a general-purpose application builder. For complex applications, you
+                need to develop applications separately and then integrate them with KEW. For simple
+                forms or documents that need approval, you can use <emphasis role="bold"
+                    >eDocLite</emphasis>, but this only works in simple cases, analogous to a one-
+                or two-page paper form that requires signatures. It is important to note, however,
+                that Kuali Rice does include a framework called the Kuali Nervous System (KNS) that
+                can be used to facilitate the development of more complex applications and includes
+                built-in integration with KEW.</para>
+            <para>KEW is not a general-purpose business rules engine. For example, it does not know
+                that a continuation account must be specified when an account is closed. Those types
+                of rules are the responsibility of the application itself to manage. However, this
+                is not a clear-cut line, as KEW does manage business rules that directly affect
+                routing and approval.</para>
+            <para>KEW is not an Organization Hierarchy manager. For example, it will not
+                automatically manage your organizational hierarchies and internal structures.
+                However, integration with these hierarchies and structures can be accomplished using
+                KEW, and leveraging such hierarchies for routing and approval is a very common need
+                for many applications.</para>
+        </section>
+        <section>
+            <title>With which applications can KEW integrate?</title>
+            <para>Nearly anything, in theory. In the current version of KEW, any application can
+                access KEW if it can:<itemizedlist>
+                    <listitem>
+                        <para>Do Java method calls, or </para>
+                    </listitem>
+                    <listitem>
+                        <para>Do remote method invocation, or </para>
+                    </listitem>
+                    <listitem>
+                        <para>Do web-services calls, or </para>
+                    </listitem>
+                    <listitem>
+                        <para>Communicate with the Kuali Service Bus (KSB) </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>(The recommended cross-platform integration method is over web services.)</para>
+        </section>
+        <section>
+            <title> Can I use KEW without building an entire application?</title>
+            <para>Yes, absolutely! </para>
+            <para>KEW is an incredibly powerful platform for routing and approval for enterprise
+                (i.e., large) applications. However, it also includes <emphasis role="bold"
+                    >eDocLite</emphasis>, which makes it easy to develop simple business-process
+                forms and run them through KEW. In this situation, in its most simple form, you can
+                do all of your work within KEW, and most of that work is in developing your form
+                configurations. If needed, the eDocLite process can also hook into a post-processor
+                to take an action once a document's approvals are complete.</para>
+        </section>
+    </section>
+<section>
+    <title>Kuali Enterprise Workflow: Overview</title>
+    <para>Kuali Enterprise Workflow, or KEW, is a module of Kuali Rice. KEW provides useful
+        features for automatically sending documents to people for approval or action using
+        workflows, managing the documents you receive through these workflows, searching for
+        documents, and checking information about documents that have been in a workflow. KEW is
+        built by and for higher education institutions and is especially designed for
+        automatically routing work across departmental boundaries.</para>
+    <para>The following architectural diagram represents the flow of messages
+        in a typical Rice Environment, and illustrates the integration between KEW and the post-processor lifecycle. </para>
+    <figure>
+        <title>KEW and KEN Process Flow</title>
+        <mediaobject><imageobject><imagedata fileref="../images/KEN_Guide/KEN_message_flow.png" scalefit="1" width="100%"></imagedata></imageobject></mediaobject>
+    </figure>
+    <para>For more information, please see the <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KEN_Guide.html">KEN Guide</link>.</para>
+    <para>Using KEW you can:<itemizedlist>
+        <listitem>
+            <para>Automatically send (route) documents to individuals, groups, or roles
+                (people who do a particular function) using workflows </para>
+        </listitem>
+        <listitem>
+            <para>Create rules to automatically route documents based on the content of the
+                document</para>
+        </listitem>
+        <listitem>
+            <para>Change routing rules, and the documents affected by your changes are
+                rerouted immediately </para>
+        </listitem>
+        <listitem>
+            <para>Attach notes and other files to documents in workflows </para>
+        </listitem>
+        <listitem>
+            <para>Build forms easily and use them in workflows </para>
+        </listitem>
+        <listitem>
+            <para>Search for documents based on workflow information and some content in the
+                document </para>
+        </listitem>
+        <listitem>
+            <para>Check the history of documents and the people who took part in the
+                workflow for each document </para>
+        </listitem>
+        <listitem>
+            <para>Delegate items in a workflow to another person • Create and update groups
+                for workflows </para>
+        </listitem>
+        <listitem>
+            <para>Customize the email messages that are sent when someone needs to take an
+                action for a workflow </para>
+        </listitem>
+        <listitem>
+            <para>Choose whether or not you receive an email message when you have a new
+                action item from a workflow </para>
+        </listitem>
+        <listitem>
+            <para>Integrate KEW with the Kuali Service Bus (KSB) for routing documents
+            </para>
+        </listitem>
+    </itemizedlist></para>
+    <para>Your institution may use some or all of these KEW features. Your institution may also
+        use some of these KEW features and combine them with other non-Kuali applications, such
+        as an application that manages users and/or groups, or an application that manages notes
+        or attachments.</para>
+    <para><emphasis role="bold">Information Sources</emphasis>: <link
+        xlink:href="http://kew.kuali.org/">http://kew.kuali.org/</link></para>
+    <section>
+        <title>What is KEW?</title>
+        <para>Kuali Enterprise Workflow provides a common routing and approval engine that
+            facilitates the automation of electronic processes across the enterprise. The
+            workflow product was built by and for higher education, so it is particularly well
+            suited to route mediated transactions across departmental boundaries. Workflow
+            facilitates distribution of processes out into the organizations to eliminate paper
+            processes and shadow feeder systems. In addition to facilitating routing and
+            approval, workflow can also automate process to process related flows. Each process
+            instance is assigned a unique identifier that is global across the organization.
+            Workflow keeps a permanent record of all processes and their participants.</para>
+    </section>
+    <section>
+        <title>KEW Features</title>
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Flexible Workflow Engine</emphasis> - Support for
+                    sequential, parallel and dynamic routing paths. Extensible architecture
+                    allows for easy customization. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Content-Based Routing</emphasis> - Routing decisions
+                    can be made based on XML document content. XPath and other XML tools can be
+                    used to determine routing without writing code.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Pluggable Components</emphasis> - Components can be
+                    deployed to the system at runtime using Plugins. Hot deployable class
+                    loading space provides a robust enterprise ready deployment environment for
+                    workflow code. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">People in the Routing Process</emphasis> - Documents
+                    can be routed to individuals, groups or roles. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Action List</emphasis> - Displays a list of each
+                    user's pending items which require his/her attention, such as documents
+                    which are awaiting approval. Users can configure whether they receive emails
+                    when the document enters their Action List. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Document Search and Route Log</emphasis> - Allows
+                    users to search for documents and see an audit trail of what has happened to
+                    the document during its life cycle. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Document Search Customization</emphasis> - Document
+                    based content can be associated with workflow data and searched on using our
+                    Document Search screens. Have a single place for all of your workflow
+                    document searches. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">EDocLite</emphasis> - EDocLite allows quick document
+                    building and integration with workflow using only XML. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Rules System</emphasis> - Provides a mechanism for
+                    defining business rules which govern how a document routes. Rule screens
+                    give functional users ability to maintain the business rules for their
+                    applications. Documents affected by rule changes are re-routed real time.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Notes and Attachments</emphasis> - Notes and
+                    Attachments can be attached to documents using KEW's notes and attachments
+                    services out of the box. Institution based attachment and note services can
+                    be used by overriding our default services. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Person Services</emphasis> - Maintains users of the
+                    system. You can use the Out-of-the-Box service or override with your
+                    institution's user services. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Group Services</emphasis> - Maintains groups of
+                    users. You can use the Out-of-the-Box service or override with your
+                    institution's group services. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Transactions</emphasis> - All transactions and
+                    documents route in a JTA transaction. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Web Service API</emphasis> - All system functions
+                    are available through Web Service APIs. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Security</emphasis> - Web service calls can be
+                    authorized using digital signatures. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Scalability</emphasis> - Can be clustered and run on
+                    multiple machines to allow for horizontal scalability. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Embeddable Engine</emphasis> - Workflow engine can
+                    be embedded in an application as well as ran as a standalone service.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Embeddable Web Application</emphasis> - Web portion
+                    can be embedded in an application as a Struts module. Run the Action List,
+                    Document Search, Route Log, Rules System and more from within your
+                    application with minimal effort. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Service Bus Integration</emphasis> - Integration
+                    with the Kuali Service Bus (KSB). Override any service from within workflow
+                    by having workflow grab the service from the bus or use workflow's pluggable
+                    components to deploy bus enabled services. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">JMX Support</emphasis> - A set of management
+                    functions are exposed through JMX. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Spring Based Integration</emphasis> - KEW is
+                    designed with Spring based integration in mind. </para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Why Use KEW?</title>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Provides a single action list for the constituents of the organization
+                        to see work that requires their attention</para>
+                </listitem>
+                <listitem>
+                    <para>Establishes a configurable way for service providers to define their
+                        processes, allowing them to alter those processes over time to reflect
+                        organizational change</para>
+                </listitem>
+                <listitem>
+                    <para>Promotes transparency of processes to the institution so that people
+                        can seamlessly see the status, actors, and the history of any
+                        institutional process which leverages KEW as its workflow engine</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+    </section>
+</section>
+</chapter>

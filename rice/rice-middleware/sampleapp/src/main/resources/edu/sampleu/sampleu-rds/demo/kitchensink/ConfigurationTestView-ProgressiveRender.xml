@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <page-bean headertext="Progressive Render" id="ConfigurationTestView-ProgressiveRender-Page">
+    <items>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-Section1"/>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-TimeInfoSection"/>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-DayEventSection"/>
+    </items>
+  </page-bean>
+  <disclosure-verticalBoxSection-bean headertext="InputFields" id="ConfigurationTestView-ProgressiveRender-Section1"
+                                      instructionalText="Items are rendered one after another vertically down the page"
+                                      layoutManager.orientation="VERTICAL">
+    <items>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-TextInputField"/>
+      <fieldGroup-bean
+              group.instructionalText="Choose an option from the first select control which will change the options available in the second select control"
+              label="Conditional Options" parent="GenericHorizontalFieldGroup">
+        <items>
+          <spring:ref bean="ConfigurationTestView-ProgressiveRender-DropDown"/>
+          <spring:ref bean="ConfigurationTestView-ProgressiveRender-RefreshTextField"/>
+        </items>
+      </fieldGroup-bean>
+      <inputField-bean disableSessionPersistence="true" instructionalText="Test of disable session persistence flag"
+                       label="Field Label" propertyName="field2">
+        <control>
+          <textControl-bean/>
+        </control>
+      </inputField-bean>
+    </items>
+  </disclosure-verticalBoxSection-bean>
+  <inputField-bean constraintText="Constraint text" fieldLabel.style="color:red"
+                   id="ConfigurationTestView-ProgressiveRender-TextInputField"
+                   instructionalText="Instructions Instructions Instructions" label="Field Label" propertyName="field1"
+                   required="true">
+    <control>
+      <textControl-bean size="30" watermarkText="Enter Data"/>
+    </control>
+  </inputField-bean>
+  <inputField-bean id="ConfigurationTestView-ProgressiveRender-DropDown" label="Field 1" parent="GenericTextField"
+                   propertyName="field88">
+    <control>
+      <dropdownControl-bean>
+        <options>
+          <keyLabelPair-bean key="Fruits" value="Fruits"/>
+          <keyLabelPair-bean key="Vegetables" value="Vegetables"/>
+          <keyLabelPair-bean key="None" value="None"/>
+        </options>
+      </dropdownControl-bean>
+    </control>
+  </inputField-bean>
+  <inputField-bean id="ConfigurationTestView-ProgressiveRender-RefreshTextField" label="Field 2"
+                   optionsFinderClass="edu.sampleu.travel.options.FoodKeyValuesFinder" parent="GenericTextField"
+                   propertyName="field3" refreshWhenChangedPropertyNames="field88">
+    <control>
+      <dropdownControl-bean disabled="@{#form.field88 eq 'None'}"/>
+    </control>
+  </inputField-bean>
+  <disclosure-tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.TimeInfo"
+                                          headertext="TimeInfo - Spring Expression and Multiple Component refresh Test"
+                                          id="ConfigurationTestView-ProgressiveRender-TimeInfoSection"
+                                          instructionalText="testing expression error on refresh and multiple component refresh for components within a collection"
+                                          layoutManager.generateAutoSequence="false"
+                                          layoutManager.renderSequenceField="false"
+                                          layoutManager.richTable.render="false" layoutManager.separateAddLine="false"
+                                          propertyName="listTimeInfo">
+    <items>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-StartTimeInputField"/>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-StartTimeAmPmInputField"/>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-AllDayInputField"/>
+    </items>
+  </disclosure-tableCollectionSection-bean>
+  <disclosure-tableCollectionSection-bean collectionObjectClass="edu.sampleu.demo.kitchensink.DayEvent"
+                                          headertext="Day Events - Sorting enable/disable testing"
+                                          id="ConfigurationTestView-ProgressiveRender-DayEventSection"
+                                          instructionalText="Initial column sorting in rich table should work with specified sorting fields (Start Date)"
+                                          layoutManager.generateAutoSequence="false"
+                                          layoutManager.renderSequenceField="false"
+                                          layoutManager.richTable.render="true" propertyName="dayEvents"
+                                          readOnly="true">
+    <items>
+      <inputField-bean label="Name" propertyName="name"/>
+      <inputField-bean label="Date" propertyName="date"/>
+      <inputField-bean label="start Time" propertyName="startTime"/>
+      <inputField-bean label="Am/Pm" propertyName="startTimeAmPm"/>
+      <inputField-bean label="all Day" propertyName="allDay"/>
+    </items>
+    <spring:property name="layoutManager.richTable.templateOptions">
+      <spring:map merge="true">
+        <spring:entry key="bFilter" value="false"/>
+        <spring:entry key="bInfo" value="false"/>
+        <spring:entry key="bLengthChange" value="false"/>
+        <spring:entry key="bPaginate" value="false"/>
+        <spring:entry key="aaSorting" value="[[1,'desc']]"/>
+        <spring:entry key="aoColumns"
+                      value="[ {'bSortable':false, 'sWidth':'20%'},                 {'bSortable':false, 'sType':'kuali_date', 'sTitle':'Start Date', 'sWidth':'20%', 'sSortDataType' : 'dom-text'},                 {'bSortable':false, 'sWidth':'20%'},                 {'bSortable':false, 'sWidth':'20%'},                 {'bSortable':false, 'sWidth':'20%'}               ]"/>
+      </spring:map>
+    </spring:property>
+  </disclosure-tableCollectionSection-bean>
+  <inputField-bean id="ConfigurationTestView-ProgressiveRender-StartTimeInputField" label="Start Time"
+                   propertyName="startTime" refreshWhenChangedPropertyNames="#lp.allDay"
+                   required="@{#lp.allDay eq false}" resetDataOnRefresh="true">
+    <control>
+      <textControl-bean disabled="@{#lp.allDay}" size="4" watermarkText="hh:mm"/>
+    </control>
+    <validCharactersConstraint>
+      <timePatternConstraint-bean/>
+    </validCharactersConstraint>
+  </inputField-bean>
+  <inputField-bean id="ConfigurationTestView-ProgressiveRender-StartTimeAmPmInputField" propertyName="startTimeAmPm"
+                   refreshWhenChangedPropertyNames="#lp.allDay" required="@{#lp.allDay eq false}">
+    <control>
+      <dropdownControl-bean disabled="@{#lp.allDay}">
+        <options>
+          <keyLabelPair-bean key="AM" value="AM"/>
+          <keyLabelPair-bean key="PM" value="PM"/>
+        </options>
+      </dropdownControl-bean>
+    </control>
+  </inputField-bean>
+  <inputField-bean id="ConfigurationTestView-ProgressiveRender-AllDayInputField" label="All Day" propertyName="allDay">
+    <control>
+      <checkboxControl-bean/>
+    </control>
+  </inputField-bean>
+</spring:beans>

@@ -1,0 +1,175 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  	<bean id="FloatingPointValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.FloatingPointValidationPattern"
+		abstract="true" />
+
+    <bean id="ZipcodeValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern"
+		abstract="true" />
+	<bean id="EmailAddressValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.EmailAddressValidationPattern"
+		abstract="true" />
+	<bean id="InquiryCollectionDefinition"
+		class="org.kuali.rice.kns.datadictionary.InquiryCollectionDefinition"
+		abstract="true" />
+	<bean id="MaskFormatter" class="org.kuali.rice.krad.datadictionary.mask.MaskFormatter"
+		abstract="true" />
+	<bean id="LookupHiddenControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.LookupHiddenControlDefinition"
+		abstract="true" />
+	<bean id="CheckboxControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.CheckboxControlDefinition"
+		abstract="true" />
+	<bean id="TextControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.TextControlDefinition"
+		abstract="true" />
+	<bean id="FileControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
+		abstract="true" />
+	<bean id="RadioControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.RadioControlDefinition"
+		abstract="true" />
+	<bean id="PhoneNumberValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern"
+		abstract="true" />
+
+  	<bean id="JavaClassValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.JavaClassValidationPattern"
+		abstract="true" />
+	<bean id="NumericValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern"
+		abstract="true" />
+
+	<bean id="InquirySectionDefinition"
+		class="org.kuali.rice.kns.datadictionary.InquirySectionDefinition"
+		abstract="true" />
+	<bean id="HeaderNavigation" class="org.kuali.rice.kns.datadictionary.HeaderNavigation"
+		abstract="true" />
+
+	<bean id="HiddenControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition"
+		abstract="true" />
+	<bean id="MonthValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.MonthValidationPattern"
+		abstract="true" />
+
+  	<bean id="LookupReadonlyControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.LookupReadonlyControlDefinition"
+		abstract="true" />
+
+  	<bean id="CharsetValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.charlevel.CharsetValidationPattern"
+		abstract="true" />
+
+  	<bean id="DateValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern"
+		abstract="true" />
+	<bean id="FieldDefinition" class="org.kuali.rice.kns.datadictionary.FieldDefinition"
+		abstract="true" />
+	<bean id="MaintainableCollectionDefinition"
+		class="org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition"
+		abstract="true" />
+	<bean id="AnyCharacterValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern"
+		abstract="true" />
+  <bean id="UTF8AnyCharacterValidationPattern"
+        class="org.kuali.rice.kns.datadictionary.validation.charlevel.UTF8AnyCharacterValidationPattern"
+        abstract="true" />
+  	<bean id="InquirySubSectionHeaderDefinition"
+		class="org.kuali.rice.kns.datadictionary.InquirySubSectionHeaderDefinition"
+		abstract="true" />
+
+  	<bean id="CurrencyControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.CurrencyControlDefinition"
+		abstract="true" />
+	<bean id="YearValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.YearValidationPattern"
+		abstract="true" />
+
+ 	<bean id="TimestampValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.TimestampValidationPattern"
+		abstract="true" />
+	<bean id="FixedPointValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.fieldlevel.FixedPointValidationPattern"
+		abstract="true" />
+	<bean id="InquiryDefinition" class="org.kuali.rice.kns.datadictionary.InquiryDefinition"
+		abstract="true" />
+	<bean id="TextareaControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.TextareaControlDefinition"
+		abstract="true" />
+	<bean id="KualiUserControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.KualiUserControlDefinition"
+		abstract="true" />
+	<bean id="AlphaNumericValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern"
+		abstract="true" />
+	<bean id="MaintainableFieldDefinition"
+		class="org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition"
+		abstract="true" />
+	<bean id="AlphaValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern"
+		abstract="true" />
+
+  	<bean id="LookupDefinition" class="org.kuali.rice.kns.datadictionary.LookupDefinition"
+		abstract="true" />
+	<bean id="WorkflowWorkgroupControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.WorkflowWorkgroupControlDefinition"
+		abstract="true" />
+	<bean id="MaintainableSubSectionHeaderDefinition"
+		class="org.kuali.rice.kns.datadictionary.MaintainableSubSectionHeaderDefinition"
+		abstract="true" />
+
+    <bean id="SelectControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.SelectControlDefinition"
+		abstract="true" />
+	<bean id="MultiselectControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.MultiselectControlDefinition"
+		abstract="true" />
+	<bean id="MaintainableSectionDefinition"
+		class="org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition"
+		abstract="true" />
+	<bean id="RegexValidationPattern"
+		class="org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern"
+		abstract="true" />
+
+ 	<bean id="ButtonControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.ButtonControlDefinition"
+		abstract="true" />
+	<bean id="LinkControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.LinkControlDefinition"
+		abstract="true" />
+
+  	<bean id="TransactionalDocumentEntry"
+		class="org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry"
+		abstract="true" />
+
+  	<bean id="MaintenanceDocumentEntry"
+		class="org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry"
+		abstract="true">
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="dataObjectClass" value="org.kuali.rice.kns.document.MaintenanceDocumentBase"/>
+        <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
+     </bean>
+
+</beans>

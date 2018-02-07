@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+  <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/core/CommonOJBSpringBeans.xml"/>
+
+  <bean id="dateTimeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="dateTimeService"/>
+  </bean>
+
+  <bean id="kradOjbConfigurer" class="org.kuali.rice.core.framework.persistence.ojb.BaseOjbConfigurer">
+    <property name="jcdAliases">
+      <list>
+        <value>kradApplicationDataSource</value>
+      </list>
+    </property>
+    <property name="metadataLocation" value="classpath:org/kuali/rice/krad/config/OJB-repository-krad.xml"/>
+  </bean>
+
+  <bean id="kradApplicationDataSource"
+        class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
+    <property name="preferredDataSourceParams">
+      <list>
+        <value>kradClient.datasource</value>
+      </list>
+    </property>
+    <property name="preferredDataSourceJndiParams">
+      <list>
+        <value>kradClient.datasource.jndi.location</value>
+      </list>
+    </property>
+    <property name="serverDataSource" value="false"/>
+  </bean>
+
+  <bean id="kradApplicationModuleConfiguration" parent="kradApplicationModuleConfiguration-parentBean"/>
+  <bean id="kradApplicationModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration"
+        abstract="true">
+    <property name="namespaceCode" value="KR-NS"/>
+    <property name="dataSourceName" value="kradApplicationDataSource"/>
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+    <property name="initializeDataDictionary" value="true"/>
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <property name="persistenceService" ref="persistenceServiceOjb"/>
+    <property name="dataDictionaryPackages">
+      <list>
+        <value>classpath:org/kuali/rice/krad/datadictionary/AdHocRoutePerson.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/AdHocRouteWorkgroup.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/Attachment.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/AttributeReference.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/DocumentHeader.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/Note.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/NoteType.xml</value>
+        <value>classpath:org/kuali/rice/krad/datadictionary/PessimisticLock.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifActionDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifViewPageDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifMaintenanceDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifDocumentDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifInquiryDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifLookupDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifIncidentReportDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifRiceDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifElementDefinitions.xml</value>
+        <value>classpath:org/kuali/rice/krad/uif/UifInitiateDocumentInfoDefinitions.xml</value>
+
+        <!-- DummyLogin -->
+        <value>classpath:org/kuali/rice/krad/login/DummyLoginView.xml</value>
+      </list>
+    </property>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.krad.</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="platformAwareDao" abstract="true"
+        class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
+    <property name="jcdAlias" value="kradApplicationDataSource"/>
+    <property name="dbPlatform" ref="dbPlatform"/>
+  </bean>
+
+  <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
+    <property name="name" value="scriptConfigurationFilePaths"/>
+    <property name="listItem" value="classpath:org/kuali/rice/krad/dwr-core.xml"/>
+  </bean>
+
+  <!-- Add caching support, see KULRICE-8298 -->
+  <!--<bean id="kradCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager">
+      <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="${krad.ehcache.config.location}"/>
+    </property>
+  </bean>
+
+  <bean id="rice.krad.import.globalCacheManager"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="globalCacheManager" />
+  </bean>
+
+  <cache:annotation-driven cache-manager="rice.krad.import.globalCacheManager" />
+
+  <bean id="kradCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+        p:cacheManager-ref="kradCacheManager" />
+
+  <bean id="kradDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+    <property name="cacheManager" ref="kradCacheManager" />
+    <property name="serviceName" value="{http://rice.kuali.org/krad/v2_0}kradCacheAdminService" />
+  </bean>
+
+  <bean id="rice.krad.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+    <property name="cacheManager" ref="kradDistributedCacheManager" />
+  </bean>-->
+
+  <bean id="dataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl" scope="singleton">
+    <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+    <property name="kualiModuleService" ref="kualiModuleService"/>
+  </bean>
+
+  <bean id="businessObjectService" class="org.kuali.rice.krad.service.impl.BusinessObjectServiceImpl">
+    <property name="businessObjectDao">
+      <ref bean="businessObjectDao"/>
+    </property>
+    <property name="persistenceStructureService">
+      <ref bean="persistenceStructureService"/>
+    </property>
+    <property name="persistenceService">
+      <ref bean="persistenceService"/>
+    </property>
+    <property name="dataObjectMetaDataService">
+      <ref bean="dataObjectMetaDataService"/>
+    </property>
+  </bean>
+
+  <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl"/>
+
+  <bean id="kualiConfigurationService"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="kualiConfigurationService" />
+  </bean>
+
+  <bean id="mailer" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="mailer"/>
+  </bean>
+
+  <bean id="mailService" class="org.kuali.rice.krad.service.impl.MailServiceImpl">
+    <property name="mailer" ref="mailer"/>
+    <property name="batchMailingList" value="${mailing.list.batch}"/>
+    <property name="nonProductionNotificationMailingList" value="${nonproduction.notification.mailing.list}" />
+    <property name="realNotificationsEnabled" value="${real.notifications.enabled}" />
+  </bean>
+
+  <bean id="kradExceptionIncidentService" class="org.kuali.rice.krad.service.impl.KualiExceptionIncidentServiceImpl">
+    <property name="mailer" ref="mailer"/>
+    <property name="messageTemplate">
+      <bean class="org.kuali.rice.core.api.mail.MailMessage">
+        <!-- The property place holder below must be specified in          -->
+        <!-- common-config-default.xml or any other KNS configuration file -->
+        <property name="fromAddress">
+          <value>${kr.incident.mailing.list}</value>
+        </property>
+      </bean>
+    </property>
+    <property name="incidentMailingList" value="${kr.incident.mailing.list}"/>
+  </bean>
+
+  <bean id="kradFeedbackService" class="org.kuali.rice.krad.service.impl.KualiFeedbackServiceImpl">
+    <property name="mailer" ref="mailer" />
+    <property name="messageTemplate">
+      <bean class="org.kuali.rice.core.api.mail.MailMessage">
+        <property name="fromAddress">
+          <value>${kr.feedback.mailing.list}</value>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="xmlObjectSerializerService" class="org.kuali.rice.krad.service.impl.XmlObjectSerializerServiceImpl"></bean>
+
+  <bean id="xmlObjectSerializerIgnoreMissingFieldsService" class="org.kuali.rice.krad.service.impl.XmlObjectSerializerIgnoreMissingFieldsServiceImpl"></bean>
+
+  <bean id="documentService" class="org.kuali.rice.krad.service.impl.DocumentServiceImpl">
+    <property name="documentDao">
+      <ref bean="documentDao"/>
+    </property>
+    <property name="dateTimeService">
+      <ref bean="dateTimeService"/>
+    </property>
+    <property name="workflowDocumentService">
+      <ref bean="workflowDocumentService"/>
+    </property>
+    <property name="documentHeaderService">
+      <ref bean="documentHeaderService"/>
+    </property>
+    <property name="businessObjectService">
+      <ref bean="businessObjectService"/>
+    </property>
+    <property name="noteService">
+      <ref bean="noteService"/>
+    </property>
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="kualiConfigurationService">
+      <ref bean="kualiConfigurationService"/>
+    </property>
+  </bean>
+
+  <bean id="documentHeaderService" class="org.kuali.rice.krad.service.impl.DocumentHeaderServiceImpl">
+    <property name="documentHeaderDao">
+      <ref bean="documentHeaderDao"/>
+    </property>
+  </bean>
+
+  <bean id="kualiRuleService" class="org.kuali.rice.krad.service.impl.KualiRuleServiceImpl">
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+  </bean>
+
+  <bean id="documentDictionaryService" class="org.kuali.rice.krad.service.impl.DocumentDictionaryServiceImpl">
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+  </bean>
+
+  <bean id="businessObjectDictionaryService"
+        class="org.kuali.rice.kns.service.impl.BusinessObjectDictionaryServiceImpl">
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="persistenceStructureService">
+      <ref bean="persistenceStructureService"/>
+    </property>
+  </bean>
+
+  <bean id="lookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl">
+    <property name="lookupDao">
+      <ref bean="lookupDao"/>
+    </property>
+    <property name="kualiConfigurationService">
+      <ref bean="kualiConfigurationService"/>
+    </property>
+  </bean>
+
+  <bean id="criteriaLookupService" class="org.kuali.rice.krad.criteria.CriteriaLookupServiceImpl">
+    <property name="criteriaLookupDao">
+      <ref bean="criterialookupDao"/>
+    </property>
+  </bean>
+
+  <!--<bean id="platformAwareDao" abstract="true" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
+		<property name="jcdAlias" value="coreApplicationDataSource" />
+		<property name="dbPlatform" ref="dbPlatform" />
+	</bean>-->
+
+  <!-- this should go in the core spring beans once ojb is available-->
+
+  <bean id="workflowDocumentService" class="org.kuali.rice.krad.workflow.service.impl.WorkflowDocumentServiceImpl"/>
+
+  <bean id="maintenanceDocumentService" class="org.kuali.rice.krad.service.impl.MaintenanceDocumentServiceImpl">
+    <property name="maintenanceDocumentDao">
+      <ref bean="maintenanceDocumentDao"/>
+    </property>
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+    <property name="dataObjectMetaDataService">
+      <ref bean="dataObjectMetaDataService"/>
+    </property>
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+  </bean>
+
+  <bean id="noteService" class="org.kuali.rice.krad.service.impl.NoteServiceImpl">
+    <property name="noteDao">
+      <ref bean="noteDao"/>
+    </property>
+    <property name="attachmentService" ref="attachmentService"/>
+  </bean>
+
+  <bean id="attachmentService" class="org.kuali.rice.krad.service.impl.AttachmentServiceImpl">
+    <property name="kualiConfigurationService">
+      <ref bean="kualiConfigurationService"/>
+    </property>
+    <property name="attachmentDao">
+      <ref bean="attachmentDao"/>
+    </property>
+  </bean>
+
+  <bean id="persistenceStructureServiceJpa"
+        class="org.kuali.rice.krad.service.impl.PersistenceStructureServiceJpaImpl"/>
+
+  <bean id="persistenceStructureServiceOjb"
+        class="org.kuali.rice.krad.service.impl.PersistenceStructureServiceOjbImpl"/>
+
+  <bean id="persistenceStructureService" class="org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl">
+    <property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa"/>
+    <property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb"/>
+  </bean>
+
+  <bean id="persistenceService" class="org.kuali.rice.krad.service.impl.PersistenceServiceImpl">
+    <property name="persistenceServiceJpa" ref="persistenceServiceJpa"/>
+    <property name="persistenceServiceOjb" ref="persistenceServiceOjb"/>
+    <property name="kualiModuleService" ref="kualiModuleService"/>
+  </bean>
+
+  <bean id="persistenceServiceJpa" class="org.kuali.rice.krad.service.impl.PersistenceServiceJpaImpl">
+    <property name="persistenceDao" ref="persistenceDao"/>
+  </bean>
+
+  <bean id="persistenceServiceOjb" class="org.kuali.rice.krad.service.impl.PersistenceServiceOjbImpl">
+    <property name="persistenceDao" ref="persistenceDao"/>
+  </bean>
+
+  <bean id="persistenceDao" class="org.kuali.rice.krad.dao.proxy.PersistenceDaoProxy">
+    <property name="persistenceDaoJpa" ref="persistenceDaoJpa"/>
+    <property name="persistenceDaoOjb" ref="persistenceDaoOjb"/>
+  </bean>
+
+  <bean id="platformAwareDaoJdbc" abstract="true"
+        class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc">
+    <property name="dataSource" ref="kradApplicationDataSource"/>
+    <property name="dbPlatform" ref="dbPlatform"/>
+  </bean>
+
+  <bean id="persistenceDaoJpa" class="org.kuali.rice.krad.dao.impl.PersistenceDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="persistenceDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.PersistenceDaoOjb">
+    <property name="jcdAlias" value="kradApplicationDataSource"/>
+    <property name="dbPlatform" ref="dbPlatform"/>
+  </bean>
+
+  <bean id="dictionaryValidationDefinitionConstraintResolver"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.DefinitionConstraintResolver"/>
+
+  <bean id="dictionaryValidationCaseConstraintResolver"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.CaseConstraintResolver"/>
+
+  <bean id="dictionaryValidationSimpleConstraintResolver"
+    		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.SimpleConstraintResolver"/>
+
+  <bean id="dictionaryValidationValidCharactersConstraintResolver"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.ValidCharactersConstraintResolver"/>
+
+  <bean id="dictionaryValidationPrerequisiteConstraintsResolver"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.PrerequisiteConstraintsResolver"/>
+
+  <bean id="dictionaryValidationMustOccurConstraintsResolver"
+        class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.MustOccurConstraintsResolver"/>
+
+  <bean id="mandatoryElementConstraintProcessor"
+        class="org.kuali.rice.krad.datadictionary.validation.processor.MandatoryElementConstraintProcessor"
+        abstract="true">
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="dateTimeService">
+      <ref bean="dateTimeService"/>
+    </property>
+  </bean>
+
+  <bean id="viewValidationService" class="org.kuali.rice.krad.service.impl.ViewValidationServiceImpl">
+    <property name="dictionaryValidationService">
+      <ref bean="dictionaryValidationService"/>
+    </property>
+  </bean>
+
+  <bean id="dictionaryValidationService" class="org.kuali.rice.krad.service.impl.DictionaryValidationServiceImpl">
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="businessObjectService">
+      <ref bean="businessObjectService"/>
+    </property>
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+    <property name="persistenceService">
+      <ref bean="persistenceService"/>
+    </property>
+    <property name="persistenceStructureService">
+      <ref bean="persistenceStructureService"/>
+    </property>
+    <!-- Collection constraint processors are classes that determine if a feature of a collection of objects satisfies some constraint -->
+    <property name="collectionConstraintProcessors">
+      <list>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.CollectionSizeConstraintProcessor"/>
+      </list>
+    </property>
+    <!-- Element constraint processors are classes that determine if a passed value is valid for a specific constraint at the individual object or object attribute level
+     The order matters here because case adds additional constraints to the queue for other processors to pick up-->
+    <property name="elementConstraintProcessors">
+      <list>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.CaseConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.SimpleConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.ExistenceConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.DataTypeConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.RangeConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.LengthConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.ValidCharactersConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.PrerequisiteConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.MustOccurConstraintProcessor"
+              parent="mandatoryElementConstraintProcessor"/>
+      </list>
+    </property>
+    <!-- Constraint providers are classes that map specific constraint types to a constraint resolver, which takes a constrainable definition -->
+    <property name="constraintProviders">
+      <list>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.AttributeDefinitionConstraintProvider">
+          <!--
+                          individual constraint resolvers can be injected as a map keyed by constraint type as string, or the default
+                          resolvers can be instantiated into the map by adding 'init-method="init"' to the bean declaration above
+                      -->
+          <property name="resolverMap">
+            <map>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.SimpleConstraint">
+                <ref bean="dictionaryValidationSimpleConstraintResolver"/>
+              </entry>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.CaseConstraint">
+                <ref bean="dictionaryValidationCaseConstraintResolver"/>
+              </entry>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint">
+                <ref bean="dictionaryValidationValidCharactersConstraintResolver"/>
+              </entry>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.PrerequisiteConstraint">
+                <ref bean="dictionaryValidationPrerequisiteConstraintsResolver"/>
+              </entry>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.MustOccurConstraint">
+                <ref bean="dictionaryValidationMustOccurConstraintsResolver"/>
+              </entry>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.CollectionSizeConstraint">
+                <ref bean="dictionaryValidationDefinitionConstraintResolver"/>
+              </entry>
+            </map>
+          </property>
+        </bean>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.ComplexAttributeDefinitionConstraintProvider"/>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.DataObjectEntryConstraintProvider">
+          <!--
+                          individual constraint resolvers can be injected as a map keyed by constraint type as string, or the default
+                          resolvers can be instantiated into the map by adding 'init-method="init"' to the bean declaration above
+                      -->
+          <property name="resolverMap">
+            <map>
+              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.MustOccurConstraint">
+                <ref bean="dictionaryValidationMustOccurConstraintsResolver"/>
+              </entry>
+            </map>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="sequenceAccessorDao" parent="platformAwareDaoJdbc"
+        class="org.kuali.rice.krad.dao.jdbc.SequenceAccessorDaoJdbc"/>
+
+  <bean id="sequenceAccessorService" class="org.kuali.rice.krad.service.impl.SequenceAccessorServiceImpl">
+    <property name="sequenceAccessorDao" ref="sequenceAccessorDao"/>
+  </bean>
+
+  <bean id="keyValuesService" class="org.kuali.rice.krad.service.impl.KeyValuesServiceImpl">
+    <property name="businessObjectDao">
+      <ref bean="businessObjectDao"/>
+    </property>
+    <property name="persistenceStructureService">
+      <ref bean="persistenceStructureService"/>
+    </property>
+  </bean>
+
+  <bean id="encryptionService" class="org.kuali.rice.core.impl.encryption.DemonstrationGradeEncryptionServiceImpl">
+    <property name="secretKey">
+      <bean class="org.kuali.rice.core.impl.config.property.ConfigPropertyFactoryBean">
+        <property name="name" value="encryption.key"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="postProcessorService" class="org.kuali.rice.krad.service.impl.PostProcessorServiceImpl">
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+  </bean>
+
+  <bean id="pessimisticLockService" class="org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl">
+    <property name="businessObjectService">
+      <ref bean="businessObjectService"/>
+    </property>
+  </bean>
+
+  <bean id="ojbCollectionHelper" class="org.kuali.rice.krad.service.util.OjbCollectionHelper"/>
+
+  <bean id="persistedLookupMetadataDao" class="org.kuali.rice.krad.dao.proxy.PersistedLookupMetadataDaoProxy">
+    <property name="persistedLookupMetadataDaoJpa" ref="persistedLookupMetadataDaoJpa"/>
+    <property name="persistedLookupMetadataDaoOjb" ref="persistedLookupMetadataDaoOjb"/>
+  </bean>
+
+  <bean id="persistedLookupMetadataDaoOjb" parent="platformAwareDao"
+        class="org.kuali.rice.krad.dao.impl.PersistedLookupMetadataDaoOjb"/>
+
+  <bean id="dataObjectMetaDataService" class="org.kuali.rice.krad.service.impl.DataObjectMetaDataServiceImpl">
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="persistenceStructureService">
+      <ref bean="persistenceStructureService"/>
+    </property>
+    <property name="kualiModuleService">
+      <ref bean="kualiModuleService"/>
+    </property>
+    <property name="viewDictionaryService">
+      <ref bean="viewDictionaryService"/>
+    </property>
+  </bean>
+
+  <!-- Deprecated and removed from use in KRAD (KULRICE-9149) -->
+  <bean id="sessionDocumentService" class="org.kuali.rice.krad.service.impl.SessionDocumentServiceImpl">
+    <property name="businessObjectService">
+      <ref bean="businessObjectService"/>
+    </property>
+    <property name="sessionDocumentDao">
+      <ref bean="sessionDocumentDao"/>
+    </property>
+  </bean>
+
+  <!-- Since these beans are not a singletons, Spring does not inject their static
+        members until the first one is created. This bean causes one to be created.
+    -->
+  <bean id="springStatefulStaticInitializer" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <ref bean="kualiLookupable"/>
+        <!-- <ref bean="workflowLookupable" />-->
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="confirmationQuestion" class="org.kuali.rice.kns.question.ConfirmationQuestion" scope="prototype"/>
+
+  <bean id="recallQuestion" class="org.kuali.rice.kns.question.RecallQuestion" scope="prototype"/>
+
+  <bean id="documentAdHocService" class="org.kuali.rice.krad.service.impl.DocumentAdHocServiceImpl"/>
+
+  <bean id="documentDao" class="org.kuali.rice.krad.dao.proxy.DocumentDaoProxy">
+    <property name="documentDaoJpa" ref="documentDaoJpa"/>
+    <property name="documentDaoOjb" ref="documentDaoOjb"/>
+  </bean>
+
+  <bean id="documentDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.DocumentDaoOjb">
+    <!-- Constructor injection only please to help enforce completeness of instances -->
+    <constructor-arg ref="businessObjectDao"/>
+    <constructor-arg ref="documentAdHocService"/>
+    <property name="ojbCollectionHelper" ref="ojbCollectionHelper"/>
+  </bean>
+
+  <bean id="documentHeaderDao" class="org.kuali.rice.krad.dao.proxy.DocumentHeaderDaoProxy">
+    <property name="documentHeaderDaoJpa" ref="documentHeaderDaoJpa"/>
+    <property name="documentHeaderDaoOjb" ref="documentHeaderDaoOjb"/>
+  </bean>
+
+  <bean id="documentHeaderDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.DocumentHeaderDaoOjb"/>
+
+  <bean id="lookupDao" class="org.kuali.rice.krad.dao.proxy.LookupDaoProxy">
+    <property name="lookupDaoJpa" ref="lookupDaoJpa"/>
+    <property name="lookupDaoOjb" ref="lookupDaoOjb"/>
+  </bean>
+
+  <bean id="criterialookupDao" class="org.kuali.rice.krad.criteria.CriteriaLookupDaoProxy">
+    <property name="criteriaLookupDaoJpa" ref="criterialookupDaoJpa"/>
+    <property name="criteriaLookupDaoOjb" ref="criterialookupDaoOjb"/>
+  </bean>
+
+  <bean id="maintenanceDocumentDao" class="org.kuali.rice.krad.dao.proxy.MaintenanceDocumentDaoProxy">
+    <property name="maintenanceDocumentDaoJpa" ref="maintenanceDocumentDaoJpa"/>
+    <property name="maintenanceDocumentDaoOjb" ref="maintenanceDocumentDaoOjb"/>
+  </bean>
+
+  <bean id="maintenanceDocumentDaoOjb" parent="platformAwareDao"
+        class="org.kuali.rice.krad.dao.impl.MaintenanceDocumentDaoOjb"/>
+
+  <bean id="noteDao" class="org.kuali.rice.krad.dao.proxy.NoteDaoProxy">
+    <property name="noteDaoJpa" ref="noteDaoJpa"/>
+    <property name="noteDaoOjb" ref="noteDaoOjb"/>
+  </bean>
+
+  <bean id="noteDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.NoteDaoOjb"/>
+
+  <bean id="attachmentDao" class="org.kuali.rice.krad.dao.proxy.AttachmentDaoProxy">
+    <property name="attachmentDaoJpa" ref="attachmentDaoJpa"/>
+    <property name="attachmentDaoOjb" ref="attachmentDaoOjb"/>
+  </bean>
+
+  <bean id="attachmentDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.AttachmentDaoOjb"/>
+
+  <bean id="businessObjectDao" class="org.kuali.rice.krad.dao.proxy.BusinessObjectDaoProxy">
+    <!-- Constructor injection only please to help enforce completeness of instances -->
+    <property name="businessObjectDaoJpa" ref="businessObjectDaoJpa"/>
+    <property name="businessObjectDaoOjb" ref="businessObjectDaoOjb"/>
+  </bean>
+
+  <bean id="businessObjectDaoJpa" class="org.kuali.rice.krad.dao.impl.BusinessObjectDaoJpa">
+    <!-- Constructor injection only please to help enforce completeness of instances -->
+    <constructor-arg ref="kradApplicationEntityManager"/>
+    <constructor-arg ref="persistenceStructureService"/>
+  </bean>
+
+  <bean id="businessObjectDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.BusinessObjectDaoOjb">
+    <!-- Constructor injection only please to help enforce completeness of instances -->
+    <constructor-arg ref="persistenceStructureService"/>
+    <property name="ojbCollectionHelper" ref="ojbCollectionHelper"/>
+  </bean>
+
+  <bean id="sessionDocumentDao" class="org.kuali.rice.krad.dao.proxy.SessionDocumentDaoProxy">
+    <property name="sessionDocumentDaoJpa" ref="sessionDocumentDaoJpa"/>
+    <property name="sessionDocumentDaoOjb" ref="sessionDocumentDaoOjb"/>
+  </bean>
+
+  <bean id="sessionDocumentDaoOjb" parent="platformAwareDao"
+        class="org.kuali.rice.krad.dao.impl.SessionDocumentDaoOjb"/>
+
+  <bean id="inactivationBlockingDetectionService"
+        class="org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl">
+    <property name="dataObjectMetaDataService">
+      <ref bean="dataObjectMetaDataService"/>
+    </property>
+    <property name="businessObjectService">
+      <ref bean="businessObjectService"/>
+    </property>
+  </bean>
+
+  <bean id="inactivationBlockingDisplayService"
+        class="org.kuali.rice.krad.service.impl.InactivationBlockingDisplayServiceImpl">
+    <property name="persistenceService">
+      <ref bean="persistenceService"/>
+    </property>
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="persistenceStructureService">
+      <ref bean="persistenceStructureService"/>
+    </property>
+  </bean>
+
+  <!-- START JPA CONFIGURATION -->
+
+  <bean id="abstractKradApplicationPersistenceUnitManager"
+        class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager" abstract="true">
+    <property name="persistenceXmlLocations">
+      <list>
+        <value>META-INF/krad-persistence.xml</value>
+      </list>
+    </property>
+    <property name="defaultDataSource" ref="kradApplicationDataSource"/>
+    <property name="persistenceUnitPostProcessors">
+      <list>
+        <bean class="org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="kradApplicationEntityManagerFactory"
+        class="org.kuali.rice.krad.app.persistence.jpa.RiceEntityManagerProxyFactoryBean">
+    <constructor-arg value="rice.krad.application"/>
+    <constructor-arg ref="kradApplicationDataSource"/>
+    <constructor-arg value="rice.krad"/>
+  </bean>
+
+  <bean id="kradApplicationEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+    <property name="entityManagerFactory" ref="kradApplicationEntityManagerFactory"/>
+  </bean>
+
+  <bean id="documentSerializerService" class="org.kuali.rice.krad.service.impl.DocumentSerializerServiceImpl">
+    <property name="persistenceService">
+      <ref bean="persistenceService"/>
+    </property>
+    <property name="xmlObjectSerializerService">
+      <ref bean="xmlObjectSerializerService"/>
+    </property>
+  </bean>
+
+  <bean id="businessObjectSerializerService"
+        class="org.kuali.rice.krad.service.impl.BusinessObjectSerializerServiceImpl">
+    <property name="persistenceService">
+      <ref bean="persistenceService"/>
+    </property>
+    <property name="xmlObjectSerializerService">
+      <ref bean="xmlObjectSerializerService"/>
+    </property>
+  </bean>
+
+  <bean id="kradApplicationModule" class="org.kuali.rice.krad.service.impl.KRADModuleService">
+    <property name="moduleConfiguration" ref="kradApplicationModuleConfiguration"/>
+    <property name="kualiModuleService" ref="kualiModuleService"/>
+    <property name="businessObjects">
+      <list>
+        <value>org.kuali.rice.krad.maintenance.MaintenanceDocumentBase</value>
+        <value>org.kuali.rice.krad.bo.DocumentAttachment</value>
+        <value>org.kuali.rice.krad.maintenance.MaintenanceLock</value>
+        <value>org.kuali.rice.krad.bo.DocumentHeader</value>
+        <value>org.kuali.rice.krad.document.authorization.PessimisticLock</value>
+        <value>org.kuali.rice.krad.bo.Note</value>
+        <value>org.kuali.rice.krad.bo.NoteType</value>
+        <value>org.kuali.rice.krad.bo.Attachment</value>
+        <value>org.kuali.rice.krad.bo.AdHocRouteRecipient</value>
+        <value>org.kuali.rice.krad.bo.AdHocRoutePerson</value>
+        <value>org.kuali.rice.krad.bo.AdHocRouteWorkgroup</value>
+        <value>org.kuali.rice.krad.bo.SessionDocument</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="documentTypePermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypePermissionTypeServiceImpl"/>
+
+  <bean id="documentTypeAndAttachmentTypePermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndAttachmentTypePermissionTypeService"/>
+
+  <bean id="documentTypeAndRelationshipToNoteAuthorPermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndRelationshipToNoteAuthorPermissionTypeService"/>
+
+  <bean id="documentTypeAndNodeOrStatePermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndNodeOrStatePermissionTypeServiceImpl"/>
+
+  <bean id="namespacePermissionTypeService" class="org.kuali.rice.krad.kim.NamespacePermissionTypeServiceImpl"/>
+
+  <bean id="documentTypeAndNodeAndRouteStatusPermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndNodeAndRouteStatusPermissionTypeServiceImpl"/>
+
+  <bean id="namespaceOrComponentPermissionTypeService"
+        class="org.kuali.rice.krad.kim.NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl">
+    <property name="exactMatchStringAttributeName" value="componentName"/>
+    <property name="namespaceRequiredOnStoredMap" value="false"/>
+  </bean>
+
+  <bean id="parameterPermissionTypeService" class="org.kuali.rice.krad.kim.ParameterPermissionTypeServiceImpl">
+    <property name="exactMatchStringAttributeName" value="componentName"/>
+    <property name="namespaceRequiredOnStoredMap" value="false"/>
+  </bean>
+
+  <bean id="batchFeedOrJobPermissionTypeService"
+        class="org.kuali.rice.krad.kim.NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl">
+    <property name="exactMatchStringAttributeName" value="beanName"/>
+    <property name="namespaceRequiredOnStoredMap" value="false"/>
+  </bean>
+
+  <bean id="actionRequestTypePermissionTypeService"
+        class="org.kuali.rice.krad.kim.ActionRequestTypePermissionTypeServiceImpl"/>
+
+  <bean id="namespaceOrActionPermissionTypeService"
+        class="org.kuali.rice.krad.kim.NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl">
+    <property name="exactMatchStringAttributeName" value="actionClass"/>
+    <property name="namespaceRequiredOnStoredMap" value="false"/>
+  </bean>
+
+  <bean id="documentTypeAndEditModePermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndEditModePermissionTypeServiceImpl"/>
+
+  <bean id="documentTypeAndNodeAndFieldsPermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndNodeAndFieldsPermissionTypeServiceImpl"/>
+
+  <bean id="documentTypeAndExistingRecordsOnlyPermissionTypeService"
+        class="org.kuali.rice.krad.kim.DocumentTypeAndExistingRecordsOnlyPermissionTypeServiceImpl"/>
+
+  <bean id="viewPermissionTypeService" class="org.kuali.rice.krad.kim.ViewPermissionTypeServiceImpl"/>
+
+  <bean id="viewEditModePermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewEditModePermissionTypeServiceImpl"/>
+
+  <bean id="viewFieldPermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewFieldPermissionTypeServiceImpl"/>
+
+  <bean id="viewGroupPermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewGroupPermissionTypeServiceImpl"/>
+
+  <bean id="viewWidgetPermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewWidgetPermissionTypeServiceImpl"/>
+
+  <bean id="viewActionPermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewActionPermissionTypeServiceImpl"/>
+
+  <bean id="viewLineFieldPermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewLineFieldPermissionTypeServiceImpl"/>
+
+  <bean id="viewLineActionPermissionTypeService"
+        class="org.kuali.rice.krad.kim.ViewLineActionPermissionTypeServiceImpl"/>
+
+  <bean id="dataObjectAuthorizationService"
+        class="org.kuali.rice.krad.service.impl.DataObjectAuthorizationServiceImpl"/>
+
+  <bean id="businessObjectAuthorizationService"
+        class="org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl"/>
+
+  <bean id="inactivateableFromToService" class="org.kuali.rice.krad.service.impl.InactivateableFromToServiceImpl">
+    <property name="dateTimeService">
+      <ref bean="dateTimeService"/>
+    </property>
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+    <property name="lookupService">
+      <ref bean="lookupService"/>
+    </property>
+  </bean>
+
+  <bean id="persistedLookupMetadataDaoJpa" class="org.kuali.rice.krad.dao.impl.PersistedLookupMetadataDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="documentDaoJpa" class="org.kuali.rice.krad.dao.impl.DocumentDaoJpa">
+    <!-- Constructor injection only please to help enforce completeness of instances -->
+    <constructor-arg ref="businessObjectDao"/>
+    <constructor-arg ref="documentAdHocService"/>
+    <constructor-arg ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="documentHeaderDaoJpa" class="org.kuali.rice.krad.dao.impl.DocumentHeaderDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="lookupDaoJpa" class="org.kuali.rice.krad.dao.impl.LookupDaoJpa">
+    <property name="persistenceStructureService" ref="persistenceStructureService"/>
+    <property name="dateTimeService" ref="dateTimeService"/>
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="lookupDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.LookupDaoOjb">
+    <property name="persistenceStructureService" ref="persistenceStructureService"/>
+    <property name="dateTimeService" ref="dateTimeService"/>
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+  </bean>
+
+  <bean id="criterialookupDaoJpa" class="org.kuali.rice.krad.criteria.CriteriaLookupDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="criterialookupDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.criteria.CriteriaLookupDaoOjb" />
+
+  <bean id="maintenanceDocumentDaoJpa" class="org.kuali.rice.krad.dao.impl.MaintenanceDocumentDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="noteDaoJpa" class="org.kuali.rice.krad.dao.impl.NoteDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="attachmentDaoJpa" class="org.kuali.rice.krad.dao.impl.AttachmentDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean id="sessionDocumentDaoJpa" class="org.kuali.rice.krad.dao.impl.SessionDocumentDaoJpa">
+    <property name="entityManager" ref="kradApplicationEntityManager"/>
+  </bean>
+
+  <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="interceptorNames">
+      <list>
+        <idref bean="NoResultExceptionInterceptor"/>
+      </list>
+    </property>
+    <property name="beanNames">
+      <list>
+        <idref local="businessObjectDaoJpa"/>
+        <idref local="documentDaoJpa"/>
+        <idref local="documentHeaderDao"/>
+        <idref local="lookupDaoJpa"/>
+        <idref local="persistenceDaoJpa"/>
+        <idref local="maintenanceDocumentDao"/>
+        <idref local="noteDao"/>
+        <idref local="persistedLookupMetadataDao"/>
+        <idref local="sessionDocumentDao"/>
+        <idref local="postProcessorService"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KRADConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+    <property name="constantClass" value="org.kuali.rice.krad.util.KRADConstants"/>
+  </bean>
+
+  <bean id="RiceConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+    <property name="constantClass" value="org.kuali.rice.core.api.util.RiceConstants"/>
+  </bean>
+
+  <bean id="KRADPropertyConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+    <property name="constantClass" value="org.kuali.rice.krad.util.KRADPropertyConstants"/>
+  </bean>
+
+  <bean id="AuthorizationConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+    <property name="constantClass" value="org.kuali.rice.kns.authorization.AuthorizationConstants"/>
+  </bean>
+
+  <bean id="UifConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+    <property name="constantClass" value="org.kuali.rice.krad.uif.UifConstants"/>
+  </bean>
+
+  <bean id="ConfigProperties" class="org.kuali.rice.core.api.util.collect.PropertiesMap">
+    <property name="properties" value="#{kualiConfigurationService.allProperties}"/>
+  </bean>
+
+  <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+    <property name="attributes">
+      <map>
+        <entry key="KRADConstants" value-ref="KRADConstants"/>
+        <entry key="Constants" value-ref="KRADConstants"/>
+        <entry key="RiceConstants" value-ref="RiceConstants"/>
+        <entry key="PropertyConstants" value-ref="KRADPropertyConstants"/>
+        <entry key="AuthorizationConstants" value-ref="AuthorizationConstants"/>
+        <entry key="ConfigProperties" value-ref="ConfigProperties"/>
+        <entry key="UifConstants" value-ref="UifConstants"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="viewService" class="org.kuali.rice.krad.uif.service.impl.ViewServiceImpl">
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <property name="viewTypeServices">
+      <list>
+        <ref bean="inquiryViewTypeService"/>
+        <ref bean="lookupViewTypeService"/>
+        <ref bean="maintenanceViewTypeService"/>
+        <ref bean="transactionalViewTypeService"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="inquiryViewTypeService" class="org.kuali.rice.krad.uif.service.impl.InquiryViewTypeServiceImpl"/>
+
+  <bean id="lookupViewTypeService" class="org.kuali.rice.krad.uif.service.impl.LookupViewTypeServiceImpl"/>
+
+  <bean id="maintenanceViewTypeService" class="org.kuali.rice.krad.uif.service.impl.MaintenanceViewTypeServiceImpl">
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+  </bean>
+
+  <bean id="transactionalViewTypeService" class="org.kuali.rice.krad.uif.service.impl.TransactionalViewTypeServiceImpl">
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+    <property name="documentDictionaryService">
+      <ref bean="documentDictionaryService"/>
+    </property>
+  </bean>
+
+  <bean id="viewDictionaryService" class="org.kuali.rice.krad.uif.service.impl.ViewDictionaryServiceImpl">
+    <property name="dataDictionaryService">
+      <ref bean="dataDictionaryService"/>
+    </property>
+  </bean>
+
+  <bean id="attributeQueryService" class="org.kuali.rice.krad.uif.service.impl.AttributeQueryServiceImpl">
+    <property name="lookupService">
+      <ref bean="lookupService"/>
+    </property>
+  </bean>
+
+  <bean id="dataDictionaryRemoteFieldService" class="org.kuali.rice.krad.service.impl.DataDictionaryRemoteFieldServiceImpl" lazy-init="true"/>
+
+  <bean id="dataDictionaryComponentPublisherService" class="org.kuali.rice.krad.service.impl.DataDictionaryComponentPublisherServiceImpl">
+    <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <property name="kualiModuleService" ref="kualiModuleService"/>
+    <!--<property name="componentService" ref="rice.krad.import.componentService"/>-->
+    <property name="applicationId" value="${application.id}"/>
+  </bean>
+
+  <bean id="messageService" class="org.kuali.rice.krad.messages.MessageServiceImpl">
+    <property name="messageProviders">
+      <list>
+        <ref bean="resourceMessageProvider"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="databaseMessageProvider" class="org.kuali.rice.krad.messages.providers.DatabaseMessageProvider">
+    <property name="lookupService">
+      <ref bean="lookupService"/>
+    </property>
+  </bean>
+
+  <bean id="resourceMessageProvider" class="org.kuali.rice.krad.messages.providers.ResourceMessageProvider"/>
+
+</beans>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="installation_steps" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Overview</title>
+    <para>Kuali Rice has the potential to run on most platforms that support a Java development
+        environment (not simply a runtime environment), a servlet container, and an Oracle or MySQL
+        relational database management system (RDBMS).</para>
+    <note>
+        <para>Only platforms and configurations that have been tested and are known to work with
+            Rice are described within this guide. Other platforms and configurations may work, but
+            have not been tested. Please share any configurations that you have gotten to work with
+            us by joining our <link xlink:href="http://kuali.org/kis/projectTeams/team/111"
+                >collaboration list</link>. </para>
+    </note>
+    <section>
+        <title>Suggested Operating Systems</title>
+        <para>Since Kuali Rice is written in Java, it should in theory be able to run on any
+            operating system that supports the required version of the Java runtime. However, it
+            has been most actively tested on: <itemizedlist>
+                <listitem>
+                    <para>Windows (XP, Vista, and 7)</para>
+                </listitem>
+                <listitem>
+                    <para>Mac OS X (10.6 and 10.7)</para>
+                </listitem>
+                <listitem>
+                    <para>Linux (Ubuntu)</para>
+                </listitem>
+            </itemizedlist></para>
+        <para>Note that while Ubuntu Linux is the distribution most frequently used for testing,
+            other Linux distributions such as Fedora, Red Hat Enterprise Linux, CentOS, Gentoo,
+            and others should also be able to run Kuali Rice.</para>
+        <para>Additionally, Kuali Rice will likely work on other Unix operating systems such as Sun
+            Microsystems Solaris and IBM AIX, although the software has not been tested here.</para>
+    </section>
+    <section>
+        <title>Software Distributions</title>
+        <para>The Kuali Rice software is available through three different distributions:<table
+                frame="none" tabstyle="striped">
+                <title>Rice Software Distribution Types</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="6.14*"/>
+                    <thead>
+                        <row>
+                            <entry>Distribution</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Binary</entry>
+                            <entry>This distribution consists of all the necessary binaries,
+                                supporting files and database schemas and data for running Kuali
+                                Rice as a web application or within an embedded client
+                                application.</entry>
+                        </row>
+                        <row>
+                            <entry>Source</entry>
+                            <entry>The source code and build scripts necessary for compiling and
+                                building Rice, a process described in the appendices.</entry>
+                        </row>
+                        <row>
+                            <entry>Server</entry>
+                            <entry>Rice in the form of a web application archive (WAR) along with
+                                database schemas and data. </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></para>
+    </section>
+    <section>
+        <title>Obtaining the Software</title>
+        <para>
+            <orderedlist>
+                <listitem>
+                    <para><emphasis role="bold">Download</emphasis>: The Rice software can be
+                        downloaded from <link xlink:href="http://kuali.org/rice/download"
+                            >http://kuali.org/rice/download</link></para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Maven Repository</emphasis> - <link
+                            xlink:href="http://nexus.kuali.org/content/groups/public/"
+                            >http://nexus.kuali.org/content/groups/public/</link></para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Subversion Repository</emphasis> - <link
+                            xlink:href="http://svn.kuali.org/repos/rice/tags/rice-${project.version}"
+                            >http://svn.kuali.org/repos/rice/tags/rice-${project.version}</link></para>
+                </listitem>
+            </orderedlist>
+        </para>
+    </section>
+    <section>
+        <title>Installation Steps</title>
+        <para>All Kuali Rice ${project.version} installations follow the same core steps:<orderedlist>
+                <listitem>
+                    <para>Install a database (<link linkend="mysql_db_prep">MySQL</link> or <link linkend="oracle_db_prep">Oracle</link>) and JDBC drivers. </para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="install_sw">Install and configure a JDK, Rice,  and other required software.</link></para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="Rice_DB">Set up ImpEx process to create the database schema and populate it.</link></para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="Rice_Config">Configure Rice software.</link></para>
+                </listitem>
+                <listitem>
+                    <para>Test the installation</para>
+                </listitem>
+            </orderedlist></para>
+        <para>This Guide will provide installation instructions for the Rice standalone server as
+            well as instructions on how to set up Eclipse to create a client application with
+            Rice.</para>
+    </section>
+</chapter>

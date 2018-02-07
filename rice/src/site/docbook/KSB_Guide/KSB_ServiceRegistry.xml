@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_ServiceRegistry" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Service Registry</title>
+    <para>The Service Registry lists published and temporary services that are available for the
+        local machine. You cannot configure the service registry here; this is only information
+        about the registry. </para>
+    <para>Display this page by clicking the <emphasis role="bold">Service Registry</emphasis>
+        link on the Rice <emphasis role="bold">Administration</emphasis> page.</para>
+    <para>At the top of the page, the <emphasis role="bold">Current Node Info</emphasis> table
+        shows the settings and configuration of the local machine:</para>
+    <para>The returned table of services is divided into three sections:<orderedlist>
+        <listitem>
+            <para>Published Services: Services in use by the local machine</para>
+        </listitem>
+        <listitem>
+            <para>Published Temp Services: Temporary services that are the result of Object
+                Remoting. For more information about Object Remoting, please refer to the
+                Object Remoting section of the KSB portion of the Technical Reference
+                Guide.</para>
+        </listitem>
+        <listitem>
+            <para>All Registry Services</para>
+        </listitem>
+    </orderedlist></para>
+    <para>This screen print shows the top of a Service Registry page, with the <emphasis
+        role="bold">Current Node Info</emphasis> table and the beginning of the <emphasis
+            role="bold">Published Services</emphasis> table, as well as the refresh link and
+        button:</para>
+    <figure><title>Service Registry</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KSB_Guide/service_registry_top.png" width="100%" scalefit="1"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>To update the list of published services, use either the <emphasis role="bold">Refresh
+        Page</emphasis> link in the header at the top of the page or the "Refresh Service
+        Registry" button.</para>
+    <para>This screen print shows the point on a Service Registry page where KSB displays a
+        notation that there are no published temporary services and the beginning of the
+        <emphasis role="bold">All Registry Services</emphasis> table:</para>
+    <figure><title>Service Registry Results</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/KSB_Guide/service_registry_bottom_new.png" width="100%" scalefit="1"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>Please note, you may have permissions that allow you to click on a row's Endpoint 
+        URL to view the WSDL fiels assoicated with the given service.  In Internet Explorer or
+        Firefox, this WSDL will be displayed normally in a separate window.  In Google Chrome or
+        Safari, however, you will need to click the link then right click to view the frame source
+        to see the WSDL due to current restrictions in Chrome and Safari.</para>
+</chapter>

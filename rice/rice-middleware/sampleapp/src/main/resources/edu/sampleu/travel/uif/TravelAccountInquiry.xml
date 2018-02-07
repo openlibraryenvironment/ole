@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="TravelAccount-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Travel Account Inquiry"/>
+    <property name="dataObjectClassName" value="edu.sampleu.travel.bo.TravelAccount"/>
+     <property name="Items">
+         <list>
+           <bean id="TravelAccount-InquiryView-General" parent="Uif-Disclosure-GridSection">
+             <property name="items">
+               <list>
+                <bean parent="Uif-DataField" p:propertyName="number"/>
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-DataField" p:propertyName="subAccount"/>
+                <bean parent="Uif-DataField" p:propertyName="subAccountName"/>
+                <bean parent="Uif-DataField" p:propertyName="createDate"/>
+                <bean parent="Uif-DataField" p:propertyName="subsidizedPercent"/>
+                <bean parent="Uif-DataField" p:propertyName="foId"/>
+               </list>
+             </property>
+             <property name="headerText" value="Account Information"/>
+           </bean>
+
+           <bean id="TravelAccount-InquiryView-FO1" parent="Uif-Disclosure-StackedCollectionSection">
+              <property name="headerText" value="Fiscal Officer Accounts"/>
+              <property name="collectionObjectClass" value="edu.sampleu.travel.bo.TravelAccount"/>
+              <property name="propertyName" value="fiscalOfficer.accounts"/>
+              <property name="items">
+                <list>
+                  <bean parent="Uif-DataField" p:propertyName="number"/>
+                  <bean parent="Uif-DataField" p:propertyName="name"/>
+                  <bean parent="Uif-DataField" p:propertyName="foId"/>
+                </list>
+              </property>      
+              <property name="layoutManager.summaryTitle" value="Travel Account"/> 
+              <property name="layoutManager.summaryFields">
+                <list>
+                  <value>number</value>
+                </list>
+              </property>
+           </bean>
+
+           <bean id="TravelAccount-InquiryView-FO2" parent="Uif-Disclosure-TableCollectionSection">
+              <property name="headerText" value="Fiscal Officer Accounts - Default (No Column Options set)"/>
+              <property name="collectionObjectClass" value="edu.sampleu.travel.bo.TravelAccount"/>
+              <property name="propertyName" value="fiscalOfficer.accounts"/>
+              <property name="layoutManager.renderSequenceField" value="false"/>
+              <property name="items">
+                <list>
+                  <bean parent="Uif-DataField" p:propertyName="number"/>
+                  <bean parent="Uif-DataField" p:propertyName="name"/>
+                  <bean parent="Uif-DataField" p:propertyName="foId"/>
+                  <bean parent="Uif-DataField" p:propertyName="subsidizedPercent"/>
+                  <bean parent="Uif-DataField" p:propertyName="createDate"/>
+                 </list>
+              </property>
+           </bean>
+
+           <bean parent="Uif-Disclosure-TableCollectionSection">
+              <property name="headerText" value="Fiscal Officer Accounts - using hiddenColumns and sortableColumns properties on rich table"/>
+              <property name="collectionObjectClass" value="edu.sampleu.travel.bo.TravelAccount"/>
+              <property name="propertyName" value="fiscalOfficer.accounts"/>
+              <property name="layoutManager.renderSequenceField" value="false"/>
+              <property name="items">
+                <list>
+                  <bean parent="Uif-DataField" p:propertyName="number"/>
+                  <bean parent="Uif-DataField" p:propertyName="name"/>
+                  <bean parent="Uif-DataField" p:propertyName="foId"/>
+                  <bean parent="Uif-DataField" p:propertyName="subsidizedPercent"/>
+                  <bean parent="Uif-DataField" p:propertyName="createDate"/>
+                 </list>
+              </property>
+             <property name="layoutManager.richTable.hiddenColumns">
+               <set>
+                 <value>name</value>
+               </set>
+             </property>
+              <property name="layoutManager.richTable.sortableColumns">
+               <set>
+                 <value>number</value>
+                 <value>createDate</value>
+               </set>
+             </property>
+           </bean>
+
+           <bean parent="Uif-Disclosure-TableCollectionSection">
+              <property name="headerText" value="Fiscal Officer Accounts - using hiddenColumns and sortableColumns properties on layout manager"/>
+              <property name="collectionObjectClass" value="edu.sampleu.travel.bo.TravelAccount"/>
+              <property name="propertyName" value="fiscalOfficer.accounts"/>
+              <property name="layoutManager.renderSequenceField" value="false"/>
+              <property name="items">
+                <list>
+                  <bean parent="Uif-DataField" p:propertyName="number"/>
+                  <bean parent="Uif-DataField" p:propertyName="name"/>
+                  <bean parent="Uif-DataField" p:propertyName="foId"/>
+                  <bean parent="Uif-DataField" p:propertyName="subsidizedPercent"/>
+                  <bean parent="Uif-DataField" p:propertyName="createDate"/>
+                 </list>
+              </property>
+             <property name="layoutManager.hiddenColumns">
+               <set>
+                 <value>name</value>
+                 <value>foId</value>
+               </set>
+             </property>
+              <property name="layoutManager.sortableColumns">
+               <set>
+                 <value>number</value>
+                 <value>createDate</value>
+               </set>
+             </property>
+           </bean>
+
+         </list>
+     </property>
+  </bean>
+
+</beans>

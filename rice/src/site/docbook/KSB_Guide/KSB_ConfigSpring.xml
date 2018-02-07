@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_ConfigSpring" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Configuring the KSB Client in Spring</title>
+
+    <section>
+      <title>Overview</title>
+
+      <para>The Kuali Service Bus (KSB) is installed as a Kuali Rice (Rice)
+      Module using Spring. Here is an example XML snippet showing how to
+      configure Rice and KSB using Spring:</para>
+
+      <programlisting linenumbering = "numbered">&lt;beans&gt;
+  ...
+  &lt;bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"&gt;
+    &lt;property name="dataSource" ref="riceDataSource${connection.pool.impl}" /&gt;
+    &lt;property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" /&gt;
+    &lt;property name="transactionManager" ref="transactionManager${connection.pool.impl}" /&gt;
+    &lt;property name="userTransaction" ref="jtaUserTransaction" /&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"/&gt;
+&lt;/beans&gt;</programlisting>
+    </section>
+
+    <section>
+      <title>Spring Property Configuration</title>
+
+      <para>The <emphasis role="italic">KSBTestHarnessSpring.xml</emphasis>
+      located in the project folder under /ksb/src/test/resources/ is a good
+      starting place to explore KSB configuration in depth. The first thing
+      the file does is use a PropertyPlaceholderConfigurer to bring tokens
+      into the Spring file for runtime configuration. The source of the tokens
+      is the xml file: ksb-test-config.xml located in the
+      /ksb/src/test/resources/META-INF directory.</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean"&gt;
+    &lt;property name="configLocations"&gt;
+        &lt;list&gt;
+            &lt;value&gt;classpath:META-INF/ksb-test-config.xml&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+
+&lt;bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"&gt;
+    &lt;property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize"/&gt;
+    &lt;property name="arguments"&gt;
+        &lt;list&gt;
+            &lt;ref bean="config"/&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+
+&lt;bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt;
+    &lt;property name="properties" value="#{config.getProperties()}" /&gt;
+&lt;/bean&gt;</programlisting>
+
+      <note>
+        <para><itemizedlist>
+            <listitem>
+              <para>Properties are passed into the Rice configurer directly.
+              These could be props loaded from Spring and injected into the
+              bean directly.</para>
+            </listitem>
+
+            <listitem>
+              <para>You could use the Rice configuration subsystem for
+              configuration.</para>
+            </listitem>
+
+            <listitem>
+              <para>A JTA TransactionManager and UserTransaction are also
+              being injected into the CoreConfigurer.</para>
+            </listitem>
+          </itemizedlist></para>
+      </note>
+
+      <para>As mentioned above, this allows tokens to be used in the Spring
+      file. If you are not familiar with tokens, they look like this in the
+      Spring file: ${datasource.pool.maxSize}</para>
+
+      <para>Let's take a look at the ksb-test-config.xml file:</para>
+
+      <programlisting linenumbering = "numbered">&lt;config&gt;
+    &lt;param name="config.location"&gt;classpath:META-INF/common-derby-connection-config.xml&lt;/param&gt;
+    &lt;param name="config.location"&gt;classpath:META-INF/common-config-test-locations.xml&lt;/param&gt;
+    &lt;param name="client1.location"&gt;${basedir}/src/test/clients/TestClient1&lt;/param&gt;
+    &lt;param name="client2.location"&gt;${basedir}/src/test/clients/TestClient2&lt;/param&gt;
+    &lt;param name="ksb.client1.port"&gt;9913&lt;/param&gt;
+    &lt;param name="ksb.client2.port"&gt;9914&lt;/param&gt;
+    &lt;param name="ksb.testharness.port"&gt;9915&lt;/param&gt;
+    &lt;param name="threadPool.size"&gt;1&lt;/param&gt;
+    &lt;param name="threadPool.fetchFrequency"&gt;3000&lt;/param&gt;
+    &lt;param name="bus.refresh.rate"&gt;3000&lt;/param&gt;
+    &lt;param name="bam.enabled"&gt;true&lt;/param&gt;
+    &lt;param name="transaction.timeout"&gt;3600&lt;/param&gt;
+    &lt;param name="keystore.alias"&gt;rice&lt;param&gt;
+    &lt;param name="keystore.password"&gt;keystorepass&lt;/param&gt;
+    &lt;param name="keystore.file"&gt;${basedir}/src/test/resources/keystore/ricekeystore&lt;/param&gt;
+    &lt;param name="keystore.location"&gt;${basedir}/src/test/resources/keystore/ricekeystore&lt;/param&gt;
+    &lt;param name="use.clearDatabaseLifecycle"&gt;true&lt;/param&gt;
+    &lt;param name="use.sqlDataLoaderLifecycle"&gt;true&lt;/param&gt;
+    &lt;!-- bus messaging props --&gt;
+    &lt;param name="message.delivery"&gt;synchronous&lt;/param&gt;
+    &lt;param name="message.persistence"&gt;true&lt;/param&gt;
+    &lt;param name="useQuartzDatabase"&gt;false&lt;/param&gt;
+    &lt;param name="config.location"&gt;${additional.config.locations}&lt;/param&gt;
+    &lt;param name="config.location"&gt;${alt.config.location}&lt;/param&gt;
+&lt;/config&gt;</programlisting>
+
+      <para>This is an XML file for configuring key value pairs. When used in
+      conjunction with Spring tokenization and the
+      PropertyPlaceHolderConfigurer bean, the parameter name must be equal to
+      the key value in the Spring file so that the properties propagate
+      successfully.</para>
+    </section>
+
+    <section>
+      <title>Spring JTA Configuration</title>
+
+      <para>When doing persistent messaging it is best practice to use JTA as
+      your transaction manager. This ensures that the messages you are sending
+      are synchronized with the current executed transaction in your
+      application. It also allows message persistence to be put in a different
+      database than the application's logic if needed. Currently, <emphasis
+      role="italic">KSBTestHarnessSpring.xml</emphasis> uses JOTM to configure
+      JTA without an application server. Bitronix is another JTA product that
+      could be used in Rice and you could consider using it instead of JOTM.
+      Below is the bean definition for JOTM that you can find in
+      Spring:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"&gt;
+    &lt;property name="defaultTimeout" value="${transaction.timeout}"/&gt;
+
+&lt;/bean&gt;
+&lt;bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource"&gt;
+    &lt;property name="transactionManager" ref="jotm" /&gt;
+    &lt;property name="driverClassName" value="${datasource.driver.name}" /&gt;
+    &lt;property name="url" value="${datasource.url}" /&gt;
+    &lt;property name="maxSize" value="${datasource.pool.maxSize}" /&gt;
+    &lt;property name="minSize" value="${datasource.pool.minSize}" /&gt;
+    &lt;property name="maxWait" value="${datasource.pool.maxWait}" /&gt;
+    &lt;property name="validationQuery" value="${datasource.pool.validationQuery}" /&gt;
+    &lt;property name="username" value="${datasource.username}" /&gt;
+    &lt;property name="password" value="${datasource.password}" /&gt;
+
+&lt;/bean&gt;</programlisting>
+
+      <para>Bittronix's configuration is similar. Datasources for both are set
+      up in org.kuali.rice.core.RiceDataSourceSpringBeans.xml. If using JOTM,
+      use the Rice XAPoolDataSource class as your data source because it
+      addresses some bugs in the StandardXAPoolDataSource, which extends from
+      this class.</para>
+    </section>
+
+    <section>
+      <title>Put JTA and the Rice Config object in the CoreConfigurer</title>
+
+      <para>Next, you must inject the JOTM into the RiceConfigurer:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="rice" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"&gt;
+    &lt;property name="dataSource" ref="dataSource" /&gt;
+    &lt;property name="transactionManager" ref="jotm" /&gt;
+    &lt;property name="userTransaction" ref="jotm" /&gt;  
+&lt;...more.../&gt;</programlisting>
+
+      <para>Configuring JTA from an appserver is no different, except the
+      TransactionManager and UserTransaction are going to be fetched using a
+      JNDI FactoryBean from Spring.</para>
+
+      <note>
+        <para>You set the serviceNamespace property in the example above by
+        injecting the name into the RiceConfigurer. You can do this instead of
+        setting the property in the configuration system.</para>
+      </note>
+    </section>
+
+    <section>
+      <title>Configuring KSB without JTA</title>
+
+      <para>You can configure KSB by injecting a PlatformTransactionManager
+      into the KSBConfigurer. <itemizedlist>
+          <listitem>
+            <para>This eliminates the need for JTA. Behind the scenes, KSB
+            uses Apache's OJB as its Object Relational Mapping.</para>
+          </listitem>
+
+          <listitem>
+            <para>Before you can use PlatformTransactionManager, you must have
+            a client application set up the OJB so that KSB can use it.</para>
+          </listitem>
+        </itemizedlist></para>
+
+      <para>This is a good option if you are an OJB shop and you want to
+      continue using your current setup without introducing JTA into your
+      stack. Normally, when a JTA transaction is found, the message is not
+      sent until the transaction commits. In this case, the message is sent
+      immediately.</para>
+
+      <para>Let's take a look at the <emphasis
+      role="italic">KSBTestHarnessNoJtaSpring.xml</emphasis> file. Instead of
+      JTA, the following transaction and DataSource configuration is
+      declared:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="ojbConfigurer" class="org.springmodules.orm.ojb.support.LocalOjbConfigurer" /&gt;
+
+
+&lt;bean id="transactionManager" class="org.springmodules.orm.ojb.PersistenceBrokerTransactionManager"&gt;
+    &lt;property name="jcdAlias" value="dataSource" /&gt;
+&lt;/bean&gt;
+
+
+&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;
+    &lt;property name="driverClassName"&gt;
+        &lt;value&gt;${datasource.driver.name}&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property name="url"&gt;
+        &lt;value&gt;${datasource.url}&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property name="username"&gt;
+        &lt;value&gt;${datasource.username}&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property name="password"&gt;
+        &lt;value&gt;${datasource.password}&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</programlisting>
+
+      <para>The RiceNoJtaOJB.properties file needs to include the Rice
+      connection factory property value:</para>
+
+      <programlisting>ConnectionFactoryClass=org.kuali.rice.core.framework.persistence.ojb.RiceDataSourceConnectionFactory</programlisting>
+
+      <para>Often, the DataSource is pulled from JNDI using a Spring
+      FactoryBean. Next, we inject the DataSource and transactionManager (now
+      a Spring PlatformTransactionManager).</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="rice" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"&gt;
+    &lt;property name="dataSource" ref="dataSource" /&gt;
+    &lt;property name="nonTransactionalDataSource" ref="dataSource" /&gt;
+    ...
+&lt;/bean
+
+
+&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+    &lt;property name="platformTransactionManager" ref="transactionManager" /&gt;
+    &lt;... more .../&gt;
+&lt;/bean&gt;</programlisting>
+
+      <para>Notice that the transactionManager is injected into the
+      KSBConfigurer directly. This is because only KSB, and not Rice, supports
+      this type of configuration. The DataSource is injected normally. When
+      doing this, the OJB setup is entirely in the hands of the client
+      application. That doesn't mean anything more than providing an
+      OJB.properties object at the root of the classpath so OJB can load
+      itself. KSB will automatically register its mappings with OJB, so they
+      don't need to be included in the repository.xml file.</para>
+    </section>
+
+    <section>
+      <title>web.xml Configuration</title>
+
+      <para>To allow external bus clients to invoke services on the
+      bus-connected node, you must configure the KSBDispatcherServlet in the
+      web applications web.xml file. For example:</para>
+
+      <programlisting linenumbering = "numbered">&lt;servlet&gt;
+    &lt;servlet-name&gt;remoting&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+
+&lt;/servlet&gt;
+
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;remoting&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/remoting/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</programlisting>
+
+      <para>This allows bus-exposed services to be accessed at a URL like
+      <emphasis
+      role="bold">http://yourlocalip:8080/myapp/remoting/[KSB:service
+      name]</emphasis>. Notice how this URL corresponds to the configured
+      <emphasis role="bold">serviceServletUrl</emphasis> property on the
+      KSBConfigurer.</para>
+    </section>
+
+    <section>
+      <title>Configuration Parameters</title>
+
+      <para>The service bus leverages the Rice configuration system for its
+      configuration. Here is a comprehensive set of configuration parameters
+      that you can use to configure the Kuali Service Bus:</para>
+
+      <para><table frame="none" tabstyle="striped">
+          <title>KSB Configuration Parameters</title>
+
+          <tgroup cols="3">
+            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+
+            <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+
+            <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+
+            <thead>
+              <row>
+                <entry>Parameter</entry>
+
+                <entry>Required</entry>
+
+                <entry>Default Value</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>bam.enabled</entry>
+
+                <entry>Whether Business Action Messaging is enabled</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>bus.refresh.rate</entry>
+
+                <entry>How often the service bus will update the services it
+                has deployed in minutes.</entry>
+
+                <entry>60</entry>
+              </row>
+
+              <row>
+                <entry>dev.mode</entry>
+
+                <entry>no</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>message.persistence</entry>
+
+                <entry>no</entry>
+
+                <entry>true</entry>
+              </row>
+
+              <row>
+                <entry>message.delivery</entry>
+
+                <entry>no</entry>
+
+                <entry>asynch</entry>
+              </row>
+
+              <row>
+                <entry>message.off</entry>
+
+                <entry>no</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>ksb.mode</entry>
+
+                <entry>The mode that KSB will run in; choices are "local",
+                "embedded", or "remote".</entry>
+
+                <entry>LOCAL</entry>
+              </row>
+
+              <row>
+                <entry>ksb.url</entry>
+
+                <entry>The base URL of KSB services and pages.</entry>
+
+                <entry>${application.url}/ksb</entry>
+              </row>
+
+              <row>
+                <entry>RouteQueue.maxRetryAttempts</entry>
+
+                <entry>no</entry>
+
+                <entry>5</entry>
+              </row>
+
+              <row>
+                <entry>RouteQueue.timeIncrement</entry>
+
+                <entry>no</entry>
+
+                <entry>5000</entry>
+              </row>
+
+              <row>
+                <entry>Routing.ImmediateExceptionRouting</entry>
+
+                <entry>no</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>RouteQueue.maxRetryAttemptsOverride</entry>
+
+                <entry>no</entry>
+
+                <entry>None</entry>
+              </row>
+
+              <row>
+                <entry>rice.ksb.batch.mode</entry>
+
+                <entry>A service bus mode suitable for running batch jobs; it,
+                like the KSB dev mode, runs only local services.</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>rice.ksb.struts.config.files</entry>
+
+                <entry>The struts-config.xml configuration file that the KSB
+                portion of the Rice application will use.</entry>
+
+                <entry>/ksb/WEB-INF/struts-config.xml</entry>
+              </row>
+
+              <row>
+                <entry>rice.ksb.web.forceEnable</entry>
+
+                <entry>no</entry>
+
+                <entry>false</entry>
+              </row>
+
+              <row>
+                <entry>threadPool.size</entry>
+
+                <entry>The size of the KSB thread pool.</entry>
+
+                <entry>5</entry>
+              </row>
+
+              <row>
+                <entry>useQuartzDatabase</entry>
+
+                <entry>no</entry>
+
+                <entry>true</entry>
+              </row>
+
+              <row>
+                <entry>ksb.org.quartz.*</entry>
+
+                <entry>no</entry>
+
+                <entry>None</entry>
+              </row>
+
+              <row>
+                <entry>rice.ksb.config.allowSelfSignedSSL</entry>
+
+                <entry>no</entry>
+
+                <entry>false</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+
+      <section>
+        <title>dev.mode</title>
+
+        <para>Indicates whether this node should export and consume services
+        from the entire service bus. If set to true, then the machine will not
+        register its services in the global service registry. Instead, it can
+        only consume services that it has available locally. In addition to
+        this, other nodes on the service bus will not be able to "see" this
+        node and will therefore not forward any messages to it.</para>
+      </section>
+
+      <section>
+        <title>message.persistence</title>
+
+        <para>If <emphasis role="italic">true</emphasis>, then messages will
+        be persisted to the datastore. Otherwise, they will only be stored in
+        memory. If message persistence is not turned on and the server is
+        shutdown while there are still messages that need to be sent, those
+        messages will be lost. For a production environment, it is recommended
+        that you set message.persistence to <emphasis
+        role="italic">true</emphasis>.</para>
+      </section>
+
+      <section>
+        <title>message.delivery</title>
+
+        <para>Can be set to either <emphasis
+        role="italic">synchronous</emphasis> or <emphasis
+        role="italic">asynchronous</emphasis>. If this is set to synchronous,
+        then messages that are sent in an asynchronous fashion using the KSB
+        API will instead be sent synchronously. This is useful in certain
+        development and unit testing scenarios. For a production environment,
+        it is recommended that you set message delivery to <emphasis
+        role="italic">asynchronous</emphasis>.</para>
+
+        <note>
+          <para>It is strongly recommended that you set <emphasis
+          role="bold">message.delivery</emphasis> to <emphasis
+          role="italic">asynchronous</emphasis> for all cases except for when
+          implementing automated tests or short-lived programs that interact
+          with the service bus.</para>
+        </note>
+      </section>
+
+      <section>
+        <title>message.off</title>
+
+        <para>If set to true, then asynchronous messages will not be sent. In
+        the case that message persistence is turned on, they will be persisted
+        in the message store and can even be picked up later using the Message
+        Fetcher. However, if message persistence is turned off, these messages
+        will be lost. This can be useful in certain debugging or testing
+        scenarios.</para>
+      </section>
+
+      <section>
+        <title>RouteQueue.maxRetryAttempts</title>
+
+        <para>Sets the default number of retries that will be executed if a
+        message fails to be sent. You can also customize this retry count for
+        a specific service (see Exposing Services on the Bus).</para>
+      </section>
+
+      <section>
+        <title>RouteQueue.timeIncrement</title>
+
+        <para>Sets the default time increment between retry attempts. As with
+        RouteQueue.maxRetryAttempts, you can also configure this at the
+        service level.</para>
+      </section>
+
+      <section>
+        <title>Routing.ImmediateExceptionRouting</title>
+
+        <para>If set to <emphasis role="italic">true</emphasis>, then messages
+        that fail to be sent will not be retried. Instead, their
+        MessageExceptionHandler will be invoked immediately.</para>
+      </section>
+
+      <section>
+        <title>RouteQueue.maxRetryAttemptsOverride</title>
+
+        <para>If set with a number, it will temporarily set the retry attempts
+        for ALL services going into exception routing. You can set the number
+        arbitrarily high to prevent all messages in a node from making it to
+        exception routing if they are having trouble. The message.off param
+        produces the same result.</para>
+      </section>
+
+      <section>
+        <title>useQuartzDatabase</title>
+
+        <para>When using the embedded Quartz scheduler started by the KSB,
+        indicates whether that Quartz scheduler should store its entries in
+        the database. If this is true, then the appropriate Quartz properties
+        should be set as well. (See ksb.org.quartz.* below).</para>
+      </section>
+
+      <section>
+        <title>ksb.org.quartz.*</title>
+
+        <para>Can be used to pass Quartz properties to the embedded Quartz
+            scheduler. See the configuration documentation on the 
+            <link xlink:href="http://www.quartz-scheduler.org/">Quartz site</link>.
+        Essentially, any property prefixed with <emphasis
+        role="italic">ksb.org.quartz</emphasis>. will have the "ksb." portion
+        stripped and will be sent as configuration parameters to the embedded
+        Quartz scheduler.</para>
+      </section>
+
+      <section>
+        <title>rice.ksb.config.allowSelfSignedSSL</title>
+
+        <para>If <emphasis role="italic">true</emphasis>, then the bus will
+        allow communication using the <emphasis role="bold">https</emphasis>
+        protocol between machines with self-signed certificates. By default,
+        this is not permitted and if attempted you will receive an error
+        message like this:</para>
+
+        <note>
+          <para>It is best practice to only set this to 'true' in
+          non-production environments!</para>
+        </note>
+      </section>
+
+      <section>
+        <title>rice.ksb.web.forceEnable</title>
+
+        <para>publish the KSB user interface components (such as the Message
+        Queue, Thread Pool, Service Registry screens) even when the ksb.mode
+        is not set to <emphasis role="italic">local</emphasis>.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>KSBConfigurer Properties</title>
+
+      <para>In addition to the configuration parameters that you can specify
+      using the Rice configuration system, the KSBConfigurer bean itself has
+      some properties that can be injected in order to configure it:</para>
+
+      <section>
+        <title>exceptionMessagingScheduler</title>
+
+        <para>By default, KSB uses an embedded Quartz scheduler for scheduling
+        the retry of messages that fail to be sent. If desired, a Quartz
+        scheduler can instead be injected into the KSBConfigurer and it will
+        use that scheduler instead. See Quartz Scheduling for more
+        detail.</para>
+      </section>
+
+      <section>
+        <title>messageDataSource</title>
+
+        <para>Specifies the javax.sql.DataSource to use for storing the
+        asynchronous message queue. If not specified, this defaults to the
+        DataSource injected into the RiceConfigurer.</para>
+
+        <para>If this DataSource is injected, then the registryDataSource must
+        also be injected and vice-versa.</para>
+      </section>
+
+      <section>
+        <title>nonTransactionalMessageDataSource</title>
+
+        <para>Specifies the javax.sql.DataSource to use that matches the
+        messageDataSource property. This datasource instance must not be
+        transactional. If not specified, this defaults to the
+        nonTransactionalDataSource injected into the RiceConfigurer.</para>
+      </section>
+
+      <section>
+        <title>registryDataSource</title>
+
+        <para>Specifies the javax.sql.DataSource to use for reading and
+        writing from the Service Registry. If not specified, this defaults to
+        the DataSource injected into the RiceConfigurer.</para>
+
+        <para>If this DataSource is injected, then the messageDataSource must
+        also be injected and vice-versa.</para>
+      </section>
+
+      <section>
+        <title>services</title>
+
+        <para>Specifies a list of Java service definitions relating to SOAP to
+        use as part of messaging.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>KSB Configurer</title>
+
+      <para>The application needs to do one more thing to begin publishing
+      services to the bus: Configure the KSBConfigurer object. This can be
+      done using Spring or programmatically. We'll use Spring because it's the
+      easiest way to get things configured:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"&gt;
+    &lt;property name="defaultTimeout" value="${transaction.timeout}"/&gt;
+&lt;/bean&gt;
+
+
+
+&lt;bean id="dataSource" class=" org.kuali.rice.core.database.XAPoolDataSource "&gt;
+    &lt;property name="transactionManager" ref="jotm"/&gt;
+    &lt;property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/&gt;
+    &lt;property name="maxSize" value="25"/&gt;
+    &lt;property name="minSize" value="2"/&gt;
+    &lt;property name="maxWait" value="5000"/&gt;
+    &lt;property name="validationQuery" value="select 1 from dual"/&gt;
+    &lt;property name="url" value="jdbc:oracle:thin:@LOCALHOST:1521:XE"/&gt;
+    &lt;property name="username" value="myapp"/&gt;
+    &lt;property name="password" value="password"/&gt;
+&lt;/bean&gt;
+
+
+&lt;bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"&gt;
+        &lt;property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/&gt;
+        &lt;property name="url" value="jdbc:oracle:thin:@LOCALHOST:1521:XE"/&gt;
+        &lt;property name="maxActive" value="50"/&gt;
+        &lt;property name="minIdle" value="7"/&gt;
+        &lt;property name="initialSize" value="7"/&gt;
+        &lt;property name="validationQuery" value="select 1 from dual"/&gt;
+        &lt;property name="username" value="myapp"/&gt;
+        &lt;property name="password" value="password"/&gt;
+        &lt;property name="accessToUnderlyingConnectionAllowed" value="true"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"&gt;
+    &lt;property name="dataSource" ref="datasource" /&gt;
+    &lt;property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" /&gt;
+    &lt;property name="transactionManager" ref="jotm" /&gt;
+    &lt;property name="userTransaction" ref="jotm" /&gt;
+&lt;/bean&gt;
+
+&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"/&gt;</programlisting>
+
+      <para>The application is now ready to deploy services to the bus. Let's
+      take a quick look at the Spring file above and what's going on there:
+      The following configures JOTM, which is currently required to run
+      KSB.</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" /&gt;</programlisting>
+
+      <para>Next, we configure the XAPoolDataSource and the non transactional
+      BasicDataSource. This is pretty much standard data source configuration
+      stuff. The XAPoolDataSource is configured through Spring and not JNDI so
+      it can take advantage of JTOM. Servlet containers, which don't support
+      JTA, require this configuration step so the datasource will use
+      JTA.</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="dataSource" class=" org.kuali.rice.core.database.XAPoolDataSource "&gt;
+    &lt;property name="transactionManager" ref="jotm"/&gt;
+    &lt;property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/&gt;
+    &lt;property name="url" value="jdbc:oracle:thin:@LOCALHOST:1521:XE"/&gt;
+    &lt;property name="maxSize" value="25"/&gt;
+    &lt;property name="minSize" value="2"/&gt;
+    &lt;property name="maxWait" value="5000"/&gt;
+    &lt;property name="validationQuery" value="select 1 from dual"/&gt;
+    &lt;property name="username" value="myapp"/&gt;
+    &lt;property name="password" value="password"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"&gt;
+    &lt;property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/&gt;
+    &lt;property name="url" value="jdbc:oracle:thin:@LOCALHOST:1521:XE"/&gt;
+    &lt;property name="maxActive" value="50"/&gt;
+    &lt;property name="minIdle" value="7"/&gt;
+    &lt;property name="initialSize" value="7"/&gt;
+    &lt;property name="validationQuery" value="select 1 from dual"/&gt;
+    &lt;property name="username" value="myapp"/&gt;
+    &lt;property name="password" value="password"/&gt;
+    &lt;property name="accessToUnderlyingConnectionAllowed" value="true"/&gt;
+&lt;/bean&gt;        </programlisting>
+
+      <para>Next, we configure the bus:</para>
+
+      <programlisting linenumbering = "numbered">&lt;bean id="rice" class="org.kuali.rice.core.config.CoreConfigurer"&gt;
+    &lt;property name="dataSource" ref="dataSource" /&gt;
+    &lt;property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" /&gt;
+    &lt;property name="transactionManager" ref="jotm" /&gt;
+    &lt;property name="userTransaction" ref="jotm" /&gt;
+&lt;/bean&gt;
+
+&lt;bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"&gt;
+    &lt;property name="registryDataSource" ref="dataSource" /&gt;
+    &lt;property name="bamDataSource" ref="dataSource" /&gt;
+    &lt;property name="messageDataSource" ref="dataSource" /&gt;
+    &lt;property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" /&gt;
+&lt;/bean&gt;</programlisting>
+
+      <para>We are injecting JOTM, and the datasources. The injection of the
+      KSBConfigurer class into the ksbConfigurer property tells this instance
+      of Rice to start the Service Bus. The final necessary step is making
+      sure the configuration parameter 'application.id' is set properly to
+      some value that will identify all services deployed from this node as a
+      member of this node. </para>
+
+      <para>At this point, the application is configured to use the bus, both
+      for publishing services and to send messages to services. Usually,
+      applications will publish services on the bus using the KSBConfigurer or
+      the SoapServiceExporter classes. See Acquiring and invoking services for
+      more detail.</para>
+
+      <section>
+        <title>Implications of "synchronous" vs. "asynchronous" Message
+        Delivery</title>
+
+        <para>As noted in Configuration Parameters, it is possible to
+        configure message delivery to run asynchronously or synchronously. It
+        is imported to understand that asynchronous messing should be used in
+        almost all cases.</para>
+
+        <para>Asynchronous messing will result in messages being sent in a
+        separate thread after the original transaction that requested the
+        message to be sent is committed. This is the appropriate behavior in a
+        "fire-and-forget" messaging model. The option to configure message
+        deliver as synchronous was added for two reasons:<orderedlist>
+            <listitem>
+              <para>To allow for the implementation of automated unit tests
+              which could perform various tests without having to right
+              "polling" code to wait for asynchronous messing to
+              complete.</para>
+            </listitem>
+
+            <listitem>
+              <para>For short-lived programs (such as batch programs) which
+              need to send messages. This allows for a guarantee that all
+              messages will be sent prior to the application being
+              terminated.</para>
+            </listitem>
+          </orderedlist></para>
+
+        <para>The second case is the only case where synchronous messaging
+        should be used in a production setting, and even then it should be
+        used with care. Synchronous message processing in Rice currently has
+        the following major differences from asynchronous messaging that need
+        to be understood:<orderedlist>
+            <listitem>
+              <para>Order of Execution</para>
+            </listitem>
+
+            <listitem>
+              <para>Exception Handling</para>
+            </listitem>
+          </orderedlist></para>
+
+        <section>
+          <title>Order of Execution</title>
+
+          <para>In asynchronous messaging, messages are queued up until the
+          end of the transaction, and then sent after the transaction is
+          committed (technically, they are sent <emphasis
+          role="bold">when</emphasis> the transaction is committed).</para>
+
+          <para>In synchronous messaging, messages are processed <emphasis
+          role="bold">immediately</emphasis> when they are "sent". This
+          results in a different ordering of execution when using these two
+          different messaging models.</para>
+        </section>
+
+        <section>
+          <title>Exception Handling</title>
+
+          <para>In asynchronous messaging, whenever there is a failure
+          processing a message, an exception handler is invoked. Recovery from
+          such failures can include resending the message multiple times, or
+          recording and handling the error in some other way. Since all of
+          this is happening after the original transaction was committed, it
+          does not affect the original processing which invoked the sending of
+          the message.</para>
+
+          <para>With synchronous messaging, since the message processing is
+          invoked immediately and the calling code blocks until the processing
+          is complete, any errors raised during messaging will be thrown back
+          up to the calling code. This means that if you are writing something
+          like a batch program which relies on synchronous messaging, you must
+          be aware of this and add code to handle any errors if you want to
+          deal with them gracefully.</para>
+
+          <para>Another implication of this is that message exception handlers
+          will <emphasis role="bold">not</emphasis> be invoked in this case.
+          Additionally, because an exception is being thrown, this will
+          typically trigger a rollback in any transaction that the calling
+          code is running. So transactional issues must be dealt with as well.
+          For example, if the failure of a single message shouldn't cause the
+          sending of all messages in a batch job to fail, then each message
+          will need to be sent in it's own transaction, and errors handled
+          appropriately.</para>
+        </section>
+      </section>
+    </section>
+  </chapter>

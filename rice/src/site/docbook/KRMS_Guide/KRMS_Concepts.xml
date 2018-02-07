@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KRMS_Concepts" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        <title>KRMS Concepts</title>
+        <section>
+            <title>Namespaces, Contexts, Agendas, Rules and Propositions</title>
+            <para>Namespaces are the top level container in KRMS. They contain Contexts, KRMS Types,
+                and all things related to Terms.  There isn't a namespace entity in the KRMS schema,
+                they are specified via namespace code fields on the applicable child
+                entities.</para>
+            <para>Rules in KRMS are placed into ordered
+                sets called Agendas. The order of the Rules in an Agenda determines the sequencing:
+                which rule gets evaluated first, second and so on. The Agenda also enables you to
+                include conditional branching logic between Rules. </para>
+            <para>In turn, Agendas are are created in
+                Contexts, which may represent any categories of rules that are relevant within your
+                institution. For example, they will frequently correspond to document types, but
+                they could be more finely grained to encompass only a certain kind of rule that you
+                might run, e.g. you might have a context called "Proposal Validations".  In some
+                university environments, the following might be relevant contexts: Awards,
+                Proposals, IRB reviews, Course co-requisites, Course pre-requisites, Student plan
+                evaluations, and so on. </para>
+            <para>Each Context contains its own agendas,
+                and each Agenda contains its own Rules. Rules aren't shared across Agendas (though
+                you can copy/paste, they become unique Rule instances), and Agendas aren't shared
+                across Contexts. There is no Context hierarchy, that is, Agendas and Rules can't be
+                inherited across contexts within any sort of hierarchy. </para>
+            <para>The following diagram outlines the hierarchy of entities in KRMS (note that some
+                entities are omitted) <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRMS_Guide/KRMS_conceptual_hierarchy.png"  scalefit="1" width="100%" contentdepth="100%" />
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para>You'll also note that many of the entities in the above diagram are KRMS Types.
+                In most cases (the notable exception is Context) what that means is that you can
+                develop and integrate custom implementations of the engine objects associated with
+                those entities.  These include:</para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Agendas with custom selection and execution code</para>
+                    </listitem>
+                    <listitem>
+                        <para>Actions with custom execution code</para>
+                    </listitem>
+                    <listitem>
+                        <para>Rules with custom evaluation and Action triggering code</para>
+                    </listitem>
+                    <listitem>
+                        <para>Propositions with custom evaluation code</para>
+                    </listitem>
+                    <listitem>
+                        <para>Term Resolvers with custom value resolution code</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <section>
+                <title>Propositions</title>
+                <para>Rules consist of propositions, and KRMS supports the following three main
+                    types of propositions:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Simple Propositions - a proposition of the form lhs op rhs where
+                            lhs=left-hand side, rhs=right-hand side, and op=operator</para>
+                    </listitem>
+                    <listitem>
+                        <para>Compound Propositions - a proposition consisting of more than one
+                            simple proposition and a boolean algebra operator (AND, OR) between each
+                            of the simple propositions</para>
+                    </listitem>
+                    <listitem>
+                        <para>Custom Propositions - a proposition which can optionally be
+                            parameterized by some set of values.  Evaluation logic is implemented
+                            "by hand" and returns true or false.</para>
+                    </listitem>
+                </orderedlist>
+                <para>The data model is designed in such a way to support each of these.</para>
+                <para>Next we'll look at each of the proposition tables in detail.</para>
+                <section>
+                    <title>Proposition - krms_prop_t</title>
+                    <para>Every proposition in the repository will have an entry in this table.
+                        Propositions are referenced by a rule or another proposition (in the case of
+                        compound propositions). Propositions are never re-used across multiple
+                        rules.</para>
+                    <para>Here is a summary of the non-common data elements in this proposition
+                        table:
+                    </para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Non-common data elements in the proposition table</title>
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                            <colspec colname="c2" colnum="2" colwidth="4.0*"/>
+                         <thead>
+                            <row>
+                                <entry>Column</entry>
+                                <entry>Description</entry>
+                            </row> 
+                         </thead>
+                        <tbody>
+                            <row>
+                                <entry> prop_id </entry>
+                                <entry> A generated primary key identifier for
+                                    the proposition </entry>
+                            </row>
+                            <row>
+                                <entry> desc_txt </entry>
+                                <entry> A plain-text description of the
+                                    proposition </entry>
+                            </row>
+                            <row>
+                                <entry> typ_id </entry>
+                                <entry> Defines the PropositionType for the
+                                    proposition. Defined in the krms_typ_t table. </entry>
+                            </row>
+                            <row>
+                                <entry> dscrm_typ_cd </entry>
+                                <entry> Discriminator type code which defines
+                                    if the proposition is compound or simple. Valid values are C and
+                                    S. </entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </section>
+                <section>
+                    <title>Proposition Parameters - krms_prop_parm_t</title>
+                    <para>Each proposition can have zero or more parameters. The proposition
+                        parameter is the primary data element used to define the proposition. These
+                        parameters will be one of the following three types:</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Constant Values <itemizedlist>
+                                    <listitem>
+                                        <para>numbers</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>strings</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>dates</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>etc.</para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                        <listitem>
+                            <para>Terms <itemizedlist>
+                                    <listitem>
+                                        <para>data available in the execution environment and/or
+                                            resolved by a term resolver</para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                        <listitem>
+                            <para>Functions <itemizedlist>
+                                    <listitem>
+                                        <para>resolve to a value</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Take a fixed number of parameters</para>
+                                    </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                        <listitem>
+                            <para>Operators <itemizedlist>
+                                    <listitem>
+                                        <para>one of a set of built-in "functions"</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>The full set of (currently) supported operators are as
+                                            follows: <itemizedlist>
+                                                <listitem>
+                                                  <para>=</para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>!=</para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>&gt;</para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>&lt;</para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>&gt;=</para>
+                                                </listitem>
+                                                <listitem>
+                                                  <para>&lt;=</para>
+                                                </listitem>
+                                            </itemizedlist></para>
+                                    </listitem>
+                              <listitem>
+                                <para>custom operators can be can be configured for use in specific Contexts.</para>
+                              </listitem>
+                                </itemizedlist></para>
+                        </listitem>
+                    </orderedlist>
+                    <para>To that end, the proposition parameter list should be modeled as a list in
+                            <link xlink:href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">Reverse Polish Notation</link> (RPN). This allows for arbitrary nesting
+                        of parameters, which may have parameters of their own. However, this
+                        requires that each function explicitly define the number of arguments that
+                        it expects. This will be specified when the function is defined, so the
+                        proposition system can assume this is available. This requirement does
+                        prohibit the use of functions that have a variable arity since the model
+                        currently does not have anyway to group parameters. So this will currently
+                        be unsupported.</para>
+                    <para>Examples of proposition parameter lists defined using RPN are as
+                        follows:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>[campusCode, "BL", =] <emphasis role="italic">equivalent
+                                    to</emphasis> campusCode="BL"</para>
+                        </listitem>
+                        <listitem>
+                            <para>[totalDollarAmount, availableAmount, &gt;] <emphasis role="italic">equivalent to</emphasis> totalDollarAmount &gt;
+                                availableAmount</para>
+                        </listitem>
+                        <listitem>
+                            <para>[award, getTotalDollarAmountForAward, award,
+                                getAvailableAmountForAward, &gt;] <emphasis role="italic">equivalent
+                                    to</emphasis> getTotalDollarAmount(award) &gt;
+                                getAvailableAmountForAward(award)</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>In the cases above the following are constants:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>"BL"</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>The following are terms:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>campusCode</para>
+                        </listitem>
+                        <listitem>
+                            <para>totalDollarAmount</para>
+                        </listitem>
+                        <listitem>
+                            <para>availableAmount</para>
+                        </listitem>
+                        <listitem>
+                            <para>award</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>The following are functions:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>getTotalDollarAmountForAward</para>
+                        </listitem>
+                        <listitem>
+                            <para>getAvailableAmountForAward</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>And the following are operators:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>=</para>
+                        </listitem>
+                        <listitem>
+                            <para>&gt;</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>Here is a summary of the non-common data elements in this proposition
+                        parameter table:</para>
+                
+                 
+                        <table frame="none" tabstyle="striped">
+                            <title>Non-common data elements in the proposition parameter table</title>
+                            <tgroup cols="2">
+                                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                <colspec colname="c2" colnum="2" colwidth="4.0*"/>
+                                <thead>
+                                    <row>
+                                        <entry>Column</entry>
+                                        <entry>Description</entry>
+                                    </row> 
+                                </thead>
+                               
+                        <tbody>
+                            <row>
+                                <entry> prop_parm_id </entry>
+                                <entry> A generated primary key identifier for
+                                    the proposition parameter </entry>
+                            </row>
+                            <row>
+                                <entry> prop_id </entry>
+                                <entry> The proposition which this parameter
+                                    applies to </entry>
+                            </row>
+                            <row>
+                                <entry> parm_val </entry>
+                                <entry> the value of the parameter </entry>
+                            </row>
+                            <row>
+                                <entry> parm_typ_cd </entry>
+                                <entry> Indicates whether the parameter value
+                                    represents a constant, term, or function. Valid values are C, T,
+                                    F, O </entry>
+                            </row>
+                            <row>
+                                <entry> seq_no </entry>
+                                <entry> Defines the order of the parameter
+                                    within the larger parameter list. </entry>
+                            </row>
+                        </tbody>
+                   </tgroup>
+                 </table> 
+                
+                </section>
+            </section>
+        </section>
+        <section>
+          <title>KRMS Types</title>
+          <para>Many of the key concepts in KRMS are implemented by what are known as
+            <emphasis role="bold">type services</emphasis>, and are customizable or pluggable using the
+            service bus and the KRMS type table.  You can add custom attributes and behavior that affects
+            the options and execution behavior associated with a number of system components:
+            <itemizedlist>
+              <listitem>
+                <para>ActionTypeService</para>
+                <para>Enables custom actions that can be configured on rules.</para>
+              </listitem>
+              <listitem>
+                <para>AgendaTypeService</para>
+                <para>Enables agendas that support custom execution behavior and have custom attributes
+                  associated with them.</para>
+              </listitem>
+              <listitem>
+                <para>FunctionTypeService</para>
+                <para>Defines reusable execution logic (functions) that can be utilized at the proposition
+                  level during rule execution.  Note that at present, functions are not directly supported
+                  within the rule authoring user interface.
+                </para>
+              </listitem>
+              <listitem>
+                <para>RuleTypeService</para>
+                <para>Enables custom rule-level execution and action triggering behavior, as well as custom
+                  attributes at the Rule level.
+                </para>
+              </listitem>
+              <listitem>
+                <para>TermResolverTypeService</para>
+                <para>Enables custom resolution/reification of runtime values for Terms.
+                </para>
+              </listitem>
+              <listitem>
+                <para>CustomOperator</para>
+                <para>Enables richer expressions within simple propositions.
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </section>
+        <!-- Commenting out until content is added
+        <section>
+            <title>Types, Terms, Term resolvers, Term specifications, Term Parameters, and
+                Categories </title>
+            <para>(add information here)</para>
+        </section> -->
+    <section>
+        <title>Example Rule</title>
+        <para>Previously if a newly hired employee met a set of criteria, they would need to have an 
+            eVerify check ran in addition to the standard I-9 process. The initial requirement stated that
+            if the original hire date of an employee is greater that August 1, 2006, the grant is of a 
+            Government type, the grant amount is greater than $5,000, the grant is longer than 2 months, 
+            and the employee has not previously completed an eVerify check then their hire document needs 
+            to be routed to the special HR eVerify workgroup.</para>
+        <para>...or put another way</para>
+        <para><code>
+            IF hr.hire_date > "08/01/2006) and
+            cg.grant_type = "GOV" and
+            cg.grant_amount > "$5,000" and
+            cg.grant_duration > 60 and
+            hr.eVerify_comp = "N"
+            THEN ...
+        </code></para>
+    </section>
+    <section>
+        <title>KRMS Terms and Concepts</title>
+        <itemizedlist>
+            <listitem><para><emphasis role="bold">Agenda</emphasis> - a collection of rules in a defined plan.</para>
+                <para>KRMS agendas support conditional logic, e.g. 
+                    <itemizedlist>
+                        <listitem>
+                            <para>rule 1: is initiator admin?</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>When FALSE:</para>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>rule 2: initiator has special
+                                                permission?</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>rule 3: exceeds dollar amount
+                                                threshold?</para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    </itemizedlist>
+                </para></listitem>
+            <listitem><para><emphasis role="bold">Rule</emphasis> - the logical expression in an Agenda. It consists of
+                two parts, a proposition (condition or statement) that returns a true of false value, and an action or
+                set of actions. The entire example presented above is a rule.</para></listitem>
+            <listitem><para><emphasis role="bold">Proposition</emphasis> - the logic that makes up a rule. A proposition
+                is a single expression of logic that returns true or false. Propositions can
+                be compounded, created using AND, OR, or both to create more complex logic.
+                The entire IF statement in the example above comprises a compound
+                propositio
+                </para></listitem>
+            <listitem><para><emphasis role="bold">Action</emphasis> - the steps to perform in the event that the rule,
+                after being evaluated against the propositions, returns TRUE. In the example
+                stated above this would involve routing the document to the HR eVerify
+                workgroup and presenting a warning on the document. Other examples of
+                actions include:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Route to a <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/KEW_Guide.html#peopleflow_ug_kew">PeopleFlow</link></para>
+                    </listitem>
+                    <listitem>
+                        <para>Present a questionnaire</para>
+                    </listitem>
+                    <listitem>
+                        <para>Display a validation error</para>
+                    </listitem>
+                </itemizedlist></listitem>
+            <listitem><para><emphasis role="bold">Term</emphasis> - the definition of data that is evaluated in a
+                proposition. hr.hire_date, cg.grant_type, etc. are examples of Terms in the
+                working example.</para></listitem>
+            <listitem><para><emphasis role="bold">Term Resolver</emphasis> - the term specification that is evaluated in a
+                proposition. Each term (for example, hr.hire_date, cg.grant_type, etc.) is given a specification which includes:</para>
+                <para><simplelist><member>Namespace</member><member>Name</member>
+                    <member>Data Type</member><member>Context Id</member><member>Context Namespace</member>
+                    <member>Category Id</member><member>Category Namespace</member>
+            </simplelist></para><para>This information is maintained and viewed via the Term Specification Lookup option from the
+                    Main Menu.</para>
+                <para><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KRMS_Guide/KRMS-term-specification-lookup-screen.png"  scalefit="1" width="100%" contentdepth="100%" />
+                    </imageobject>
+                </inlinemediaobject></para>
+            </listitem>
+            <listitem><para><emphasis role="bold">Fact</emphasis> - the actual data for the term being evaluated in a
+                proposition, the data being passed in for evaluation. In the example above,
+                if the grant in question had an amount of $10,000, then $10,000 would be the
+                fact.</para></listitem>
+            <listitem><para><emphasis role="bold">Context</emphasis> - a collection of agendas, rules, terms, term
+                specifications. In our example a context of "HReVerify" would be established
+                for easy identification of the items related to these business rules.</para></listitem>
+        </itemizedlist>
+    </section>
+</chapter>

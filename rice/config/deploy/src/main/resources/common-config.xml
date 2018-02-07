@@ -1,0 +1,46 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- Configuration common to all Kuali Rice applications -->
+<config>
+  <param name="appserver.url">${public.url}</param>
+  <param name="application.url">${appserver.url}</param>
+  <param name="app.context.name" />
+  <param name="context.names" />
+  <param name="app.code" />
+  <param name="externalizable.help.url">/kr/static/help/</param>
+  <param name="externalizable.images.url">/kr/static/images/</param>
+  <param name="kr.externalizable.images.url">${externalizable.images.url}</param>
+  <param name="krad.externalizable.images.url">/krad/images/</param>
+  <param name="datasource.username">${impex.username}</param>
+  <param name="datasource.password">${impex.password}</param>
+  <param name="datasource.url">${impex.url}</param>
+  <param name="encryption.key">foobarbaz123456789</param>
+  <param name="keystore.file">/home/${tomcat.instance}/kuali/main/${environment}/rice.keystore</param>
+  <param name="keystore.alias">rice</param>
+  <param name="keystore.password">r1c3pw</param>
+  <param name="travel.externalizable.images.url">${externalizable.images.url}</param>
+
+  <!-- Email Settings -->
+  <param name="mail.debug">false</param>
+  <param name="mail.smtp.host">email-smtp.us-east-1.amazonaws.com</param>
+  <param name="mail.smtp.port">465</param>
+  <param name="mail.smtp.ssl.enable">true</param>
+  <param name="mail.smtp.auth">true</param>
+  <param name="mail.smtp.username">AKIAJJUBCVBNS3N2K5WA</param>
+  <param name="mail.smtp.password">${rice.ses.password}</param>
+</config>

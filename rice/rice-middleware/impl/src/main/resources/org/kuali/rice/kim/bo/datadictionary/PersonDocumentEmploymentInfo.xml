@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="DocEmploymentInfo" parent="DocEmploymentInfo-parentBean"/>
+ 
+  <bean id="DocEmploymentInfo-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.PersonDocumentEmploymentInfo" p:titleAttribute="entityEmploymentId" p:objectLabel="Entity Employment" p:inquiryDefinition-ref="DocEmploymentInfo-inquiryDefinition" p:lookupDefinition-ref="DocEmploymentInfo-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="DocEmploymentInfo-primaryDepartmentCode"/>
+        <ref bean="DocEmploymentInfo-entityAffiliationId"/>
+        <ref bean="DocEmploymentInfo-entityEmploymentId"/>
+        <ref bean="DocEmploymentInfo-employeeId"/>
+        <ref bean="DocEmploymentInfo-employmentStatusCode"/>
+        <ref bean="DocEmploymentInfo-employmentRecordId"/>
+        <ref bean="DocEmploymentInfo-employmentTypeCode"/>
+        <ref bean="DocEmploymentInfo-baseSalaryAmount"/>
+        <ref bean="DocEmploymentInfo-primary"/>
+        <ref bean="DocEmploymentInfo-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: use campus parent bean once imported into Rice -->
+  <bean id="DocEmploymentInfo-primaryDepartmentCode" parent="DocEmploymentInfo-primaryDepartmentCode-parentBean"/>
+  <bean id="DocEmploymentInfo-primaryDepartmentCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="primaryDepartmentCode" p:forceUppercase="true" p:label="Primary Department Code" p:shortLabel="Primary Department Code" p:maxLength="40" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="DocEmploymentInfo-employmentTypeCode" parent="DocEmploymentInfo-employmentTypeCode-parentBean"/>
+  <bean id="DocEmploymentInfo-employmentTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="employmentTypeCode" p:forceUppercase="true" p:label="Employee Type" p:shortLabel="Employee Type" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentTypeBo" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeBlankRow="true" p:includeKeyInLabel="false" p:keyAttribute="code" p:labelAttribute="name"/>
+    </property>
+  </bean>
+ 
+  <bean id="DocEmploymentInfo-employmentStatusCode" parent="DocEmploymentInfo-employmentStatusCode-parentBean"/>
+  <bean id="DocEmploymentInfo-employmentStatusCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="employmentStatusCode" p:forceUppercase="true" p:label="Employee Status" p:shortLabel="Employee Status" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentStatusBo" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeBlankRow="true" p:includeKeyInLabel="false" p:keyAttribute="code" p:labelAttribute="name"/>
+    </property>
+  </bean>
+ 
+   <bean id="DocEmploymentInfo-entityAffiliationId" parent="DocEmploymentInfo-entityAffiliationId-parentBean"/>
+  <bean id="DocEmploymentInfo-entityAffiliationId-parentBean" parent="AttributeDefinition" abstract="true" p:name="entityAffiliationId" p:forceUppercase="true" p:label="Affiliation Entity Id" p:shortLabel="Affiliation Entity Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+    
+   <bean id="DocEmploymentInfo-employeeId" parent="DocEmploymentInfo-employeeId-parentBean"/>
+   <!-- KULRICE-4357: Set Employee ID to required so that the asterisk appears in the Person Document -->
+  <bean id="DocEmploymentInfo-employeeId-parentBean" parent="AttributeDefinition" abstract="true" p:name="employeeId" p:forceUppercase="true" p:label="Employee Id" p:shortLabel="Employee Id" p:maxLength="40" p:required="true">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+
+   <bean id="DocEmploymentInfo-employmentRecordId" parent="DocEmploymentInfo-employmentRecordId-parentBean"/>
+  <bean id="DocEmploymentInfo-employmentRecordId-parentBean" parent="AttributeDefinition" abstract="true" p:name="employmentRecordId" p:forceUppercase="true" p:label="Employment Record Id" p:shortLabel="Employment Record Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+    
+    
+    
+   <bean id="DocEmploymentInfo-entityEmploymentId" parent="DocEmploymentInfo-entityEmploymentId-parentBean"/>
+  <!-- KULRICE-4430: Set back to false; Employee ID is the required field, not Employement ID -->
+  <bean id="DocEmploymentInfo-entityEmploymentId-parentBean" parent="AttributeDefinition" abstract="true" p:name="entityEmploymentId" p:forceUppercase="true" p:label="Employment Id" p:shortLabel="Employment Id" p:maxLength="40" p:required="false">
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+  </bean>
+    
+  <bean id="DocEmploymentInfo-primary" parent="DocEmploymentInfo-primary-parentBean"/>
+  <bean id="DocEmploymentInfo-primary-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="primary"/>
+    <property name="label" value="Primary"/>
+    <property name="shortLabel" value="Primary"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Primary"/>
+    <property name="description" value="Primary"/>
+  </bean>
+  <bean id="DocEmploymentInfo-active" parent="DocEmploymentInfo-active-parentBean"/>
+  <bean id="DocEmploymentInfo-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+    
+  <bean id="DocEmploymentInfo-baseSalaryAmount" parent="DocEmploymentInfo-baseSalaryAmount-parentBean"/>
+  <bean id="DocEmploymentInfo-baseSalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="baseSalaryAmount"/>
+    <property name="label" value="Base Salary Amount"/>
+    <property name="shortLabel" value="Base Salary"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="Base Salary"/>
+    <property name="description" value="Base Salary"/>
+  </bean>
+    
+      
+  <bean id="DocEmploymentInfo-inquiryDefinition" parent="DocEmploymentInfo-inquiryDefinition-parentBean"/>
+
+  <bean id="DocEmploymentInfo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Person Employment Info Inquiry">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="1">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="entityAffiliationId"/>
+              <bean parent="FieldDefinition" p:attributeName="entityEmploymentId"/>
+              <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+              <bean parent="FieldDefinition" p:attributeName="primary"/>
+              <bean parent="FieldDefinition" p:attributeName="employmentStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="employmentTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="baseSalaryAmount"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DocEmploymentInfo-lookupDefinition" parent="DocEmploymentInfo-lookupDefinition-parentBean"/>
+
+  <bean id="DocEmploymentInfo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Employment Info Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>entityAffiliationId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="entityAffiliationId"/>
+          <bean parent="FieldDefinition" p:attributeName="entityEmploymentId"/>
+          <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+          <bean parent="FieldDefinition" p:attributeName="primary"/>
+          <bean parent="FieldDefinition" p:attributeName="employmentStatusCode"/>
+          <bean parent="FieldDefinition" p:attributeName="employmentTypeCode"/>
+          <bean parent="FieldDefinition" p:attributeName="baseSalaryAmount"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="entityAffiliationId"/>
+          <bean parent="FieldDefinition" p:attributeName="entityEmploymentId"/>
+          <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+          <bean parent="FieldDefinition" p:attributeName="primary"/>
+          <bean parent="FieldDefinition" p:attributeName="employmentStatusCode"/>
+          <bean parent="FieldDefinition" p:attributeName="employmentTypeCode"/>
+          <bean parent="FieldDefinition" p:attributeName="baseSalaryAmount"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

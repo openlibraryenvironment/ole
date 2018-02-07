@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Type" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>KIM Type</title>
+    
+    <section>
+        <title>KIM Type Lookup</title>
+        
+        <para>Use this lookup when you create a new group in KIM to find the KIM
+            Type for the new group.</para>
+        
+        <figure>
+            <title>KIM Type Lookup</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/Kim_type_lookup_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>You may enter information in one or more of the search fields to
+            find the correct Type for your new group:</para>
+        
+        <para><table frame="none" tabstyle="striped">
+            <title>KIM Type Lookup Attributes</title>
+            
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Field Name</entry>
+                        
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>Namespace Code</entry>
+                        
+                        <entry>Optional. Select the code of the application and module
+                            for this KIM Type.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Type Name</entry>
+                        
+                        <entry>Optional. Enter the name for this KIM Type.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Type Identifier</entry>
+                        
+                        <entry>Optional. Enter the unique system-assigned Identifier
+                            for this KIM Type.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Active Indicator</entry>
+                        
+                        <entry>Required. Defaults to Yes (Yes means display only
+                            Active Types). Change the default selection to view KIM Types
+                            that are Inactive or Types that are both Active and
+                            Inactive.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table></para>
+        
+        <figure>
+            <title>KIM Type Lookup: Results Example</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/kim_type_lookup_results_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>The search results list for this screen has the same fields as the
+            <emphasis role="bold">Lookup</emphasis> screen. To select the Type you
+            want to use for your new group, click the <emphasis role="bold">return
+                value</emphasis> link for it in the search results list.</para>
+    </section>
+    
+    <section>
+        <title>KIM Type Inquiry</title>
+        
+        <para>The KIM Type Inquiry screen provides details about a KIM Type data
+            element.</para>
+        
+        <para>To access this screen, from the <emphasis role="bold">Kim Type Lookup</emphasis>
+            screen, click a <emphasis role="bold">Type Name</emphasis> in your search results
+            list.</para>
+        
+        <figure>
+            <title>KIM Type Inquiry</title>
+            
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/kim_type_new.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>All fields are defined above in <emphasis role="italic">KIM Type
+            Lookup</emphasis> except these:</para>
+        
+        <para><table frame="none" tabstyle="striped">
+            <title>KIM Type Inquiry Attributes</title>
+            
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="0.5*"/>
+                
+                <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Field Name</entry>
+                        
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>Service Name</entry>
+                        
+                        <entry>Display-only. The name of the service associated with
+                            this KIM Type</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Namespace Code</entry>
+                        
+                        <entry>Display-only. The namespace code associated with the
+                            selected KIM Type</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table></para>
+    </section>
+</chapter>

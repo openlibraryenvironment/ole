@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <info>
+    <title> Kuali Rice ${project.version} KEW Guide</title>
+    <legalnotice><para>Some of the documentation in this guide has not been updated to reflect changes for
+      ${project.version}. If you find a problem, please <link xlink:href="http://site.kuali.org/rice/${project.version}/reference/html/Intro_To_Rice.html#reporting_rice_jira">report
+        it in Jira</link> and set the component to Documentation. Indicate the guide and
+      section that has the problem in the Jira. Thanks for your help in improving the
+      documentation!</para></legalnotice>
+  </info>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Overview.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Peopleflow.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Actions.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Documents.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Preferences.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Routing.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Docops.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Build.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Config.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Admin.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Parms.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Defs.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Workflow.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_eDocLite.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_DocSearch.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_DocLink.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_Reporting.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_WFPlugin.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../KEW_Guide/KEW_ServiceBus.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../common/glossary.xml"/>
+</book>

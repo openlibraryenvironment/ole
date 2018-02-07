@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:u="ns:workflow/User"
+        targetNamespace="ns:workflow/User"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+ 
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+ 
+      http://www.opensource.org/licenses/ecl1.php
+ 
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      User schema - just using "any" type for now
+    </documentation>
+  </annotation>
+
+  <element name="users">
+    <complexType>
+      <sequence>
+        <!-- with processContents="lax" I think we have the best of both worlds:
+             we don't have to specify a schema here, but IF the user specifies
+             a namespace and schema on the element they supply for this 'any'
+             element, THEN validation will be attempted on their schema (I think) -->
+        <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+      </sequence>
+    </complexType>
+  </element>
+
+</schema>

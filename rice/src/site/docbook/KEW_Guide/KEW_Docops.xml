@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="KEW_Docops" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>KEW Document Operations</title>
+    <section>
+       <title>Document Operation</title>
+        <para>The Document Operation screen allows for low-level modifications to document data. It's available from the 
+            Administrator channel in the portal.</para>
+        <para>In certain scenarios or failure cases it may be necessary to make modifications to the document so that the 
+            state of the document in the KEW system is consistent with that of the integrating application. It may also be 
+            necessary to make modifications to the XML content of a document if, for example, there is a bug in the application 
+            integrating with KEW which results in incomplete or insufficient XML content to allow for proper routing.</para>
+        <figure>
+            <title>Initial Screen</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KEW_Guide/DocOp_Ex9.png" width="100%" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>The initial screen prompts for the ID of a document to load. The administrator is then presented with a view of 
+        the document and can perform various operations on it. The screen is divided into various sections, including:
+        <itemizedlist>
+            <listitem><para>Document Actions - Additional functions for reassigning and reprocessing document</para></listitem>
+            <listitem><para>Document - simple data associated with the document</para></listitem>
+            <listitem><para>Action Requests - the Action Requests associated with the document, includes requests for action 
+                which have already been satisfied</para></listitem>
+            <listitem><para>Actions Taken - The actions that have been taken against this document (i.e. Approved by user X)
+            </para></listitem>
+            <listitem><para>Action Items - Items related to this document that are in users' Action Lists</para></listitem>
+            <listitem><para>Route Node Instances - The node instances that form the document's instantiated route path</para>
+            </listitem>
+            <listitem><para>Branch States - The branches on this document and the state of those branches</para></listitem>
+            <listitem><para>Annotation - An annotation that will show up on the Route Log when the operation is performed.</para>
+            </listitem>
+        </itemizedlist></para>
+        <para>Each of the pieces of data within the aforementioned sections has a set of radio buttons at the top that indicates 
+            Update, Delete, or No Operation. No Operation is the default. If it is desired to change or delete one of these pieces 
+            of data then the appropriate button should be selected. This is to guard against unintended or accidental changes 
+            to the document.</para>
+        <para>Each of the different sections is described in detail below.</para>
+        <section>
+            <title>Document Actions</title>
+            <figure>
+                <title>Document Actions</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_DocumentActions.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Several functional buttons are added under the Document Action section:
+                <itemizedlist>
+                    <listitem><para>Queue Document - Requeuing and reprocessing the document by the engine</para></listitem>
+                    <listitem><para>Index Searchable Attributes - Update searchable data of the document</para></listitem>
+                    <listitem><para>Queue Document Requeuer - Refresh document and regenerate request of current node</para></listitem>
+                    <listitem><para>Queue Document Blanket Approve - Move blanket approve document forward; User, Action Taken Id,
+                            and Node Names are required<itemizedlist>
+                                <listitem>
+                                    <para>User - Enter initiator's network Id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Action Taken Id - Enter an entry's action taken Id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Node Names - Enter a comma separated list of node
+                                        names</para>
+                                </listitem>
+                            </itemizedlist></para></listitem>
+                    <listitem><para>Queue Document Move - Move document forward or backward; User, Action Taken Id, and Node Names
+                            are required<itemizedlist>
+                                <listitem>
+                                    <para>User - Enter initiator's network Id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Action Taken Id - Enter an entry's action taken Id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Node Names - Enter a comma separated list of node
+                                        names</para>
+                                </listitem>
+                            </itemizedlist></para>
+                        </listitem>
+                    <listitem><para>Queue Action Invocation - Reassign action request based on initiator, entry ID, and action
+                            code; User, Action Item Id, and Action Code are required <itemizedlist>
+                                <listitem>
+                                    <para>User - Enter initiator's network Id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Action Item Id - Enter an entry's action item Id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Action Code - A, F, K, or C; A for Approve, F for FYI, K
+                                        for acknowledge, and C for Complete</para>
+                                </listitem>
+                            </itemizedlist></para></listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Document</title>
+            <figure>
+                <title>Document</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_Ex8.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Document Version - A legacy field indicating whether the document was upgraded from version 2.0 to 2.1</para>
+                        </listitem>
+                    <listitem><para>Initiator ID - The workflow id of the initiator</para></listitem>
+                    <listitem><para>Initial Route Node Instances - The ID of the initial route node instance on the document</para></listitem>
+                    <listitem><para>Route Status - The current status of the document</para></listitem>
+                    <listitem><para>Route Level - A legacy field providing a numerical representation of where the document is in the route path
+                        </para></listitem>
+                    <listitem><para>Create Date - The initial date the document was created, doesn't not reflect whether the document was routed, saved, etc.</para></listitem>
+                    <listitem><para>Doc Status Modification Date - The date at which the document's status was last modified</para></listitem>
+                    <listitem><para>Approved Date - The date at which the document's state transitioned to APPROVED</para></listitem>
+                    <listitem><para>Finalized Date - The date at which the document's state transitioned to FINAL</para></listitem>
+                    <listitem><para>Route Status Modification Date - Legacy value, similar to Doc Status Modification Date</para></listitem>
+                    <listitem><para>Route Level Modification Date - Legacy value, no longer used</para></listitem>
+                    <listitem><para>Doc Type ID - The ID of the DocumentType definition for this document</para></listitem>
+                    <listitem><para>Doc Title - The title of the document</para></listitem>
+                    <listitem><para>Application Doc ID - A special id that can be set by client applications to associate the document to an ID in 
+                        their system</para></listitem>
+                    <listitem><para>Override Indicator - Legacy value, no longer use</para></listitem>
+                    <listitem><para>Lock Code - Legacy value, no longer used</para></listitem>
+                    <listitem><para>Doc Content - The XML Content of the document</para></listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Action Requests</title>
+            <figure>
+                <title>Action Requests</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_ActionRequest.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Document Version - A legacy field indicating whether the request was upgraded from version 2.0 to 2.1</para>
+                        </listitem>
+                    <listitem><para>Document ID - The ID of the associated document</para></listitem>
+                    <listitem><para>Route Node Instance ID - The ID of the node instance that this request is attached to</para></listitem>
+                    <listitem><para>Action Request - The type of action that is requested</para></listitem>
+                    <listitem><para>Create Date - The date the request was created</para></listitem>
+                    <listitem><para>Status - The current status of the request</para></listitem>
+                    <listitem><para>Priority - The activation priority of the request</para></listitem>
+                    <listitem><para>Route Level - A legacy field providing a numerical representation of where in the route path the request was 
+                        generated</para></listitem>
+                    <listitem><para>Responsibility ID - The id of the responsibility associated with this request (relates to Rules and/or Route 
+                        Modules)</para></listitem>
+                    <listitem><para>Responsibility Description - A description of the responsibility of this request</para></listitem>
+                    <listitem><para>Action Request Parent ID - ID of the parent action request if there is one</para></listitem>
+                    <listitem><para>Recipient Type - The type of recipient for this request (user, workgroup, or role)</para></listitem>
+                    <listitem><para>Person ID - If the recipient type is "user", the workflow id of the user recipient</para></listitem>
+                    <listitem><para>Workgroup ID - If the recipient type is "workgroup", the workgroup id of the workgroup recipient</para>
+                        </listitem>
+                    <listitem><para>Role Name - If the recipient type is "role", the name of the role</para></listitem>
+                    <listitem><para>Qualified Role Name - If the recipient type is "role", the value of the qualified role</para></listitem>
+                    <listitem><para>Qualified Role Label - If the recipient type is "role", the label for the qualified role</para></listitem>
+                    <listitem><para>Action Taken ID - If this request has been satisfied, the id of the ActionTaken that satisfied the request
+                        </para></listitem>
+                    <listitem><para>Ignore Previous - The ignore previous indicator of the request</para></listitem>
+                    <listitem><para>Approve Policy - The approve policy of the request (only used by role requests)</para></listitem>
+                    <listitem><para>Delegation Type - If the request is a delegation, the type of delegation (primary or secondary)</para>
+                        </listitem>
+                    <listitem><para>Current Indicator - Indicates if the request is "Current" or not</para></listitem>
+                    <listitem><para>Annotation - The value of the annotation on the request</para></listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Actions Taken</title>
+            <figure>
+                <title>Actions Taken</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_ActionsTaken.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Document ID - The ID of the associated document</para></listitem>
+                    <listitem><para>Document Version - A legacy field indicating whether the Action Taken was upgraded from version 2.0 to 2.1</para>
+                        </listitem>
+                    <listitem><para>Action Taken - the type of the action that was taken</para></listitem>
+                    <listitem><para>Action Date - the date at which the action was taken</para></listitem>
+                    <listitem><para>Action Taken Person ID - the workflow id of the user or delegate who took action</para></listitem>
+                    <listitem><para>Delegator Person ID - if this action was performed by a delegate, the workflow id of the person whose authority was 
+                        delegated</para></listitem>
+                    <listitem><para>Delegator Workgroup ID - if this action was performed by a delegate, the workflow id of the Workgroup whose authority 
+                        was delegated</para></listitem>
+                    <listitem><para>Current Indicator - Indicates if the Action Taken is "Current" or not, non-current actions have been revoked by an 
+                        action such as ReturnToPreviousNode</para></listitem>
+                    <listitem><para>Annotation - The value of the annotation on the Action Taken</para></listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Action Items</title>
+            <figure>
+                <title>Action Items</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_ActionItems.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Document ID - The ID of the associated document</para></listitem>
+                    <listitem><para>Doc Type Name - The name of the DocumentType for this item</para></listitem>
+                    <listitem><para>Doc Type Label - The label of the document type</para></listitem>
+                    <listitem><para>Doc Handler URL - The URL used to access the doc handler for this item</para></listitem>
+                    <listitem><para>Date Assigned - The creation date of the item</para></listitem>
+                    <listitem><para>Action Request ID - The id of the Action Request from which this item is derived</para></listitem>
+                    <listitem><para>Action Requested - The type of action requested by this item</para></listitem>
+                    <listitem><para>Responsibility ID - The responsibility id of the associated request</para></listitem>
+                    <listitem><para>Person ID - The workflow id of the person responsible for the item</para></listitem>
+                    <listitem><para>Workgroup ID - The workgroup id of the workgroup responsible for the item</para></listitem>
+                    <listitem><para>Role Name - If the item was derived from a role request, the name of the role</para></listitem>
+                    <listitem><para>Delegator Person ID - If the item was delegated, the workflow id of the delegating party</para></listitem>
+                    <listitem><para>Delegator Workgroup ID - If the item was delegated, the workgroup id of the delegating party</para></listitem>
+                    <listitem><para>Document Title - The title of the document</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>It is important to note that the ActionItem is a de-normalized representation of an Action Request on the document that is used to render 
+                the Action List in an efficient matter. Therefore, it contains some copies of data from both the document and the request itself.</para>
+        </section>
+        <section>
+            <title>Route Node Instances</title>
+            <figure>
+                <title>Route Node Instances</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_RouteNode.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Instance Name - The name of the node</para></listitem>
+                    <listitem><para>Active Indicator - indicates if the node is active</para></listitem>
+                    <listitem><para>Complete Indicator - indicates if the node's processing has completed</para></listitem>
+                    <listitem><para>Initial Indicator - indicates if the node has been processed by the engine yet</para></listitem>
+                    <listitem><para>Previous Route Node Instances - A comma-separated display of the IDs of the previous Route Node Instances of the node
+                        </para></listitem>
+                    <listitem><para>Next Route Node Instances - A comma-separated display of the IDs of the next Route Node Instances of the node</para>
+                        </listitem>
+                    <listitem><para>Route Node States - A representation of the state attached to the node</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>The Route Node Instances are modeled as a Directed Acyclic Graph starting at the node instance pointed to by the Initial Route Node Instances 
+                field in the Document section. Therefore, if you delete a route node instance, it will follow all links through its set of Next Route Node 
+                Instances and delete those as well.</para>
+        </section>
+        <section>
+            <title>Branch States</title>
+            <figure>
+                <title>Branch States</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_Ex6.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Branch Name - The name of the branch</para></listitem>
+                    <listitem><para>Branch State ID - The ID of that piece of branch state</para></listitem>
+                    <listitem><para>Branch State Key - The key of the branch state</para></listitem>
+                    <listitem><para>Branch State Value - The value of the branch state</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>All documents are required to have at least one branch that is named PRIMARY. Therefore, it is advisable to not rename the PRIMARY branch.
+            </para>
+        </section>
+        <section>
+            <title>Annotation</title>
+            <figure>
+                <title>Annotation</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KEW_Guide/DocOp_Ex7.png" width="100%"  scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Here you can enter an annotation explaining the changes being made. This will be logged on the Route Log so that it can be preserved as part 
+                of the audit trail for the document.</para>
+            <para>Once the changes have been made on the document operation screen, hit the Save button and the changes will be executed on the server. Remember 
+                that in order for a change to take place the appropriate radio button must be selected on the data that requires modification.</para>
+        </section>
+        <section>
+            <title>Practical Uses of Document Operation</title>
+            <para>
+                <itemizedlist>
+                    <listitem><para>Requeuing a document that was stuck</para></listitem>
+                    <listitem><para>Moving a document to FINAL</para></listitem>
+                    <listitem><para>Rolling a document back to a previous point in the route path</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>Examples of each are outlined below</para>
+            <section>
+                <title>Requeuing a document that was stuck</title>
+                <para></para>
+            </section>
+            <section>
+                <title>Moving a document to FINAL</title>
+                <para></para>
+            </section>
+            <section>
+                <title>Rolling a document back to a previous point in the route path</title>
+                <para></para>
+            </section>
+        </section>
+    </section>
+</chapter>

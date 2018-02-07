@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:ra="ns:workflow/RuleAttribute"
+        targetNamespace="ns:workflow/RuleAttribute"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl1.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Rule Attribute schema
+    </documentation>
+  </annotation>
+
+  <!-- defined these in separate files for clarity -->
+  <include schemaLocation="resource:SearchingConfig"/>
+  <include schemaLocation="resource:RoutingConfig"/>
+  <include schemaLocation="resource:ResolverConfig"/>
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+
+<!-- List of ruleAttributes -->
+  <element name="ruleAttributes">
+    <complexType>
+      <sequence minOccurs="0" maxOccurs="unbounded">
+        <element name="ruleAttribute" type="ra:RuleAttributeType">
+        	<annotation>
+        		<documentation>
+        		 A modifiable rue attributes parameter in the system.
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="RuleAttributeType">
+    <all>
+
+      <element name="name" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 This is the name of the attribute and how it needs to be reference when assembling rule templates.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="className" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 A fully qualifed classname of the java class backing the rule attribute.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="label" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      		 a label for the rule attribute; at this point this serves no real function.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="description" type="c:LongStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A description of the attribute.
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="type" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 A type of attribute xml or java 'RuleXmlAttribute' or 'RuleAttribute'. This needs taken out of the parsing.
+      		</documentation>
+      	</annotation>
+      </element>
+
+	  <element name="applicationId" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+        	 Sets the id of the application which contains the implementation of this rule attribute (in cases where the rule attribute represents a service)
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="serviceNamespace" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 DEPRECATED: use applicationId instead
+      		</documentation>
+      	</annotation>
+      </element>
+
+      <element name="routingConfig" minOccurs="0">
+      	<complexType>
+      		<sequence>
+
+      			<element name="fieldDef" minOccurs="1" maxOccurs="unbounded">
+      					<annotation>
+      						<documentation>
+      						 Define a single field in the rule configuration.
+      						</documentation>
+      					</annotation>
+      				<complexType>
+      					<sequence>
+
+      						<element name="display" type="ra:display">
+      							<annotation>
+      								<documentation>
+      								 The display of the element in the rule and report system.
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      						<element name="validation" type="ra:validation">
+      							<annotation>
+      								<documentation>
+      						 		 Define validation for the attribute.
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      						<element name="lookup" type="ra:lookup" minOccurs="0">
+      							<annotation>
+      								<documentation>
+      								 Provide a link to a lookup on the current field
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      						<element name="fieldEvaluation" type="ra:fieldEvaluation">
+      							<annotation>
+      								<documentation>
+      								 Tell KEW how to evaluate e-docs against data entered in the rule system for this fieldDef
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      					</sequence>
+
+      					<attribute name="name">
+      					  	<annotation>
+      					  		<documentation>
+      					  		 Name of the filedDef as it is stored in the rule system. This is important because this
+      					  		 is how you reference data stored in the rule system in the xpath expression in
+      					  		 the 'filedEvaluation' element.
+      					  		</documentation>
+      					  	</annotation>
+      					  <simpleType>
+  							<restriction base="string">
+    						  <maxLength value="256"/>
+  							</restriction>
+						  </simpleType>
+						</attribute>
+						<attribute name="title">
+							<annotation>
+								<documentation>
+								 The title of the field in the rule system.
+								</documentation>
+							</annotation>
+						</attribute>
+
+						<attribute name="workflowType" default="ALL">
+							<annotation>
+								<documentation>
+								 Determine if this field def should be render for rules, reports or both.
+								</documentation>
+							</annotation>
+						<!--
+							<simpleType>
+								<restriction base="string">
+									<enumeration value="RULE"></enumeration>
+									<enumeration value="ALL"></enumeration>
+									<enumeration value="REPORT"></enumeration>
+								</restriction>
+							</simpleType>
+							 -->
+						</attribute>
+      				</complexType>
+      			</element>
+
+      			<!-- handy if you don't want to introduce xml libraries and such to your application -->
+      			<element name="xmlDocumentContent" type="ra:xmlDocumentContent" minOccurs="0">
+      				<annotation>
+      					<documentation>
+      					 Defines a way by which the server can dictate how the content of this particular attribute
+      					 is constructed.
+      					</documentation>
+      				</annotation>
+      			</element>
+			</sequence>
+      	</complexType>
+      </element>
+
+      <!-- defines the fields that show up in document search for tying e-doc specific searches
+      into workflow searches.  Everything is exactly the same as above except it is refering to document search -->
+      <element name="searchingConfig" minOccurs="0">
+      		<annotation>
+      			<documentation>
+      			 Defines the fields that show up in document search for tying e-doc specific searches into workflow
+      			 searches into workflow searches.
+      			</documentation>
+      		</annotation>
+      	<complexType>
+      		<sequence>
+      			<element name="fieldDef" minOccurs="1" maxOccurs="unbounded">
+      				<complexType>
+      					<sequence>
+
+      						<element name="display" type="ra:display">
+      							<annotation>
+      								<documentation>
+      								 The display of the element in the rule and report system.
+      								</documentation>
+      							</annotation>
+      						</element>
+      						<element name="visibility" type="ra:visibility" minOccurs="0">
+      							<annotation>
+      								<documentation>
+      								 Indicating the visibility of the field Def.
+      								</documentation>
+      							</annotation>
+      						</element>
+                  <element name="resultColumn" type="ra:resultColumn" minOccurs="0">
+                    <annotation>
+                      <documentation>
+                        Indicates whether this field should show up in search results.
+                      </documentation>
+                    </annotation>
+                  </element>
+
+      						<element name="searchDefinition" type="ra:searchDefinition" minOccurs="0">
+      						  <annotation>
+      								<documentation>
+      								 Search definition for the field.
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      						<element name="validation" type="ra:validation" minOccurs="0">
+      							<annotation>
+      								<documentation>
+      						 		 Define validation for the attribute.
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      						<element name="lookup" type="ra:lookup" minOccurs="0">
+      							<annotation>
+      								<documentation>
+      								 Provide a link to a lookup on the current field.
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      						<element name="fieldEvaluation" type="ra:fieldEvaluation" minOccurs="0">
+      							<annotation>
+      								<documentation>
+      								 Another xpath expression that stored in the database.
+      								</documentation>
+      							</annotation>
+      						</element>
+
+      					</sequence>
+      					<attribute name="name">
+      						<annotation>
+      							<documentation>
+      							 Name of the filed def as it is stored in the rule system.
+      							</documentation>
+      						</annotation>
+							<simpleType>
+  							  <restriction base="string">
+    						    <maxLength value="256"/>
+  							  </restriction>
+						    </simpleType>
+      					</attribute>
+
+						<attribute name="title">
+							<annotation>
+								<documentation>
+								 The title of the field in the rule system.
+								</documentation>
+							</annotation>
+						</attribute>
+
+						<attribute name="workflowType" default="ALL">
+							<annotation>
+								<documentation>
+								 Determine if this field def should be render for rules, reports or both.
+								</documentation>
+							</annotation>
+						</attribute>
+      				</complexType>
+      			</element>
+      			<element name="xmlSearchContent" type="ra:xmlSearchContent" minOccurs="0"></element>
+			</sequence>
+      	</complexType>
+      </element>
+      <!-- defines the columns that show up in document search results for tying e-doc specific results into workflow searches. -->
+      <element name="searchResultConfig" minOccurs="0">
+      	<complexType>
+      		<sequence>
+      			<!-- defines a single field to get made in the rule configuration -->
+      			<element name="column" minOccurs="1" maxOccurs="unbounded">
+      				<complexType>
+      					<attribute name="name" type="string" use="required"/>
+						<attribute name="title" type="string" />
+						<attribute name="sortable" type="boolean" default="true" />
+      				</complexType>
+      			</element>
+      		</sequence>
+      		<!--
+      		     defaults below are reverse of standard impl defaults because if this element is provided
+      		     we assume there is some overriding going on and these will be used as shortcuts to standard
+      		     implementations such as showing all standard doc search fields or not overriding searchable
+      		     attributes visibilities
+      	    -->
+    	  	<attribute name="showStandardSearchFields" type="boolean" default="false" />
+	      	<attribute name="overrideSearchableAttributes" type="boolean" default="true" />
+      	</complexType>
+      </element>
+      <element name="resolverConfig" type="ra:ResolverConfigType" minOccurs="0"/>
+      
+      <element name="configuration" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		  Provides for an arbitrary configuration holder inside of an attribute.  There is no defined schema for this
+      		  section and it's contents are interpreted by the attribute implementation when applicable.
+      		</documentation>
+      	</annotation>
+      	<complexType>
+      	  <sequence>
+            <any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+	      </sequence>
+    	</complexType>
+      </element>
+      
+    </all>
+  </complexType>
+
+  <complexType name="xmlSearchContent">
+	<sequence>
+        <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+	</sequence>
+  </complexType>
+
+  <complexType name="xmlDocumentContent">
+	<sequence>
+        <any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+	</sequence>
+  </complexType>
+
+  <complexType name="lookup">
+    <sequence>
+      <element name="fieldConversions" type="ra:fieldConversions" minOccurs="0">
+        <annotation>
+      	  <documentation>Lists the field conversions for this lookup</documentation>
+		</annotation>
+      </element>
+    </sequence>
+	<attribute name="businessObjectClass">
+		<annotation>
+			<documentation>
+			 Name of the business object to use for the lookup.
+			</documentation>
+		</annotation>
+	</attribute>
+  </complexType>
+  
+  <complexType name="fieldConversions">
+    <sequence>
+      <element name="fieldConversion" type="ra:fieldConversion" maxOccurs="unbounded">
+        <annotation>
+          <documentation>Defines a conversion of field names from a local field name to a lookup field name</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="fieldConversion">
+    <attribute name="lookupFieldName">
+		<annotation>
+			<documentation>
+			 Name of the field on the lookup
+			</documentation>
+		</annotation>
+	</attribute>
+	<attribute name="localFieldName">
+		<annotation>
+			<documentation>
+			 Name of the local attribute field name
+			</documentation>
+		</annotation>
+	</attribute>
+  </complexType>
+
+  <!--  used to render fieldDefs in the rule and report system -->
+  <complexType name="display">
+     <sequence>
+	     <!-- relate to html display elements 'select', 'text', etc-->
+       <element name="type" type="string" minOccurs="0">
+       	<annotation>
+       		<documentation>
+       		 The type of display.
+       		</documentation>
+       	</annotation>
+       </element>
+       <element name="values" minOccurs="0" maxOccurs="unbounded">
+       		<annotation>
+       			<documentation>
+       			 Value of display.
+       			</documentation>
+       		</annotation>
+         <complexType>
+           <simpleContent>
+             <extension base="string">
+               <attribute name="title" form="unqualified" type="string">
+               	<annotation>
+               		<documentation>
+               		 The title in the display filed.
+               		</documentation>
+               	</annotation>
+               </attribute>
+   			   <attribute name="selected" type="boolean" default="false">
+               	<annotation>
+               		<documentation>
+               		 Determines if the value is selected by default.
+               		</documentation>
+               	</annotation>
+               </attribute>
+             </extension>
+           </simpleContent>
+         </complexType>
+       </element>
+     </sequence>
+  </complexType>
+
+  <!--  used to render fieldDefs for use in doc search -->
+  <complexType name="searchDefinition">
+     <sequence>
+       <element name="rangeDefinition" type="ra:rangeDefinition" minOccurs="0" maxOccurs="1"/>
+     </sequence>
+     <attribute name="dataType" type="ra:dataType" default="string"/>
+     <attribute name="datePicker" type="boolean"/> <!--  default value depends on dataType -->
+     <attribute name="caseSensitive" type="boolean"/>
+     <attribute name="rangeSearch" type="boolean"/>
+     <attribute name="formatterClass" type="string"/>
+  </complexType>
+
+  <complexType name="rangeDefinition">
+     <sequence>
+       <element name="lower" type="ra:rangeBound" minOccurs="0" maxOccurs="1"/>
+       <element name="upper" type="ra:rangeBound" minOccurs="0" maxOccurs="1"/>
+     </sequence>
+     <attribute name="inclusive" type="boolean" default="true"/>
+     <attribute name="datePicker" type="boolean"/> <!--  default value depends on dataType -->
+     <attribute name="caseSensitive" type="boolean" default="true"/>
+  </complexType>
+
+  <complexType name="rangeBound">
+     <attribute name="label"/>
+     <attribute name="inclusive" type="boolean" default="true"/>
+     <attribute name="datePicker" type="boolean" default="true"/>
+  </complexType>
+
+  <simpleType name="dataType">
+    <restriction base="string">
+      <enumeration value="string"/>
+      <enumeration value="STRING"/>
+      <enumeration value="long"/>
+      <enumeration value="LONG"/>
+      <enumeration value="float"/>
+      <enumeration value="FLOAT"/>
+      <enumeration value="datetime"/>
+      <enumeration value="DATETIME"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="resultColumn">
+    <attribute name="show"/>
+  </complexType>
+
+  <complexType name="visibility">
+    <choice>
+      <sequence>
+        <element name="field" type="ra:visibilityDecl" minOccurs="0">
+        	<annotation>
+        		<documentation>
+        		 The field(s) in the template.
+        		</documentation>
+        	</annotation>
+        </element>
+        <element name="column" type="ra:visibilityDecl" minOccurs="0">
+        	<annotation>
+        		<documentation>
+        		 The column(s) in the template.
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+      <element name="fieldAndColumn" type="ra:visibilityDecl">
+      	<annotation>
+      		<documentation>
+      		 The field(s) and column(s)in the template.
+      		</documentation>
+      	</annotation>
+      </element>
+    </choice>
+  	<attribute name="show">
+  		<annotation>
+  			<documentation>
+  			 An attribute to show information.
+  			</documentation>
+  	</annotation>
+  	</attribute>
+  </complexType>
+
+  <complexType name="visibilityDecl">
+    <sequence>
+    	<element name="isMemberOfGroup" type="c:GroupNameType" minOccurs="0">
+    		<annotation>
+    			<documentation>
+    			 Specifies visibility of the field and/or column based on group membership.
+    			</documentation>
+    		</annotation>
+    	</element>
+    	<element name="isMemberOfWorkgroup" type="string" minOccurs="0">
+    		<annotation>
+    			<documentation>
+    			 DEPRECATED: use isMemberOfGroup instead.
+    			</documentation>
+    		</annotation>
+    	</element>
+    </sequence>
+  	<attribute name="visible" type="boolean">
+  		<annotation>
+  			<documentation>
+  			 Indicates whether the field and/or column should be visible.
+  			</documentation>
+  		</annotation>
+  	</attribute>
+  </complexType>
+
+  <!-- configure how the attribute should validate routing content -->
+  <complexType name="validation">
+  	<sequence>
+  		<element name="regex" type="string" minOccurs="0">
+  			<annotation>
+  				<documentation>
+  				 A regular expression to execute to validate the field.
+  				</documentation>
+  			</annotation>
+  		</element>
+
+  		<element name="message" type="string" minOccurs="0">
+  			<annotation>
+  				<documentation>
+  				 The message assoicate with the routing node.
+  				</documentation>
+  			</annotation>
+  		</element>
+  	</sequence>
+  	<attribute name="required">
+<!-- 		<simpleType>
+  			<restriction base="boolean">
+  				<enumeration value="true" />
+  				<enumeration value="false" />
+  			</restriction>
+  		</simpleType>
+  		 -->
+  	</attribute>
+  </complexType>
+
+  <complexType name="fieldEvaluation">
+  	<sequence>
+  		<element name="xpathexpression" type="string" >
+  			<annotation>
+  				<documentation>
+  				 Defines the xpath experssion that's used to execute a rule match for a rule attribute or extract
+  				 search data for indexing in the case of a searchable attribute.
+  				</documentation>
+  			</annotation>
+  		</element>
+
+  	</sequence>
+  </complexType>
+
+</schema>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="StateMaintenanceDocument" parent="StateMaintenanceDocument-parentBean"/>
+
+  <bean id="StateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.location.impl.state.StateBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.location.web.state.StateMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="StateMaintenanceDocument-EditStates"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="country" p:attributeToHighlightOnFail="countryCode"/>
+      </list>
+    </property>    
+    <property name="lockingKeys">
+      <list>
+      	<value>countryCode</value>
+        <value>code</value>
+      </list>
+    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="StateMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    <property name="workflowProperties">
+      <ref bean="StateMaintenanceDocument-workflowProperties"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="StateMaintenanceDocument-EditStates" parent="StateMaintenanceDocument-EditStates-parentBean"/>
+
+  <bean id="StateMaintenanceDocument-EditStates-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit States"/>
+    <property name="title" value="Edit States"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="StateMaintenanceDocument-workflowProperties" parent="StateMaintenanceDocument-workflowProperties-parentBean"/>
+
+  <bean id="StateMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

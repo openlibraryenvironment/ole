@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="DocRoleQualifier" parent="DocRoleQualifier-parentBean"/>
+	<bean id="DocRoleQualifier-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.ui.KimDocumentRoleQualifier" p:titleAttribute="attrDataId" p:objectLabel="Role Qualifier">
+		<property name="inquiryDefinition">
+			<ref bean="DocRoleQualifier-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="DocRoleQualifier-lookupDefinition"/>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="DocRoleQualifier-attrDataId"/>
+				<ref bean="DocRoleQualifier-roleMemberId"/>
+				<ref bean="DocRoleQualifier-kimTypId"/>
+				<ref bean="DocRoleQualifier-kimAttrDefnId"/>
+				<ref bean="DocRoleQualifier-attrVal"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="DocRoleQualifier-attrDataId" parent="DocRoleQualifier-attrDataId-parentBean"/>
+	<bean id="DocRoleQualifier-attrDataId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="attrDataId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Attribute Data Identifier"/>
+		<property name="shortLabel" value="Attr Data Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Attr Data Id"/>
+		<property name="description" value="Attr Data Id"/>
+	</bean>
+
+	<bean id="DocRoleQualifier-roleMemberId" parent="DocRoleQualifier-roleMemberId-parentBean"/>
+	<bean id="DocRoleQualifier-roleMemberId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="roleMemberId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Role Member Id"/>
+		<property name="shortLabel" value="Role Member Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Role Member Id"/>
+		<property name="description" value="Role Member Id"/>
+	</bean>
+
+	<bean id="DocRoleQualifier-kimTypId" parent="DocRoleQualifier-kimTypId-parentBean"/>
+	<bean id="DocRoleQualifier-kimTypId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kimTypId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Kim Type Identifier"/>
+		<property name="shortLabel" value="Kim Typ Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Kim Typ Id"/>
+		<property name="description" value="Kim Typ Id"/>
+	</bean>
+
+	<bean id="DocRoleQualifier-kimAttrDefnId" parent="DocRoleQualifier-kimAttrDefnId-parentBean"/>
+	<bean id="DocRoleQualifier-kimAttrDefnId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kimAttrDefnId"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Kim Attribute Definition Identifier"/>
+		<property name="shortLabel" value="Kim Attr Defn Id"/>
+		<property name="maxLength" value="40"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Kim Attr Defn Id"/>
+		<property name="description" value="Kim Attr Defn Id"/>
+	</bean>
+
+	<bean id="DocRoleQualifier-attrVal" parent="DocRoleQualifier-attrVal-parentBean"/>
+	<bean id="DocRoleQualifier-attrVal-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="attrVal"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Attr Val"/>
+		<property name="shortLabel" value="Attr Val"/>
+		<property name="maxLength" value="400"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10"/>
+		</property>
+		<property name="summary" value="Attr Val"/>
+		<property name="description" value="Attr Val"/>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="DocRoleQualifier-inquiryDefinition" parent="DocRoleQualifier-inquiryDefinition-parentBean"/>
+	<bean id="DocRoleQualifier-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Attribute Data Identifier"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Attribute Data Identifier"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+							<bean parent="FieldDefinition" p:attributeName="roleMemberId"/>
+							<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+							<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+							<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="DocRoleQualifier-lookupDefinition" parent="DocRoleQualifier-lookupDefinition-parentBean"/>
+	<bean id="DocRoleQualifier-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Doc Role Qualifier Lookup"/>
+		
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="roleMemberId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+				<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="attrDataId" p:forceInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="roleMemberId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimTypId"/>
+				<bean parent="FieldDefinition" p:attributeName="kimAttrDefnId"/>
+				<bean parent="FieldDefinition" p:attributeName="attrVal"/>
+			</list>
+		</property>
+	</bean>
+</beans>

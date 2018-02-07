@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="ConfigurationTestView-Quickfinder-Page" parent="Uif-Page" p:headerText="Quickfinders">
+    <property name="items">
+      <list>
+        <ref bean="ConfigurationTestView-Quickfinder-Section1"/>
+        <ref bean="ConfigurationTestView-Suggest"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-Quickfinder-Section1" parent="Uif-Disclosure-VerticalBoxSection"
+        p:layoutManager.orientation="VERTICAL">
+    <property name="headerText" value="Quickfinders"/>
+    <property name="instructionalText" value="Quickfinders on same view with different lookup configurations"/>
+    <property name="items">
+      <list>
+        <bean parent="GenericTextField" p:label="Lookup"
+              p:instructionalText="TravelAccounts lookup (account number should be read only)"
+              p:propertyName="field60">
+          <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="edu.sampleu.travel.bo.TravelAccount"
+                  p:fieldConversions="number:field60" p:readOnlySearchFields="number"/>
+          </property>
+        </bean>
+        <bean parent="GenericTextField" p:label="Lookup"
+              p:instructionalText="TravelAccounts lookup (account number should NOT be read only)"
+              p:propertyName="field90">
+          <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="edu.sampleu.travel.bo.TravelAccount"
+                  p:fieldConversions="number:field90"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ConfigurationTestView-Suggest" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="headerText" value="Suggest Widgets"/>
+    <property name="instructionalText" value="Various configurations for the suggest widget"/>
+    <property name="items">
+      <list>
+
+        <bean parent="Uif-InputField" p:label="Suggest"
+              p:instructionalText="auto-query configuration, type a1 or a2 for suggestions" p:propertyName="field61">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="number"
+                  p:suggestQuery.dataObjectClassName="edu.sampleu.travel.bo.TravelAccount"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Suggest 2"
+              p:instructionalText="view helper method configuration, type a1 or a2 for suggestions"
+              p:propertyName="field62">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="number">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveTravelAccounts"/>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Suggest 3"
+              p:group.instructionalText="view helper method with additional arguments, subaccount is used in query">
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:label="Sub-Account"
+                    p:instructionalText="type a6-sub" p:propertyName="field63"/>
+
+              <bean parent="Uif-InputField" p:label="Account"
+                    p:instructionalText="type a for suggestions" p:propertyName="field64">
+                <property name="suggest">
+                  <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="number">
+                    <property name="suggestQuery">
+                      <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveTravelAccountsBySubAcctAndTerm"
+                            p:queryMethodArgumentFieldList="field63"/>
+                    </property>
+                    <property name="templateOptions">
+                      <map merge="true">
+                        <entry key="minLength" value="1"/>
+                      </map>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Suggest 4"
+              p:instructionalText="static method and query result suggestions option, type a or c for suggestions"
+              p:propertyName="field65">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getLanguages"/>
+              </property>
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="minLength" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Suggest 5"
+              p:instructionalText="service method and sorting configuration, type sub for suggestions"
+              p:propertyName="field66">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="subAccountName">
+              <property name="suggestQuery">
+
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveTravelAccounts"
+                      p:sortPropertyNames="subAccountName">
+                  <property name="queryMethodInvokerConfig.targetObject">
+                    <bean class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+                      <property name="serviceName" value="testSuggestService"/>
+                    </bean>
+                  </property>
+                </bean>
+
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Suggest 6"
+              p:instructionalText="local suggest options, press arrow down for all options or type c"
+              p:propertyName="field67">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getAllLanguages"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Suggest 7"
+              p:instructionalText="rich suggest options, press arrow down for all options or type r"
+              p:propertyName="field68">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getRichOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="html" value="true"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Location Suggest"
+              p:instructionalText="type google, kuali, jira - navigates on selection"
+              p:propertyName="field61">
+          <property name="suggest">
+            <bean parent="Uif-LocationSuggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getLocationOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Location Suggest - Views"
+                      p:instructionalText="Pointing to same controller, each option provides a different view, type u, c, r"
+                      p:propertyName="field63">
+          <property name="suggest">
+            <bean parent="Uif-LocationSuggest" p:render="true" p:retrieveAllSuggestions="true"
+                    p:baseUrl="@{#ConfigProperties['krad.url']}/uicomponents">
+              <property name="additionalRequestParameters">
+                <map>
+                  <entry key="methodToCall" value="start"/>
+                </map>
+              </property>
+              <property name="requestParameterPropertyNames">
+                <map>
+                  <entry key="viewId" value="id"/>
+                </map>
+              </property>
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getViewOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="html" value="true"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Object Options"
+              p:instructionalText="Retrieving a custom object using namePropertyName and labelPropertyName, enter anything"
+              p:propertyName="field62">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true"
+                  p:returnFullQueryObject="true" p:labelPropertyName="name" p:valuePropertyName="val">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getObjectOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="html" value="true"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField" p:label="Suggest 8"
+              p:instructionalText="configured suggest options, press arrow down for all options or type c"
+              p:propertyName="field69">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestOptions">
+                <list>
+                  <value>ActionScript</value>
+                  <value>AppleScript</value>
+                  <value>Asp</value>
+                  <value>BASIC</value>
+                  <value>C</value>
+                  <value>C++</value>
+                  <value>Clojure</value>
+                  <value>COBOL</value>
+                  <value>ColdFusion</value>
+                  <value>Erlang</value>
+                  <value>Fortran</value>
+                  <value>Groovy</value>
+                  <value>Haskell</value>
+                  <value>Java</value>
+                  <value>JavaScript</value>
+                  <value>Lisp</value>
+                  <value>Perl</value>
+                  <value>PHP</value>
+                  <value>Python</value>
+                  <value>Ruby</value>
+                  <value>Scala</value>
+                  <value>Scheme</value>
+                </list>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        
+        <bean parent="Uif-InputField" p:label="Suggest 9"
+              p:instructionalText="custom selection (sets hidden, input, and info), press arrow down for all options or type c"
+              p:propertyName="field70" p:additionalHiddenPropertyNames="field71"
+              p:propertyNamesForAdditionalDisplay="field72">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "edu.sampleu.demo.TestSuggestClass.getComplexOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="select">
+                    <value>
+                    function( event, ui ) {
+                    	jQuery( "input[name='field71']" ).val( ui.item.value );
+                    	jQuery( "input[name='field70']" ).val( ui.item.label );
+                    	jQuery( "span[id$='_info_field72']").html( ui.item.description );
+
+                    	return false;
+                    }
+                    </value>
+                  </entry>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+</beans>

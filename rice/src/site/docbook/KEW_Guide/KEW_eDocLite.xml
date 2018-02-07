@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KEW_eDocLite" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+        <title>Creating an eDocLite Application</title>
+        <section>
+            <title>Overview</title>
+            <para>eDocLite is a simple, form-based system that is built into Kuali Enterprise
+                Workflow (KEW). It facilitates rapid development and implementation of simple
+                documents and validation rules using XML. Use it for simple documents with simple
+                route paths. You can integrate it with larger applications using a database layer
+                post-processor component. </para>
+            <para>eDocLite uses an XSLT style sheet for custom presentation and XML to define form
+                fields. The actual form display is called an EDL. This diagram shows how these
+                objects are related:</para>
+            <para>Key Ideas:<itemizedlist>
+                    <listitem>
+                        <para>Rapid implementation and development solution for simpler documents
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Easily re-configured </para>
+                    </listitem>
+                    <listitem>
+                        <para>Easily manageable </para>
+                    </listitem>
+                    <listitem>
+                        <para>Entirely web-based from design/development and user perspectives
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>No java code required for developments; only XML with optional
+                            javascript for client side editing (workflow handles execution) </para>
+                    </listitem>
+                    <listitem>
+                        <para>Some validation javascript is automatically generated like regular
+                            expression editing and 'required field checking'. </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para><figure>
+                <title>EDL Controller Chain</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KEW_Guide/edl_controller_chain.png" scalefit="1" width="100%" contentdepth="100%" />
+                        </imageobject>
+                    </mediaobject>
+            </figure>
+            </para>
+        </section>
+        <section>
+            <title>Components</title>
+            <section>
+                <title>Field Definitions</title>
+                <para>You need to define eDocLite fields to capture data that is passed to the
+                    server for storage. </para>
+                <para>Key Information about eDocLite fields:<itemizedlist>
+                        <listitem>
+                            <para>Save eDocLite data fields as key value pairs in two columns of a
+                                single database table. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Use the xml element name as the key. </para>
+                        </listitem>
+                        <listitem>
+                            <para>You do not need to make any database-related changes when building
+                                eDocLite web applications. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Store documents by document number. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Make all field names unique within a document type. </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para>The code example below focuses on the EDL section of the eDocLite form
+                    definition. The file Edoclite.xsd found in source under the
+                    impl/src/main/resources/schema/ directory describes the xml rules for this
+                    section.</para>
+                <para>Note that the first few lines proceeding <emphasis role="italic">&lt;edl
+                        name="eDoc.Example1.Form"</emphasis> relate to namespace definitions. These
+                    are common across all eDocLites, so this guide does not discuss them. </para>
+                <para>In this example, any XML markup that has no value shown or that is not
+                    explained offers options that are not important at this time.</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;edoclite xmlns="ns:workflow/eDocLite " xsi:schemaLocation="ns:workflow/eDocLite  resource:eDocLite ">
+
+    &lt;edl name="eDoc.Example1.Form" title="Example 1">
+        &lt;security />
+        &lt;createInstructions>** Questions with an asterisk are required.&lt;/createInstructions>
+        &lt;instructions>** Questions with an asterisk are required.&lt;/instructions>
+        &lt;validations />
+        &lt;attributes />
+        &lt;fieldDef name="userName" title="Full Name">
+            &lt;display>
+                &lt;type>text&lt;/type>
+                &lt;meta>
+                    &lt;name>size&lt;/name>
+                    &lt;value>40&lt;/value>
+                &lt;/meta>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;message>Please enter your full name&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="rqstDate" title="Requested Date of Implementation:">
+            &lt;display>
+                &lt;type>text&lt;/type>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;regex>^[0-1]?[0-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$&lt;/regex>
+                &lt;message>Enter a valid date in the format mm/dd/yyyy.&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="requestType" title="Request Type:">
+            &lt;display>
+                &lt;type>radio&lt;/type>
+                &lt;values title="New">New&lt;/values>
+                &lt;values title="Modification">Modification&lt;/values>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;message>Please select a request type.&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef attributeName="EDL.Campus.Example" name="campus" title="Campus:">
+            &lt;display>
+                &lt;type>select&lt;/type>
+                &lt;values title="IUB">IUB&lt;/values>
+                &lt;values title="IUPUI">IUPUI&lt;/values>
+            &lt;/display>
+            &lt;validation required="true">
+                &lt;message>Please select a campus.&lt;/message>
+            &lt;/validation>
+        &lt;/fieldDef>
+        &lt;fieldDef name="description" title="Description of Request:">
+            &lt;display>
+                &lt;type>textarea&lt;/type>
+                &lt;meta>
+                    &lt;name>rows&lt;/name>
+                    &lt;value>5&lt;/value>
+                &lt;/meta>
+                &lt;meta>
+                    &lt;name>cols&lt;/name>
+                    &lt;value>60&lt;/value>
+                &lt;/meta>
+                &lt;meta>
+                    &lt;name>wrap&lt;/name
+                    &lt;value>hard&lt;/value>
+                &lt;/meta>
+            &lt;/display>
+            &lt;validation required="false" />
+        &lt;/fieldDef>
+        &lt;fieldDef name="fundedBy" title="My research/sponsored program work is funded by NIH or NSF.">
+            &lt;display>
+                &lt;type>checkbox&lt;/type>
+                &lt;values title="My research/sponsored program work is funded by NIH or NSF.">nihnsf&lt;/values
+            &lt;/display>
+        &lt;/fieldDef>
+        &lt;fieldDef name="researchHumans" title="My research/sponsored program work involves human subjects.">
+            &lt;display>
+                &lt;type>checkbox&lt;/type>
+                &lt;values title="My research/sponsored program work involves human subjects.">humans&lt;/values>
+            &lt;/display>
+        &lt;/fieldDef>
+    &lt;/edl>
+    &lt;/eDocLite>
+&lt;/data></programlisting>
+                <para>In the EDL XML file, field definition is embodied in the <emphasis role="bold"
+                        >edl</emphasis> element. This element has a <emphasis role="bold"
+                        >name</emphasis> attribute that is used to identify this file as a
+                    definition of an EDL form. It often has a <emphasis role="bold">title</emphasis>
+                    for display purposes.</para>
+                <para>Examination of this code shows that <itemizedlist>
+                        <listitem>
+                            <para>Individual fields have names, titles, and types. The types closely
+                                match html types. </para>
+                        </listitem>
+                        <listitem>
+                            <para>You can easily use simple validation attributes and sub-attributes
+                                to ensure that a field is entered if required and that an
+                                appropriate error message is presented if no value is provided by
+                                the web user. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Regular expressions enhance the edit criteria without using custom
+                                JavaScript. (There are several ways that you can invoke custom
+                                JavaScript for a field, but they are not shown in this example.)
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>An important field named campus has syntax that defines the value
+                                used to drive the routing destination. (In more complex documents,
+                                several fields are involved in making the routing decision.) </para>
+                        </listitem>
+                    </itemizedlist></para>
+            </section>
+            <section>
+                <title>XSLT Style Sheet</title>
+                <para>The next section of the EDL XML file is the XSLT style sheet. It renders the
+                    EDL that the browser will present and contains logic to determine how data is
+                    rendered to the user.</para>
+                <para>A major workhorse of the XSLT code is contained in a style sheet library
+                    called <emphasis role="bold">widgets.xml</emphasis>. In the example below, it's
+                    included in the style sheet using an <emphasis role="italic"
+                        >xsl:include</emphasis> directive.</para>
+                <para>Workflow Java classes have API's that offer methods that supply valuable
+                    information to the XSLT style sheet logic. XML allows you to interrogate the
+                    current value of <emphasis role="italic">EDL</emphasis>-defined fields, and it
+                    provides a variety of built-in functions.</para>
+                <para>Together, these helpers allow the eDocLite style sheet programmer to focus on
+                    rendering fields and titles using library (widget) calls and to perform
+                    necessary logic using the constructs built into the XML language(<emphasis
+                        role="bold">if</emphasis>, <emphasis role="bold">choose…when</emphasis>,
+                    etc.).</para>
+                <para>This is the area of eDocLite development that takes the longest and is the
+                    most tedious. Much of what the eDocLite style sheet programmer writes focuses on
+                    which fields and titles appear, in what order, to which users, and whether the
+                    fields are <emphasis role="italic">readOnly</emphasis>, <emphasis role="italic"
+                        >editable</emphasis>, or <emphasis role="italic">hidden</emphasis>.</para>
+                <para>Below is the style sheet section of the EDL XML form for our example. It
+                    contains embedded comments.</para>
+                <programlisting>&lt;!-- widgets is simply more xslt that contains common functionality that greatly simplifies html rendering 
+It is somewhat complicated but does not require changes or full understanding unless enhancements are required.  -->
+&lt;xsl:include href="widgets" />
+&lt;xsl:output indent="yes" method="html" omit-xml-declaration="yes" version="4.01" />
+
+&lt;!-- variables in the current version of xslt cannot be changed once set. Below they are set to various values often fed by java classes or to
+values contained in workflow xml. Not all of these are used in this form but are shown because often they can be useful
+The ones prefixed with my-class are methods that are exposed by workflow to eDocLite .-->
+&lt;xsl:variable name="actionable" select="/documentContent/documentState/actionable" />
+&lt;xsl:variable name="docHeaderId" select="/documentContent/documentState/docId" />
+&lt;xsl:variable name="editable" select="/documentContent/documentState/editable" />
+&lt;xsl:variable name="globalReadOnly" select="/documentContent/documentState/editable != 'true'" />
+&lt;xsl:variable name="docStatus" select="//documentState/workflowDocumentState/status" />
+&lt;xsl:variable name="isAtNodeInitiated" select="my-class:isAtNode($docHeaderId, 'Initiated')" />
+&lt;xsl:variable name="isPastInitiated" select="my-class:isNodeInPreviousNodeList('Initiated', $docHeaderId)" />
+&lt;xsl:variable name="isUserInitiator" select="my-class:isUserInitiator($docHeaderId)" />
+&lt;!-- &lt;xsl:variable name="workflowUser" select="my-class:getWorkflowUser().authenticationUserId().id()" /> This has a unique implementation at IU -->
+&lt;xsl:param name="overrideMain" select="'true'" />
+
+&lt;!-- mainForm begins here. Execution of stylesheet begins here. It calls other templates which can call other templates.
+Position of templates beyond this point do not matter. -->
+&lt;xsl:template name="mainForm">
+    &lt;html xmlns="">
+        &lt;head>
+            &lt;script language="javascript" />
+            &lt;xsl:call-template name="htmlHead" />
+        &lt;/head>
+        &lt;body onload="onPageLoad()">
+            &lt;xsl:call-template name="errors" />
+            &lt;!-- the header is useful because it tells the user whether they are in 'Editing' mode or 'Read Only' mode. -->
+            &lt;xsl:call-template name="header" />
+            &lt;xsl:call-template name="instructions" />
+            &lt;xsl:variable name="formTarget" select="'eDocLite '" />
+            &lt;!-- validateOnSubmit is a javascript function (file: edoclite1.js) which supports edoclite forms and can be somewhat complicated 
+                 but does not
+ require modification unless enhancements are required. -->
+            &lt;form action="{$formTarget}" enctype="multipart/form-data" id="edoclite" method="post" onsubmit="return validateOnSubmit(this)">
+                &lt;xsl:call-template name="hidden-params" />
+                &lt;xsl:call-template name="mainBody" />
+                &lt;xsl:call-template name="notes" />
+                &lt;br />
+                &lt;xsl:call-template name="buttons" />
+                &lt;br />
+            &lt;/form>
+            &lt;xsl:call-template name="footer" />
+        &lt;/body>
+    &lt;/html>
+&lt;/xsl:template>
+
+&lt;!-- mainBody template begins here. It calls other templates which can call other templates. Position of templates do not matter. -->
+&lt;xsl:template name="mainBody">
+    &lt;!-- to debug, or see values of previously created variables, one can use the following format.
+         for example, uncomment the following line to see value of $docStatus. It will be rendered at the top of the main body form. -->
+    &lt;!-- $docStatus=&lt;xsl:value-of select="$docStatus" /> -->
+    &lt;!-- rest of this all is within the form table -->
+    &lt;table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="80%">
+        &lt;tr>
+            &lt;td align="left" border="3" class="thnormal" colspan="1">
+&lt;br />
+&lt;h3>
+My Page
+&lt;br />
+EDL EDoclite Example
+&lt;/h3>
+&lt;br />
+&lt;/td>
+            &lt;td align="center" border="3" class="thnormal" colspan="2">
+&lt;br />
+&lt;h2>eDocLite Example 1 Form&lt;/h2>&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="headercell5" colspan="100%">
+&lt;b>User Information&lt;/b>
+&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'userName'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+                &lt;font color="#ff0000">*&lt;/font>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'userName'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="headercell5" colspan="100%">
+&lt;b>Other Information&lt;/b>
+&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'rqstDate'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+                &lt;font color="#ff0000">*&lt;/font>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'rqstDate'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'campus'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+                &lt;font color="#ff0000">*&lt;/font>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'campus'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'description'" />
+                    &lt;xsl:with-param name="renderCmd" select="'title'" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+            &lt;td class="datacell">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'description'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal" colspan="2">
+&lt;b>(Check all that apply)&lt;/b>
+&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="datacell" colspan="2">
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'fundedBy'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+                &lt;br />
+                &lt;xsl:call-template name="widget_render">
+                    &lt;xsl:with-param name="fieldName" select="'researchHumans'" />
+                    &lt;xsl:with-param name="renderCmd" select="'input'" />
+                    &lt;xsl:with-param name="readOnly" select="$isPastInitiated" />
+                &lt;/xsl:call-template>
+                &lt;br />
+            &lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="headercell1" colspan="100%">
+&lt;b>Supporting Materials&lt;/b>&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td class="thnormal" colspan="100%">Use the Create Note box below to attach supporting materials to your request. Notes may be added with or without attachments. Click the red 'save' button on the right.&lt;/td>
+        &lt;/tr>
+    &lt;/table>
+    &lt;br xmlns="" />
+&lt;/xsl:template>
+&lt;xsl:template name="nbsp">
+    &lt;xsl:text disable-output-escaping="yes">&amp;amp;nbsp;&lt;/xsl:text>
+&lt;/xsl:template>
+&lt;/xsl:stylesheet>
+&lt;/style>
+</programlisting>
+                <para>The beginning portion of this style sheet defines some XSL variables that are
+                    often useful to drive logic choices. For simplicity, this example uses very
+                    little logic. </para>
+                <para>The <emphasis role="italic">isPastInitiated</emphasis> variable drives whether
+                    a user-defined EDL field renders readOnly or not. </para>
+                <para>The <emphasis role="italic">mainform</emphasis> often serves to call some
+                    common widget templates that add canned functionality. The <emphasis
+                        role="italic">mainform</emphasis> then calls the <emphasis role="italic"
+                        >mainBody</emphasis> template, which creates the html to render the
+                    EDL-defined fields. The <emphasis role="italic">mainform</emphasis> then
+                    (optional) calls the notes, buttons, and footer templates.</para>
+                <para>The majority of your programming effort goes into the <emphasis role="italic"
+                        >mainBody</emphasis>, where calls to <emphasis role="italic"
+                        >widget_render</emphasis> generate much of the field-specific title and
+                    value information. Various options can be passed into <emphasis role="italic"
+                        >widgets_render</emphasis> to allow client events to be executed. The
+                        <emphasis role="italic">mainBody</emphasis> is usually one or more html
+                    tables and sometimes makes calls to programmer-defined sub-templates. The XSLT
+                    stylesheet generates the HTML rendered by the browser.</para>
+                <para>The main and repeating theme of the example involves calling <emphasis
+                        role="italic">widget_render</emphasis> with the title of an EDL field,
+                    followed by calling <emphasis role="italic">widget_render</emphasis> again with
+                    the input field. Widgets are a wrapper for XSLT stylesheets that offer the
+                    ability to create HTML. Parameters offer different ways to render HTML when
+                    making calls to widgets. Note that the variable value <emphasis role="italic"
+                        >$isPastInitiated</emphasis> is passed as a parameter to widgets_render so
+                    that the html <emphasis role="italic">readOnly</emphasis> attribute is generated
+                    when the form is past the initiator's node.</para>
+            </section>
+        </section>
+        <section>
+            <title>Lazy importing of EDL Styles</title>
+            <para>You can configure Rice to lazily import an eDocLite style into the database on
+                demand by setting a custom configuration parameter.<itemizedlist>
+                    <listitem>
+                        <para>Create a custom stylesheet file, e.g. myricestyle.xml containing a
+                            style with a unique name, e.g. "xyzAppStyle" and store it in a location
+                            that is locally accessible to your application server. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Set a configuration parameter named <emphasis role="bold"
+                                >edl.style.&lt;style-name></emphasis> with the value being a path to
+                            the file containing your style. Following the example above, you would
+                            name your parameter "edl.style.xyzAppStyle". </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>The stylesheet file could referenced could contain a full EDL, or be a standalone
+                EDL style. On first use of that named style by an EDL, the file will be parsed and
+                the named style will be imported into the database. The following example contains
+                just an eDocLite XSL stylesheet:</para>
+            <programlisting>&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite">
+        &lt;style name="xyzAppStyle">
+            &lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wf="http://xml.apache.org/xalan/java/org.kuali.rice.kew.edoclite.WorkflowFunctions">
+                &lt;!-- your custom stylesheet -->
+            &lt;/xsl:stylesheet>
+        &lt;/style>
+    &lt;/edoclite>
+
+&lt;/data>
+</programlisting>
+            <para>Note that in a default Rice installation (starting in version 1.0.2), the
+                "widgets" style is lazily imported using this mechanism. In
+                common-config-defaults.xml (which is located in the rice-impl jar), the following
+                parameter is defined:</para>
+            <programlisting>&lt;param name="edl.style.widgets" override="false">classpath:org/kuali/rice/kew/edl/default-widgets.xml&lt;/param></programlisting>
+            <para>If you wanted to override that file, you could define your own parameter in your
+                Rice XML configuration file using the above example as a template, but removing the
+                override="false" attribute.</para>
+            <section>
+                <title>Document Type</title>
+                <para>A <emphasis role="italic">document type</emphasis> defines the workflow
+                    process for an eDocLite. You can create hierarchies where Child document types
+                    inherit attributes of their Parents. At some level, a document type specifies
+                    routing information. The document type definition for our first example follows.
+                    It contains routing information that describes the route paths possible for a
+                    document.</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>eDoc.Example1Doctype&lt;/name>
+            &lt;parent>eDoc.Example1.ParentDoctype&lt;/parent>
+            &lt;description>eDoc.Example1 Request DocumentType&lt;/description>
+            &lt;label>eDoc.Example1 Request DocumentType&lt;/label>
+            &lt;postProcessorName>org.kuali.rice.kew.edl.EDocLitePostProcessor&lt;/postProcessorName>
+            &lt;superUserGroupName namespace="KUALI">eDoc.Example1.SuperUsers&lt;/superUserGroupName>
+            &lt;blanketApprovePolicy>NONE&lt;/blanketApprovePolicy>
+            &lt;defaultExceptionGroupName namespace="KUALI">eDoc.Example1.defaultExceptions&lt;/defaultExceptionGroupName>
+            &lt;docHandler>${workflow.url}/EDocLite&lt;/docHandler>
+            &lt;active>true&lt;/active>
+            &lt;routingVersion>2&lt;/routingVersion>
+            &lt;routePaths>
+                &lt;routePath>
+                    &lt;start name="Initiated" nextNode="eDoc.Example1.Node1" />
+                    &lt;requests name="eDoc.Example1.Node1" />
+                &lt;/routePath>
+            &lt;/routePaths>
+            &lt;routeNodes>
+                &lt;start name="Initiated">
+                    &lt;activationType>P&lt;/activationType>
+                    &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+                    &lt;finalApproval>false&lt;/finalApproval>
+                &lt;/start>
+                &lt;requests name="eDoc.Example1.Node1">
+                    &lt;activationType>P&lt;/activationType>
+                    &lt;ruleTemplate>eDoc.Example1.Node1&lt;/ruleTemplate>
+                    &lt;mandatoryRoute>false&lt;/mandatoryRoute>
+                    &lt;finalApproval>false&lt;/finalApproval>
+                &lt;/requests>
+            &lt;/routeNodes>
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+                <para>The Parent element refers to a hierarchical order of the document types.
+                    Usually, you create one Root document type with limited but common information.
+                    Then, under that, you create more specific document types. In our example, there
+                    are only two levels.</para>
+                <para>The Root document type definition for our first example:</para>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        &lt;documentType>
+            &lt;name>eDoc.Example1.ParentDoctype&lt;/name>
+            &lt;description>eDoc.Example1 Parent Doctype&lt;/description>
+            &lt;label>eDoc.Example1 Parent Document&lt;/label>
+            &lt;postProcessorName>org.kuali.rice.kew.edl.EDocLitePostProcessor&lt;/postProcessorName>
+            &lt;superUserGroupName namespace="KUALI">eDoc.Example1.SuperUsers&lt;/superUserGroupName>
+            &lt;blanketApprovePolicy>NONE&lt;/blanketApprovePolicy>
+            &lt;docHandler>${workflow.url}/EDocLite&lt;/docHandler>
+            &lt;active>true&lt;/active>
+            &lt;routingVersion>2&lt;/routingVersion>
+            &lt;routePaths />
+        &lt;/documentType>
+    &lt;/documentTypes>
+&lt;/data>
+</programlisting>
+                <para>A Child document type can inherit most element values, although you must
+                    define certain element values, like <emphasis role="italic"
+                        >postProcessor</emphasis>, for each Child document type.</para>
+                <para>A brief explanation of elements that are not intuitive is below. You can find
+                    additional element explanations by reading the Document Type Guide.</para>
+            </section>
+            <section>
+                <title>Parent DocType</title>
+                <para><emphasis role="bold">postProcessorName</emphasis> - Use the default, as shown
+                    above, unless special processing is needed. </para>
+                <para><emphasis role="bold">blanketApprovePolicy</emphasis> – When specified as
+                    NONE, this means that a user cannot click a single button that satisfies
+                    multiple levels of approval. </para>
+                <para><emphasis role="bold">dochandler</emphasis> - Use the default, as shown above,
+                    so URLs are automatically unique in each environment, based on settings in the
+                    Application Constants (i.e., unique in each Test environment and unique again in
+                    Production). </para>
+                <para><emphasis role="bold">active</emphasis> - Set this element to <emphasis
+                        role="italic">false</emphasis> to disable this feature. </para>
+                <para><emphasis role="bold">routingVersion</emphasis> - Use the default, as shown
+                    above. </para>
+            </section>
+            <section>
+                <title>Child DocType</title>
+                <para><emphasis role="bold">name</emphasis> - The name value must exactly match the
+                    value in the <emphasis role="italic">EDL Association</emphasis> document type
+                    element. </para>
+                <para><emphasis role="bold">parent</emphasis> - The parent value must exactly match
+                    the name value of the parent document type. </para>
+                <para><emphasis role="bold">superUserGroupName</emphasis> - A group of people who
+                    have special privileges that can be defined using the management service that's
+                    part of the KIM module. </para>
+                <para><emphasis role="bold">defaultExceptionGroupName</emphasis> - A group of people
+                    who address a document of this type when it goes into Exception routing </para>
+                <para><emphasis role="bold">routePaths</emphasis> and <emphasis role="bold"
+                        >routePath</emphasis> - The initial elements that summarize the routing path
+                    the document will follow. In our example, an initiator fills out an eDocLite
+                    form. When the initiator submits that form, where it is routed depends on the
+                    value in the <emphasis role="italic">Campus</emphasis> field. There is only one
+                    destination node in our first example. The submitted form goes to either the IUB
+                    person or the IUPUI person, depending on the selection in the <emphasis
+                        role="italic">Campus</emphasis> field. </para>
+                <para>In most cases, a workgroup of people is the destination for an EDL form, not a
+                    single person. Workgroups are used as destinations because anyone in the
+                    workgroup can open the document, edit it, and click an <emphasis role="bold"
+                        >Action</emphasis> button that routes the document to the next node. This
+                    prevents delays when someone is out of the office and a document awaits their
+                    action.</para>
+                <para>When the initiator submits the document, KEW adds that document to the Action
+                    List of the destination person or workgroup. The destination person or workgroup
+                    can then open the document, edit it (if any fields are available for editing),
+                    and click an <emphasis role="bold">Action</emphasis> button such as <emphasis
+                        role="bold">Approve</emphasis>, which routes the document onward. In our
+                    case, there is no further destination, so when the destination person or
+                    workgroup approves the document, the document becomes <emphasis role="bold"
+                        >Final</emphasis> (it is finished). Some real-life examples have ten or more
+                    nodes for approvals or other actions. A document may bypass some of those nodes,
+                    depending on data placed into the form by previous participants. </para>
+                <para><emphasis role="bold">routeNodes</emphasis>- Redefines the route path. </para>
+                <para><emphasis role="bold">activationType</emphasis>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">P</emphasis> stands for <emphasis
+                                    role="italic">parallel</emphasis> and is almost always used.
+                                This value makes more sense when considered from a <emphasis
+                                    role="italic">target node</emphasis> perspective. From that
+                                perspective, it means that if a workgroup of people all received the
+                                document in their Action List, any one, in any order, can approve
+                                it. Once it is approved by anyone in the workgroup, it is routed to
+                                the next node, and KEW removes the document from the Action List of
+                                all the people in the workgroup. activationType </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">S</emphasis> stands for <emphasis
+                                    role="italic">sequential</emphasis> and is reserved for special
+                                cases where rules can specify that two or more people in a workgroup
+                                must take Action on a document, in a specific order, before KEW will
+                                route the document to the next node. </para>
+                        </listitem>
+                    </itemizedlist></para>
+                <para><emphasis role="bold">mandatoryRoute</emphasis> - Use <emphasis role="italic"
+                        >false</emphasis> unless there is a special condition to solve. When this
+                    parameter is set to <emphasis role="italic">true</emphasis>, the document goes
+                    into exception routing if an approve request isn't generated by the
+                    ruleTemplate. This means that you are only expecting an <emphasis role="italic"
+                        >approve</emphasis>, and nothing else. </para>
+                <para><emphasis role="bold">finalApproval</emphasis> - Use false unless there is a
+                    special condition to solve. When this parm is set to true, the document goes
+                    into exception routing if approves are generated after this route node. This
+                    means this must be the last Action, or it will go into exception routing. (Be
+                    careful, because if this parameter is set to true and a user clicks a Return to
+                    Previous button, then the next action button clicked sends the document into
+                    exception handling.) </para>
+                <para><emphasis role="bold">requests name</emphasis>= "..." - Defines the name of
+                    the node </para>
+                <para><emphasis role="bold">ruleTemplate</emphasis> - A named entity type that helps
+                    define which routing rule fires. In our example, the <emphasis role="italic"
+                        >ruleTemplate</emphasis> name is the same as the <emphasis role="italic"
+                        >request</emphasis> name. These field values do NOT need to be the same.
+                    They are simply identifiers. </para>
+            </section>
+            <section>
+                <title>Rule Attributes</title>
+                <para>The RuleAttribute is a mechanism that can relate directly to an edl field.
+                    Most rule attributes are of the xml rule attribute type. This type uses an xpath
+                    statement which is used by the workflow engine to match to a rule that fires or
+                    does not fire. </para>
+                <para>In the below example, it can be seen that the edl defined field named 'campus'
+                    and its permissible values are defined. Then in the xpathexpression element
+                    says; when the value in the edl field named 'campus' matches the rule that
+                    contains 'IUB' the rule will fire. Or when the value in the edl field named
+                    'campus' matches the rule that contains 'IUPUI' that rule will fire instead.
+                    Rules firing route a document to a person or a workgroup of people. </para>
+                <para>To make another rule attribute for a different field, clone this one, change
+                    all references to the field 'campus' to your different edl field name. Then cut
+                    and paste in the values section. Then in the edl definition, the new field must
+                    carry the extra syntax 'attributeName='. For example the edl definition for
+                    campus looks like this: </para>
+                <programlisting>&lt;fieldDef name="campus" title="Campus" workflowType="ALL"></programlisting>
+            </section>
+            <section>
+                <title>Rule Routing</title>
+                <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    &lt;ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        &lt;ruleAttribute>
+            &lt;name>EDL.Campus.Example&lt;/name>
+            &lt;className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute&lt;/className>
+            &lt;label>EDL Campus Routing&lt;/label>
+            &lt;description>EDL School Routing&lt;/description>
+            &lt;type>RuleXmlAttribute&lt;/type>
+            &lt;routingConfig>
+                &lt;fieldDef name="campus" title="Campus" workflowType="ALL">
+                    &lt;display>
+                        &lt;type>select&lt;/type>
+                        &lt;values title="IUB">IUB&lt;/values>
+                        &lt;values title="IUPUI">IUPUI&lt;/values>
+                    &lt;/display>
+                    &lt;validation required="false" />
+                    &lt;fieldEvaluation>
+                        &lt;xpathexpression>//campus = wf:ruledata('campus')&lt;/xpathexpression>
+                    &lt;/fieldEvaluation>
+                &lt;/fieldDef>
+                &lt;xmlDocumentContent>
+                    &lt;campus>%campus%&lt;/campus>
+                &lt;/xmlDocumentContent>
+            &lt;/routingConfig>
+        &lt;/ruleAttribute>
+    &lt;/ruleAttributes>
+
+&lt;/data>
+</programlisting>
+                <para>Rule attributes can have a different types such a searchable, but this type
+                    does not have to do with routing. Instead it relates to additional columns that
+                    are displayed in doc search for a particular doc type.</para>
+            </section>
+            <section>
+                <title>Ingestion Order</title>
+                <para>Many components can go in at any time, but it is advisable to follow a pattern
+                    to minimize the conflicts that can occur. A few pieces are co-dependent.<orderedlist>
+                        <listitem>
+                            <para>Basic Components: </para>
+                        </listitem>
+                        <listitem>
+                            <para>Widgets.xml (If changed or not previously in the environment)
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Kim Group(s) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule Attributes </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule Template(s) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Parent Doctype (often no routing so data is more generic, but do
+                                put routing here if children will use common routing.) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Children Doctype(s) (routing defined here or on Parent) </para>
+                        </listitem>
+                        <listitem>
+                            <para>EDL Form </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rule routing rule (Used if rules are created; explained later- 1
+                                per parent doctype) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Rules (Create or Ingest) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Anything else - Like optional custom Email Stylesheet </para>
+                        </listitem>
+                    </orderedlist></para>
+            </section>
+        </section>
+</chapter>

@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/util 
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">       
+  
+
+
+  <bean id="AgendaEditorMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.ui.AgendaEditor"/>
+    <property name="maintainableClass" value="org.kuali.rice.krms.impl.ui.AgendaEditorMaintainable"/>
+    <property name="documentTypeName" value="AgendaEditorMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krms.impl.authorization.AgendaEditorAuthorizer"/>
+    <property name="businessRulesClass" value="org.kuali.rice.krms.impl.rule.AgendaEditorBusRule" />
+    <property name="lockingKeys">
+      <list>
+        <value>agenda.id</value>
+      </list>
+    </property>
+  </bean>
+  
+  <util:list id="buttonClasses">
+    <value>ui-priority-secondary-sm</value>
+    <!-- <value>ui-widget</value> -->
+  </util:list>
+
+  <bean id="AgendaTreeWidget" parent="Uif-Tree">
+    <property name="template" value="/krad/WEB-INF/ftl/components/widget/agendaTree.ftl"/>
+    <property name="templateName" value="uif_agendaTree"/>
+  </bean>
+
+  <bean id="Editor-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="additionalScriptFiles">
+      <list merge="true">
+        <value>krms/scripts/ruleTree.js</value>
+        <value>krms/scripts/agendaTree.js</value>
+        <value>krms/scripts/requiredAlerts.js</value>
+        <value>krms/scripts/disableButtons.js</value>
+        <value>krms/scripts/countdownInputs.js</value>
+        <value>krms/scripts/rulebo-maintenanceview.js</value>
+      </list>
+    </property>
+    <property name="additionalCssFiles">
+      <list merge="true">
+        <value>krms/css/agendaTree.css</value>
+        <value>krms/css/disableButtons.css</value>
+      </list>
+    </property>
+    <property name="headerText" value="Agenda Editor"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.ui.AgendaEditor"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krms.impl.ui.AgendaEditorMaintainable"/>
+    <property name="items">
+      <list> 
+        <bean id="AgendaEditorView-Agenda-Page" parent="AgendaEditorView-Agenda-Page-Parent"/>
+        <bean id="AgendaEditorView-AddRule-Page" parent="AgendaEditorView-AddRule-Page-Parent"/>
+        <bean id="AgendaEditorView-EditRule-Page" parent="AgendaEditorView-EditRule-Page-Parent"/>
+      </list>
+    </property>
+    <property name="singlePageView" value="false"/>
+    <property name="entryPageId" value="AgendaEditorView-Agenda-Page"/>
+  </bean>
+
+  <bean id="AgendaEditorView-Agenda-Page-Parent" parent="Uif-Page">
+    <property name="items">
+      <list>
+        <bean parent="AgendaEditorView-AgendaSection" />
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-DocumentPageFooter"/>
+    </property>
+  </bean>
+
+  <bean id="AgendaEditorView-AddRule-Page-Parent" parent="Uif-Page">
+    <property name="items">
+      <list>
+        <bean parent="ruleEditorBody">
+        </bean>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase">
+        <property name="items">
+          <list>
+            <bean parent="Uif-NavigationActionButton" p:methodToCall="addRule" p:actionLabel="Add Rule" p:performDirtyValidation="false">
+              <property name="cssClasses">
+                <list merge="true">
+                  <value>tree-bar-button</value>
+                  <value>kr-add-button</value>
+                </list>
+              </property>
+            </bean>
+            <bean parent="Uif-NavigationActionButton" p:navigateToPageId="AgendaEditorView-Agenda-Page" p:actionLabel="Cancel"/>
+          </list>
+        </property>
+      </bean>
+   </property>
+  </bean>
+
+  <bean id="AgendaEditorView-EditRule-Page-Parent" parent="Uif-Page">
+    <!-- property name="headerText" value="Agenda: @{#dp.agenda.name}" see KULRICE-6301 and KULRICE-6296 / -->
+    <property name="items">
+      <list>
+        <!-- work around for title issues above, though apparently new agenda's don't have the name set so this doesn't get displayed -->
+        <bean parent="Uif-Message" p:messageText="Agenda: @{#dp.agenda.name}" p:style="font-size: 1.6em; font-weight:bold;" p:cssClasses="kr-page-title-header"/>
+        <bean parent="ruleEditorBody">
+        </bean>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase">
+        <property name="items">
+          <list>
+            <bean parent="Uif-NavigationActionButton" p:methodToCall="editRule" p:actionLabel="Update Rule" />
+            <bean parent="Uif-NavigationActionButton" p:navigateToPageId="AgendaEditorView-Agenda-Page" p:actionLabel="Cancel"/>
+          </list>
+        </property>
+      </bean>
+   </property>
+  </bean>
+
+  <bean id="AgendaEditorView-ViewRule-Page-Parent" parent="Uif-Page">
+    <!-- property name="headerText" value="Agenda: @{#dp.agenda.name}" see KULRICE-6301 and KULRICE-6296 / -->
+    <property name="items">
+      <list>
+        <!-- work around for title issues above, though apparently new agenda's don't have the name set so this doesn't get displayed -->
+        <bean parent="Uif-Message" p:messageText="Agenda: @{#dp.agenda.name}" p:style="font-size: 1.6em; font-weight:bold;" p:cssClasses="kr-page-title-header"/>
+        <bean parent="ruleEditorBody">
+        </bean>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Uif-FooterBase">
+        <property name="items">
+          <list>
+            <bean parent="Uif-NavigationActionButton" p:navigateToPageId="AgendaEditorView-Agenda-Page" p:actionLabel="return to agenda"/>
+          </list>
+        </property>
+      </bean>
+   </property>
+  </bean>
+
+  <bean id="AgendaEditorView-AgendaSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="headerText" value="Agenda" />
+    <property name="items">
+      <list>
+        <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+          <property name="items">
+            <list>
+
+              <bean parent="Uif-InputField" p:propertyName="namespace" p:label="Namespace" p:required="true">
+                <property name="control">
+                  <bean parent="Uif-DropdownControl" p:cssClasses="agenda-namespace"/>
+                </property>
+                <property name="optionsFinder">
+                  <bean class="org.kuali.rice.krms.impl.repository.AgendaNamespaceValuesFinder" />
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="agenda.name" p:label="Name" p:required="true" p:constraintText="size 100">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="30" p:watermarkText="Enter Agenda Name" p:cssClasses="agenda-name countdown" p:maxLength="100"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="contextName" p:label="Context" p:required="true">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:size="30" p:watermarkText="Enter or Lookup Context Name" p:cssClasses="agenda-context countdown"/>
+                </property>
+
+                <!-- add a hidden sub-field to hold the context id -->
+                <property name="additionalHiddenPropertyNames" value="agenda.contextId" />
+
+                <!-- configure context quickfinder button -->
+                <!-- property name="quickfinder">
+                  <bean parent="Uif-QuickFinderByScript"/>
+                </property -->
+                <property name="quickfinder">
+                  <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krms.impl.repository.ContextBo">
+                    <property name="fieldConversions">
+                      <map>
+                        <entry key="id" value="agenda.contextId"/>
+                        <entry key="name" value="contextName"/>
+                        <entry key="namespace" value="namespace"/>
+                      </map>
+                    </property>
+                    <property name="lookupParameters">
+                      <map>
+                        <entry key="agenda.contextId" value="id"/>
+                        <entry key="contextName" value="name"/>
+                        <entry key="namespace" value="namespace"/>
+                      </map>
+                    </property>
+                  </bean>
+                </property>
+
+                <!-- suggest context names -->
+                <!--
+                <property name="suggest.render" value="true" />
+                <property name="suggest.valuePropertyName" value="name" />
+                <property name="suggest.suggestQuery.dataObjectClassName" value="org.kuali.rice.krms.impl.repository.ContextBo" />
+                <property name="suggest.suggestQuery.queryFieldMapping" value="namespace:namespace" />
+                <property name="suggest.suggestQuery.additionalCriteria">
+                  <map>
+                    <entry key="active" value="true" />
+                  </map>
+                </property>
+                -->
+
+                <!-- populate context id field on tab out based on namespace and contextName-->
+                <property name="attributeQuery">
+                    <bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.rice.krms.impl.repository.ContextBo"
+                        p:queryFieldMapping="namespace:namespace,contextName:name" p:returnFieldMapping="name:contextName,id:agenda.contextId">
+                      <property name="additionalCriteria">
+                        <map>
+                          <entry key="active" value="true" />
+                        </map>
+                      </property>
+                    </bean>
+                </property>
+
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="agenda.typeId" p:label="Type" p:required="false"
+                    p:progressiveRenderViaAJAX="true"
+                    p:progressiveRender="@{!#empty(#dp.agenda.contextId)}">
+
+                <property name="control">
+                  <bean parent="Uif-DropdownControl"/>
+                </property>
+                <property name="optionsFinder">
+                  <bean class="org.kuali.rice.krms.impl.repository.AgendaTypeValuesFinder"/>
+                </property>
+              </bean>
+
+              <bean parent="Uif-InputField" p:propertyName="agenda.active" p:label="Active">
+                <property name="control">
+                  <bean parent="Uif-CheckboxControl"/>
+                </property>
+              </bean>
+
+
+            </list>
+          </property>
+        </bean>
+
+        <!-- custom attributes on agenda -->
+        <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"
+               p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.agenda.typeId"
+               p:headerText="Type Attributes"
+               p:renderHeader="@{!#empty(#dp.agenda.typeId)}">
+
+          <property name="items">
+            <list>
+              <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customAttributesMap"
+                    p:fetchingMethodToCall="retrieveAgendaCustomAttributes"/>
+            </list>
+          </property>
+        </bean>
+
+
+        <bean parent="Uif-VerticalBoxGroup" p:style="border: 1px solid #999999; padding: 5px; margin: 5px; background: white;">
+<!--  Can't get progressive disclosure to work from the contextId for some reason
+                p:progressiveRenderViaAJAX="true" p:progressiveRender="document.newMaintainableObject.dataObject.agenda.contextId != null">
+-->
+          <property name="items">
+            <list>
+              <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt;" p:progressiveRender="@{#form.viewTypeName.toString() != 'MAINTENANCE'}">
+                <property name="items">
+                  <list>
+                    <bean parent="AgendaEditorView-TreeViewControls" />
+                  </list>
+                </property>
+              </bean>
+              <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt;" p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+                <property name="items">
+                  <list>
+                    <bean parent="AgendaEditorView-TreeEditControls" />
+                  </list>
+                </property>
+              </bean>
+              <!-- also, the bogus refreshWhenChanged is important because it puts a AgendaEditorView-TreeGroup_refreshWrapper around the group that
+                   is needed for the javascript hack that is refreshing the tree when a parameterized term specification is selected from the
+                   dropdown, like how proposition summary is done in RuleMaintance.xml -->
+              <bean id="AgendaEditorView-TreeGroup" parent="Uif-VerticalBoxGroup" p:style="margin-bottom: 5pt; margin-top:null 0em;" p:refreshWhenChangedPropertyNames="this.is.a.hack">
+                <property name="layoutManager.orientation" value="VERTICAL"/>
+                <property name="items">
+                  <list>
+                    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                    <bean id="RuleEditorView-RuleEditorMessage" parent="RuleEditorView-RuleEditorMessage-parent" p:forceSessionPersistence="true"/>
+                    <bean parent="AgendaEditorView-TreeExpandCollapse" />
+                    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                    <bean id="AgendaEditorView-Tree" parent="AgendaEditorView-Tree-parent" p:forceSessionPersistence="true" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AgendaEditorView-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+    <property name="render" value="@{!#empty(#dp.agenda.firstItemId)}" />
+    <property name="items">
+      <list>                            
+        <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');" 
+          p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
+          <property name="actionImage"><null/></property>
+        </bean>
+        <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');" 
+          p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;">
+          <property name="actionImage"><null/></property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="selectedAgendaItemId" p:showLabel="false" p:render="true">
+          <property name="control">
+            <bean parent="Uif-HiddenControl" p:cssClasses="selectedAgendaItemId"/>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="disableButtons" p:showLabel="false" p:render="true">
+          <property name="control">
+            <bean parent="Uif-HiddenControl" p:cssClasses="disableButtons"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!--
+
+   <bean id="Uif-FooterBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.container.Group" scope="prototype">
+      <property name="template" value="/krad/WEB-INF/jsp/templates/group/group.jsp"/>
+      <property name="renderHeader" value="false"/>
+      <property name="layoutManager">
+        <bean parent="Uif-HorizontalBoxLayout"/>
+      </property>
+      <property name="cssClasses" value="kr-footer"/>
+  </bean>
+
+  -->
+
+  <util:list id="AgendaEditorView-treeBarButtonClasses">
+    <value>kr-button-secondary1</value>
+    <value>tree-bar-button</value>
+  </util:list>
+
+  <bean id="AgendaEditorView-barButton" parent="Uif-SecondaryActionButton" p:actionImagePlacement="LEFT"
+        abstract="true" >
+    <property name="cssClasses">
+      <list merge="true">
+        <value>tree-bar-button</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: figure out how to style this without using kr-footer -->
+  <bean id="AgendaEditorView-TreeViewControls" parent="Uif-VerticalBoxSection"
+        p:cssClasses="krms-rulesButtonBar">
+    <property name="renderHeader" value="true"/>
+    <property name="headerText" value="Rules"/>
+    <property name="layoutManager">
+      <bean parent="Uif-HorizontalBoxLayout"/>
+    </property>
+    <property name="onDocumentReadyScript" value="loadControlsInit();"/>
+
+    <property name="items">
+      <list>
+        <!-- javascript to work around required issue -->
+        <bean parent="Uif-NavigationActionButton" p:methodToCall="viewRule" p:actionLabel="View Rule"
+              p:preSubmitCall="var requiredMessage = '';
+              if (getSelectedItemInput() == null || getSelectedItemInput().val() == undefined || getSelectedItemInput().val() == '') {
+                requiredMessage = requiredMessage + 'Please select the rule to view, then click view rule.';
+                requiredMessage = '';
+              }
+              if (requiredMessage.length > 0) {
+                alert(requiredMessage);
+                return false;
+              }
+              return true;
+              "
+               p:style="margin-right: 15pt;">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- TODO: figure out how to style this without using kr-footer -->
+  <bean id="AgendaEditorView-TreeEditControls" parent="Uif-VerticalBoxSection"
+        p:cssClasses="krms-rulesButtonBar">
+    <property name="renderHeader" value="true"/>
+    <property name="headerText" value="Rules"/>
+    <property name="layoutManager">
+      <bean parent="Uif-HorizontalBoxLayout" />
+    </property>
+
+    <property name="items">
+      <list>
+
+        <!-- infinite loading bug
+        <bean parent="AgendaEditorView-barButton" p:methodToCall="goToAddRule" p:actionLabel="Add Rule">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/node-insert-next.png"
+                  p:altText="Add Rule"/>
+          </property>
+        </bean>
+        -->
+
+        <!-- javascript to work around required issue -->
+        <bean parent="Uif-NavigationActionButton" p:methodToCall="goToAddRule" p:actionLabel="Add Rule" p:performDirtyValidation="false"
+              p:preSubmitCall="var requiredMessage = requiredsSet();
+              if (requiredMessage.length > 0) {
+                alert(requiredMessage);
+                return false;
+              }
+              return true;
+              "
+          p:style="margin-right: 15pt;">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+              <value>kr-add-button</value>
+            </list>
+          </property>
+        </bean>
+<!-- infinite loading bug
+        <bean parent="AgendaEditorView-barButton" p:methodToCall="goToEditRule" p:actionLabel="Edit Rule"  p:style="margin-right: 15pt;">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/edit.png"
+                  p:altText="Edit Rule"/>
+          </property>
+        </bean>
+-->
+        <!-- javascript to work around required issue -->
+        <bean parent="Uif-NavigationActionButton" p:methodToCall="goToEditRule" p:actionLabel="Edit Rule"
+              p:preSubmitCall="var requiredMessage = requiredsSet();
+              if (getSelectedItemInput() == null || getSelectedItemInput().val() == undefined || getSelectedItemInput().val() == '') {
+                requiredMessage = requiredMessage + 'Please select the rule to edit (or add a rule), then click edit rule.';
+              }
+              if (requiredMessage.length > 0) {
+                alert(requiredMessage);
+                return false;
+              }
+              return true;
+              "
+              p:style="margin-right: 15pt;">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>tree-bar-button</value>
+            </list>
+          </property>
+        </bean>
+<!--               p:disabled="@{document.newMaintainableObject.dataObject.selectedAgendaItemId == null}"
+                   p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.selectedAgendaItemId"
+-->
+
+        <!--
+        <bean parent="Uif-InputField" p:propertyName="maintenanceAction" p:label=""
+           p:defaultValue="below" p:style="float:none; margin-right: 15px;">
+          <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean class="org.kuali.rice.core.api.util.ConcreteKeyValue" p:key="below" p:value="below selected"/>
+                        <bean class="org.kuali.rice.core.api.util.ConcreteKeyValue" p:key="above" p:value="above selected"/>
+                        <bean class="org.kuali.rice.core.api.util.ConcreteKeyValue" p:key="inWhenTrue" p:value="in selected's 'When TRUE'"/>
+                        <bean class="org.kuali.rice.core.api.util.ConcreteKeyValue" p:key="inWhenFalse" p:value="in selected's 'When FALSE'"/>
+                    </list>
+                </property>
+            </bean>
+          </property>
+        </bean>
+         -->
+
+        <bean parent="Uif-Message" p:messageText="Move: [" p:style="display: inline;"/>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxMoveLeft', 'AgendaEditorView-TreeGroup');"
+              p:actionLabel="Left">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-left.png"
+                  p:altText="Left"/>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxMoveRight', 'AgendaEditorView-TreeGroup');"
+          p:actionLabel="Right" p:style="margin-right: 15pt;"> <!-- Horiz whitespace -->
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                  p:altText="Right"/>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxMoveUp', 'AgendaEditorView-TreeGroup');"
+              p:actionLabel="Up">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-up.png"
+                  p:altText="Up"/>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxMoveDown', 'AgendaEditorView-TreeGroup');"
+              p:actionLabel="Down">
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-down.png"
+                  p:altText="Down"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-Message" p:messageText="]" p:style="display: inline;"/>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxCut', 'AgendaEditorView-TreeGroup');"
+              p:actionLabel="Cut" p:style="margin-left: 15pt;"> <!-- Horiz whitespace -->
+          <property name="cssClasses">
+            <list merge="true">
+              <value>kr-cut-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/cut.png"
+                  p:altText="Cut"/>
+          </property>
+        </bean>
+
+        <!-- Add a conditional disable once KRAD supports this.  Disable if cut buffer is empty, something like this:
+            p:conditionalDisable="document.newMaintainableObject.dataObject.agendaItemCutPaste == null -->
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxPaste', 'AgendaEditorView-TreeGroup');"
+              p:actionLabel="Paste">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>kr-paste-button</value>
+            </list>
+          </property>
+         <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/paste.png"
+                  p:altText="Paste"/>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:actionScript="ajaxCall('ajaxDelete', 'AgendaEditorView-TreeGroup');"
+              p:actionLabel="Delete" p:style="margin-right: 15pt;"> <!-- Horiz whitespace -->
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/delete.png"
+                  p:altText="Delete"/>
+          </property>
+        </bean>
+
+        <bean parent="AgendaEditorView-barButton" p:methodToCall="refresh" p:actionLabel="refresh">
+          <property name="cssClasses">
+            <list merge="true">
+              <value>kr-refresh-button</value>
+            </list>
+          </property>
+          <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/refresh.png"
+                  p:altText="Refresh"/>
+          </property>
+        </bean>
+
+      </list>
+    </property> 
+  </bean>
+
+  <bean id="AgendaEditorView-Tree-parent" parent="Uif-TreeSection" p:disclosure.render="false" p:header.render="false" p:style="float:left; margin-left: 2em;">
+    <property name="propertyName" value="agendaRuleTree"/>
+
+    <property name="tree">
+
+      <bean parent="AgendaTreeWidget">
+        <property name="templateOptions">
+          <map>
+            <entry key="'plugins'"
+              value="['themes','html_data', 'ui', 'crrm', 'dnd']" />
+            <entry key="'themes'"
+              value="{'theme':'default','dots':'false','icons':'false'}" />
+            <entry key="'ui'" value="{ 'select_limit' : 1 }" />
+            <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }" />
+            <!-- entry key="'crrm'" value="
+            {
+            'move' : {
+                   /*
+                    * m.o - the node being dragged
+                    * m.r - the target node
+                    */
+                    'check_move' : function (m) { 
+                        var p = this._get_parent(m.o);
+                        if(!p) return false;
+                        p = p == -1 ? this.get_container() : p;
+                        
+                        if (m.o.hasClass('logicNode')) return false;
+                        
+                        if(p === m.np) return true;
+                        if(p[0] &amp;&amp; m.np[0] &amp;&amp; p[0] === m.np[0]) return true;
+                        return false;
+                    }
+                }
+            } 
+              "/ -->
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="nodePrototypeMap">
+      <map key-type="java.lang.Class">
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.AgendaTreeRuleNode) }">
+          <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+            <property name="labelPrototype">
+              <bean parent="Uif-Message"/>
+            </property>
+            <property name="dataGroupPrototype">
+              <!-- float:right is a hack to get the group for this hidden control out of the way -->
+              <bean parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="float: right;">
+                <property name="items">
+                  <list>
+                    <bean parent="Uif-DataField" p:propertyName="agendaItem.id" p:cssClasses="agendaItemId" p:additionalHiddenPropertyNames="agendaItem.id" />
+                  </list>
+                </property>
+              </bean>
+            </property>
+          </bean>
+        </entry>
+        <entry key="#{ T(org.kuali.rice.krms.impl.ui.AgendaTreeLogicNode) }">
+          <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+            <property name="labelPrototype">
+              <bean parent="Uif-Message"/>
+            </property>
+            <property name="dataGroupPrototype">
+              <bean parent="Uif-VerticalBoxGroup" />
+            </property>
+          </bean>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="RuleEditorView-RuleEditorMessage-parent" parent="Uif-HorizontalBoxGroup" p:renderHeader="false">
+    <property name="disclosure.render" value="false" />
+    <property name="items">
+      <list>
+        <bean parent="Uif-Message" p:messageText="@{#dp.ruleEditorMessage}" />
+      </list>
+    </property>
+  </bean>
+
+</beans>

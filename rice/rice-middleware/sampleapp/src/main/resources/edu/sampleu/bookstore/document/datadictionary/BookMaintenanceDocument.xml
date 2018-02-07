@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="BookMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+              <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="Book-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="parentLocation">
+      <bean parent="Uif-RicePortalParentLocation" />
+    </property>
+    <property name="breadcrumbItem.siblingBreadcrumbComponent">
+      <bean parent="Uif-MaintenanceLocationSuggestField" p:suggest.valuePropertyName="title"/>
+    </property>
+    <property name="headerText" value="Book Maintenance"/>
+    <property name="dataObjectClassName" value="edu.sampleu.bookstore.bo.Book"/>
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="headerText" value="Add/Edit Book"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="title"/>
+              <bean parent="Uif-InputField" p:propertyName="typeCode"/>
+              <bean parent="Uif-InputField" p:propertyName="isbn"/>
+              <bean parent="Uif-InputField" p:propertyName="price"/>
+              <bean parent="Uif-InputField" p:propertyName="rating"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="headerText" value="Publishing Information"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="publisher"/>
+              <bean parent="Uif-InputField" p:propertyName="publicationDate"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-MaintenanceStackedCollectionSection">
+          <property name="headerText" value="Authors"/>
+          <property name="collectionObjectClass" value="edu.sampleu.bookstore.bo.Author"/>
+          <property name="propertyName" value="authors"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="authorName"/>
+              <bean parent="Uif-InputField" p:propertyName="email"/>
+              <bean parent="Uif-InputField" p:propertyName="phoneNbr"/>
+              <bean parent="Uif-InputField" p:propertyName="active"/>
+              <bean parent="Uif-InputField" p:propertyName="extension.accountNumber"/>
+              <bean parent="Uif-InputField" p:propertyName="extension.bankName"/>
+            </list>
+          </property>
+          <property name="layoutManager.summaryTitle" value="Author"/>
+          <property name="layoutManager.summaryFields">
+            <list>
+              <value>authorId</value>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="BookMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="edu.sampleu.bookstore.bo.Book"/>
+    <property name="maintainableClass" value="edu.sampleu.bookstore.maintenance.BookMaintainable"/>
+    <property name="documentTypeName" value="BookMaintenanceDocument"/>
+    <property name="documentAuthorizerClass"
+              value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+</beans>

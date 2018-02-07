@@ -1,0 +1,91 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <workflowProperties abstract="true" id="BookMaintenanceDocument-workflowProperties-parentBean"
+                      parent="WorkflowProperties">
+    <workflowPropertyGroups>
+      <workflowPropertyGroup parent="WorkflowPropertyGroup">
+        <workflowProperties>
+          <workflowProperty parent="WorkflowProperty" path="oldMaintainableObject.businessObject"/>
+          <workflowProperty parent="WorkflowProperty" path="newMaintainableObject.businessObject"/>
+        </workflowProperties>
+      </workflowPropertyGroup>
+    </workflowPropertyGroups>
+  </workflowProperties>
+  <maintenanceView dataObjectClassName="edu.sampleu.bookstore.bo.Book" id="Book-MaintenanceView"
+                   parent="Uif-MaintenanceView">
+    <items>
+      <group headertext="Add/Edit Book" parent="Uif-MaintenanceGridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="title"/>
+          <inputField parent="Uif-InputField" propertyName="typeCode"/>
+          <inputField parent="Uif-InputField" propertyName="isbn"/>
+          <inputField parent="Uif-InputField" propertyName="price"/>
+          <inputField parent="Uif-InputField" propertyName="rating"/>
+        </items>
+      </group>
+      <group headertext="Publishing Information" parent="Uif-MaintenanceGridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="publisher"/>
+          <inputField parent="Uif-InputField" propertyName="publicationDate"/>
+        </items>
+      </group>
+      <collectionGroup collectionObjectClass="edu.sampleu.bookstore.bo.Author" headertext="Authors"
+                       layoutManager.summaryTitle="Author" parent="Uif-MaintenanceStackedCollectionSection"
+                       propertyName="authors">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="authorName"/>
+          <inputField parent="Uif-InputField" propertyName="email"/>
+          <inputField parent="Uif-InputField" propertyName="phoneNbr"/>
+          <inputField parent="Uif-InputField" propertyName="active"/>
+          <inputField parent="Uif-InputField" propertyName="extension.accountNumber"/>
+          <inputField parent="Uif-InputField" propertyName="extension.bankName"/>
+        </items>
+        <layoutManager.summaryFields>
+          <value>authorId</value>
+        </layoutManager.summaryFields>
+      </collectionGroup>
+    </items>
+  </maintenanceView>
+  <maintenanceDocumentEntry dataObjectClass="edu.sampleu.bookstore.bo.Book"
+                            documentAuthorizerClass="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"
+                            documentTypeName="BookMaintenanceDocument" id="BookMaintenanceDocument"
+                            maintainableClass="edu.sampleu.bookstore.maintenance.BookMaintainable"
+                            parent="uifMaintenanceDocumentEntry">
+    <lockingKeys>
+      <value>id</value>
+    </lockingKeys>
+  </maintenanceDocumentEntry>
+</spring:beans>

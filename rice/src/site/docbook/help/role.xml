@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="role" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">
+    <info>
+        <title>Role</title>
+    </info>
+    <para>Administration > Identity > Identity > Role</para>
+    <para>The Role document allows you to create a new KIM role and edit an existing role. Each role
+        aggregates a specific set of permissions and responsibilities and allows you to assign
+        members to the role. Rice and Rice Applications contain many existing roles that your
+        institution may want to use as is, but you may also change existing roles and add new ones
+        by using the Role document.</para>
+    <para>The purpose of each role is defined by its associated permissions and responsibilities.
+        Roles are classified by types that generally indicate the type of permissions and
+        responsibilities with which they can be associated. </para>
+    <note><para>The process of creating a new type requires technical assistance. Consequently, KIM does
+        not provide an interface for creating role types.</para></note>
+    <section>
+        <title>Document Layout</title>
+        <section><title>Creating New Roles</title>
+            <para>When you click the <emphasis role="bold">Create New</emphasis> button, the
+                system displays the KIM Type Lookup. You must search for and select an existing
+                Type in order for the system to generate a new Role document.</para>
+            <note><para>Note that while the KIM Type Lookup is used when creating new groups and
+                roles, not all KIM types are valid for both. When using this Lookup, you may
+                receive different results depending on the KIM types that are valid for the
+                entity you are working with.</para></note>
+            <para><figure><title>KIM Type Lookup</title><mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/kim_type_lookup.png"/>
+                </imageobject>
+            </mediaobject>
+            </figure></para>
+        </section>
+        <section>
+         <title>Role Document</title>   
+        <para>The Role document includes <emphasis role="bold">Document Overview</emphasis>,
+                <emphasis role="bold">Overview,</emphasis>
+            <emphasis role="bold">Permissions</emphasis>, <emphasis role="bold"
+                >Responsibilities</emphasis>, and <emphasis role="bold">Assignees</emphasis>
+            tabs.</para>
+        <para><figure><title>Role document</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/help/role_document.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <section>
+            <title>Overview Tab</title>
+            <para>This tab identifies the role with a unique system-assigned ID number, a namespace
+                and a name. Each role also has a type which tends to match the types of permissions
+                and responsibilities associated with it.</para>
+            <para><figure><title>Role Overview tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/help/role_overview.png"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Overview tab definition</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>
+                                <para>Description</para>
+                            </entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Role</entry>
+                            <entry>Display-only. The unique, system-assigned ID number that identifies
+                                this role.</entry>
+                        </row>
+                        <row>
+                            <entry>Type Name</entry>
+                            <entry><para>Display-only. Because the role type normally reflects the type of qualifiers this role will
+                                    need to collect when members are added, this name usually
+                                    identifies the general types of permissions and responsibilities
+                                    associated with it.</para><para>When creating a new role, you must select its type before the system will generate the
+                                    document.</para></entry>
+                        </row>
+                        <row>
+                            <entry>Namespace</entry>
+                            <entry>Required. An indicator that associates the role with a particular
+                                application and module.</entry>
+                        </row>
+                        <row>
+                            <entry>Role Name</entry>
+                            <entry>Required. The common descriptive name by which this role is
+                                known.</entry>
+                        </row>
+                        <row>
+                            <entry>Active</entry>
+                            <entry>Check this box to indicate that this role is active and is,
+                                therefore, to be included by KIM when evaluating permissions and
+                                responsibilities. Uncheck the box to indicate that this role is
+                                inactive</entry>
+                        </row>
+                        <row>
+                            <entry>Description</entry>
+                            <entry>Optional. A longer text box for describing the needs or uses of the 
+                                role.</entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>Permissions Tab</title>
+            <para>This tab identifies the permissions associated with this role. Permissions
+                authorize specific actions in the system with which they are associated. A role can
+                have any number of permissions (including no permissions) associated with it.</para>
+            <para><figure><title>Permissions tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/help/role_permissions_tab.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Permissions tab definition</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Add Permission ID</entry>
+                            <entry>To add a permission to this role, enter the appropriate permission
+                                ID or search for and select a value using the <emphasis role="bold"
+                                    >Permission</emphasis> lookup</entry>
+                        </row>
+                        <row>
+                            <entry>Add</entry>
+                            <entry>Click the <emphasis role="bold">Add</emphasis> button to add the
+                                selected permission to this Role document.</entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>After you add a permission to the document, the system displays additional
+                information about the permission. </para>
+            <note><para>Permissions cannot be edited via the Role document. Use the Permission document to
+                perform this function. </para></note>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Permissions tab definition, results set</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Permission Namespace</entry>
+                            <entry>Display-only. The Namespace identifies the application and module
+                                associated with this permission.</entry>
+                        </row>
+                        <row>
+                            <entry>Permission Identifier</entry>
+                            <entry>Display-only. The unique system-assigned ID number for this
+                                permission.</entry>
+                        </row>
+                        <row>
+                            <entry>Permission Name</entry>
+                            <entry>Display-only. The descriptive name of this permission. This often
+                                identifies, in general terms, what the permission authorizes.</entry>
+                        </row>
+                        <row>
+                            <entry>Permission Detail Values</entry>
+                            <entry>Display-only. The document types, tabs and/or fields this permission
+                                authorizes. Not all permissions have detail values.</entry>
+                        </row>
+                        <row>
+                            <entry>Active Indicator</entry>
+                            <entry>Display-only. Indicator showing whether this permission is active
+                                within the system or not.</entry>
+                        </row>
+                        <row>
+                            <entry>Actions</entry>
+                            <entry><para>Click the <emphasis role="bold">Delete</emphasis> button to remove
+                                this permission from the role.</para>
+                                <para>You may delete a permission only if it has not yet been saved to the database (i.e., you added it to this 
+                                    role but have not yet submitted the document).</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </section>
+        <section>
+            <title>Responsibilities Tab</title>
+            <para>This tab identifies the responsibilities associated with this role.
+                Responsibilities define the workflow actions that will be requested of the role. A
+                role can have any number of responsibilities (including none) associated with
+                it.</para>
+            <para><figure><title>Responsibilities tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/help/role_responsibilities.jpg"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Responsibilities tab definition</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Add Responsibility ID</entry>
+                            <entry>To add a responsibility to this role enter the responsibility ID or
+                                search for and select a value using the <emphasis role="bold"
+                                    >Responsibility</emphasis> lookup</entry>
+                        </row>
+                        <row>
+                            <entry>Add</entry>
+                            <entry>Click the <emphasis role="bold">Add</emphasis> button to add the
+                                selected responsibility to this Role document.</entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>After you add a responsibility to the document, the system displays additional
+                information about this responsibility. </para>
+            <note><para>Responsibilities cannot generally be edited via the Role document, but some
+                responsibilities have associated attributes that you must define at the role
+                level.</para></note>
+            <para><figure><title>Responsibility details displayed</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/help/role_responsibility_details.jpg"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Responsibilities tab definition, continued</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Responsibility Namespace</entry>
+                            <entry>Display-only. The Namespace identifies the application and module
+                                associated with this responsibility.</entry>
+                        </row>
+                        <row>
+                            <entry>Responsibility Identifier</entry>
+                            <entry>Display-only. The unique system-assigned ID number identifying this
+                                responsibility</entry>
+                        </row>
+                        <row>
+                            <entry>Responsibility Name</entry>
+                            <entry>Display-only. The descriptive name of this responsibility. For most
+                                Responsibilities the name is 'Review.</entry>
+                        </row>
+                        <row>
+                            <entry>Responsibility Detail Values</entry>
+                            <entry><para>Display-only. This identifies more specific information about the responsibility.
+                                    Responsibility Detail Values are formatted in a standard way
+                                    with the following attributes delimited by commas:</para>
+                            <para>Route Node: The workflow route level at which this responsibility
+                                    is invoked.</para>
+                            <para>Document Type: The document type for which this responsibility
+                                    generates workflow requests.</para>
+                            <para>Action Details at Role Member Level:  A True or False indicator
+                                    that defines where the details of this workflow action request
+                                    are defined. If the value is 'True' then action details will be
+                                    collected when Members are assigned to the role. If the value is
+                                    'False' then the action details must be collected when this
+                                    responsibility is assigned to a role (see Assigning Action
+                                    Detail Values elsewhere in this section.)</para>
+                            <para>Required: Indicates if the routing represented by this
+                                    responsibility should be required. If this is set to True and
+                                    the responsibility fails to generate an action request (perhaps
+                                    because no one is assigned to the associated Role) then the
+                                    document will go into Exception status. If this routing is
+                                    optional this value will be False and the document will simply
+                                    skip this responsibility if no requests are generated.</para></entry>
+                        </row>
+                        <row>
+                            <entry>Active Indicator</entry>
+                            <entry>Display-only. Indicator showing whether this responsibility is
+                                active within the system or not.</entry>
+                        </row>
+                        <row>
+                            <entry>Actions</entry>
+                            <entry><para>Click the <emphasis role="bold">Delete</emphasis> button to remove this responsibility from
+                                    this role.</para>
+                            <para>You can delete a responsibility only if it has not yet been saved
+                                    to the database (i.e., you have added it to this role but have
+                                    not yet submitted the document).</para></entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <section>
+                <title>Assigning Action Detail Values</title>
+                <para>When adding a responsibility with an <emphasis role="bold">Action Detail
+                        Values at Role Member Level</emphasis> value of 'False,' you must complete
+                    additional fields in a Responsibility Action sub-section. The system displays
+                    this section immediately beneath the responsibility you've just added.</para>
+                <para>The fields in this sub-section define the type of action requests generated
+                    for and the general workflow behavior associated with this responsibility.
+                    Entries in these fields cause the system to generate the same type of action
+                    requests for all members of this role and handle actions by all members in the
+                    same way.</para>
+                <para><figure><title>Responsibility Action details</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/help/role_responsibility_action_details.jpg"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                </para>
+                <para>
+                    <table frame="none" tabstyle="striped">
+                        <title>Responsibility Action Subsection definition</title>
+                        <tgroup cols="2">
+                        <colspec colwidth="1.0*"/>
+                        <colspec colwidth="1.0*"/>
+                        <thead>
+                            <row>
+                                <entry>Title</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Name</entry>
+                                <entry>Display-only. The namespace and name of the responsibility
+                                    associated with these action details.</entry>
+                            </row>
+                            <row>
+                                <entry>Action Type Code</entry>
+                                <entry>Required. The type of action request that the system is to
+                                    generate for this responsibility. Options include Approve, FYI
+                                    and Acknowledge.</entry>
+                            </row>
+                            <row>
+                                <entry>Priority Number</entry>
+                                <entry>Optional. If multiple requests are generated at the route node
+                                    specified on this responsibility, this value determines in the
+                                    order in which the system will generate these requests. The
+                                    system processes requests with lower priority numbers before
+                                    processing requests with higher numbers. Requests with no number
+                                    are treated as a priority of 1.</entry>
+                            </row>
+                            <row>
+                                <entry>Action Policy Code</entry>
+                                <entry><para>Required. This value determines what happens if multiple members of this role receive the same
+                                        action request and one of them takes the action. This
+                                        currently only applies in situations where a single action
+                                        request is generated to multiple role members (i.e. the
+                                        action details exist at the role level) or  a role is
+                                        assigned to another role and these nested role members
+                                        receive an action request. For example, if a role with a
+                                        responsibility with action details defined at the role
+                                        level, has three members assigned, all of these members
+                                        receive the action request defined here; this code
+                                        determines what the system does when one of them takes
+                                        action on the document.</para>
+                                <para>A value of FIRST indicates that the first role member to take
+                                        action on the document will automatically clear all the
+                                        requests for this responsibility that may be in other role
+                                        member's action lists.</para>
+                                <para>A value of ALL indicates that each role member must take
+                                        individual action to clear his or her requests.</para></entry>
+                            </row>
+                            <row>
+                                <entry>Force Action</entry>
+                                <entry>Check the box to indicate that each user must take this action
+                                    for this request even if the user has already previously taken
+                                    action on this document. Leaving the box unchecked allows a
+                                    request to be immediately fulfilled if the role member has
+                                    previously taken action on this specific document.</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Assignees Tab</title>
+            <para>This tab contains all members who belong to this role. You may also use the tab to
+                add new members and edit the values associated with existing members.</para>
+            <para><figure><title>Assignees tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/help/role_assignees.png"/>
+                    </imageobject>
+                </mediaobject></figure></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Assignees Member tab definition</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Type Code</entry>
+                            <entry>Required. Role members can be principals (as defined on the Person
+                                document), groups or other roles. Select the type of member you want
+                                to add to this Role.</entry>
+                        </row>
+                        <row>
+                            <entry>Member Identifier</entry>
+                            <entry>Required. Enter the ID of the member you want to add or use the
+                                lookup to search for and select a valid value. The lookup directs
+                                you to the <emphasis role="bold">Principal</emphasis>, <emphasis
+                                    role="bold">Group</emphasis> or <emphasis role="bold"
+                                    >Role</emphasis> lookup based on your <emphasis role="bold"
+                                    >Member Type Code</emphasis> selection.</entry>
+                        </row>
+                        <row>
+                            <entry>Namespace Cd</entry>
+                            <entry>Display-only. Identifies the namespace code associated with this
+                                role member. Note that only groups and roles will display a
+                                namespace code.</entry>
+                        </row>
+                        <row>
+                            <entry>Name</entry>
+                            <entry>Display-only. Identifies the name of the member being assigned to
+                                this role.</entry>
+                        </row>
+                        <row>
+                            <entry>Full Name</entry>
+                            <entry>Display-only. Identifies the default, full name of the member being assigned to
+                                this role.</entry>
+                        </row>
+                        <row>
+                            <entry>Active From Date</entry>
+                            <entry>Optional. Allows you to qualify this member's association with this
+                                role by date. Entering a from date will define the earliest date on
+                                which this member is a valid member of this role.</entry>
+                        </row>
+                        <row>
+                            <entry>Active To Date</entry>
+                            <entry><para>Optional. Allows you to deactivate a member's association with a role on a specific date. The
+                                    date you enter defines the date the user is no longer a member
+                                    of this role.</para>
+                            <para>You cannot delete or inactivate role members. To remove a member
+                                    from a role, specify an active to date.</para></entry>
+                        </row>
+                        <row>
+                            <entry>Actions</entry>
+                            <entry>Click the <emphasis role="bold">Add</emphasis> button to add this
+                                member to the role.</entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <note><para>Additional fields may be required, such as Chart Code or Organization Code,
+                depending on the role type selected.</para></note>
+            <caution><para>Note that when assigning roles to other roles (nesting roles), qualifying values are not
+                        required. Some roles in applications may contain special logic to derive the
+                        required qualifiers from the nested role itself without qualifiers being
+                        specified. You may always specify qualifying values for a nested role and
+                        should do so unless you know the role being assigned contains logic to
+                        derive the qualifiers from the nested role. Roles without the proper
+                        qualifiers can cause problems throughout your applications. Please consult
+                        with an application technical resource if you are unsure of whether or not
+                        to provide qualifying values when assigning a role to another role.</para></caution>
+        </section>
+        <section>
+            <title>Delegations Tab</title>
+            <para>This tab identifies identifies delegates associated with the role. Delegates are
+                users that a member of this role has authorized to have the same permissions and
+                take the same actions as the member is authorized to take.</para>
+            <para>The Assignees Tab dealing with Delegates is slightly different as detailed in the
+                following table. Note that if the members of a role require qualifying values, the
+                delegation requires these values as well. In most cases, delegates must have the
+                same qualifiers as the role member they are associated with.</para>
+            <para><figure><title>Delegations tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/help/role_delegations.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure></para>
+            <para>
+                <table frame="none" tabstyle="striped">
+                    <title>Delegations tab definition</title>
+                    <tgroup cols="2">
+                    <colspec colwidth="1.0*"/>
+                    <colspec colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Title</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Role Member</entry>
+                            <entry>Required. Use the lookup to search for and return the member of this
+                                role you wish to create a delegate for.</entry>
+                        </row>
+                        <row>
+                            <entry>Member Type Code</entry>
+                            <entry>Required. Delegates may be principals (as defined on the Person
+                                document), groups or other roles. Select the type of delegate you
+                                want to add to this role.</entry>
+                        </row>
+                        <row>
+                            <entry>Member Identifier</entry>
+                            <entry>Required. Enter the ID that identifies the delegate you want to add
+                                or use the lookup to search for and select a valid value. Note that
+                                the lookup will direct you to the <emphasis role="bold"
+                                    >Principal</emphasis>, <emphasis role="bold">Group</emphasis> or
+                                    <emphasis role="bold">Role</emphasis> lookup based on your
+                                    <emphasis role="bold">Member Type Code</emphasis>
+                                selection.</entry>
+                        </row>
+                        <row>
+                            <entry>Member Namespace Code</entry>
+                            <entry>Display-only. Identifies the namespace associated with the selected
+                                delegate. Note that only delegations to groups or roles will display
+                                a member namespace code.</entry>
+                        </row>
+                        <row>
+                            <entry>Member Name</entry>
+                            <entry>Display-only. Shows the name of the selected delegate.</entry>
+                        </row>
+                        <row>
+                            <entry>Active From Date</entry>
+                            <entry>Optional. If you want you can qualify this delegate's association
+                                with this role by date. Entering a from date will define the
+                                earliest date on which this delegate is a valid delegate for this
+                                role.</entry>
+                        </row>
+                        <row>
+                            <entry>Active To Date</entry>
+                            <entry><para>Optional. Allows you to deactivate a delegate's association with a role on a specific date.
+                                    The date you enter defines the date on which the user is no
+                                    longer a delegate for this role.</para>
+                            <para>You cannot delete or deactivate delegates. To remove a delegate
+                                    from a role, enter an active to date.</para></entry>
+                        </row>
+                        <row>
+                            <entry>Delegation Type Code</entry>
+                            <entry>Required. Select 'Secondary' or 'Primary. Note that this selection
+                                only applies to responsibilities associated with the role and
+                                indicates if the delegate will receive documents directly in their
+                                action list (Primary) or may choose to view documents in their
+                                action list using the secondary delegate dropdown (Secondary). </entry>
+                        </row>
+                        <row>
+                            <entry>Actions</entry>
+                            <entry>Click the <emphasis role="bold">Add</emphasis> button to add this
+                                delegate to the role.</entry>
+                        </row>
+                    </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <note><para>Additional fields may be required, such as <emphasis role="bold">Chart
+                Code</emphasis>, depending on the role type selected.</para></note>
+        </section>
+        </section>     
+    </section>
+</chapter>

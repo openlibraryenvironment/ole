@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="PessimisticLock" parent="PessimisticLock-parentBean"/>
+
+  <bean id="PessimisticLock-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.krad.document.authorization.PessimisticLock"/>
+    <property name="inquiryDefinition">
+      <ref bean="PessimisticLock-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="PessimisticLock-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Pessimistic Lock"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PessimisticLock-id"/>
+        <ref bean="PessimisticLock-ownedByPrincipalIdentifier"/>
+        <ref bean="PessimisticLock-ownedByUser.principalName"/>
+        <ref bean="PessimisticLock-lockDescriptor"/>
+        <ref bean="PessimisticLock-documentNumber"/>
+        <ref bean="PessimisticLock-generatedTimestamp"/>
+        <ref bean="PessimisticLock-versionNumber"/>
+        <ref bean="PessimisticLock-objectId"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="ownedByUser"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="ownedByPrincipalIdentifier" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="ownedByUser.principalName" p:targetName="principalName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PessimisticLock-id" parent="PessimisticLock-id-parentBean"/>
+
+  <bean id="PessimisticLock-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="summary" value="Lock Id"/>
+    <property name="name" value="id"/>
+    <property name="label" value="Lock Id"/>
+    <property name="description" value="Pessimistic Lock Description"/>
+  </bean>
+  <bean id="PessimisticLock-ownedByPrincipalIdentifier" parent="PessimisticLock-ownedByPrincipalIdentifier-parentBean"/>
+
+  <bean id="PessimisticLock-ownedByPrincipalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="required" value="true"/>
+	<property name="maxLength" value="40"/>
+	<property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Owner Prncpl ID"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="displayLabelAttribute" value="ownedByUser.principalName"/>
+    <property name="name" value="ownedByPrincipalIdentifier"/>
+    <property name="label" value="Lock Owner Principal ID"/>
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" p:lowerCase="true" />
+    </property>
+  </bean>
+  <bean id="PessimisticLock-ownedByUser.principalName" parent="PessimisticLock-ownedByUser.principalName-parentBean"/>
+
+  <bean id="PessimisticLock-ownedByUser.principalName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Owner Prncpl Name"/>
+    <property name="required" value="false"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="name" value="ownedByUser.principalName"/>
+    <property name="label" value="Lock Owner Principal Name"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+      <!-- <bean parent="KualiUserControlDefinition" p:personNameAttributeName="ownedByUser.name" p:universalIdAttributeName="ownedByPrincipalIdentifier" p:userIdAttributeName="ownedByUser.principalName"/>-->
+    </property>
+  </bean>
+
+  <bean id="PessimisticLock-lockDescriptor" parent="PessimisticLock-lockDescriptor-parentBean"/>
+
+  <bean id="PessimisticLock-lockDescriptor-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Descriptor"/>
+    <property name="maxLength" value="4000"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true" p:allowUnderscore="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="summary" value="Lock Descriptor"/>
+    <property name="name" value="lockDescriptor"/>
+    <property name="label" value="Lock Descriptor"/>
+    <property name="description" value="Lock Descriptor description"/>
+  </bean>
+  <bean id="PessimisticLock-documentNumber" parent="PessimisticLock-documentNumber-parentBean"/>
+
+  <bean id="PessimisticLock-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="PessimisticLock-generatedTimestamp" parent="PessimisticLock-generatedTimestamp-parentBean"/>
+
+  <bean id="PessimisticLock-generatedTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="shortLabel" value="Gen Time"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    <property name="name" value="generatedTimestamp"/>
+    <property name="label" value="Generated Time"/>
+    <property name="description" value="This field defines the date and time the lock was created."/>
+  </bean>
+  <bean id="PessimisticLock-versionNumber" parent="PessimisticLock-versionNumber-parentBean"/>
+
+  <bean id="PessimisticLock-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="PessimisticLock-objectId" parent="PessimisticLock-objectId-parentBean"/>
+
+  <bean id="PessimisticLock-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PessimisticLock-inquiryDefinition" parent="PessimisticLock-inquiryDefinition-parentBean"/>
+
+  <bean id="PessimisticLock-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="ownedByPrincipalIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="lockDescriptor"/>
+              <bean parent="FieldDefinition" p:attributeName="generatedTimestamp"/>
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+            </list>
+          </property>
+          <property name="title" value="Lock Information"/>
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="Pessimistic Lock Inquiry"/>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PessimisticLock-lookupDefinition" parent="PessimisticLock-lookupDefinition-parentBean"/>
+
+  <bean id="PessimisticLock-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="pessimisticLockLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="ownedByUser.principalName" p:noDirectInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="ownedByPrincipalIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="lockDescriptor"/>
+        <bean parent="FieldDefinition" p:attributeName="generatedTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="ownedByUser.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="lockDescriptor"/>
+        <bean parent="FieldDefinition" p:attributeName="generatedTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+      </list>
+    </property>
+    <property name="title" value="Pessimistic Lock Lookup"/>
+  </bean>
+</beans>

@@ -1,0 +1,60 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="Lab-FileUploads" parent="Uif-FormView">
+    <property name="headerText" value="File Uploads"/>
+    <property name="singlePageView" value="true"/>
+    <property name="page">
+      <bean parent="Uif-Page">
+        <property name="items">
+          <list>
+            <ref bean="Lab-FileUploads-Section"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="formClass" value="org.kuali.rice.krad.labs.fileUploads.LabsFileUploadsForm"/>
+  </bean>
+
+  <bean id="Lab-FileUploads-Section" parent="Uif-VerticalBoxSection" p:headerText="Page 1"
+        p:instructionalText="View for testing file uploads on ajax and non-ajax calls">
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="uploadOne" p:label="Upload One">
+          <property name="control">
+            <bean parent="Uif-FileControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="uploadOne" p:actionLabel="Upload - Ajax"/>
+
+        <bean parent="Uif-InputField" p:propertyName="uploadTwo" p:label="Upload Two">
+          <property name="control">
+            <bean parent="Uif-FileControl"/>
+          </property>
+        </bean>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="uploadTwo" p:actionLabel="Upload - NonAjax"
+              p:ajaxSubmit="false"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

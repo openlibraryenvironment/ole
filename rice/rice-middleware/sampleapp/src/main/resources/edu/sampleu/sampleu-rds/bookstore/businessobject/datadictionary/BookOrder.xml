@@ -1,0 +1,134 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <dataObjectEntry id="BookOrderDocument" parent="BookOrder-parentBean"/>
+  <dataObjectEntry abstract="true" dataObjectClass="edu.sampleu.bookstore.bo.BookOrder" id="BookOrder-parentBean"
+                   objectLabel="BookOrder" parent="DataObjectEntry" titleAttribute="id">
+    <attributes>
+      <ref bean="BookOrder-bookId"/>
+      <ref bean="BookOrder-quantity"/>
+      <ref bean="BookOrder-unitPrice"/>
+      <ref bean="BookOrder-discount"/>
+      <ref bean="BookOrder-totalPrice"/>
+    </attributes>
+    <relationships>
+      <relationshipDefinition objectAttributeName="book" parent="RelationshipDefinition">
+        <primitiveAttributes>
+          <primitiveAttributeDefinition parent="PrimitiveAttributeDefinition" sourceName="bookId" targetName="id"/>
+        </primitiveAttributes>
+      </relationshipDefinition>
+    </relationships>
+    <primaryKeys>
+      <value>id</value>
+    </primaryKeys>
+  </dataObjectEntry>
+  <attributeDefinition id="BookOrder-bookId" parent="BookOrder-bookId-parentBean"/>
+  <attributeDefinition abstract="true" id="BookOrder-bookId-parentBean" label="Book Id" maxLength="19" name="bookId"
+                       parent="AttributeDefinition" shortLabel="Book Id">
+    <validChractersConstraint>
+      <numericPatternConstraint parent="NumericPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <selectControl parent="Uif-DropdownControl"/>
+    </control>
+    <optionFinder>
+      <spring:bean class="edu.sampleu.bookstore.document.keyvalue.BookKeyValues"/>
+    </optionFinder>
+  </attributeDefinition>
+  <attributeDefinition id="BookOrder-quantity" parent="BookOrder-quantity-parentBean"/>
+  <attributeDefinition abstract="true" id="BookOrder-quantity-parentBean" label="Quantity" maxLength="19"
+                       name="quantity" parent="AttributeDefinition" shortLabel="Qty">
+    <validChractersConstraint>
+      <numericPatternConstraint parent="NumericPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="30"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BookOrder-unitPrice" parent="BookOrder-unitPrice-parentBean"/>
+  <attributeDefinition abstract="true" description="Unit Price of the Book." forceUppercase="false"
+                       id="BookOrder-unitPrice-parentBean" label="Unit Price" maxLength="10" name="unitPrice"
+                       parent="AttributeDefinition" required="false" shortLabel="Unit Price"
+                       summary="Unit Price of the Book.">
+    <validChractersConstraint>
+      <spring:bean parent="FloatingPointPatternConstraint">
+        <spring:property name="allowNegative" value="false"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <oldControl>
+      <spring:bean parent="CurrencyControlDefinition">
+        <spring:property name="formattedMaxLength" value="26"/>
+        <spring:property name="size" value="10"/>
+      </spring:bean>
+    </oldControl>
+    <control>
+      <textControl parent="Uif-TextControl" size="10"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BookOrder-discount" parent="BookOrder-discount-parentBean"/>
+  <attributeDefinition abstract="true" description="Discount on the Book." forceUppercase="false"
+                       id="BookOrder-discount-parentBean" label="Discount" maxLength="10" name="discount"
+                       parent="AttributeDefinition" required="false" shortLabel="Discount"
+                       summary="Discount on the Book.">
+    <validChractersConstraint>
+      <spring:bean parent="FloatingPointPatternConstraint">
+        <spring:property name="allowNegative" value="false"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="10"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BookOrder-totalPrice" parent="BookOrder-totalPrice-parentBean"/>
+  <attributeDefinition abstract="true" description="Total Price of the Book." forceUppercase="false"
+                       id="BookOrder-totalPrice-parentBean" label="Total Price" maxLength="10" name="totalPrice"
+                       parent="AttributeDefinition" required="false" shortLabel="Total Price"
+                       summary="Total Price of the Book.">
+    <validChractersConstraint>
+      <spring:bean parent="FloatingPointPatternConstraint">
+        <spring:property name="allowNegative" value="false"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <oldControl>
+      <spring:bean parent="CurrencyControlDefinition">
+        <spring:property name="formattedMaxLength" value="26"/>
+        <spring:property name="size" value="10"/>
+      </spring:bean>
+    </oldControl>
+    <control>
+      <textControl parent="Uif-TextControl" size="10"/>
+    </control>
+  </attributeDefinition>
+</spring:beans>

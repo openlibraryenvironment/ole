@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - A sample Acegi Security configuration using CAS as the authentication provider
+  -
+  - This file should be placed in /web/src/main/webapp/WEB-INF/acegi.xml
+  - web.xml would have to be modified to have the ACEGI filter chain proxy
+  - with the following filter:
+  -
+    <filter>
+	  <filter-name>Acegi Filter Chain Proxy</filter-name>
+	  <filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
+	  <init-param>
+	    <param-name>targetClass</param-name>
+	    <param-value>org.acegisecurity.util.FilterChainProxy</param-value>
+	  </init-param>
+	</filter>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/acegi.xml
+		</param-value>
+	</context-param>
+	
+  -->
+
+<beans>
+
+	<bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value><![CDATA[
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+				/**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,kualiDistributedSessionFilter,exceptionTranslationFilter,filterInvocationInterceptor
+			]]></value>
+		</property>
+	</bean>
+	
+	<bean id="kualiDistributedSessionFilter" class="org.kuali.rice.kim.client.acegi.KualiDistributedSessionFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="distributedSession" ref="distributedSession" />
+		<property name="defaultTargetUrl"><value>/</value></property>
+		<property name="authenticationFailureUrl"><value>/casfailed.jsp</value></property>
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.kuali.rice.kim.client.acegi.KualiDistributedSessionExpiredException">https://localhost:8843/cas/logout?service=https://loacalhost:8443/kr-dev/sessiontimeout.jsp</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="distributedSession" class="org.kuali.rice.kim.sesn.DistributedSession">
+		<property name="timeoutHandler" ref="distSesnTimeoutHandler" />
+		<property name="jdbcTemplate" ref="distSesnJdbcTemplate" />
+	</bean>
+	
+	<bean id="distSesnTimeoutHandler" class="org.kuali.rice.kim.sesn.timeouthandlers.GlobalTimeoutHandler">
+		<!--  time in ms -->
+		<property name="timeoutPeriod" value="60000" />
+		<property name="timeoutField" value="2" />
+	</bean>
+	
+	<bean id="distSesnJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg>
+			<ref local="distSesnDatasource" />
+		</constructor-arg>
+	</bean>
+
+	
+	<bean id="distSesnDatasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/kualisession" />
+		<property name="username" value="kuali" />
+		<property name="password" value="natto" />
+	</bean>
+	
+
+	<bean id="httpSessionContextIntegrationFilter" 
+class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
+
+	<bean id="logoutFilter" class="org.acegisecurity.ui.logout.LogoutFilter">
+		<constructor-arg value="https://localhost:8843/cas/logout"/> <!-- URL redirected to after logout -->
+		<constructor-arg>
+			<list>
+				<bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="securityContextHolderAwareRequestFilter" class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter"/>
+	
+	
+	<bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="kualiCasAuthenticationProvider"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kualiCasAuthenticationProvider" class="org.kuali.rice.kim.client.acegi.KualiCasAuthenticationProvider">
+		<property name="casAuthoritiesPopulator"><ref local="kualiCasAuthoritiesPopulator"/></property>
+		<property name="casProxyDecider"><ref local="casProxyDecider"/></property>
+		<property name="ticketValidator"><ref local="kualiCasProxyTicketValidator"/></property>
+		<property name="statelessTicketCache"><ref local="statelessTicketCache"/></property>
+		<property name="key"><value>changeit</value></property>
+	</bean>
+	
+	<bean id="kualiCasProxyTicketValidator" class="org.kuali.rice.kim.client.acegi.KualiCasProxyTicketValidator">
+		<property name="casValidate"><value>https://localhost:8843/cas/proxyValidate</value></property>
+		<property name="proxyCallbackUrl"><value>https://localhost:8443/kr-dev</value></property>
+		<property name="serviceProperties"><ref local="serviceProperties"/></property>
+		<property name="distributedSession"><ref local="distributedSession"/></property>
+    	<property name="trustStore"><value>C:\\data\\devlopment\\SUN\\java\\jre1.6.0_03\\lib\\security\\cacerts</value></property>
+	</bean>
+	
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+
+	<bean id="ticketCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>ticketCache</value>
+		</property>
+	</bean>
+
+	<bean id="statelessTicketCache" class="org.acegisecurity.providers.cas.cache.EhCacheBasedTicketCache">
+		<property name="cache"><ref local="ticketCacheBackend"/></property>
+	</bean>
+
+	<bean id="kualiCasAuthoritiesPopulator" class="org.kuali.rice.kim.client.acegi.KualiCasAuthoritiesPopulatorImpl">
+		<property name="userDetailsService"><ref local="kualiUserDetailsService"/></property>
+	</bean>
+
+	<bean id="casProxyDecider" class="org.acegisecurity.providers.cas.proxy.RejectProxyTickets">
+	</bean>
+	
+	<bean id="serviceProperties" class="org.acegisecurity.ui.cas.ServiceProperties">
+		<property name="service"><value>https://localhost:8443/kr-dev/j_acegi_cas_security_check</value></property>
+		<!-- enable if you want to allow login on top of logins 
+		<property name="sendRenew"><value>true</value></property> -->
+	</bean>
+	
+	<!-- Enabled by default for CAS, as a CAS deployment uses HTTPS -->
+	<bean id="channelProcessingFilter" class="org.acegisecurity.securechannel.ChannelProcessingFilter">
+		<property name="channelDecisionManager"><ref local="channelDecisionManager"/></property>
+ 		<property name="filterInvocationDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+  			/**=REQUIRES_SECURE_CHANNEL
+  			/insecure/.*=REQUIRES_INSECURE_CHANNEL
+			</value>
+		</property>
+	</bean>
+
+	<bean id="channelDecisionManager" class="org.acegisecurity.securechannel.ChannelDecisionManagerImpl">
+	    <property name="channelProcessors">
+      		<list>
+ 	        	<ref local="secureChannelProcessor"/>
+        		<ref local="insecureChannelProcessor"/>
+     		</list>
+	    </property>
+	</bean>
+
+	<bean id="secureChannelProcessor" class="org.acegisecurity.securechannel.SecureChannelProcessor"/>
+	<bean id="insecureChannelProcessor" class="org.acegisecurity.securechannel.InsecureChannelProcessor"/>
+	
+	
+	<bean id="exceptionTranslationFilter" class="org.acegisecurity.ui.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint"><ref local="casProcessingFilterEntryPoint"/></property>
+	</bean>
+
+	<bean id="casProcessingFilterEntryPoint" class="org.acegisecurity.ui.cas.CasProcessingFilterEntryPoint">
+		<property name="loginUrl"><value>https://localhost:8843/cas/login</value></property>
+		<property name="serviceProperties"><ref local="serviceProperties"/></property>
+	</bean>
+
+	<bean id="httpRequestAccessDecisionManager" class="org.acegisecurity.vote.AffirmativeBased">
+   		<property name="allowIfAllAbstainDecisions"><value>false</value></property>
+		<property name="decisionVoters">
+		  <list>
+		    <ref bean="roleVoter"/>
+		  </list>
+		</property>
+	</bean>
+	
+	<bean id="roleVoter" class="org.acegisecurity.vote.RoleVoter" />
+
+	<bean id="filterInvocationInterceptor" class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+    	<property name="authenticationManager"><ref local="authenticationManager"/></property>
+    	<property name="accessDecisionManager"><ref local="httpRequestAccessDecisionManager"/></property>
+ 		<property name="objectDefinitionSource">
+			<value>
+            PATTERN_TYPE_APACHE_ANT
+            /**=ROLE_USER
+			</value>
+		</property>
+	</bean>
+	   
+	<!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
+	<bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener"/>
+
+	<bean id="kualiUserDetailsService" class="org.kuali.rice.kim.client.acegi.KualiUserDetailsServiceImpl" />
+	
+</beans>

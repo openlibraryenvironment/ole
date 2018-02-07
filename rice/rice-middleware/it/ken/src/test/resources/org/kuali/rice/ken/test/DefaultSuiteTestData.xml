@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+    <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+       <!-- These are currently coming in from the DBA database, so commenting these out for now, if we ever remove these
+            from DBA we will need to comment these back in! -->
+       <group>
+            <name>NotificationAdmin</name>
+            <namespace>KR-WKFLW</namespace>
+            <description>Notification system admin group for automation.</description>
+            <active>true</active>
+            <members>
+                <principalName>testadmin1</principalName>
+            </members>
+        </group>
+        <group>
+            <name>TestGroup1</name>
+            <namespace>KUALI</namespace>
+            <description>Test group 1 for KEN testing.</description>
+            <active>true</active>
+            <members>
+                <principalName>testuser1</principalName>
+                <principalName>testuser2</principalName>
+            </members>
+        </group>
+        <group>
+            <name>TestGroup2</name>
+            <namespace>KUALI</namespace>
+            <description>Test group 2 for KEN testing.</description>
+            <active>true</active>
+            <members>
+                <principalName>testuser2</principalName>
+                <principalName>testuser3</principalName>
+            </members>
+        </group>
+        <group>
+            <id>2003</id>
+            <name>RiceTeam</name>
+            <namespace>KUALI</namespace>
+            <description>A test workgroup for KEN.</description>
+            <active>true</active>
+            <members>
+                <principalName>testuser1</principalName>
+                <principalName>testuser2</principalName>
+                <principalName>testuser6</principalName>
+                <principalName>testuser4</principalName>
+                <principalName>testuser5</principalName>
+                <principalName>quickstart</principalName>
+            </members>
+        </group>
+
+        <group>
+            <name>Group0</name>
+            <namespace>KUALI</namespace>
+            <description>Group0</description>
+            <active>true</active>
+            <members>
+                <principalName>quickstart</principalName>
+                <principalName>user1</principalName>
+                <principalName>user2</principalName>
+            </members>
+        </group>
+        <group>
+            <name>Group1</name>
+            <namespace>KUALI</namespace>
+            <description>Group1</description>
+            <active>true</active>
+            <members>
+                <principalName>user3</principalName>
+            </members>
+        </group>
+        <group>
+            <name>Group2</name>
+            <namespace>KUALI</namespace>
+            <description>Group2</description>
+            <active>true</active>
+            <members>
+                <principalName>user2</principalName>
+            </members>
+        </group>
+        <group>
+            <name>WorkflowAdmin</name>
+            <namespace>KR-WKFLW</namespace>
+            <description>WorkflowAdmin</description>
+            <active>true</active>
+            <members>
+                <principalName>admin</principalName>
+                <principalName>quickstart</principalName>
+                <principalName>notsys</principalName>
+                <principalName>testadmin2</principalName>
+            </members>
+        </group>
+        <group>
+            <name>Group X</name>
+            <namespace>KR-WKFLW</namespace>
+            <description>Group X</description>
+            <active>true</active>
+            <members>
+                <principalName>user3</principalName>
+            </members>
+        </group>
+        <group>
+            <name>Group Z</name>
+            <namespace>KR-WKFLW</namespace>
+            <description>Group Z</description>
+            <active>true</active>
+            <members>
+                <principalName>user3</principalName>
+            </members>
+        </group>
+    </groups>
+
+</data>

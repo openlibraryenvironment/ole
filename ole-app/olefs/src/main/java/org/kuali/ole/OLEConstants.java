@@ -237,6 +237,7 @@ public class OLEConstants {
     public static final String FINE_AMOUNT="fineAmount";
     public static final String FINE_AMOUNT_FROM="fineAmountFrom";
     public static final String FINE_AMOUNT_TO="fineAmountTo";
+    public static final String FINE_ITEM_DUE_DATE = "Fine Item Due Date";
     public static final String CURR_CIR_DESK="CurrentCirculationDesk";
     public static final String ALL_CIR_DESK="AllCirculationDesk";
     public static final String PTRN_RQST_MSG_CURR_CIR_DESK="This patron has hold(s) waiting for pickup at this location.  Do you want to proceed?";
@@ -1981,6 +1982,9 @@ public class OLEConstants {
     public static final String ERROR = "Error";
     public static final String FORGIVEN = "PAY_FORGIVEN";
     public static final String FORGIVE = getParameter("PAYMENT_MODE_FORGIVE");
+    public static final String CREDITS_ISSUED = "Credit Issued";
+    public static final String FEE_CANCELLED = "Cancelled";
+    public static final String FEE_UNSUSPENDED = "Fee Unsuspended";
     public static final String CANCELLED = "PAY_CANCELLED";
     public static final String SUSPENDED = "PAY_SUSPENDED";
     public static final String CANCEL = "Cancel";
@@ -2204,6 +2208,8 @@ public class OLEConstants {
     public static final String CLAIMS_RETURNED_NOT_FOUND_FINES_OWED_NOTICE_TITLE = "Claims Rtrnd Not Found Fines Owed Notice";
     public static final String RETURN_MISSING_PIECE_NOTICE = "Return With Missing Piece Notice";
     public static final String LOST_NOTICE = "Lost Notice";
+    public static final String LOST_ITEM_PROCESSING_FEE_NOTICE = "Lost Item Processing Fee Notice";
+    public static final String OVERDUE_FINE_NOTICE = "Overdue Fine Notice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
     public static final String NOTICE_RECALL = "RecallNotice";
     public static final String PICKUP_NOTICE = "Pickup Notice";

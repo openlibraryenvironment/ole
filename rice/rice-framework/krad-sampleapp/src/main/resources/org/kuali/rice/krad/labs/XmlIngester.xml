@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+   <bean id="XmlIngester" parent="Uif-FormView">
+      <property name="id" value="XmlIngester"/>
+      <property name="headerText" value="XML Ingester"/>
+      <property name="items">
+        <list>
+          <bean parent="Uif-Page" p:id="page1" p:autoFocus="false" p:validationMessages.displayFieldLabelWithMessages="false">
+             <property name="items">
+               <list>
+		       		<ref bean="uploadSection"/>   
+		       </list>
+             </property> 
+          </bean> 
+        </list>
+      </property>    
+      <property name="formClass" value="org.kuali.rice.krad.labs.fileUploads.XmlIngesterForm"/>
+      <property name="footer">
+			<ref bean="Footer_UploadClose" />
+		</property>
+   </bean>
+   
+   <bean id="uploadSection" parent="Uif-GridSection" p:disclosure.render="false">
+      <property name="items">
+        <list>
+          <bean parent="uploadAttributeField" p:propertyName="files[0]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[1]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[2]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[3]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[4]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[5]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[6]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[7]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[8]"/>
+          <bean parent="uploadAttributeField" p:propertyName="files[9]"/>
+        </list>
+      </property> 
+   </bean>   
+   
+   <bean id="uploadAttributeField" p:label="XML File" parent="Uif-InputField">
+      <property name="control">
+        <bean parent="Uif-FileControl"/>
+      </property>
+   </bean>
+            
+    <bean id="Footer_UploadClose" parent="Uif-FooterBase">
+      <property name="items">
+        <list> 
+          <bean parent="Uif-PrimaryActionButton" p:methodToCall="upload" p:actionLabel="Upload XML data"/>
+        </list>
+      </property>
+  </bean>  
+  
+</beans>

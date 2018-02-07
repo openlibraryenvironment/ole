@@ -1,0 +1,484 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- TableLayoutDetails demo -->
+  <bean id="Demo-TableLayoutDetails-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoTableLayoutDetails.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.layout.TableLayoutManager"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-TableLayoutDetails-Example1"/>
+        <ref bean="Demo-TableLayoutDetails-Example2"/>
+        <ref bean="Demo-TableLayoutDetails-Example3"/>
+        <ref bean="Demo-TableLayoutDetails-Example4"/>
+        <ref bean="Demo-TableLayoutDetails-Example5"/>
+        <ref bean="Demo-TableLayoutDetails-Example6"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-TableLayoutDetails-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutDetails-Example1 start-->
+        <bean id="Demo-TableLayoutDetails-Section1" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="readOnly" value="false"/>
+          <property name="propertyName" value="collection2"/>
+          <property name="layoutManager.renderSequenceField" value="true"/>
+          <property name="layoutManager.generateAutoSequence" value="true"/>
+
+          <!-- this option shows a button that can toggle all the detail areas open and closed -->
+          <property name="layoutManager.showToggleAllDetails" value="true"/>
+
+          <!-- content of the details group, all propertyName paths are relative to the collection path -->
+          <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"
+                        p:required="true"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+
+        <!-- ex:Demo-TableLayoutDetails-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- With ajax retrieval -->
+  <bean id="Demo-TableLayoutDetails-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutDetails-Example2 start-->
+        <bean id="Demo-TableLayoutDetails-Section2" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="collection1"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+
+          <!-- retrieving the details content through an ajax request -->
+          <property name="layoutManager.ajaxDetailsRetrieval" value="true"/>
+
+          <!-- Using an image for the expand details action instead of text -->
+          <property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction"/>
+          </property>
+
+          <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+
+          <!-- reducing the size of the details image column -->
+          <property name="layoutManager.richTable">
+            <bean parent="Uif-PagedRichTable">
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="aoColumnDefs"
+                         value="[{&quot;sWidth&quot; : &quot;20px&quot;, &quot;aTargets&quot; : [0]}]"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+
+          <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+                        p:required="true">
+                    <property name="inquiry">
+                      <null/>
+                    </property>
+                  </bean>
+                  <bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"
+                        p:required="true">
+                    <property name="inquiry">
+                      <null/>
+                    </property>
+                  </bean>
+                </list>
+              </property>
+            </bean>
+          </property>
+
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutDetails-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- with sub collection -->
+  <bean id="Demo-TableLayoutDetails-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutDetails-Example3 start-->
+        <bean id="Demo-TableLayoutDetails-Section3" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="collection4"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction"/>
+          </property>
+          <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+          <property name="layoutManager.richTable">
+            <bean parent="Uif-PagedRichTable">
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="aaSorting" value="[[1,'desc']]"/>
+                  <entry key="aoColumnDefs"
+                         value="[{'sWidth' : '20px', 'aTargets' : [0]},{'aTargets':[2], 'bSortable':false}]"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+          <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+                        p:required="true"/>
+                  <bean parent="Demo-TableLayoutDetails-SubCollection1" p:propertyName="subList"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutDetails-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-TableLayoutDetails-Example3 start-->
+  <bean id="Demo-TableLayoutDetails-SubCollection1" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+        p:layoutManager.numberOfColumns="4">
+    <property name="headerText" value="SubCollection"/>
+    <property name="collectionObjectClass"
+              value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="layoutManager.sequencePropertyName" value="field1"/>
+    <property name="layoutManager.generateAutoSequence" value ="false"/>
+    <property name="layoutManager.sequenceFieldPrototype">
+      <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+    </property>
+    <property name="readOnly" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+              p:required="true">
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="field3" p:label="SubField 3"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field4" p:label="SubField 4"
+              p:required="true"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-TableLayoutDetails-Example3 end-->
+
+  <!-- with subcollection stacked collection -->
+  <bean id="Demo-TableLayoutDetails-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutDetails-Example4 start-->
+        <bean id="Demo-TableLayoutDetails-Section4" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="collection5"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction"/>
+          </property>
+          <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+          <property name="layoutManager.richTable">
+            <bean parent="Uif-PagedRichTable">
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="aoColumnDefs"
+                         value="[{&quot;sWidth&quot; : &quot;20px&quot;, &quot;aTargets&quot; : [0]}]"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+          <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+                        p:required="true"/>
+                  <bean parent="Demo-TableLayoutDetails-SubCollection2" p:propertyName="subList"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutDetails-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-TableLayoutDetails-Example4 start-->
+  <bean id="Demo-TableLayoutDetails-SubCollection2" parent="Uif-StackedSubCollection-WithinSection">
+    <property name="headerText" value="SubCollection"/>
+    <property name="collectionObjectClass"
+              value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="readOnly" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+              p:required="true">
+        </bean>
+      </list>
+    </property>
+    <property name="subCollections">
+      <list>
+        <bean parent="Demo-StandardLayout-CollectionSection2-SubCollection">
+          <property name="layoutManager.richTable.render" value="false"/>
+          <property name="disclosure.render" value="false"/>
+          <property name="propertyName" value="subList"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="field3" p:label="Field 3"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-StandardLayout-CollectionSection2-SubCollection"
+        parent="Uif-Disclosure-TableSubCollection-WithinSection">
+    <property name="headerText" value="SubCollection Title"/>
+    <property name="collectionObjectClass"
+              value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="layoutManager.sequencePropertyName" value="field1"/>
+    <property name="layoutManager.generateAutoSequence" value ="false"/>
+    <property name="layoutManager.sequenceFieldPrototype">
+      <bean parent="Uif-InputField" p:propertyName="field1" p:readOnly="true"/>
+    </property>
+    <property name="layoutManager.numberOfColumns" value="4"/>
+    <property name="propertyName" value="subList"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Field Group">
+          <property name="group.validationMessages.displayMessages" value="false"/>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+                            p:required="true" p:constraintText="Type A to make subfield 2 appear"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+                                  p:required="true" p:progressiveRender="@{#lp.field1 eq 'A'}"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="field3" p:label="SubField 3"
+              p:required="true" p:constraintText="Change to refresh subfield 4"/>
+              <bean parent="Uif-InputField" p:propertyName="field4" p:label="SubField 4"
+                            p:required="true" p:refreshWhenChangedPropertyNames="#lp.field3"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-TableLayoutDetails-Example4 end-->
+
+  <!-- details in details -->
+  <bean id="Demo-TableLayoutDetails-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutDetails-Example5 start-->
+        <bean id="Demo-TableLayoutDetails-Section5" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+          <property name="propertyName" value="collection3"/>
+          <property name="readOnly" value="true"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction"/>
+          </property>
+          <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+          <property name="layoutManager.richTable">
+            <bean parent="Uif-PagedRichTable">
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="aoColumnDefs"
+                         value="[{&quot;sWidth&quot; : &quot;20px&quot;, &quot;aTargets&quot; : [0]}]"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+          <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+                        p:required="true"/>
+                  <bean parent="Demo-TableLayoutDetails-SubCollection3" p:propertyName="subList"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 4"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 4"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutDetails-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-TableLayoutDetails-Example5 start-->
+  <bean id="Demo-TableLayoutDetails-SubCollection3" parent="Uif-TableSubCollection-WithinSection">
+    <property name="headerText" value="SubCollection"/>
+    <property name="collectionObjectClass"
+              value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="readOnly" value="true"/>
+    <property name="layoutManager.renderSequenceField" value="false"/>
+    <property name="layoutManager.rowDetailsGroup">
+      <bean parent="Uif-VerticalBoxGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-InputField" p:propertyName="field3" p:label="SubField 3"
+                  p:required="true"/>
+            <bean parent="Uif-InputField" p:propertyName="field4" p:label="SubField 3"
+                  p:required="true"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="SubField 1"
+              p:required="true"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="SubField 2"
+              p:required="true">
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-TableLayoutDetails-Example5 end-->
+
+  <bean id="Demo-TableLayoutDetails-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-TableLayoutDetails-Example6 start-->
+        <bean id="Demo-TableLayoutDetails-Section6" parent="Uif-TableCollectionSection">
+          <property name="header.render" value="false"/>
+          <property name="collectionObjectClass"
+                    value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+
+          <property name="propertyName" value="collection1"/>
+          <property name="layoutManager.renderSequenceField" value="false"/>
+          <property name="readOnly" value="false"/>
+          <property name="layoutManager.rowDetailsOpen" value="true"/>
+          <property name="layoutManager.showToggleAllDetails" value="true"/>
+          <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+              <property name="items">
+                <list>
+                  <bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"
+                        p:required="true"/>
+                </list>
+              </property>
+            </bean>
+          </property>
+          <property name="items">
+            <list>
+              <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true"/>
+              <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"
+                    p:required="true"/>
+            </list>
+          </property>
+        </bean>
+        <!-- ex:Demo-TableLayoutDetails-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+</beans>

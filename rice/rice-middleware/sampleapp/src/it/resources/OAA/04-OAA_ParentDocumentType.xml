@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OfficeOfAffirmativeAction</name>
+      <description>Office Of Affirmative Action Documents</description>
+      <label>Offic Of Affirmative Action Documents</label>
+      <postProcessorName>org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor</postProcessorName>
+      <superUserGroupName namespace="DFAC_OAA">OAA_System_Administrators</superUserGroupName>
+      <blanketApproveGroupName namespace="DFAC_OAA">OAA_System_Administrators</blanketApproveGroupName>
+      <defaultExceptionGroupName namespace="DFAC_OAA">OAA_System_Administrators</defaultExceptionGroupName>
+      <docHandler>${workflow.url}/EDocLite</docHandler>
+      <notificationFromAddress>workflow@indiana.edu</notificationFromAddress>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>EDLDepartmentSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>EDLOAASearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.CampusSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>DFAC.SchoolSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="School" />
+          <requests name="School" nextNode="AffirmativeActionOfficer" />
+          <requests name="AffirmativeActionOfficer" nextNode="AffirmativeActionOfficerAdHoc" />
+          <requests name="AffirmativeActionOfficerAdHoc" nextNode="ViceChancellorforAcademicAffairsandDeanOfFaculties" />
+          <requests name="ViceChancellorforAcademicAffairsandDeanOfFaculties" nextNode="ViceChancellorforAcademicAffairsandDeanOfFacultiesAdHoc" />
+          <requests name="ViceChancellorforAcademicAffairsandDeanOfFacultiesAdHoc" nextNode="SchoolAcknowledgement" />
+          <requests name="SchoolAcknowledgement" nextNode="InitiatorAcknowledgement" />
+          <requests name="InitiatorAcknowledgement" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="School">
+          <activationType>S</activationType>
+          <ruleTemplate>OfficeOfAffirmativeAction-SchoolRouting</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="AffirmativeActionOfficer">
+          <activationType>S</activationType>
+          <ruleTemplate>AffirmativeActionOfficer</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="AffirmativeActionOfficerAdHoc">
+          <activationType>P</activationType>
+          <ruleTemplate>DFAC.AffirmativeActionOfficer.AdHoc</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="ViceChancellorforAcademicAffairsandDeanOfFaculties">
+          <activationType>S</activationType>
+          <ruleTemplate>ViceChancellorforAcademicAffairsandDeanOfFaculties</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="ViceChancellorforAcademicAffairsandDeanOfFacultiesAdHoc">
+          <activationType>P</activationType>
+          <ruleTemplate>DFAC.ViceChancellorforAcademicAffairsandDeanOfFaculties.AdHoc</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="SchoolAcknowledgement">
+          <activationType>S</activationType>
+          <ruleTemplate>OfficeOfAffirmativeAction-SchoolAcknowledgementRouting</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="InitiatorAcknowledgement">
+          <activationType>S</activationType>
+          <ruleTemplate>InitiatorRoleAcknowledgement</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

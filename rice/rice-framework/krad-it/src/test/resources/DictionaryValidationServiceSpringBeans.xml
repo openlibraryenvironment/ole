@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+	<bean id="dictionaryValidationDefinitionConstraintResolver"
+		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.DefinitionConstraintResolver"/>
+
+  <bean id="dictionaryValidationSimpleConstraintResolver"
+  		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.SimpleConstraintResolver"/>
+
+	<bean id="dictionaryValidationCaseConstraintResolver"
+		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.CaseConstraintResolver"/>
+	
+	<bean id="dictionaryValidationValidCharactersConstraintResolver"
+		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.ValidCharactersConstraintResolver"/>
+
+	<bean id="dictionaryValidationPrerequisiteConstraintsResolver"
+		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.PrerequisiteConstraintsResolver"/>
+		
+	<bean id="dictionaryValidationMustOccurConstraintsResolver"
+		class="org.kuali.rice.krad.datadictionary.validation.constraint.resolver.MustOccurConstraintsResolver"/>
+
+	<bean id="mandatoryElementConstraintProcessor"
+		class="org.kuali.rice.krad.datadictionary.validation.processor.MandatoryElementConstraintProcessor"
+		abstract="true">
+	</bean>   	
+
+	<bean id="dictionaryValidationService" class="org.kuali.rice.krad.service.impl.DictionaryValidationServiceImpl">
+    <!-- Collection constraint processors are classes that determine if a feature of a collection of objects satisfies some constraint -->
+		<property name="collectionConstraintProcessors">
+			<list>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.CollectionSizeConstraintProcessor"/>
+			</list>
+		</property>
+		<!-- Element constraint processors are classes that determine if a passed value is valid for a specific constraint at the individual object or object attribute level -->
+		<property name="elementConstraintProcessors">
+			<list>
+        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.SimpleConstraintProcessor"
+        					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.CaseConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.ExistenceConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.DataTypeConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.RangeConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.LengthConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.ValidCharactersConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.PrerequisiteConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.processor.MustOccurConstraintProcessor"
+					parent="mandatoryElementConstraintProcessor"/>
+			</list>
+		</property>
+		<!-- Constraint providers are classes that map specific constraint types to a constraint resolver, which takes a constrainable definition -->
+		<property name="constraintProviders">
+			<list>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.AttributeDefinitionConstraintProvider"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.ComplexAttributeDefinitionConstraintProvider"/>
+				<bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.DataObjectEntryConstraintProvider"/>
+                
+                <!-- The unit test method will add this when testing 
+                <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.CollectionDefinitionConstraintProvider"/>
+                -->
+			</list>
+		</property>		
+	</bean>
+    
+</beans>  

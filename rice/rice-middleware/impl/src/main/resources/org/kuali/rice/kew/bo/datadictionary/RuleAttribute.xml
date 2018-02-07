@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="RuleAttribute" parent="RuleAttribute-parentBean"/>
+
+  <bean id="RuleAttribute-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.kew.rule.bo.RuleAttribute"/>
+    <property name="exporterClass" value="org.kuali.rice.kew.export.DataExporter"/>
+    <property name="inquiryDefinition">
+      <ref bean="RuleAttribute-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="RuleAttribute-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="Rule Attribute"/>
+    <property name="attributes">
+      <list>
+        <ref bean="RuleAttribute-id"/>
+        <ref bean="RuleAttribute-name"/>
+        <ref bean="RuleAttribute-label"/>
+        <ref bean="RuleAttribute-description"/>
+        <ref bean="RuleAttribute-type"/>
+        <ref bean="RuleAttribute-className"/>
+        <ref bean="RuleAttribute-xmlConfigData"/>
+        <ref bean="RuleAttribute-applicationId"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="RuleAttribute-id" parent="RuleAttribute-id-parentBean"/>
+
+  <bean id="RuleAttribute-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="id"/>
+    <property name="label" value="Id"/>
+  </bean>
+
+  <bean id="RuleAttribute-name" parent="RuleAttribute-name-parentBean"/>
+
+  <bean id="RuleAttribute-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="name"/>
+    <property name="label" value="Name"/>
+  </bean>
+
+  <bean id="RuleAttribute-label" parent="RuleAttribute-label-parentBean"/>
+
+  <bean id="RuleAttribute-label-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Label"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="label"/>
+    <property name="label" value="Label"/>
+  </bean>
+
+  <bean id="RuleAttribute-description" parent="RuleAttribute-description-parentBean"/>
+
+  <bean id="RuleAttribute-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+  </bean>
+  
+  <bean id="RuleAttribute-type" parent="RuleAttribute-type-parentBean"/>
+
+  <bean id="RuleAttribute-type-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Type"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.kew.rule.bo.RuleAttribute" p:valuesFinderClass="org.kuali.rice.kew.rule.bo.RuleAttributeTypeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="id" p:labelAttribute="name"/>
+    </property>
+    <property name="name" value="type"/>
+    <property name="label" value="Type"/>
+  </bean>
+  
+  <bean id="RuleAttribute-className" parent="RuleAttribute-className-parentBean"/>
+
+  <bean id="RuleAttribute-className-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Class Name"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="name" value="resourceDescriptor"/>
+    <property name="label" value="Class Name"/>
+  </bean>
+  
+  <bean id="RuleAttribute-xmlConfigData" parent="RuleAttribute-xmlConfigData-parentBean"/>
+
+  <bean id="RuleAttribute-xmlConfigData-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="XML Configuration"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition"/>
+    </property>
+    <property name="name" value="xmlConfigData"/>
+    <property name="label" value="XML Configuration"/>
+  </bean>
+  
+  <bean id="RuleAttribute-applicationId" parent="RuleAttribute-applicationId-parentBean"/>
+
+  <bean id="RuleAttribute-applicationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Application ID"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="name" value="applicationId"/>
+    <property name="label" value="Application ID"/>
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="RuleAttribute-inquiryDefinition" parent="RuleAttribute-inquiryDefinition-parentBean"/>
+
+  <bean id="RuleAttribute-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+     	<bean parent="InquirySectionDefinition">
+          <property name="title" value="Rule Attribute"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="label"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="resourceDescriptor"/>
+              <bean parent="FieldDefinition" p:attributeName="applicationId"/>
+              <bean parent="FieldDefinition" p:attributeName="type"/>
+              <bean parent="FieldDefinition" p:attributeName="xmlConfigData"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="RuleAttribute-lookupDefinition" parent="RuleAttribute-lookupDefinition-parentBean"/>
+
+  <bean id="RuleAttribute-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="name" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="resourceDescriptor" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="applicationId" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="type" p:forceLookup="true"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="resourceDescriptor"/>
+        <bean parent="FieldDefinition" p:attributeName="type"/>
+        <bean parent="FieldDefinition" p:attributeName="applicationId"/>
+      </list>
+    </property>
+    <property name="title" value="Rule Attribute Lookup"/>
+  </bean>
+</beans>

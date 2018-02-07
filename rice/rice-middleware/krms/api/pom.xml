@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>rice-krms</artifactId>
+    <groupId>org.kuali.rice</groupId>
+    <version>2.3.6</version>
+  </parent>
+  <artifactId>rice-krms-api</artifactId>
+  <name>Rice KRMS API</name>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>rice-core-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+    </dependency>
+  </dependencies>
+  <properties>
+    <svc.co.name>ComparisonOperatorService</svc.co.name>
+    <svc.co.wsdl>${wsdl.dir}/${svc.co.name}.wsdl</svc.co.wsdl>
+    <svc.rr.name>RuleRepositoryService</svc.rr.name>
+    <svc.rr.wsdl>${wsdl.dir}/${svc.rr.name}.wsdl</svc.rr.wsdl>
+    <svc.fr.name>FunctionRepositoryService</svc.fr.name>
+    <svc.fr.wsdl>${wsdl.dir}/${svc.fr.name}.wsdl</svc.fr.wsdl>
+    <svc.rm.name>RuleManagementService</svc.rm.name>
+    <svc.rm.wsdl>${wsdl.dir}/${svc.rm.name}.wsdl</svc.rm.wsdl>
+    <svc.tr.name>TermRepositoryService</svc.tr.name>
+    <svc.tr.wsdl>${wsdl.dir}/${svc.tr.name}.wsdl</svc.tr.wsdl>
+    <svc.ktr.name>KrmsTypeRepositoryService</svc.ktr.name>
+    <svc.ktr.wsdl>${wsdl.dir}/${svc.ktr.name}.wsdl</svc.ktr.wsdl>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-java2ws-plugin</artifactId>
+        <executions>
+          <!--<execution>
+            <id>comparisonOperatorService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService</className>
+              <outputFile>${svc.co.wsdl}</outputFile>
+              <serviceName>${svc.co.name}</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>-->
+          <execution>
+            <id>krmsTypeRepositoryService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService</className>
+              <outputFile>${svc.ktr.wsdl}</outputFile>
+              <serviceName>KrmsTypeRepositoryService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>ruleRepositoryService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.krms.api.repository.RuleRepositoryService</className>
+              <outputFile>${svc.rr.wsdl}</outputFile>
+              <serviceName>RuleRepositoryService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>functionRepositoryService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.krms.api.repository.function.FunctionRepositoryService</className>
+              <outputFile>${svc.fr.wsdl}</outputFile>
+              <serviceName>FunctionRepositoryService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>ruleManagementService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.krms.api.repository.RuleManagementService</className>
+              <outputFile>${svc.rm.wsdl}</outputFile>
+              <serviceName>RuleManagementService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>termRepositoryService-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.rice.krms.api.repository.term.TermRepositoryService</className>
+              <outputFile>${svc.tr.wsdl}</outputFile>
+              <serviceName>TermRepositoryService</serviceName>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-wsdls</id>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${svc.rr.wsdl}</file>
+                  <classifier>${svc.rr.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.fr.wsdl}</file>
+                  <classifier>${svc.fr.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.ktr.wsdl}</file>
+                  <classifier>${svc.ktr.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.rm.wsdl}</file>
+                  <classifier>${svc.rm.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+                <artifact>
+                  <file>${svc.tr.wsdl}</file>
+                  <classifier>${svc.tr.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.apache.cxf</groupId>
+    								<artifactId>
+    									cxf-java2ws-plugin
+    								</artifactId>
+    								<versionRange>
+    									[2.7.0,)
+    								</versionRange>
+    								<goals>
+    									<goal>java2ws</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore />
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+</project>

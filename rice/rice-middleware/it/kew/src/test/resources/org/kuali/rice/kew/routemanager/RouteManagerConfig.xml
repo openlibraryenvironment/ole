@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+			<id>100</id>
+			<name>ExceptionRoutingGroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>ExceptionRoutingGroup</description>
+			<members>
+				<principalName>user3</principalName>
+			</members>
+		</group>
+	</groups>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>ExplodingRuleAttribute</name>
+			<className>org.kuali.rice.kew.routemanager.ExplodingRuleAttribute</className>
+			<label>ExplodingRuleAttribute</label>
+			<description>ExplodingRuleAttribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<!--  ExceptionRoutingTest  -->
+		<documentType>
+			<name>ExceptionRoutingSequentialDoc</name>
+			<description>ExceptionRoutingSequentialDoc</description>
+			<label>ExceptionRoutingSequentialDoc</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">ExceptionRoutingGroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RouteNode1" />
+					<requests name="RouteNode1" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>P</activationType>
+				</start>
+				<requests name="RouteNode1">
+					<activationType>P</activationType>
+					<ruleTemplate>RouteNode1</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!-- Parallel Exception routing test -->
+		<documentType>
+			<name>ExceptionRoutingParallelDoc</name>
+			<description>ExceptionRoutingParallelDoc</description>
+			<label>ExceptionRoutingSequentialDoc</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Split" />
+					<split name="Split" nextNode="RouteNode4">
+						<branch name="Branch 1">
+							<requests name="RouteNode1" nextNode="Explode" />
+							<requests name="Explode" nextNode="Join" />
+						</branch>
+						<branch name="Branch 2">
+							<requests name="RouteNode3" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+					<requests name="RouteNode4" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+				</start>
+				<split name="Split">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+				</split>
+				<join name="Join">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+				</join>
+				<requests name="RouteNode1">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>RouteNode1</ruleTemplate>
+				</requests>
+				<requests name="Explode">
+					<exceptionGroupName namespace="KR-WKFLW">ExceptionRoutingGroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>Explode</ruleTemplate>
+				</requests>
+				<requests name="RouteNode3">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>RouteNode3</ruleTemplate>
+				</requests>
+				<requests name="RouteNode4">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>RouteNode4</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<!-- adhoc transition test document -->
+
+		<documentType>
+			<name>AdhocTransitionTestDocument</name>
+			<description>AdhocTransitionTestDocument</description>
+			<label>AdhocTransitionTestDocument</label>
+			<postProcessorName>org.kuali.rice.kew.routemanager.ExceptionRoutingTestPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="requests" />
+					<requests name="requests" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+				</start>
+				<requests name="requests">
+					<exceptionGroupName namespace="KR-WKFLW">TestWorkgroup</exceptionGroupName>
+					<activationType>P</activationType>
+					<ruleTemplate>RouteNode4</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<!-- end adhoc transition test document -->
+
+	</documentTypes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<!--  ExceptionRoutingTest  -->
+		<ruleTemplate>
+			<name>RouteNode1</name>
+			<description>RouteNode1</description>
+		</ruleTemplate>
+		<!--  Parallel Exception routing test -->
+		<ruleTemplate>
+			<name>Explode</name>
+			<description>Exploder</description>
+			<attributes>
+				<attribute>
+					<name>ExplodingRuleAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>RouteNode3</name>
+			<description>RouteNode1</description>
+		</ruleTemplate>
+		<ruleTemplate>
+			<name>RouteNode4</name>
+			<description>RouteNode4</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<!--  Parallel Exception routing test -->
+		<rule>
+			<documentType>ExceptionRoutingParallelDoc</documentType>
+			<ruleTemplate>RouteNode1</ruleTemplate>
+			<description>RouteNode1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>bmcgough</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ExceptionRoutingParallelDoc</documentType>
+			<ruleTemplate>RouteNode3</ruleTemplate>
+			<description>RouteNode3</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ExceptionRoutingParallelDoc</documentType>
+			<ruleTemplate>Explode</ruleTemplate>
+			<description>Explode</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>rkirkend</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>ExceptionRoutingParallelDoc</documentType>
+			<ruleTemplate>RouteNode4</ruleTemplate>
+			<description>RouteNode4</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!--  -->
+		<rule>
+			<documentType>AdhocTransitionTestDocument</documentType>
+			<ruleTemplate>RouteNode4</ruleTemplate>
+			<description>RouteNode4</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!--  -->
+	</rules>
+</data>

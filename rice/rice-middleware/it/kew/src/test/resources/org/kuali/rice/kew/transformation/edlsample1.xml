@@ -1,0 +1,529 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--start template: edl-->
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="department_messageRow" class="empty_messageRow">
+<td id="department_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="department_messageDataCell" class="empty_messageDataCell">
+<span id="department_message" />
+</td>
+</tr><tr>
+<td width="30%" class="thnormal">Department</td><td class="datacell">
+<!--start template: fieldDef[display/type='select']-->
+<!--
+            INCOMING VALUE: 
+            FIELD NAME: department
+            FIELD DATA EXISTS: false
+            RETRIEVED FIELD DATA VALUE: 
+              ====================================
+              CURRENT (value): AAAD COAS
+              FIELD DATA MATCHES: false
+              VALUE EQUALS CURRENT: false
+              ====================================
+            
+              ====================================
+              CURRENT (value): AFRI COAS
+              FIELD DATA MATCHES: false
+              VALUE EQUALS CURRENT: false
+              ====================================
+            
+              ====================================
+              CURRENT (value): AMST COAS
+              FIELD DATA MATCHES: false
+              VALUE EQUALS CURRENT: false
+              ====================================
+            
+              ====================================
+              CURRENT (value): ANCS COAS
+              FIELD DATA MATCHES: false
+              VALUE EQUALS CURRENT: false
+              ====================================
+            -->
+<select xmlns="http://www.w3.org/1999/xhtml" name="department">
+<option value="AAAD COAS" title="African American/African Diaspora Studies">African American/African Diaspora Studies</option>
+<option value="AFRI COAS" title="African Studies">African Studies</option>
+<option value="AMST COAS" title="American Studies">American Studies</option>
+<option value="ANCS COAS" title="Ancient Studies">Ancient Studies</option>
+</select>
+<!--end template: fieldDef[display/type='select']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="creditType_messageRow" class="empty_messageRow">
+<td id="creditType_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="creditType_messageDataCell" class="empty_messageDataCell">
+<span id="creditType_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Check Appropriate Boxes</td><td class="datacell">
+<!--start template: fieldDef[display/type='radio' or display/type='checkbox']-->
+<!--hasUserValue: false-->
+            <input xmlns="http://www.w3.org/1999/xhtml" value="undergraduateCredit" type="radio" title="Undergraduate credit" name="creditType" checked="checked" />
+            Undergraduate credit
+            <input xmlns="http://www.w3.org/1999/xhtml" value="graduateCredit" type="radio" title="Graduate credit" name="creditType" />
+            Graduate credit
+            <input xmlns="http://www.w3.org/1999/xhtml" value="professionCredit" type="radio" title="Professional credit" name="creditType" />
+            Professional credit
+          <!--end template: fieldDef[display/type='radio' or display/type='checkbox']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="academicSubjectCode_messageRow" class="empty_messageRow">
+<td id="academicSubjectCode_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="academicSubjectCode_messageDataCell" class="empty_messageDataCell">
+<span id="academicSubjectCode_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Academic Subject Code</td><td class="datacell"><script type="text/javascript">
+                    // register field
+                    register("academicSubjectCode","Academic Subject Code","","","true");
+                    // end comment
+                  </script>
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="academicSubjectCode">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: Course Number must be of for A123
+               message: Course Number must be of for A123-->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseNumber_messageRow" class="empty_messageRow">
+<td id="courseNumber_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseNumber_messageDataCell" class="empty_messageDataCell">
+<span id="courseNumber_message">Course Number must be of for A123</span>
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Course Number (must be cleared with University Enrollment Services)</td><td class="datacell"><script type="text/javascript">
+                    // register field
+                    register("courseNumber","Course Number (must be cleared with University Enrollment Services)","\\D\\d\\d\\d?","Course Number must be of for A123","true");
+                    // end comment
+                  </script>
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="courseNumber" size="4">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: [JS] Javascript SHOULD NOT enforce instructor to be specified
+               message: [JS] Javascript SHOULD NOT enforce instructor to be specified-->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="instructor_messageRow" class="empty_messageRow">
+<td id="instructor_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="instructor_messageDataCell" class="empty_messageDataCell">
+<span id="instructor_message">[JS] Javascript SHOULD NOT enforce instructor to be specified</span>
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Instructor</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="instructor" size="4">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseTitle_messageRow" class="empty_messageRow">
+<td id="courseTitle_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseTitle_messageDataCell" class="empty_messageDataCell">
+<span id="courseTitle_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Course Title</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="courseTitle" size="4">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseTitleAbbreviation_messageRow" class="empty_messageRow">
+<td id="courseTitleAbbreviation_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseTitleAbbreviation_messageDataCell" class="empty_messageDataCell">
+<span id="courseTitleAbbreviation_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Course Title Abbreviation (32 Characters including spaces)</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="courseTitleAbbreviation" size="4">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseOfferTimeline_messageRow" class="empty_messageRow">
+<td id="courseOfferTimeline_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseOfferTimeline_messageDataCell" class="empty_messageDataCell">
+<span id="courseOfferTimeline_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">First time this course is to be offered (Semester/Year)</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="courseOfferTimeline">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="creditHoursFixed_messageRow" class="empty_messageRow">
+<td id="creditHoursFixed_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="creditHoursFixed_messageDataCell" class="empty_messageDataCell">
+<span id="creditHoursFixed_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Credit Hours: Fixed at</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="creditHoursFixed">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="creditHoursVariableFrom_messageRow" class="empty_messageRow">
+<td id="creditHoursVariableFrom_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="creditHoursVariableFrom_messageDataCell" class="empty_messageDataCell">
+<span id="creditHoursVariableFrom_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">or Variable from</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="creditHoursVariableFrom">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="creditHoursVariableTo_messageRow" class="empty_messageRow">
+<td id="creditHoursVariableTo_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="creditHoursVariableTo_messageDataCell" class="empty_messageDataCell">
+<span id="creditHoursVariableTo_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">to</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="creditHoursVariableTo">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseGradedSFOnly_messageRow" class="empty_messageRow">
+<td id="courseGradedSFOnly_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseGradedSFOnly_messageDataCell" class="empty_messageDataCell">
+<span id="courseGradedSFOnly_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Is this course to be graded S-F (only)?</td><td class="datacell">
+<!--start template: fieldDef[display/type='radio' or display/type='checkbox']-->
+<!--hasUserValue: false-->
+            <input xmlns="http://www.w3.org/1999/xhtml" value="yes" type="radio" title="Yes" name="courseGradedSFOnly" checked="checked" />
+            Yes
+            <input xmlns="http://www.w3.org/1999/xhtml" value="no" type="radio" title="No" name="courseGradedSFOnly" />
+            No
+          <!--end template: fieldDef[display/type='radio' or display/type='checkbox']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="variableTitleApproveRequested_messageRow" class="empty_messageRow">
+<td id="variableTitleApproveRequested_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="variableTitleApproveRequested_messageDataCell" class="empty_messageDataCell">
+<span id="variableTitleApproveRequested_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Is variable title approval being requested?</td><td class="datacell">
+<!--start template: fieldDef[display/type='radio' or display/type='checkbox']-->
+<!--hasUserValue: false-->
+            <input xmlns="http://www.w3.org/1999/xhtml" value="yes" type="radio" title="Yes" name="variableTitleApproveRequested" checked="checked" />
+            Yes
+            <input xmlns="http://www.w3.org/1999/xhtml" value="no" type="radio" title="No" name="variableTitleApproveRequested" />
+            No
+          <!--end template: fieldDef[display/type='radio' or display/type='checkbox']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseDescription_messageRow" class="empty_messageRow">
+<td id="courseDescription_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseDescription_messageDataCell" class="empty_messageDataCell">
+<span id="courseDescription_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Course Description (not to exceed 50 words) for Bulletin publication</td><td class="datacell">
+<!--start template: field[display/type='textarea']-->
+<textarea xmlns="http://www.w3.org/1999/xhtml" rows="5" name="courseDescription" cols="50"> </textarea>
+<!--end template: fieldDef[display/type='textarea']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="lectureContactHoursFixed_messageRow" class="empty_messageRow">
+<td id="lectureContactHoursFixed_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="lectureContactHoursFixed_messageDataCell" class="empty_messageDataCell">
+<span id="lectureContactHoursFixed_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Lecture Contact Hours: Fixed at</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="lectureContactHoursFixed">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="lectureContactHoursVariableFrom_messageRow" class="empty_messageRow">
+<td id="lectureContactHoursVariableFrom_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="lectureContactHoursVariableFrom_messageDataCell" class="empty_messageDataCell">
+<span id="lectureContactHoursVariableFrom_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">or Variable from</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="lectureContactHoursVariableFrom">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="lectureContactHoursVariableTo_messageRow" class="empty_messageRow">
+<td id="lectureContactHoursVariableTo_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="lectureContactHoursVariableTo_messageDataCell" class="empty_messageDataCell">
+<span id="lectureContactHoursVariableTo_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">to</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="lectureContactHoursVariableTo">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="nonlectureContactHoursFixed_messageRow" class="empty_messageRow">
+<td id="nonlectureContactHoursFixed_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="nonlectureContactHoursFixed_messageDataCell" class="empty_messageDataCell">
+<span id="nonlectureContactHoursFixed_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Non-Lecture Contact Hours: Fixed at</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="nonlectureContactHoursFixed">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="nonlectureContactHoursVariableFrom_messageRow" class="empty_messageRow">
+<td id="nonlectureContactHoursVariableFrom_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="nonlectureContactHoursVariableFrom_messageDataCell" class="empty_messageDataCell">
+<span id="nonlectureContactHoursVariableFrom_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">or Variable from</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="nonlectureContactHoursVariableFrom">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="nonlectureContactHoursVariableTo_messageRow" class="empty_messageRow">
+<td id="nonlectureContactHoursVariableTo_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="nonlectureContactHoursVariableTo_messageDataCell" class="empty_messageDataCell">
+<span id="nonlectureContactHoursVariableTo_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">to</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="nonlectureContactHoursVariableTo">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="estimatedEnrollment_messageRow" class="empty_messageRow">
+<td id="estimatedEnrollment_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="estimatedEnrollment_messageDataCell" class="empty_messageDataCell">
+<span id="estimatedEnrollment_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Estimated enrollment</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="estimatedEnrollment">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="estimatedEnrollmentPercentGradStudents_messageRow" class="empty_messageRow">
+<td id="estimatedEnrollmentPercentGradStudents_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="estimatedEnrollmentPercentGradStudents_messageDataCell" class="empty_messageDataCell">
+<span id="estimatedEnrollmentPercentGradStudents_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Estimated enrollment percent expected to be graduate students</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="estimatedEnrollmentPercentGradStudents">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="schedulingFrequency_messageRow" class="empty_messageRow">
+<td id="schedulingFrequency_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="schedulingFrequency_messageDataCell" class="empty_messageDataCell">
+<span id="schedulingFrequency_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Frequency of Schedule</td><td class="datacell">
+<!--start template: fieldDef[display/type='text']--><input value="" type="text" name="schedulingFrequency">
+<!--end template: fieldDef[display/type='text']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="requiredForMajors_messageRow" class="empty_messageRow">
+<td id="requiredForMajors_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="requiredForMajors_messageDataCell" class="empty_messageDataCell">
+<span id="requiredForMajors_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Will this course be required for majors?</td><td class="datacell">
+<!--start template: fieldDef[display/type='radio' or display/type='checkbox']-->
+<!--hasUserValue: false-->
+            <input xmlns="http://www.w3.org/1999/xhtml" value="yes" type="radio" title="Yes" name="requiredForMajors" checked="checked" />
+            Yes
+            <input xmlns="http://www.w3.org/1999/xhtml" value="no" type="radio" title="No" name="requiredForMajors" />
+            No
+          <!--end template: fieldDef[display/type='radio' or display/type='checkbox']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseJustification_messageRow" class="empty_messageRow">
+<td id="courseJustification_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseJustification_messageDataCell" class="empty_messageDataCell">
+<span id="courseJustification_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Justification for new course</td><td class="datacell">
+<!--start template: field[display/type='textarea']-->
+<textarea xmlns="http://www.w3.org/1999/xhtml" rows="5" name="courseJustification" cols="50"> </textarea>
+<!--end template: fieldDef[display/type='textarea']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="readingMaterialsAvailable_messageRow" class="empty_messageRow">
+<td id="readingMaterialsAvailable_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="readingMaterialsAvailable_messageDataCell" class="empty_messageDataCell">
+<span id="readingMaterialsAvailable_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Are the necessary reading materials currently available in the appropriate library?</td><td class="datacell">
+<!--start template: fieldDef[display/type='radio' or display/type='checkbox']-->
+<!--hasUserValue: false-->
+            <input xmlns="http://www.w3.org/1999/xhtml" value="yes" type="radio" title="Yes" name="readingMaterialsAvailable" checked="checked" />
+            Yes
+            <input xmlns="http://www.w3.org/1999/xhtml" value="no" type="radio" title="No" name="readingMaterialsAvailable" />
+            No
+          <!--end template: fieldDef[display/type='radio' or display/type='checkbox']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseOutline_messageRow" class="empty_messageRow">
+<td id="courseOutline_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseOutline_messageDataCell" class="empty_messageDataCell">
+<span id="courseOutline_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">Please append a complete outline of the proposed course, and indicate instructor (if known), textbooks, and other materials.</td><td class="datacell">
+<!--start template: field[display/type='textarea']-->
+<textarea xmlns="http://www.w3.org/1999/xhtml" rows="5" name="courseOutline" cols="50"> </textarea>
+<!--end template: fieldDef[display/type='textarea']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="courseOverlapExplanation_messageRow" class="empty_messageRow">
+<td id="courseOverlapExplanation_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="courseOverlapExplanation_messageDataCell" class="empty_messageDataCell">
+<span id="courseOverlapExplanation_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">If this course overlaps with existing courses, please explain with which courses it overlaps and whether this overlap is necessary, desirable, or unimportant</td><td class="datacell">
+<!--start template: field[display/type='textarea']-->
+<textarea xmlns="http://www.w3.org/1999/xhtml" rows="5" name="courseOverlapExplanation" cols="50"> </textarea>
+<!--end template: fieldDef[display/type='textarea']--></td>
+</tr>
+<!--
+              custom message: NONE
+              validation/message: 
+               message: -->
+<tr xmlns="http://www.w3.org/1999/xhtml" id="overlapDepts_messageRow" class="empty_messageRow">
+<td id="overlapDepts_messageHeaderCell" class="empty_messageHeaderCell">empty</td>
+<td id="overlapDepts_messageDataCell" class="empty_messageDataCell">
+<span id="overlapDepts_message" />
+</td>
+</tr>
+<tr>
+<td width="30%" class="thnormal">A copy of every new course proposal must be submitted to departments, schools, or divisions in which there may be overlap of the new course with existing courses or areas of strong concern, with instructions that they send comments directly to the originating Curriculum Committee.  Please append a list of departments, schools, or divisions thus consulted.</td><td class="datacell">
+<!--start template: field[display/type='textarea']-->
+<textarea xmlns="http://www.w3.org/1999/xhtml" rows="5" name="overlapDepts" cols="50"> </textarea>
+<!--end template: fieldDef[display/type='textarea']--></td>
+</tr>
+<!--end template: edl-->

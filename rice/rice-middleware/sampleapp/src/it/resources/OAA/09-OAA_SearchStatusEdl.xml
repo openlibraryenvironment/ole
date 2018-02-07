@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData"><edoclite xmlns="ns:workflow/EDocLite" xsi:schemaLocation="ns:workflow/EDocLite resource:EDocLite"><edl name="SearchStatusForm" title="Search Status">
+      <security />
+      <createInstructions />
+      <instructions />
+	  
+      <attributes>
+        <attribute name="DFAC.ViceChancellorforAcademicAffairsandDeanOfFacultiesAdHocNetworkIdRoleAttribute">
+          <field attributeField="networkId" edlField="ViceChancellorAdHoc" />
+        </attribute>
+        <attribute name="DFAC.AffirmativeActionOfficerAdHocNetworkIdRoleAttribute">
+          <field attributeField="networkId" edlField="AffirmativeActionOfficerAdHoc" />
+        </attribute>
+      </attributes>
+      <javascript><![CDATA[function textCounterEval(maxlimit, fieldvalue) {
+	var msg = fieldvalue;
+	var charnum = msg.length;
+	if(charnum >= maxlimit){
+		return true;
+	} else{
+		return false
+	}
+	}]]></javascript>
+      <fieldDef name="ViceChancellorAdHoc" title="AdHoc Responsibility 2(username):">
+        <display>
+          <type>networkId</type>
+          <meta>
+            <name>size</name>
+            <value>10</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="AffirmativeActionOfficerAdHoc" title="AdHoc Responsibility 1(username):">
+        <display>
+          <type>networkId</type>
+          <meta>
+            <name>size</name>
+            <value>10</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="oaa" title="OAA">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef attributeName="DFAC.CampusAttribute" name="campus" title="Campus">
+        <value>Select</value>
+        <display>
+          <type>select</type>
+          <values title="Select">Select</values>
+          <values title="(BL) Bloomington">BL</values>
+          <values title="(NW) Northwest-Gary">NW</values>
+        </display>
+        <validation required="true">
+          <regex>[^Select]</regex>
+          <message>Please Select a Campus.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef attributeName="DFAC.SchoolAttribute" name="school" title="School / RC">
+        <value>Select</value>
+        <display>
+          <type>select</type>
+          <!-- Bloomington School Section Starts Here -->
+            <values title="ADM-BL">ADM-BL</values>
+            <values title="ARSC-BL">ARSC-BL</values>
+            <values title="ASDV-BL">ASDV-BL</values>
+            <values title="BUS-BL">BUS-BL</values>
+            <values title="CCCS-BL">CCCS-BL</values>
+            <values title="CYOP-UA">CYOP-UA</values>
+            <values title="EDUC-BL">EDUC-BL</values>
+            <values title="EXEC-BL">EXEC-BL</values>
+            <values title="HPER-BL">HPER-BL</values>
+            <values title="INFO-BL">INFO-BL</values>
+            <values title="JOUR-BL">JOUR-BL</values>
+            <values title="LAWS-BL">LAWS-BL</values>
+            <values title="LIBR-BL">LIBR-BL</values>
+            <values title="MUS-BL">MUS-BL</values>
+            <values title="OPT-BL">OPT-BL</values>
+            <values title="RCEN-BL">RCEN-BL</values>
+            <values title="RUAD-BL">RUAD-BL</values>
+            <values title="SCS-BL">SCS-BL</values>
+            <values title="SLIS-BL">SLIS-BL</values>
+            <values title="SPEA-BL">SPEA-BL</values>
+            <values title="SSER-BL">SSER-BL</values>
+            <values title="UITS-BL">UITS-BL</values>
+            <values title="VPFA-BL">VPFA-BL</values>
+            <values title="VPUE-BL">VPUE-BL</values>
+          <!-- NW School Section Starts Here -->
+            <values title="AA-NW">AA-NW</values>
+            <values title="CHHS-NW">CHHS-NW</values>
+            <values title="COAS-NW">COAS-NW</values>
+            <values title="LIBR-NW">LIBR-NW</values>
+            <values title="SOBE-NW">SOBE-NW</values>
+            <values title="SOE-NW">SOE-NW</values>
+            <values title="ACAD-KO">ACAD-KO</values>
+            <values title="AHLT-KO">AHLT-KO</values>
+            <values title="ARSC-KO">ARSC-KO</values>
+            <values title="BUS-KO">BUS-KO</values>
+            <values title="CHOF-KO">CHOF-KO</values>
+            <values title="CTSD-KO">CTSD-KO</values>
+            <values title="EDUC-KO">EDUC-KO</values>
+            <values title="NURS-KO">NURS-KO</values>
+            <values title="SPEA-KO">SPEA-KO</values>
+        </display>
+        <validation required="true">
+          <regex>[^Select]</regex>
+          <message>Please Select a School.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="department" title="Department">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="title" title="Position Title">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>40</value>
+          </meta>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="appointmentStatus" title="Appointment Status">
+        <display>
+          <type>select</type>
+          <values title="">null</values>
+          <values title="Non-Tenure Track">NON</values>
+          <values title="Tenure Track">TRACK</values>
+          <values title="Tenure">TENURE</values>
+        </display>
+        <validation required="true">
+          <regex>[^null]</regex>
+          <message>Please Select a Status.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="rank" title="Salary Grade">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="acctPosNum" title="Acct./Position#">
+        <display>
+          <type>text</type>
+        </display>
+        <validation required="true" />
+      </fieldDef>
+      <fieldDef name="name" title="Offer made to">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>60</value>
+          </meta>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="status" title="Offer Status">
+        <display>
+          <type>select</type>
+          <values title="">null</values>
+          <values title="Accepted">Accepted</values>
+          <values title="Declined">Declined</values>
+          <values title="No Offer">No Offer</values>
+        </display>
+        <validation required="true">
+          <regex>[^null]</regex>
+          <message>Please Select an Offer Status.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="expectedStartDate" title="Expected Start Date">
+        <display>
+          <type>text</type>
+          <meta>
+            <name>size</name>
+            <value>20</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <regex>^[0-1]?[0-9](/|-)[0-3]?[0-9](/|-)[1-2][0-9][0-9][0-9]$</regex>
+          <message>Enter a valid date in the format mm/dd/yyyy</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="reason" title="Reason for Declined or No Offer">
+        <value />
+        <display>
+          <type>select</type>
+          <values title=" ">None</values>
+          <values title="Offer will be made to another candidate">Offer Another</values>
+          <values title="Other candidates will be interviewed">Interview Another</values>
+          <values title="Position will be re-advertised">Re-Advertised</values>
+          <values title="Position will be re-evaluated and a new search started at a later date">Re-Evaluated</values>
+          <values title="Search will be closed permanently">Closed</values>
+          <values title="Other">Other</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="otherDescription" title="Other">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="noOffer" title="If Declined or No Offer Selected">
+        <display>
+          <type>select</type>
+          <values title=" ">None</values>
+          <values title="Offer will be made to another candidate">Offer Another</values>
+          <values title="Other candidates will be interviewed">Interview Another</values>
+          <values title="Position will be re-evaluated and search will be continued">Re-Evaluated</values>
+          <values title="Search will be closed">Closed</values>
+          <values title="Other(explanation require)">Other</values>
+        </display>
+        <validation required="false" />
+      </fieldDef>
+      <fieldDef name="otherDescription2" title="Other">
+        <display>
+          <type>text</type>
+        </display>
+      </fieldDef>
+      <fieldDef name="comments" title="Comments">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>60</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>4</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <customValidator>textCounter</customValidator>
+          <message>Too many characters, please shorten or use the notes attachment feature.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="background" title="Criminal Background Check Complete?">
+        <display>
+          <type>checkbox</type>
+          <values title="">complete</values>
+        </display>
+      </fieldDef>
+      <!-- Additional Offer Info Fields START 9-22-2008-->
+      <fieldDef name="informalOffer" title="Were there any informal (email, phone call) offers for this vacancy that didn't matriculate to a formal Offer Request?">
+        <display>
+          <type>radio</type>
+          <values title="Yes">yes</values>
+          <values title="No" />
+        </display>
+      </fieldDef>
+      <fieldDef name="additionalDescription" title="If yes, please list the name(s) of the candidates in the following section:">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>60</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>4</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <customValidator>textCounter</customValidator>
+          <message>Too many characters, please shorten or use the notes attachment feature.</message>
+        </validation>
+      </fieldDef>
+      <fieldDef name="additionalDescriptionDFAC" title="Additional Notes">
+        <display>
+          <type>textarea</type>
+          <meta>
+            <name>cols</name>
+            <value>60</value>
+          </meta>
+          <meta>
+            <name>rows</name>
+            <value>3</value>
+          </meta>
+        </display>
+        <validation required="true">
+          <customValidator>textCounter</customValidator>
+          <message>Too many characters, please shorten or use the notes attachment feature.</message>
+        </validation>
+      </fieldDef>
+      <!-- Additional Offer Info Fields END 9-22-2008-->
+    </edl><style name="SearchStatusStyle"><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my-class="org.kuali.rice.edl.framework.util.EDLFunctions" version="1.0">
+        <xsl:include href="widgets" />
+        <xsl:output indent="yes" method="html" omit-xml-declaration="yes" version="4.01" />
+        <xsl:param name="overrideMain" select="'true'" />
+        <!-- if "overrideMain" = true, please customize the "mainForm" template, otherwise please customize the "mainBody" template -->
+        <xsl:template name="mainForm">
+          <html xmlns="">
+            <head>
+              <script language="javascript"><![CDATA[function textCounter(text){
+				maxlimit = new Number(4000);
+				if(textCounterEval(maxlimit, text)){
+					  alert("Input value was over the " + maxlimit + " character limit. You have entered " + text.length + " characters. Please shorten the entry or use the attachments feature in the notes section below.");
+					  return false;
+				}else{
+					return true;
+					}
+			  }
+			  function textCounterAll(){
+				msg1 = new String(document.forms[0].elements['comments'].value);
+				msg2 = new String(document.forms[0].elements['additionalDescription'].value);
+				msg3 = new String(document.forms[0].elements['additionalDescriptionDFAC'].value);
+			    if(textCounter(msg1) && textCounter(msg2) && textCounter(msg3)){
+					return true;
+				}else{
+					return false;
+				}
+			  }]]></script>
+              <xsl:call-template name="htmlHead" />
+            </head>
+            <body onload="onPageLoad()">
+              <xsl:call-template name="header" />
+              <xsl:call-template name="instructions" />
+              <xsl:call-template name="errors" />
+              <xsl:variable name="formTarget" select="'EDocLite'" />
+              <div id="mainform-div">
+                <form action="{$formTarget}" enctype="multipart/form-data" id="edoclite" method="post" onsubmit="return validateOnSubmit(this)">
+                  <xsl:call-template name="hidden-params" />
+                  <xsl:call-template name="mainBody" />
+                  <xsl:call-template name="annotation" />
+                  <br />
+                  <xsl:call-template name="notes" />
+                  <br />
+                  <xsl:call-template name="buttons" />
+                </form>
+              </div>
+              <div id="refresh-message" style="display:none">
+                <table align="center" border="1" cellpadding="0" cellspacing="0" width="40%">
+                  <tr>
+                    <td align="center" class="thnormal">
+                      <h2>
+                        <b>
+                          <font color="#ff0000">This form is being refreshed. Please wait.</font>
+                        </b>
+                      </h2>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <xsl:call-template name="footer" />
+            </body>
+          </html>
+        </xsl:template>
+        <xsl:template name="mainBody">
+			<xsl:variable name="docHeaderId" select="/documentContent/documentState/docId" />   
+			<xsl:variable name="isAtNodeAAO" select="my-class:isAtNode($docHeaderId, 'AffirmativeActionOfficer')" />
+			<xsl:variable name="isAtNodeVC" select="my-class:isAtNode($docHeaderId, 'ViceChancellorforAcademicAffairsandDeanOfFaculties')" />
+
+          <table xmlns="" align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="80%">
+            <tr>
+              <td class="thnormal" colspan="2" rowspan="3" valign="top">
+                <h2>Search Status</h2>
+                <br />
+                Academic Positions
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'oaa'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'oaa'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'campus'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'campus'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'school'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'school'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" colspan="4">
+                Attributes marked with a
+                <font color="#ff0000">*</font>
+                are required fields.
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="4" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell" colspan="4">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'department'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'title'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'title'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'appointmentStatus'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell" colspan="2">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'appointmentStatus'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'rank'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'rank'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'acctPosNum'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                <font color="#ff0000">*</font>
+                :
+              </td>
+              <td class="datacell" colspan="2">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'acctPosNum'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'name'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                :
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'name'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal" valign="top">Offer was :</td>
+              <td class="datacell" colspan="3">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="100%">
+                  <tr>
+                    <td align="right" class="thnormal">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'status'" />
+                        <xsl:with-param name="renderCmd" select="'title'" />
+                      </xsl:call-template>
+                      <font color="#ff0000">*</font>
+                      :
+                    </td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'status'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal" rowspan="2" valign="top">If Declined or No Offer Selected, please select one of the Following:</td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'noOffer'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      Description for "Other"
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'otherDescription2'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'expectedStartDate'" />
+                        <xsl:with-param name="renderCmd" select="'title'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'expectedStartDate'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal" rowspan="2" valign="top">Status of Search</td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'reason'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="datacell">
+                      Description for "Other"
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'otherDescription'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'background'" />
+                        <xsl:with-param name="renderCmd" select="'title'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'background'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Additional Offer Info Section START 9-22-2008 -->
+            <tr>
+              <td class="thnormal" valign="top">Additional Offer Information:</td>
+              <td class="datacell" colspan="3">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" class="bord-r-t" width="100%">
+                  <tr>
+                    <td align="right" class="thnormal">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'informalOffer'" />
+                        <xsl:with-param name="renderCmd" select="'title'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'informalOffer'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'additionalDescription'" />
+                        <xsl:with-param name="renderCmd" select="'title'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'additionalDescription'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" class="thnormal">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'additionalDescriptionDFAC'" />
+                        <xsl:with-param name="renderCmd" select="'title'" />
+                      </xsl:call-template>
+                    </td>
+                    <td class="datacell" colspan="2">
+                      <xsl:call-template name="widget_render">
+                        <xsl:with-param name="fieldName" select="'additionalDescriptionDFAC'" />
+                        <xsl:with-param name="renderCmd" select="'input'" />
+                      </xsl:call-template>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Additional Offer Info Section  END 9-22-2008-->
+            <tr>
+              <td class="datacell" colspan="5" height="20">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td class="thnormal">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'comments'" />
+                  <xsl:with-param name="renderCmd" select="'title'" />
+                </xsl:call-template>
+                :
+              </td>
+              <td class="datacell" colspan="3">
+                <xsl:call-template name="widget_render">
+                  <xsl:with-param name="fieldName" select="'comments'" />
+                  <xsl:with-param name="renderCmd" select="'input'" />
+                </xsl:call-template>
+              </td>
+            </tr>
+          </table>
+		  
+                <br xmlns="" />
+          <table xmlns="" align="center" border="1" cellpadding="2" cellspacing="2" width="80%">
+			<xsl:if test="$isAtNodeAAO">
+				<tr>
+				  <td class="thnormal" colspan="4">
+					<h4>Ad Hoc Section</h4>
+				  </td>
+				</tr>
+				<tr>
+				  <td class="thnormal">
+					<xsl:call-template name="widget_render">
+					  <xsl:with-param name="fieldName" select="'AffirmativeActionOfficerAdHoc'" />
+					  <xsl:with-param name="renderCmd" select="'title'" />
+					</xsl:call-template>
+					:
+				  </td>
+				  <td class="datacell">
+					<xsl:call-template name="widget_render">
+					  <xsl:with-param name="fieldName" select="'AffirmativeActionOfficerAdHoc'" />
+					  <xsl:with-param name="renderCmd" select="'input'" />
+					</xsl:call-template>
+				  </td>
+				</tr>
+			</xsl:if>
+			<xsl:if test="$isAtNodeVC">
+				<tr>
+				  <td class="thnormal">
+					<xsl:call-template name="widget_render">
+					  <xsl:with-param name="fieldName" select="'ViceChancellorAdHoc'" />
+					  <xsl:with-param name="renderCmd" select="'title'" />
+					</xsl:call-template>
+					:
+				  </td>
+				  <td class="datacell">
+					<xsl:call-template name="widget_render">
+					  <xsl:with-param name="fieldName" select="'ViceChancellorAdHoc'" />
+					  <xsl:with-param name="renderCmd" select="'input'" />
+					</xsl:call-template>
+				  </td>
+				</tr>
+			</xsl:if>
+          </table>
+          <br xmlns="" />
+        </xsl:template>
+      </xsl:stylesheet></style><association><docType>SearchStatus</docType><definition>SearchStatusForm</definition><style>SearchStatusStyle</style><active>true</active></association></edoclite></data>

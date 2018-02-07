@@ -1,0 +1,205 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- ComponentBase -->
+
+  <bean id="Uif-ComponentBase" parent="Uif-ComponentBase-parentBean" abstract="true"/>
+  <bean id="Uif-ComponentBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.component.ComponentBase"
+        scope="prototype"/>
+
+  <!-- Modifiers -->
+
+  <bean id="Uif-CompareFieldCreate-Modifier" parent="Uif-CompareFieldCreate-Modifier-parentBean"/>
+  <bean id="Uif-CompareFieldCreate-Modifier-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.modifier.CompareFieldCreateModifier" scope="prototype"/>
+
+  <bean id="Uif-LabelSeparator-Modifier" parent="Uif-LabelSeparator-Modifier-parentBean"/>
+  <bean id="Uif-LabelSeparator-Modifier-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.modifier.LabelSeparateModifier" scope="prototype"/>
+
+  <bean id="Uif-ComponentConverter-Modifier" parent="Uif-ComponentConverter-Modifier-parentBean"/>
+  <bean id="Uif-ComponentConverter-Modifier-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.modifier.ComponentConvertModifier" scope="prototype"/>
+
+  <bean id="Uif-CheckboxToRadioConverter-Modifier" parent="Uif-CheckboxToRadioConverter-Modifier-parentBean"/>
+  <bean id="Uif-CheckboxToRadioConverter-Modifier-parentBean" abstract="true" parent="Uif-ComponentConverter-Modifier">
+    <property name="componentTypeToReplace" value="org.kuali.rice.krad.uif.control.CheckboxControl"/>
+    <property name="componentReplacementPrototype">
+      <bean parent="Uif-VerticalRadioControl">
+        <property name="options">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+            <bean parent="Uif-KeyLabelPair" p:key="" p:value="Both"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!-- Other -->
+
+  <bean id="Uif-BindingInfo" class="org.kuali.rice.krad.uif.component.BindingInfo" scope="prototype"/>
+
+  <bean id="Uif-CompareConfig" class="org.kuali.rice.krad.uif.modifier.ComparableInfo" scope="prototype"/>
+
+  <bean id="Uif-KeyLabelPair" class="org.kuali.rice.krad.uif.util.UifKeyValue" scope="prototype"/>
+
+  <bean id="Uif-KeyValueLocation" class="org.kuali.rice.krad.uif.util.UifKeyValueLocation" scope="prototype">
+    <property name="location">
+      <bean parent="Uif-Url"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-ColumnCalculationInfo" class="org.kuali.rice.krad.uif.util.ColumnCalculationInfo" scope="prototype"
+        abstract="true">
+    <property name="showTotal" value="true"/>
+    <property name="showPageTotal" value="true"/>
+    <property name="showGroupTotal" value="false"/>
+    <property name="calculateOnKeyUp" value="false"/>
+    <property name="recalculateTotalClientSide" value="true"/>
+    <property name="totalField">
+      <bean parent="Uif-MessageField" p:message.messageText="N/A"
+            p:fieldLabel.labelText="Total">
+        <property name="message.dataAttributes">
+          <map>
+            <entry key="role" value="totalValue"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="pageTotalField">
+      <bean parent="Uif-MessageField" p:message.messageText="N/A"
+            p:fieldLabel.labelText="Page Total">
+        <property name="message.dataAttributes">
+          <map>
+            <entry key="role" value="totalValue"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="groupTotalFieldPrototype">
+      <bean parent="Uif-MessageField" p:message.messageText="N/A"
+            p:fieldLabel.labelText="Group Total">
+        <property name="message.dataAttributes">
+          <map>
+            <entry key="role" value="totalValue"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="Uif-ColumnCalculationInfo-Sum" abstract="true"
+        parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="sumValues"/>
+
+  <bean id="Uif-ColumnCalculationInfo-Average" abstract="true"
+        parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="averageValues">
+    <property name="totalField.fieldLabel.labelText" value="Average"/>
+    <property name="pageTotalField.fieldLabel.labelText" value="Page Average"/>
+    <property name="groupTotalFieldPrototype.fieldLabel.labelText" value="Group Average"/>
+  </bean>
+
+  <bean id="Uif-ColumnCalculationInfo-Max" abstract="true"
+        parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="maxValue">
+    <property name="totalField.fieldLabel.labelText" value="Max"/>
+    <property name="pageTotalField.fieldLabel.labelText" value="Page Max"/>
+    <property name="groupTotalFieldPrototype.fieldLabel.labelText" value="Group Max"/>
+  </bean>
+
+  <bean id="Uif-ColumnCalculationInfo-Min" abstract="true"
+        parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="minValue">
+    <property name="totalField.fieldLabel.labelText" value="Min"/>
+    <property name="pageTotalField.fieldLabel.labelText" value="Page Min"/>
+    <property name="groupTotalFieldPrototype.fieldLabel.labelText" value="Group Min"/>
+  </bean>
+
+  <bean id="Uif-MethodInvokerConfig" class="org.kuali.rice.krad.uif.component.MethodInvokerConfig" scope="prototype"/>
+
+  <bean id="Uif-ConditionalBeanPropertyReplacer" class="org.kuali.rice.krad.uif.component.PropertyReplacer"
+        scope="prototype"/>
+
+  <bean id="Uif-AttributeQueryConfig" class="org.kuali.rice.krad.uif.field.AttributeQuery" scope="prototype"
+        p:returnMessageStyleClasses="uif-attributeQueryErrorMessage"/>
+
+  <bean id="Uif-RemotableFieldsPlaceholderConfig" class="org.kuali.rice.krad.uif.field.RemoteFieldsHolder"
+        scope="prototype">
+    <property name="bindingInfo">
+      <bean parent="Uif-BindingInfo"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-ConditionalCollectionFilter" class="org.kuali.rice.krad.uif.container.ELCollectionFilter"
+        scope="prototype"/>
+
+  <bean id="Uif-ViewTheme" class="org.kuali.rice.krad.uif.view.ViewTheme" scope="prototype">
+    <property name="minVersionSuffix" value="${application.version}"/>
+  </bean>
+
+  <bean id="Uif-RiceViewTheme" abstract="true" parent="Uif-ViewTheme">
+    <property name="minVersionSuffix" value="${rice.version}"/>
+  </bean>
+
+  <bean id="Uif-BreadcrumbItem" class="org.kuali.rice.krad.uif.util.BreadcrumbItem" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/widget/breadcrumb.ftl"/>
+    <property name="templateName" value="uif_breadcrumb"/>
+    <property name="renderAsLink" value="true"/>
+    <property name="url">
+      <bean parent="Uif-Url"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-PageBreadcrumbOptions" class="org.kuali.rice.krad.uif.util.PageBreadcrumbOptions" scope="prototype">
+    <property name="renderViewBreadcrumb" value="true"/>
+    <property name="renderHomewardPathBreadcrumbs" value="true"/>
+    <property name="renderPrePageBreadcrumbs" value="true"/>
+    <property name="renderPreViewBreadcrumbs" value="true"/>
+    <property name="renderParentLocations" value="true"/>
+  </bean>
+
+
+  <bean id="Uif-BreadcrumbOptions" class="org.kuali.rice.krad.uif.util.BreadcrumbOptions" scope="prototype">
+  </bean>
+
+  <bean id="Uif-Url" class="org.kuali.rice.krad.uif.util.UrlInfo" scope="prototype">
+    <property name="baseUrl" value="@{#ConfigProperties['krad.url']}"/>
+    <property name="methodToCall" value="start"/>
+  </bean>
+
+  <bean id="Uif-ParentLocation" class="org.kuali.rice.krad.uif.util.ParentLocation" scope="prototype">
+
+    <property name="parentViewUrl">
+      <bean parent="Uif-Url"/>
+    </property>
+    <property name="parentPageUrl">
+      <bean parent="Uif-Url"/>
+    </property>
+    <property name="viewBreadcrumbItem">
+      <bean parent="Uif-BreadcrumbItem"/>
+    </property>
+    <property name="pageBreadcrumbItem">
+      <bean parent="Uif-BreadcrumbItem"/>
+    </property>
+  </bean>
+
+
+</beans>

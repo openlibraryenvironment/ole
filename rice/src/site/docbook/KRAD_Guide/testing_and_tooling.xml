@@ -1,0 +1,1488 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="testing_and_tooling" xmlns="http://docbook.org/ns/docbook"
+         version="5.0">
+  <title>Testing and Tooling</title>
+  <section>
+    <title>Reloading Dictionary</title>
+    <para>Coming Soon!</para>
+    <!-- TODO: Add content here.
+    -->
+  </section>
+  <section>
+    <title>Rice Data Objects</title>
+    <para></para>
+    <section>
+      <title>Introduction</title>
+      <para></para>
+      <section>
+        <title>Purpose of RDO</title>
+        <para> The Kuali Rapid Application Development Framework (KRAD) relies on several different
+          artifacts for its creation and rendering of web applications. These artifacts are greatly
+          varied in both form and purpose; ranging from standard java class files to xml files. The
+          creation of these can be both repetitive and time consuming to developers. The purpose of
+          the Rice Data Object (RDO) Developer is to decrease both the repetitiveness and time it
+          takes to create these artifacts by automating and guiding the creation. </para>
+      </section>
+      <section>
+        <title>What is RDO</title>
+        <para> The Rice Data Objects Developer is an artifact creation tool that helps in the
+          implementation of the Kuali Rapid Application Development framework. It allows the user to
+          rapidily develop web applications by providing a quick and easy way to create the
+          necessary artifacts for use in the KRAD framework. In the most basic terms, it is a wizard
+          that guides the user, through prompts and lists, in entering the needed information for
+          each artifact, then generates the completed form, removing the need for repetitive typing
+          and formatting. Through this it also brings a level of standardization to the different
+          artifacts, making the interpretation of each simpler. </para>
+        <para>This tool utilizes an interactive command line style interface that assists the user
+          in entering the information about a desired artifact, offering validation on the content
+          before writing the artifact to the appropriate location. This process takes care of the
+          bulk work needed to create and deploy web applications with the user only needed to touch
+          the artifact itself for subject specific details and changes. </para>
+      </section>
+    </section>
+    <section>
+      <title>Installation and Configuration</title>
+      <para></para>
+      <section>
+        <title>Included Files</title>
+        <itemizedlist>
+          <listitem>
+            <para>
+              Folder: Properties
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  File: rdo-config.properties
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>
+              File: rdo-tool.jar
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+      <section>
+        <title>Setting Up File System</title>
+        <para>The RDO Developer is set up to save the artifacts generated to predetermined
+          locations. This can cause errors in the save process if the folder location that RDO is
+          trying to access is missing. To prevent this, before using RDO, the user should configure
+          the File Path Setup section of the properties so that the file paths point to the folder
+          in which they wish to save each artifact. More details can be found in the Configuring
+          Properties section below. </para>
+      </section>
+      <section>
+        <title>Configuring Properties</title>
+        <para>The RDO Developer offers a wide availability of customization and automization which
+          can be set up through the rdo-config.properties file. This file is broken into a number of
+          different sections based on the area of the RDO affected. It is recommended to make a back
+          up of this file before making changes. </para>
+        <itemizedlist>
+          <listitem>
+            <para>Main Program Setup</para>
+            <para>The properties described in this section deal with the functionality and
+              navigation of the RDO. Please note the all names and symbols defined in this area need
+              to be exact to avoid critical runtime errors in the program. </para>
+            <itemizedlist>
+              <listitem>
+                <para>Delimiter: List separator used in this file (default value: ",").</para>
+              </listitem>
+              <listitem>
+                <para>developerlist: List of the developer names displayed in the main menu.</para>
+              </listitem>
+              <listitem>
+                <para>lineardevelopment.javaobjectwriter.next: The name of the developer after the Java Object
+                  developer in the linear development method (default value: DDL).
+                </para>
+              </listitem>
+              <listitem>
+                <para>lineardevelopment.ddlwriter.next: The name of the developer after the DDL Developer in
+                  the linear development method (default value: OJB).
+                </para>
+              </listitem>
+              <listitem>
+                <para>lineardevelopment.ojbwriter.next: The name of the developer after the OJB Developer in
+                  the linear development method (default value: DataDictionary).
+                </para>
+              </listitem>
+              <listitem>
+                <para>lineardevelopment.datadictionarywriter.next: The name of the developer after the Data
+                  Dictionary Developer in the linear development method (default value: ViewXML).
+                </para>
+              </listitem>
+              <listitem>
+                <para>lineardevelopment.viewwriter.next: The name of the developer after the View Developer in
+                  the linear development method (default value: DataObject).
+                </para>
+              </listitem>
+              <listitem>
+                <para>lineardevelopment.converters.use: The status of whether artifacts will be
+                  created by converting other information from previous artifacts (values: always,
+                  never, prompt).</para>
+              </listitem>
+              <listitem>
+                <para>utilities.filepath.errormessages: The file name and location for the xml document that
+                  contains the list of error codes for the program.
+                </para>
+              </listitem>
+              <listitem>
+                <para>utilities.interface.gui: The status of whether the Tooling GUI Interface will be used
+                  to display and run the program in.
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>File Path Setup</para>
+            <para>The properties described in this section deal with the set up of the file system and the file
+              location for saving artifacts developed using the RDO. File paths can be substituted into others
+              by enclosing the property name in "{}" for example: "{filepath.default.workarea}/ java/projects/
+              {projectname}/" where the first brackets enclose the workarea name defined in these properties.
+              Putting brackets around projectname and modulename tells the RDO to substitute the project or module
+              name set by the user.
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>filepath.prompt.projectname: Whether the user should be prompted to enter a
+                  project name when creating new artifacts (values: true, false). </para>
+              </listitem>
+              <listitem>
+                <para>filepath.prompt.modulename: Whether the user should be prompted to enter a
+                  module name when creating new artifacts (values: true, false). </para>
+              </listitem>
+              <listitem>
+                <para>filepath.default.projectname: The default name of the project for the artifacts.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.default.modulename: The default name of the module for the artifacts</para>
+              </listitem>
+              <listitem>
+                <para>filepath.default.workarea: The default file location where the file system starts for
+                  the artifacts.
+                </para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.project: The file path where the project folder is.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.workflow: The file path where workflow artifacts are saved.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.module: The file path where the module folder is.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.resource: The file path to where OJB artifacts are saved.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.changeset: The file path to where DDL artifacts are saved.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.dictionary: The file path to where Data Dictionary artifacts are
+                  saved.
+                </para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.uif: The file path to where View artifacts are saved.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.dataobjects: The file path to where Java Object artifacts are saved.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.ojb: The file path to where OJB artifacts are saved.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.package.project: The import package of the project.</para>
+              </listitem>
+              <listitem>
+                <para>filepath.location.package.module: The import package of the module.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>Java Object Writer</para>
+            <para>The properties described in this section deal with the automization of the Java
+              Object Developer. </para>
+            <itemizedlist>
+              <listitem>
+                <para>javaobjectwriter.default.authorname: The default name of the author for a Data Object.</para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.default.authoremail: The default email of the author for a Data Object.</para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.default.businessobject: The default business object status of a Data
+                  Object (values "yes" / "no").
+                </para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.prompt.authorname: Whether the user should be prompted to enter a author
+                  name when creating a new Object.
+                </para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.prompt.authoremail: Whether the user should be prompted to enter a
+                  author email when creating a new Object.
+                </para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.prompt.businessobject: Whether the user should be prompted to enter
+                  the business object status when creating a new Object.
+                </para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.datatypes.names: List of data types in which common properties can be
+                  set.
+                </para>
+              </listitem>
+              <listitem>
+                <para>javaobjectwriter.datatypes.paths: List of corresponding import paths to the previous
+                  list (order of these items must match its counterpart in the first list).
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>DDL Writer</para>
+            <para>The properties described in this section deal with the automization and list
+              options of the DDL Developer. </para>
+            <itemizedlist>
+              <listitem>
+                <para>ddlwriter.columntype.names: List of column types in which a column can be set to.</para>
+              </listitem>
+              <listitem>
+                <para>ddlwriter.converter.datatype: List of data types with registered JDBC matches.</para>
+              </listitem>
+              <listitem>
+                <para>ddlwriter.converter.jdbctype: List of corresponding JDBC matches to the previous list
+                  (order of these items must match its counterpart in the first list).
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>Data Dictionary Writer</para>
+            <para>The properties described in this section deal with the default list and options available for
+              the Data Dictionary Developer.
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>datadictionary.definition.textconstraints: List of values for a special attribute –
+                  validCharactersConstraint.
+                </para>
+              </listitem>
+              <listitem>
+                <para>datadictionary.definition.controlfields: List of values for a special attribute –
+                  controlfield.
+                </para>
+              </listitem>
+              <listitem>
+                <para>datadictionary.definition.attributes.simple: List of attribute names for simple
+                  attributes.
+                </para>
+              </listitem>
+              <listitem>
+                <para>datadictionary.definition.attributes.example: List of examples for the simple attributes
+                  listed above (order of these items must match its counterpart in the first list).
+                </para>
+              </listitem>
+              <listitem>
+                <para>datadictionary.definition.attributes.special: List of attribute names for
+                  special attributes. </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+          <listitem>
+            <para>OJB Writer</para>
+            <para>The properties described in this section deal with the OJB file and creation of a new file if
+              needed.
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>ojb.file.name: This is the name of the ojb file which the developer will
+                  append to (default: ojb.xml). </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
+      </section>
+      <section>
+        <title>Starting the program</title>
+        <para>Before starting the RDO, users should first make sure the program is set up correctly.
+          They should first check that the rdo-config.properties file are in the /properties folder.
+          Once the properties files are in place, users should make changes to the rdo-config file
+          to set up the customization and automization as they wish, and making sure the
+          errorMsgs.xml file is being pointed to as well, to decrease errors and allow error
+          handling by the system. After set up is complete, start the program by clicking the
+          program icon and opening the console. </para>
+      </section>
+    </section>
+
+    <section>
+      <title>User Guide</title>
+      <para/>
+      <section>
+        <title>Artifact Creation Methods</title>
+        <para>RDO offers several ways to go about the development of the different artifacts used by the KRAD
+          framework based on the needs and desires of the users.
+        </para>
+        <section>
+          <title>Stand alone</title>
+          <para>The most basic setup of the RDO allows users to create each artifact from scratch in
+            a standalone method. Using this method, each artifact is created by itself, meaning that
+            it is not using influenced by the other artifacts, nor does the user need to create the
+            others. This method allows for the quick replacement or creation of specific artifacts
+            in the system. </para>
+        </section>
+        <section>
+          <title>Linear Development</title>
+          <para>This method focuses on creating several artifacts of the same set (either complete
+            or partial sets). In this set up, the user fills in the information and creates the
+            artifact before moving on to the next; allowing them to use information filled in on the
+            previous artifacts to create the others. The default order of creation is: </para>
+          <para>
+            Java Object -> DDL Table -> OJB Descriptor -> Dictionary entry -> Views
+          </para>
+          <para>However, this can be changed to allow for the absence of an artifact or for the
+            preference of the user. (Changing the order of artifact creation can be done by
+            modifying the values of the lineardevelopment entries in the properties file). </para>
+        </section>
+      </section>
+      <section>
+        <title>Main Menu</title>
+        <para>The main menu for the RDO simply consists of the different artifacts that can be
+          created using the program. To start the creation of an artifact, select it from the menu
+          by entering its selection value (the number on the left side of the artifacts name). You
+          can also enter 0 to exit the program. </para>
+        <section>
+          <title>Interacting with Prompts</title>
+          <para>The RDO is meant to assist users in entering information to create the KRAD
+            artifacts, and does this by using prompts to direct what information the program is
+            looking for the user to enter. To avoid mistakes or misinformation from being entered,
+            the program will validate the information entered by the user and respond if invalid
+            information is detected. The user can also back out of a series of prompts by entering
+            "/q", which will return them to the closest menu. </para>
+        </section>
+      </section>
+      <section>
+        <title>Data Object Developer</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDO_DOMainMenu.jpg" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+        <para>The Data Object is a simple java class that contains a number of properties (data
+          entries). These properties can consist of simple data types like int, String or boolean,
+          or relation (user defined) data types. For each data type the needed imports, declarations
+          and constructor initializion are created, as well as the getters and setters needed to
+          fill or retrieve the data stored for these properties. </para>
+        <section>
+          <title>Creating a New Object</title>
+          <para>When the Developer is started, the user is prompted for the name of the Data Object
+            they wish to create. This is the actual name of the Object and follows the standard java
+            class naming syntax. Once the name of the new object is filled, the main menu is
+            presented. </para>
+        </section>
+        <section>
+          <title>Adding a Common Property</title>
+          <para>To add a common property to the Data Object, the user selects "Add Simple Property"
+            from the main menu. They will then be prompted to enter the name of the new property;
+            like the Object name, it follows the java naming syntax for data entries, and it should
+            also follow any naming conventions (though naming conventions are not checked for during
+            creation). Next, the user is presented with a list of common data types to pick from
+            using the number on the left side of the type name. If a property is not present on the
+            list, it will need to be added as a relation property. </para>
+        </section>
+        <section>
+          <title>Adding a Relation Property</title>
+          <para>To add a relation property to the Data Object the user selects "Add Relational
+            Property" from the main menu. Like when adding a common property, they will be prompted
+            to enter the name for the new property (same syntax and conventions apply). Next, they
+            will be asked to enter the import package for the data type. This means that the user
+            must enter the exact import syntax for the type they wish to use, and not a general
+            package using the * symbol (example path1.path2.type1) as the data type for the property
+            is extracted from its import package. Once complete, the user is asked whether the
+            relational property is "one to one" or "one to many" by selecting the options from the
+            list. A "one to many" status on the property means that it will be designated as a list
+            in the java class. </para>
+        </section>
+        <section>
+          <title>Modifying The Data Object</title>
+          <para>To modify information already entered into the Data Object, the user can select
+            "Modify Menu" from the main menu. This will take them to a new menu in which they are
+            able to modify any piece of data already entered by selecting from the options and
+            following the prompts. Where the primary data entering options in the main menu deal
+            with collecting data for a whole item at once, the options under the modify menu handle
+            only a specific segment of the data at one time. </para>
+        </section>
+        <section>
+          <title>Previewing Java Class</title>
+          <para>Once the necessary information has been entered into the Data Object Developer, the
+            user can preview a sample of the class that will be written by selecting "Preview Data
+            Object" from the main menu. This preview shows the class imports, property declarations
+            and constructor, but not the getters and setters. </para>
+        </section>
+        <section>
+          <title>Writing the Object to File</title>
+          <para>After checking the Data Object for completeness and correctness, it can then be
+            written to the appropriate location defined in the program properties file by selecting
+            "Write Data Object" from the main menu. This option automatically writes the complete
+            class to a .java file at that location. Once the file is written, the program prompts
+            the user if they would like to open the new file. By entering "yes" to this prompt the
+            file will then be opened using the computer's default program for opening files of the
+            type java. </para>
+        </section>
+        <section>
+          <title>Linear Development</title>
+          <para> When looking at the main menu, the user will notice that there are two options to
+            write: "Write Data Object" and "Write Data Object and Start ____." The first option
+            merely writes the Object being worked on to its file and stays in the Data Object
+            Developer; the second option, however, is for the linear development method. Meaning
+            that it will write the Object to file, then exit the Data Object Developer, and start
+            the next Developer as assigned in the properties file. By doing this the information
+            entered for the Data Object and previous artifacts is used to help in making the other
+            artifacts helping speed up the process. For linear development, it is suggested to
+            always start in the Data Object Developer, as it sets the property fields for the
+            others. </para>
+        </section>
+        <section>
+          <title>Exiting</title>
+          <para>Once the user has completed creating a Data Object, they can exit back to the RDO's
+            main menu by simply selecting the "Exit" option from the Data Object Developer menu. </para>
+        </section>
+      </section>
+      <section>
+        <title>DDL Developer</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDO_DDLMainMenu.jpg" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+        <para>
+          The DDL File is actually a LiquiBase Changeset XML file that contains the necessary information to create
+          the base table of the database. This includes the beginning set up of the LiquiBase Changelog with the
+          first Changeset that creates the new table with the starting columns and constraints. Each file is for a
+          single database table related to a single Data Object.
+        </para>
+        <section>
+          <title>Creating a New DDL</title>
+          <para>When the DDL Developer is started the user is prompted to enter the name of the
+            table to be created by the Changeset. This is the actual database table name and should
+            follow the required syntax and conventions of a standard database schema. When a new
+            Table is created two default columns are also added to the database ("versionid" and
+            "objectid") with the appropriate information about both. </para>
+          <section>
+            <title>Linear Development</title>
+            <para>If the user is using the linear development method and a Data Object has been
+              created, then before starting the DDL Developer, the user will be prompted if they
+              wish to create the Changeset using the information from the previous Data Object. By
+              entering "yes", the new Table will be populated with the Object's information. This
+              means the name of the table will be set, and a new column added with its name and data
+              type filled in for each data property. Note: The user is only prompted this question
+              if the converters option in the properties file is set to. </para>
+          </section>
+        </section>
+        <section>
+          <title>Adding Columns</title>
+          <para> To add a column to the created Table, the user selects "Add Column" from the main
+            menu. They will then be asked to enter the name of the new column which should meet
+            database syntax (the name will automatically be set to uppercase). A list of JDBC types
+            is displayed, and the column type can be selected using the index on the left side of
+            the type's name. Once the type is selected the user can enter the parameters for the
+            type by following the prompt (if the JDBC type has a common format of parameters, the
+            user will be asked if they wish to use it, which provides a more detailed and structured
+            prompt). After the type is entered the user can then enter a default value for the
+            column which should match the type. Finally, the user is prompted to enter whether this
+            column should be nullable or not by selecting the appropriate option. </para>
+        </section>
+        <section>
+          <title>Adding Constraint</title>
+          <para>To add a constraint to the Table, the user can select "Add Constraint" from the main
+            menu. They will then be prompted for the type of constraint they wish to add. </para>
+          <para>Primary Key: To add a primary key constraint to the Table, select "Primary Key" from
+            the constraint list. Then select all columns from the list displayed by entering the
+            index to the left of the name. Each column is selected one at a time with as many
+            columns being added as needed. </para>
+          <para>Foreign Key: To add a foreign key constraint to the Table select "Foreign Key" from
+            the constraint list. The user will then be prompted to enter the name of the Table being
+            referenced in the key, followed by entering the name of each column referenced in that
+            Table, one by one. Once the referenced columns are entered, they can then enter the
+            columns affected in the new Table by selecting them from the list displayed. </para>
+        </section>
+        <section>
+          <title>Modifying The DDL</title>
+          <para>To modify information already entered into the DDL, the user can select "Modify
+            Menu" from the main menu. This will take them to a new menu in which they are able to
+            modify any piece of data already entered by selecting from the options and following the
+            prompts. Whereas the primary data entering options in the main menu deal with collecting
+            data for a whole item at once, the options under the modify menu handle only a specific
+            segment of the data at one time. </para>
+        </section>
+        <section>
+          <title>Previewing DDL</title>
+          <para>Once the necessary information has been entered into the DDL Developer, the user can
+            preview the data for the new Table by selecting "Preview DDL" in the main menu. This
+            will display all the data entered as it would appear in the file. </para>
+        </section>
+        <section>
+          <title>Writing the DDL to File</title>
+          <para>After checking the DDL Changeset for completeness and correctness, it can then be
+            written to the appropriate location defined in the program properties file by selecting
+            "Write DDL" from the main menu. This option automatically writes the complete Changeset
+            to a xml file at that location. Once the file is written, the program prompts the user
+            if they would like to open the new file. By entering "yes" to this prompt, the file will
+            then be opened using the computer's default program for opening files of the type xml. </para>
+        </section>
+        <section>
+          <title>Linear Development</title>
+          <para> When looking at the main menu, the user will notice that there are two options to
+            write: "Write DDL" and "Write DDL and Start ____." The first option merely writes the
+            Changeset being worked on to its file and stays in the DDL Developer, the second option
+            however is for the linear development method. Meaning that it will write the Changeset
+            to file, then exit the DDL Developer, and then start the next Developer as assigned in
+            the properties file. By doing this, the information entered for the Changeset and
+            previous artifacts is used to help in making the other artifacts helping speed up the
+            process. For linear development, it is suggested to always start in the Data Object
+            Developer, as it sets the property fields for the others. </para>
+        </section>
+        <section>
+          <title>Exiting</title>
+          <para>Once the user has completed creating a DDL Changeset, they can exit back to the
+            RDO's main menu by simply selecting the "Exit" option from the DDL Developer menu. </para>
+        </section>
+      </section>
+      <section>
+        <title>OJB Developer</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDO_OJBMainMenu.jpg" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+        <para> The OJB file is a OJB Class Descriptor using Apache OJB Repository XML files. The
+          Class Descriptor contains information connecting a Data Object to a database table. The
+          OJB file can have multiple Class Descriptors for Object Table pairs, as well as the
+          information need to connect to the database in which the table is a part of. </para>
+        <section>
+          <title>Creating a New OJB Class Descriptor</title>
+          <para>When the OJB Developer is started, the user is prompted to enter the package of the
+            Java Object and name of the table being connected by the Class Descriptor. The package
+            should be the exact import package for the Object and the table name exactly as it
+            appears in the database. </para>
+          <section>
+            <title>Linear Development</title>
+            <para> If the user is using the linear development method, and has created both a Data
+              Object and DDL Changeset, they can fill in the information for the Descriptor using
+              the information from these two artifacts. If only a Data Object has been created, the
+              OJB Developer will use that information to set the package, and only prompt them for
+              the table name. Creating the Object first will allow the user to select the different
+              data properties from it when adding properties and relations to the Descriptor. </para>
+          </section>
+        </section>
+        <section>
+          <title>Adding a Property</title>
+          <para> To add a property to the Class Descriptor, the user can select "Add Property" from
+            the main menu. They will then be prompted to select a field from a list containing all
+            properties defined in a previous created Data Object (if no Data Object was created, or
+            the new property is not in the list, the user can create a new one by selecting "New
+            Property"). They will then be asked enter the column name in the database that
+            corresponds to this property before selecting the JDBC Type for this column from a
+            displayed list. Next the Developer will prompt them to find out if the column is a
+            primary key of the Table. If the column is a primary key, it will ask if it is a
+            sequence before asking for the name of the sequence. </para>
+        </section>
+        <section>
+          <title>Adding a Relation</title>
+          <para>To add a relation to the Class Descriptor, the user can select "Add Relation" from
+            the main menu. They will then be prompted to select a field from a list containing all
+            properties defined in a previous created Data Object (if no Data Object was created, or
+            the new property is not in the list, the user can create a new one by selecting "New
+            Property"). Next, they need to enter the import package of the class that it is a
+            relation to. Once this is complete, they can set a number of options by selecting true
+            or false as prompted. These options include AutoRetrieve, AutoUpdate, AutoDelete,
+            whether the relation is a proxy or not, and finally, whether  it is a collection (ie.
+            one to many). After this, they are asked to enter all foreign key fields referenced by
+            this column, as well as all fields in which it is ordered by (if the relation is a
+            collection). </para>
+        </section>
+        <section>
+          <title>Modifying The Class Descriptor</title>
+          <para>To modify information already entered into the Class Descriptor, the user can select
+            "Modify Menu" from the main menu. This will take them to a new menu in which they are
+            able to modify any piece of data already entered by selecting from the options and
+            following the prompts. Where the primary data entering options in the main menu deal
+            with collecting data for a whole item at once, the options under the modify menu handle
+            only a specific segment of the data at one time. </para>
+        </section>
+        <section>
+          <title>Previewing the OJB Class Descriptor</title>
+          <para>Once the necessary information has been entered into the OJB Developer, the user can
+            preview the data for the new Descriptor by selecting "Preview OJB Descriptor" in the
+            main menu. This will display all the data entered as it would appear in the file. </para>
+        </section>
+        <section>
+          <title>Writing the Class Descriptor to File</title>
+          <para>After checking the Descriptor for completeness and correctness, it can then be
+            written to the appropriate location defined in the program properties file by selecting
+            "Write OJB Descriptor" from the main menu. This option automatically appends the
+            complete Descriptor to the OJB xml file at that location (if no file exists, a new OJB
+            xml will be created and the Descriptor appended to it). Once the file is written, the
+            program prompts the user if they would like to open the new file. By entering "yes" to
+            this prompt, the file will then be opened using the computer's default program for
+            opening files of the type xml. </para>
+        </section>
+        <section>
+          <title>Linear Development</title>
+          <para>When looking at the main menu, the user will notice that there are two options to
+            write: "Write OJB Descriptor" and "Write OJB Descriptor and Start ____." The first
+            option merely writes the Class Descriptor being worked on to its file and stays in the
+            OJB Developer; the second option, however, is for the linear development method. Meaning
+            that it will write the Descriptor to file, then exit the OJB Developer and start the
+            next Developer as assigned in the properties file. By doing this, the information
+            entered for the Descriptor and previous artifacts is used to help in making the other
+            artifacts, helping to speed up the process. For linear development, it is suggested to
+            always start in the Data Object Developer, as it sets the property fields for the
+            others. </para>
+        </section>
+        <section>
+          <title>Exiting</title>
+          <para>Once the user has completed creating a OJB Class Descriptor, they can exit back to
+            the RDO's main menu by simply selecting the "Exit" option from the OJB Developer menu. </para>
+        </section>
+      </section>
+      <section>
+        <title>Data Dictionary Developer</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDO_DDMainMenu.jpg" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+        <para>The Data Dictionary File is an xml file generated using the Spring Beans format. The
+          Dictionary contains information on a single Data Object. This includes ways to identify it
+          and its different properties. It also contains definitions for each property to aid in the
+          validation of information it holds. </para>
+        <section>
+          <title>Creating a New Data Dictionary</title>
+          <para>When the Data Dictionary Developer is started, the user is prompted to enter the
+            package of the Data Object being defined in this Dictionary. The package should be the
+            exact import package for the Object. </para>
+          <section>
+            <title>Linear Development</title>
+            <para>If the user is using the linear development method and has created the Data
+              Object, they can fill in the information for the Dictionary using the information from
+              this artifact. Creating the Object first will allow the user to select the different
+              data properties from it when adding keys, title attributes and definitions to the
+              Dictionary. </para>
+          </section>
+        </section>
+        <section>
+          <title>Setting the Object Label</title>
+          <para>To set the object label of the Dictionary, select "Set Object Label" from the main
+            menu. This will then prompt the user to enter the label. </para>
+        </section>
+        <section>
+          <title>Adding Primary Keys</title>
+          <para>To add a set of primary keys to the Dictionary, select "Add Primary Keys" from the
+            main menu. This will display a list of properties in the Data Object which the user can
+            add to (if no Data Object was created, or the new property is not in the list, the user
+            can create a new one by selecting "New Property"). Each key is added one at a time, and
+            the complete list of keys should be added in a single run of this option. </para>
+        </section>
+        <section>
+          <title>Adding Title Attributes</title>
+          <para>To add a set of title attributes to the Dictionary, select "Add Title Attribute"
+            from the main menu. This will display a list of properties in the Data Object which the
+            user can add to (if no Data Object was created, or the new property is not in the list,
+            the user can create a new one by selecting "New Property"). Each attribute is added one
+            at a time, and the complete list of attributes should be added in a single run of this
+            option. </para>
+        </section>
+        <section>
+          <title>Adding Attribute Definitions</title>
+          <para>To add an attribute definition to the Dictionary, select "Add Attribute Definition"
+            from the main menu. This will display a list of properties in the Data Object which the
+            user can select from (if no Data Object was created, or the new property is not in the
+            list, the user can create a new one by selecting "New Property"). A list of attributes
+            for this definition will be displayed; a user can add an attribute by selecting it from
+            the list using the index on the left side, which will then prompt them to enter the
+            value for it. </para>
+        </section>
+        <section>
+          <title>Adding Relation Definition</title>
+          <para>To add a relationship definition to the Dictionary, select "Add Relation Definition"
+            from the main menu. This will display a list of properties in the Data Object which the
+            user can select from (if no Data Object was created, or the new property is not in the
+            list, the user can create a new one by selecting "New Property"). Next, they will be
+            prompted to enter the target class, which should be the import package of the class
+            being referenced. Then, they can add primitives (then supports) by entering the source
+            property and target property in the form of "source,target" in which the source is the
+            name of a property in the class being written in the dictionary, and the target is the
+            name of a property in the class being referenced. </para>
+        </section>
+        <section>
+          <title>Adding Collection Definitions</title>
+          <para>To add an collection definition to the Dictionary, select "Add Collection
+            Definition" from the main menu. This will display a list of properties in the Data
+            Object which the user can select from (if no Data Object was created, or the new
+            property is not in the list, the user can create a new one by selecting "New Property").
+            Next, they will be prompted to enter the target class, which should be the import
+            package of the class being referenced. Finally, they will be prompted to enter the
+            label, short label, and element label for the collection (they can default these when
+            asked, letting the Developer create them). </para>
+        </section>
+        <section>
+          <title>Modifying The Data Dictionary</title>
+          <para>To modify information already entered into the Data Dictionary, the user can select
+            "Modify Menu" from the main menu. This will take them to a new menu, in which they are
+            able to modify any piece of data already entered, by selecting from the options and
+            following the prompts. Whereas the primary data entering options in the main menu deal
+            with collecting data for a whole item at once, the options under the modify menu handle
+            only a specific segment of the data at one time. </para>
+        </section>
+        <section>
+          <title>Previewing the Dictionary</title>
+          <para>Once the necessary information has been entered into the Data Dictionary Developer,
+            the user can preview a the data for the new Dictionary by selecting "Preview Dictionary"
+            in the main menu. This will display all the data entered as it would appear in the file. </para>
+        </section>
+        <section>
+          <title>Writing the Dictionary to File</title>
+          <para>After checking the Dictionary for completeness and correctness, it can then be
+            written to the appropriate location defined in the program properties file by selecting
+            "Write Dictionary" from the main menu. This option automatically writes the complete
+            Dictionary to an xml file at that location. Once the file is written, the program
+            prompts the user if they would like to open the new file. By entering "yes" to this
+            prompt, the file will then be opened using the computer's default program for opening
+            files of the type xml. </para>
+        </section>
+        <section>
+          <title>Linear Development</title>
+          <para>When looking at the main menu, the user will notice that there are two options to
+            write: "Write Dictionary" and "Write Dictionary and Start ____." The first option merely
+            writes the Dictionary being worked on to its file and stays in the Data Dictionary
+            Developer; the second option, however, is for the linear development method. Meaning
+            that it will write the Dictionary to a file, then exit the Data Dictionary Developer,
+            and start the next Developer as assigned in the properties file. By doing this, the
+            information entered for the Dictionary and previous artifacts is used to help in making
+            the other artifacts, helping speed up the process. For linear development, it is
+            suggested to always start in the Data Object Developer, as it sets the property fields
+            for the others. </para>
+        </section>
+        <section>
+          <title>Exiting</title>
+          <para>Once the user has completed creating a Data Dictionary, they can exit back to the
+            RDO's main menu by simply selecting the "Exit" option from the OJB Developer menu. </para>
+        </section>
+      </section>
+      <section>
+        <title>View Developer</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDO_ViewMainMenu.jpg" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+        <para>The View File is an xml file generated using the Spring Beans format. The Views
+          contain information on how to display different web pages as well as how the flow of data
+          is handled between the web page and the database. </para>
+        <section>
+          <title>Creating New Views</title>
+          <para>When the View Developer is started, the user is prompted to enter the package of the
+            Data Object being displayed in these Views. The package should be the exact import
+            package for the Object. </para>
+          <section>
+            <title>Linear Development</title>
+            <para>If the user is using the linear development method, and has created the Data
+              Object, they can fill in the information for the Views using the information from this
+              artifact. Creating the Object first will allow the user to select the different data
+              properties from it when adding fields to the Views. </para>
+          </section>
+        </section>
+        <section>
+          <title>Setting the Look Up View</title>
+          <para>To set the look up view, select "Set Look Up View" from the main menu. The user will
+            then be prompted to enter the title of the view. After this, the user creates the field
+            lists for the search, result, and default sort fields by selecting from a list of
+            properties in the Data Object (if no Data Object was created, or the new property is not
+            in the list, the user can create a new one by selecting "New Property"). </para>
+        </section>
+        <section>
+          <title>Setting the Inquiry View</title>
+          <para>To set the inquiry view, select "Set Inquiry View" from the main menu. The user will
+            then be prompted to enter the title of the view. After this, the user will be
+            continually prompted to create sections for the View. To create a section, they are
+            first asked for the section's name and the instructional text. Next, a list of
+            properties in the Data Object into which the user can add as fields is displayed (if no
+            Data Object was created or the new property is not in the list the user can create a new
+            one by selecting "New Property"). After selecting the fields covered in the section, the
+            user sets the type of section it is from a list. Each type has its own information that
+            the user can enter by following the prompts. </para>
+        </section>
+        <section>
+          <title>Setting the Maintenance</title>
+          <para>To set the Maintenance artifact, select "Set Maintenance Artifact" from the main
+            menu. The user will be prompted to enter the document type, followed by displaying a
+            list of properties in the Data Object from which the user can select as locking keys (if
+            no Data Object was created, or the new property is not in the list, the user can create
+            a new one by selecting "New Property"). </para>
+        </section>
+        <section>
+          <title>Setting the Maintenance View</title>
+          <para>To set the maintenance view, select "Set Maintenance View" from the main menu. After
+            this, the user will be continually prompted to create sections for the View. To create a
+            section they are first asked for the section's name and the instructional text. Next, a
+            list of properties in the Data Object into which the user can add as fields is displayed
+            (if no Data Object was created, or the new property is not in the list, the user can
+            create a new one by selecting "New Property"). After selecting the fields covered in the
+            section, the user sets the type of section it is from a list. Each type has its own
+            information that the user can enter by following the prompts. </para>
+        </section>
+        <section>
+          <title>Modifying The Views</title>
+          <para>To modify information already entered into the Views, the user can select "Modify
+            Menu" from the main menu. This will take them to a new menu, in which they are able to
+            modify any piece of data already entered, by selecting from the options and following
+            the prompts. Whereas the primary data entering options in the main menu deal with
+            collecting data for a whole item at once, the options under the modify menu handle only
+            a specific segment of the data at one time. </para>
+        </section>
+        <section>
+          <title>Previewing Views</title>
+          <para>Once the necessary information has been entered into the View Developer, the user
+            can preview a the data for the new Views by selecting "Preview Views" in the main menu.
+            This will display all the data entered as it would appear in the file. </para>
+        </section>
+        <section>
+          <title>Writing Views to File</title>
+          <para>After checking the Views for completeness and correctness, they can then be written
+            to the appropriate location defined in the program properties file by selecting "Write
+            Views" from the main menu. This option automatically writes the complete Views to a
+            single xml file at that location. Once the file is written, the program prompts the user
+            if they would like to open the new file. By entering "yes" to this prompt the file will
+            then be opened using the computer's default program for opening files of the type xml. </para>
+        </section>
+        <section>
+          <title>Linear Development</title>
+          <para>When looking at the main menu, the user will notice that there are two options to
+            write: "Write Views" and "Write Views and Start ____." The first option merely writes
+            the Views being worked on to its file and stays in the View Developer; the second
+            option, however, is for the linear development method. Meaning that it will write the
+            Views to a file, then exit the View Developer, and start the next Developer as assigned
+            in the properties file. By doing this, the information entered in previous artifacts is
+            used to help in making the other artifacts, helping speed up the process. For linear
+            development, it is suggested to always start in the Data Object Developer, as it sets
+            the property fields for the others. </para>
+        </section>
+        <section>
+          <title>Exiting</title>
+          <para>Once the user has completed creating Views, they can exit back to the RDO's main
+            menu by simply selecting the "Exit" option from the View Developer menu. </para>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section>
+    <title>Rice Dictionary Validator</title>
+    <section>
+      <title>Introduction</title>
+      <section>
+        <title>Purpose</title>
+        <para>The Rice Framework works by utilizing a number of interconnected java data objects
+          held together in the programs' data dictionary. These objects are complex and created
+          through the combination of a number of Spring Beans; mistakes in these beans can cause
+          breakdowns in the system, causing missing pages or incorrect information to be display.
+          The purpose of the Rice Dictionary Validator (RDV) is to limit these mistakes by
+          validating that the beans are being created correctly, and warning developers of problems
+          that may occur. </para>
+      </section>
+      <section>
+        <title>What is RDV</title>
+        <para>The Rice Dictionary Validator is a combination of an integrated backbone in the Rice
+          Framework, and a independent tool application within Rice Tools. It looks through the
+          beans that make up the data dictionary and identifies any problems it finds before
+          reporting them to the developer. The tool is setup to do this in several ways. The first
+          is to validate the beans during the start up of the Rice Framework allowing for the check
+          of the entire dictionary being used. The other is a more limited check for use during
+          development, loading only a core set of beans and any beans the developer has set to
+          check. </para>
+        <para>Regardless of whether the Validator is being run during the Rice startup, or with the
+          Rice Tools, the RDV runs through the complete list of beans being loaded and creates an
+          individual error report for every validation failed before displaying the report to the
+          user. The output display can be configured based on what is displayed and how it is
+          displayed. </para>
+      </section>
+    </section>
+    <section>
+      <title>Installation and Configuration</title>
+      <section>
+        <title>Rice Startup Validation</title>
+        <para>A default version of the RDV is setup to run during the start of the Rice Framework
+          with the output being handled by the DataDictionary.class logger as info, warn and errors.
+          This hands responsibility of the display settings over to the log4j properties file. Since
+          it is a developer tool, it can be turned on and off in the Framework's properties. The RDV
+          can be toggled on and off by setting the parameter validate.data.dictionary to true or
+          false in the xml settings file: common-config-defaults of the rice-impl module. </para>
+      </section>
+      <section>
+        <title>Rice Tools Validator</title>
+        <para>To setup the independent RDV all that is required is to configure its settings in the
+          properties file (properties/rdv-config.properties). It can be run from the Rice Tools
+          application. </para>
+        <itemizedlist>
+          <listitem><para>
+            ricedictionaryvalidator.corefiles - This is a list of default bean files to be loaded during
+            validation
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.method - This is the default setting for the method of
+            output when displaying the validations
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.method.file - This is the default file to save validation
+            results to if the output type is file
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.errors - Display default for whether to display the number
+            of errors
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.warnings - Display default for whether to display the number
+            of warnings
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.errors.messages - Display default for whether to display the
+            error messages
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.warnings.messages - Display default for whether to display
+            the
+            warning messages
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.display.xmlfiles - Display default for whether to display the xml
+            files when displaying the error/warning messages
+          </para></listitem>
+          <listitem><para>
+            ricedictionaryvalidator.failonwarning - This is the default for whether the validator should
+            fail if warnings are detect instead of just errors
+          </para></listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section>
+      <title>User Guide</title>
+      <para>The Rice Dictionary Validator has two different implementations: a integrated validator
+        to be run during start up of the Rice Framework, and an extension to run with the Rice Tools
+        application. The first is to insure that the dictionary is accurate when running the
+        complete application. The second is to aid in the development of the new bean sets. </para>
+      <section>
+        <title>Rice Startup Validation</title>
+        <section>
+          <title>Running Validation</title>
+          <para>If the Rice Framework is set to run validations in its configuration file, then the
+            validator will be run automatically when the application is launched. The validation
+            option is set in the common-config-defaults of the rice-impl module. </para>
+        </section>
+        <section>
+          <title>Validations Covered</title>
+          <itemizedlist>
+            <listitem><para>
+              Uif Component Beans
+            </para></listitem>
+            <listitem><para>
+              Data Dictionary Beans
+            </para></listitem>
+          </itemizedlist>
+        </section>
+        <section>
+          <title>Viewing Results</title>
+          <para>By default, the validation results are set to be displayed using log4j. The basic
+            results will be shown as info tags, while the messages will be displayed as error and
+            warn tags respectfully. This can be changed in the DataDictionary.validateDD(boolean)
+            method. </para>
+        </section>
+        <section>
+          <title>Adding Validation to Data Objects</title>
+          <para>Validation can be added to beans by adding the method: </para>
+          <programlisting>public ArrayList &lt;ErrorReport&gt; DataObject.completeValidation(ValidationTrace)</programlisting>
+          <para>Within this method, first update the ValidationTrace using the line appropriate
+            addBean() method, and follow by placing any validations that are needed for the data
+            object. When a validation fails, create an error report by first making a String array
+            containing any values involved in the validation. Next, the report can be created by
+            using the following method on the ValidationTrace Object. </para>
+          <programlisting>tracer.crateError({The Failed Validation},{The created list of involved values})</programlisting>
+          <para>Warning reports can be created the same way using the createWarning(...) method. An
+            example of a basic report is below (other ways to make reports can be found in the
+            constructors of ErrorReport). </para>
+          <programlisting>String currentValues[] = {"a = "+ a, "b = "+ b};
+          tracer.createError("Property a must be greater than b", currentValues);</programlisting>
+          <para>If the data object extends another object that has validation too, call its
+            completeValidation() method. </para>
+        </section>
+      </section>
+      <section>
+        <title>Rice Tools Validator</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDV_MainMenu.jpg" width="100%" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+
+        <section>
+          <title>Adding Files for Validation</title>
+          <para>To add a file to the validation list, the user can select "Add File to Validation
+            List" in the main menu. They will then be prompted to enter the path of the file to be
+            validated. The path must be a valid file on the computer. </para>
+        </section>
+        <section>
+          <title>Removing File for Validation</title>
+          <para>To remove a file from the validation list, the user can select "Remove File from
+            Validation List" to have the program display a list of all file paths currently set for
+            validation. The user can then select one to remove it from the list. </para>
+        </section>
+        <section>
+          <title>Viewing Files Set for Validation</title>
+          <para>To display the list of files they have added for validation, the user can simply
+            select "View Files in Validation List", which then displays the file paths. </para>
+        </section>
+        <section>
+          <title>Validating Files</title>
+          <para>To validate the files, the user can simply select "Validate Files" from the main
+            menu. The program will validate the files then display the output based on the options
+            set by the user. </para>
+        </section>
+        <section>
+          <title>Changing Settings</title>
+          <para>The Display settings, as well as whether to have validations fail if a warning is
+            detected, can be set by selecting "Change Settings" from the main menu. This will take
+            you to a sub menu with options for all the settings that can be changed. All the
+            settings are controlled by toggling them, so the user can select the one they want to
+            change, then select yes/no to turn it on/off. </para>
+          <para>The option for setting the output of the validation is slightly different, as it
+            asks for additional information based on the output type selected. </para>
+        </section>
+        <section>
+          <title>Exiting</title>
+          <para>Once the user has completed running validations, they can "Exit" the RDV by
+            selecting exit from the main menu. </para>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section>
+    <title>Rice Dictionary Schema</title>
+    <section>
+      <title>Introduction</title>
+      <section>
+        <title>Purpose</title>
+        <para>The KRAD Framework works by utilizing the Spring Framework and its Bean feature that
+          allows for the filling of the data objects from xml files. These xml files are written
+          using the Spring Bean xml tags. This reduces the file to a collection of a limited number
+          of tags with little connection to the information they contain, and an unnatural semantic
+          flow. The purpose of the Rice Dictionary Schema is to expand the variety of the xml files
+          to make them easier to understand and connect with the data objects they are representing. </para>
+      </section>
+      <section>
+        <title>What is RDS?</title>
+        <para>The Rice Dictionary Schema performs the creation and setup of an extension to the
+          Spring Framework that allows for the use of unique and descriptive xml tags when creating
+          the needed files for the KRAD Framework. The tooling application developed for RDS allows
+          the user to setup, maintain, and expand this language extension. </para>
+      </section>
+    </section>
+    <section>
+      <title>Setting Up the RDS</title>
+      <section>
+        <title>Basic Overview</title>
+        <para>The RDS utilizes another feature of the Spring Framework, Xml Authoring, that allows
+          the user to setup and define a way for the Spring Framework to translate xml tags into the
+          normal Bean tag format. Authoring functions through the use of five files to define the
+          different aspects of the xml tags including reading the xml, translating into beans, and
+          informing Spring of the language. RDS automates and eases the creation of these files that
+          are then compiled into the KRAD Framework. </para>
+        <itemizedlist>
+          <listitem>
+            <para>Schema Xsd - Defines the semantics of the bean xml file.</para>
+          </listitem>
+          <listitem>
+            <para>Namespace Handler - Registers the Bean Tag with a parser.</para>
+          </listitem>
+          <listitem>
+            <para>Parser - Defines the semantics of the bean xml file.</para>
+          </listitem>
+          <listitem>
+            <para>Spring.schemas - Registers the schema xsd with the Spring Framework.</para>
+          </listitem>
+          <listitem>
+            <para>Spring.handlers - Registers the handler with the Spring Framework.</para>
+          </listitem>
+        </itemizedlist>
+        <para>The RDS allows users to create new tags for the Rice Schema by building onto other
+          schemas, giving the new schema access to the older schemas tags and resources, including
+          all of the files needed to define the schema. Because of this, when implementing a new
+          schema, users only have to create two of the files (Spring.schemas and schema.xsd) for
+          their schema and the system will provide the rest of the files. </para>
+      </section>
+      <section>
+        <title>Expanding the Schema</title>
+        <section>
+          <title>Schema Naming</title>
+          <para>When creating a new schema, the first thing a user should do is name the schema. The
+            name of the schema is used in several ways by the RDS, and all schema names should be
+            unique. The class list file and schema file both use the name as part of the automatic
+            processing. Example: </para>
+          <itemizedlist>
+            <listitem>
+              <para>SCHEMANAME_schema.xsd</para>
+            </listitem>
+            <listitem>
+              <para>SCHEMANAME_schemaclasses.xml</para>
+            </listitem>
+            <listitem>
+              <para>spring.schemas</para>
+            </listitem>
+          </itemizedlist>
+        </section>
+        <section>
+          <title>Schema Xsd</title>
+          <para>When creating the xsd file, the user uses the following code and replaces SCHEMANAME
+            with the name of the schema being built off of, and repeats this line in schema location
+            for each support schema being built off of. For each tag bean added in the schema, add
+            the element tag used in the example with the name set to the new tag name. </para>
+          <literallayout>
+            &lt;xsd:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.kuali.org/schema"
+            xmlns="http://www.kuali.org/schema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+
+            &lt;xsd:include schemaLocation="http://www.kuali.org/SCHEMANAME/schema.xsd"/&gt;
+
+            &lt;xsd:element name="PROPERTYNAME" type="schema"/&gt;
+            &lt;xsd:element name="PROPERTYNAME2" type="schema"/&gt;
+            &lt;/xsd:schema&gt;
+          </literallayout>
+        </section>
+        <section>
+          <title>spring.schemas</title>
+          <para>When creating the spring file, the user simply adds the following line; as with
+            creating the xsd, replace SCHEMANAME with the name of the schema being created (instead
+            of the supporting schema name). </para>
+          <programlisting>http://www.kuali.org/SCHEMANAME/schema.xsd = META-INF/SCHEMANAME_schema.xsd</programlisting>
+        </section>
+        <section>
+          <title>Class List File</title>
+          <para>Since the tags for the RDS are defined using annotations, a list of classes will be
+            needed so the system can read them. This file is an xml file, with each class being
+            listed with a class tag. The classes can be listed individually, or in a list with
+            comma's separating them. Below is an example of the file: </para>
+          <literallayout>
+            &lt;kradSchema>
+            &lt;class&gt;org.kuali.rice.krad.datadictionary.Class1&lt;/class&gt;
+            &lt;class&gt;org.kuali.rice.krad.datadictionary.Class2&lt;/class&gt;
+            &lt;class&gt;org.kuali.rice.krad.datadictionary.Class3&lt;/class&gt;
+            &lt;class&gt;org.kuali.rice.krad.datadictionary.Class4&lt;/class&gt;
+            &lt;/kradSchema>
+          </literallayout>
+        </section>
+      </section>
+      <section>
+        <title>Adding Annotations</title>
+        <section>
+          <title>Restrictions</title>
+          <para>When adding tags to the custom schema, there are several restrictions to the tag
+            names and property names. </para>
+          <itemizedlist>
+            <listitem>
+              <para>Tag names should be valid string names as xml tags (ex. variable1,
+                subclass.variable
+                ,...)
+              </para>
+            </listitem>
+            <listitem>
+              <para>The tag names of beans must be unique</para>
+            </listitem>
+            <listitem>
+              <para>The tag names of the properties should be unique among the other tags used in
+                the bean (be careful, as the bean tag gains the property tags of any parent classes) </para>
+            </listitem>
+            <listitem>
+              <para>
+                Property tags found in the bean file but not in the annotations will be dropped
+                through when parsed to be handled by the Spring Framework (ex.
+                layoutmanager.numcols)
+              </para>
+            </listitem>
+            <listitem>
+              <para>Reserved object tags: ref</para>
+            </listitem>
+            <listitem>
+              <para>Reserved property tags: id, parent, abstract, ref</para>
+            </listitem>
+          </itemizedlist>
+        </section>
+        <section>
+          <title>Bean Tag</title>
+          <para>To create a new bean tag for the custom schema, add the annotation tag BeanTag to
+            the class that it will represent. When adding a BeanTag, the user will have to declare a
+            name for the new tag, and can also declare a bean default parent for beans of that tag.
+            If there is no parent declared in the tag, the default none will be used. </para>
+        </section>
+        <section>
+          <title>Property Tag</title>
+          <para>To create a new tag or attribute for a property, add the annotation tag
+            BeanTagAttribute to the property's get function. When adding the tag, the user will need
+            to also declare a name for the new tag, and the type of the property being defined. If
+            the type is not declared in the tag, the property will be treated as SingleValue. The
+            types are defined by the types below found in the BeanTag Attribute: <itemizedlist>
+              <listitem>
+                <para>AttributeType.SINGLEVALUE - A single property of a simple data type.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.SINGLEBEAN - A single property of a bean object.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.LISTVALUE - A list property of a simple data types.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.LISTBEAN - A list property of a bean objects.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.MAPVALUE - A map of two simple data types.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.MAPBEAN - A map of a simple data type to a bean object.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.MAP2BEAN - A map of two bean objects.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.SETVALUE - A set of simple data types.</para>
+              </listitem>
+              <listitem>
+                <para>AttributeType.SETBEAN - A set of bean objects.</para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </section>
+      </section>
+      <section>
+        <title>Writing the Bean File</title>
+        <para>Spring and Custom Schema</para>
+        <para>The Spring Beans and Xml Authoring systems allow for the mix of both spring and custom
+          schema in the same set of beans. This means that a bean declaration can either be in the
+          custom schema format, or the spring bean format. The property declarations within the bean
+          has to follow the schema that the bean was declared in; but if a nested bean is added, it
+          can be declared in any format. </para>
+        <para>Property Names</para>
+        <para>When using the custom schema, the tag names of the properties do not all have to be
+          declared in the annotations to be used in the bean file. Property names that are not found
+          in the schema are dropped through using the unidentified name in the property declaration.
+          They will then follow the normal spring rules on property names, which means that compound
+          names can be used as well. Do note that if an unknown name is found, it will be treated as
+          a single value if in the attribute tags, or as a single bean if it is a nested tag. </para>
+        <itemizedlist>
+          <listitem>
+            <para>Beans Header</para>
+            <para>When creating the beans header in the bean file, there are two things that need to
+              be looked at: the namespace prefix, and the namespace schema location. If the custom
+              schema is going to be the primary tags used, then it can be set to the xmlns and the
+              spring beans given a prefix. The namespace for the custom schema is
+              http://www.kuali.org/schema. To add the custom schema to the bean file, it needs to be
+              added to the schema location using the line: </para>
+            <literallayout>
+              &lt;spring:beans xmlns="http://www.kuali.org/schema"
+              xmlns:p="http://www.springframework.org/schema/p"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:spring="http://www.springframework.org/schema/beans"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+              http://www.kuali.org/schema http://www.kuali.org/test/schema.xsd"&gt;
+              &lt;/spring:beans&gt;
+            </literallayout>
+          </listitem>
+          <listitem>
+            <para>Bean Object</para>
+            <para>If custom schema is the primary namespace of the xml, then the object tag can be
+              used without a prefix. To use the custom tag, use the name declared in the class
+              annotation for the tag name, then add any properties that are simple data types as
+              attributes. Even if the properties do not have a custom tag or are compound names,
+              non-bean singles are handled by the attributes. Attributes encountered that are not
+              found in the custom schema are dropped through as property values by the parser. </para>
+            <literallayout>
+              &lt;classTagName parent="uif-class1" id="classId" abstract="true"
+              tagProperty="this is tagged" unTagProperty="this isnt" compound.name="Authors"/&gt;
+            </literallayout>
+          </listitem>
+          <listitem>
+            <para>Single Bean</para>
+            <para>For adding nested beans, the property is declared as a new tag with no attributes,
+              and the new bean is nested within it. </para>
+            <literallayout>
+              &lt;beanProperty&gt;
+              &lt;singleBean parent="uif-bean"/&gt;
+              &lt;/beanProperty&gt;
+            </literallayout>
+          </listitem>
+          <listitem>
+            <para>List Value</para>
+            <para>When declaring a list of simple data types in the bean, the property name is used
+              in a new tag without any attributes. Values are then added by nested value tags under
+              the property tag. </para>
+            <literallayout>
+              &lt;listProperty&gt;
+              &lt;value&gt;v1&lt;/value&gt;
+              &lt;value&gt;v2&lt;/value&gt;
+              &lt;value&gt;v3&lt;/value&gt;
+              &lt;/listProperty&gt;
+            </literallayout>
+          </listitem>
+          <listitem>
+            <para>List Bean</para>
+            <para>A list of bean objects is started the same as the list value with the property tag
+              declared. However; instead of nested value tags, the bean tags are declared either by
+              a referenced bean, or new spring, or custom bean declarations. </para>
+            <literallayout>
+              &lt;attributes&gt;
+              &lt;ref bean="bean-id"/&gt;
+              &lt;spring:bean parent="uif-bean"/&gt;
+              &lt;customBean parent="uif-custom"/&gt;
+              &lt;/attributes&gt;
+            </literallayout>
+          </listitem>
+        </itemizedlist>
+
+      </section>
+      <section>
+        <title>Rice Tools</title>
+        <table tabstyle="striped">
+          <title>Rice Tooling: RDS</title>
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Main Menu</entry>
+                <entry>Preview</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDS_MainMenu.jpg" width="500px"
+                                 depth="500px"/>
+                    </imageobject>
+                  </mediaobject>
+                </entry>
+                <entry>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata format="JPEG" fileref="../images/KRAD_Guide/rice-tools/RDS_Preview.jpg" width="500px"
+                                 depth="500px"/>
+                    </imageobject>
+                  </mediaobject>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para>The RDS tool included in the Rice Tool package aids the creation and management of a
+          custom schema by automating creating the schema xsd, spring.schemas and the class list
+          file. This allows the user to deploy a new schema and expand upon it easily before
+          redeploying it with the changes. It also gives the user instructions and lines needed to
+          implement the schema in the KRAD Framework. The RDS allows the copying of created schema
+          configurations, letting users manage multiple schemas at the same time. </para>
+        <para>With this tool, the work needed by the user to implement a schema is greatly reduced,
+          as the user only needs to provide four things: </para>
+        <itemizedlist>
+          <listitem>
+            <para>Schema Name - The name of the new schema.</para>
+          </listitem>
+          <listitem>
+            <para>META-INF - The location of the META-INF folder (.../META-INF).</para>
+          </listitem>
+          <listitem>
+            <para>List of Support Schemas - The names of the schemas that the new schema is being
+              built on. </para>
+          </listitem>
+          <listitem>
+            <para>List of Tags - A list of new tags to be used in the schema with the class it
+              represents. </para>
+          </listitem>
+        </itemizedlist>
+        <section>
+          <title>Using Rice Tool's RDS</title>
+          <itemizedlist>
+            <listitem>
+              <para>Setting the Schema Name:</para>
+              <para>To set the name of the new schema, select the "Set Schema Name" option. Next,
+                enter a name for the new schema that is unique among the schemas being used and are
+                acceptable as file names. </para>
+            </listitem>
+            <listitem>
+              <para>META-INF Location:</para>
+              <para>To set the name of the new schema select the "Set META-INF Location" option at
+                the main menu, and enter the path of the META-INF file. This path is actually into
+                the folder so it should end in "/META-INF". </para>
+            </listitem>
+            <listitem>
+              <para>Handling Support Schemas:</para>
+              <para>To add a schema to build upon, select "Add Support" from the menu, and enter the
+                name of the schema to be added to the user. Supports can be removed by selecting
+                "Remove Support" and selecting the support to remove. The name of the supports are
+                case sensitive. </para>
+            </listitem>
+            <listitem>
+              <para>Handling Tags:</para>
+              <para>To add a new class to the schema, select "Add Tag" from the main menu, and enter
+                both the name of the new tag, and the package of the tag's class. Supports can be
+                removed by selecting "Remove Tags" and selecting the support to remove. </para>
+            </listitem>
+            <listitem>
+              <para>Handling the Schema Configuration:</para>
+              <para>The current configuration being worked on is handled automatically, and can be
+                viewed and saved by selecting the load configuration option on the menu. The load
+                configuration option will load the last configuration saved automatically. This is
+                the working configuration and is automatically saved to a default file, so users
+                will not have to enter a file name. </para>
+            </listitem>
+            <listitem>
+              <para>Handling Additional Schemas:</para>
+              <para>If the user is working on multiple schemas, the configuration for each of them
+                can be saved outside the working configuration by selecting the save and load copy
+                options. Unlike the working configuration, these are saved to user defined xml
+                files, so the user will have to enter their file path. </para>
+            </listitem>
+            <listitem>
+              <para>Generating a Schema:</para>
+              <para>Once the schema configuration is complete, the custom schema can be deployed by
+                selecting "Generate Schema" from the menu. This will create the schema,
+                spring.schemas and class list and save them to the META-INF folder. The RDS will
+                notify the user that the files were created, followed by the schema location needed
+                to be used in the bean xml files, and the setting needed for the KRAD configuration
+                files for the class list. </para>
+            </listitem>
+          </itemizedlist>
+        </section>
+      </section>
+    </section>
+  </section>
+</chapter>

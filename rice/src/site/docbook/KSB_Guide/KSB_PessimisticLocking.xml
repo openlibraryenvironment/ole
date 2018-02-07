@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_PessimisticLocking" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Pessimistic Locking</title>
+    <section><title>Default Pessimistic Locking</title>
+        <warning><para>Only Transactional Documents may use the default Pessimistic Locking implementation.</para>
+        </warning>
+        <para>To lock a document via the default Pessimistic Locking mechanism means that the document 
+            is locked by a user prior to any changes the user may perform. The traditional setup of documents 
+            in Rice is to lock them using Optimistic Locking where two users may edit a document at the same 
+            time. However, the first user to take an action that will save the document will 'win', and the 
+            second user will see an error saying that the document was edited by another user. 
+            For Pessimistic Locking, the first user who has edit privileges will get a lock on the document, 
+            and any subsequent users who should have edit privileges on the document, who try to view the 
+            document, will only get read-only access to the document, until the first user's lock is 'released'.
+        </para>
+        <note>
+            <para>Pessimistic Locking is used in conjunction with standard Rice Optimistic Locking. 
+            Currently there is no way to use Pessimistic Locking instead of the default Optimistic Locking.
+        </para>
+        </note>
+        <para>There are  two places in Rice where Pessimistic Locks can be used:
+            <itemizedlist>
+                <listitem>
+                    <para><link linkend="locking_user_entry">Locking for User Entry</link> - locks are created by a user who has some type of entry 
+                        privileges on the document</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="locking_workflow_process">Locking for Workflow Processing</link> - locks are created when a workflow process is begun
+                    </para>    
+                </listitem>
+            </itemizedlist>
+        </para>
+    </section>
+    <section xml:id="locking_user_entry"><title>Locking for User Entry</title>
+        <para>The default implementation for locking a document for user entry tells the system to place a lock on a 
+            document if a user attempts to view it and that user has one or more 'entry' type edit modes as defined 
+            by the document's Document Authorizer class. Once the lock is placed, any other user who should have 
+            'entry' privileges on the document will not be allowed to do so until the lock by the first user is 
+            released.
+        </para>
+        <note>
+            <para>If the Transactional Document that will be using Pessimistic Locking has a custom Document 
+                Authorizer class and uses custom edit modes returned by the getEditMode(Document, UniversalUser) 
+                method, the custom authorizer class should also override the method isEntryEditMode(Map.Entry). 
+                See #Defining 'Entry' Edit Modes below.
+            </para>
+        </note>
+    </section>  
+    <section><title>Document Configuration - Document</title>
+        <para>To enable Pessimistic Locking on a document the attribute 'usePessimisticLocking' must be set to 'true' 
+            in the transactional document's entry. </para>
+        <para><emphasis role="bold">Example:</emphasis>
+            <programlisting linenumbering = "numbered">&lt;dictionaryEntry>
+    &lt;transactionalDocument>
+        ...
+        &lt;usePessimisticLocking>true&lt;/usePessimisticLocking>
+        ...
+    &lt;/transactionalDocument>
+&lt;/dictionaryEntry></programlisting>
+        </para>
+    </section>
+    <section><title>Customizing</title>
+        <para>For extremely complex customization that goes beyond what may be described in this document a client 
+            developer can look at the javadocs of the 
+            <emphasis role="keyword">org.kuali.core.document.authorization.DocumentAuthorizerBase</emphasis> 
+            class paying special attention to the methods below:
+            <itemizedlist>
+                <listitem><para>isLockRequiredByUser(Document, Map, UniversalUser)</para>
+                </listitem>
+                <listitem><para>isEntryEditMode(Map.Entry)</para></listitem>
+                <listitem><para>getEditModeWithEditableModesRemoved(Map)</para></listitem>
+                <listitem><para>getEntryEditModeReplacementMode()</para></listitem>
+                <listitem><para>createNewPessimisticLock(Document, Map, UniversalUser)</para></listitem>
+            </itemizedlist>
+            The completely override the lock handling the Document Authorizer method 
+            establishLocks(Document, Map, UniversalUser) can be overriden.
+        </para>
+    </section>
+    <section>
+        <title>Defining 'Entry' Edit Modes</title>
+        <para>If the Transactional Document that will be using Pessimistic Locking has a custom Document 
+            Authorizer class and uses custom edit modes returned by the 
+            <emphasis role="keyword">getEditMode(Document, UniversalUser)</emphasis> method, the custom 
+            authorizer class should also override the method <emphasis role="keyword">isEntryEditMode(Map.Entry)
+                </emphasis>. If the entry parameter passed in is defined as a valid 'entry' mode then the method 
+            should return true.</para>
+    </section>
+    <section>
+        <title>Using custom Lock Descriptors</title>
+        <para>The default Pessimistic Lock implementation does not use Lock Descriptors so only one person may 
+            have a lock on a single document at any one time. If something more custom is required Lock 
+            Descriptors can be used. The default implementation of a document that uses Pessimistic Locking 
+            and custom Lock Descriptors is that once a single user establishes a lock on a certain document 
+            with a certain lock descriptor... no other user can create a lock on that document with that descriptor. 
+            If another user needs that lock created they will have read only access on the document until the other 
+            user releases their lock.
+        </para>
+        <para><emphasis role="bold">Example</emphasis></para>
+        <para>As an example, think of a document that has both an Delivery section and a Billing section. 
+            Perhaps a user 'fred' has access to edit the Delivery section but not the Billing section. 
+            Likewise, a user 'francine' has access to edit the Billing section but not the Delivery section. 
+            In this case it would be possible for both 'francine' and 'fred' to each have a lock on a single 
+            document since the data they have editable is mutually exclusive from the other. In this example 
+            'fred' could have a Pessimistic Lock with a descriptor 'Delivery' while 'francine' could have a 
+            Pessimistic Lock with a 'Billing' descriptor.
+        </para>
+        <para>
+            To use lock descriptors the client application document should implement a custom Document 
+            Authorizer class if not done already (see Authorizers - Client Developer Guide (0.9.3) for 
+            more information). The authorizer class should override the useCustomLockDescriptors() method 
+            to return true. The method getCustomLockDescriptor(Document, Map, UniversalUser) must also be 
+            overriden to return the value of the desired lock descriptor. It's up to the client to determine 
+            how to set these and what values to use.
+        </para>
+    </section>
+    <section xml:id="locking_workflow_process">
+        <title>Locking for Workflow Processing</title>
+        <para>The default implementation for locking a document for processing by Workflow tells the 
+            system to place a lock on a document once a Workflow action is taken if that Workflow action 
+            is not contained in a list (see <link linkend="default_no_locks">Default Workflow Actions that 
+                Don't Require Locks)</link>. The default 
+            user that will 'own' the lock will be the Rice System User. Once the lock is placed, any other 
+            user who should have 'entry' privileges on the document will not be allowed to do so until the 
+            lock is released. Locks for Workflow processing are released once the Workflow process completes 
+            successfully.
+        </para>
+        <note>
+            <para>If a document that has a Pessimistic Lock for Workflow is not successfully processed and 
+                goes into Exception Routing, the document will stay locked by the Workflow process.
+            </para>
+        </note>
+    </section>
+    <section xml:id="default_no_locks">
+        <title>Default Workflow Actions that Don't Require Locks</title>
+        <para>The following actions in Workflow will not set up a Pessimistic Lock for the coinciding process:
+        <itemizedlist>
+            <listitem>
+                <para>Save</para>
+            </listitem>
+            <listitem>
+                <para>Acknowledge</para>
+            </listitem>
+            <listitem>
+                <para>Clear FYI</para>
+            </listitem>
+            <listitem>
+                <para>Disapprove</para>
+            </listitem>
+            <listitem>
+                <para>Canceled</para>
+            </listitem>
+            <listitem>
+                <para>Log on Document</para>
+            </listitem>
+        </itemizedlist>
+        </para>
+    </section>
+    <section>
+        <title>Document Configuration - Workflow</title>
+        <para>To enable Pessimistic Locking for Workflow operations on a document the attribute 
+            <emphasis role="keyword">useWorkflowPessimisticLocking</emphasis> must be set to 'true' in the transactional document's entry.
+        </para>
+        <para><emphasis role="bold">Example</emphasis></para>
+        <programlisting linenumbering = "numbered">&lt;dictionaryEntry>
+    &lt;transactionalDocument>
+        ...
+        &lt;useWorkflowPessimisticLocking>true&lt;/useWorkflowPessimisticLocking>
+        ...
+    &lt;/transactionalDocument>
+&lt;/dictionaryEntry></programlisting>
+    </section>
+    <section>
+        <title>Customizing</title>
+        <para>The Pessimistic Locking mechanism for Workflow processes has lock creation and lock releasing 
+            points that exist in a document's post processor methods. Specifically the method 
+            <emphasis role="keyword">doActionTaken(ActionTakenEventVO)</emphasis> in the 
+            <emphasis role="keyword">DocumentBase</emphasis> class is used to create locks while the method 
+            <emphasis role="keyword">afterWorkflowEngineProcess(boolean)</emphasis> in the same class is used to 
+            release locks. If a document overrides either of these methods or does not use the standard 
+            KualiPostProcessor implementation, the client will need to use the DocumentBase methods code in 
+            whatever method they implement if they would like Pessimistic Locking for Workflow.
+        </para>
+    </section>
+    <section>
+        <title>Using a Custom Lock Owner</title>
+        <para>
+            The default owner of a Pessimistic Lock created for a Workflow process is the Rice System User. 
+            To change that a client can implement a custom Document Authorizer class and override the method 
+            <emphasis role="keyword">getWorkflowPessimisticLockOwnerUser()</emphasis>. This method is used to 
+            get the lock owner for lock creation but also will be used to release the lock at the conclusion 
+            of the Workflow process. If a non-static user will be used a client may need to override the 
+            method <emphasis role="keyword">releaseWorkflowPessimisticLocking(Document)</emphasis> to 
+            handle special cases.
+        </para>
+    </section>
+</chapter>

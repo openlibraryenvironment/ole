@@ -1,0 +1,70 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<documentContent><applicationContent><notification>
+  <id>1001</id>
+  <deliveryType>FYI</deliveryType>
+  <creationDateTime>2007-04-02 10:09:41.851</creationDateTime>
+  <sendDateTime>2007-04-02 10:09:41.851</sendDateTime>
+  <content>&lt;content xmlns="ns:notification/ContentTypeSimple" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:notification/ContentTypeSimple resource:notification/ContentTypeSimple"&gt;
+        &lt;message&gt;Holiday-Ho-Out Starts Next Week - 11/20/2006!&lt;/message&gt;
+    &lt;/content&gt;
+</content>
+  <processingFlag>RESOLVED</processingFlag>
+  <priority>
+    <id>2</id>
+    <name>Low</name>
+    <description>A low priority</description>
+    <order>3</order>
+  </priority>
+  <contentType>
+    <id>1</id>
+    <name>Simple</name>
+    <description>Simple content type</description>
+    <namespace>notification/ContentSimple</namespace>
+  </contentType>
+  <channel>
+    <id>3</id>
+    <name>Test Channel #2</name>
+    <description>Second Channel for Unit Tests</description>
+    <subscribable>false</subscribable>
+    <recipientLists/>
+    <producers/>
+  </channel>
+  <producer>
+    <id>2</id>
+    <name>University Library System</name>
+    <description>This producer represents messages sent from the University Library system.</description>
+    <contactInfo>kuali-ken-testing@cornell.edu</contactInfo>
+    <channels/>
+  </producer>
+  <recipients>
+    <recipient>
+      <recipientType>USER</recipientType>
+      <recipientId>testuser3</recipientId>
+    </recipient>
+    <recipient>
+      <recipientType>GROUP</recipientType>
+      <recipientId>TestGroup1</recipientId>
+    </recipient>
+  </recipients>
+  <senders>
+    <sender>
+      <senderName>NotificationTestUsageGenerator</senderName>
+    </sender>
+  </senders>
+</notification></applicationContent></documentContent>

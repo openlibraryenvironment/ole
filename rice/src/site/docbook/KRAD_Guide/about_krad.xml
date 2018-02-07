@@ -1,0 +1,949 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="about_krad" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>About KRAD</title>
+    <section>
+        <title> Overview of the Rice Project </title>
+        <para>Before diving into the exciting new Rice 2.0 KRAD framework and all its technical
+            details, let's take a brief look at how the effort was formed and the general Kuali
+            ecosystem in which it exists.</para>
+        <para>KRAD (Kuali Rapid Application Development) is a module within the Kuali Rice project.
+            The Rice project provides the technical infrastructure for which the Kuali projects and
+            other non-Kuali institutional applications are built. This infrastructure includes a set
+            of middleware solutions such as Workflow and Identify Management, along with the
+            development framework portion that includes the KNS (Kuali Nervous System) and its next
+            generation replacement KRAD.</para>
+        <para>The use of Rice for project development allows applications to build and evolve much
+            more quickly. The reasons for this are as follows:<orderedlist>
+                <listitem>
+                    <para>By isolating many common technical concerns, application developers can
+                        focus their time on solving the business problems that are unique to their
+                        application. </para>
+                </listitem>
+                <listitem>
+                    <para>Developers have a common paradigm for building functionality across all
+                        modules and projects</para>
+                </listitem>
+                <listitem>
+                    <para>Sharing of technical solutions allows for the underlying tooling to evolve
+                        more easily</para>
+                </listitem>
+                <listitem>
+                    <para>Software built using Rice allows for easy integration</para>
+                </listitem>
+            </orderedlist></para>
+        <para>In addition to the technical benefits, use of Rice across projects gives a greater
+            user experience. The user interacts with the applications in a consistent manner and can
+            more quickly learn new areas.</para>
+        <section>
+            <title>Rice Objectives</title>
+            <para>There are two primary objectives of the Rice project:<orderedlist>
+                <listitem>
+                    <para>Support the needs of the other Kuali applications</para>
+                </listitem>
+                <listitem>
+                    <para>Promote adoption of Rice as the middleware/framework solution across
+                        higher education</para>
+                </listitem>
+            </orderedlist></para>
+            <para>Decisions for the Rice roadmap in addition to other work items are made by committees
+                made up of representatives from the Kuali projects and institutions. These committees
+                are the following:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Application Roadmap Committee (ARC):</emphasis> The
+                            Application Roadmap Committee is responsible for goal-setting, and
+                            prioritizing high-level application architecture for integration of Kuali
+                            application projects, and for an evolving roadmap for the future. This group
+                            defines overall ownership of shared services among the Kuali projects. The
+                            group defines work and priorities for Rice and cross application projects.
+                            This group works with the projects to coordinate working teams.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Application Integration Working Group
+                            (KAI):</emphasis> Under the direction of the Kuali Application Roadmap
+                            Committee, the Kuali Application Integration Work Group recommends the
+                            strategic functional direction for integration between the Kuali Community
+                            systems and the facilitation of the integration of future Kuali
+                            systems.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Technology Roadmap Committee (TRC): </emphasis>
+                            Responsible for goal-setting, for high-level technical architecture and
+                            tools, and for an evolving road map for the future. This replaces the
+                            current KTC and focuses on creating a technology direction over time. This
+                            Committee recognizes the challenges inherent in different timing for the
+                            applications which causes technology to get out of synch, and this Committee
+                            addresses those challenges by creating a road map for the evolution of the
+                            projects to common technologies when feasible. It is suggested that this
+                            Committee provide a semi-annual formal presentation to the Rice Project
+                            Board and to the Kuali Foundation Board. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Technical Integration Working
+                            Group:</emphasis> The Kuali Technology Integration (KTI) working group
+                            performs an executive steering function for the TRC.  It receives and
+                            formulates technology enhancement requests and proposals for Rice and
+                            performs initial research and analysis of the requests and makes
+                            recommendations to the TRC on the relative priority and timing of the
+                            requests.  The KTI also triages and makes decisions on technology
+                            issues.</para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Rice Methodology</title>
+            <section>
+                <title>Community Source Model</title>
+                <para>Rice is committed to the community source development model and to the value
+                    of collaboration in producing a quality product that serves interested
+                    institutions well.</para>
+            </section>
+            <section>
+                <title>Iterative Development </title>
+                <para>The Rice development methodology is a lightweight, iterative approach to
+                    development that focuses on individual components that can be quickly developed
+                    and integrated into a larger application. Frequent communication and interaction
+                    with users is required in order for this methodology to succeed. By simplifying
+                    the development process and emphasizing frequent testing and feedback, the
+                    software product has a much greater likelihood of meeting the user's
+                    needs.</para>
+            </section>
+            <section>
+                <title>Not Invented Here </title>
+                <para>Rice leverages existing open source solutions that meet the needs of the Kuali
+                    projects. That is, Rice avoids 'Reinventing the Wheel' where possible.</para>
+            </section>
+            <section>
+                <title>Loosely-Coupled Components</title>
+                <para>The architecture of Rice contains a set of distributed, loosely-coupled
+                    components and services that provide distinct business functionality. The
+                    components are designed for building a Rice application into three layers:
+                    Presentation, Business, and Persistence Layer.  </para>
+            </section>
+            <section>
+                <title>Service Oriented Architecture (SOA)</title>
+                <para>Access to the Rice components and functionality is provided using a Service
+                    Oriented Architecture. This means applications make use of Rice services with
+                    well-defined APIs to business functionality. Access to the services is provided
+                    with the Kuali Service Bus (KSB) which provides interoperability for Rice and
+                    the other Kuali projects. In addition, the Rice services are exposed via SOAP
+                    (Simple Object Access Protocol) Web Services allowing access from non Kuali
+                    based applications. Rice comes with reference implementations for all services.
+                    However, implementations can easily be changed to meet the needs of the
+                    implementing institution. The SOA architecture is depicted in <xref linkend="fig1"></xref>.</para>
+                <para><figure xml:id="fig1"><title>Service Based Architecture</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/KRAD_Guide/soa.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Rice Modules</title>
+            <para>Rice is comprised of a set of high-level modules that encompass the application
+                functionality. Each of these modules contains a set of service interfaces and
+                components (known as the API module), and a set of reference implementations (known
+                as the implementation module). As of the Rice 2.0 release, these modules include:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Enterprise Notification (KEN):</emphasis>
+                            Kuali Enterprise Notification (KEN) acts as a broker for all university
+                            business related communications by allowing end-users and other systems
+                            to push informative messages to the campus community in a secure and
+                            consistent manner. All notifications are processed asynchronously and
+                            are delivered to a single list where other messages such as workflow
+                            related items (KEW action items) also reside. In addition, end-users can
+                            configure their profile to have certain types of messages delivered to
+                            other end points such as email, mobile phones, etc.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Enterprise Workflow (KEW):</emphasis>
+                            Kuali Enterprise Workflow provides a common routing and approval engine
+                            that facilitates the automation of electronic processes across the
+                            enterprise. The workflow product was built by and for higher education,
+                            so it is particularly well suited to route mediated transactions across
+                            departmental boundaries. Workflow facilitates distribution of processes
+                            out into the organizations to eliminate paper processes and shadow
+                            feeder systems. In addition to facilitating routing and approval
+                            workflow can also automate process-to-process related flows. Each
+                            process instance is assigned a unique identifier that is global across
+                            the organization. Workflow keeps a permanent record of all processes and
+                            their participants for auditing purposes.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Identity Management (KIM):</emphasis>
+                            Kuali Identity Management (KIM) provides central identity and access
+                            management services. It also provides management features for Identity,
+                            Groups, Roles, Permissions, and their relationships with each other. All
+                            integration with KIM is through a simple and consistent service API
+                            (Java or Web Services). The services are implemented as a
+                            general-purpose solution that could be leveraged by both Kuali and
+                            non-Kuali applications alike.</para>
+                        <para>Furthermore, the KIM services are architected in such a way to allow
+                            for the reference implementations to be swapped out for custom
+                            implementations that integrate with other 3rd party Identity and Access
+                            Management solutions. The various services can be swapped out
+                            independently of each other. For example, many institutions may have a
+                            directory solution for identity, but may not have a central group or
+                            permission system. In cases like this, the Identity Service
+                            implementation can be replaced while the reference implementations for
+                            the other services can remain intact.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Nervous System (KNS):</emphasis> The Kuali
+                            Nervous System (KNS) is a software development framework aimed at
+                            allowing developers to quickly build web-based business applications in
+                            an efficient and agile fashion. KNS is an abstracted layer of "glue"
+                            code that provides developers easy integration with the other Rice
+                            components. In this scope, KNS provides features to developers for
+                            dynamically generating user interfaces that allow end users to search,
+                            view details about records, interact electronically with business
+                            processes, and much more. KNS adds visual, functional, and architectural
+                            consistency to any system that is built with it, helping to ensure
+                            easier and more efficient maintainability of your software.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Rapid Application Development
+                                (KRAD):</emphasis> Kuali Rapid Application Development (KRAD) is a
+                            framework that eases the development of enterprise web applications by
+                            providing reusable solutions and tooling that enables developers to
+                            build in a rapid and agile fashion. KRAD is a complete framework for web
+                            developers that provides infrastructure in all the major areas of an
+                            application (client, business, and data), and integrates with other
+                            modules of the Rice middleware project. In future releases, KNS will be
+                            absorbed into and replaced by KRAD.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Rules Management System (KRMS):</emphasis>
+                            Kuali Rule Management System (KRMS) is a common rules engine for
+                            defining decision logic, commonly referred to as business rules. KRMS
+                            facilitates the creation and maintenance of rules outside of an
+                            application for rapid update and flexible implementation that can be
+                            shared across applications.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Kuali Service Bus (KSB):</emphasis> Kuali
+                            Service Bus (KSB) is a simple service bus geared towards easy service
+                            integration in an SOA architecture. In a world of difficult to use
+                            service bus products KSB focuses on ease of use and integration. </para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>Rice Deployments</title>
+            <para>Rice provides various options for how it can be deployed and integrated with other
+                applications. Each of these deployment modes has advantages and disadvantages which
+                require the needs of the application to be considered. The following is a brief
+                description of each option:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Bundled Mode:</emphasis>  The simplest and
+                            quickest way to use Rice with your application is to use the bundled
+                            mode. In bundled mode, all of Rice is deployed with the application.
+                            This includes the services, web content, and database. In this mode
+                            there is no client-server interaction since the Rice server is also the
+                            client! </para>
+                        <para>Generally the bundled mode is used only for quick start prototyping or
+                            testing and is not recommended for a production deployment. The biggest
+                            disadvantage to this mode is each bundled application maintains its own
+                            Rice data (workflow data such as inboxes is a good example to think
+                            of).</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Standalone Rice Server:</emphasis> The
+                            recommended deployment mode for Rice is to create a standalone server.
+                            In this mode one or more clustered Rice instances act as a server for
+                            one or more clients. Applications share Rice data (such as action list,
+                            document search) and a common service bus registry through the server. </para>
+                        <para>Within the standalone server mode there are various client
+                            configurations supported. These configurations are:<itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">Embedded Workflow Engine:</emphasis>
+                                        Within the standalone server deployment mode applications
+                                        can choose to embed the workflow engine. This moves workflow
+                                        processing from the Rice server to within the client
+                                        application. The workflow engine then interacts with the
+                                        standalone server using the KSB or by directly talking to
+                                        the database.</para>
+                                    <para>Embedding the workflow engine has several advantages. One
+                                        due to the limitations of transactional processing, when
+                                        workflow processing occurs on the server it is not
+                                        maintained within the same client transaction. Moving the
+                                        processing to the client allows the processing to be
+                                        transactional. Second the processing is faster due to direct
+                                        database communication. Finally, this allows the entire
+                                        system to scale better since the processing is
+                                        distributed.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Embedded Identity
+                                            Services:</emphasis> In the pure standalone server mode
+                                        each call to a Rice service is made through the service bus
+                                        to a remote server. In some cases this can become a burden
+                                        on performance. The identity management services in Rice
+                                        represent one such case, as an application generally needs
+                                        to perform many calls to perform authorization checks. </para>
+                                    <para>To help with this problem Rice supports embedding the
+                                        identity management services in the client application. This
+                                        is similar to the embedded workflow engine where the
+                                        embedded Rice components interact directly with the
+                                        database. This significantly improves performance of the
+                                        application.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Java Thin Clients and Web
+                                            Services:</emphasis> The last deployment options are at
+                                        the opposite end of the bundled mode. With these deployments
+                                        no Rice components are deployed with the application. These
+                                        are known as the Java thin client and the Web Services
+                                        client. </para>
+                                    <para>In the thin client, a Java application consumes the Rice
+                                        services remotely (without the use of the Kuali Service
+                                        Bus). This is generally only useful with the Rice KEW
+                                        (Workflow) services. The Web Services client is similar
+                                        except the application can be non-Java based and interacts
+                                        with Rice using web services. Both of these deployments are
+                                        good for applications needing only use of the workflow
+                                        module. However it does contain some of the disadvantages as
+                                        explained in the embedded workflow engine deployment.</para>
+                                </listitem>
+                            </itemizedlist></para>
+                        <note><para><emphasis role="bold">Development Framework: </emphasis> Note in standalone server mode even
+                                though the Rice services and web content are deployed on the server,
+                                to use the Rice development framework the KRAD framework and web
+                                modules must be deployed with the application. </para></note>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+    </section>
+<!-- TODO    
+    <section>
+        <title> The Kuali Nervous System (KNS) — History of the Rice Development Framework </title>
+    </section>
+    <section>
+        <title> KRAD is Born! </title>
+    </section>
+-->
+    <section>
+        <title> User Experience 101 </title>
+        <para>Designing a good user interface is an art, but there are development process aspects
+            that are highly correlated with projects and brands that are loved by users.  We cover
+            two of those here, one having to do with the use of common user interface (UI) artifacts
+            and the other having to do with the teamwork and user engagement model. <xref linkend="fig2"></xref> shows
+            the Aspects of UI Development Process Maturity.</para>
+        <para><figure xml:id="fig2"><title>UI Process Maturity</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KRAD_Guide/ui_process_maturity.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+        <para>Though "a foolish consistency is the hobgoblin of little minds" (quote attributed to
+            Ralph Waldo Emerson in his essay entitled "Self-reliance"), consistency within an
+            application and across applications used in tandem is an important aspect, depended on
+            by users.   Today's users are constantly multi-tasking, and they carry their learning
+            from one part of an application to another.  Random differences across an application
+            typically snag these users, requiring them to think about the UI rather than focus on
+            their task:  they have to remember which strategy applies in which part of the user
+            interface, rather than just fluidly moving through their tasks. </para>
+        <para>But consistency doesn't fetter innovation either, in teams that have produced leading
+            software.   Rather, these people/teams have worked out ways to speed the adoption of
+            winning UI innovations across their features and developers, moving all the affected
+            features to the new UI aspect at the right point in the process.   Sometimes this could
+            mean delaying a new UI feature, if only one team can migrate their code to it in time
+            for a release – or delaying a version in order to provide all developers the time to
+            move their code to it.  Not all differences will create these types of usage "snags",
+            but they can be reliably predicted through task analysis and good user
+            engagement.</para>
+        <section>
+            <title>Increasing skills in UI development</title>
+            <para><emphasis role="bold">Phase 0:</emphasis> In teams that are just forming or in the
+                early phase of software development maturity, there is typically no UI guidance or
+                review.  The design space is 100% open across developers and feature teams -- there
+                is higher danger of meaningless inconsistencies (as opposed to intentional ones). 
+                Developers don't disagree with each other's approaches, they simply aren't aware of
+                them and, if they were, they'd be able to quickly converge to a common approach.
+                This can create transfer of learning problems for users, and requires more developer
+                time and more UX and QA time to find and fix UI problems and, ultimately, produces
+                more code that has to be maintained. </para>
+            <para><emphasis role="bold">Phase 1: </emphasis>In teams that have formed and taken the
+                first steps to organize and manage their user interface efforts, there are common UI
+                guidelines.  Today, in addition to the KRAD framework of controls, you can take a
+                look at the Kuali Student project's <link
+                    xlink:href="https://wiki.kuali.org/display/STUDENT/User+Interaction+Model">User
+                    Interaction Model</link> that documents the design components, design patterns,
+                and style guide they will use.  This covers the type of common UI guidelines shown
+                in the preceding figure, particularly helpful for where there is not yet a common UI
+                control or template that developers can use.  These types of guidelines are also
+                helpful for guiding when to use a particular control, or to make any customization
+                choices available with that control – and are a recommended part of any project. 
+                Kuali projects are free to use this as a model or create their own. </para>
+            <para><emphasis role="bold">Phase 2:</emphasis> In the next step in growing a user
+                interface design leadership process, teams create common UI templates / models,
+                which enable "lighter-weight" efforts to design and code.  The UX effort is up-front
+                and the benefit is inherited by all developers and feature teams afterward.  There
+                are multi-disciplinary team members collaborating with developers, including
+                business analysts and UX staff trained in UI design.  Consultations and
+                collaboration across feature teams help span UI boundaries and ensure
+                consistency.</para>
+            <para><emphasis role="bold">Phase 3</emphasis>: In the final stage of maturation in user
+                interface design management, users are engaged throughout the process with all
+                feature teams, providing input through controlled user evaluations (rigorous
+                research methodology, no pressure / biasing).  Managing UX is a habit at this point,
+                part of the development culture.  Roles and rewards are in place, but there is
+                momentum, the engine runs on its own steam, developers are championing the
+                collaboration process.</para>
+        </section>
+        <section>
+            <title>KRAD - Common User Interface Artifacts</title>
+            <para>KRAD aims to provide common UI controls, making it easier for developers to
+                achieve consistency across an application, and across a team of developers working
+                on different parts of an application.  Examples of the UI controls can be seen in
+                the <link xlink:href="http://demo.rice.kuali.org/portal.do?selectedTab=krad">Rice
+                    Test Drive</link> on the KRAD tab (log in with the user name equal to one of the
+                following: admin, quickstart, admin1, admin2, supervisrsupervisor, or director -
+                these provide varying levels of permissions).  </para>
+            <para>Rice 2.0 KRAD is the first version, so with each successive version, more UI
+                aspects will move from a design guideline stage, where every developer has to read
+                and apply a guideline, to a design template stage, that each developer can use and
+                follow, and, ultimately, to a reusable UI control that each developer can use. 
+            </para>
+        </section>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Designing a good user interface is an art, but there are development
+                            process aspects that are highly correlated with projects and brands that
+                            are loved by users.  We covered two of those here, one having to do with
+                            the use of common user interface (UI) artifacts and the other having to
+                            do with the teamwork and user engagement model. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Consistency within an application and across applications used in
+                            tandem is an important aspect, depended on by users.   In teams that
+                            have formed and taken the first steps to organize and manage their user
+                            interface efforts, there are common UI guidelines.  The Kuali Student
+                            project has created a <link
+                                xlink:href="https://wiki.kuali.org/display/STUDENT/User+Interaction+Model"
+                                >User Interaction Model</link> that documents the design components,
+                            design patterns, and style guide they will use. Kuali projects are free
+                            to use this as a model or create their own.</para>
+                    </listitem>
+                    <listitem>
+                        <para>KRAD aims to provide common UI controls, making it easier for
+                            developers to achieve consistency across an application, and across a
+                            team of developers working on different parts of an application.  Rice
+                            2.0 KRAD is the first version, so with each successive version, more UI
+                            aspects will move from a design guideline stage, where every developer
+                            has to read and apply a guideline, to a design template stage, that each
+                            developer can use and follow, and, ultimately, to a reusable UI control
+                            that each developer can use.  </para>
+                    </listitem>
+                    <listitem>
+                        <para>In the final stage of maturation in user interface design management,
+                            users are also engaged throughout the process with all feature teams,
+                            providing input through controlled user evaluations.  Managing UX is a
+                            habit and part of the development culture at this point - there is
+                            momentum, the engine runs on itits own steam, developers champion the
+                            collaboration process.</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title> Accessibility with WCAG 2.0 and ARIA </title>
+        <section>
+            <title>Introduction – What are WCAG 2.0 and ARIA?</title>
+            <para>There are two accessibility guidelines that apply to web applications:  WCAG 2.0
+                (Web Content Accessibility Guidelines) and ARIA (Accessible Rich Internet
+                Applications).  WCAG 2.0 sets the baseline for web page content, while ARIA builds
+                upon this baseline, to enable richer, more dynamic interaction with web content
+                (developed with Ajax, HTML, JavaScript, and other technologies).</para>
+            <tip><para>
+                <emphasis role="bold">Who produces the accessibility standards?</emphasis> The World
+                Wide Web Consortium  (W3C) is considered to be the main international standards
+                organization for the World Wide Web. The W3C has established the open standards for
+                HTML, XML, XHTML, CSS, DOM, CGI, WCAG and many other aspects.  The <link
+                    xlink:href="http://www.w3.org/WAI/guid-tech.html">Web Accessibility Initiative
+                    (WAI)</link> is the part of the W3C that coordinates and develops the open
+                accessibility standards, including WCAG 2.0, and ARIA 1.0. </para></tip>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link xlink:href="http://www.w3.org/WAI/WCAG20/quickref/Overview.php"
+                                    ><emphasis role="bold">WCAG 2.0</emphasis></link> became the
+                            recommended standard in December 2008 (see step 5 in the information box
+                            that follows) and is still the current standard in 2012. </para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://www.w3.org/WAI/intro/aria#is"><emphasis
+                                    role="bold">ARIA</emphasis></link> became a candidate
+                            recommendation in January 2011 (see step 3 in the information box that
+                            follows). Most browsers across the industry are already implementing
+                            (see example compatibility tables: <link
+                                xlink:href="https://developer.mozilla.org/en/Accessibility/Web_applications_and_ARIA_FAQ"
+                                > Mozilla FAQ table</link>, <link
+                                xlink:href="http://caniuse.com/wai-aria">"Can I use"
+                            table</link>).  ARIA tags don't create problems in browsers that don't
+                            support them – they are simply ignored by these older browsers.  The
+                            ARIA candidate is projected to become the proposed recommendation this
+                            spring, 2012 (to move to step 4 in the information box that follows). 
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">HTML5</emphasis>, discussed in the previous
+                            section, also relates to accessibility in addition to its focus on
+                            mobility.  The HTML5 guidelines are not as far along in the draft
+                            process as ARIA, but one of the goals is to make the ARIA attributes
+                            into standard features in HTML5 – in addition to providing additional
+                            semantic structure enrichment (accessibility depends on conveying the
+                            semantics).  The HTML5 guidelines were issued as a last call working
+                            draft in May 2011 (see step 2 below), with the review period closing in
+                            August 2011. Even though it has not yet entered the call for
+                            implementation level, browsers have already begun to build in support
+                            (see <link xlink:href="http://html5accessibility.com/"
+                                >http://html5accessibility.com/</link>).  It is expected to go
+                            through another last call based on the extent of the review comments. 
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <tip><para><emphasis role="bold">What is the review process for standards?</emphasis> 5 "maturity
+                    levels":  <orderedlist>
+                        <listitem>
+                            <para>First Public Working Draft (out for public review and
+                                comment)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Last Call Working Draft (revised based on the comments, last
+                                chance for comments).  <emphasis role="bold">HTML5 is here and
+                                    expected to be re-issued again at this level based on the
+                                    comments! </emphasis></para>
+                        </listitem>
+                        <listitem>
+                            <para>Call for implementation of Candidate Recommendation (this is like
+                                a 'beta'). <emphasis role="bold">ARIA is here and expected to move
+                                    to #4 in spring 2012! </emphasis></para>
+                        </listitem>
+                        <listitem>
+                            <para>Call for Review of Proposed Recommendation (last review before
+                                finalization) </para>
+                        </listitem>
+                        <listitem>
+                            <para>W3C Recommendation (considered to be the open web
+                                    standard). <emphasis role="bold">WCAG 2.0 is here!</emphasis>
+                            </para>
+                        </listitem>
+                    </orderedlist></para></tip>
+        </section>
+        <section>
+            <title>WCAG 2.0 Overview</title>
+            <para>WCAG 2.0 is a mature standard, though it is new to many of us.  (If this content
+                is familiar to you, you could jump directly to the ARIA section that follows this.)
+                WCAG 2.0 is an update to WCAG 1.0, which was for static web pages only (could not
+                require jScript).  Running without javascript is no longer a requirement.  WCAG 2.0
+                recognizes the web as an interactive space, not solely for passive reading.</para>
+            <para>There are 12 guidelines, organized under 4 principles: perceivable, operable,
+                understandable, and robust.  For each of the 12 guidelines, there are testable
+                    <emphasis role="italic">success criteria</emphasis><emphasis role="italic"
+                    >,</emphasis> at each of these levels: A (must have), AA (should have), and AAA
+                (may have).</para>
+            <para>Comprehensive information is available from the W3C here, about how to meet <link
+                    xlink:href="http://www.w3.org/WAI/WCAG20/quickref/Overview.php">WCAG
+                2.0</link>.</para>
+        </section>
+        <section>
+            <title>Accessibility Code Checkers</title>
+            <para>There are many free accessibility code checkers, and it is recommended that
+                developers check their code with one of these tools.  For example, here is a short
+                list of accessibility checkers you could consider:<itemizedlist>
+                    <listitem>
+                        <para>
+                            <link
+                                xlink:href="http://accessibility.linuxfoundation.org/a11yweb/util/accprobe/"
+                                    ><emphasis role="bold">ACCprobe</emphasis></link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://achecker.ca/checker/index.php"><emphasis
+                                    role="bold">AChecker</emphasis></link></para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <link
+                                xlink:href="http://www.eclipse.org/actf/downloads/tools/aDesigner/"
+                                    ><emphasis role="bold">Adesigner</emphasis></link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://code.google.com/p/ainspector/"><emphasis
+                                    role="bold">Ainspector</emphasis></link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://fae.cita.uiuc.edu/"><emphasis role="bold">FAE
+                                    (U of I)</emphasis></link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://oaa-accessibility.org/"><emphasis role="bold"
+                                    >Open Ajax Alliance</emphasis></link>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://totalvalidator.com/"><emphasis role="bold"
+                                    >Total Validator</emphasis></link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://wave.webaim.org/"><emphasis role="bold"
+                                    >WAVE</emphasis></link></para>
+                    </listitem>
+                </itemizedlist></para>
+                <para>A more comprehensive list of code-checkers is available at <link
+                        xlink:href="http://www.w3.org/WAI/ER/tools/complete"
+                        >http://www.w3.org/WAI/ER/tools/complete</link>.</para>           
+        </section>
+        <section>
+            <title>What should developers pay attention to in creating accessible applications with
+                KRAD?</title>
+                <para>The KRAD team did an extensive baseline evaluation to understand where the KNS
+                    and new KRAD framework stand on these criteria, and made several changes.  For
+                    example, </para>
+            
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">The standard language tag was added to
+                                KRAD.</emphasis>  This supports level A criteria 3.1.1, in the
+                                <emphasis role="italic">Understandable</emphasis> category:  "The
+                            default human language of each web page can be
+                            programmatically-determined."  </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Buttons, which were formerly images of text in
+                                KNS, were changed to text buttons with background
+                            images.</emphasis>  This supports level A criteria 1.4.3 and 1.4.4, in
+                            the <emphasis role="italic">Perceivable</emphasis> category:  "Contrast
+                            ratio of at least 4.5:1" (inherits high contract setting) and "Text can
+                            be resized up to 200% without assistive technologies" (inherits low
+                            DPI/large font settings).  This also supports level AA criteria 1.4.5,
+                            in this same category: "Text used instead of images of text except for
+                            customizable images (by user) and essential images (logotype)".</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>Several other bugs were fixed and changes made, including adding alt-text in many
+                places.  </para>
+            <para>Our intent moving forward is to invest in making KRAD's UIF accessible, enabling
+                applications built with the framework to inherit the benefit.  The first version of
+                KRAD, in Rice 2.0, meets most of the A-level criteria, and many of the AA criteria,
+                and in the areas where it does not meet, there are requirements listed for Rice 2.2
+                to bring us up to compliance.  </para>
+            <para>The good news is that applications can resolve most of the aspects where Rice 2.0
+                KRAD doesn't yet have the built-in accessibility support for you to inherit, and
+                there will be additional support in Rice 2.2 KRAD.   </para>
+            <para>Following are 7 areas that application developers using Rice 2.0 KRAD should
+                consider in their applications:<itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Tables, tabs, and field group
+                                semantics.</emphasis>  Even before we build this into the UIF in
+                            Rice 2.2 KRAD, applications can implement the fixes for these areas,
+                            documented in the requirements related to table semantics, tab
+                            semantics, and fieldset-legends.  This affects level A criteria 1.3.1,
+                            in the Perceivable category: "Information, structure &amp; relationships
+                            can be programmatically determined or are available in text."  </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Standard keyboard support.</emphasis>  This
+                            affects level A criteria 2.1.1, in the Operable category:  "All
+                            functionality &amp; info is operable through a keyboard interface w/o
+                            requiring specific timings for individual keystrokes." </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Standard "Jump to main content"
+                                links.</emphasis> This affects level A criteria 2.4.1 in the
+                            Operable category: "Provide a way to bypass blocks of content that are
+                            repeated on multiple pages."  A simple code snippet example that fixes
+                            this follows.</para>
+                            <programlisting>&lt;div id="accessibility">
+    &lt;a href="#nav">Jump to Navigation&lt;/a>
+    &lt;a href="#main-content">Jump to MainContent&lt;/a>
+&lt;/div>    </programlisting>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Page titles.</emphasis>  This affects level A
+                            criteria 2.4.2 in the Operable category:  "Web pages have titles that
+                            describe topic or purpose." Also, KULRICE-5688 is related to this,
+                            though not technically a "page", the iframe title default is currently =
+                            "edoc", which default should be changed to "main content" and updated by
+                            the application when they populate it. </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Link titles. </emphasis> This affects level A
+                            criteria 2.4.4 in the Operable category:  "The purpose of each link can
+                            be determined from the link text alone or from the link text together
+                            with its programmatically-determined link context."  Specifically, when
+                            a link will open a new browser tab or window, that should be conveyed to
+                            the user in link title text (e.g., "Opens new browser tab – link title
+                            text").</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Parsing standards:</emphasis> This affects level
+                            A criteria 4.1.1 in the Robust category:  "In content implemented using
+                            markup languages, elements have complete start and end tags, elements
+                            are nested according to their specifications, elements do not contain
+                            duplicate attributes, &amp; IDs are unique (except where specs allow
+                            these features)."  The W3C has code validators you can use to find and
+                            fix violations.   See <link xlink:href="http://www.w3.org/QA/Tools/"
+                                >http://www.w3.org/QA/Tools/</link>.  See also the list of
+                            accessibility code checkers in the previous material.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Name, role and value.</emphasis>  This affects
+                            level A criteria 4.1.2 in the Robust category:  "For all UI components,
+                            the name &amp; role can be programmatically determined;  states,
+                            properties &amp; values set by the user can be programmatically set; and
+                            notification of changes to these items is available to user agents,
+                            including assistive technologies."   The new ARIA guidelines make it
+                            easier to address these criteria, and we'll look at these guidelines
+                            next.</para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section>
+            <title>ARIA Overview </title>
+            <para>The new ARIA guidelines enable interactive web applications to be accessible – you
+                no longer have to create an alternate version without jScript.   ARIA represents an
+                extension to both HTML and XHTML, providing new attributes to dynamically convey how
+                interactive features (controls, widgets, Ajax live regions, and events) relate to
+                each other and what is their current state.  The goal is to make these into standard
+                features in HTML5.</para>
+            <para>From the <link xlink:href="http://www.w3.org/TR/wai-aria-primer/">WAI-ARIA
+                    Primer</link>:  </para>
+            <para><emphasis role="italic">"Authors of JavaScript-generated content do not want to
+                    limit themselves to using standard tag elements that define the actual user
+                    interface element such as tables, ordered lists, etc. Rather, they make
+                    extensive use of elements such as DIV tags in which they dynamically apply a
+                    user interface (UI) through the use of style sheets and dynamic content changes.
+                    HTML DIV tags provide no semantic information. For example, authors may define a
+                    DIV as the start of a pop-up menu or even an ordered list. However, no HTML
+                    mechanism exists to: </emphasis></para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="italic">Identify the role of the DIV as a pop-up menu
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="italic">Alert assistive technology when these elements
+                                have focus </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="italic">Convey accessibility property information,
+                                such as whether the pop-up menu is collapsed or expanded
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="italic">Define what actions can be formed on the
+                                element other than through a device-dependent means through the
+                                event handler type (onmouseover, onclick, etc.)</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para><emphasis role="italic">In short, JavaScript needs an accessibility architecture
+                    to write to such that a solution can be mapped to the accessibility frameworks
+                    on the native platform by the user agent."</emphasis></para>
+            <para>ARIA gives us several new constructs to do this, to dynamically convey how
+                interactive features relate to each other and what is their current state:</para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>New "Roles"  (Role =" ") to describe: <itemizedlist>
+                                <listitem>
+                                    <para>the type of widget ("menu," "treeitem," "slider," and
+                                        "progressmeter") </para>
+                                </listitem>
+                                <listitem>
+                                    <para>the structure of a table or page (headings, regions,
+                                        grids) </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>New properties – to define and describe: <itemizedlist>
+                                <listitem>
+                                    <para>the state of a widget or control  </para>
+                                </listitem>
+                                <listitem>
+                                    <para>the state of "live" regions on a page that will receive
+                                        updates, and how/when to handle those </para>
+                                </listitem>
+                                <listitem>
+                                    <para>drag-and-drop sources and targets </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>New keyboard support techniques for navigating among web objects and
+                            events </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Adding ARIA to an application</title>
+            <para>There is a 7-step process recommended when applying ARIA to web application code
+                (steps drawn from the in <link xlink:href="http://www.w3.org/TR/wai-aria-primer/"
+                    >WAI-ARIA Primer</link>, examples supplied by this training module):<orderedlist>
+                    <listitem>
+                        <para>Rely on native markup when possible.  For example, if there is a
+                            native HTML method that works well for grouping controls (fieldset &amp;
+                            legend), use that instead of creating a div with a role to group them. 
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Apply appropriate ARIA roles.  There are dozens more <link
+                                xlink:href="http://www.w3.org/TR/wai-aria/roles#roles_categorization"
+                                >ARIA roles</link>, but here are a few examples, to convey the
+                            idea:  <itemizedlist>
+                                <listitem>
+                                    <para><link
+                                            xlink:href="http://www.w3.org/TR/wai-aria/roles#widget_roles"
+                                            >Widget roles</link>:  button, checkbox, dialog, link,
+                                        radio, tab, tooltip, treeitem</para>
+                                </listitem>
+                                <listitem>
+                                    <para><link
+                                            xlink:href="http://www.w3.org/TR/wai-aria/roles#document_structure_roles"
+                                            >Document structure roles</link>: document, group,
+                                        heading, presentation, region</para>
+                                </listitem>
+                                <listitem>
+                                    <para><link
+                                            xlink:href="http://www.w3.org/TR/wai-aria/roles#landmark_roles"
+                                            >Landmark roles</link>: application, banner, form, main,
+                                        menu, navigation, search </para>
+                                </listitem>
+                            </itemizedlist></para>
+                            <note><para>Assigning the role="presentation" to any native markup means that the semantics of the markup
+                                will not be conveyed to assistive technologies (it is for visual
+                                presentation only).  This can be useful, for example, when a table
+                                is used for layout purposes (when the table row/column structure is
+                                not relevant).</para>
+                            <para>If there is no landmark role that fits the need, authors can
+                                define their own custom regions. Any role can be marked aria-live,
+                                which means that it will receive updates, its state will change. 
+                                Changes within live regions automatically get passed through to
+                                assistive technologies, so these are accessible.  </para></note>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Preserve semantic structure.</emphasis>  
+                            Preserve DOM hierarchy, form logical groups, assign landmark roles.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Build relationships.</emphasis>  For example,
+                            use aria-describedby to identify the element that describes the object,
+                            and use aria-labelledby to identify the element that labels the object. 
+                            For more information, see <link
+                                xlink:href="http://www.w3.org/TR/2010/WD-wai-aria-20100916/states_and_properties#attrs_relationships"
+                                >WAI-ARIA relationships</link>.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Set states and properties in response to
+                                events.</emphasis> After you've created the elements with their
+                            roles in your code-base, be sure you add the code to change the state
+                            and property in response to user interaction.  For example, when
+                            something is selected, when something is expanded, and so on.  For
+                            example, make sure the appropriate tab is marked active in the tablist
+                            structure and others are marked inactive.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Support keyboard navigation.</emphasis>  Now
+                            with ARIA, the tabindex attribute can be applied to any displayable HTML
+                            element, making it easier to add items on a page into the keyboard tab
+                            order.  You can either use a roving tabindex or the
+                            aria-activedescendant property. For more details, see <link
+                                xlink:href="http://www.w3.org/TR/2010/WD-wai-aria-practices-20100916/#keyboard"
+                                >WAI-ARIA - Keyboard support</link>.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Synchronize the visual interface with the
+                                accessible interface.</emphasis>  Make sure that ARIA states are
+                            synchronized with the visual interface and vice-versa.  For example,
+                            make sure that aria-selected items inherit a visual treatment for
+                            selected state, that ARIA infocus items inherit a visual treatment for
+                            in-focus state, that aria-required items are marked visually with a
+                            required indicator, and so on.</para>
+                    </listitem>    
+                </orderedlist></para>
+        </section>
+        <section role="NotInToc">
+            <title>RECAP</title>
+            <para> There are four major "take-aways" in this accessibility section: <itemizedlist>
+                    <listitem>
+                        <para>There are two accessibility guidelines that apply to web applications,
+                            created by the W3C:  <itemizedlist>
+                                <listitem>
+                                    <para>WCAG 2.0 (Web Content Accessibility Guidelines) – a
+                                        finalized standard in 2008.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>ARIA (Accessible Rich Internet Applications) – a candidate
+                                        standard (beta) in 2011. </para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>There are many free accessibility code checkers, and it is recommended
+                            that developers check their code with one of these tools.  See the links
+                            to tools in the previous pages.</para>
+                    </listitem>
+                    <listitem>
+                        <para>KRAD is investing in accessibility and applications developed with
+                            KRAD will be able to inherit this benefit in Rice 2.2.  Applications
+                            developed with Rice 2.0 KRAD should give attention to 7 areas in WCAG
+                            2.0, with fixes discussed for these 7 areas in the previous
+                            pages.</para>
+                    </listitem>
+                    <listitem>
+                        <para>ARIA represents an extension to both HTML and XHTML, providing new
+                            attributes to dynamically convey how interactive features (controls,
+                            widgets, Ajax live regions, and events) relate to each other and what is
+                            their current state.  <itemizedlist>
+                                <listitem>
+                                    <para>There are new "roles" and properties to define states, new
+                                        drag-and-drop semantics and expanded support for enabling
+                                        keyboard access. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>There is a recommended 7-step process for adding ARIA to
+                                        an application.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>The goal is to make these into standard features in
+                                        HTML5.  </para>
+                                </listitem>
+                            </itemizedlist></para>
+                        <para>See details and links in the previous pages. </para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+    </section>
+</chapter>

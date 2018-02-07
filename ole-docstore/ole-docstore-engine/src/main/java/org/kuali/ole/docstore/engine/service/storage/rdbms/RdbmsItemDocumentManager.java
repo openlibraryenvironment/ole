@@ -102,8 +102,16 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         itemRecord.setStaffOnlyFlag(itemDocument.isStaffOnly());
         itemRecord.setHoldingsId(DocumentUniqueIDPrefix.getDocumentId(holdingsId));
         itemRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML);
-        itemRecord.setCreatedBy(itemDocument.getCreatedBy());
+
+        if(itemDocument.getCreatedBy() != null){
+            itemRecord.setCreatedBy(itemDocument.getCreatedBy());
+        }else{
+            itemRecord.setCreatedBy(itemDocument.getHolding().getCreatedBy());
+        }
+
         itemRecord.setCreatedDate(createdDate());
+        itemRecord.setUpdatedBy(itemRecord.getCreatedBy());
+        itemRecord.setUpdatedDate(itemRecord.getCreatedDate());
         setItemProperties(itemRecord, item);
         String content =  itemOlemlRecordProcessor.toXML(item);
         itemDocument.setContent(content);
@@ -1453,11 +1461,13 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         boolean isLocationPresent = false;
         if(CollectionUtils.isNotEmpty(locationsCheckinCountRecordList)) {
             for(LocationsCheckinCountRecord locationsCheckinCountRecord : locationsCheckinCountRecordList) {
-                if(locationsCheckinCountRecord.getLocationName().equals(checkInLocation.getName())) {
-                    isLocationPresent = true;
-                    locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
-                    locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
-                    getBusinessObjectService().save(locationsCheckinCountRecord);
+                if(locationsCheckinCountRecord.getLocationName() != null){
+                    if(locationsCheckinCountRecord.getLocationName().equals(checkInLocation.getName())) {
+                        isLocationPresent = true;
+                        locationsCheckinCountRecord.setLocationCount(checkInLocation.getCount());
+                        locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
+                        getBusinessObjectService().save(locationsCheckinCountRecord);
+                    }
                 }
             }
         }

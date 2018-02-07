@@ -1,0 +1,46 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+	<param name="module.name">kim</param>
+
+    <param name="config.location">classpath:META-INF/test-config-defaults.xml</param>
+
+	<param name="transaction.timeout">3600</param>
+	<param name="application.id">TEST</param>
+	<param name="serviceServletUrl">http://localhost:9912/${app.context.name}/remoting/</param>
+	
+	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
+	<param name="config.location">${alt.config.location}</param>
+	
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.file">${basedir}/../ksb/src/test/resources/keystore/ricekeystore</param>
+	<param name="keystore.password">r1c3pw</param>
+	
+	<param name="kim.test.port">9912</param>
+	<param name="kim.test.host">localhost</param>
+
+  <param name="rice.kim.additionalSpringFiles">classpath:org/kuali/rice/kim/impl/config/KimWebSpringBeans.xml,classpath:KIMLdapSpringBeans-test.xml</param>
+
+  <!-- LDAP Server Configurations -->
+  <param name="rice.ldap.username">uid=admin,ou=system</param>
+  <param name="rice.ldap.password">secret</param>
+  <param name="rice.ldap.url">ldap://127.0.0.1:10389</param>
+  <param name="rice.ldap.base">ou=Doctors,o=Whoniverse</param>
+
+
+ </config>

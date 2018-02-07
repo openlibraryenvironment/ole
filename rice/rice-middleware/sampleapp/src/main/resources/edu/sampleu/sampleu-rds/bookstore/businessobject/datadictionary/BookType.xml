@@ -1,0 +1,154 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright 2006-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<spring:beans xmlns="http://www.kuali.org/schema" xmlns:spring="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.kuali.org/schema http://www.kuali.org/krad/schema.xsd">
+  <dataObjectEntry id="BookType" parent="BookType-parentBean"/>
+  <dataObjectEntry abstract="true" dataObjectClass="edu.sampleu.bookstore.bo.BookType" id="BookType-parentBean"
+                   objectLabel="Book Type" parent="DataObjectEntry" titleAttribute="name">
+    <collections>
+      <spring:bean parent="CollectionDefinition">
+        <spring:property name="elementLabel" value="Book"/>
+        <spring:property name="label" value="Books"/>
+        <spring:property name="name" value="books"/>
+        <spring:property name="shortLabel" value="Books"/>
+      </spring:bean>
+    </collections>
+    <attributes>
+      <ref bean="BookType-typeCode"/>
+      <ref bean="BookType-name"/>
+      <ref bean="BookType-description"/>
+      <ref bean="BookType-active"/>
+    </attributes>
+    <primaryKeys>
+      <value>name</value>
+    </primaryKeys>
+  </dataObjectEntry>
+  <attributeDefinition id="BookType-typeCode" parent="BookType-typeCode-parentBean"/>
+  <attributeDefinition abstract="true" description="Code identifying the book type." forceUppercase="true"
+                       id="BookType-typeCode-parentBean" label="Book Type Code" maxLength="40" name="typeCode"
+                       parent="AttributeDefinition" required="true" shortLabel="Code"
+                       summary="Code identifying the book type.">
+    <control>
+      <textControl parent="Uif-TextControl" size="40"/>
+    </control>
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="false"/>
+      </spring:bean>
+    </validChractersConstraint>
+  </attributeDefinition>
+  <attributeDefinition id="BookType-name" parent="BookType-name-parentBean"/>
+  <attributeDefinition abstract="true" description="Name identifying the book type." forceUppercase="false"
+                       id="BookType-name-parentBean" label="Book Type Name" maxLength="100" name="name"
+                       parent="AttributeDefinition" required="true" shortLabel="Name"
+                       summary="Name identifying the book type.">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="100"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BookType-description" parent="BookType-description-parentBean"/>
+  <attributeDefinition abstract="true" description="Description identifying the book type." forceUppercase="false"
+                       id="BookType-description-parentBean" label="Book Type Description" maxLength="500"
+                       name="description" parent="AttributeDefinition" required="false" shortLabel="Description"
+                       summary="Description identifying the book type.">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint">
+        <spring:property name="allowWhitespace" value="true"/>
+      </spring:bean>
+    </validChractersConstraint>
+    <control>
+      <textControl parent="Uif-TextControl" size="100"/>
+    </control>
+  </attributeDefinition>
+  <attributeDefinition id="BookType-active" parent="BookType-active-parentBean"/>
+  <attributeDefinition abstract="true"
+                       description="This attribute is used to describe whether the associated object is active or inactive."
+                       forceUppercase="false" formatterClass="org.kuali.rice.core.web.format.BooleanFormatter"
+                       id="BookType-active-parentBean" label="Active Indicator" maxLength="1" name="active"
+                       parent="AttributeDefinition" shortLabel="active" summary="Active Indicator">
+    <validChractersConstraint>
+      <spring:bean parent="AnyCharacterPatternConstraint"/>
+    </validChractersConstraint>
+    <control>
+      <checkboxControl parent="Uif-CheckboxControl"/>
+    </control>
+  </attributeDefinition>
+  <inquiryView dataObjectClassName="edu.sampleu.bookstore.bo.BookType" headertext="Book Type Inquiry"
+               id="BookType-InquiryView" parent="Uif-InquiryView">
+    <items>
+      <group headertext="Book Type Information" layoutManager.numberOfColumns="2" parent="Uif-Disclosure-GridSection">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="typeCode"/>
+          <inputField parent="Uif-InputField" propertyName="name"/>
+          <inputField parent="Uif-InputField" propertyName="description"/>
+          <inputField parent="Uif-InputField" propertyName="active"/>
+        </items>
+      </group>
+      <collectionGroup collectionObjectClass="edu.sampleu.bookstore.bo.Book" headertext="Books"
+                       layoutManager.summaryTitle="Book" parent="Uif-Disclosure-StackedCollectionSection"
+                       propertyName="books">
+        <items>
+          <inputField parent="Uif-InputField" propertyName="title"/>
+          <inputField parent="Uif-InputField" propertyName="isbn"/>
+          <inputField parent="Uif-InputField" propertyName="price"/>
+          <inputField parent="Uif-InputField" propertyName="rating"/>
+          <inputField parent="Uif-InputField" propertyName="publisher"/>
+          <inputField parent="Uif-InputField" propertyName="publicationDate"/>
+        </items>
+        <layoutManager.summaryFields>
+          <value>title</value>
+        </layoutManager.summaryFields>
+      </collectionGroup>
+    </items>
+  </inquiryView>
+  <lookupView dataObjectClassName="edu.sampleu.bookstore.bo.BookType" headertext="Book Type Lookup"
+              id="BookType-LookupView" parent="Uif-LookupView">
+    <criteriaFields>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="typeCode"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="name"/>
+      <lookupInputField parent="Uif-LookupCriteriaInputField" propertyName="active"/>
+    </criteriaFields>
+    <resultFields>
+      <inputField parent="Uif-DataField" propertyName="typeCode"/>
+      <inputField parent="Uif-DataField" propertyName="name"/>
+      <inputField parent="Uif-DataField" propertyName="description"/>
+      <inputField parent="Uif-DataField" propertyName="active"/>
+    </resultFields>
+  </lookupView>
+</spring:beans>

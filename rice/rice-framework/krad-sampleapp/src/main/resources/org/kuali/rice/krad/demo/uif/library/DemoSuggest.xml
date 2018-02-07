@@ -1,0 +1,326 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <!-- Suggest demo -->
+  <bean id="Demo-Suggest-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoSuggest.xml"/>
+    <property name="javaFullClassPath" value="org.kuali.rice.krad.uif.widget.Suggest"/>
+    <property name="docBookAnchor" value="d6813e6638"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-Suggest-Example1"/>
+        <ref bean="Demo-Suggest-Example2"/>
+        <ref bean="Demo-Suggest-Example3"/>
+        <ref bean="Demo-Suggest-Example4"/>
+        <ref bean="Demo-Suggest-Example5"/>
+        <ref bean="Demo-Suggest-Example6"/>
+        <ref bean="Demo-Suggest-Example7"/>
+        <ref bean="Demo-Suggest-Example8"/>
+        <ref bean="Demo-Suggest-Example9"/>
+        <ref bean="Demo-Suggest-Example10"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example1 start-->
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="inputField1" p:required="true">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="accountTypeCode"
+                  p:suggestQuery.dataObjectClassName="org.kuali.rice.krad.demo.travel.account.TravelAccountType"/>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example1 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example2" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example2 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField2">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="number">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveTravelAccounts"/>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example2 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example3" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example3 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField3"/>
+        <bean parent="Uif-InputField" p:propertyName="inputField4">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="number">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveTravelAccountsBySubAcctAndTerm"
+                      p:queryMethodArgumentFieldList="inputField3"/>
+              </property>
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="minLength" value="1"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example3 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example4" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example4 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField5">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "org.kuali.rice.krad.demo.uif.components.ComponentSuggestClass.getLanguages"/>
+              </property>
+              <property name="templateOptions">
+                <map merge="true">
+                  <entry key="minLength" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example4 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example5" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example5 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField6">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="subAccountName">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveTravelAccountsBySubAcct"
+                      p:sortPropertyNames="subAccountName">
+                  <property name="queryMethodInvokerConfig.targetObject">
+                    <bean class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+                      <property name="serviceName" value="componentViewHelperService"/>
+                    </bean>
+                  </property>
+                </bean>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example5 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example6" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example6 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField7">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "org.kuali.rice.krad.demo.uif.components.ComponentSuggestClass.getAllLanguages"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example6 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example7" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example7 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField8">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "org.kuali.rice.krad.demo.uif.components.ComponentSuggestClass.getRichOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="html" value="true"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example7 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example8" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example8 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField9">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestOptions">
+                <list>
+                  <value>ActionScript</value>
+                  <value>AppleScript</value>
+                  <value>Asp</value>
+                  <value>BASIC</value>
+                  <value>C</value>
+                  <value>C++</value>
+                  <value>Clojure</value>
+                  <value>COBOL</value>
+                  <value>ColdFusion</value>
+                  <value>Erlang</value>
+                  <value>Fortran</value>
+                  <value>Groovy</value>
+                  <value>Haskell</value>
+                  <value>Java</value>
+                  <value>JavaScript</value>
+                  <value>Lisp</value>
+                  <value>Perl</value>
+                  <value>PHP</value>
+                  <value>Python</value>
+                  <value>Ruby</value>
+                  <value>Scala</value>
+                  <value>Scheme</value>
+                </list>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example8 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example9" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example9 start-->
+        <bean parent="Uif-InputField" p:propertyName="inputField10" p:additionalHiddenPropertyNames="inputField11"
+              p:propertyNamesForAdditionalDisplay="inputField12">
+          <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "org.kuali.rice.krad.demo.uif.components.ComponentSuggestClass.getComplexOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="select">
+                    <value>
+                      function( event, ui ) {
+                      jQuery( "input[name='inputField11']" ).val( ui.item.value );
+                      jQuery( "input[name='inputField10']" ).val( ui.item.label );
+                      jQuery( "span[id$='_info_inputField12']").html( ui.item.description );
+
+                      return false;
+                      }
+                    </value>
+                  </entry>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example9 end-->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Demo-Suggest-Example10" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <!-- ex:Demo-Suggest-Example10 start-->
+        <bean parent="Uif-InputField" p:label="Location Suggest - Views"
+                      p:instructionalText="Pointing to same controller,
+                      each option provides a different view, type i, t, or s."
+                      p:propertyName="inputField13">
+          <property name="suggest">
+            <bean parent="Uif-LocationSuggest" p:render="true" p:retrieveAllSuggestions="true"
+                    p:baseUrl="@{#ConfigProperties['krad.url']}/kradsampleapp">
+              <property name="valuePropertyName" value="value"/>
+              <property name="additionalRequestParameters">
+                <map>
+                  <entry key="methodToCall" value="start"/>
+                </map>
+              </property>
+              <property name="requestParameterPropertyNames">
+                <map>
+                  <entry key="viewId" value="id"/>
+                </map>
+              </property>
+              <property name="suggestQuery">
+                <bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.staticMethod=
+                        "org.kuali.rice.krad.demo.uif.components.ComponentSuggestClass.getViewOptions"/>
+              </property>
+              <property name="templateOptions">
+                <map>
+                  <entry key="minLength" value="0"/>
+                  <entry key="delay" value="0"/>
+                  <entry key="html" value="true"/>
+                </map>
+              </property>
+            </bean>
+          </property>
+        </bean>
+        <!-- ex:Demo-Suggest-Example10 end-->
+      </list>
+    </property>
+  </bean>
+
+ </beans>

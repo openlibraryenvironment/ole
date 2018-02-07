@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>TestRuleTemplate2</name>
+			<description>TestRuleTemplate2</description>
+			<attributes>
+				<attribute>
+					<name>TestRuleAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+
+	<!-- this rule differs from the existing rule in DuplicateRuleToImport, only by the actionRequested
+		so it should NOT be considered a duplicate -->
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>NotADuplicateTestRule</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>TestAttribute</attribute>
+					<ruleTemplate>TestTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>color</key>
+							<value>green</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>shape</key>
+							<value>square</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>C</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- this rule differs from the existing rule in DuplicateRuleToImport, only by the expression
+			so it should NOT be considered a duplicate -->
+		<rule>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>NotADuplicateTestRule</description>
+			<expression type="imnew">this is different</expression>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>TestAttribute</attribute>
+					<ruleTemplate>TestTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>color</key>
+							<value>green</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>shape</key>
+							<value>square</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>C</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- this rule differs from the existing rule in DuplicateRuleToImport, only by the ruleTemplate
+			so it should NOT be considered a duplicate -->
+		<rule>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate2</ruleTemplate>
+			<description>NotADuplicateTestRule2</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>TestAttribute</attribute>
+					<ruleTemplate>TestTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>color</key>
+							<value>green</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>shape</key>
+							<value>square</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- this rule differs from the existing rule in DuplicateRuleToImport, only by the ruleExtension ruleTemplate
+			so it should NOT be considered a duplicate -->
+		<rule>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>NotADuplicateTestRule3</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>TestAttribute</attribute>
+					<ruleTemplate>TestTemplate2</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>color</key>
+							<value>green</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>shape</key>
+							<value>square</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- this rule differs from the existing rule in DuplicateRuleToImport, by the ruleExtension attribute
+			so it should NOT be considered a duplicate -->
+		<rule>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>NotADuplicateTestRule4</description>
+			<forceAction>false</forceAction>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>TestAttribute2</attribute>
+					<ruleTemplate>TestTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>color</key>
+							<value>green</value>
+						</ruleExtensionValue>
+						<ruleExtensionValue>
+							<key>shape</key>
+							<value>square</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>user1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <!--
+
+      Copyright 2005-2012 The Kuali Foundation
+
+      Licensed under the Educational Community License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+      http://www.opensource.org/licenses/ecl2.php
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+  -->
+
+  <bean id="TravelAccount" parent="TravelAccount-parentBean"/>
+  <bean id="TravelAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="edu.sampleu.travel.bo.TravelAccount"/>
+    <property name="inquiryDefinition">
+      <ref bean="TravelAccount-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="TravelAccount-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="number"/>
+    <property name="objectLabel" value="Travel Account"/>
+    <property name="attributes">
+      <list>
+        <ref bean="TravelAccount-number"/>
+        <ref bean="TravelAccount-name"/>
+        <ref bean="TravelAccount-subAccount"/>
+        <ref bean="TravelAccount-subAccountName"/>
+        <ref bean="TravelAccount-subsidizedPercent"/>
+        <ref bean="TravelAccount-createDate"/>
+        <ref bean="TravelAccount-foId"/>
+        <ref bean="TravelAccount-foName"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="TravelAccount-number" parent="TravelAccount-number-parentBean"/>
+  <bean id="TravelAccount-number-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Travel Account Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="constraintText" value="Must not be more than 10 characters"/>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="10"/>
+    </property>
+    <property name="summary" value="Unique identifier for account"/>
+    <property name="name" value="number"/>
+    <property name="label" value="Travel Account Number"/>
+    <property name="description" value="Travel Account Number"/>
+    <property name="required" value="true"/>
+  </bean>
+
+  <bean id="TravelAccount-subAccount" parent="TravelAccount-number-parentBean">
+    <property name="name" value="subAccount"/>
+    <property name="shortLabel" value="Travel Sub Account Number"/>
+    <property name="label" value="Travel Sub Account Number"/>
+    <property name="description" value="Travel Sub Account Number"/>
+    <property name="summary" value=""/>
+  </bean>
+
+  <bean id="TravelAccount-name" parent="TravelAccount-name-parentBean"/>
+  <bean id="TravelAccount-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Account Name"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="name"/>
+    <property name="label" value="Account Name"/>
+    <property name="description" value="Account Name"/>
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity">
+        <property name="mask" value="true"/>
+        <property name="maskFormatter">
+          <bean parent="MaskFormatterLiteral" p:literal="*********"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="TravelAccount-subAccountName" parent="TravelAccount-name-parentBean">
+    <property name="name" value="subAccountName"/>
+    <property name="shortLabel" value="Sub Account Name"/>
+    <property name="label" value="Sub Account Name"/>
+    <property name="description" value="Sub Account Name"/>
+  </bean>
+
+  <bean id="TravelAccount-subsidizedPercent" parent="AttributeReferenceDummy-percent">
+    <property name="name" value="subsidizedPercent"/>
+    <property name="shortLabel" value="Subsidized Percent"/>
+    <property name="label" value="Subsidized Percent"/>
+    <property name="description" value="Subsidized Percent"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="6" p:watermarkText="##.##"/>
+    </property>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:allowNegative="false" p:scale="2"/>
+    </property>
+  </bean>
+
+  <bean id="TravelAccount-createDate" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createDate"/>
+    <property name="shortLabel" value="Date Created"/>
+    <property name="label" value="Date Created"/>
+    <property name="description" value="Date Created"/>
+    <property name="controlField">
+      <bean parent="Uif-DateControl"/>
+    </property>
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity">
+        <property name="partialMask" value="true"/>
+        <property name="partialMaskFormatter">
+          <bean parent="MaskFormatterSubString" p:maskLength="2"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="TravelAccount-foId" parent="TravelAccount-foId-parentBean"/>
+  <bean id="TravelAccount-foId-parentBean" abstract="true" parent="FiscalOfficer-id">
+    <property name="name" value="foId"/>
+    <property name="additionalDisplayAttributeName" value="fiscalOfficer.userName"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="5"/>
+    </property>
+    <property name="summary" value="Responsbile for aproving account expenses"/>
+  </bean>
+
+  <bean id="TravelAccount-foName" parent="TravelAccount-foName-parentBean"/>
+  <bean id="TravelAccount-foName-parentBean" abstract="true" parent="FiscalOfficer-userName">
+    <property name="name" value="fiscalOfficer.userName"/>
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="TravelAccount-inquiryDefinition" parent="TravelAccount-inquiryDefinition-parentBean"/>
+
+  <bean id="TravelAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="number" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccount"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountName"/>
+              <bean parent="FieldDefinition" p:attributeName="createDate"/>
+              <bean parent="FieldDefinition" p:attributeName="subsidizedPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="foId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="fiscalOfficer.userName"/>
+            </list>
+          </property>
+          <property name="title" value="Account Information"/>
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="Travel Account Inquiry"/>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+
+  <bean id="TravelAccount-lookupDefinition" parent="TravelAccount-lookupDefinition-parentBean"/>
+
+  <bean id="TravelAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="number"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="foId" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="createDate"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="number" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="foId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccount"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountName"/>
+        <bean parent="FieldDefinition" p:attributeName="createDate"/>
+        <bean parent="FieldDefinition" p:attributeName="subsidizedPercent"/>
+      </list>
+    </property>
+    <property name="title" value="Travel Account Lookup"/>
+  </bean>
+</beans>

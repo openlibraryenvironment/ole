@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_Overview" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>KSB Overview</title>
+<section>
+    <title>What is the Kuali Service Bus?</title>
+    <para>The Kuali Service Bus (KSB) is a lightweight service bus designed to allow developers
+        to quickly develop and deploy services for remote and local consumption. You can deploy services to the bus using Spring
+        or programmatically. Services must be named when they are deployed to
+        the bus. Services are acquired from the bus using their name. </para>
+    <para>At the heart of
+        the KSB is a service registry. This registry is a listing of all services available for
+        consumption on the bus. The registry provides the bus with the information necessary to
+        achieve load balancing, failover, and more.</para>
+    <para>
+        <figure>
+            <title>Kuali Service Bus</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KSB_Guide/kuali_service_bus.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </para>
+    <para>You can deploy services to the bus using Spring or programmatically. Services must be
+        named when they are deployed to the bus. Services are acquired from the bus using their
+        name. </para>
+    <section>
+        <title>Features</title>
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Transactional Asynchronous Messaging</emphasis> -
+                    You can call services asynchronously to support a 'fire and forget' model of
+                    calling services. Messaging participates in existing JTA transactions, so
+                    that messages are not sent until the currently running transaction is
+                    committed and are not sent if the transaction is rolled back. You can
+                    increase the performance of service calling code because you are not waiting
+                    for a response. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Synchronous Messaging</emphasis> - Call any service
+                    on the bus using a request response paradigm. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Queue Style Messaging</emphasis> - Supports
+                    executing Java services using message queues. When a message is sent to a
+                    queue, only one of the services listening for messages on the queue is given
+                    the message. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Topic Style Messaging</emphasis> - Supports
+                    executing Java services using messaging topics. When a message is sent to a
+                    topic, all services that are listening for messages on the topic receive the
+                    message. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Quality of Service</emphasis> - Determines how
+                    queues and topics handle messages that have problems. Time to live is
+                    supported, giving the message a configured amount of time to be handled
+                    successfully before exception handling is invoked for that message type.
+                    Messages can be given a number of retry attempts before exception handling
+                    is invoked. The delay separating each call increases. Exception handlers can
+                    be registered with each queue and topic for custom behavior when messages
+                    fail and Quality of Service limits have been reached. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Discovery</emphasis> - Services are automatically
+                    discovered along the bus by service name. End-point URLs are not needed to
+                    connect to services. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Reliability</emphasis> - Should problems arise,
+                    messages sent to services via queues or synchronous calls automatically
+                    fail-over to any other services bound to the same name on the bus. Services
+                    that are not available are removed from the bus until they come back online,
+                    at which time they will be rediscovered for messaging. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Persisted Callback</emphasis> - Callback objects can
+                    be sent with any message. This object will be called each time the message
+                    is received with the response of the service (think topic as opposed to
+                    queue). In this way, we can deploy services for messaging that actually
+                    return values. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Primitive Business Activity Monitoring</emphasis> - If
+                        turned on, each call to every service, including the parameters passed into
+                        that service, is recorded. This feature can be turned on and off at runtime. </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Spring-Based Integration</emphasis> - KSB is
+                    designed with Spring-based integration in mind. A typical scenario is making
+                    an existing Spring-based POJO available for remote asynchronous calls.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Programmatic Based Integration</emphasis> - KSB can
+                    be configured programmatically if Spring configuration is not desired.
+                    Services can also be added and removed from the bus programmatically at
+                    runtime. </para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Bean-Based Services</title>
+        <para>Typically, KSB programming is centered on exposing Spring-configured beans to
+            other calling code using a number of different protocols. Using this paradigm the
+            client developer and the organization can rapidly build and consume services, often
+            a daunting challenge using other buses.</para>
+    </section>
+    <section>
+        <title>Overview of Supported Service Protocols</title>
+        <figure>
+            <title>Supported Service Protocols</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/KSB_Guide/supported_service_protocols.png" scalefit="1"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>This drawing is conceptual and not representative of true deployment architecture.
+            Essentially, the KSB is a registry with service-calling behavior on the client end
+            (Java client). All policies and behaviors (async as opposed to sync) are coordinated
+            on the client. The client offers some very attractive messaging features: <itemizedlist>
+                <listitem>
+                    <para><emphasis role="bold">Synchronization</emphasis> of message sending
+                        with currently running transaction (meaning all messages sent during a
+                        transaction are ONLY sent if the transaction is successfully committed)
+                    </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Failover</emphasis> - If a call to a service
+                        comes back with a 404 (or various other network-related errors), it will
+                        try to call other services of the same name on the bus. This is for both
+                        sync and async calls. </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Load balancing</emphasis> - Clients will
+                        round-robin call services of the same name on the bus. Proxy instances,
+                        however, are bound to single machines if you want to keep a line of
+                        communication open to a single machine for long periods of time.</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Topics and Queues</emphasis>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Persistent messages</emphasis> - When using
+                        message persistence a message cannot be lost. It will be persisted until
+                        it is sent.</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Message Driven Service Execution</emphasis> -
+                        Bind standard JavaBean services to messaging queues for message driven
+                        beans. </para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+</section>
+</chapter>

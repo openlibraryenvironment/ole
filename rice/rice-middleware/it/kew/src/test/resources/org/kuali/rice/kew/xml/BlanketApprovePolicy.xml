@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>BlanketApprovePolicy1</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy1</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <blanketApprovePolicy>ANY</blanketApprovePolicy>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy2</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy2</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <superUserGroupName namespace="KR-WKFLW">BlanketApproveWorkgroup</superUserGroupName>
+      <blanketApprovePolicy>NONE</blanketApprovePolicy>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy3</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy3</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy4</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy4</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <blanketApproveGroupName namespace="KR-WKFLW">BlanketApproveWorkgroup</blanketApproveGroupName>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy5</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy5</label>
+      <parent>BlanketApprovePolicy4</parent>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+   <documentType>
+      <name>BlanketApprovePolicy6</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy6</label>
+      <parent>BlanketApprovePolicy5</parent>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <blanketApprovePolicy>NONE</blanketApprovePolicy>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy7</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy7</label>
+      <parent>BlanketApprovePolicy5</parent>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <blanketApprovePolicy>ANY</blanketApprovePolicy>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy_OverridedParent</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy_OverridedParent</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <blanketApproveGroupName namespace="KR-WKFLW">BlanketApproveWorkgroup</blanketApproveGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+   <documentType>
+      <name>BlanketApprovePolicy_Override_NONE</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy_Override_NONE</label>
+      <parent>BlanketApprovePolicy_OverridedParent</parent>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <blanketApprovePolicy>NONE</blanketApprovePolicy>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy_Override_ANY</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy_Override_ANY</label>
+      <parent>BlanketApprovePolicy_OverridedParent</parent>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <blanketApprovePolicy>ANY</blanketApprovePolicy>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BlanketApprovePolicy_NoOverride</name>
+      <label>DocumentTypeXmlParserTestDoc_BlanketApprovePolicy_NoOverride</label>
+      <parent>BlanketApprovePolicy_OverridedParent</parent>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <docHandler>_blank</docHandler>
+      <superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+      <defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc">
+          <activationType>P</activationType>
+        </start>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

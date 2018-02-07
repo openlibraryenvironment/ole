@@ -1,0 +1,190 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+  <util:constant id="rice.krms.serviceNamespace" static-field="org.kuali.rice.krms.api.KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0"/>
+
+  <bean id="rice.location.propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+	</bean>
+
+  <bean id="krmsLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager">
+      <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+            p:configLocation="${krms.ehcache.config.location}"/>
+    </property>
+  </bean>
+
+  <bean id="rice.krms.import.globalCacheManager"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"
+        p:serviceName="globalCacheManager"/>
+
+  <cache:annotation-driven cache-manager="rice.krms.import.globalCacheManager"/>
+
+  <!-- spring service that should be exposed on the ksb to receive messages from the distributed cache manager -->
+  <bean id="krmsCacheAdminService"
+        class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+        p:cacheManager-ref="krmsLocalCacheManager"/>
+
+  <bean id="rice.krms.import.serviceBus"
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="rice.ksb.serviceBus"/>
+  </bean>
+
+  <bean id="krmsServiceExporter"
+        class="org.kuali.rice.ksb.api.bus.support.PropertyConditionalServiceBusExporter"
+        abstract="true">
+    <property name="serviceBus" ref="rice.krms.import.serviceBus"/>
+  </bean>
+
+  <bean id="krmsCacheAdminService.exporter" parent="krmsServiceExporter" p:exportIf="krmsCacheAdminService.expose">
+    <property name="serviceDefinition">
+      <bean parent="krmsService"
+            p:service-ref="krmsCacheAdminService"
+            p:localServiceName="krmsCacheAdminService"
+            p:queue="false"/>
+    </property>
+  </bean>
+
+  <bean id="krmsService" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
+    <property name="serviceNameSpaceURI" ref="rice.krms.serviceNamespace"/>
+    <property name="jaxWsService" value="true"/>
+    <property name="priority" value="3"/>
+    <property name="retryAttempts" value="0"/>
+    <property name="busSecurity" value="${krms.soapExposedService.jaxws.security}"/>
+    <property name="serviceVersion" value="${rice.version}"/>
+    <property name="servicePath" value="#{ T(org.kuali.rice.krms.api.KrmsConstants).SERVICE_PATH_SOAP }"/>
+  </bean>
+
+
+  <!--                                                                             -->
+  <!--                                                                             -->
+  <!-- All the services that need to be local to execute rules from the repository -->
+  <!--                                                                             -->
+  <!--                                                                             -->
+
+
+  <bean id="rice.krms.engine" class="org.kuali.rice.krms.framework.engine.ProviderBasedEngine">
+    <property name="contextProvider" ref="contextProvider"/>
+  </bean>
+
+  <bean id="contextProvider" class="org.kuali.rice.krms.impl.provider.repository.RuleRepositoryContextProvider">
+    <property name="ruleRepositoryService" ref="ruleRepositoryService"/>
+    <property name="repositoryToEngineTranslator" ref="repositoryToEngineTranslator"/>
+  </bean>
+
+  <bean id="repositoryToEngineTranslator" class="org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslatorImpl">
+    <property name="ruleRepositoryService" ref="ruleRepositoryService"/>
+    <property name="termRepositoryService" ref="termRepositoryService"/>
+    <property name="typeResolver" ref="krmsTypeResolver"/>
+  </bean>
+
+  <bean id="krmsTypeResolver" class="org.kuali.rice.krms.impl.type.KrmsTypeResolverImpl">
+    <property name="typeRepositoryService" ref="krmsTypeRepositoryService"/>
+    <property name="defaultCompoundPropositionTypeService" ref="compoundPropositionTypeService"/>
+    <property name="defaultSimplePropositionTypeService" ref="simplePropositionTypeService"/>
+  </bean>
+
+  <bean id="compoundPropositionTypeService" class="org.kuali.rice.krms.impl.provider.repository.CompoundPropositionTypeService">
+    <property name="translator" ref="repositoryToEngineTranslator"/>
+  </bean>
+
+  <bean id="simplePropositionTypeService" class="org.kuali.rice.krms.impl.provider.repository.SimplePropositionTypeService">
+    <property name="typeResolver" ref="krmsTypeResolver"/>
+    <property name="functionRepositoryService" ref="functionRepositoryService"/>
+    <property name="termRepositoryService" ref="termRepositoryService"/>
+    <property name="comparisonOperatorService" ref="comparisonOperatorService"/>
+  </bean>
+
+  <bean id="comparisonOperatorService"
+        class="org.kuali.rice.krms.framework.engine.expression.ComparisonOperatorServiceImpl"
+        factory-method="getInstance">
+    <property name="stringCoercionExtensions">
+      <list><!-- your beans here --></list>
+    </property>
+  </bean>
+
+  <!-- default type services -->
+
+  <bean id="configurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="kualiConfigurationService"/>
+  </bean>
+
+  <bean id="notificationPeopleFlowActionTypeService"
+        class="org.kuali.rice.krms.impl.peopleflow.PeopleFlowActionTypeService" factory-method="getInstance">
+    <constructor-arg>
+      <value>NOTIFICATION</value>
+    </constructor-arg>
+    <property name="configurationService" ref="configurationService"/>
+  </bean>
+
+  <bean id="approvalPeopleFlowActionTypeService"
+        class="org.kuali.rice.krms.impl.peopleflow.PeopleFlowActionTypeService" factory-method="getInstance">
+    <constructor-arg>
+      <value>APPROVAL</value>
+    </constructor-arg>
+    <property name="configurationService" ref="configurationService"/>
+  </bean>
+
+  <bean id="defaultRuleTypeService" class="org.kuali.rice.krms.impl.type.RuleTypeServiceBase"/>
+
+  <bean id="validationRuleTypeService" class="org.kuali.rice.krms.impl.validation.ValidationRuleTypeServiceImpl">
+    <property name="repositoryToEngineTranslator">
+      <ref bean="repositoryToEngineTranslator" />
+    </property>
+  </bean>
+
+  <bean id="validationActionTypeService" class="org.kuali.rice.krms.impl.validation.ValidationActionTypeServiceImpl"/>
+
+  <!-- result logger -->
+
+  <bean id="resultLogger" class="org.kuali.rice.krms.framework.engine.ResultLogger" factory-method="getInstance"/>
+
+  <!-- register result loggers -->
+
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetObject"><ref local="resultLogger"/></property>
+    <property name="targetMethod"><value>addListener</value></property>
+    <property name="arguments">
+      <list>
+        <bean class="org.kuali.rice.krms.framework.engine.result.EngineResultListener"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetObject"><ref local="resultLogger"/></property>
+    <property name="targetMethod"><value>addListener</value></property>
+    <property name="arguments">
+      <list>
+        <bean class="org.kuali.rice.krms.framework.engine.result.Log4jResultListener"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

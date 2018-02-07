@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_JAX-RS" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>JAX-RS / RESTful services</title>
+    
+    <para>Rice now allows allows RESTful (JAX-RS) services to be exported and
+        consumed on the Kuali Service Bus (KSB). For some background on REST, see
+        <link
+            xlink:href="http://en.wikipedia.org/wiki/Representational_State_Transfer">http://en.wikipedia.org/wiki/Representational_State_Transfer</link>.</para>
+    
+    <para>For details on JAX-RS, see <link
+        xlink:href="http://jcp.org/en/jsr/detail?id=311">JSR-311</link>.</para>
+    
+    <section>
+        <title>Caveats</title>
+        
+        <para><itemizedlist>
+            <listitem>
+                <para>The KSB does <emphasis role="bold">not</emphasis> currently
+                    support "busSecure" (digital signing of requests &amp; responses)
+                    REST services. Attempting to set a REST service's "busSecure"
+                    property to "true" will result in a RiceRuntimeException being
+                    thrown. Rice can be customized to expose REST services in a secure
+                    way, e.g. using SSL and an authentication mechanism such as client
+                    certificates, but that is beyond the scope of this
+                    documentation.</para>
+            </listitem>
+            
+            <listitem>
+                <para>If the JAX-RS annotations on your resource class don't cover
+                    all of its public methods, then accessing the non-annotated
+                    methods over the bus will result in an Exception being
+                    thrown.</para>
+            </listitem>
+        </itemizedlist></para>
+    </section>
+    
+    <section>
+        <title>A Simple Example</title>
+        
+        <para>To expose a simple JAX-RS annotated service on the bus, you can
+            follow this recipe for your spring configuration (which comes from the
+            Rice unit tests):</para>
+        
+        <programlisting linenumbering = "numbered">&lt;!-- The service implementation you want to expose --&gt;
+
+&lt;bean id="baseballCardCollectionService" class="org.kuali.rice.ksb.testclient1.BaseballCardCollectionServiceImpl"/&gt;
+
+
+&lt;!-- The service definition which tells the KSB to expose our RESTful service --&gt;
+&lt;bean class="org.kuali.rice.ksb.messaging.RESTServiceDefinition"&gt;
+    &lt;property name="serviceNameSpaceURI" value="test" /&gt;
+
+
+    &lt;!-- as noted earlier, the servicePath property of RESTServiceDefinition can't be set here  --&gt;
+
+
+    &lt;!-- The service to expose.  Refers to the bean above --&gt;
+    &lt;property name="service" ref="baseballCardCollectionService" /&gt;
+
+
+    &lt;!-- The "Resource class", the class with the JAX-RS annotations on it.  Could be the same as the  --&gt;
+    &lt;!-- service implementation, or could be different, e.g. an interface or superclass    --&gt;
+  
+    &lt;property name="resourceClass" 
+value="org.kuali.rice.ksb.messaging.remotedservices.BaseballCardCollectionService" /&gt;
+
+
+    &lt;!-- the name of the service, which will be part of the RESTful URLs used to access it --&gt;
+    &lt;property name="localServiceName" value="baseballCardCollectionService" /&gt;
+&lt;/bean&gt;
+</programlisting>
+        
+        <para>The following java interface uses JAX-RS annotations to specify
+            its RESTful interface:</para>
+        
+        <programlisting linenumbering = "numbered">// … eliding package and imports
+
+@Path("/")
+public interface BaseballCardCollectionService {
+    @GET
+    public List&lt;BaseballCard&gt; getAll();
+
+
+    /**
+      * gets a card by it's (arbitrary) identifier
+      */
+    @GET
+    @Path("/BaseballCard/id/{id}")
+    public BaseballCard get(@PathParam("id") Integer id);
+    /**
+      * gets all the cards in the collection with the given player name
+      */
+    @GET
+    @Path("/BaseballCard/playerName/{playerName}")
+    public List&lt;BaseballCard&gt; get(@PathParam("playerName") String playerName);
+
+
+    /**
+      * Add a card to the collection.  This is a non-idempotent method
+      * (because you can add more than one of the same card), so we'll use @POST
+      * @return the (arbitrary) numerical identifier assigned to this card by the service
+      */
+    @POST
+    @Path("/BaseballCard")
+    public Integer add(BaseballCard card);
+
+
+    /**
+      * update the card for the given identifier.  This will replace the card that was previously
+      * associated with that identifier.
+      */
+    @PUT
+    @Path("/BaseballCard/id/{id}")
+    @Consumes("application/xml")
+    public void update(@PathParam("id") Integer id, BaseballCard card);
+
+
+    /**
+      * delete the card with the given identifier.
+      */
+    @DELETE
+    @Path("/BaseballCard/id/{id}")
+    public void delete(@PathParam("id") Integer id);
+
+    /**
+      * This method lacks JAX-RS annotations
+      */
+    public void unannotatedMethod();
+}</programlisting>
+        
+        <para>Acquisition and use of this service over the KSB looks just like
+            that of any other KSB service. In the synchronous case:</para>
+        
+        <programlisting>BaseballCardCollectionService baseballCardCollection = (BaseballCardCollectionService) GlobalResourceLoader.getService(new QName("test", "baseballCardCollectionService");
+);
+
+
+List&lt;BaseballCard&gt; allMyMickeyMantles = baseballCardCollection.get("Mickey Mantle");
+// baseballCardCollection.&lt;other service method&gt;(...)
+// etc</programlisting>
+    </section>
+    
+    <section>
+        <title>Composite Services</title>
+        
+        <para>It is also possible to aggregate multiple Rice service
+            implementations into a single RESTful service where requests to
+            different sub-paths off of the base service URL can be handled by
+            different underlying services. This may be desirable to expose a RESTful
+            service that is more complex than could be cleanly factored into a
+            single java service interface.</para>
+        
+        <para>The configuration for a composite RESTfull service looks a little
+            bit different, and as might be expected given the one-to-many mapping
+            from RESTful service to java services, there are some caveats to using
+            that service over the KSB. Here is a simple example of a composite
+            service definition (which also comes from the Rice unit tests):</para>
+        
+        <programlisting linenumbering = "numbered">&lt;bean class="org.kuali.rice.ksb.messaging.RESTServiceDefinition"&gt;
+    &lt;property name="serviceNameSpaceURI" value="test" /&gt;
+    &lt;property name="localServiceName" value="kms" /&gt;
+    &lt;property name="resources"&gt;
+        &lt;list&gt;
+            &lt;ref bean="inboxResource"/&gt;
+            &lt;ref bean="messageResource"/&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name="servicePath" value="/" /&gt;
+&lt;/bean&gt;
+
+
+&lt;!-- the beans referenced above are just JAX-RS annotated Java services --&gt;
+&lt;bean id="inboxResource" class="org.kuali.rice.ksb.testclient1.InboxResourceImpl"&gt;
+    &lt;!-- ... eliding bean properties ... --&gt;
+&lt;/bean&gt;
+&lt;bean id="messageResource" class="org.kuali.rice.ksb.testclient1.MessageResourceImpl"&gt;
+    &lt;!-- ... eliding bean properties ... --&gt;
+
+&lt;/bean&gt;</programlisting>
+        
+        <para>As you can see in the bean definition above, the service name is
+            kms, so the base service url would by default (in a dev environment) be
+            <emphasis
+                role="bold">http://localhost:8080/kr-dev/remoting/kms/</emphasis>.
+            Acquiring a composite service such as this one on the KSB will actually
+            return you a <emphasis
+                role="bold">org.kuali.rice.ksb.messaging.serviceconnectors.ResourceFacade</emphasis>,
+            which allows you to get the individual java services in a couple of
+            ways, as shown in the following simple example:</para>
+        
+        <programlisting>ResourceFacade kmsService =
+ (ResourceFacade) GlobalResourceLoader.getService(
+new QName(NAMESPACE, KMS_SERVICE));
+
+
+// Get service by resource name (url path)
+InboxResource inboxResource = kmsService.getResource("inbox");
+// Get service by resource class
+MessageResource messageResource = kmsService.getResource(MessageResource.class);</programlisting>
+    </section>
+    
+    <section>
+        <title>Additional Service Definition Properties</title>
+        
+        <para>There are some properties on the RESTServiceDefinition object that
+            let you do more advanced configuration:</para>
+        
+        <section>
+            <title>Providers</title>
+            
+            <para>JAX-RS Providers allow you to define:<itemizedlist>
+                <listitem>
+                    <para>ExceptionMappers which will handle specific Exception
+                        types with specific Responses.</para>
+                </listitem>
+                
+                <listitem>
+                    <para>MessageBodyReaders and MessageBodyWriters that will
+                        convert custom Java types to and from streams.</para>
+                </listitem>
+                
+                <listitem>
+                    <para>ContextResolver providers allow you to create special
+                        JAXBContexts for specific types, which will gives you fine
+                        control over marshalling, unmarshalling, and validation.</para>
+                </listitem>
+            </itemizedlist></para>
+            
+            <para>The JAX-RS specification calls for classes annotated with
+                @Provider to be automatically used in the underlying implementation,
+                but the CXF project which Rice uses under the hood does not (at the
+                time of this writing) support this configuration mechanism, so this
+                configuration property is currently necessary.</para>
+        </section>
+        
+        <section>
+            <title>Extension Mappings</title>
+            
+            <para>Ordinarily you need to set your ACCEPT header to ask for a
+                specific representation of a resource. ExtensionMappings let you map
+                certain file extensions to specific media types for your RESTful
+                service, so your URLs can then optionally specify a media type
+                directly. For example you could map the <emphasis
+                    role="bold">.xml</emphasis> extension to the media type <emphasis
+                        role="bold">text/xml</emphasis>, and then tag .xml on to the end of
+                your resource URL to specify that representation.</para>
+        </section>
+        
+        <section>
+            <title>Language Mappings</title>
+            
+            <para>language mappings allow you a way to control the the
+                Content-Language header, which lets you specify which languages your
+                service can accept and provide.</para>
+        </section>
+        
+        <section>
+            <title>Additional Information</title>
+            
+            <para>For more information on what these properties provide, it may be
+                helpful to consult the JAX-RS specification, or the CXF
+                documentation.</para>
+        </section>
+    </section>
+</chapter>

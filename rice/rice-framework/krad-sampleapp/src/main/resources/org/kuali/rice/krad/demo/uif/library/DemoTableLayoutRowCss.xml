@@ -1,0 +1,77 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- TableLayoutRowCss demo -->
+  <bean id="Demo-TableLayoutRowCss-View" parent="ComponentLibraryView">
+    <property name="xmlFilePath" value="/org/kuali/rice/krad/demo/uif/library/DemoTableLayoutRowCss.xml"/>
+    <property name="javaFullClassPath"
+              value="org.kuali.rice.krad.uif.layout.TableLayoutManager"/>
+    <property name="docBookAnchor" value="d7339e4811"/>
+    <property name="exampleSize" value="XLARGE"/>
+    <property name="demoGroups">
+      <list>
+        <ref bean="Demo-TableLayoutRowCss-Example1"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Default -->
+  <bean id="Demo-TableLayoutRowCss-Example1" parent="Uif-VerticalBoxSection">
+    <property name="items">
+      <list>
+        <ref bean="Demo-TableLayoutRowCss-Section1"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- ex:Demo-TableLayoutRowCss-Example1 start-->
+  <bean id="Demo-TableLayoutRowCss-Section1" parent="Uif-TableCollectionGroup">
+    <property name="collectionObjectClass"
+              value="org.kuali.rice.krad.demo.uif.form.UITestObject"/>
+    <property name="propertyName" value="groupedCollection1"/>
+    <property name="readOnly" value="true"/>
+    <property name="layoutManager.renderSequenceField" value="false"/>
+
+    <!-- map of row css conditions -->
+    <property name="layoutManager.conditionalRowCssClasses">
+      <map>
+        <entry key="all" value="demo-all"/>
+        <entry key="odd" value="demo-odd"/>
+        <entry key="even" value="demo-even"/>
+        <entry key="2" value="demo-index2"/>
+        <entry key="@{#line.field1 eq 'B'}" value="demo-rowCondition"/>
+      </map>
+    </property>
+
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="field1" p:label="Field 1"/>
+        <bean parent="Uif-InputField" p:propertyName="field2" p:label="Field 2"/>
+        <bean parent="Uif-InputField" p:propertyName="field3" p:label="Field 3"/>
+        <bean parent="Uif-InputField" p:propertyName="field4" p:label="Field 4"/>
+      </list>
+    </property>
+  </bean>
+  <!-- ex:Demo-TableLayoutRowCss-Example1 end-->
+
+
+</beans>

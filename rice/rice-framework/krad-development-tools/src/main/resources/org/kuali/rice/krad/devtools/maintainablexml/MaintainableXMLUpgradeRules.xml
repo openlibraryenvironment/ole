@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<rules>
+
+  <!-- Rules for changes to packages
+      Uses regex to match.
+  -->
+  <rule name="maint_doc_moved_packages">
+    <!--<pattern>-->
+    <!--<match></match>-->
+    <!--<replacement></replacement>-->
+    <!--</pattern>-->
+  </rule>
+
+  <!-- Rules for any changes to the fully qualified class name
+        Uses regex to match.
+  -->
+  <rule name="maint_doc_classname_changes" alsoRenameClass="true">
+    <pattern>
+      <match>org\.kuali\.rice\.kns\.bo\.CampusImpl</match>
+      <replacement>org.kuali.rice.location.impl.campus.CampusBo</replacement>
+    </pattern>
+  </rule>
+
+  <!-- Rules specifying any change in class properties.
+        Empty replacement tag will remove that property from the class.
+        Uses XPath to match names, can use wildcards
+  -->
+  <rule name="maint_doc_changed_class_properties">
+    <pattern>
+      <class>org.kuali.rice.location.impl.campus.CampusBo</class>
+      <pattern>
+        <match>campusName</match>
+        <replacement>name</replacement>
+      </pattern>
+      <pattern>
+        <match>campusCode</match>
+        <replacement>code</replacement>
+      </pattern>
+      <pattern>
+        <match>campusShortName</match>
+        <replacement>shortName</replacement>
+      </pattern>
+    </pattern>
+    <pattern>
+      <class>*</class>
+      <pattern>
+        <match>boNotes</match>
+        <replacement></replacement>
+      </pattern>
+      <pattern>
+        <match>autoIncrementSet</match>
+        <replacement></replacement>
+      </pattern>
+    </pattern>
+  </rule>
+
+  <!-- Rules specifying the Maintainable Impl class for a specific maintainable class
+       Uses XPath to match maintainable, can use wildcards
+  -->
+  <rule name="maint_doc_impl_classes">
+    <pattern>
+      <maintainable>org.kuali.rice.location.impl.campus.CampusBo</maintainable>
+      <maintainableImpl>org.kuali.rice.location.web.campus.CampusMaintainableImpl</maintainableImpl>
+    </pattern>
+  </rule>
+
+
+</rules>

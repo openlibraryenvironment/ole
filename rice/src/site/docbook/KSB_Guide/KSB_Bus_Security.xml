@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter xml:id="KSB_Bus_Security" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Using the KSB with bus security</title>
+    <warning><para>The information in this section is under development.</para></warning>
+    <para>The Kuali Service Bus (KSB) includes web services already installed with a base Rice implementation. 
+        These services use WS-Security requiring the digital signing of each request providing a Signature 
+        and digest of the request. The digital signing ensures that the client application has the proper 
+        credentials to access the service.</para> 
+    <section>
+        <title>Rice Services</title>
+        <para>This documentation will illustrate how to interact with the a base KSB using the expected bus 
+            security. The examples will include a SoapUI client and a Java client application. Both of these 
+            examples can be used with the demo Rice implementation available at: <link xlink:href="http://demo.rice.kuali.org/portal.do">http://demo.rice.kuali.org/portal.do</link></para>
+        <section>
+            <title>Base Rice services</title>
+            <para>The list of Rice services is available from the Rice Administration menu:
+            <itemizedlist>
+                <listitem><para><link xlink:href="http://demo.rice.kuali.org/portal.do">http://demo.rice.kuali.org/portal.do</link></para>
+                    <simplelist>
+                        <member>username: <emphasis role="bold">admin</emphasis></member>
+                    </simplelist>
+                </listitem>
+                <listitem><para><emphasis role="bold">Administration</emphasis> tab</para></listitem>
+                <listitem><para><emphasis role="bold">Service Bus</emphasis> link from the Service Bus section</para></listitem>
+            </itemizedlist>
+                <note>
+                    <para>The demo Rice server is using the http protocol. The KSB Bus Security uses the keystore to 
+                    produce a digest and digitally sign the request, but it does not encrypt the request. A production 
+                    system should use the https protocol so that the request is encrypted as part of the transport.
+                    </para>
+                </note>
+            </para>
+        </section>
+        <section>
+            <title>CampusService</title>
+            <para>For simplicity's sake the <emphasis role="bold">CampusService.findAllCampuses</emphasis> method will 
+                serve as the example. There are no query parameters and the answering web service response XML is 
+                easily human readable.</para>
+            <para>From the list of services on the demo Rice server, the CampusService has the following attributes:
+            <itemizedlist>
+                <listitem><para>ServiceName:</para><programlisting linenumbering = "numbered">{http://rice.kuali.org/location/v2_0}campusService</programlisting></listitem>
+                <listitem><para>Endpoint URL:</para><programlisting>http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService</programlisting></listitem>
+                <listitem><para>Type: SOAP</para><simplelist>
+                    <member>Because the type is SOAP, the WSDL can be found at <link xlink:href="http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService?wsdl">http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService?wsdl</link></member>
+                </simplelist></listitem>
+            </itemizedlist>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title>Bus Security</title>
+        <para>The base SOAP services published on the KSB all rely on the use of the Rice Java Keystore included 
+            with the base Rice implementation. It is imperative that the client applications use the 
+            <emphasis role="bold">same rice.keystore file</emphasis> that the server is using. The Rice Administration menu 
+            provides an interface where an alias can be added to a new keystore and that new keystore is downloaded 
+            by your browser. See the <link linkend="new_keystore_alias">notes</link> on why this approach does not work for newly added aliases.</para>
+        <para>See <link linkend="obtain_rice_keystore">this</link> for information on obtaining a rice.keystore.</para>
+    </section>
+    <section>
+        <title>Usage Examples</title>
+        <para>When consuming SOAP webservices with Java, two approaches are typical: a SoapUI client with tests and assertions, and a Java client application.
+        </para>
+        <para><emphasis role="bold">SoapUI</emphasis>
+            <itemizedlist>
+                <listitem><para><link linkend="SOAPUI_Client">Using SoapUI with rice.keystore bus security</link></para></listitem>
+            </itemizedlist>
+            <emphasis role="bold">Java client application</emphasis>
+            <itemizedlist>
+                <listitem><para><link linkend="Java_client">Java client application using rice.keystore bus security</link></para></listitem>
+            </itemizedlist>   
+            <emphasis role="bold">SOAP request</emphasis>
+            <itemizedlist>
+                <listitem><para><link linkend="SOAP_request">What does the SOAP request look like, anyway?</link></para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
+    <section xml:id="obtain_rice_keystore">
+        <title>Obtaining rice.keystore</title>
+        <para><emphasis role="bold">Kuali Rice Java Keystore (jks)</emphasis></para>
+        <para>
+           If you already have a running Rice instance, chances are you are already using, or have configured, 
+           a Rice keystore.</para>
+        <para>  
+            The links provided here are for convenience in finding the latest default keystore from source.</para>
+        <para><emphasis role="bold">Kuali locations</emphasis>
+        <itemizedlist>
+            <listitem><para><link xlink:href="https://wiki.kuali.org/display/KULFOUND/Subversion">https://wiki.kuali.org/display/KULFOUND/Subversion</link></para></listitem>
+            <listitem><para><link xlink:href="https://svn.kuali.org/repos">https://svn.kuali.org/repos</link></para></listitem>
+            <listitem><para><link xlink:href="https://svn.kuali.org/repos/rice/trunk/rice-middleware/security/rice.keystore">https://svn.kuali.org/repos/rice/trunk/rice-middleware/security/rice.keystore</link></para></listitem>
+        </itemizedlist></para>
+    </section>
+    <section xml:id="new_keystore_alias">
+        <title>Using the KSB with bus security - new keystore aliases</title>
+        <para>Rice provides an interface for creating new aliases and producing new keystore files.</para>
+        <para>However, both the server and the client must be using the same <emphasis role="bold">PrivateKeyEntry</emphasis>
+            or <emphasis role="bold">trustedCertEntry</emphasis>. 
+            These are identified inside of your keystore by the <emphasis role="bold">owner, issuer,</emphasis> and 
+            <emphasis role="bold">serial number</emphasis> values. So, in using 
+            this interface to create a new alias which produces a new keystore, you will not be able to use the new 
+            alias since the new keystore will not be used by the server. You can use the new keystore but only with 
+            the alias (representing the cert) that the server is expecting - namely 'rice'.</para>
+        <para><emphasis role="bold">keytool inspection of keystore</emphasis>
+            <programlisting linenumbering = "numbered">$ keytool -list -v -keystore rice.keystore
+Enter keystore password:
+ 
+Keystore type: JKS
+Keystore provider: SUN
+ 
+Your keystore contains 1 entry
+ 
+Alias name: rice
+Creation date: Oct 10, 2007
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=rice
+Issuer: CN=rice
+Serial number: 470d1315
+Valid from: Wed Oct 10 10:59:49 PDT 2007 until: Sat Sep 22 10:59:49 PDT 2018
+Certificate fingerprints:
+         MD5:  53:73:B3:E6:39:56:73:AA:98:D4:A9:2D:C6:36:A2:DB
+         SHA1: 86:4B:D2:54:39:D8:9B:B2:97:A9:B3:1A:32:B3:1F:12:83:A5:1F:4F
+         Signature algorithm name: MD5withRSA
+         Version: 1
+ 
+ 
+*******************************************
+*******************************************            </programlisting>
+            <note><para>The Issuer and Serial number are used in the digital signing of the SOAP Request. 
+                Here the Serial number is represented in hex, in the SOAP Request it is represented in base 10.
+            </para></note></para>
+    </section>
+    <section xml:id="SOAPUI_Client">
+        <title>KSB SoapUI Client</title>
+        <para><link xlink:href="http://www.soapui.org/">SoapUI</link> is an excellent client for exercising, and automated testing of, SOAP services.</para>
+        <para>The steps necessary for a SoapUI Client include:
+        <orderedlist>
+            <listitem><para>Creating the SoapUI project</para></listitem>
+            <listitem><para>Identification of the rice.keystore file to the SoapUI project definition</para></listitem>
+            <listitem><para>Configuring the use of the rice.keystore for outgoing requests</para></listitem>
+            <listitem><para>Associating the rice.keystore to a request</para></listitem>
+        </orderedlist></para>
+        <section>
+            <title>Creating the SoapUI project</title>
+            <para>Create a new SoapUI project and provide the location of the WSDL.
+            <programlisting>http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService?wsdl</programlisting></para>
+            <figure>
+                <title>Create a new SoapUI project</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/new_soapui_project.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Identifying rice.keystore to the SoapUI project</title>
+            <para>With the project highlighted, use the <emphasis role="bold">Enter</emphasis> key to bring up the project attributes.
+            <itemizedlist>
+                <listitem><para>choose the <emphasis role="bold">WS-Security Configurations</emphasis> parent tab</para></listitem>
+                <listitem><para>choose the <emphasis role="bold">Keystores</emphasis> child tab</para></listitem>
+                <listitem>
+                    <para>add our keystore
+                    <orderedlist>
+                        <listitem><para>Navigate to the location of your rice.keystore</para></listitem>
+                        <listitem><para>Provide the keystore password (r1c3pw is the default)</para></listitem>
+                        <listitem><para>Choose a default alias of <emphasis role="bold">rice</emphasis></para></listitem>
+                        <listitem><para>Provide the alias password (also r1c3pw is the default)</para></listitem>
+                    </orderedlist></para>
+                </listitem>
+            </itemizedlist>
+            The interface should report the Status of "OK" if the keystore is found and accessible with the keystore password provided.
+            </para>
+            <figure>
+                <title>Identify rice.keystore to the SoapUI project</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/identify_keystore_soapui2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Configure using the keystore for outgoing requests</title>
+            <para>Still within the project attributes:
+                <itemizedlist>
+                    <listitem><para>choose the <emphasis role="bold">WS-Security Configurations</emphasis> parent tab</para></listitem>
+                </itemizedlist>
+                <itemizedlist>
+                    <listitem><para>choose the <emphasis role="bold">Outgoing WS-Security Configurations</emphasis> child tab</para></listitem>
+                </itemizedlist>
+                <itemizedlist>
+                    <listitem><para>add a new configuration</para></listitem>
+                </itemizedlist>
+                <itemizedlist>
+                    <listitem><para>provide an internal name for the configuration</para></listitem>
+                </itemizedlist>
+                <itemizedlist>
+                    <listitem><para>provide the alias name of <emphasis role="bold">rice</emphasis></para></listitem>
+                </itemizedlist>
+                <itemizedlist>
+                    <listitem><para>provide the alias password (r1c3pw is the default)</para></listitem>
+                </itemizedlist>
+                <itemizedlist>
+                    <listitem>
+                        <para>add a <emphasis role="bold">Signature</emphasis> action
+                        <orderedlist>
+                            <listitem><para>Choose our <emphasis role="bold">rice.keystore</emphasis> keystore</para></listitem>
+                            <listitem><para>Choose our <emphasis role="bold">rice</emphasis> alias</para></listitem>
+                            <listitem><para>Provide our alias password (r1c3pw)</para></listitem>
+                            <listitem><para>The <emphasis role="bold">Key Identifier and Serial Number</emphasis> should be defaulted and is the desired choice.</para></listitem>
+                            <listitem><para>Leave the other entries as <emphasis role="bold">default</emphasis></para></listitem>
+                        </orderedlist>
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                When done with the project attributes, close the attributes window.
+            </para>
+            <figure>
+                <title>Identify rice.keystore to the SoapUI project</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/config_outgoing_soapui2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Associating our WS-Security Outgoing Configurations to a request</title>
+            <para>Expand the project tree to find our desired request of <emphasis role="bold">findAllCampuses</emphasis>
+            <itemizedlist>
+                <listitem><para>click on the <emphasis role="bold">Request1</emphasis> name</para></listitem>
+                <listitem><para>find the <emphasis role="bold">Aut</emphasis> (short for Authentication) button at the bottom of the window</para></listitem>
+                <listitem><para>choose our internal name for the outgoing configuration</para></listitem>
+            </itemizedlist>
+            </para>
+            <figure>
+                <title>Associate Outgoing Config to a Request</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/config_outgoing2_soapui2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Execute the request</title>
+            <para>Click the green triangle "run" button at the top of the window to execute the request
+            <itemizedlist>
+                <listitem><para>the request should execute successfully and return an XML structure which 
+                    includes attributes on each of the 12 campuses defined in the demo Rice data set
+                </para></listitem>
+            </itemizedlist></para>
+            <figure>
+                <title>Execute request</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/KSB_Guide/execute_request_soapui2.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+    </section>
+    <section xml:id="Java_client">
+        <title>KSB Java Client</title>
+        <para>The generation of a Java client application is relatively easy using the capabilities of JDK1.6 and Apache CXF libraries.</para>
+        <para>The steps outlined below include:
+        <orderedlist>
+            <listitem><para>Generating a web service client from the SOAP WSDL</para></listitem>
+            <listitem><para>Creating a Maven project including dependencies</para></listitem>
+            <listitem><para>Writing just enough Java code to employ the generated client and including the WS-Security headers using the keystore</para></listitem>
+        </orderedlist>
+        </para>
+        <section>
+            <title>Generating the web service client</title>
+            <para>Using the JDK1.6+ tool <emphasis role="bold">wsimport</emphasis>, a Java client can be created directly from the WSDL definition of our desired service.</para>
+            <para>Use wsimport with the following parameters
+            <itemizedlist>
+                <listitem><para>Keep to keep the generated source files</para></listitem>
+                <listitem><para>Xnocompile since your .java files will probably be added and compiled inside of an IDE anyway</para></listitem>
+                <listitem><para>Verbose to see the list of classes generated</para></listitem>
+                <listitem><para>http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService?wsdl the WSDL location to the <emphasis role="bold">campusService</emphasis> service</para></listitem>
+            </itemizedlist>
+                Your output should look similar to this listing.
+                <programlisting linenumbering = "numbered"><emphasis role="keyword">wsimport</emphasis>
+$ wsimport -keep -Xnocompile -verbose http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService?wsdl
+parsing WSDL...
+ 
+ 
+generating code...
+ 
+org\kuali\rice\core\v2_0\AbstractPredicate.java
+org\kuali\rice\core\v2_0\AndType.java
+org\kuali\rice\core\v2_0\CompositePredicateType.java
+org\kuali\rice\core\v2_0\EqualIgnoreCaseType.java
+org\kuali\rice\core\v2_0\EqualType.java
+org\kuali\rice\core\v2_0\GreaterThanOrEqualType.java
+org\kuali\rice\core\v2_0\GreaterThanType.java
+org\kuali\rice\core\v2_0\IllegalArgumentFault.java
+org\kuali\rice\core\v2_0\InIgnoreCaseType.java
+org\kuali\rice\core\v2_0\InType.java
+org\kuali\rice\core\v2_0\LessThanOrEqualType.java
+org\kuali\rice\core\v2_0\LessThanType.java
+org\kuali\rice\core\v2_0\LikeType.java
+org\kuali\rice\core\v2_0\NotEqualIgnoreCaseType.java
+org\kuali\rice\core\v2_0\NotEqualType.java
+org\kuali\rice\core\v2_0\NotInIgnoreCaseType.java
+org\kuali\rice\core\v2_0\NotInType.java
+org\kuali\rice\core\v2_0\NotLikeType.java
+org\kuali\rice\core\v2_0\NotNullType.java
+org\kuali\rice\core\v2_0\NullType.java
+org\kuali\rice\core\v2_0\ObjectFactory.java
+org\kuali\rice\core\v2_0\OrType.java
+org\kuali\rice\core\v2_0\QueryByCriteriaType.java
+org\kuali\rice\core\v2_0\package-info.java
+org\kuali\rice\location\v2_0\CampusQueryResultsType.java
+org\kuali\rice\location\v2_0\CampusService.java
+org\kuali\rice\location\v2_0\CampusService_Service.java
+org\kuali\rice\location\v2_0\CampusType.java
+org\kuali\rice\location\v2_0\CampusTypeQueryResultsType.java
+org\kuali\rice\location\v2_0\CampusTypeType.java
+org\kuali\rice\location\v2_0\FindAllCampusTypes.java
+org\kuali\rice\location\v2_0\FindAllCampusTypesResponse.java
+org\kuali\rice\location\v2_0\FindAllCampuses.java
+org\kuali\rice\location\v2_0\FindAllCampusesResponse.java
+org\kuali\rice\location\v2_0\FindCampusTypes.java
+org\kuali\rice\location\v2_0\FindCampusTypesResponse.java
+org\kuali\rice\location\v2_0\FindCampuses.java
+org\kuali\rice\location\v2_0\FindCampusesResponse.java
+org\kuali\rice\location\v2_0\GetCampus.java
+org\kuali\rice\location\v2_0\GetCampusResponse.java
+org\kuali\rice\location\v2_0\GetCampusType.java
+org\kuali\rice\location\v2_0\GetCampusTypeResponse.java
+org\kuali\rice\location\v2_0\ObjectFactory.java
+org\kuali\rice\location\v2_0\RiceIllegalArgumentException.java
+org\kuali\rice\location\v2_0\package-info.java</programlisting>
+                The classes are generated into two package structures which directly match the namespace declarations in the WSDL:
+                <itemizedlist>
+                    <listitem><para>org.kuali.rice.core.v2_0</para></listitem>
+                    <listitem><para>org.kuali.rice.location.v2_0</para></listitem>
+                </itemizedlist>
+                There are other command-line parameters for wsimport which gives you control over package names if you so desire.
+            </para>
+        </section>
+        <section>
+            <title>Create a Maven project</title>
+            <para>Maven is only a suggestion, of course. But, usage of Maven will ease the structure of your application and the dependencies.</para>
+            <para>Your pom.xml can be as simple as the example given here.
+            <itemizedlist>
+                <listitem><para>cxf-rt-frontend-jaxws</para></listitem>
+                <listitem><para>csf-rt-ws-security</para></listitem>
+                <listitem><para>junit (test scope)</para></listitem>
+            </itemizedlist>
+                <programlisting linenumbering = "numbered"><emphasis role="bold">pom.xml</emphasis>
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  &lt;modelVersion>4.0.0&lt;/modelVersion>
+  &lt;groupId>edu.somewhere&lt;/groupId>
+  &lt;artifactId>ksb-campusservice-client&lt;/artifactId>
+  &lt;version>0.0.1-SNAPSHOT&lt;/version>
+  &lt;dependencies>
+    &lt;dependency>
+        &lt;groupId>org.apache.cxf&lt;/groupId>
+        &lt;artifactId>cxf-rt-frontend-jaxws&lt;/artifactId>
+        &lt;version>2.7.3&lt;/version>
+    &lt;/dependency>
+    &lt;dependency>
+        &lt;groupId>org.apache.cxf&lt;/groupId>
+        &lt;artifactId>cxf-rt-ws-security&lt;/artifactId>
+        &lt;version>2.7.3&lt;/version>
+    &lt;/dependency>
+    &lt;dependency>
+        &lt;groupId>junit&lt;/groupId>
+        &lt;artifactId>junit&lt;/artifactId>
+        &lt;version>4.11&lt;/version>
+        &lt;scope>test&lt;/scope>
+    &lt;/dependency>
+  &lt;/dependencies>
+&lt;/project></programlisting>
+Apache CXF provides very convenient classes and functionality to take the XML of the request and provide the digesting and signing. It is possible to perform those functions without CXF by using wss4j directly or even modifying the XML of the request by hand, but the Apache CXF classes make it much easier.
+            </para>
+        </section>
+        <section>
+            <title>Writing the Java code</title>
+            <para>The approach here is to write a client class that can be used as the Data Access Object (DAO) in your data access layer (DAL) of an enclosing application. This Maven project could be compiled as a .jar and included as a dependency for your other applications needing access to the Rice KSB services.</para>
+            <para>Your project will need to include the following:
+            <itemizedlist>
+                <listitem><para>the generated classes, keeping their package structure intact, included at src/main/java</para></listitem>
+                <listitem><para><emphasis role="bold">client-sign.properties</emphasis> at src/main/resources</para></listitem>
+                <listitem><para><emphasis role="bold">rice.keystore</emphasis> included at src/main/resources</para></listitem>
+            </itemizedlist>
+            <programlisting linenumbering = "numbered"><emphasis role="bold">client-sign.properties</emphasis>
+# Properties for the KSB Client Test classes
+ 
+# properties for accessing the java keystore using Merlin
+org.apache.ws.security.crypto.provider=org.apache.ws.security.components.crypto.Merlin
+org.apache.ws.security.crypto.merlin.keystore.type=jks
+org.apache.ws.security.crypto.merlin.keystore.password=r1c3pw
+org.apache.ws.security.crypto.merlin.keystore.alias=rice
+org.apache.ws.security.crypto.merlin.keystore.file=rice.keystore            </programlisting></para>
+            <para> Your Java code will include the following: <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">KSBCampusServiceClient.java</emphasis></para>
+                        <programlisting linenumbering = "numbered"><emphasis role="bold">KSBCampusServiceClient.java</emphasis>
+package edu.somewhere;
+ 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+ 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.apache.ws.security.handler.WSHandlerConstants;
+import org.kuali.rice.location.v2_0.CampusService;
+import org.kuali.rice.location.v2_0.CampusService_Service;
+ 
+public class KSBCampusServiceClient
+{
+ 
+    public CampusService getCampusService( URL url )
+    {
+        CampusService_Service svc = new CampusService_Service();
+ 
+        CampusService campusService = svc.getCampusServicePort();
+ 
+        Client client = ClientProxy.getClient( campusService );
+        Endpoint cxfEP = client.getEndpoint();
+ 
+        Map&lt;String, Object> outProps = new HashMap&lt;String, Object>();
+        outProps.put( WSHandlerConstants.ACTION, "Signature" );
+        outProps.put( WSHandlerConstants.USER, "rice" );
+        outProps.put( WSHandlerConstants.PW_CALLBACK_CLASS, KSBClientCallbackHandler.class.getName() );
+        outProps.put( WSHandlerConstants.SIG_PROP_FILE, "client-sign.properties" );
+ 
+        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor( outProps );
+ 
+        cxfEP.getOutInterceptors().add( wssOut );
+ 
+        return campusService;
+    }
+}</programlisting>
+                        <para>This is your public DAO class and it provides the wiring of the
+                            WS-Security Signature action to the WSS4JOutInterceptor. In other words,
+                            it takes your outbound XML request and properly adds the digest and
+                            signature values in the SOAP header. The key identifiers in this class
+                            include the <emphasis role="bold">rice</emphasis> user, the <emphasis
+                                role="bold">callback handler</emphasis> class, and the <emphasis
+                                role="bold">properties</emphasis> file for access to the
+                            keystore.</para>
+                        
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">KSBClientCallbackHandler.java</emphasis></para>
+                        <programlisting linenumbering = "numbered"><emphasis role="bold">KSBClientCallbackHandler.java</emphasis>
+package edu.somewhere;
+ 
+import java.io.IOException;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
+ 
+import org.apache.ws.security.WSPasswordCallback;
+ 
+public class KSBClientCallbackHandler implements CallbackHandler
+{
+ 
+    @Override
+    public void handle( Callback[] callbacks ) throws IOException, UnsupportedCallbackException
+    {
+        for( Callback thisCallback : callbacks )
+        {
+            WSPasswordCallback pwcb = (WSPasswordCallback)thisCallback;
+            String user = pwcb.getIdentifier();
+            int usage = pwcb.getUsage();
+ 
+            if( usage == WSPasswordCallback.SIGNATURE )
+            {
+                // this is to provide the password for the alias within the keystore
+                //  - while it is the same value as the keystore name and password,
+                //  - you could craft a different alias than the keystore user
+                if( "rice".equals( user ) ) pwcb.setPassword( "r1c3pw" );
+            }
+        }
+    }
+}</programlisting>
+                        <para>This class is an implementation of a callback handler. The wss4j
+                            WS-Security function requires access to the keystore for purposes of
+                            hashing and signing the request. This is accomplished by providing a
+                            callback to a class which can provide the proper keystore credentials.
+                            This is the same technique used for simple username/password
+                            credentialing of simple WS-Security SOAP headers, but in our case this
+                            callback handler is asking for the password to the certificate
+                            identified by the alias within the keystore.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">KSBCampusServiceClientTest.java
+                            </emphasis></para>
+                        <programlisting linenumbering = "numbered"><emphasis role="bold">KSBCampusServiceClientTest.java</emphasis>
+package edu.somewhere;
+ 
+import static org.junit.Assert.*;
+ 
+import java.net.URL;
+ 
+import org.junit.Test;
+import org.kuali.rice.location.v2_0.CampusService;
+import org.kuali.rice.location.v2_0.CampusType;
+import org.kuali.rice.location.v2_0.FindAllCampusesResponse.Campuses;
+ 
+import edu.somewhere.KSBCampusServiceClient;
+ 
+public class KSBCampusServiceClientTest
+{
+ 
+    @Test
+    public void campusServiceTest() throws Exception
+    {
+        KSBCampusServiceClient client = new KSBCampusServiceClient();
+         
+        CampusService svc = client.getCampusService( new URL( "http://demo.rice.kuali.org/remoting/soap/location/v2_0/campusService?wsdl" ) );
+        Campuses campuses = svc.findAllCampuses();
+         
+        assertEquals( 12, campuses.getCampus().size() );
+         
+        for( CampusType campus : campuses.getCampus() )
+        {
+            System.out.printf( "%s : %s : %s \n", campus.getCode(), campus.getShortName(), campus.getName() );
+        }
+    }
+}</programlisting>
+                        <para>This class was written as a JUnit test class (located at
+                            src/test/java) but could easily be a class with a main() method as well.
+                            This serves as the example calling class employing the client's
+                            functionality.</para>
+                    </listitem>
+                </itemizedlist>
+                
+                
+                
+            </para>
+        </section>
+        <section>
+            <title>Complete sample application</title>
+            <para>The code included here is available from a public respository.
+            <itemizedlist>
+                <listitem><para><link xlink:href="https://bitbucket.org/majorbanzai/kuali-kode/src">https://bitbucket.org/majorbanzai/kuali-kode/src</link></para>
+                    <simplelist>
+                        <member>look for the ksbclient directory</member>
+                </simplelist></listitem>
+                <listitem><para>eclipse project</para></listitem>
+                <listitem><para>maven project</para>
+                    <programlisting linenumbering = "numbered"><emphasis role="bold">get the code</emphasis>
+$ hg clone https://bitbucket.org/majorbanzai/kuali-kode 
+$ cd kuali-kode/ksbclient
+$ mvn test</programlisting></listitem>
+                <listitem><para>KSBCampusServiceClientTest integration test</para>
+                    <programlisting linenumbering = "numbered"><emphasis role="bold">KSBCampusServiceClientTest output</emphasis>
+BL : BLOOMINGTON : BLOOMINGTON 
+BX : BLGTN OFF CA : BLGTN OFF CAMPUS 
+CO : COLUMBUS : COLUMBUS 
+EA : EA-RICHMOND : EAST-RICHMOND 
+FW : FORT WAYNE : FORT WAYNE 
+IN : INDIANAPOLIS : INDIANAPOLIS 
+KO : KOKOMO : KOKOMO 
+NW : NW-GARY : NORTHWEST-GARY 
+OC : OFF CAMPUS : OFF CAMPUS 
+SB : SOUTH BEND : SOUTH BEND 
+SE : SE-NEW ALBNY : SOUTHEAST-NEW ALBANY 
+UA : UNIVER ADMIN : UNIVERSITY ADMINISTRATION </programlisting></listitem>
+            </itemizedlist>
+            
+            </para>
+        </section>
+    </section>
+    <section xml:id="SOAP_request">
+        <title>Using the KSB with bus security - SOAP request</title>
+        <para>
+        </para>
+        <section>
+            <title>SOAP request with WS-Security header</title>
+            <para>What does the SOAP request look like, anyway?</para>
+            <para>Because the demo Rice server is using the http protocol, we can use our favorite
+                network sniffer to watch the traffic. Your SOAP message looks like the following:
+                <informalexample>
+                    <?dbfo pgwide="1"?>
+                <programlisting linenumbering = "numbered"><emphasis role="bold">SOAP request</emphasis>
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://rice.kuali.org/location/v2_0">
+   &lt;soapenv:Header>
+      &lt;wsse:Security soapenv:mustUnderstand="1" 
+            xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+            xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         &lt;ds:Signature Id="SIG-6" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"> <co xml:id="signature-co" linkends="signature"/>
+            &lt;ds:SignedInfo> <co xml:id="signedinfo-co" linkends="signedinfo"/>
+               &lt;ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                  &lt;ec:InclusiveNamespaces PrefixList="soapenv v2" 
+                      xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+               &lt;/ds:CanonicalizationMethod>
+               &lt;ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+               &lt;ds:Reference URI="#id-5">
+                  &lt;ds:Transforms>
+                     &lt;ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"> 
+                        &lt;ec:InclusiveNamespaces PrefixList="v2" 
+                            xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                     &lt;/ds:Transform>
+                  &lt;/ds:Transforms>
+                  &lt;ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                  &lt;ds:DigestValue>Vw3UgSOjyJLj2Qapgiw4//qxsO0=&lt;/ds:DigestValue> <co xml:id="DigestValue-co" linkends="DigestValue"/>
+               &lt;/ds:Reference>
+            &lt;/ds:SignedInfo>
+            &lt;ds:SignatureValue>eYwbnLoVQNKHQxJjC1zolpxZ6mx1ixU4C+pJaVP6fLDGdnwxU1ueWRoXAbDVCKFOYrPpX7k6TGii <co xml:id="SignatureValue-co" linkends="SignatureValue"/>
+Q9Zy4CeUiI7KBqqGpOlMbQ5avVjAk4AGSIo3f02cAtx3kwlD/Dyb+PuCmAVm0QGB8GOeWDsFfX6x
+RJuO40x5n3tPtNXhq5U=
+            &lt;/ds:SignatureValue>
+            &lt;ds:KeyInfo Id="KI-21FCA5124C428B1F2113651984409138">
+               &lt;wsse:SecurityTokenReference wsu:Id="STR-21FCA5124C428B1F2113651984409139">
+                  &lt;ds:X509Data>
+                     &lt;ds:X509IssuerSerial>
+                         &lt;ds:X509IssuerName>CN=rice&lt;/ds:X509IssuerName> <co xml:id="X509IssuerName-co" linkends="X509IssuerName"/>
+                         &lt;ds:X509SerialNumber>1192039189&lt;/ds:X509SerialNumber> <co xml:id="X509SerialNumber-co" linkends="X509SerialNumber"/>
+                     &lt;/ds:X509IssuerSerial>
+                  &lt;/ds:X509Data>
+               &lt;/wsse:SecurityTokenReference>
+            &lt;/ds:KeyInfo>
+         &lt;/ds:Signature>
+      &lt;/wsse:Security>
+   &lt;/soapenv:Header>
+   &lt;soapenv:Body wsu:Id="id-5" 
+            xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      &lt;v2:findAllCampuses/>
+   &lt;/soapenv:Body>
+&lt;/soapenv:Envelope></programlisting>
+                </informalexample>
+            </para>
+            <para><emphasis role="bold">Request breakdown</emphasis></para>
+            <calloutlist>
+                <callout arearefs="signature-co" xml:id="signature"><para>&lt;ds:Signature> begins the signing of the request</para></callout>
+                <callout arearefs="signedinfo-co" xml:id="signedinfo"><para>&lt;ds:SignedInfo> is the signature package. Once generated, the following bytes all the way down to the &lt;/ds:SignatureValue> cannot be altered</para></callout>
+                <callout arearefs="DigestValue-co" xml:id="DigestValue"><para>&lt;ds:DigestValue> is the hash digest generated from the body of the request and the signature value</para></callout>
+                <callout arearefs="SignatureValue-co" xml:id="SignatureValue"><para>&lt;ds:SignatureValue> is the signature. In this case some of the bytes, when printed, represent a new-line character. Any modification of this stanza byte stream will invalidate the signature</para></callout>
+                <callout arearefs="X509IssuerName-co" xml:id="X509IssuerName"><para>&lt;ds:X509IssuerName> is the alias expected and must be in the keystores of the server and the client</para></callout>
+                <callout arearefs="X509SerialNumber-co" xml:id="X509SerialNumber"><para>&lt;ds:X509SerialNumber> is directly from the keystore and must match between the server and the client. Using the <emphasis role="bold">keytool</emphasis> tool, you can see this value (represented in hex)</para></callout>
+            </calloutlist>
+            <para>
+                The request itself is very small. The <emphasis role="bold">&lt;soapenv:Body></emphasis> stanza 
+                represents the actual request of calling the <emphasis role="bold">findAllCampuses</emphasis> 
+                method. The bus security starts inside the header with the <emphasis role="bold">&lt;wsse:Security>
+                </emphasis>stanza.
+                <note><para>The X509IssuerName and X509SerialNumber come directly from the <link linkend="new_keystore_alias">keystore</link>. Here the serial number is in base 10, in the <link linkend="new_keystore_alias">keystore</link> the value is shown in hex.</para></note>
+            </para>
+        </section>
+    </section>
+</chapter>

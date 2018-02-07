@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- xmlns:nreq="ns:notification/NotificationRequest"  -->
+<notification xmlns="ns:notification/NotificationRequest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:notification/NotificationRequest resource:notification/NotificationRequest">
+	<!-- this is the name of the notification channel -->
+	<!-- that has been registered in the system -->
+	<channel>Test Channel #1</channel>
+
+	<!-- this is the name of the producing system -->
+	<!-- the value must match a registered producer -->
+	<producer>Test Producer #1</producer>
+
+	<!-- these are the people that the message is sent on -->
+	<!-- behalf of -->
+	<senders>
+		<sender>ag266</sender>
+		<sender>jaf30</sender>
+		<sender>arh14</sender>
+	</senders>
+
+	<!-- who is the notification going to? -->
+	<recipients>
+		<group>KR-WKFLW:Group X</group>
+		<group>KR-WKFLW:Group Z</group>
+
+		<user>ag266</user>
+		<user>jaf30</user>
+		<user>arh14</user>
+	</recipients>
+
+	<!--  fyi or acknowledge -->
+	<deliveryType>fyi</deliveryType>
+
+	<!-- optional date and time that a notification should be sent -->
+	<!-- use this for scheduling a single future notification to happen -->
+	<sendDateTime>2006-01-01T00:00:00</sendDateTime>
+
+	<!-- optional date and time that a notification should be removed -->
+	<!-- from all recipients' lists, b/c the message no longer applies -->
+	<autoRemoveDateTime>2007-01-01T00:00:00</autoRemoveDateTime>
+
+	<!-- this is the name of the priority of the message -->
+	<!-- priorities are registered in the system, so your value -->
+	<!-- here must match one of the registered priorities -->
+	<priority>Normal</priority>
+
+    <title>xpath unit test notification</title>
+
+	<!-- this is the name of the content type for the message -->
+	<!-- content types are registered in the system, so your value -->
+	<!-- here must match one of the registered contents -->
+	<contentType>Event</contentType>
+
+	<!-- actual content of the message -->
+	<content  xmlns="ns:notification/ContentTypeEvent"  xsi:schemaLocation="ns:notification/ContentTypeEvent resource:notification/ContentTypeEvent">
+		<message>CCC presents The Strokes at Cornell</message>
+
+		<!-- an event that it happening on campus -->
+		<event>
+			<summary>CCC presents The Strokes at Cornell</summary>
+			<description>blah blah blah</description>
+			<location>Barton Hall</location>
+			<startDateTime>2006-01-01T00:00:00</startDateTime>
+			<stopDateTime>2007-01-01T00:00:00</stopDateTime>
+		</event>
+	</content>
+</notification>

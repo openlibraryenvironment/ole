@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>Template1</name>
+			<description>Template1</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>Template2</name>
+			<description>Template2</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>UnitTestDocument</name>
+			<description>UnitTestDocument</description>
+			<label>UnitTestDocument</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="Template1" />
+					<requests name="Template1" nextNode="Template2" />
+					<requests name="Template2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Template1">
+					<activationType>S</activationType>
+					<ruleTemplate>Template1</ruleTemplate>
+				</requests>
+				<requests name="Template2">
+					<activationType>S</activationType>
+					<ruleTemplate>Template2</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>NonInitiatorCanRouteDocument</name>
+			<description>NonInitiatorCanRouteDocument</description>
+			<label>NonInitiatorCanRouteDocument</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<docHandler>_blank</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>true</value>
+				</policy>
+				<policy>
+					<name>INITIATOR_MUST_ROUTE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="Template1" />
+					<requests name="Template1" nextNode="Template2" />
+					<requests name="Template2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+				</start>
+				<requests name="Template1">
+					<activationType>S</activationType>
+					<ruleTemplate>Template1</ruleTemplate>
+				</requests>
+				<requests name="Template2">
+					<activationType>S</activationType>
+					<ruleTemplate>Template2</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>UnitTestDocument</documentType>
+			<ruleTemplate>Template1</ruleTemplate>
+			<description>Template1 Rule</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>ewestfal</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<documentType>UnitTestDocument</documentType>
+			<ruleTemplate>Template2</ruleTemplate>
+			<description>Template2 Rule</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:c="ns:workflow/common"
+        xmlns:rt="ns:workflow/RuleTemplate"
+        targetNamespace="ns:workflow/RuleTemplate"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+
+  <annotation>
+    <documentation>
+      Copyright 2005-2006 The Kuali Foundation.
+ 
+
+      Licensed under the Educational Community License, Version 1.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+ 
+      http://www.opensource.org/licenses/ecl1.php
+ 
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="en">
+      Rule Template schema
+    </documentation>
+  </annotation>
+
+  <import namespace="ns:workflow/common" schemaLocation="resource:common"/>
+
+  <element name="ruleTemplates">
+    <complexType>
+      <sequence minOccurs="0" maxOccurs="unbounded">
+        <element name="ruleTemplate" type="rt:RuleTemplateType">
+        	<annotation>
+        		<documentation>
+        		 A modifiable rule template parameter in the system.
+        		</documentation>
+        	</annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+<!--  Rule Template defines a set of attributes that work together to form a single routing behavior.  The 
+attributes are rendered in the same rule collection screen, routing report screen and their routing 
+logic is executed together to determine documents match the rule -->
+  <complexType name="RuleTemplateType">
+    <sequence>
+      <element name="name" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      	 	 Name of the route template. this is referenced from the document type route nodes declaration.
+    		 this is link is how documents route through rule templates.
+      		</documentation>
+      	</annotation>
+      </element>
+     
+      <element name="description" type="c:LongStringType">
+      	<annotation>
+      		<documentation>
+      		 Description of the rule template. This has no value regarding execution of rule but is required 
+      		 non the less. 	
+      		</documentation>
+      	</annotation>
+      </element>
+     
+      <element name="delegationTemplate" type="c:ShortStringType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      	 	 Delegation through rule is configured by embedding one template into another.  Any request generated 
+      	 	 from the delegate template are delegate of the request generated from this template.  Delegation
+      	     templates may not have delegate templates -->
+      		</documentation>
+      	</annotation>
+      </element>
+  
+      <element name="attributes" type="rt:AttributesType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 List of attributes in this rule template.    		
+      		</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="ruleDefaults" type="rt:RuleDefaultsType" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Defines default values on all new rules of this template.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+
+    <attribute name="allowOverwrite" use="optional">
+    	<annotation>
+    		<documentation>
+    		 Allow overwrite of rules on upload; this doesn't work right. Don't double upload rules
+    		 or bad things will happen.
+    		</documentation>
+    	</annotation>
+    </attribute>
+  </complexType>
+
+<!-- List of attributes in this rule template -->
+  <complexType name="AttributesType">
+    <sequence>
+      <element name="attribute" type="rt:AttributeType" minOccurs="0" maxOccurs="unbounded">
+      	<annotation>
+      		<documentation>
+      		 The name of the attribute from which this extension is derived. 
+      		 We will be permissive and allow an empty "attributes" element.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+<!-- a single attribute in the 0 to many making up this template -->
+  <complexType name="AttributeType">
+    <sequence>
+
+      <element name="name" type="c:ShortStringType">
+      	<annotation>
+      		<documentation>
+      	     Name of this attribute. this relates to the attribute declaration in the attribute xml.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="required" type="boolean" default="false" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Defaults to false if not given.  If this is true the attribute is supplied with this boolean.
+      		 This allows the attribute to be coded to support required but the workflow rule system enforces this 
+      		 in no way shape or form.
+      		</documentation>
+      	</annotation>
+      </element>
+      <element name="active" type="boolean" default="true" minOccurs="0">
+      	<annotation>
+      		<documentation>
+      		 Defaults to true if not given.  If this is true the attribute is active and will be used on any rules 
+      		 or routing where the template is referenced.  If this is false then the attribute is not used for any
+      		 rules or routing and is basically ignored.
+      		</documentation>
+      	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="RuleDefaultsType">
+  	<sequence>
+	  	<element name="delegationType" type="c:ShortStringType" minOccurs="0">
+	  		<annotation>
+	  			<documentation>
+	  			Defaults the delegate type on a delegate template primary or secondary.
+	  			</documentation>
+	  		</annotation>
+	  	</element>
+  		
+  		<element name="description" type="c:LongStringType">
+  			<annotation>
+  				<documentation>
+  				 Default values in the field of the rule element corresponds to description.
+  				</documentation>
+  			</annotation>
+  		</element>
+	    <element name="fromDate" type="c:ShortStringType" minOccurs="0">
+	    	<annotation>
+	    		<documentation>
+	    		 Default values in the field of the rule element corresponds to fromData.
+	    		</documentation>
+	    	</annotation>
+	    </element>
+  	    <element name="toDate" type="c:ShortStringType" minOccurs="0">
+  	    	<annotation>
+  	    		<documentation>
+  	    		Default values in the field of the rule element corresponds to toDate.
+  	    		</documentation>
+  	    	</annotation>
+  	    </element>
+        <element name="forceAction" type="boolean">
+        <annotation>
+  	    		<documentation>
+  	    		Default values in the field of the rule element corresponds to forceAction.
+  	    		</documentation>
+  	    	</annotation>
+  	    </element>
+        <element name="active" type="boolean">
+        <annotation>
+  	    		<documentation>
+  	    		Default values in the field of the rule element corresponds to active.
+  	    		</documentation>
+  	    	</annotation>
+  	    </element>	
+        
+  		<element name="defaultActionRequested" type="c:ShortStringType" minOccurs="0">
+  		<annotation>
+  	    		<documentation>
+  	    		 This is the action requested shown by default in the responsibility section of 
+        		 rule entry.
+  	    		</documentation>
+  	    	</annotation>
+  	    </element>
+  		
+  		<element name="supportsComplete" type="boolean" default="true" minOccurs="0">
+  			<annotation>
+  				<documentation>
+  				 Determines if the rule should be allowed to generate complete requests.
+  				</documentation>
+  			</annotation>
+  		</element>
+  	
+ 		<element name="supportsApprove" type="boolean" default="true" minOccurs="0">
+ 			<annotation>
+ 				<documentation>
+ 				 Determines if the rule should be allowed to generate approve requests.
+ 				</documentation>
+ 			</annotation>
+ 		</element>
+  	
+  		<element name="supportsAcknowledge" type="boolean" default="true" minOccurs="0">
+  			<annotation>
+  				<documentation>
+  				 Determines if the rule should be allowed to generate acknowledge requests.
+  				</documentation>
+  			</annotation>
+  		</element>
+  		
+  		<element name="supportsFYI" type="boolean" default="true" minOccurs="0">
+  			<annotation>
+  				<documentation>
+  				 Determines if the rule should be allowed to generate fyi requests.
+  				</documentation>
+  			</annotation>
+  		</element>
+  	</sequence>
+  </complexType>
+  
+</schema>

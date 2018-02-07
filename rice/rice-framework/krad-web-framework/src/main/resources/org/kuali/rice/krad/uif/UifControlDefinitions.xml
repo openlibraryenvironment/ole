@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <!-- Controls -->
+
+  <bean id="Uif-ControlBase" abstract="true" parent="Uif-ControlBase-parentBean"/>
+  <bean id="Uif-ControlBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.ControlBase"
+        parent="Uif-ComponentBase">
+    <property name="cssClasses">
+      <list>
+        <value>uif-control</value>
+      </list>
+    </property>
+    <property name="toolTip">
+      <bean parent="Uif-Tooltip"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-TextControl" parent="Uif-TextControl-parentBean"/>
+  <bean id="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/text.ftl"/>
+    <property name="templateName" value="uif_text"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-textControl</value>
+      </list>
+    </property>
+    <property name="size" value="30"/>
+  </bean>
+
+  <bean id="Uif-SmallTextControl" parent="Uif-SmallTextControl-parentBean"/>
+  <bean id="Uif-SmallTextControl-parentBean" parent="Uif-TextControl">
+    <property name="cssClasses">
+      <list>
+        <value>uif-smallTextControl</value>
+      </list>
+    </property>
+    <property name="size" value="10"/>
+  </bean>
+
+  <bean id="Uif-MediumTextControl" parent="Uif-MediumTextControl-parentBean"/>
+  <bean id="Uif-MediumTextControl-parentBean" parent="Uif-TextControl">
+    <property name="cssClasses">
+      <list>
+        <value>uif-mediumTextControl</value>
+      </list>
+    </property>
+    <property name="size" value="30"/>
+  </bean>
+
+  <bean id="Uif-LargeTextControl" parent="Uif-LargeTextControl-parentBean"/>
+  <bean id="Uif-LargeTextControl-parentBean" parent="Uif-TextControl">
+    <property name="cssClasses">
+      <list>
+        <value>uif-largeTextControl</value>
+      </list>
+    </property>
+    <property name="size" value="100"/>
+  </bean>
+
+  <bean id="Uif-CurrencyTextControl" parent="Uif-CurrencyTextControl-parentBean"/>
+  <bean id="Uif-CurrencyTextControl-parentBean" abstract="true" parent="Uif-TextControl">
+    <property name="cssClasses">
+      <list>
+        <value>uif-currencyControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-CheckboxControl" parent="Uif-CheckboxControl-parentBean"/>
+  <bean id="Uif-CheckboxControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.CheckboxControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/checkbox.ftl"/>
+    <property name="templateName" value="uif_checkbox"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-checkboxControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-HiddenControl" parent="Uif-HiddenControl-parentBean"/>
+  <bean id="Uif-HiddenControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.HiddenControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/hidden.ftl"/>
+    <property name="templateName" value="uif_hidden"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-hiddenControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-TextAreaControl" parent="Uif-TextAreaControl-parentBean"/>
+  <bean id="Uif-TextAreaControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextAreaControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/textArea.ftl"/>
+    <property name="templateName" value="uif_textarea"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-textAreaControl</value>
+      </list>
+    </property>
+    <property name="rows" value="3"/>
+    <property name="cols" value="40"/>
+  </bean>
+
+  <bean id="Uif-SmallTextAreaControl" parent="Uif-SmallTextAreaControl-parentBean"/>
+  <bean id="Uif-SmallTextAreaControl-parentBean" parent="Uif-TextAreaControl">
+    <property name="cssClasses">
+      <list>
+        <value>uif-smallTextAreaControl</value>
+      </list>
+    </property>
+    <property name="rows" value="2"/>
+    <property name="cols" value="35"/>
+  </bean>
+
+  <bean id="Uif-MediumTextAreaControl" parent="Uif-MediumTextAreaControl-parentBean"/>
+  <bean id="Uif-MediumTextAreaControl-parentBean" parent="Uif-TextAreaControl">
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-mediumTextAreaControl</value>
+      </list>
+    </property>
+    <property name="rows" value="3"/>
+    <property name="cols" value="40"/>
+  </bean>
+
+  <bean id="Uif-LargeTextAreaControl" parent="Uif-LargeTextAreaControl-parentBean"/>
+  <bean id="Uif-LargeTextAreaControl-parentBean" parent="Uif-TextAreaControl">
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-largeTextControl</value>
+      </list>
+    </property>
+    <property name="rows" value="6"/>
+    <property name="cols" value="50"/>
+  </bean>
+
+  <bean id="Uif-DropdownControl" parent="Uif-DropdownControl-parentBean"/>
+  <bean id="Uif-DropdownControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SelectControl"
+        scope="prototype" parent="Uif-ControlBase" p:multiple="false">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/select.ftl"/>
+    <property name="templateName" value="uif_select"/>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-dropdownControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-MultiSelectControl" parent="Uif-MultiSelectControl-parentBean"/>
+  <bean id="Uif-MultiSelectControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SelectControl"
+        scope="prototype" parent="Uif-ControlBase" p:multiple="true">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/select.ftl"/>
+    <property name="templateName" value="uif_select"/>
+    <property name="size" value="4"/>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-multiSelectControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-VerticalRadioControl" parent="Uif-VerticalRadioControl-parentBean"/>
+  <bean id="Uif-VerticalRadioControl-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.control.RadioGroupControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/radioGroup.ftl"/>
+    <property name="templateName" value="uif_radiobuttons"/>
+    <property name="fieldsetClasses">
+      <list>
+        <value>uif-verticalRadioFieldset</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-verticalRadioControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-HorizontalRadioControl" parent="Uif-HorizontalRadioControl-parentBean"/>
+  <bean id="Uif-HorizontalRadioControl-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.control.RadioGroupControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/radioGroup.ftl"/>
+    <property name="templateName" value="uif_radiobuttons"/>
+    <property name="delimiter" value="&amp;nbsp;"/>
+    <property name="fieldsetClasses">
+      <list>
+        <value>uif-horizontalRadioFieldset</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-horizontalRadioControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-VerticalCheckboxesControl" parent="Uif-VerticalCheckboxesControl-parentBean"/>
+  <bean id="Uif-VerticalCheckboxesControl-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.control.CheckboxGroupControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/checkboxGroup.ftl"/>
+    <property name="templateName" value="uif_checkboxes"/>
+    <property name="fieldsetClasses">
+      <list>
+        <value>uif-verticalCheckboxesFieldset</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-verticalCheckboxesControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-HorizontalCheckboxesControl" parent="Uif-HorizontalCheckboxesControl-parentBean"/>
+  <bean id="Uif-HorizontalCheckboxesControl-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.control.CheckboxGroupControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/checkboxGroup.ftl"/>
+    <property name="templateName" value="uif_checkboxes"/>
+    <property name="delimiter" value="&amp;nbsp;"/>
+    <property name="fieldsetClasses">
+      <list>
+        <value>uif-horizontalCheckboxesFieldset</value>
+      </list>
+    </property>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-horizontalCheckboxesControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-FileControl" parent="Uif-FileControl-parentBean"/>
+  <bean id="Uif-FileControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.FileControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/file.ftl"/>
+    <property name="templateName" value="uif_file"/>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-fileControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-DateControl" parent="Uif-DateControl-parentBean"/>
+  <bean id="Uif-DateControl-parentBean" abstract="true" parent="Uif-SmallTextControl">
+    <property name="datePicker">
+      <bean parent="Uif-DatePicker">
+        <property name="templateOptions">
+          <map merge="true">
+            <entry key="disabled" value="@{#parent.disabled}"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-dateControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-SpinnerControl" parent="Uif-SpinnerControl-parentBean"/>
+  <bean id="Uif-SpinnerControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SpinnerControl"
+        scope="prototype"
+        parent="Uif-SmallTextControl">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/spinner.ftl"/>
+    <property name="templateName" value="uif_spinner"/>
+    <property name="spinner">
+      <bean parent="Uif-Spinner"/>
+    </property>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-spinnerControl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OptionListControl" parent="Uif-OptionListControl-parentBean"/>
+  <bean id="Uif-OptionListControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.OptionListControl"
+        scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/optionList.ftl"/>
+    <property name="templateName" value="uif_optionList"/>
+    <property name="showOnlySelected" value="false"/>
+    <property name="itemCssClass" value="uif-optionList-item"/>
+    <property name="selectedItemCssClass" value="uif-optionList-selectedItem"/>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-optionList</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-PasswordControl" parent="Uif-PasswordControl-parentBean"/>
+  <bean id="Uif-PasswordControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.PasswordControl"
+        scope="prototype" parent="Uif-ControlBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/control/password.ftl"/>
+    <property name="templateName" value="uif_password"/>
+    <property name="cssClasses">
+      <list>
+
+        <value>uif-passwordControl</value>
+      </list>
+    </property>
+    <property name="size" value="30"/>
+  </bean>
+
+</beans>

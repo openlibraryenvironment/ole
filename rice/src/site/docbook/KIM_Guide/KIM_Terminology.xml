@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+    Copyright 2005-2013 The Kuali Foundation
+    
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl2.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+-->
+<chapter version="5.0" xml:id="KIM_Terminology" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Terminology</title>
+    
+    <section>
+        <title>Principal</title>
+        
+        <para>A principal represents an entity that can authenticate. In
+            essence, you can think of a principal as an "account" or as an entity's
+            authentication credentials. A principal has an ID that is used to
+            uniquely identify it. It also has a name that represents the principal's
+            username and is typically what is entered when authenticating. All
+            principals are associated with one and only one entity.</para>
+    </section>
+    
+    <section>
+        <title>Entity</title>
+        
+        <para>An entity represents a person or system. Additionally, other
+            "types" of entities can be defined in KIM. Information like name, phone
+            number, etc. is associated with an entity. While an entity will
+            typically have a single principal associated with it, it is possible for
+            an entity to have more than one principal or even no principals at all
+            (in the case where the entity does not actually authenticate).</para>
+        
+        <para>Entities have numerous attributes associated with them,
+            including:<itemizedlist>
+                <listitem>
+                    <para>Names</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Addresses</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Phone Numbers</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Email Addresses</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Entity Type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Affiliations</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Employment Information</para>
+                </listitem>
+                
+                <listitem>
+                    <para>External Identifiers</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Privacy Preferences</para>
+                </listitem>
+            </itemizedlist></para>
+    </section>
+    
+    <section>
+        <title>Group</title>
+        
+        <para>A group is a collection of principals. You can create a group
+            using both direct principal assignment and nested group membership. All
+            groups are uniquely identified by a namespace code plus a name. A
+            principal or group is a "member" of a group if it is either directly
+            assigned to the group or indirectly assigned (through a nested group
+            membership). A principal or group is a "direct" member of another group
+            only if it is directly assigned as a member of the group, and not
+            through a nested group assignment.</para>
+    </section>
+    
+    <section>
+        <title>Permission</title>
+        
+        <para>A permission is the ability to perform an action. All permissions
+            have a permission template. Both permissions and permission templates
+            are uniquely identified by a namespace code plus a name. The permission
+            template defines the coarse-grained permission and specifies what
+            additional permission details need to be collected on permissions that
+            use that template. For example, a permission template might have a name
+            of "Initiate Document," which requires a permission detail specifying
+            the document type that can be initiated. A permission created from the
+            "Initiate Document" template would define the name of the specific
+            Document Type that can be initiated as a permission detail.</para>
+        
+        <para>The <emphasis role="bold">isAuthorized</emphasis> and <emphasis
+            role="bold">isAuthorizedByTemplateName</emphasis> operations on the
+            <emphasis role="bold">PermissionService</emphasis> are used to execute
+            authorization checks for a principal against a permission. Permissions
+            are always assigned to roles (never directly to a principal or group). A
+            particular principal will be authorized for a given permission if the
+            principal is assigned to a role that has been granted the
+            permission.</para>
+    </section>
+    
+    <section>
+        <title>Responsibility</title>
+        
+        <para>A responsibility represents an action that a principal is
+            requested to take. This is used for defining workflow actions (such as
+            approve, acknowledge, FYI) for which the principal is responsible.
+            Responsibilities form the basis of the workflow engine routing
+            process.</para>
+        
+        <para>A responsibility is very similar to a permission in a couple of
+            ways. First, responsibilities are always granted to a role, never
+            assigned directly to a principal or group. Furthermore, similar to
+            permissions, a role has a responsibility template. The responsibility
+            template specifies what additional responsibility details need to be
+            defined when the responsibility is created.</para>
+    </section>
+    
+    <section>
+        <title>Role</title>
+        
+        <para>You grant permissions and responsibilities to roles. Roles have a
+            membership consisting of principals, groups, and/or other roles. As a
+            member of a role, the associated principal has all permissions and
+            responsibilities that have been granted to that role.</para>
+        
+        <para>You can specify a qualification to any membership assignment on
+            the role, which is extra information about that particular member of the
+            role. For example, a person may have the role of "Dean" but that can be
+            further qualified by the school they are the dean of, such as "Computer
+            Science." You can pass qualifications as part of authorization checks to
+            restrict the subset of roles to check.</para>
+    </section>
+    
+    <section>
+        <title>Reference Information</title>
+        
+        <para>There are several collections of reference information managed
+            within KIM:<itemizedlist>
+                <listitem>
+                    <para>Address type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Affiliation type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Citizenship status</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Email type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Employment status</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Employment type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Entity name type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Entity type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>External identifier type</para>
+                </listitem>
+                
+                <listitem>
+                    <para>Phone number type</para>
+                </listitem>
+            </itemizedlist></para>
+        
+        <section>
+            <title>Configuration Parameters</title>
+            
+            <table frame="none" tabstyle="striped">
+                <title>KIM Configuration Parameters</title>
+                
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    
+                    <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                    
+                    <thead>
+                        <row>
+                            <entry>Configuration Parameter</entry>
+                            
+                            <entry>Description</entry>
+                            
+                            <entry>Default value</entry>
+                        </row>
+                    </thead>
+                    
+                    <tbody>
+                        <row>
+                            <entry>kim.mode</entry>
+                            
+                            <entry>The mode that KIM will run in; choices are "LOCAL",
+                                "EMBEDDED", or "REMOTE".</entry>
+                            
+                            <entry>LOCAL</entry>
+                        </row>
+                        
+                        <row>
+                            <entry>kim.soapExposedService.jaxws.security</entry>
+                            
+                            <entry>Determines if KIM services published on the service bus
+                                will be secured</entry>
+                            
+                            <entry>true</entry>
+                        </row>
+                        
+                        <row>
+                            <entry>kim.url</entry>
+                            
+                            <entry>The base URL of KIM services and pages.</entry>
+                            
+                            <entry>${application.url}/kim</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+    </section>
+</chapter>

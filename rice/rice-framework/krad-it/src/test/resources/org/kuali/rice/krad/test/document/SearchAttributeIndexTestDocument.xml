@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+	<bean id="SearchAttributeIndexTestDocument" parent="SearchAttributeIndexTestDocument-parentBean"/>
+
+	<bean id="SearchAttributeIndexTestDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+		<property name="documentTypeName" value="SearchAttributeIndexTestDocument"/>
+		<property name="documentClass" value="org.kuali.rice.krad.test.document.SearchAttributeIndexTestDocument"/>
+		<property name="businessRulesClass" value="org.kuali.rice.krad.rules.TransactionalDocumentRuleBase" />
+		<property name="workflowAttributes">
+			<ref bean="SearchAttributeIndexTestDocument-workflowAttributes"/>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="SearchAttributeIndexTestDocument-routeLevelCount"/>
+				<ref bean="SearchAttributeIndexTestDocument-constantString"/>
+				<ref bean="SearchAttributeIndexTestDocument-routedString"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute definitions. -->
+
+	<bean id="SearchAttributeIndexTestDocument-routeLevelCount" parent="SearchAttributeIndexTestDocument-routeLevelCount-parentBean"/>
+
+	<bean id="SearchAttributeIndexTestDocument-routeLevelCount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="routeLevelCount"/>
+		<property name="label" value="Route Level Count"/>
+		<property name="description" value="Route Level Count"/>
+		<property name="shortLabel" value="RLC"/>
+		<property name="summary" value="Route Level Count"/>
+		<property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30"/>
+		</property>
+	</bean>
+
+	<bean id="SearchAttributeIndexTestDocument-constantString" parent="SearchAttributeIndexTestDocument-constantString-parentBean"/>
+
+	<bean id="SearchAttributeIndexTestDocument-constantString-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="constantString"/>
+		<property name="label" value="Constant String"/>
+		<property name="description" value="Constant String"/>
+		<property name="shortLabel" value="CS"/>
+		<property name="summary" value="Constant String"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="maxLength" value="50"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="true"/>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50"/>
+		</property>
+	</bean>
+
+	<bean id="SearchAttributeIndexTestDocument-routedString" parent="SearchAttributeIndexTestDocument-routedString-parentBean"/>
+
+	<bean id="SearchAttributeIndexTestDocument-routedString-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="routedString"/>
+		<property name="label" value="Routed String"/>
+		<property name="description" value="Routed String"/>
+		<property name="shortLabel" value="RS"/>
+		<property name="summary" value="Routed String"/>
+		<property name="maxLength" value="50"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50"/>
+		</property>
+	</bean>
+
+	<!-- Workflow attributes. -->
+	
+	<bean id="SearchAttributeIndexTestDocument-workflowAttributes" parent="SearchAttributeIndexTestDocument-workflowAttributes-parentBean"/>
+
+	<bean id="SearchAttributeIndexTestDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+			<ref bean="SearchAttributeIndexTestDocument-searchingTypeDefinitions"/>
+		</property>
+	</bean>
+
+	<bean id="SearchAttributeIndexTestDocument-searchingTypeDefinitions" parent="SearchAttributeIndexTestDocument-searchingTypeDefinitions-parentBean"/>
+
+	<bean id="SearchAttributeIndexTestDocument-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.SearchAttributeIndexTestDocument"/>
+							<property name="attributeName" value="routeLevelCount"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>routeLevelCount</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.SearchAttributeIndexTestDocument"/>
+							<property name="attributeName" value="constantString"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>constantString</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+					<property name="searchingAttribute">
+						<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+							<property name="businessObjectClassName" value="org.kuali.rice.krad.test.document.SearchAttributeIndexTestDocument"/>
+							<property name="attributeName" value="routedString"/>
+						</bean>
+					</property>
+					<property name="documentValues">
+						<list>
+							<value>routedString</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

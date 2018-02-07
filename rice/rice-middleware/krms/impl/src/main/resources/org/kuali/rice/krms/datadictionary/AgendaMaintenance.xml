@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+  <bean id="AgendaMaintenanceDocument" parent="MaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.AgendaBo"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="documentTypeName" value="AgendaMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+   
+  <bean id="AgendaBo-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Agenda Maintenance"/>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.AgendaBo"/>
+    <property name="items">
+      <list merge="true">
+         <bean parent="Uif-MaintenanceGridSection">
+            <property name="headerText" value="Agenda Information"/>
+            <property name="items">
+              <list>
+               <bean parent="Uif-InputField" p:propertyName="id"/>
+               <bean parent="Uif-InputField" p:propertyName="name"/>
+               <bean parent="Uif-InputField" p:propertyName="namespace"/>
+               <bean parent="Uif-InputField" p:propertyName="typeId"/>
+               <bean parent="Uif-InputField" p:propertyName="contextId"/>
+              </list>
+            </property>
+         </bean> 
+         <bean parent="Uif-MaintenanceStackedCollectionSection">
+           <property name="headerText" value="Agenda Items"/>  
+           <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.repository.AgendaItemBo"/>
+           <property name="propertyName" value="items"/>
+             <property name="items">
+               <list>
+               <!--
+    def String id
+    def String agendaId
+    def String ruleId
+    def String subAgendaId
+    def String whenTrueId
+    def String whenFalseId
+    def String alwaysId 
+    
+    def AgendaItemBo whenTrue;
+    def AgendaItemBo whenFalse;
+    def AgendaItemBo always; 
+               -->
+                 <bean parent="Uif-InputField" p:propertyName="id"/>
+                 <bean parent="Uif-InputField" p:propertyName="ruleId"/>
+                 <bean parent="Uif-InputField" p:propertyName="subAgendaId"/>
+                 <bean parent="Uif-InputField" p:propertyName="whenTrueId"/>
+                 <bean parent="Uif-InputField" p:propertyName="whenFalseId"/>
+                 <bean parent="Uif-InputField" p:propertyName="alwaysId"/>
+                </list>
+              </property>   
+              <property name="layoutManager.summaryTitle" value="Agenda Item"/> 
+              <property name="layoutManager.summaryFields">
+                <list>
+                  <value>id</value>
+                </list>
+              </property>
+           </bean>          
+       </list>
+     </property>
+  </bean>      
+   
+</beans>

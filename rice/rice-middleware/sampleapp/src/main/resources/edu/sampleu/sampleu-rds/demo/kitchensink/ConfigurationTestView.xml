@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<spring:beans xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.kuali.org/krad/schema"
+              xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.kuali.org/krad/schema http://www.kuali.org/krad/schema.xsd">
+  <formView-bean entryPageId="ConfigurationTestView-ProgressiveRender-Page"
+                 formClass="edu.sampleu.demo.kitchensink.UifComponentsTestForm" growlMessagingEnabled="true"
+                 headertext="Configuration Test View" id="ConfigurationTestView" namespaceCode="KR-NS"
+                 viewHelperServiceClass="edu.sampleu.demo.kitchensink.UIfComponentsViewHelperServiceImpl">
+    <navigation>
+      <spring:ref bean="ConfigurationTestView-Menu"/>
+    </navigation>
+    <items>
+      <spring:ref bean="ConfigurationTestView-ProgressiveRender-Page"/>
+      <spring:ref bean="ConfigurationTestView-Help-Page"/>
+      <spring:ref bean="ConfigurationTestView-Quickfinder-Page"/>
+    </items>
+    <theme>
+      <kradTheme-bean/>
+    </theme>
+    <additionalCssFiles merge="true">
+      <spring:value>css/sampleapp.css</spring:value>
+    </additionalCssFiles>
+    <help>
+      <help-bean externalHelpUrl="http://www.kuali.org" tooltipHelpContent="View help"/>
+    </help>
+  </formView-bean>
+  <formView-bean id="ConfigurationTestView_KNS" parent="ConfigurationTestView">
+    <theme>
+      <classicKnsTheme-bean/>
+    </theme>
+  </formView-bean>
+  <tabNavigationGroup-bean id="ConfigurationTestView-Menu">
+    <items>
+      <navigationActionLink-bean actionLabel="Page 1" navigateToPageId="ConfigurationTestView-ProgressiveRender-Page"/>
+      <navigationActionLink-bean actionLabel="Help" navigateToPageId="ConfigurationTestView-Help-Page"/>
+      <navigationActionLink-bean actionLabel="Lookup Widgets"
+                                 navigateToPageId="ConfigurationTestView-Quickfinder-Page"/>
+    </items>
+  </tabNavigationGroup-bean>
+</spring:beans>

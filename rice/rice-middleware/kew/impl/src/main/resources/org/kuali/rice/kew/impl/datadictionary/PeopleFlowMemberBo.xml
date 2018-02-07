@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  
+
+  <bean id="PeopleFlowMember" parent="PeopleFlowMember-parentBean"/>
+  <bean id="PeopleFlowMember-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kew.impl.peopleflow.PeopleFlowMemberBo"/>
+    <property name="titleAttribute" value="memberId"/>
+    <property name="objectLabel" value="People Flow Member"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PeopleFlowMember-memberId"/>
+        <ref bean="PeopleFlowMember-memberTypeCode"/>
+        <ref bean="PeopleFlowMember-priority"/>
+        <ref bean="PeopleFlowMember-actionRequestPolicyCode"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="person">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId"
+                    p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true"
+                    p:sourceName="memberName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="person.name"
+                    p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="group">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId"
+                    p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true"
+                    p:sourceName="memberName" p:targetName="name"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="group.namespaceCode"
+                    p:targetName="namespaceCode"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="role">
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId"
+                    p:targetName="id"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true"
+                    p:sourceName="memberName" p:targetName="name"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="role.namespaceCode"
+                    p:targetName="namespaceCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PeopleFlowMember-memberId" parent="PeopleFlowMember-memberId-parentBean"/>
+  <bean id="PeopleFlowMember-memberId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="memberId"/>
+    <property name="label" value="Member Identifier"/>
+    <property name="shortLabel" value="Mbr"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="40"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+    <property name="summary" value="Member id for the map stop"/>
+    <property name="description" value="Member id for the map stop"/>
+  </bean>
+
+  <bean id="PeopleFlowMember-memberTypeCode" parent="PeopleFlowMember-memberTypeCode-parentBean"/>
+  <bean id="PeopleFlowMember-memberTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="memberTypeCode"/>
+    <property name="label" value="Member Type"/>
+    <property name="shortLabel" value="Mbr Typ"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="1"/>
+    <property name="optionsFinderClass" value="org.kuali.rice.kim.bo.options.MemberTypeValuesFinder"/>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="Type of the member the stop will go to"/>
+    <property name="description" value="Type of the member the stop will go to"/>
+  </bean>
+
+  <bean id="PeopleFlowMember-priority" parent="PeopleFlowMember-priority-parentBean"/>
+  <bean id="PeopleFlowMember-priority-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="priority"/>
+    <property name="label" value="Stop"/>
+    <property name="shortLabel" value="Stop"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="4"/>
+    </property>
+    <property name="summary" value="Stop number that the member should receive the request"/>
+    <property name="description" value="Stop number that the member should receive the request"/>
+  </bean>
+
+  <bean id="PeopleFlowMember-actionRequestPolicyCode" parent="PeopleFlowMember-actionRequestPolicyCode-parentBean"/>
+  <bean id="PeopleFlowMember-actionRequestPolicyCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="actionRequestPolicyCode"/>
+    <property name="label" value="All or First Action"/>
+    <property name="shortLabel" value="All or First"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="optionsFinderClass" value="org.kuali.rice.kew.impl.peopleflow.ActionPolicyValuesFinder"/>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary"
+              value="For role members determines whether all members must take action or just the first"/>
+    <property name="description"
+              value="For role members determines whether all members must take action or just the first"/>
+  </bean>
+
+
+</beans>

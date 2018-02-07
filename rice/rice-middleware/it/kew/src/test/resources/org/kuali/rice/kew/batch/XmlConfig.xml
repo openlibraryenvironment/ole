@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<!--  this is for the ChartOrgDynamicNodeTest  -->
+		<ruleAttribute>
+			<name>XMLSearchableAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>XML Searchable attribute</label>
+			<description>XML Searchable attribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="givenname" title="First name">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="true">
+						<regex>^[a-zA-Z ]+$</regex>
+						<message>Invalid first name</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>//putWhateverWordsIwantInsideThisTag/givenname/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<putWhateverWordsIwantInsideThisTag>
+						<givenname>
+							<value>%givenname%</value>
+						</givenname>
+					</putWhateverWordsIwantInsideThisTag>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>BlankDropDownSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>DepartmentSearchAttribute</label>
+			<description>DepartmentSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="department" title="Department">
+					<display>
+						<type>select</type>
+						<values title=""></values>
+						<values title="African American/African Diaspora Studies">AAAD</values>
+						<values title="African Studies">AFRI</values>
+						<values title="American Studies">AMST</values>
+						<values title="Ancient Studies">ANCS</values>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>normalize-space(substring-before(//department, ' '))</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>searchTemplate</name>
+			<description>search template</description>
+			<!--
+				<attributes>
+				<attribute>
+				<name>XMLSearchableAttribute</name>
+				<required>true</required>
+				</attribute>
+				</attributes>
+			-->
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SearchDocType</name>
+			<description>SearchDocType</description>
+			<label>SearchDocType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<docHandler>_blank</docHandler>
+			<superUserGroupName namespace="KR-WKFLW">TestWorkgroup</superUserGroupName>
+			<blanketApproveGroupName namespace="KR-WKFLW">TestWorkgroup</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KR-WKFLW">TestWorkgroup</defaultExceptionGroupName>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<attributes>
+				<attribute>
+					<name>XMLSearchableAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="Initial" nextNode="First" />
+					<requests name="First" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initial">
+					<activationType>P</activationType>
+				</start>
+				<requests name="First">
+					<activationType>S</activationType>
+					<ruleTemplate>searchTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>SearchDocType</documentType>
+			<ruleTemplate>searchTemplate</ruleTemplate>
+			<description>Search attribute rule test</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<user>jhopf</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>
