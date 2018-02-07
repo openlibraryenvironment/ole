@@ -1,6 +1,7 @@
 package org.kuali.ole.ncip.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
@@ -915,7 +916,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
               oleCheckedOutItem.setCatalogueId(oleLoanDocument.getBibUuid());
               if (oleLoanDocument.getLoanDueDate() != null) {
                   oleCheckedOutItem.setDueDate(oleLoanDocument.getLoanDueDate().toString());
-                  if ((fmt.format(oleLoanDocument.getLoanDueDate())).compareTo(fmt.format(new Date(System.currentTimeMillis()))) > 0) {
+                  if ((fmt.format(oleLoanDocument.getLoanDueDate())).compareTo(fmt.format(DateUtils.addDays(new Date(System.currentTimeMillis()),-1))) > 0) {
                       oleCheckedOutItem.setOverDue(false);
                   }
                   else{
