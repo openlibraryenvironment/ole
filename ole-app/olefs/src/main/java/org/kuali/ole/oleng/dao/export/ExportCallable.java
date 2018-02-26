@@ -16,6 +16,7 @@ import org.kuali.ole.oleng.handler.BatchExportHandler;
 import org.kuali.ole.oleng.helper.ExportEholdingsMappingHelper;
 import org.kuali.ole.oleng.helper.ExportHoldingsMappingHelper;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.marc4j.marc.Record;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -25,6 +26,7 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -201,6 +203,8 @@ public abstract class ExportCallable implements Callable {
         Set<String> perpetualSet = null;
         Set<String> extentOfOwnershipNoteSet = null;
         Set<String> linkSet = null;
+        SimpleDateFormat univDateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+"HH:mm:ss");
+        SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         while (resultSet.next()) {
             String holdingsType = resultSet.getString("HOLDINGS_TYPE");
@@ -294,12 +298,20 @@ public abstract class ExportCallable implements Callable {
                 holdings.setId("who-" + id);
                 holdings.setContentObject(oleHoldings);
                 holdings.setCreatedBy(resultSet.getString("CREATED_BY"));
-                holdings.setCreatedOn(resultSet.getString("DATE_CREATED"));
+
+                String dateCreated = resultSet.getString("DATE_CREATED");
+                String dateUpdated =  resultSet.getString("DATE_UPDATED");
+
+                if(dateCreated != null){
+                    holdings.setCreatedOn(univDateFormat.format(dbDateFormat.parse(dateCreated)));
+                }
                 if (resultSet.getString("STAFF_ONLY") != null) {
                     holdings.setStaffOnly((resultSet.getString("STAFF_ONLY").equalsIgnoreCase("Y") ? Boolean.TRUE : Boolean.FALSE));
                 }
                 holdings.setUpdatedBy(resultSet.getString("UPDATED_BY"));
-                holdings.setUpdatedOn(resultSet.getString("DATE_UPDATED"));
+                if(dateUpdated != null){
+                    holdings.setUpdatedOn(univDateFormat.format(dbDateFormat.parse(dateUpdated)));
+                }
                 holdings.setLastUpdated(resultSet.getString("DATE_UPDATED"));
 
                 uriSet = new HashSet<>();
@@ -402,6 +414,8 @@ public abstract class ExportCallable implements Callable {
         Set<String> itemNoteSet = null;
         Set<String> statisticalSearchSet = null;
         org.kuali.ole.docstore.common.document.content.instance.Item itemObj = null;
+        SimpleDateFormat univDateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+"HH:mm:ss");
+        SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         while (resultSet.next()) {
             String id = resultSet.getString("ITEM_ID");
@@ -510,14 +524,24 @@ public abstract class ExportCallable implements Callable {
                 itemObj.setTemporaryItemType(tempItemType);
                 item.setContentObject(itemObj);
                 item.setCreatedBy(resultSet.getString("CREATED_BY"));
-                item.setCreatedOn(resultSet.getString("DATE_CREATED"));
+
+                String dateCreated = resultSet.getString("DATE_CREATED");
+                String dateUpdated = resultSet.getString("DATE_UPDATED");
+
+                if(dateCreated != null){
+                    item.setCreatedOn(univDateFormat.format(dbDateFormat.parse(dateCreated)));
+                }
                 if (resultSet.getString("STAFF_ONLY") != null) {
                     item.setStaffOnly((resultSet.getString("STAFF_ONLY").equalsIgnoreCase("Y") ? Boolean.TRUE : Boolean.FALSE));
                 }
                 item.setUpdatedBy(resultSet.getString("UPDATED_BY"));
-                item.setUpdatedOn(resultSet.getString("DATE_UPDATED"));
+                if(dateUpdated != null){
+                    item.setUpdatedOn(univDateFormat.format(dbDateFormat.parse(dateUpdated)));
+                }
                 item.setLastUpdated(resultSet.getString("DATE_UPDATED"));
 
+                itemObj.setDateCreated(item.getCreatedOn());
+                itemObj.setDateUpdated(item.getUpdatedOn());
             }
             if (itemNoteSet.add(resultSet.getString("ITEM_NOTE_ID"))) {
                 Note note = new Note();

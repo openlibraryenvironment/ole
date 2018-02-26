@@ -132,7 +132,10 @@ import java.util.List;
     "itemClaimsReturnedRecords",
     "itemDamagedRecords",
     "missingPieceItemRecordList",
-    "originalDueDate"
+    "originalDueDate",
+    "dateUpdated",
+    "dateCreated"
+
 })
 @XStreamAlias("item")
 @XmlRootElement(name = "item")
@@ -223,6 +226,10 @@ public class Item {
     protected int numberOfRenew;
     @XmlElement(required = true)
     protected String checkOutDateTime;
+    @XmlElement(required = false)
+    protected String dateCreated;
+    @XmlElement(required = false)
+    protected String dateUpdated;
     @XmlAttribute
     @XStreamAsAttribute
     protected String analytic;
@@ -1276,5 +1283,21 @@ public class Item {
 
     public void setOriginalDueDate(String originalDueDate) {
         this.originalDueDate = originalDueDate;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(String dateUpdated) {
+        this.dateUpdated = dateUpdated;
     }
 }
