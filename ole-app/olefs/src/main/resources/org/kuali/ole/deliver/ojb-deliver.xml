@@ -1026,7 +1026,7 @@
         <field-descriptor name="requestHistoryId" column="OLE_RQST_HSTRY_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_RQST_HSTRY_REC_S"/>
         <field-descriptor name="requestId" column="OLE_RQST_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="itemId" column="OLE_ITEM_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="itemBarcode" column="OLE_ITEM_BARCODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemBarCode" column="OLE_ITEM_BARCODE" jdbc-type="VARCHAR" />
         <field-descriptor name="loanTransactionId" column="OLE_LOAN_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="patronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="poLineItemNumber" column="OLE_LN_ITM_NUM" jdbc-type="VARCHAR" />
