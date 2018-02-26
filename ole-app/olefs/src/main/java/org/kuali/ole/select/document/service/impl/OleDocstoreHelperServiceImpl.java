@@ -40,6 +40,7 @@ import org.kuali.ole.select.bo.OleVendorAccountInfo;
 import org.kuali.ole.select.businessobject.OleCopies;
 import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.select.document.service.OleCopyHelperService;
 import org.kuali.ole.select.document.service.OleDocstoreHelperService;
@@ -49,6 +50,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -1696,18 +1698,18 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
             pHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(copy.getInstanceId());
         } else {
             Map<String, List<HoldingsDetails>> bibHoldingsDetailsMap = new HashMap<>();
-            if(StringUtils.isNotBlank(copy.getBibId())) {
+            if (StringUtils.isNotBlank(copy.getBibId())) {
                 String bibId = copy.getBibId();
                 bibHoldingsDetailsMap = getBibHoldingsDetailsMap(bibId, PHoldings.PRINT);
                 String holdingsUUID = getLocationMatchedHoldingsId(bibHoldingsDetailsMap, copy.getLocation(), bibId);
-                if(StringUtils.isNotBlank(holdingsUUID)) {
+                if (StringUtils.isNotBlank(holdingsUUID)) {
                     pHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsUUID);
                     copy.setInstanceId(holdingsUUID);
                 }
             }
         }
 
-        if(null == pHoldings) {
+        if (null == pHoldings) {
             pHoldings = new PHoldings();
         }
         List<org.kuali.ole.docstore.common.document.Item> itemList = new ArrayList<org.kuali.ole.docstore.common.document.Item>();
@@ -1733,7 +1735,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
                 List<DonorInfo> donorInfoList = setDonorInfoToItem(oleDonors, new ArrayList<DonorInfo>());
                 item.setDonorInfo(donorInfoList);
                 org.kuali.ole.docstore.common.document.Item itemDocument = (org.kuali.ole.docstore.common.document.Item) getDataCarrierService().getData("reqItemId:" + oleCopy.getReqItemId() + ":item");
-                if(null == itemDocument) {
+                if (null == itemDocument) {
                     itemDocument = new org.kuali.ole.docstore.common.document.Item();
                 }
                 itemDocument.setContent(new ItemOlemlRecordProcessor().toXML(item));
@@ -1754,7 +1756,7 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         if (StringUtils.isBlank(copy.getInstanceId())) {
             holdingsTree.getItems().addAll(itemList);
             Holdings holdings = (Holdings) getDataCarrierService().getData("reqItemId:" + copy.getReqItemId() + ":holdings");
-            if(null == holdings) {
+            if (null == holdings) {
                 holdings = new PHoldings();
             }
             holdings.setCategory(DocCategory.WORK.getCode());
@@ -1769,20 +1771,28 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         } else {
             holdingsTree = getDocstoreClientLocator().getDocstoreClient().retrieveHoldingsTree(copy.getInstanceId());
         }
+        Map copyMap = new HashMap();
+        copyMap.put(org.kuali.ole.OLEConstants.DOC_NUM, singleItem.getDocumentNumber());
+        OlePurchaseOrderDocument po = getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class, copyMap);
+        ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
         int i = 0;
         for (org.kuali.ole.docstore.common.document.Item item : holdingsTree.getItems()) {
-            for (OleCopy oleCopy : copyList) {
-                if (copyIdList != null && copyIdList.size() > i && copyIdList.get(i).equals(oleCopy.getCopyId())) {
-                    oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
-                    oleCopy.setItemUUID(item.getId());
-                    this.copyCount++;
-                    if (LOG.isDebugEnabled()) {
+            org.kuali.ole.docstore.common.document.content.instance.Item itemXML = itemOlemlRecordProcessor.fromXML(item.getContent());
+            KualiInteger itemPoId = new KualiInteger(itemXML.getPurchaseOrderLineItemIdentifier());
+            KualiInteger poID = new KualiInteger(po.getPurapDocumentIdentifier());
+            if (itemPoId.equals(poID)) {
+              for (OleCopy oleCopy : copyList) {
+                  if (copyIdList != null && copyIdList.size() > i && copyIdList.get(i).equals(oleCopy.getCopyId())) {
+                      oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
+                      oleCopy.setItemUUID(item.getId());
+                      this.copyCount++;
+                      if (LOG.isDebugEnabled()) {
                         LOG.debug("Instance UUID" + holdingsTree.getHoldings().getId() + "****** Item UUID" + item.getId());
-                    }
-                }
+                      }
+                  }
+              }
+              i++;
             }
-            i++;
-
         }
     }
 

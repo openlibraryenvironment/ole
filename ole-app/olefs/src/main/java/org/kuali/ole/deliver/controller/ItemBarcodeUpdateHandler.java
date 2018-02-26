@@ -133,12 +133,12 @@ public class ItemBarcodeUpdateHandler {
 
     public void updateDeliverRequestHistoryRecord(String oleBarcode, String newBarcode){
         itemBarcodeMap.clear();
-        itemBarcodeMap.put("itemId",oleBarcode);
+        itemBarcodeMap.put("itemBarcode",oleBarcode);
         List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords = new ArrayList<OleDeliverRequestHistoryRecord>();
         List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecordList = (List<OleDeliverRequestHistoryRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestHistoryRecord.class, itemBarcodeMap);
         if (CollectionUtils.isNotEmpty(oleDeliverRequestHistoryRecordList)) {
             for (OleDeliverRequestHistoryRecord deliverRequestHistoryRecord : oleDeliverRequestHistoryRecordList) {
-                deliverRequestHistoryRecord.setItemId(newBarcode);
+                deliverRequestHistoryRecord.setItemBarcode(newBarcode);
                 oleDeliverRequestHistoryRecords.add(deliverRequestHistoryRecord);
             }
             List<OleDeliverRequestHistoryRecord> oleDeliverRequestHistoryRecords1 = (List<OleDeliverRequestHistoryRecord>) KRADServiceLocator.getBusinessObjectService().save(oleDeliverRequestHistoryRecords);

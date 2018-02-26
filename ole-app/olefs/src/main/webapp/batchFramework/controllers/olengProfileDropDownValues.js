@@ -47,7 +47,9 @@ var dataMappingObject = {
         {id: 'locationLevel2', name: 'Location Level2'},
         {id: 'locationLevel3', name: 'Location Level3'},
         {id: 'locationLevel4', name: 'Location Level4'},
-        {id: 'locationLevel5', name: 'Location Level5'}
+        {id: 'locationLevel5', name: 'Location Level5'},
+        {id: 'datecreated', name: 'Date Created'},
+        {id: 'dateupdated', name: 'Date Updated'}
     ],
     destinationFieldsForBibMarcItems : [
         {id: 'Local Identifier', name: 'Local Identifier'},
@@ -79,7 +81,9 @@ var dataMappingObject = {
         {id: 'vendorLineItemId', name: 'Vendor Line Item Identifier'},
         {id: 'staffOnly', name: 'Staff Only'},
         {id: 'numberOfPieces', name: 'Number of Pieces'},
-        {id: 'statisticalCode', name:'Statistical Code'}
+        {id: 'statisticalCode', name:'Statistical Code'},
+        {id: 'datecreated', name: 'Date Created'},
+        {id: 'dateupdated', name: 'Date Updated'}
     ],
     destinationFieldsForBibMarcEHoldings :  [
         {id: 'Local Identifier', name: 'Local Identifier'},
@@ -139,7 +143,9 @@ var dataMappingObject = {
         {id: 'materialsSpecified', name: 'Materials Specified'},
         {id: 'firstIndicator', name: 'First Indicator'},
         {id: 'secondIndicator', name: 'Second Indicator'},
-        {id: 'non-publicNote', name: 'Non-public Note'}
+        {id: 'non-publicNote', name: 'Non-public Note'},
+        {id: 'datecreated', name: 'Date Created'},
+        {id: 'dateupdated', name: 'Date Updated'}
     ],
     destinationFieldsForConstantsBib : [
         {id: 'bibStatus', name: 'Bib Status'},

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.LoanUtil;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.batch.OleMailer;
@@ -1442,7 +1443,8 @@ public class OLEASRPlaceRequestHelperServiceImpl {
             OleDeliverRequestBo oleDeliverRequestBo = oleDeliverRequestBoList.get(0);
             OleDeliverRequestHistoryRecord oleDeliverRequestHistoryRecord = new OleDeliverRequestHistoryRecord();
             oleDeliverRequestHistoryRecord.setRequestId(oleDeliverRequestBo.getRequestId());
-            oleDeliverRequestHistoryRecord.setItemId(oleDeliverRequestBo.getItemId());
+            oleDeliverRequestHistoryRecord.setItemBarcode(oleDeliverRequestBo.getItemId());
+            oleDeliverRequestHistoryRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(oleDeliverRequestBo.getItemUuid()));
             oleDeliverRequestHistoryRecord.setPatronId(oleDeliverRequestBo.getOlePatron()!=null?oleDeliverRequestBo.getOlePatron().getOlePatronId():null);
             oleDeliverRequestHistoryRecord.setArchiveDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestHistoryRecord.setPickUpLocationCode(oleDeliverRequestBo.getPickUpLocationCode());
