@@ -217,6 +217,15 @@ public class ExportHoldingsMappingHelper {
                     } else {
                         generateDateCreated(holdingsDocument, getCode(entry.getKey()), dataField);
                     }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.SOURCE_FIELD_DATE_UPDATED)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateDateUpdated(holdingsDocument, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateDateUpdated(holdingsDocument, getCode(entry.getKey()), dataField);
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -496,6 +505,24 @@ public class ExportHoldingsMappingHelper {
                         if (!dataField.getSubfields().isEmpty()) dataFieldItemList.add(dataField);
                     } else {
                         generateVendorLineItemIdentifier(item, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DATE_CREATED)) {
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateDateCreated(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldItemList.add(dataField);
+                    } else {
+                        generateDateCreated(item, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DATE_UPDATED)) {
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateDateUpdated(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldItemList.add(dataField);
+                    } else {
+                        generateDateUpdated(item, getCode(entry.getKey()), dataField);
                     }
                 }
             }
@@ -1123,6 +1150,27 @@ public class ExportHoldingsMappingHelper {
     }
 
     /**
+     * generates the subfields for the Date Updated for the given holdings
+     *
+     * @param holdings
+     * @param code
+     * @param dataField
+     */
+    private void generateDateUpdated(Holdings holdings, char code, DataField dataField) throws Exception {
+        Subfield subField = new SubfieldImpl();
+        subField.setCode(code);
+        try {
+            if (null != holdings && null != holdings.getUpdatedOn()) {
+                subField.setData(holdings.getUpdatedOn());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(holdings, ex, "generateDateUpdated()");
+        }
+    }
+
+
+    /**
      * generates the subfield for the item public note
      *
      * @param item
@@ -1251,6 +1299,46 @@ public class ExportHoldingsMappingHelper {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(item.getVendorLineItemIdentifier());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateVendorLineItemIdentifier()");
+        }
+    }
+
+
+    /**
+     * generates subfield for Date Created for the given item
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateDateCreated(Item item, char code, DataField dataField) {
+        try {
+            if (item != null && StringUtils.isNotEmpty(item.getDateCreated())) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(item.getDateCreated());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateVendorLineItemIdentifier()");
+        }
+    }
+
+
+    /**
+     * generates subfield for Date Updated for the given item
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateDateUpdated(Item item, char code, DataField dataField) {
+        try {
+            if (item != null && StringUtils.isNotEmpty(item.getDateUpdated())) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(item.getDateUpdated());
                 dataField.addSubfield(subField);
             }
         } catch (Exception ex) {
