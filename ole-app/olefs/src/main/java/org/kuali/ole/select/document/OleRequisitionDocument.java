@@ -501,7 +501,9 @@ public class OleRequisitionDocument extends RequisitionDocument {
         //TODO: Why are we checking this again?
         //if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
         if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
-            singleItem.setCopyList(getCopyList(singleItem));
+            if(!this.getIsSaved()){
+                singleItem.setCopyList(getCopyList(singleItem));
+            }
         }
         //}
         if (singleItem.getBibInfoBean() != null) {
