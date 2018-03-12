@@ -878,6 +878,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         if (StringUtils.isNotBlank(workInstanceOlemlForm.getSelectedItem().getPurchaseOrderLineItemIdentifier())) {
             Map poMap = new HashMap();
             poMap.put(OLEConstants.PURAP_DOC_IDENTIFIER, workInstanceOlemlForm.getSelectedItem().getPurchaseOrderLineItemIdentifier());
+            poMap.put("PO_CUR_IND", "Y" );
             OlePurchaseOrderDocument olePurchaseOrderDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class, poMap);
             if (olePurchaseOrderDocument != null) {
                 String poId = olePurchaseOrderDocument.getDocumentNumber();
@@ -910,6 +911,15 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                             map.clear();
                         }
                     }
+                }
+                map.clear();
+                map.put(OLEConstants.OleDeliverRequest.ITEM_UUID, itemData.getItemIdentifier());
+                map.put(org.kuali.ole.sys.OLEConstants.OleCopy.PO_DOC_NUM, poId);
+                List<OleCopy> oleCopy = (List<OleCopy>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCopy.class, map);
+                if (CollectionUtils.isNotEmpty(oleCopy)) {
+                    oleCopy.get(0).setEnumeration(itemData.getEnumeration());
+                    oleCopy.get(0).setCopyNumber(itemData.getCopyNumber());
+                    KRADServiceLocator.getBusinessObjectService().save(oleCopy);
                 }
             }
         }

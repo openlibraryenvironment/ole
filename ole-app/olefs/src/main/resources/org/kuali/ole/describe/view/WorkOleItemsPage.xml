@@ -600,7 +600,7 @@
                     </property>
                 </bean>
                 <bean id="oleItemPrice" parent="Uif-InputField" p:propertyName="price" p:label="Price"
-                      p:required="false">
+                      p:required="false" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
                     </property>
