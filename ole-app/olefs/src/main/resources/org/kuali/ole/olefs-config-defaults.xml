@@ -104,7 +104,7 @@
   <param name="location.mode">LOCAL</param>
 
   <!--Datasource -->
-  <param name="jdbc.username">OLE</param>
+  <param name="jdbc.username">${jdbc.username}</param>
   <param name="rice.datasource.validating.query">${datasource.pool.validationQuery}</param>
   <param name="kfs.datasource.validating.query">${datasource.pool.validationQuery}</param>
 

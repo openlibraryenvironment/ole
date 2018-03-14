@@ -18,7 +18,7 @@
 <config>
     <param name="application.url">${ole.fs.url.base}</param>
     <param name="appserver.url">${application.url}</param>
-    <param name="jdbc.username">OLE</param>
+    <param name="jdbc.username">${jdbc.username}</param>
 
     <param name="config.location">classpath:META-INF/${project.groupId.path}/${project.artifactId}/project-rice-properties.xml</param>
     <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
