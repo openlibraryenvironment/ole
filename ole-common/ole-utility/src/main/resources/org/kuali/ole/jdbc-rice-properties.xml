@@ -4,7 +4,7 @@
 
   <param name="jdbc.driver">${${db.vendor}.driver}</param>
   <param name="jdbc.url">${${db.vendor}.url}</param>
-  <param name="jdbc.password">${jdbc.username}</param>
+  <param name="jdbc.password">${jdbc.password}</param>
   <param name="jdbc.dba.url">${${db.vendor}.dba.url}</param>
   <param name="jdbc.dba.username">${${db.vendor}.dba.username}</param>
   <param name="jdbc.dba.password">${${db.vendor}.dba.password}</param>
