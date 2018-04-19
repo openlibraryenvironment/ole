@@ -5,7 +5,7 @@
 --  *********************************************************************
 
 --  Lock Database
---  Changeset org/kuali/ole/3.0.12/db.changelog-20180419.xml::KRCR_PARM_T_MYSQL::ole
+--  Changeset org/kuali/ole/3.0.12/db.changelog-20180419.xml::OLE_LOAD_KRCR_PARM_T_ORACLE::ole
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-PURAP', 'All', 'ZERO_ENCUMBRANCE_CHECK', 'OLE101010', '1', 'CONFG', 'N', 'Indicator for checking Zero Encumbrance in AutoClosePO Job.', 'A', 'OLE')
 /
 
