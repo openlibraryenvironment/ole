@@ -126,6 +126,21 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
         return copyMap;
     }
 
+    public String getStartingNumber(String content){
+        StringBuilder sb = new StringBuilder();
+        String number = "";
+        if (content != null) {
+            for (int i = 0; i < content.length(); i++) {
+                final char c = content.charAt(i);
+                if (c > 47 && c < 58) {
+                    sb.append(c);
+                }
+            }
+            number = sb.toString();
+        }
+        return number;
+    }
+
     /**
      * This method will set copies into list of copies for LineItem.
      *
@@ -146,7 +161,7 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
             String location = "";
             int i = 0;
             KualiInteger staringCopyNumber = oleCopyList != null && oleCopyList.size() > 0 && oleCopyList.get(0).getCopyNumber() != null ?
-                    new KualiInteger(oleCopyList.get(0).getCopyNumber()) : null;
+                    new KualiInteger(getStartingNumber(oleCopyList.get(0).getCopyNumber())) : null;
             for (OleCopy copy : oleCopyList) {
                 i++;
                 location = copy.getLocation();
@@ -227,9 +242,11 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
                 OleCopy oleCopy = new OleCopy();
                 oleCopy.setLocation(itemCopy.getLocationCopies());
                 volNum = volChar.size()>enumCount ? volChar.get(enumCount):"";
-                oleCopy.setEnumeration(itemCopy.getCaption() + " " + volNum);
+                if(StringUtils.isNotBlank(itemCopy.getCaption())) {
+                    oleCopy.setEnumeration(itemCopy.getCaption() + " " + volNum);
+                }
                 oleCopy.setReceiptStatus(OLEConstants.OleLineItemReceiving.NOT_RECEIVED_STATUS);
-                oleCopy.setCopyNumber(copyNum!=null?copyNum.toString():null);
+                oleCopy.setCopyNumber(copyNum!=null?copyNum.toString():(i+""));
                 oleCopy.setPartNumber(partNumCount + "");
                 oleCopy.setBibId(bibId);
                 if (partNumCount == itemCopy.getParts().intValue()) {

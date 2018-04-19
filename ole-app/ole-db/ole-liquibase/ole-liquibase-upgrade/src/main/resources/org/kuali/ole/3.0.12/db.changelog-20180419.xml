@@ -1,0 +1,30 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_ORACLE" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0.12/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_MYSQL" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0.12/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+
+</databaseChangeLog>

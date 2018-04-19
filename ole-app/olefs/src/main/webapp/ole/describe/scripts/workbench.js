@@ -675,13 +675,13 @@ function itemSortBy(field) {
     } else if (field == 'callNumber') {
         sortField = "CallNumber_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'barcode') {
-        sortField = "ItemBarcode_sort " +sortOrder+ ",Title_sort";
+        sortField = "ItemBarcode_sort ";
     } else if (field == 'itemStatus') {
         sortField = "ItemStatus_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'copyNumber') {
         sortField = "CopyNumber_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'enumeration') {
-        sortField = "Enumeration_sort " +sortOrder+ ",Title_sort";
+        sortField = "Enumeration_sort ";
     } else if (field == 'chronology') {
         sortField = "Chronology_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'local') {

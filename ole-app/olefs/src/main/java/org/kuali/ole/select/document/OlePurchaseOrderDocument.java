@@ -562,8 +562,8 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
                 for (OleCopy oleCopy : singleItem.getCopyList()) {
                     OleCopy copy = copyList.get(copyCount);
                     oleCopy.setLocation(copy.getLocation());
-                    oleCopy.setEnumeration(copy.getEnumeration());
-                    oleCopy.setCopyNumber(copy.getCopyNumber());
+                    //oleCopy.setEnumeration(copy.getEnumeration());
+                    //oleCopy.setCopyNumber(copy.getCopyNumber());
                     oleCopy.setPartNumber(copy.getPartNumber());
                     copyCount++;
                 }

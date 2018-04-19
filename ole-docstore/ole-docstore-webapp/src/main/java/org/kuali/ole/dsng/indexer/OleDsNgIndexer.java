@@ -363,7 +363,10 @@ public abstract class OleDsNgIndexer  implements DocstoreConstants {
     public static String convertDateToString(DateFormat dateFormat, Date date) {
         if (null != date) {
             try {
-                return dateFormat.format(date);
+                DateFormat dateFormat1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                synchronized (dateFormat1) {
+                    return dateFormat1.format(date);
+                }
             } catch(Exception e) {
                 e.printStackTrace();
             }

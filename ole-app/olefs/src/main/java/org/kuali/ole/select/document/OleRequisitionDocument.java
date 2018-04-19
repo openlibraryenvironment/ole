@@ -501,7 +501,9 @@ public class OleRequisitionDocument extends RequisitionDocument {
         //TODO: Why are we checking this again?
         //if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
         if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
-            singleItem.setCopyList(getCopyList(singleItem));
+            if(!this.getIsSaved()){
+                singleItem.setCopyList(getCopyList(singleItem));
+            }
         }
         //}
         if (singleItem.getBibInfoBean() != null) {
@@ -729,8 +731,8 @@ public class OleRequisitionDocument extends RequisitionDocument {
                 for (OleCopy oleCopy : singleItem.getCopyList()) {
                     OleCopy copy = copyList.get(copyCount);
                     oleCopy.setLocation(copy.getLocation());
-                    oleCopy.setEnumeration(copy.getEnumeration());
-                    oleCopy.setCopyNumber(copy.getCopyNumber());
+                    //oleCopy.setEnumeration(copy.getEnumeration());
+                    //oleCopy.setCopyNumber(copy.getCopyNumber());
                     oleCopy.setPartNumber(copy.getPartNumber());
                     oleCopy.setReqDocNum(this.getPurapDocumentIdentifier());
                     copyCount++;
