@@ -1771,27 +1771,30 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         } else {
             holdingsTree = getDocstoreClientLocator().getDocstoreClient().retrieveHoldingsTree(copy.getInstanceId());
         }
-        Map copyMap = new HashMap();
-        copyMap.put(org.kuali.ole.OLEConstants.DOC_NUM, singleItem.getDocumentNumber());
-        OlePurchaseOrderDocument po = getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class, copyMap);
         ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
         int i = 0;
         for (org.kuali.ole.docstore.common.document.Item item : holdingsTree.getItems()) {
             org.kuali.ole.docstore.common.document.content.instance.Item itemXML = itemOlemlRecordProcessor.fromXML(item.getContent());
-            KualiInteger itemPoId = new KualiInteger(itemXML.getPurchaseOrderLineItemIdentifier());
-            KualiInteger poID = new KualiInteger(po.getPurapDocumentIdentifier());
-            if (itemPoId.equals(poID)) {
-              for (OleCopy oleCopy : copyList) {
-                  if (copyIdList != null && copyIdList.size() > i && copyIdList.get(i).equals(oleCopy.getCopyId())) {
-                      oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
-                      oleCopy.setItemUUID(item.getId());
-                      this.copyCount++;
-                      if (LOG.isDebugEnabled()) {
-                        LOG.debug("Instance UUID" + holdingsTree.getHoldings().getId() + "****** Item UUID" + item.getId());
-                      }
-                  }
-              }
-              i++;
+            String  poLineId = itemXML.getPurchaseOrderLineItemIdentifier();
+            if (poLineId != null) {
+                Map copyMap = new HashMap();
+                copyMap.put(org.kuali.ole.OLEConstants.DOC_NUM, singleItem.getDocumentNumber());
+                OlePurchaseOrderDocument po = getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class, copyMap);
+                KualiInteger itemPoId = new KualiInteger(itemXML.getPurchaseOrderLineItemIdentifier());
+                KualiInteger poID = new KualiInteger(po.getPurapDocumentIdentifier());
+                if (itemPoId.equals(poID)) {
+                    for (OleCopy oleCopy : copyList) {
+                        if (copyIdList != null && copyIdList.size() > i && copyIdList.get(i).equals(oleCopy.getCopyId())) {
+                            oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
+                            oleCopy.setItemUUID(item.getId());
+                            this.copyCount++;
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Instance UUID" + holdingsTree.getHoldings().getId() + "****** Item UUID" + item.getId());
+                            }
+                        }
+                    }
+                    i++;
+                }
             }
         }
     }
