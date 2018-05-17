@@ -655,11 +655,11 @@
             <inverse-foreignkey field-ref="holdingsId" />
         </collection-descriptor>
 
-        <collection-descriptor name="eInstanceCoverageRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="eInstanceCoverageRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="holdingsId"/>
         </collection-descriptor>
 
-        <collection-descriptor name="eInstancePerpetualAccessRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="eInstancePerpetualAccessRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="holdingsId"/>
         </collection-descriptor>
         <reference-descriptor name="authenticationType" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
