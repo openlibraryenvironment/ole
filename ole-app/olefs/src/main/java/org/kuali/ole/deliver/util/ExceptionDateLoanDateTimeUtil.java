@@ -1,6 +1,8 @@
 package org.kuali.ole.deliver.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate;
 
@@ -20,6 +22,21 @@ public class ExceptionDateLoanDateTimeUtil extends ExceptionPeriodLoanDateTimeUt
             OleCalendarExceptionDate oleCalendarExceptionDate = iterator.next();
             if (oleCalendarExceptionDate.getDate() != null && DateUtils.isSameDay(oleCalendarExceptionDate.getDate(), loanDueDate)) {
                 return oleCalendarExceptionDate;
+            }
+        }
+        return null;
+    }
+
+    public OleCalendarExceptionDate isDateAnPartiallExceptionDate(OleCalendar oleCalendar, Date loanDueDate) {
+
+        List<OleCalendarExceptionDate> oleCalendarExceptionDateList = oleCalendar.getOleCalendarExceptionDateList();
+
+        for (Iterator<OleCalendarExceptionDate> iterator = oleCalendarExceptionDateList.iterator(); iterator.hasNext(); ) {
+            OleCalendarExceptionDate oleCalendarExceptionDate = iterator.next();
+            if (oleCalendarExceptionDate.getDate() != null && DateUtils.isSameDay(oleCalendarExceptionDate.getDate(), loanDueDate)) {
+                if(StringUtils.isNotBlank(oleCalendarExceptionDate.getExceptionType()) && oleCalendarExceptionDate.getExceptionType().equalsIgnoreCase(OLEConstants.HOLIDAY)) {
+                    return oleCalendarExceptionDate;
+                }
             }
         }
         return null;

@@ -86,11 +86,8 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
                 loanDueDate = handleNonWorkingHoursWorkflow(loanDueDate, oleCalendarExceptionPeriodWeekList);
             }
         }
-        if(isDateAnExceptionDate(getActiveCalendar(), loanDueDate) != null) {
-            loanDueDate = calculateDueDate(loanDueDate);
-        }
-        else if(doesDateFallInExceptionPeriod(getActiveCalendar(), loanDueDate) != null){
-            loanDueDate = calculateDueDate(loanDueDate);
+        if(isDateAnPartiallExceptionDate(getActiveCalendar(), loanDueDate) != null || doesDateFallInPartialExceptionPeriod(getActiveCalendar(),loanDueDate) != null) {
+            loanDueDate = calculateDueDate(DateUtils.addDays(loanDueDate,1));
         }
         return loanDueDate;
     }
