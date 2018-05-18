@@ -3940,5 +3940,6 @@ public class OLEConstants {
     public static final String RETURN_MISSING_PIECE_NOTICE_SUBJECT_LINE=" Missing Piece Returned";
     public static final String PICKUP_NOTICE_SUBJECT_LINE="Library Item Available for Pickup";
     public static final String ZERO_ENCUMBRANCE_CHECK = "ZERO_ENCUMBRANCE_CHECK";
+    public static final String HOLIDAY = "Holiday";
 
 }
