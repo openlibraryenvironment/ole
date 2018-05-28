@@ -4162,8 +4162,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     }
                     try {
                         List<OleLoanDocument> processedLoanDocuments = buildSearchResultsFields(searchResponse, loanDocumentMap);
-                        if(!processedLoanDocuments.isEmpty())
+                        if(processedLoanDocuments.size() == 0)
                         {
+                            loanDocumentsWithItemInfo.addAll(oleLoanDocumentList);
+                        }else{
                             loanDocumentsWithItemInfo.addAll(processedLoanDocuments);
                         }
                     } catch (Exception e) {
