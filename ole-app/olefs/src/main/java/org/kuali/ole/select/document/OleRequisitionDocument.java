@@ -499,10 +499,16 @@ public class OleRequisitionDocument extends RequisitionDocument {
         //if (requestSourceTypeId == null) {
         setRequestSourceTypeId(singleItem);
         //TODO: Why are we checking this again?
-        //if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
-        if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
-            if(!this.getIsSaved()){
+        if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
+            if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
                 singleItem.setCopyList(getCopyList(singleItem));
+            }
+        }
+        else {
+            if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
+                if(!this.getIsSaved()){
+                    singleItem.setCopyList(getCopyList(singleItem));
+                }
             }
         }
         //}
