@@ -483,9 +483,6 @@ public class OleRequisitionDocument extends RequisitionDocument {
      * @param singleItem
      */
     private void setItemDetailWhilePrepareForSave(OleRequisitionItem singleItem) {
-        System.out.println("requisitionSourceCode >>>" + requisitionSourceCode);
-        System.out.println("this.getIsSaved() >>>" + this.getIsSaved());
-
         String requisitionSourceCode = this.getRequisitionSourceCode();
         Integer requestSourceTypeId = singleItem.getRequestSourceTypeId();
         String internalRequestorId = singleItem.getInternalRequestorId();
@@ -502,16 +499,10 @@ public class OleRequisitionDocument extends RequisitionDocument {
         //if (requestSourceTypeId == null) {
         setRequestSourceTypeId(singleItem);
         //TODO: Why are we checking this again?
-        if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
-            if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
+        //if (requisitionSourceCode.equalsIgnoreCase(OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
+        if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
+            if(!this.getIsSaved()){
                 singleItem.setCopyList(getCopyList(singleItem));
-            }
-        }
-        else {
-            if (singleItem.getCopyList() == null || singleItem.getCopyList().size() == 0) {
-                if(!this.getIsSaved()) {
-                    singleItem.setCopyList(getCopyList(singleItem));
-                }
             }
         }
         //}
