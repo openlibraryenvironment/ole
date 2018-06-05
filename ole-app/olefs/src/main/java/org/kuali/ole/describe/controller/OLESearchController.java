@@ -1078,6 +1078,55 @@ public class OLESearchController extends UifControllerBase {
 
             return;
         }
+        if(CollectionUtils.isNotEmpty(searchResultDisplayRows)){
+            if(!searchParams.getSortConditions().isEmpty() && !searchParams.getSearchConditions().isEmpty() && searchParams.getDocType().equalsIgnoreCase("item") && searchParams.getSearchConditions().get(0).getSearchField().getDocType().equalsIgnoreCase("bibliographic")){
+                if(searchParams.getSortConditions().get(0).getSortField().equalsIgnoreCase("ItemBarcode_sort")) {
+                    if(searchParams.getSortConditions().get(0).getSortOrder().equalsIgnoreCase("asc")) {
+                        Collections.sort(searchResultDisplayRows, new Comparator<SearchResultDisplayRow>() {
+                            @Override
+                            public int compare(SearchResultDisplayRow o1, SearchResultDisplayRow o2) {
+                                if(StringUtils.isNotBlank(o1.getBarcode()) && StringUtils.isNotBlank(o2.getBarcode()))
+                                    return o1.getBarcode().compareTo(o2.getBarcode());
+                                else
+                                    return 0;
+                            }
+                        });
+                    }else {
+                        Collections.sort(searchResultDisplayRows, new Comparator<SearchResultDisplayRow>() {
+                            @Override
+                            public int compare(SearchResultDisplayRow o1, SearchResultDisplayRow o2) {
+                                if(StringUtils.isNotBlank(o1.getBarcode()) && StringUtils.isNotBlank(o2.getBarcode()))
+                                    return o2.getBarcode().compareTo(o1.getBarcode());
+                                else
+                                    return 0;
+                            }
+                        });
+                    }
+                } else if(searchParams.getSortConditions().get(0).getSortField().equalsIgnoreCase("Enumeration_sort")) {
+                    if(searchParams.getSortConditions().get(0).getSortOrder().equalsIgnoreCase("asc")) {
+                        Collections.sort(searchResultDisplayRows, new Comparator<SearchResultDisplayRow>() {
+                            @Override
+                            public int compare(SearchResultDisplayRow o1, SearchResultDisplayRow o2) {
+                                if(StringUtils.isNotBlank(o1.getEnumeration()) && StringUtils.isNotBlank(o2.getEnumeration()))
+                                    return o1.getEnumeration().compareTo(o2.getEnumeration());
+                                else
+                                    return 0;
+                            }
+                        });
+                    }else {
+                        Collections.sort(searchResultDisplayRows, new Comparator<SearchResultDisplayRow>() {
+                            @Override
+                            public int compare(SearchResultDisplayRow o1, SearchResultDisplayRow o2) {
+                                if(StringUtils.isNotBlank(o1.getEnumeration()) && StringUtils.isNotBlank(o2.getEnumeration()))
+                                    return o2.getEnumeration().compareTo(o1.getEnumeration());
+                                else
+                                    return 0;
+                            }
+                        });
+                    }
+                }
+            }
+        }
         oleSearchForm.setSearchResultDisplayRowList(searchResultDisplayRows);
         oleSearchForm.setBibSearchResultDisplayRowList(bibSearchResultDisplayRows);
         oleSearchForm.setHoldingSearchResultDisplayRowList(holdingsSearchResultDisplayRows);
