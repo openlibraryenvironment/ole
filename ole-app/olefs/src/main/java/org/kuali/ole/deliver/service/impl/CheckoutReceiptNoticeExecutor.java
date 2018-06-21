@@ -30,6 +30,11 @@ public class CheckoutReceiptNoticeExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    public void saveLoanDocument() {
+
+    }
+
+    @Override
     protected String getNoticeType() {
         return OLEConstants.CHECKOUT_RECEIPT_NOTICE;
     }

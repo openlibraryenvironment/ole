@@ -25,6 +25,11 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    public void saveLoanDocument() {
+        getBusinessObjectService().save(loanDocuments);
+    }
+
+    @Override
     protected String getNoticeType() {
         return OLEConstants.OVERDUE_NOTICE;
     }

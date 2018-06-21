@@ -24,6 +24,11 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    public void saveLoanDocument() {
+        getBusinessObjectService().save(loanDocuments);
+    }
+
+    @Override
     protected String getNoticeType() {
         return OLEConstants.COURTESY_NOTICE;
     }
