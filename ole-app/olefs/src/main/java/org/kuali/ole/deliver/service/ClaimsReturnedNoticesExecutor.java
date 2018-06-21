@@ -23,6 +23,11 @@ public class ClaimsReturnedNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    public void saveLoanDocument() {
+
+    }
+
+    @Override
     protected String getNoticeType() {
         return OLEConstants.CLAIMS_RETURNED_NOTICE;
     }

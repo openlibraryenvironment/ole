@@ -50,14 +50,12 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         if(StringUtils.isNotBlank(mailContent) && !mailContent.contains("FreeMarker template error")) {
             if(!(this instanceof ClaimsReturnedNoticesExecutor)){
                preProcess(loanDocuments);
-               mailContent = generateMailContent(loanDocuments);
             }
             //4. Generate notices
             List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
             //5. Save loan document
-            if(!(this instanceof ClaimsReturnedNoticesExecutor) && !(this instanceof CheckoutReceiptNoticeExecutor)){
-                saveLoanDocument();
-            }
+            saveLoanDocument();
+
             //6. Delete notices
             if(!(this instanceof CheckoutReceiptNoticeExecutor)){
                 deleteNotices(oleDeliverNotices);
@@ -75,9 +73,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         }
     }
 
-    public void saveLoanDocument() {
-        getBusinessObjectService().save(loanDocuments);
-    }
+    public abstract void saveLoanDocument();
 
     public NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
         if (null == noticeSolrInputDocumentGenerator) {
