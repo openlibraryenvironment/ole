@@ -359,6 +359,9 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
                 } else if (cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.OCLC) ||
                 		cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.CS_OCLC)) {
                     searchField.setFieldName(OleSRUConstants.OCLC_SEARCH);
+                }else if (cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.ITEMBARCODE) ||
+                        cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.CS_ITEMBARCODE)) {
+                    searchField.setFieldName(OleSRUConstants.ITEMBARCODE_SEARCH);
                 }
                 searchField.setDocType(OleSRUConstants.BIBLIOGRAPHIC);
             }

@@ -126,6 +126,9 @@ public class OleSRUConstants {
     public static final String OCLC = "oclc";
     public static final String CS_OCLC = "dc.oclc";
     public static final String OCLC_SEARCH = "mdf_035a";
+    public static final String ITEMBARCODE = "itemBarcode";
+    public static final String CS_ITEMBARCODE = "dc.itemBarcode";
+    public static final String ITEMBARCODE_SEARCH ="ItemBarcode_search";
     public static final String CS_TITLE="dc.title";
     public static final String CS_AUTHOR="dc.creator";
     public static final String CS_PUBLISHER="dc.publisher";
