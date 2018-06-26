@@ -46,19 +46,13 @@ import javax.xml.bind.annotation.XmlType;
         "shelvingOrder"
 })
 public class CallNumber {
-    @XmlElement(required = true)
+
     protected String type;
-    @XmlElement(required = true)
     protected String prefix;
-    @XmlElement(required = true)
     protected String number;
-    @XmlElement(required = true)
     protected String classificationPart;
-    @XmlElement(required = true)
     protected String itemPart;
-    @XmlElement(required = true)
     protected ShelvingScheme shelvingScheme;
-    @XmlElement(required = true)
     protected ShelvingOrder shelvingOrder;
 
     /**
