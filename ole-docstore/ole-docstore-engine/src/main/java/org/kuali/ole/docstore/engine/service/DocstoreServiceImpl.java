@@ -959,6 +959,9 @@ public class DocstoreServiceImpl implements DocstoreService {
                                         StringUtils.isNotBlank(itemContent.getCallNumber().getShelvingScheme().getCodeValue()) && !itemContent.getCallNumber().getShelvingScheme().getCodeValue().equalsIgnoreCase("NOINFO")) {
                                     existingItemContent.getCallNumber().setShelvingScheme(itemContent.getCallNumber().getShelvingScheme());
                                 }
+                            } else if (itemContent.getCallNumber().getShelvingScheme() != null &&
+                                    StringUtils.isNotBlank(itemContent.getCallNumber().getShelvingScheme().getCodeValue()) && !itemContent.getCallNumber().getShelvingScheme().getCodeValue().equalsIgnoreCase("NOINFO")) {
+                                existingItemContent.getCallNumber().setShelvingScheme(itemContent.getCallNumber().getShelvingScheme());
                             }
                             if (itemContent.getCallNumber().getShelvingOrder() != null &&
                                     StringUtils.isNotBlank(itemContent.getCallNumber().getShelvingOrder().getFullValue())) {

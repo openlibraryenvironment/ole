@@ -142,8 +142,12 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 }
                 cNum.getShelvingOrder().setFullValue(value);
             }else{
-                cNum.setShelvingOrder(new ShelvingOrder());
-                cNum.setShelvingScheme(new ShelvingScheme());
+                if(cNum.getShelvingScheme()!=null && StringUtils.isNotBlank(cNum.getShelvingScheme().getCodeValue())) {
+                    //Do Noting
+                } else {
+                    cNum.setShelvingOrder(new ShelvingOrder());
+                    cNum.setShelvingScheme(new ShelvingScheme());
+                }
             }
         }
     }
