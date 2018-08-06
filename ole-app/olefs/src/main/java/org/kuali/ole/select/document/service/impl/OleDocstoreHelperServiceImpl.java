@@ -1776,11 +1776,11 @@ public class OleDocstoreHelperServiceImpl extends BusinessObjectServiceHelperUti
         for (org.kuali.ole.docstore.common.document.Item item : holdingsTree.getItems()) {
             org.kuali.ole.docstore.common.document.content.instance.Item itemXML = itemOlemlRecordProcessor.fromXML(item.getContent());
             String  poLineId = itemXML.getPurchaseOrderLineItemIdentifier();
-            if (poLineId != null) {
+            if (poLineId != null && !poLineId.isEmpty()) {
                 Map copyMap = new HashMap();
                 copyMap.put(org.kuali.ole.OLEConstants.DOC_NUM, singleItem.getDocumentNumber());
                 OlePurchaseOrderDocument po = getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class, copyMap);
-                KualiInteger itemPoId = new KualiInteger(itemXML.getPurchaseOrderLineItemIdentifier());
+               KualiInteger itemPoId = new KualiInteger(poLineId);
                 KualiInteger poID = new KualiInteger(po.getPurapDocumentIdentifier());
                 if (itemPoId.equals(poID)) {
                     for (OleCopy oleCopy : copyList) {
