@@ -39,11 +39,12 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 ",POITM.OLE_REQ_RCPT_STATUS_ID AS OLE_REQ_RCPT_STATUS_ID,POITM.OLE_FOR_UNT_CST AS OLE_FOR_UNT_CST" +
                 ",(SELECT OLE_REQ_RCPT_STATUS_CD FROM OLE_PUR_REQ_RCPT_STATUS_T WHERE OLE_REQ_RCPT_STATUS_ID=POITM.OLE_REQ_RCPT_STATUS_ID AND OLE_REQ_RCPT_STATUS_DOC_TYP='PO')AS REPSTATCD " +
                 ",POITM.OLE_NO_COPIES_RCVD AS OLE_NO_COPIES_RCVD,POITM.OLE_NO_PARTS_RCVD AS OLE_NO_PARTS_RCVD" +
-                ",(SELECT TITLE FROM  OLE_E_RES_REC_T WHERE E_RES_REC_ID=COPY.E_RES_REC_ID)AS TITLE " +
-                ",COPY.SER_RCV_ID AS RECEIVINGID, POTYP.OLE_PO_TYPE AS POTYPE "+
-                "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM" +
-                ",(SELECT DISTINCT PO_ITM_ID,E_RES_REC_ID,SER_RCV_ID FROM OLE_COPY_T) COPY " +
-                "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR AND COPY.PO_ITM_ID=POITM.PO_ITM_ID " +
+               /* ",(SELECT TITLE FROM  OLE_E_RES_REC_T WHERE E_RES_REC_ID=COPY.E_RES_REC_ID)AS TITLE " +*/
+                ", POTYP.OLE_PO_TYPE AS POTYPE " +
+                /*",COPY.SER_RCV_ID AS RECEIVINGID, POTYP.OLE_PO_TYPE AS POTYPE "+*/
+                "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM " +
+                /*",(SELECT DISTINCT PO_ITM_ID,E_RES_REC_ID,SER_RCV_ID FROM OLE_COPY_T) COPY " +*/
+                "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR " + /* AND COPY.PO_ITM_ID=POITM.PO_ITM_ID " +*/
                 "AND PO.FDOC_NBR NOT IN (SELECT NOTE.FDOC_NBR FROM OLE_PUR_PO_ITM_NTE_T NOTE,OLE_NTE_TYP_T NOTETYPE WHERE NOTETYPE.OLE_NTE_TYP_ID=NOTE.OLE_NTE_TYP_ID " +
                 "AND NOTETYPE.OLE_NTE_TYPE='Special Processing Instruction Note') " +
                 "AND PO.PO_ID NOT IN (SELECT PO_ID FROM PUR_RCVNG_LN_T RCV,KREW_DOC_HDR_T RDHR WHERE RCV.PO_ID=PO.PO_ID AND RCV.FDOC_NBR=RDHR.DOC_HDR_ID AND RDHR.DOC_HDR_STAT_CD NOT IN ('E','X','F')) " +
@@ -54,6 +55,45 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 getQueryCriteriaString(criteria,"purchaseOrderNumber")+
                 getQueryCriteriaString(criteria,"purchaseOrderStatus")+
                 getQueryCriteriaString(criteria,"vendorName")+
+                getQueryCriteriaString(criteria,"purchaseOrderType")+
+                getQueryCriteriaString(criteria,"poCreateFromDate")+
+                getQueryCriteriaString(criteria,"poCreateToDate")+
+                getQueryCriteriaString(criteria,"claimFilter")+
+                getQueryCriteriaString(criteria,"title")+
+                getResultSetLimit();
+        if (LOG.isInfoEnabled()) {
+            LOG.info("receiving claiming query ----->"+query);
+        }
+        return getSimpleJdbcTemplate().queryForList(query);
+    }
+
+    @Override
+    public List<Map<String, Object>> getVendorPODetails(Map<String,Object> criteria) {
+        String query = "SELECT PO.FDOC_NBR AS FDOC_NBR,PO.PO_ID AS PO_ID,PO.VNDR_NM AS VNDR_NM ,DHR.DOC_HDR_STAT_CD AS DOC_HDR_STAT_CD,POITM.OLE_DOCUMENT_UUID as BIBID " +
+                ",PO.PO_CRTE_DT AS PO_CRTE_DT,POITM.PO_ITM_ID AS PO_ITM_ID,POITM.ITM_UNIT_PRC AS ITM_UNIT_PRC,POITM.ITM_ORD_QTY AS ITM_ORD_QTY,POITM.OLE_DNT_CLM AS OLE_DNT_CLM" +
+                ",POITM.ITM_DESC AS ITM_DESC,POITM.OLE_NUM_PRTS AS OLE_NUM_PRTS,POITM.OLE_CLM_DT AS OLE_CLM_DT " +
+                ",POITM.OLE_REQ_RCPT_STATUS_ID AS OLE_REQ_RCPT_STATUS_ID,POITM.OLE_FOR_UNT_CST AS OLE_FOR_UNT_CST" +
+                ",(SELECT OLE_REQ_RCPT_STATUS_CD FROM OLE_PUR_REQ_RCPT_STATUS_T WHERE OLE_REQ_RCPT_STATUS_ID=POITM.OLE_REQ_RCPT_STATUS_ID AND OLE_REQ_RCPT_STATUS_DOC_TYP='PO')AS REPSTATCD " +
+                ",POITM.OLE_NO_COPIES_RCVD AS OLE_NO_COPIES_RCVD,POITM.OLE_NO_PARTS_RCVD AS OLE_NO_PARTS_RCVD" +
+               /* ",(SELECT TITLE FROM  OLE_E_RES_REC_T WHERE E_RES_REC_ID=COPY.E_RES_REC_ID)AS TITLE " +*/
+                ", POTYP.OLE_PO_TYPE AS POTYPE " +
+                /*",COPY.SER_RCV_ID AS RECEIVINGID, POTYP.OLE_PO_TYPE AS POTYPE "+*/
+                "FROM PUR_PO_T PO, KREW_DOC_HDR_T DHR,OLE_PUR_PO_TYP_T POTYP,PUR_PO_ITM_T POITM, PUR_VNDR_DTL_T VNDR " +
+                /*",(SELECT DISTINCT PO_ITM_ID,E_RES_REC_ID,SER_RCV_ID FROM OLE_COPY_T) COPY " +*/
+                "WHERE  PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR " +
+                 getQueryCriteriaString(criteria,"vendorName") +
+                " AND PO.VNDR_HDR_GNRTD_ID= VNDR.VNDR_HDR_GNRTD_ID " +
+                " AND PO.VNDR_DTL_ASND_ID=VNDR.VNDR_DTL_ASND_ID " +
+                "" + /* AND COPY.PO_ITM_ID=POITM.PO_ITM_ID " +*/
+                "AND PO.FDOC_NBR NOT IN (SELECT NOTE.FDOC_NBR FROM OLE_PUR_PO_ITM_NTE_T NOTE,OLE_NTE_TYP_T NOTETYPE WHERE NOTETYPE.OLE_NTE_TYP_ID=NOTE.OLE_NTE_TYP_ID " +
+                "AND NOTETYPE.OLE_NTE_TYPE='Special Processing Instruction Note') " +
+                "AND PO.PO_ID NOT IN (SELECT PO_ID FROM PUR_RCVNG_LN_T RCV,KREW_DOC_HDR_T RDHR WHERE RCV.PO_ID=PO.PO_ID AND RCV.FDOC_NBR=RDHR.DOC_HDR_ID AND RDHR.DOC_HDR_STAT_CD NOT IN ('E','X','F')) " +
+                "AND POITM.ITM_TYP_CD='ITEM' " +
+                "AND PO.PO_CUR_IND='Y' " +
+                "AND POITM.ITM_ACTV_IND='Y' " +
+                getQueryCriteriaString(criteria,"bibIds")+
+                getQueryCriteriaString(criteria,"purchaseOrderNumber")+
+                getQueryCriteriaString(criteria,"purchaseOrderStatus")+
                 getQueryCriteriaString(criteria,"purchaseOrderType")+
                 getQueryCriteriaString(criteria,"poCreateFromDate")+
                 getQueryCriteriaString(criteria,"poCreateToDate")+
@@ -94,9 +134,9 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
         if(criteriaString.equals("claimFilter")&&criteria.get("claimFilter")!=null&&(boolean)criteria.get("claimFilter")){
             queryCriteriaString="AND POITM.OLE_CLM_DT <=(DATE '"+getFormattedCurrentDate()+"') AND POITM.OLE_DNT_CLM='N' ";
         }
-        if(criteriaString.equals("title")&&criteria.get("title")!=null){
+       /* if(criteriaString.equals("title")&&criteria.get("title")!=null){
             queryCriteriaString=" AND COPY.E_RES_REC_ID IN (SELECT E_RES_REC_ID FROM OLE_E_RES_REC_T WHERE TITLE='"+criteria.get("title").toString()+"' ) ";
-        }
+        }*/
         return queryCriteriaString;
     }
 
@@ -116,6 +156,18 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
         StopWatch executeQueryTimeWatch = new StopWatch();
         executeQueryTimeWatch.start();
         resultSets=getPODetails(criteria);
+        executeQueryTimeWatch.stop();
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList= new ArrayList<>();
+        olePurchaseOrderDocumentList=buildPODocumentWithPOItem(resultSets);
+        return olePurchaseOrderDocumentList;
+    }
+
+    @Override
+    public List<OlePurchaseOrderDocument> getPOVendorDocumentList(Map<String, Object> criteria) {
+        List<Map<String, Object>> resultSets=null;
+        StopWatch executeQueryTimeWatch = new StopWatch();
+        executeQueryTimeWatch.start();
+        resultSets=getVendorPODetails(criteria);
         executeQueryTimeWatch.stop();
         List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList= new ArrayList<>();
         olePurchaseOrderDocumentList=buildPODocumentWithPOItem(resultSets);
