@@ -12,10 +12,6 @@ public interface ReceivingQueueDAOService {
 
     public List<Map<String, Object>> getPODetails(Map<String, Object> criteria);
 
-    public List<Map<String, Object>> getVendorPODetails(Map<String, Object> criteria);
-
     public List<OlePurchaseOrderDocument> getPODocumentList(Map<String, Object> criteria);
-
-    public List<OlePurchaseOrderDocument> getPOVendorDocumentList(Map<String, Object> criteria);
 
 }
