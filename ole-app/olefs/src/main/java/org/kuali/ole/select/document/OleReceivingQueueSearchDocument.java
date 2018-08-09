@@ -777,7 +777,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
     }
 
     public void receiveingQueueRecordSearchs() {
-        queryCriteriaMap = new HashMap<>();
+        //  queryCriteriaMap = new HashMap<>();
         StopWatch searchRecordWatch=new StopWatch();
         searchRecordWatch.start();
         Set<String> bibIds = new HashSet<String>();
@@ -789,9 +789,9 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
                 bibIds.add(docData.getBibIdentifier());
                 docDataMap.put(docData.getBibIdentifier(),docData);
             }
-            if(docDatas.size()==0){//If no title in docstore then title criteria is used to look for the title from eResource record, some item title of REQ and PO are set with eResource title
+            /* if(docDatas.size()==0){//If no title in docstore then title criteria is used to look for the title from eResource record, some item title of REQ and PO are set with eResource title
                 queryCriteriaMap.put("title", title);
-            }
+            }*/
             if(docDataMap.size()>0 || (docDataMap.size()==0 &&(this.standardNumber==null&&this.title==null))){
                 purchaseOrderItemList=getSearchResultsFromQuery(null, bibIds);
                 for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItemList){
@@ -983,10 +983,16 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             e.printStackTrace();
         }
         String watchName = "searchPO";
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = new ArrayList<OlePurchaseOrderDocument>();
         StopWatch watch = new StopWatch();
         watch.start();
         ReceivingQueueDAOService receivingQueueDAOService = SpringContext.getBean(ReceivingQueueDAOService.class);
-        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = receivingQueueDAOService.getPODocumentList(queryCriteriaMap);
+        if(vendorName != null && !vendorName.isEmpty()) {
+            olePurchaseOrderDocumentList = receivingQueueDAOService.getPOVendorDocumentList(queryCriteriaMap);
+        }
+        else {
+            olePurchaseOrderDocumentList = receivingQueueDAOService.getPODocumentList(queryCriteriaMap);
+        }
         watch.stop();
         StopWatch forPOWatch = new StopWatch();
         forPOWatch.start();
