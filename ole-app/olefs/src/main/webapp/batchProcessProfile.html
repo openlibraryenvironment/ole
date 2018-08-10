@@ -40,6 +40,8 @@
         <div ng-include="'batchFramework/views/batchMainSection.html'"></div>
         <div ng-include="'batchFramework/views/batchMatchPoints.html'"
              ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Delete'"></div>
+        <div ng-include="'batchFramework/views/batchDeliverNotices.html'"
+             ng-show="mainSectionPanel.batchProcessType == 'Deliver Notice'"></div>
         <div ng-include="'batchFramework/views/batchMatchAddOverlay.html'"
              ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import'"></div>
         <div ng-include="'batchFramework/views/batchFieldOperations.html'"

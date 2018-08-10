@@ -63,6 +63,7 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
     private List<BatchProfileDataMapping> batchProfileDataMappingList = new ArrayList<>();
     private List<BatchProfileDataTransformer> batchProfileDataTransformerList = new ArrayList<>();
     private List<BatchProfileLocalDataMapping> batchProfileLocalDataMappings = new ArrayList<>();
+    private List<BatchDeliverNotices> batchDeliverNotices =new ArrayList<>();
 
     public long getBatchProcessProfileId() {
         return batchProcessProfileId;
@@ -134,6 +135,14 @@ public class BatchProcessProfile extends PersistableBusinessObjectBase{
 
     public void setBatchProfileDataTransformerList(List<BatchProfileDataTransformer> batchProfileDataTransformerList) {
         this.batchProfileDataTransformerList = batchProfileDataTransformerList;
+    }
+
+    public List<BatchDeliverNotices> getBatchDeliverNotices() {
+        return batchDeliverNotices;
+    }
+
+    public void setBatchDeliverNotices(List<BatchDeliverNotices> batchDeliverNotices) {
+        this.batchDeliverNotices = batchDeliverNotices;
     }
 
     public String getDescription() {

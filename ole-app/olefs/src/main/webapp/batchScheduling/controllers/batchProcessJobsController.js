@@ -213,7 +213,10 @@ batchProcessJobsApp.controller('batchProcessJobsController', ['$scope', '$http',
         document.getElementById('modalContentId').style.width = '550px';
         if (batchProcessJob.profileType == 'Batch Export') {
             document.getElementById('modalContentId').style.height = '280px';
-        } else {
+        } else if(batchProcessJob.profileType == 'Deliver Notice') {
+            document.getElementById('modalContentId').style.height = '100px';
+        }
+        else {
             document.getElementById('modalContentId').style.height = '190px';
         }
         $scope.jobId = batchProcessJob.jobId;

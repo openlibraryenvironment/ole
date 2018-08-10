@@ -52,6 +52,9 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
     @Autowired
     private BatchExportFileProcessor batchExportFileProcessor;
 
+    @Autowired
+    private  DeliverNoticeFileProcessor deliverNoticeFileProcessor;
+
 
     @Autowired
     private DescribeDAO describeDAO;
@@ -171,6 +174,8 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
             job.getJobDataMap().put(OleNGConstants.PROCESSOR, batchDeleteFileProcessor);
         } else if(OleNGConstants.BATCH_EXPORT.equalsIgnoreCase(jobType)) {
             job.getJobDataMap().put(OleNGConstants.PROCESSOR, batchExportFileProcessor);
+        } else if("Deliver Notice".equalsIgnoreCase(jobType)){
+            job.getJobDataMap().put(OleNGConstants.PROCESSOR, deliverNoticeFileProcessor);
         }
         return job;
     }

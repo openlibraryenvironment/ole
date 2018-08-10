@@ -107,4 +107,8 @@ public class BatchProfileServiceImpl implements BatchProfileService {
     public List<OLEBatchProcessFilterCriteriaBo> getAllBatchProcessFilterCriterias() {
         return describeDAO.fetchAllBatchProcessFilterCriterias();
     }
+
+    public Map<String,String> getDeliverNoticeNames(){
+        return describeDAO.getDeliverNoticeNames();
+    }
 }

@@ -1,0 +1,49 @@
+<div class="panel-group" ng-model="batchDeliverNoticeReportActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="batchDeliverNoticeReportPanel.collapsed = !batchDeliverNoticeReportPanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': batchDeliverNoticeReportPanel.collapsed, 'glyphicon-chevron-down': !batchDeliverNoticeReportPanel.collapsed}"></span>
+                    <span ng-bind="batchDeliverNoticeReportPanel.noticeType"></span> Report Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div>
+                        <div class="form-group">
+                            <table class="table table-bordered row-border hover">
+                                <thead>
+                                <tr>
+                                    <th>Job Detail Id</th>
+                                    <th>Job Name</th>
+                                    <th>Profile Name</th>
+                                    <th>Notice Type</th>
+                                    <th>Total Notices Count</th>
+                                    <th>Successful Notices Count</th>
+                                    <th>Failed Notices Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.jobDetailId"></span></td>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.jobName"></span></td>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.profileName"></span></td>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.noticeType"></span></td>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.totalNoticeCount"></span></td>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.successNoticeCount"></span></td>
+                                    <td><span ng-bind="batchDeliverNoticeReportPanel.failedNoticeCount"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

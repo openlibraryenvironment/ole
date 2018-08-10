@@ -14,6 +14,7 @@ import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SheikS on 12/17/2015.
@@ -38,5 +39,6 @@ public interface DescribeDAO {
     public List<BatchProcessProfile> fetchProfileByNameAndType(String profileName, String type);
     public <T extends PersistableBusinessObject> T save(T bo);
     public List<OLEBatchProcessFilterCriteriaBo> fetchAllBatchProcessFilterCriterias();
+    public Map<String,String> getDeliverNoticeNames();
 
 }

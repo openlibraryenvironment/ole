@@ -23,6 +23,21 @@ isValidMatchPointRow = function(matchPointRow, index, $scope) {
     return isValid;
 };
 
+isValidDeliverRow = function(deliverNoticeRow, index, $scope) {
+    var isValid = true;
+    return isValid;
+};
+
+isValidDeliverRow = function(deliverNoticeRow, index, $scope) {
+    var isValid = true;
+    if(isFieldEmpty(deliverNoticeRow.deliverNoticeName)){
+        $scope.batchProfileForm['deliverNoticeType_' + index].$dirty = true;
+        $scope.batchProfileForm['deliverNoticeType_' + index].$invalid = true;
+        isValid = false;
+    }
+    return isValid;
+};
+
 isValidDataMappingRow = function(dataMappingRow, index, $scope) {
     var isValid = true;
     if (dataMappingRow.dataMappingDocType == 'Bib Marc') {
@@ -179,6 +194,13 @@ makeMatchPointValid = function ($scope) {
     $scope.batchProfileForm['matchPointSubField_0'].$invalid = false;
 };
 
+makeDeliverNoticeValid = function ($scope) {
+    $scope.batchProfileForm['deliverNoticeType_0'].$dirty = false;
+    $scope.batchProfileForm['deliverNoticeType_0'].$invalid = false;
+    $scope.batchProfileForm['deliverNoticeType_0'].$isMultiple = false;
+};
+
+
 makeFieldOperationValid = function ($scope) {
     $scope.batchProfileForm['fieldOperationDataField_0'].$dirty = false;
     $scope.batchProfileForm['fieldOperationSubField_0'].$dirty = false;
@@ -210,6 +232,7 @@ makeDataTransformationValid = function ($scope) {
 
 clearAllValidations = function ($scope) {
     makeMatchPointValid($scope);
+    makeDeliverNoticeValid($scope)
     makeFieldOperationValid($scope);
     makeDataMappingValid($scope);
     makeDataTransformationValid($scope);

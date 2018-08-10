@@ -9,6 +9,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
     $scope.addOrOverlayActivePanel = [];
     $scope.fieldOperationsActivePanel = [];
     $scope.dataMappingsActivePanel = [];
+    $scope.deliverNoticeActivePanel = [];
     $scope.localDataMappingsActivePanel = [];
     $scope.dataTransformationsActivePanel = [];
     $scope.filterCriteriaActivePanel = [];
@@ -49,6 +50,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataMappingsPanel[0].priority = 1;
             $scope.dataMappingsPanel[0].dataMappingFields = null;
             $scope.constantValues = null;
+            $scope.rowToEdit = null;
         } else if (mainSectionPanel.batchProcessType == 'Order Record Import') {
             $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
             getBibImportProfileNames($scope, $http);
@@ -62,6 +64,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.mainSectionPanel.requisitionForTitlesOption = 'One Requisition Per Title';
             $scope.mainSectionPanel.orderType = "Holdings and Item";
             $scope.mainSectionPanel.matchPointToUse = "Order Import";
+            $scope.rowToEdit = null;
             clearProfileValues();
         } else if (mainSectionPanel.batchProcessType == 'Invoice Import') {
             $scope.mainSectionPanel.bibImportProfileForOrderImport = null;
@@ -71,6 +74,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataMappingsPanel = [dataMapping];
             $scope.matchPointsPanel[0].matchPointTypes = invoiceFieldObject.matchPoint;
             $scope.dataMappingsPanel[0].dataMappingFields = invoiceFieldObject.dataMapping;
+            $scope.rowToEdit = null;
             clearProfileValues();
         } else if (mainSectionPanel.batchProcessType == 'Batch Export') {
             $scope.dataMappingsPanel = [dataMappingBatchExport];
@@ -89,15 +93,24 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             $scope.dataMappingsPanel[0].priority = 1;
             $scope.dataMappingsPanel[0].dataMappingFields = null;
             $scope.mainSectionPanel.exportScope = "Full";
+            $scope.rowToEdit = null;
         } else if (mainSectionPanel.batchProcessType == 'Batch Delete') {
             $scope.matchPointsPanel = [matchPoint];
             $scope.matchPointsPanel[0].matchPointDocType = 'Bibliographic';
+            $scope.rowToEdit = null;
+        } else if (mainSectionPanel.batchProcessType == 'Deliver Notice') {
+            getDeliverNoticeNames($scope,$http);
+            $scope.deliverNoticeActivePanel = [];
+            $scope.deliverNoticePanel = [deliverNotice];
+            $scope.rowToEdit = null;
+            clearProfileValues();
         }
     };
 
     function clearProfileValues() {
         makeMatchPointValid($scope);
         makeDataMappingValid($scope);
+        makeDeliverNoticeValid($scope);
         $scope.fieldOperationsPanel = [];
         $scope.dataTransformationsPanel = [];
         $scope.matchPointsActivePanel = [];
@@ -120,6 +133,21 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.matchPointsPanel.collapsed = false;
         $scope.addOrOverlayPanel.collapsed = false;
         $scope.constantValues = null;
+    }
+
+    $scope.deliverNoticeAdd = function () {
+        $scope.deliverNoticeIndex = 0;
+        var deliverNoticeRow = getDeliverNoticeRowByIndex(0);
+        if(!isValidDeliverRow(deliverNoticeRow,0,$scope)){
+            return;
+        }
+
+        if($scope.deliverNoticePanel.length > 1){
+            $scope.batchProfileForm['deliverNoticeType_' + 0].$isMultiple = true;
+        } else{
+            $scope.deliverNoticePanel.push(deliverNoticeRow);
+            $scope.deliverNoticePanel[0].deliverNoticeName = null;
+        }
     }
 
     $scope.matchPointAdd = function () {
@@ -169,6 +197,15 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         }
     };
 
+    $scope.deliverNoticeEditRow = function(index) {
+        if($scope.rowToEdit == null || $scope.rowToEdit == undefined){
+            $scope.rowToEdit = getDeliverNoticeRowByIndex(index);
+            $scope.deliverNoticePanel[index].isAddLine = false;
+            $scope.deliverNoticePanel[index].isEdit = true;
+            $scope.deliverNoticePanel[index].deliverNoticeName = $scope.deliverNoticePanel[index].deliverNoticeName;
+        }
+    };
+
     function getMatchPointType(type) {
         if (type == 'Holdings') {
             return matchPointObject.matchPointTypeForHoldings;
@@ -196,6 +233,17 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         removeOptions('Match Points', index);
     };
 
+
+    $scope.deliverNoticeUpdateRow = function(index) {
+        $scope.deliverNoticeIndex = index;
+        var updatedRow = getDeliverNoticeRowByIndex(index);
+        if (!isValidDeliverRow(updatedRow, index, $scope)) {
+            return;
+        }
+        $scope.deliverNoticePanel[index] = updatedRow;
+        $scope.rowToEdit = null;
+    };
+
     $scope.matchPointCancelUpdate = function(index) {
         $scope.matchPointsPanel[index].isEdit = false;
         $scope.matchPointsPanel[index] = $scope.rowToEdit;
@@ -203,9 +251,21 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         $scope.rowToEdit = null;
     };
 
+    $scope.deliverNoticeCancelUpdate = function(index) {
+        $scope.deliverNoticePanel[index].isEdit = false;
+        $scope.deliverNoticePanel[index] = $scope.rowToEdit;
+        $scope.deliverNoticePanel[index].isAddLine = true;
+        $scope.rowToEdit = null;
+    };
+
     $scope.matchPointRemove = function (matchPoint) {
         var index = $scope.matchPointsPanel.indexOf(matchPoint);
         $scope.matchPointsPanel.splice(index, 1);
+    };
+
+    $scope.deliverNoticeRemove = function (deliverNotice) {
+        var index = $scope.deliverNoticePanel.indexOf(deliverNotice);
+        $scope.deliverNoticePanel.splice(index, 1);
     };
 
     $scope.addOrOverlayAdd = function () {
@@ -512,6 +572,16 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
         return matchPointNewRow;
     }
 
+
+    function getDeliverNoticeRowByIndex(index) {
+        var deliverNoticeNewRow = {
+            deliverNoticeName: $scope.deliverNoticePanel[index].deliverNoticeName,
+            isAddLine: true,
+            isEdit: false
+        };
+        return deliverNoticeNewRow;
+    }
+
     function getAddOrOverlayRowByIndex(index) {
         var addOrOverlayNewRow = {
             matchOption: $scope.addOrOverlayPanel[index].matchOption,
@@ -816,7 +886,8 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
             "batchProfileFieldOperationList": $scope.fieldOperationsPanel,
             "batchProfileDataMappingList": $scope.dataMappingsPanel,
             "batchProfileDataTransformerList": $scope.dataTransformationsPanel,
-            "batchProfileLocalDataMappings": $scope.localDataMappingsPanel
+            "batchProfileLocalDataMappings": $scope.localDataMappingsPanel,
+            "batchDeliverNotices" : $scope.deliverNoticePanel
         };
         doPostRequest($scope, $http, OLENG_CONSTANTS.PROFILE_SUBMIT, profile, function (response) {
                 var data = response.data;
@@ -858,6 +929,7 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                     $scope.fieldOperationsPanel = data.batchProfileFieldOperationList;
                     $scope.dataMappingsPanel = data.batchProfileDataMappingList;
                     $scope.dataTransformationsPanel = data.batchProfileDataTransformerList;
+                    $scope.deliverNoticePanel = data.batchDeliverNotices;
                     console.log(data.batchProfileLocalDataMappings);
                     if(null !== data.batchProfileLocalDataMappings && undefined !== data.batchProfileLocalDataMappings) {
                         $scope.localDataMappingsPanel = data.batchProfileLocalDataMappings;
@@ -872,6 +944,9 @@ batchProfileApp.controller('batchProfileController', ['$scope', '$http', functio
                         $scope.dataMappingsActivePanel = [];
                         $scope.dataMappingsPanel.collapsed = false;
                         getBibImportProfileNames($scope, $http);
+                    }else if(data.batchProcessType = 'Deliver Notice'){
+                        getDeliverNoticeNames($scope,$http);
+                        $scope.deliverNoticePanel[0].deliverNoticeName = '';
                     }
                 });
         }
