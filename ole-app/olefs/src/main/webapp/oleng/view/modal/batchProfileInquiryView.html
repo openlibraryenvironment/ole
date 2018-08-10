@@ -25,6 +25,8 @@
          ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Order Record Import' || mainSectionPanel.batchProcessType == 'Invoice Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
     <div ng-include="'../../batchFramework/views/batchDataTransformations.html'"
          ng-show="mainSectionPanel.batchProcessType == 'Bib Import' || mainSectionPanel.batchProcessType == 'Batch Export'"></div>
+    <div ng-include="'../../batchFramework/views/batchDeliverNotices.html'"
+         ng-show="mainSectionPanel.batchProcessType == 'Deliver Notice'"></div>
 </div>
 </body>
 </html>

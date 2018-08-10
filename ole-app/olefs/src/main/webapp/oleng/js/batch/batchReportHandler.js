@@ -159,6 +159,12 @@ function populateBatchExportReportFromContent(fileContent, $scope) {
     $scope.batchExportReportFailureSectionPanel = getExportFailureSectionContent(fileContent);
 }
 
+function populateBatchNoticeReportFromContent(fileContent, $scope) {
+    var batchNoticeReport = getBatchNoticeReportContent(fileContent);
+    $scope.batchDeliverNoticeReportPanel = batchNoticeReport;
+    console.log($scope.batchDeliverNoticeReportPanel);
+}
+
 function getMainSectionContent(fileContent) {
     var mainSectionContent = {
         "bibImportProfileName": fileContent["bibImportProfileName"],
@@ -201,6 +207,19 @@ function getMainSectionContentForBatchExport(fileContent) {
         "totalRecordsCount": fileContent["totalRecordsCount"]
     };
     return mainSectionContent;
+}
+
+function getBatchNoticeReportContent(fileContent) {
+    var batchNoticereport = {
+        "jobDetailId": fileContent["jobDetailId"],
+        "jobName": fileContent["jobName"],
+        "profileName":fileContent["profileName"],
+        "noticeType": fileContent["noticeType"],
+        "totalNoticeCount" : fileContent["totalNoticeCount"],
+        "successNoticeCount": fileContent["successNoticeCount"],
+        "failedNoticeCount": fileContent["failedNoticeCount"]
+    };
+    return batchNoticereport;
 }
 
 function getMainSectionContentForOrderAndInvoiceImport(fileContent) {

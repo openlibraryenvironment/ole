@@ -49,7 +49,7 @@ public class BatchSchedulerJob extends BusinessObjectServiceHelperUtil implement
                 File schedulerFileUploadLocation = new File(schedulerUploadLocation, String.valueOf(jobId));
                 File file = getFileName(schedulerFileUploadLocation);
                 String profileType = batchProcessJobById.getProfileType();
-                if (null != file || StringUtils.equals(profileType, OleNGConstants.BATCH_EXPORT)) {
+                if (null != file || StringUtils.equals(profileType, OleNGConstants.BATCH_EXPORT) || StringUtils.equals(profileType, "Deliver Notice")) {
                     File uploadedFileDirecotry = storeUploadedFileToFileSystem(file, jobId);
                     if(null != uploadedFileDirecotry) {
                         String fileName = "";

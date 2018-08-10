@@ -58,6 +58,9 @@ public class BatchRestController extends OleNgControllerBase {
 
     @Autowired
     private BatchDeleteFileProcessor batchDeleteFileProcessor;
+
+    @Autowired
+    private DeliverNoticeFileProcessor deliverNoticeFileProcessor;
     
     @Autowired
     private OleNGBatchJobScheduler oleNGBatchJobScheduler;
@@ -626,6 +629,8 @@ public class BatchRestController extends OleNgControllerBase {
             return batchDeleteFileProcessor;
         } else if(batchType.equalsIgnoreCase("Batch Export")) {
             return batchExportFileProcessor;
+        } else if(batchType.equalsIgnoreCase("Deliver Notice")) {
+            return deliverNoticeFileProcessor ;
         }
         return null;
     }

@@ -32,6 +32,9 @@
         <div ng-include="'batchReport/views/batchExportReportSuccessSection.html'"></div>
         <div ng-include="'batchReport/views/batchExportReportFailureSection.html'"></div>
     </div>
+    <div ng-show = "batchReportViewer.fileName.indexOf('BatchNotice') != -1">
+        <div ng-include="'batchReport/views/BatchDeliverNoticeReportSection.html'"></div>
+    </div>
     <div ng-show="batchReportViewer.fileName.indexOf('BatchExport') != -1 && batchReportViewer.fileName.indexOf('_DeletedBibIds') != -1">
         <textarea type="text" class="form-control" style="height: 350px" id="BatchExportReportContent" ng-model="batchReportViewer.reportContent" readonly></textarea>
     </div>

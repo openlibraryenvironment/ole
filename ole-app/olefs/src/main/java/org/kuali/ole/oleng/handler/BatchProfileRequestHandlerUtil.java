@@ -190,6 +190,22 @@ public class BatchProfileRequestHandlerUtil extends BatchUtil {
         return jsonArray.toString();
     }
 
+    public String prepareDeliverNoticeNames(String batchType){
+        Map<String,String> deliverNoticeMap = batchProfileService.getDeliverNoticeNames();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for(Map.Entry<String,String> deliverEntry : deliverNoticeMap.entrySet()) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", deliverEntry.getKey());
+                jsonObject.put("name", deliverEntry.getValue());
+                jsonArray.put(jsonObject);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray.toString();
+    }
+
     public String prepareGloballyProtectedField(){
         List<OleGloballyProtectedField> globallyProtectedFields = batchProfileService.getAllProtectedFields();
         JSONArray jsonArray = new JSONArray();

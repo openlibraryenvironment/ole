@@ -10,6 +10,7 @@ var OLENG_CONSTANTS = {
     PROFILE_GET_DONOR_CODES : "rest/describe/getDonorCodes",
     PROFILE_GET_LOCATIONS : "rest/describe/getLocations",
     PROFILE_GET_NAMES : "rest/describe/getProfileNames",
+    DELIVER_NOTICE_NAMES : "rest/describe/getDeliverNoticeNames",
     PROFILE_GET_GLOBALLY_PROTECTED_FIELDS : "rest/describe/getGloballyProtectedFields",
     PROFILE_GET_ORDER_FIELD_VALUES : "rest/describe/getOrderImportFieldValues",
     PROFILE_GET_DROP_DOWN_VALUES : "rest/describe/getValuesForDropDown",
@@ -50,7 +51,8 @@ var BATCH_CONSTANTS = {
         {id: 'invoiceImport', value: 'Invoice Import'},
         {id: 'bibImport', value: 'Bib Import'},
         {id: 'batchExport' , value: 'Batch Export'},
-        {id: 'batchDelete', value: 'Batch Delete'}
+        {id: 'batchDelete', value: 'Batch Delete'},
+        {id: 'deliverNotice', value: 'Deliver Notice'}
     ],
     OUTPUT_FORMATS : [
         {id: 'marc', name: 'Marc'},

@@ -53,6 +53,12 @@ public class BatchProfileUtilController extends OleNgControllerBase {
         return batchProfileRequestHandler.prepareItemStatus();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getDeliverNoticeNames", produces = {MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String getDeliverNoticeNames(@RequestParam("batchType") String batchType) {
+        return batchProfileRequestHandler.prepareDeliverNoticeNames(batchType);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/getProfileNames", produces = {MediaType.APPLICATION_JSON})
     @ResponseBody
     public String getProfileNames(@RequestParam("batchType") String batchType) {

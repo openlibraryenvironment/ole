@@ -1,8 +1,11 @@
 package org.kuali.ole.oleng.dao.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation;
@@ -20,6 +23,9 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -122,4 +128,20 @@ public class DescribeDAOImpl extends BusinessObjectServiceHelperUtil implements 
         return (List< OLEBatchProcessFilterCriteriaBo>) getBusinessObjectService().findAll(OLEBatchProcessFilterCriteriaBo.class);
     }
 
+    @Override
+    public Map<String,String> getDeliverNoticeNames(){
+        Map<String,String> deliverNoticeMap = new HashMap<>();
+        Map<String,Object> parameterMap = new HashMap<String,Object>();
+        List<String> noticeNames = new ArrayList<>();
+        String[] deliverNoticeNames = new String[]{OLEConstants.COURTESY_NOTICE,OLEConstants.OVERDUE_NOTICE,OLEConstants.NOTICE_LOST};
+        noticeNames.addAll(Arrays.asList(deliverNoticeNames));
+        parameterMap.put("noticeType",noticeNames);
+        List<OleNoticeContentConfigurationBo> noticeContentConfigurationBos = (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,parameterMap);
+        if(CollectionUtils.isNotEmpty(noticeContentConfigurationBos)){
+            for(OleNoticeContentConfigurationBo noticeContentConfigurationBo : noticeContentConfigurationBos){
+                deliverNoticeMap.put(noticeContentConfigurationBo.getNoticeType(),noticeContentConfigurationBo.getNoticeType());
+            }
+        }
+        return deliverNoticeMap;
+    }
 }

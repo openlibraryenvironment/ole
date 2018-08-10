@@ -32,5 +32,5 @@ public interface BatchProfileService {
     public List<BatchProcessJob> getAllBatchProcessJobs();
     public List<BatchJobDetails> getAllBatchJobs();
     public List<OLEBatchProcessFilterCriteriaBo> getAllBatchProcessFilterCriterias();
-
+    public Map<String,String> getDeliverNoticeNames();
 }

@@ -2054,7 +2054,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
 
-    private Map<String, Map<String, List<OleLoanDocument>>> buildMapofNoticesForEachPatronAndConfigName(List<OleLoanDocument> loanDocuments, String noticeToDate, String noticeType) {
+    public Map<String, Map<String, List<OleLoanDocument>>> buildMapofNoticesForEachPatronAndConfigName(List<OleLoanDocument> loanDocuments, String noticeToDate, String noticeType) {
         Map<String, Map<String, List<OleLoanDocument>>> map = new HashMap<>();
         String patronId;
         String noticeContentConfigurationName;

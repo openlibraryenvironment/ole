@@ -3862,6 +3862,7 @@ public class OLEConstants {
     public static final String SEND_CHECKOUT_RECEIPT_NOTICE = "SEND_CHECKOUT_RECEIPT_NOTICE";
     public static final String NOTICE_CONTENT_CONFIG_NAME = "noticeContentConfigName";
     public static final String FINE_CALC_WHILE_RENEW = "FINE_CALC_WHILE_RENEW";
+    public static final String BATCH_NOTICE_RESPONSE = "BATCH NOTICE RESPONSE";
 
     public static final String BLANKET_APPROVE = "BLANKET_APPROVAL";
     public static final String NOTIFICATION_TYP_CD = "K";

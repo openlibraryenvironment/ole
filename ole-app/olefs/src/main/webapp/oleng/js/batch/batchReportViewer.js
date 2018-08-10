@@ -62,6 +62,8 @@ batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http
                         populateBatchDeleteReportFromContent(fileContent, $scope);
                     } else if (fileName.indexOf('BatchExport') != -1) {
                         populateBatchExportReportFromContent(fileContent, $scope);
+                    } else if (fileName.indexOf('BatchNotice') != -1) {
+                        populateBatchNoticeReportFromContent(fileContent,$scope);
                     }
                 }
 

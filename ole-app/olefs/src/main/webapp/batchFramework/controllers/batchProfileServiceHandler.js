@@ -528,6 +528,16 @@ getBibImportProfileNames = function ($scope, $http) {
     }
 };
 
+
+getDeliverNoticeNames = function ($scope, $http) {
+    if ($scope.deliverNoticeNames == undefined) {
+        doGetRequest($scope, $http, OLENG_CONSTANTS.DELIVER_NOTICE_NAMES, {"batchType": "Deliver Notice"},  function (response) {
+            var data = response.data;
+            $scope.deliverNoticeNames = data;
+        });
+    }
+};
+
 populateOptions = function (dataObject, index, constantValues) {
     var fieldName = removeOptions(dataObject.title, index);
     if(fieldName !== null && fieldName !== undefined) {

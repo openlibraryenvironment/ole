@@ -43,6 +43,7 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
                 $scope.mainSectionPanel.marcOnly = profile.marcOnly;
                 $scope.filterCriteriaPanel = profile.batchProfileFilterCriteriaList;
                 $scope.matchPointsPanel = profile.batchProfileMatchPointList;
+                $scope.deliverNoticePanel = profile.batchDeliverNotices;
                 $scope.addOrOverlayPanel = profile.batchProfileAddOrOverlayList;
                 $scope.fieldOperationsPanel = profile.batchProfileFieldOperationList;
                 $scope.dataMappingsPanel = profile.batchProfileDataMappingList;
@@ -81,6 +82,7 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
         $scope.fieldOperationsActivePanel = [];
         $scope.dataMappingsActivePanel = [];
         $scope.dataTransformationsActivePanel = [];
+        $scope.deliverNoticePanel = [];
         $scope.mainSectionPanel = [];
         $scope.filterCriteriaPanel = [];
         $scope.matchPointsPanel = [];
@@ -94,6 +96,7 @@ batchProfileSearchApp.controller('batchProfileSearchController', ['$scope','sear
         $scope.addOrOverlayPanel.collapsed = false;
         $scope.fieldOperationsPanel.collapsed = false;
         $scope.dataMappingsPanel.collapsed = false;
+        $scope.deliverNoticePanel.collapsed =false;
         $scope.dataTransformationsPanel.collapsed = false;
     }
 

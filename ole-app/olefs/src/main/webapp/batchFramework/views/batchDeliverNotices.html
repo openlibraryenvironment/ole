@@ -1,0 +1,84 @@
+<div class="panel-group" ng-model="deliverNoticeActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#" ng-click="deliverNoticePanel.collapsed = !deliverNoticePanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !deliverNoticePanel.collapsed, 'glyphicon-chevron-down': deliverNoticePanel.collapsed}"></span>
+                    Deliver Notices
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <p style="color:red" ng-show="batchProfileForm['deliverNoticeType_'+deliverNoticeIndex].$dirty && batchProfileForm['deliverNoticeType_'+deliverNoticeIndex].$invalid"><i class="fa fa-circle" style="font-size: 9px"></i> Deliver Notice Type is required</p>
+                <p style="color:red" ng-show="batchProfileForm['deliverNoticeType_'+deliverNoticeIndex].$isMultiple"><i class="fa fa-circle" style="font-size: 9px"></i> Multiple deliver notices can't be added</p>
+                <table class="table table-condensed table-bordered batchTable">
+                    <thead>
+                    <tr>
+                        <th>Deliver Notice Type</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="deliverNotice in deliverNoticePanel">
+                        <td>
+                            <select class="form-control" id="deliverNoticeType_{{$index}}" name="deliverNoticeType_{{$index}}"
+                                    ng-model="deliverNotice.deliverNoticeName" ng-hide="deliverNotice.isAddLine">
+                                <option value=""></option>
+                                <option ng-selected="{{option.name == deliverNotice.deliverNoticeName}}"
+                                        ng-repeat="option in deliverNoticeNames  | orderBy:'name'"
+                                        value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                            <span ng-show="deliverNotice.isAddLine" ng-bind="deliverNotice.deliverNoticeName"></span>
+                        </td>
+                        <td ng-hide="submitted">
+                            <button type="button" id="deliverNoticeAddButton_{{$index}}}"
+                                    name="deliverNoticeAddButton_{{$index}}}"
+                                    ng-click="deliverNoticeAdd()" ng-hide="deliverNotice.isAddLine || deliverNotice.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Add"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            <button id="deliverNoticeEditButton_{{$index}}" name="deliverNoticeEditButton_{{$index}}"
+                                    ng-click="deliverNoticeEditRow($index)" ng-show="deliverNotice.isAddLine && !deliverNotice.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Edit"
+                                    tooltip-placement="top"
+                                    class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                            </button>
+                            <button id="deliverNoticeUpdateButton_{{$index}}" name="deliverNoticeUpdateButton_{{$index}}"
+                                    ng-click="deliverNoticeUpdateRow($index)" ng-show="deliverNotice.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Update"
+                                    tooltip-placement="top"
+                                    class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+                            </button>
+                            <button id="deliverNoticeUpdateCancelButton_{{$index}}" name="deliverNoticeUpdateCancelButton_{{$index}}"
+                                    ng-click="deliverNoticeCancelUpdate($index)" ng-show="deliverNotice.isEdit"
+                                    data-toggle="tooltip"
+                                    tooltip="Cancel"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
+                            </button>
+                            <button type="button" id="deliverNoticeRemoveButton_{{$index}}"
+                                    name="deliverNoticeRemoveButton_{{$index}}"
+                                    ng-click="deliverNoticeRemove(deliverNotice)"
+                                    ng-show="deliverNotice.isAddLine && !deliverNotice.isEdit && !submitted"
+                                    data-toggle="tooltip"
+                                    tooltip="Remove"
+                                    tooltip-placement="top"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
