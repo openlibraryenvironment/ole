@@ -25,6 +25,7 @@ import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.executors.*;
+import org.kuali.ole.deliver.notice.noticeFormatters.CancelRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.service.OleNoticeService;
@@ -723,9 +724,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     public void cancelDocument(OleDeliverRequestBo oleDeliverRequestBo) {
         String operatorId = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
         String mailContent = null;
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = null;
         List<OleNoticeBo> oleNoticeBos = null;
         try {
-            oleNoticeBos = cancelRequestForItem(oleDeliverRequestBo.getItemUuid(), oleDeliverRequestBo.getBorrowerId());
+            Map<String,String> noticeConfigMap = new HashMap<>();
+            noticeConfigMap.put("noticeType",OLEConstants.CANCELLATION_NOTICE);
+
+            List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBos = (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigMap);
+            oleNoticeContentConfigurationBo = (CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBos) ? oleNoticeContentConfigurationBos.get(0) : null);
+
+            oleNoticeBos = cancelRequestForItem(oleDeliverRequestBo.getItemUuid(), oleDeliverRequestBo.getBorrowerId(), oleNoticeContentConfigurationBo);
             ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
             createRequestHistoryRecord(oleDeliverRequestBo.getRequestId(), operatorId, oleDeliverRequestBo.getLoanTransactionRecordNumber(), ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.REQUEST_CANCELLED));
             LOG.debug("Inside cancelDocument");
@@ -743,9 +751,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
             getBusinessObjectService().save(oleDeliverRequestDocumentsList);
             asrHelperService.deleteASRTypeRequest(oleDeliverRequestBo.getRequestId());
-           mailContent =  sendCancelNotice(oleNoticeBos);
+           mailContent =  sendCancelNotice(oleNoticeBos, oleNoticeContentConfigurationBo);
         } catch (Exception e) {
-                       mailContent = sendCancelNotice(oleNoticeBos);
+                       mailContent = sendCancelNotice(oleNoticeBos, oleNoticeContentConfigurationBo);
         }
         if(mailContent!=null){
             List<OleDeliverRequestBo> deliverRequestBos = new ArrayList<OleDeliverRequestBo>();
@@ -764,7 +772,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @return
      * @throws Exception
      */
-    public List<OleNoticeBo> cancelRequestForItem(String itemUuid, String patronId) throws Exception {
+    public List<OleNoticeBo> cancelRequestForItem(String itemUuid, String patronId , OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) throws Exception {
         Map<String, String> requestMap = new HashMap<String, String>();
         requestMap.put(OLEConstants.ITEM_UUID, itemUuid);
         requestMap.put(OLEConstants.OleDeliverRequest.BORROWER_ID, patronId);
@@ -777,13 +785,32 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             EntityTypeContactInfoBo entityTypeContactInfoBo = oleDeliverRequestBo.getOlePatron().getEntity().getEntityTypeContactInfos().get(0);
 
             OleNoticeBo oleNoticeBo = new OleNoticeBo();
-            oleNoticeBo.setNoticeName(OLEConstants.CANCELLATION_NOTICE);
-            oleNoticeBo.setPatronName(oleDeliverRequestBo.getOlePatron().getEntity().getNames().get(0).getFirstName() + " " + oleDeliverRequestBo.getOlePatron().getEntity().getNames().get(0).getLastName());
+            if(oleNoticeContentConfigurationBo != null){
+                oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeName() != null ? oleNoticeContentConfigurationBo.getNoticeName() : "");
+                oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle() != null ? oleNoticeContentConfigurationBo.getNoticeTitle(): "");
+                oleNoticeBo.setNoticeSpecificContent(oleNoticeContentConfigurationBo.getNoticeBody() != null ? oleNoticeContentConfigurationBo.getNoticeBody() : "");
+                oleNoticeBo.setNoticeSpecificFooterContent(oleNoticeContentConfigurationBo.getNoticeFooterBody() != null ? oleNoticeContentConfigurationBo.getNoticeFooterBody() : "");
+            }
+            oleNoticeBo.setPatronName(oleDeliverRequestBo.getOlePatron() != null ? (oleDeliverRequestBo.getOlePatron().getPatronName() != null ? oleDeliverRequestBo.getOlePatron().getPatronName() : "") : "");
             oleNoticeBo.setPatronAddress(getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "");
             oleNoticeBo.setPatronEmailAddress(getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "");
             oleNoticeBo.setPatronPhoneNumber(getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
             oleNoticeBo.setAuthor(itemSearch.getAuthor() != null ? itemSearch.getAuthor() : "");
             oleNoticeBo.setItemCallNumber(itemSearch.getCallNumber() != null ? itemSearch.getCallNumber() : "");
+            oleNoticeBo.setCopyNumber(itemSearch.getCopyNumber() != null ? itemSearch.getCopyNumber() : "");
+            oleNoticeBo.setEnumeration(itemSearch.getEnumeration() != null ? itemSearch.getEnumeration() : "");
+            oleNoticeBo.setChronology(itemSearch.getChronology() != null ? itemSearch.getChronology() : "");
+            oleNoticeBo.setVolumeNumber(itemSearch.getVolumeNumber() != null ? itemSearch.getVolumeNumber() : "");
+
+            String itemTypeDesc = getItemTypeDescByCode(itemSearch.getItemType());
+            oleNoticeBo.setItemTypeDesc(itemTypeDesc != null ? itemTypeDesc : "");
+            OleCirculationDesk olePickUpLocation = oleDeliverRequestBo.getOlePickUpLocation();
+            oleNoticeBo.setCirculationDeskName(olePickUpLocation != null ? olePickUpLocation.getCirculationDeskPublicName() != null ?olePickUpLocation.getCirculationDeskPublicName():""  : "");
+            oleNoticeBo.setCirculationDeskReplyToEmail(olePickUpLocation != null ? olePickUpLocation.getReplyToEmail()!=null ?olePickUpLocation.getReplyToEmail():"" : "");
+            oleNoticeBo.setExpiredOnHoldDate(oleDeliverRequestBo.getHoldExpirationDate());
+            oleNoticeBo.setNewDueDate(oleDeliverRequestBo.getNewDueDate());
+            oleNoticeBo.setOriginalDueDate(oleDeliverRequestBo.getOriginalDueDate());
+
             if (itemSearch.getShelvingLocation() != null && itemSearch.getShelvingLocation().toString().contains("/")) {
                 String[] location = itemSearch.getShelvingLocation().split("/");
                 if (location != null && location.length > 0)
@@ -808,26 +835,30 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      * @param oleNoticeBos
      * @throws Exception
      */
-    public String sendCancelNotice(List<OleNoticeBo> oleNoticeBos) {
+    public String sendCancelNotice(List<OleNoticeBo> oleNoticeBos , OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
         String content = null;
+        String mailSubject = null;
         for (OleNoticeBo oleNoticeBo : oleNoticeBos) {
             try {
-                List list = oleDeliverBatchService.getNoticeForPatron(oleNoticeBos);
-                content = list.toString();
-                content = content.replace('[', ' ');
-                content = content.replace(']', ' ');
+                List<OleNoticeBo> tempNoticeBos = new ArrayList<>();
+                tempNoticeBos.add(oleNoticeBo);
+                RequestEmailContentFormatter cancelRequestEmailFormatter = new CancelRequestEmailContentFormatter();
+                content = cancelRequestEmailFormatter.generateHTML(tempNoticeBos,oleNoticeContentConfigurationBo);
                 if (!content.trim().equals("")) {
+                    if(oleNoticeContentConfigurationBo != null){
+                        mailSubject = oleNoticeContentConfigurationBo.getNoticeSubjectLine();
+                    }
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
                     String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
-                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(mailSubject), new EmailBody(content), true);
                     } else {
                         String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(mailSubject), new EmailBody(content), true);
                     }
                 }
             } catch (Exception e) {
