@@ -108,14 +108,6 @@
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
     </table>
-    <table name="OLE_DS_HIGH_DENSITY_STORAGE_T">
-        <column name="HIGH_DENSITY_STORAGE_ID" primaryKey="true" type="INTEGER"/>
-        <column default="" name="HIGH_DENSITY_ROW" size="30" type="VARCHAR"/>
-        <column default="" name="HIGH_DENSITY_MODULE" size="30" type="VARCHAR"/>
-        <column default="" name="HIGH_DENSITY_SHELF" size="30" type="VARCHAR"/>
-        <column default="" name="HIGH_DENSITY_TRAY" size="30" type="VARCHAR"/>
-        <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
-    </table>
     <table name="OLE_DS_ACCESS_LOCATION_T">
         <column name="ACCESS_LOCATION_ID" primaryKey="true" type="INTEGER"/>
         <column default="" name="HOLDINGS_ID" type="INTEGER"/>
@@ -316,7 +308,6 @@
         <column default="" name="MISSING_PIECES_COUNT" type="INTEGER"/>
         <column default="" name="MISSING_PIECES_NOTE" size="400" type="VARCHAR"/>
         <column default="" name="BARCODE_ARSL" size="200" type="VARCHAR"/>
-        <column default="" name="HIGH_DENSITY_STORAGE_ID" type="INTEGER"/>
         <column default="" name="NUM_OF_RENEW" type="INTEGER"/>
         <column name="CREATED_BY" size="40" type="VARCHAR"/>
         <column default="" name="DATE_CREATED" type="TIMESTAMP"/>
@@ -325,9 +316,6 @@
         <column default="" name="UNIQUE_ID_PREFIX" size="10" type="VARCHAR"/>
         <column name="ORG_DUE_DATE_TIME" type="TIMESTAMP"/>
         <column name="DESC_OF_PIECES" size="400" type="VARCHAR"/>
-        <foreign-key foreignTable="OLE_DS_HIGH_DENSITY_STORAGE_T" name="HIGH_DENSITY_CONSTRAINT">
-            <reference foreign="HIGH_DENSITY_STORAGE_ID" local="HIGH_DENSITY_STORAGE_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="ITEM_HOLDINGS_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
@@ -457,7 +445,6 @@
     <sequence name="OLE_DS_EXT_OWNERSHIP_NOTE_S" nextval="1"/>
     <sequence name="OLE_DS_EXT_OWNERSHIP_S" nextval="1"/>
     <sequence name="OLE_DS_ITM_FORMER_IDENTIFIER_S" nextval="1"/>
-    <sequence name="OLE_DS_HIGH_DENSITY_STORAGE_S" nextval="1"/>
     <sequence name="OLE_DS_HOLDINGS_ACCESS_LOC_S" nextval="1"/>
     <sequence name="OLE_DS_HOLDINGS_COVERAGE_S" nextval="1"/>
     <sequence name="OLE_DS_HOLDINGS_DONOR_S" nextval="1"/>

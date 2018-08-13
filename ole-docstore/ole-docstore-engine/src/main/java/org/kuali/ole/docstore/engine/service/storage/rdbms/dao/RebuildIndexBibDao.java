@@ -485,7 +485,6 @@ public class RebuildIndexBibDao implements Callable {
                 "LEFT JOIN ole_ds_item_donor_t D ON I.item_id=D.item_id " +
                 "LEFT JOIN ole_ds_item_note_t N ON I.item_id = N.item_id " +
                 "LEFT JOIN ole_ds_item_stat_search_t S ON I.item_id=S.item_id " +
-                /*"LEFT JOIN OLE_DS_HIGH_DENSITY_STORAGE_T HD ON I.HIGH_DENSITY_STORAGE_ID =HD.HIGH_DENSITY_STORAGE_ID " +*/
                 "WHERE I.HOLDINGS_ID= " + holdingsId;
     }
 

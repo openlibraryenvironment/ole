@@ -253,32 +253,6 @@ CREATE TABLE OLE_DS_ITM_FORMER_IDENTIFIER_T
 
 
 # -----------------------------------------------------------------------
-# OLE_DS_HIGH_DENSITY_STORAGE_T
-# -----------------------------------------------------------------------
-drop table if exists OLE_DS_HIGH_DENSITY_STORAGE_T
-/
-
-CREATE TABLE OLE_DS_HIGH_DENSITY_STORAGE_T
-(
-      HIGH_DENSITY_STORAGE_ID INTEGER
-        , HIGH_DENSITY_ROW VARCHAR(30)
-        , HIGH_DENSITY_MODULE VARCHAR(30)
-        , HIGH_DENSITY_SHELF VARCHAR(30)
-        , HIGH_DENSITY_TRAY VARCHAR(30)
-        , DATE_UPDATED DATETIME
-    
-    , CONSTRAINT OLE_DS_HIGH_DENSITY_STORAGEP1 PRIMARY KEY(HIGH_DENSITY_STORAGE_ID)
-
-
-
-
-
-
-) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
-/
-
-
-# -----------------------------------------------------------------------
 # OLE_DS_ACCESS_LOCATION_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_DS_ACCESS_LOCATION_T
@@ -627,7 +601,6 @@ CREATE TABLE OLE_DS_ITEM_T
         , MISSING_PIECES_COUNT INTEGER
         , MISSING_PIECES_NOTE VARCHAR(400)
         , BARCODE_ARSL VARCHAR(200)
-        , HIGH_DENSITY_STORAGE_ID INTEGER
         , NUM_OF_RENEW INTEGER
         , CREATED_BY VARCHAR(40)
         , DATE_CREATED DATETIME
@@ -1003,20 +976,6 @@ CREATE TABLE OLE_DS_ITM_FORMER_IDENTIFIER_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_DS_ITM_FORMER_IDENTIFIER_S auto_increment = 1
-/
-
-# -----------------------------------------------------------------------
-# OLE_DS_HIGH_DENSITY_STORAGE_S
-# -----------------------------------------------------------------------
-drop table if exists OLE_DS_HIGH_DENSITY_STORAGE_S
-/
-
-CREATE TABLE OLE_DS_HIGH_DENSITY_STORAGE_S
-(
-	id bigint(19) not null auto_increment, primary key (id) 
-) ENGINE MyISAM
-/
-ALTER TABLE OLE_DS_HIGH_DENSITY_STORAGE_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
