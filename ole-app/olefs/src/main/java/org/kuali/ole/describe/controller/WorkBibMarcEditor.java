@@ -1154,6 +1154,9 @@ public class WorkBibMarcEditor extends AbstractEditor implements
     @Override
     public EditorForm editNewRecord(EditorForm editorForm, BibTree bibTree) {
         WorkBibMarcForm workBibMarcForm = (WorkBibMarcForm) editorForm.getDocumentForm();
+
+        buildControlFieldList(workBibMarcForm);
+
         if (!validateMarcEditorData(workBibMarcForm)) {
             workBibMarcForm.setValidInput(false);
             return workBibMarcForm;
