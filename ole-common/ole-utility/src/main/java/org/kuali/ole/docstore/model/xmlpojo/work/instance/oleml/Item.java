@@ -53,7 +53,6 @@ import java.util.List;
  *         &lt;element name="note" type="{http://ole.kuali.org/standards/ole-instance}note"/>
  *         &lt;element name="enumeration" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="chronology" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="highDensityStorage" type="{http://ole.kuali.org/standards/ole-instance}highDensityStorage"/>
  *         &lt;element name="temporaryItemType" type="{http://ole.kuali.org/standards/ole-instance}itemType"/>
  *         &lt;element name="fund" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="donorPublicDisplay" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -106,7 +105,6 @@ import java.util.List;
     "note",
     "enumeration",
     "chronology",
-    "highDensityStorage",
     "temporaryItemType",
     "fund",
     "donorCode",
@@ -177,8 +175,6 @@ public class Item {
     protected String enumeration;
     @XmlElement(namespace = "http://ole.kuali.org/standards/ole-instance", required = true)
     protected String chronology;
-    @XmlElement(namespace = "http://ole.kuali.org/standards/ole-instance", required = true)
-    protected HighDensityStorage highDensityStorage;
     @XmlElement(namespace = "http://ole.kuali.org/standards/ole-instance", required = true)
     protected ItemType temporaryItemType;
     @XmlElement(namespace = "http://ole.kuali.org/standards/ole-instance", required = true)
@@ -635,26 +631,6 @@ public class Item {
      */
     public void setChronology(String value) {
         this.chronology = value;
-    }
-
-    /**
-     * Gets the value of the highDensityStorage property.
-     *
-     * @return possible object is
-     *         {@link HighDensityStorage }
-     */
-    public HighDensityStorage getHighDensityStorage() {
-        return highDensityStorage;
-    }
-
-    /**
-     * Sets the value of the highDensityStorage property.
-     *
-     * @param value allowed object is
-     *              {@link HighDensityStorage }
-     */
-    public void setHighDensityStorage(HighDensityStorage value) {
-        this.highDensityStorage = value;
     }
 
     /**

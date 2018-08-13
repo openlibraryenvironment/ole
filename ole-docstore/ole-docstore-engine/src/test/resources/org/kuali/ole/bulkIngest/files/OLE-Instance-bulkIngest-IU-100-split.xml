@@ -164,12 +164,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -262,12 +256,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -444,12 +432,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -542,12 +524,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -724,12 +700,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -822,12 +792,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -1004,12 +968,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -1102,12 +1060,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -1284,12 +1236,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -1382,12 +1328,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -1564,12 +1504,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -1662,12 +1596,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -1844,12 +1772,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -1942,12 +1864,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -2124,12 +2040,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -2222,12 +2132,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -2404,12 +2308,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -2502,12 +2400,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -2684,12 +2576,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -2782,12 +2668,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -2964,12 +2844,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -3062,12 +2936,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -3244,12 +3112,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -3342,12 +3204,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -3524,12 +3380,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -3622,12 +3472,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -3804,12 +3648,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -3902,12 +3740,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -4084,12 +3916,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -4182,12 +4008,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -4364,12 +4184,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -4462,12 +4276,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -4644,12 +4452,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -4742,12 +4544,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -4924,12 +4720,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -5022,12 +4812,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -5204,12 +4988,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -5302,12 +5080,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -5484,12 +5256,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -5582,12 +5348,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -5764,12 +5524,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -5862,12 +5616,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -6044,12 +5792,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -6142,12 +5884,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -6324,12 +6060,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -6422,12 +6152,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -6604,12 +6328,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -6702,12 +6420,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -6884,12 +6596,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -6982,12 +6688,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -7164,12 +6864,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -7262,12 +6956,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -7444,12 +7132,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -7542,12 +7224,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -7724,12 +7400,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -7822,12 +7492,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -8004,12 +7668,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -8102,12 +7760,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -8284,12 +7936,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -8382,12 +8028,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -8564,12 +8204,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -8662,12 +8296,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -8844,12 +8472,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -8942,12 +8564,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -9124,12 +8740,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -9222,12 +8832,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -9404,12 +9008,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -9502,12 +9100,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -9684,12 +9276,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -9782,12 +9368,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -9964,12 +9544,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -10062,12 +9636,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -10244,12 +9812,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -10342,12 +9904,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -10524,12 +10080,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -10622,12 +10172,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -10804,12 +10348,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -10902,12 +10440,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -11084,12 +10616,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -11182,12 +10708,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -11364,12 +10884,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -11462,12 +10976,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -11644,12 +11152,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -11742,12 +11244,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -11924,12 +11420,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -12022,12 +11512,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -12204,12 +11688,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -12302,12 +11780,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -12484,12 +11956,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -12582,12 +12048,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -12764,12 +12224,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -12862,12 +12316,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -13044,12 +12492,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -13142,12 +12584,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -13324,12 +12760,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -13422,12 +12852,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -13604,12 +13028,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -13702,12 +13120,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -13884,12 +13296,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -13982,12 +13388,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -14164,12 +13564,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -14262,12 +13656,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -14444,12 +13832,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -14542,12 +13924,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -14724,12 +14100,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -14822,12 +14192,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -15004,12 +14368,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -15102,12 +14460,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -15284,12 +14636,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -15382,12 +14728,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -15564,12 +14904,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -15662,12 +14996,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -15844,12 +15172,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -15942,12 +15264,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -16124,12 +15440,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -16222,12 +15532,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -16404,12 +15708,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -16502,12 +15800,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -16684,12 +15976,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -16782,12 +16068,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -16964,12 +16244,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -17062,12 +16336,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -17244,12 +16512,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -17342,12 +16604,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -17524,12 +16780,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -17622,12 +16872,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -17804,12 +17048,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -17902,12 +17140,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -18084,12 +17316,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -18182,12 +17408,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -18364,12 +17584,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -18462,12 +17676,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -18644,12 +17852,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -18742,12 +17944,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -18924,12 +18120,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -19022,12 +18212,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -19204,12 +18388,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -19302,12 +18480,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -19484,12 +18656,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -19582,12 +18748,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -19764,12 +18924,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -19862,12 +19016,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -20044,12 +19192,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -20142,12 +19284,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -20324,12 +19460,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -20422,12 +19552,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -20604,12 +19728,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -20702,12 +19820,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -20884,12 +19996,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -20982,12 +20088,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -21164,12 +20264,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -21262,12 +20356,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -21444,12 +20532,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -21542,12 +20624,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -21724,12 +20800,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -21822,12 +20892,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -22004,12 +21068,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -22102,12 +21160,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -22284,12 +21336,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -22382,12 +21428,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -22564,12 +21604,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -22662,12 +21696,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -22844,12 +21872,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -22942,12 +21964,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -23124,12 +22140,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -23222,12 +22232,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -23404,12 +22408,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -23502,12 +22500,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -23684,12 +22676,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -23782,12 +22768,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -23964,12 +22944,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -24062,12 +23036,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -24244,12 +23212,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -24342,12 +23304,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -24524,12 +23480,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -24622,12 +23572,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -24804,12 +23748,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -24902,12 +23840,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -25084,12 +24016,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -25182,12 +24108,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -25364,12 +24284,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -25462,12 +24376,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -25644,12 +24552,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -25742,12 +24644,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -25924,12 +24820,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -26022,12 +24912,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -26204,12 +25088,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -26302,12 +25180,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -26484,12 +25356,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -26582,12 +25448,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -26764,12 +25624,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -26862,12 +25716,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -27044,12 +25892,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -27142,12 +25984,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -27324,12 +26160,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -27422,12 +26252,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -27604,12 +26428,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -27702,12 +26520,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>
@@ -27884,12 +26696,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>
@@ -27982,12 +26788,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-2</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-2</row>
-				<module>module-2</module>
-				<shelf>shelf-2</shelf>
-				<hds>hds-2</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>11-2-2011</dateEntered>

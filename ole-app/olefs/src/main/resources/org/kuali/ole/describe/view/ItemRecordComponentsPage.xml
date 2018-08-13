@@ -531,41 +531,6 @@
         </property>
     </bean>
 
-
-    <bean id="HighDensityStorage" parent="Uif-VerticalBoxGroup" p:fieldBindingObjectPath="selectedItem">
-        <property name="headerText" value="High Density Storage"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.row" p:label="Row" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.module" p:label="Module" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.shelf" p:label="Shelf" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.hds" p:label="Tray" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
     <bean id="POVendorInfo" parent="Uif-VerticalBoxGroup" p:fieldBindingObjectPath="selectedItem">
         <property name="headerText" value="PO/Vendor Info"/>
         <property name="items">

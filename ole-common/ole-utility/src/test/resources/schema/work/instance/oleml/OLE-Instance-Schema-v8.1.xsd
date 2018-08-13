@@ -1497,40 +1497,6 @@
                 </xs:annotation>
             </xs:element>
             <xs:element ref="location" minOccurs="0" maxOccurs="2"/>
-            <xs:element name="highDensityStorage" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Does not maps to MFHD   Enter the Row, Module, Shelf, and Tray information for the item's High Density Storage location. 
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="row" minOccurs="0" maxOccurs="1" type="xs:string">
-                            <xs:annotation>
-                                <xs:documentation>Does not maps to MFHD   Enter the Row for the High Density Storage location. 
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element name="module" minOccurs="0" maxOccurs="1" type="xs:string">
-                            <xs:annotation>
-                                <xs:documentation>Does not maps to MFHD   Enter the Module for the High Density Storage location. 
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element name="shelf" minOccurs="0" maxOccurs="1" type="xs:string">
-                            <xs:annotation>
-                                <xs:documentation>Does not maps to MFHD   Enter the Shelf for the High Density Storage location. 
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element name="hds" minOccurs="0" maxOccurs="1" type="xs:string">
-                            <xs:annotation>
-                                <xs:documentation>Does not maps to MFHD   Enter the Tray for the High Density Storage location. 
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
             <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
  </xs:complexType>

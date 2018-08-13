@@ -21,7 +21,6 @@
             <xs:element name="note" type="note" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="enumeration" type="xs:string"/>
             <xs:element name="chronology" type="xs:string"/>
-            <xs:element name="highDensityStorage" type="highDensityStorage"/>
             <xs:element name="temporaryItemType" type="itemType"/>
             <xs:element name="fund" type="xs:string"/>
             <xs:element name="callNumber" type="callNumber"/>
@@ -134,15 +133,6 @@
                 <xs:attribute name="type" type="xs:string"/>
             </xs:extension>
         </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="highDensityStorage">
-        <xs:sequence>
-            <xs:element name="row" type="xs:string"/>
-            <xs:element name="module" type="xs:string"/>
-            <xs:element name="shelf" type="xs:string"/>
-            <xs:element name="tray" type="xs:string"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="callNumber">

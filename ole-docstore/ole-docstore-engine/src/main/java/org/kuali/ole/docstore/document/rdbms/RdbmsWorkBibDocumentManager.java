@@ -185,7 +185,6 @@ public class RdbmsWorkBibDocumentManager extends RdbmsAbstarctDocumentManager {
                             itemRecord.setItemTypeId(null);
                             itemRecord.setTempItemTypeId(null);
                             itemRecord.setStatisticalSearchId(null);
-                            itemRecord.setHighDensityStorageId(null);
                             businessObjectService.delete(itemRecord);
 
                         }

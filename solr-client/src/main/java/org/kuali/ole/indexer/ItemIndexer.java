@@ -307,13 +307,6 @@ public class ItemIndexer extends OleDsNgIndexer {
                     solrInputDocument.addField(DONOR_NOTE_DISPLAY, itemDonorRecord.getDonorNote());
                 }
             }
-            HighDensityStorageRecord highDensityStorageRecord = itemRecord.getHighDensityStorageRecord();
-            if (highDensityStorageRecord != null) {
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_ROW_DISPLAY, highDensityStorageRecord.getHighDensityRow());
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_MODULE_DISPLAY,  highDensityStorageRecord.getHighDensityModule());
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_SHELF_DISPLAY,  highDensityStorageRecord.getHighDensityShelf());
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_TRAY_DISPLAY,  highDensityStorageRecord.getHighDensityTray());
-            }
             List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
             if (CollectionUtils.isNotEmpty(itemNoteRecords)) {
                 for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
@@ -482,18 +475,6 @@ public class ItemIndexer extends OleDsNgIndexer {
                     appendData(sb, identifierValue);
                 }
             }
-        }
-
-        HighDensityStorageRecord highDensityStorageRecord = itemRecord.getHighDensityStorageRecord();
-        if (highDensityStorageRecord != null) {
-            String module = highDensityStorageRecord.getHighDensityModule();
-            String row = highDensityStorageRecord.getHighDensityRow();
-            String shelf = highDensityStorageRecord.getHighDensityShelf();
-            String tray = highDensityStorageRecord.getHighDensityTray();
-            appendData(sb, module);
-            appendData(sb, row);
-            appendData(sb, shelf);
-            appendData(sb, tray);
         }
 
         ItemStatusRecord itemStatusRecord = getOleMemorizeService().getItemStatusById(getStringValue(itemRecord.getItemStatusId()));

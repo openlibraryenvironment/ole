@@ -102,12 +102,6 @@
                 <note type="string">string</note>
                 <enumeration>string</enumeration>
                 <chronology>string</chronology>
-                <highDensityStorage>
-                    <row>string</row>
-                    <module>string</module>
-                    <shelf>string</shelf>
-                    <tray>string</tray>
-                </highDensityStorage>
                 <temporaryItemType>
                     <codeValue>string</codeValue>
                     <fullValue>string</fullValue>
@@ -196,12 +190,6 @@
                 <note type="string">string</note>
                 <enumeration>string</enumeration>
                 <chronology>string</chronology>
-                <highDensityStorage>
-                    <row>string</row>
-                    <module>string</module>
-                    <shelf>string</shelf>
-                    <tray>string</tray>
-                </highDensityStorage>
                 <temporaryItemType>
                     <codeValue>string</codeValue>
                     <fullValue>string</fullValue>
@@ -351,12 +339,6 @@
                 <note type="string">string</note>
                 <enumeration>string</enumeration>
                 <chronology>string</chronology>
-                <highDensityStorage>
-                    <row>string</row>
-                    <module>string</module>
-                    <shelf>string</shelf>
-                    <tray>string</tray>
-                </highDensityStorage>
                 <temporaryItemType>
                     <codeValue>string</codeValue>
                     <fullValue>string</fullValue>

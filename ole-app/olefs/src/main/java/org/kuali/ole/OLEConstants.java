@@ -2977,8 +2977,6 @@ public class OLEConstants {
     public static final String DONORPUBLIC_DISPLAY = "DonorPublic_display";
     public static final String DONORNOTE_DISPLAY = "DonorNote_display";
     public static final String PUBLIC_NOTE_DISPLAY = "Public_Note_display";
-    public static final String HIGHDENSITYSTORAGE_ROW_DISPLAY = "HighDensityStorage_Row_display";
-    public static final String HIGHDENSITYSTORAGE_SHELF_DISPLAY = "HighDensityStorage_Shelf_display";
 
     public static final String ITEMNOTE_VALUE_DISPLAY = "ItemNote_Value_display";
     public static final String ITEMNOTE_TYPE_DISPLAY = "ItemNote_Type_display";

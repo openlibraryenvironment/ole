@@ -91,7 +91,6 @@ public class RdbmsWorkItemDocumentManager extends RdbmsWorkInstanceDocumentManag
             itemRecord.setItemTypeId(null);
             itemRecord.setTempItemTypeId(null);
             itemRecord.setStatisticalSearchId(null);
-            itemRecord.setHighDensityStorageId(null);
             businessObjectService.delete(itemRecord);
             buildResponseDocument(requestDocument, itemRecord, responseDocument);
         }

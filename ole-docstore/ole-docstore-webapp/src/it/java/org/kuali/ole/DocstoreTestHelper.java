@@ -1006,11 +1006,6 @@ public class DocstoreTestHelper {
             itemRecord.setItemStatusId(itemStatusRecord == null ? null : itemStatusRecord.getItemStatusId());
             itemRecord.setItemStatusRecord(itemStatusRecord);
         }
-        if (item.getHighDensityStorage() != null) {
-            HighDensityStorageRecord highDensityStorageRecord = saveHighDensityStorageRecord(item.getHighDensityStorage());
-            itemRecord.setHighDensityStorageRecord(highDensityStorageRecord);
-            itemRecord.setHighDensityStorageId(highDensityStorageRecord == null ? null : highDensityStorageRecord.getHighDensityStorageId());
-        }
         StringBuffer locationLevel = new StringBuffer("");
         itemRecord.setLocation(getLocation(item.getLocation(), locationLevel));
         itemRecord.setLocationLevel(locationLevel.toString());
@@ -1374,15 +1369,6 @@ public class DocstoreTestHelper {
             locationsCheckinCountRecord.setLocationName(checkInLocation.getName());
             locationsCheckinCountRecord.setLocationInhouseCount(checkInLocation.getInHouseCount());
         }
-    }
-
-
-    protected HighDensityStorageRecord saveHighDensityStorageRecord(HighDensityStorage highDensityStorage) {
-        HighDensityStorageRecord highDensityStorageRecord = new HighDensityStorageRecord();
-        highDensityStorageRecord.setRow(highDensityStorage.getRow());
-        highDensityStorageRecord.setModule(highDensityStorage.getModule());
-        highDensityStorageRecord.setShelf(highDensityStorage.getShelf());
-        return highDensityStorageRecord;
     }
 
 

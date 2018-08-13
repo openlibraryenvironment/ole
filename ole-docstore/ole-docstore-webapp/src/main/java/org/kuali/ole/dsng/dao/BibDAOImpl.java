@@ -140,7 +140,6 @@ public class BibDAOImpl extends OleDsNGDAOBase implements BibDAO {
         itemRecord.setItemTypeId(null);
         itemRecord.setTempItemTypeId(null);
         itemRecord.setStatisticalSearchId(null);
-        itemRecord.setHighDensityStorageId(null);
         Map map = new HashMap();
         map.put(OleNGConstants.ITEM_ID, itemRecord.getItemId());
         getBusinessObjectService().deleteMatching(ItemStatisticalSearchRecord.class, map);

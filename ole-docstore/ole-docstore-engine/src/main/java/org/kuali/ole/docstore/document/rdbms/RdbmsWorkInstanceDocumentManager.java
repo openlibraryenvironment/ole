@@ -484,10 +484,6 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
             ItemStatusRecord itemStatusRecord = saveItemStatusRecord(item.getItemStatus().getCodeValue());
             itemRecord.setItemStatusId(itemStatusRecord == null ? null : itemStatusRecord.getItemStatusId());
         }
-        if (item.getHighDensityStorage() != null) {
-            HighDensityStorageRecord highDensityStorageRecord = saveHighDensityStorageRecord(item.getHighDensityStorage());
-            itemRecord.setHighDensityStorageId(highDensityStorageRecord == null ? null : highDensityStorageRecord.getHighDensityStorageId());
-        }
         StringBuffer locationLevel = new StringBuffer("");
         itemRecord.setLocation(getLocation(item.getLocation(), locationLevel));
         itemRecord.setLocationLevel(locationLevel.toString());
@@ -592,7 +588,6 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
                 itemRecord.setItemTypeId(null);
                 itemRecord.setTempItemTypeId(null);
                 itemRecord.setStatisticalSearchId(null);
-                itemRecord.setHighDensityStorageId(null);
                 businessObjectService.delete(itemRecord);
 
             }
@@ -1374,41 +1369,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
         return itemStatusRecords.get(0);
     }
 
-    protected HighDensityStorageRecord saveHighDensityStorageRecord(HighDensityStorage highDensityStorage) {
-
-        HighDensityStorageRecord highDensityStorageRecord = new HighDensityStorageRecord();
-        highDensityStorageRecord.setRow(highDensityStorage.getRow());
-        highDensityStorageRecord.setModule(highDensityStorage.getModule());
-        highDensityStorageRecord.setShelf(highDensityStorage.getShelf());
-        getBusinessObjectService().save(highDensityStorageRecord);
-        return highDensityStorageRecord;
-    }
-
-    /*   protected void updateItemExtendInfoRecord(Item item, ItemExtendInfoRecord itemExtendInfoRecord) {
-
-        if (item != null && item.getHighDensityStorage() != null && itemExtendInfoRecord.getHighDensityStorageId() != null && !itemExtendInfoRecord.getHighDensityStorageId().isEmpty()) {
-            updateHighDensityStorageRecord(item.getHighDensityStorage(), itemExtendInfoRecord.getHighDensityStorageRecord());
-        } else {
-            HighDensityStorageRecord highDensityStorageRecord = saveHighDensityStorageRecord(item.getHighDensityStorage());
-            itemExtendInfoRecord.setHighDensityStorageId(highDensityStorageRecord.getHighDensityStorageId());
-        }
-        getBusinessObjectService().save(itemExtendInfoRecord);
-        if (item.getNote() != null && itemExtendInfoRecord.getItemNoteRecords() != null && itemExtendInfoRecord.getItemNoteRecords().size() > 0) {
-            updateItemNoteRecords(item.getNote(), itemExtendInfoRecord.getExtendInfoId(), itemExtendInfoRecord.getItemNoteRecords());
-        } else {
-            saveItemNoteRecord(item.getNote(), itemExtendInfoRecord.getExtendInfoId());
-        }
-    }
-
-
-    protected void updateHighDensityStorageRecord(HighDensityStorage highDensityStorage, HighDensityStorageRecord highDensityStorageRecord) {
-
-        highDensityStorageRecord.setRow(highDensityStorage.getRow());
-        highDensityStorageRecord.setModule(highDensityStorage.getModule());
-        highDensityStorageRecord.setShelf(highDensityStorage.getShelf());
-        getBusinessObjectService().save(highDensityStorageRecord);
-
-    }
+    /*
 
     protected void updateItemNoteRecords(List<Note> noteList, String extendInfoId, List<ItemNoteRecord> itemNoteRecords) {
 
@@ -1826,16 +1787,6 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
 //        }
         statisticalSearchingCodes.add(statisticalSearchingCode);
         item.setStatisticalSearchingCode(statisticalSearchingCodes);
-        HighDensityStorage highDensityStorage = new HighDensityStorage();
-
-        if (itemRecord.getHighDensityStorageRecord() != null) {
-            HighDensityStorageRecord highDensityStorageRecord = itemRecord.getHighDensityStorageRecord();
-            highDensityStorage.setModule(highDensityStorageRecord.getModule());
-            highDensityStorage.setRow(highDensityStorageRecord.getRow());
-            highDensityStorage.setShelf(highDensityStorageRecord.getShelf());
-            highDensityStorage.setTray(highDensityStorageRecord.getTray());
-        }
-        item.setHighDensityStorage(highDensityStorage);
         if (itemRecord.getEffectiveDate() != null) {
             //Format formatter = new SimpleDateFormat("yyyy-MM-dd");
             //String effectiveDate = formatter.format(itemRecord.getEffectiveDate().toString());

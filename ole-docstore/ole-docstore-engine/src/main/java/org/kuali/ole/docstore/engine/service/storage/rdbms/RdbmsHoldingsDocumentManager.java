@@ -640,7 +640,6 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 itemRecord.setItemTypeId(null);
                 itemRecord.setTempItemTypeId(null);
                 itemRecord.setStatisticalSearchId(null);
-                itemRecord.setHighDensityStorageId(null);
                 Map map = new HashMap();
                 map.put("itemId", itemRecord.getItemId());
                 getBusinessObjectService().deleteMatching(ItemStatisticalSearchRecord.class, map);

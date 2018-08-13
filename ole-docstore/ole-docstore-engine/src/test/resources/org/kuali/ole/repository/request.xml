@@ -234,12 +234,6 @@
         <ole:note type="string">string</ole:note>
         <ole:enumeration>string</ole:enumeration>
         <ole:chronology>string</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row>string</ole:row>
-          <ole:module>string</ole:module>
-          <ole:shelf>string</ole:shelf>
-          <ole:tray>string</ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue>string</ole:codeValue>
           <ole:fullValue>string</ole:fullValue>
@@ -692,12 +686,6 @@
         <ole:note type="string">string</ole:note>
         <ole:enumeration>string</ole:enumeration>
         <ole:chronology>string</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row>string</ole:row>
-          <ole:module>string</ole:module>
-          <ole:shelf>string</ole:shelf>
-          <ole:tray>string</ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue>string</ole:codeValue>
           <ole:fullValue>string</ole:fullValue>

@@ -80,7 +80,6 @@ public class BatchBibTreeDBUtil {
             " LEFT JOIN ole_ds_item_donor_t ON ole_ds_item_t.item_id=ole_ds_item_donor_t.item_id " +
             " LEFT JOIN ole_ds_item_note_t ON ole_ds_item_t.item_id = ole_ds_item_note_t.item_id " +
             " LEFT JOIN ole_ds_item_stat_search_t ON ole_ds_item_t.item_id=ole_ds_item_stat_search_t.item_id " +
-            " LEFT JOIN OLE_DS_HIGH_DENSITY_STORAGE_T ON ole_ds_item_t.HIGH_DENSITY_STORAGE_ID = OLE_DS_HIGH_DENSITY_STORAGE_T.HIGH_DENSITY_STORAGE_ID " +
             " WHERE OLE_DS_ITEM_T.HOLDINGS_ID=?";
 
     private String bibStaffOnly = " SELECT * FROM OLE_DS_BIB_T  WHERE STAFF_ONLY= 'N' ";
@@ -724,7 +723,6 @@ public class BatchBibTreeDBUtil {
         Map<String, Item> itemHashMap = new HashMap<>();
         itemPreparedStatement.setInt(1, holdingsId);
         ResultSet resultSet = itemPreparedStatement.executeQuery();
-        Set<String> highDensityStorageSet = null;
         Set<String> donorNoteSet = null;
         Set<String> itemNoteSet = null;
         Set<String> statisticalSearchSet = null;
@@ -805,7 +803,6 @@ public class BatchBibTreeDBUtil {
                 itemObj.setNumberOfPieces(resultSet.getString("NUM_PIECES"));
                 itemObj.setDescriptionOfPieces(resultSet.getString("DESC_OF_PIECES"));
                 itemObj.setNumberOfRenew(resultSet.getInt("NUM_OF_RENEW"));
-                highDensityStorageSet = new HashSet<>();
                 itemNoteSet = new HashSet<>();
                 statisticalSearchSet = new HashSet<>();
                 donorNoteSet = new HashSet<>();
@@ -862,11 +859,6 @@ public class BatchBibTreeDBUtil {
                 donorInfo.setDonorNote(resultSet.getString("DONOR_NOTE"));
                 donorInfo.setDonorPublicDisplay(resultSet.getString("DONOR_DISPLAY_NOTE"));
                 itemObj.getDonorInfo().add(donorInfo);
-            }
-            if (highDensityStorageSet.add(resultSet.getString("ITEM_DONOR_ID"))) {
-                HighDensityStorage highDensityStorage = new HighDensityStorage();
-                highDensityStorage.setRow(resultSet.getString("HIGH_DENSITY_ROW"));
-                itemObj.setHighDensityStorage(highDensityStorage);
             }
         }
         resultSet.close();

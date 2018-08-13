@@ -178,11 +178,6 @@ public class ItemRecord implements Serializable {
 	@OneToMany(mappedBy="itemRecord")
 	private List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords;
 
-	//bi-directional many-to-one association to HighDensityStorageRecord
-	@ManyToOne
-	@JoinColumn(name="HIGH_DENSITY_STORAGE_ID")
-	private HighDensityStorageRecord highDensityStorageRecord;
-
 	//bi-directional many-to-one association to HoldingsRecord
 	@ManyToOne
 	@JoinColumn(name="HOLDINGS_ID")
@@ -677,14 +672,6 @@ public class ItemRecord implements Serializable {
 		oleDsItemStatSearchT.setItemRecord(null);
 
 		return oleDsItemStatSearchT;
-	}
-
-	public HighDensityStorageRecord getHighDensityStorageRecord() {
-		return this.highDensityStorageRecord;
-	}
-
-	public void setHighDensityStorageRecord(HighDensityStorageRecord highDensityStorageRecord) {
-		this.highDensityStorageRecord = highDensityStorageRecord;
 	}
 
 	public HoldingsRecord getHoldingsRecord() {

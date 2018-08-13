@@ -304,7 +304,6 @@
             <!--<materialsSpecified>string</materialsSpecified>-->
             <!--</ole:location>-->
             <!--&lt;!&ndash;Optional:&ndash;&gt;-->
-            <!--<highDensityStorage>-->
             <!--&lt;!&ndash;Optional:&ndash;&gt;-->
             <!--<row>string</row>-->
             <!--&lt;!&ndash;Optional:&ndash;&gt;-->
@@ -313,7 +312,6 @@
             <!--<shelf>string</shelf>-->
             <!--&lt;!&ndash;Optional:&ndash;&gt;-->
             <!--<hds>string</hds>-->
-            <!--</highDensityStorage>-->
             <ole:extension>
                 <additionalAttributes>
                     <dateEntered>12-12-2-2010</dateEntered>

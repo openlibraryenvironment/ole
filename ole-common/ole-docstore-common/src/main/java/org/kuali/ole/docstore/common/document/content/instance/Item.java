@@ -47,7 +47,6 @@ import java.util.List;
  *         &lt;element name="note" type="{http://ole.kuali.org/standards/ole-instance}note"/>
  *         &lt;element name="enumeration" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="chronology" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="highDensityStorage" type="{http://ole.kuali.org/standards/ole-instance}highDensityStorage"/>
  *         &lt;element name="temporaryItemType" type="{http://ole.kuali.org/standards/ole-instance}itemType"/>
  *         &lt;element name="fund" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="callNumber" type="{http://ole.kuali.org/standards/ole-instance}callNumber"/>
@@ -101,7 +100,6 @@ import java.util.List;
     "note",
     "enumeration",
     "chronology",
-    "highDensityStorage",
     "temporaryItemType",
     "fund",
     "callNumber",
@@ -177,8 +175,6 @@ public class Item {
     protected String enumeration;
     @XmlElement(required = true)
     protected String chronology;
-    @XmlElement(required = true)
-    protected HighDensityStorage highDensityStorage;
     @XmlElement(required = true)
     protected ItemType temporaryItemType;
     @XmlElement(required = true)
@@ -644,26 +640,6 @@ public class Item {
      */
     public void setChronology(String value) {
         this.chronology = value;
-    }
-
-    /**
-     * Gets the value of the highDensityStorage property.
-     *
-     * @return possible object is
-     *         {@link org.kuali.ole.docstore.common.document.content.instance.HighDensityStorage }
-     */
-    public HighDensityStorage getHighDensityStorage() {
-        return highDensityStorage;
-    }
-
-    /**
-     * Sets the value of the highDensityStorage property.
-     *
-     * @param value allowed object is
-     *              {@link org.kuali.ole.docstore.common.document.content.instance.HighDensityStorage }
-     */
-    public void setHighDensityStorage(HighDensityStorage value) {
-        this.highDensityStorage = value;
     }
 
     /**

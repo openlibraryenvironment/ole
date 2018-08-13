@@ -785,7 +785,6 @@
         <field-descriptor name="callNumber" column="CALL_NUMBER" jdbc-type="VARCHAR"/>
         <field-descriptor name="shelvingOrder" column="SHELVING_ORDER" jdbc-type="VARCHAR"/>
         <field-descriptor name="callNumberTypeId" column="CALL_NUMBER_TYPE_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="highDensityStorageId" column="HIGH_DENSITY_STORAGE_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="currentBorrower" column="CURRENT_BORROWER" jdbc-type="VARCHAR"/>
         <field-descriptor name="proxyBorrower" column="PROXY_BORROWER" jdbc-type="VARCHAR"/>
         <field-descriptor name="dueDateTime" column="DUE_DATE_TIME" jdbc-type="TIMESTAMP"/>
@@ -819,9 +818,6 @@
 
         <reference-descriptor name="callNumberTypeRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="callNumberTypeId" />
-        </reference-descriptor>
-        <reference-descriptor name="highDensityStorageRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HighDensityStorageRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="highDensityStorageId" />
         </reference-descriptor>
 
         <collection-descriptor name="formerIdentifierRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.FormerIdentifierRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -872,14 +868,6 @@
         <field-descriptor name="name" column="ITEM_AVAIL_STAT_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HighDensityStorageRecord" table="OLE_DS_HIGH_DENSITY_STORAGE_T">
-        <field-descriptor name="highDensityStorageId" column="HIGH_DENSITY_STORAGE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HIGH_DENSITY_STORAGE_S"/>
-        <field-descriptor name="row" column="HIGH_DENSITY_ROW" jdbc-type="VARCHAR"/>
-        <field-descriptor name="module" column="HIGH_DENSITY_MODULE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="shelf" column="HIGH_DENSITY_SHELF" jdbc-type="VARCHAR"/>
-        <field-descriptor name="tray" column="HIGH_DENSITY_TRAY" jdbc-type="VARCHAR"/>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemNoteRecord" table="OLE_DS_ITEM_NOTE_T">

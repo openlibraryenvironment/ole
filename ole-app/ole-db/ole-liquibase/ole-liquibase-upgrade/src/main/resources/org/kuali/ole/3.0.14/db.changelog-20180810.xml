@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_MYSQL_HIGH_DENSITY_TRIGGERS_DROP" dbms="mysql">
+        <sql>DROP TRIGGER IF EXISTS HIGH_DEN_STRG_TR_INSERT</sql>
+        <sql>DROP TRIGGER IF EXISTS HIGH_DEN_STRG_TR_UPDATE</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DS_DOC_FIELD_T_delete" author="ole">
+        <delete tableName="OLE_DS_DOC_FIELD_T">
+            <where>NAME IN ('HighDensityStorage_Module_display','HighDensityStorage_Row_display','HighDensityStorage_Shelf_display','HighDensityStorage_Tray_display')</where>
+        </delete>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T_DROP">
+        <dropForeignKeyConstraint baseTableName="OLE_DS_ITEM_T"
+                                  constraintName="HIGH_DENSITY_CONSTRAINT"/>
+         <dropColumn
+                columnName="HIGH_DENSITY_STORAGE_ID"
+                tableName="OLE_DS_ITEM_T"/>
+        <dropTable
+                schemaName="ole"
+                tableName="OLE_DS_HIGH_DENSITY_STORAGE_T"/>
+    </changeSet>
+</databaseChangeLog>

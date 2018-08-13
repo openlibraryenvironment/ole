@@ -1321,10 +1321,6 @@
         <field name="TemporaryItemTypeCodeValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="DonorPublic_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="DonorNote_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
-        <field name="HighDensityStorage_Row_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
-        <field name="HighDensityStorage_Module_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
-        <field name="HighDensityStorage_Shelf_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
-        <field name="HighDensityStorage_Tray_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="ItemNote_Value_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="ItemNote_Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsCallNumber_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>

@@ -52,7 +52,6 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private String callNumber;
     private String shelvingOrder;
     private String callNumberTypeId;
-    private String highDensityStorageId;
     private String currentBorrower;
     private String proxyBorrower;
     private Timestamp dueDateTime;
@@ -65,7 +64,6 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private CallNumberTypeRecord callNumberTypeRecord;
     private ItemTypeRecord itemTypeRecord;
     private ItemTypeRecord itemTempTypeRecord;
-    private HighDensityStorageRecord highDensityStorageRecord;
     private StatisticalSearchRecord statisticalSearchRecord;
     private List<FormerIdentifierRecord> formerIdentifierRecords;
     private List<ItemNoteRecord> itemNoteRecords;
@@ -360,14 +358,6 @@ public class ItemRecord extends PersistableBusinessObjectBase
         this.callNumberTypeId = callNumberTypeId;
     }
 
-    public String getHighDensityStorageId() {
-        return highDensityStorageId;
-    }
-
-    public void setHighDensityStorageId(String highDensityStorageId) {
-        this.highDensityStorageId = highDensityStorageId;
-    }
-
     public CallNumberTypeRecord getCallNumberTypeRecord() {
         return callNumberTypeRecord;
     }
@@ -390,14 +380,6 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setItemTempTypeRecord(ItemTypeRecord itemTempTypeRecord) {
         this.itemTempTypeRecord = itemTempTypeRecord;
-    }
-
-    public HighDensityStorageRecord getHighDensityStorageRecord() {
-        return highDensityStorageRecord;
-    }
-
-    public void setHighDensityStorageRecord(HighDensityStorageRecord highDensityStorageRecord) {
-        this.highDensityStorageRecord = highDensityStorageRecord;
     }
 
     public StatisticalSearchRecord getStatisticalSearchRecord() {

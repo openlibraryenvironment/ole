@@ -76,7 +76,6 @@
 
 
                 <ref bean="hiddenItemExtndInfoEditFlag"/>
-                <ref bean="hiddenItemHighDensityStorageEditFlag"/>
 
                 <ref bean="hiddenGlobalEditFlag"/>
 
@@ -145,9 +144,6 @@
     <bean id="hiddenItemMissingPieceNoteEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditItemFieldsFlagBO.missingPieceNoteEditFlag"/>
 
     <bean id="hiddenItemExtndInfoEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditItemFieldsFlagBO.extndInfoEditFlag"/>
-
-    <bean id="hiddenItemHighDensityStorageEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditItemFieldsFlagBO.highDensityStorageEditFlag"/>
-
 
     <bean id="hiddenGlobalEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditFlag"/>
 
@@ -1001,7 +997,6 @@
         <property name="items">
             <list>
                 <ref bean="OleNotes"/>
-                <ref bean="OleHighDensityStorage"/>
             </list>
         </property>
     </bean>
@@ -1069,19 +1064,6 @@
             <list>
                 <bean id="viewFlaggedItemPatronRecordsLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="../ole-kr-krad/olePatronFlaggedItemHistoryController?viewId=OLEPatronFlaggedItemHistoryView&amp;itemBarcode=@{documentForm.selectedItem.accessInformation.barcode}"  p:linkText="View all records"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="OleHighDensityStorage" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2">
-        <property name="items">
-            <list>
-                <bean id="oleItemHighDensityStorage" parent="Uif-InputField" p:propertyName="highDensityStorage.row"
-                      p:label="High Density Storage" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextAreaControl"/>
-                    </property>
                 </bean>
             </list>
         </property>

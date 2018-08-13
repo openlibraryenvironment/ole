@@ -495,7 +495,6 @@
                     <property name="items">
                         <list>
                             <ref bean="Notes"/>
-                            <ref bean="HighDensityStorage"/>
                         </list>
                     </property>
                 </bean>
@@ -541,18 +540,5 @@
             </list>
         </property>
     </bean>-->
-
-    <bean id="HighDensityStorage" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2" p:fieldBindingObjectPath="selectedItem">
-        <!--<property name="headerText" value="High Density Storage"/>-->
-        <property name="items">
-            <list>
-                <bean id="itemHighDensityStorage" parent="Uif-InputField" p:propertyName="highDensityStorage.row" p:label="High Density Storage" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:rows="2" />
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
 </beans>
