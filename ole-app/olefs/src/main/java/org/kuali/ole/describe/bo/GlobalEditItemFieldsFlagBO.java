@@ -59,8 +59,6 @@ public class GlobalEditItemFieldsFlagBO {
 
     private boolean extndInfoEditFlag = false;
 
-    private boolean highDensityStorageEditFlag = false;
-
 
 
     public boolean isLocationEditFlag() {
@@ -391,11 +389,4 @@ public class GlobalEditItemFieldsFlagBO {
         this.extndInfoEditFlag = extndInfoEditFlag;
     }
 
-    public boolean isHighDensityStorageEditFlag() {
-        return highDensityStorageEditFlag;
-    }
-
-    public void setHighDensityStorageEditFlag(boolean highDensityStorageEditFlag) {
-        this.highDensityStorageEditFlag = highDensityStorageEditFlag;
-    }
 }

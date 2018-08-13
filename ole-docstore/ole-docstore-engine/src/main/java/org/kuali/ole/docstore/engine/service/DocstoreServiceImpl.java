@@ -1137,10 +1137,6 @@ public class DocstoreServiceImpl implements DocstoreService {
                     if(StringUtils.isNotBlank(item.getUpdatedBy())){
                         existingItem.setUpdatedBy(item.getUpdatedBy());
                     }
-                    if (itemContent.getHighDensityStorage() != null &&
-                            itemContent.getHighDensityStorage().getRow() != null) {
-                        existingItemContent.setHighDensityStorage(itemContent.getHighDensityStorage());
-                    }
                     if (itemContent.getItemStatus() != null) {
                         if (StringUtils.isNotBlank(itemContent.getItemStatus().getCodeValue()) || StringUtils.isNotBlank(itemContent.getItemStatus().getFullValue())) {
                             existingItemContent.setItemStatus(itemContent.getItemStatus());

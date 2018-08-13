@@ -305,17 +305,6 @@
       <!--Optional:-->
       <ole:materialsSpecified>string</ole:materialsSpecified>
     </ole:location>
-    <!--Optional:-->
-    <ole:highDensityStorage>
-      <!--Optional:-->
-      <ole:row>string</ole:row>
-      <!--Optional:-->
-      <ole:module>string</ole:module>
-      <!--Optional:-->
-      <ole:shelf>string</ole:shelf>
-      <!--Optional:-->
-      <ole:hds>string</ole:hds>
-    </ole:highDensityStorage>
     <!--Zero or more repetitions:-->
     <ole:extension displayLabel="string">
       pectore

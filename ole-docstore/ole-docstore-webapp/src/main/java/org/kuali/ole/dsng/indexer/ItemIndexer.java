@@ -315,12 +315,6 @@ public class ItemIndexer extends OleDsNgIndexer {
                     solrInputDocument.addField(DONOR_NOTE_DISPLAY, itemDonorRecord.getDonorNote());
                 }
             }
-            if (itemRecord.getHighDensityStorageRecord() != null) {
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_ROW_DISPLAY, itemRecord.getHighDensityStorageRecord().getRow());
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_MODULE_DISPLAY, itemRecord.getHighDensityStorageRecord().getModule());
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_SHELF_DISPLAY, itemRecord.getHighDensityStorageRecord().getShelf());
-                solrInputDocument.addField(HIGHDENSITYSTORAGE_TRAY_DISPLAY, itemRecord.getHighDensityStorageRecord().getTray());
-            }
             List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
             if (CollectionUtils.isNotEmpty(itemNoteRecords)) {
                 for (Iterator<ItemNoteRecord> iterator = itemNoteRecords.iterator(); iterator.hasNext(); ) {
@@ -488,18 +482,6 @@ public class ItemIndexer extends OleDsNgIndexer {
                     appendData(sb, identifierValue);
                 }
             }
-        }
-
-        HighDensityStorageRecord highDensityStorageRecord = itemRecord.getHighDensityStorageRecord();
-        if (highDensityStorageRecord != null) {
-            String module = highDensityStorageRecord.getModule();
-            String row = highDensityStorageRecord.getRow();
-            String shelf = highDensityStorageRecord.getShelf();
-            String tray = highDensityStorageRecord.getTray();
-            appendData(sb, module);
-            appendData(sb, row);
-            appendData(sb, shelf);
-            appendData(sb, tray);
         }
 
         ItemStatusRecord itemStatusRecord = itemRecord.getItemStatusRecord();

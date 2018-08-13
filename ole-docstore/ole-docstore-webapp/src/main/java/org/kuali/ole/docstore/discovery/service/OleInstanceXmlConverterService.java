@@ -98,22 +98,6 @@ public class OleInstanceXmlConverterService {
 
     /**
      * @param xstream
-     * @return the xstream object with the information for  the HighDensityStorage object to xml  conversion
-     */
-    private XStream generateHighDensityStorageXml(XStream xstream) {
-        xstream.alias("ole:highDensityStorage", HighDensityStorage.class);
-        xstream.aliasField("ole:row", HighDensityStorage.class, "row");
-        xstream.omitField(HighDensityStorage.class, "module");
-        xstream.omitField(HighDensityStorage.class, "shelf");
-        xstream.omitField(HighDensityStorage.class, "tray");
-        xstream.aliasField("ole:module", HighDensityStorage.class, "module");
-        xstream.aliasField("ole:shelf", HighDensityStorage.class, "shelf");
-        xstream.aliasField("ole:tray", HighDensityStorage.class, "tray");
-        return xstream;
-    }
-
-    /**
-     * @param xstream
      * @return the xstream object with the information for  the ItemType object to xml  conversion
      */
     private XStream generateItemTypeXml(XStream xstream) {
@@ -331,8 +315,6 @@ public class OleInstanceXmlConverterService {
         xstream = generateLocationXml(xstream);
         xstream.aliasField("ole:note", Item.class, "note");
         xstream = generateNoteXml(xstream);
-        xstream.aliasField("ole:highDensityStorage", Item.class, "highDensityStorage");
-        xstream = generateHighDensityStorageXml(xstream);
         xstream.aliasField("circ:temporaryItemType", Item.class, "temporaryItemType");
         xstream = generateItemTypeXml(xstream);
         xstream.aliasField("ole:callNumber", Item.class, "callNumber");

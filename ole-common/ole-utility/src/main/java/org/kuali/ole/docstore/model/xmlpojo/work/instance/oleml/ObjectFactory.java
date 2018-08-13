@@ -38,13 +38,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HighDensityStorage }
-     */
-    public HighDensityStorage createHighDensityStorage() {
-        return new HighDensityStorage();
-    }
-
-    /**
      * Create an instance of {@link Item }
      */
     public Item createItem() {

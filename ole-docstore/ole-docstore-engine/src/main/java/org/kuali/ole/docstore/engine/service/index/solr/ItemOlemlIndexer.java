@@ -432,12 +432,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
             solrInputDocument.addField(DONOR_PUBLIC_DISPLAY, donorInfo.getDonorPublicDisplay());
             solrInputDocument.addField(DONOR_NOTE_DISPLAY, donorInfo.getDonorNote());
         }
-        if (item.getHighDensityStorage() != null) {
-            solrInputDocument.addField(HIGHDENSITYSTORAGE_ROW_DISPLAY, item.getHighDensityStorage().getRow());
-            solrInputDocument.addField(HIGHDENSITYSTORAGE_MODULE_DISPLAY, item.getHighDensityStorage().getModule());
-            solrInputDocument.addField(HIGHDENSITYSTORAGE_SHELF_DISPLAY, item.getHighDensityStorage().getShelf());
-            solrInputDocument.addField(HIGHDENSITYSTORAGE_TRAY_DISPLAY, item.getHighDensityStorage().getTray());
-        }
+
         for (Note note : item.getNote()) {
             solrInputDocument.addField(ITEMNOTE_VALUE_DISPLAY, note.getValue());
             solrInputDocument.addField(ITEMNOTE_TYPE_DISPLAY, note.getType());
@@ -1019,18 +1014,6 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
                 appendData(sb, identifierValue);
                 appendData(sb, source);
             }
-        }
-
-        HighDensityStorage highDensityStorage = item.getHighDensityStorage();
-        if (highDensityStorage != null) {
-            String module = highDensityStorage.getModule();
-            String row = highDensityStorage.getRow();
-            String shelf = highDensityStorage.getShelf();
-            String tray = highDensityStorage.getTray();
-            appendData(sb, module);
-            appendData(sb, row);
-            appendData(sb, shelf);
-            appendData(sb, tray);
         }
 
         ItemStatus itemStatus = item.getItemStatus();

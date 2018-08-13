@@ -196,7 +196,6 @@ public class HoldingsRestController extends AbstractRestService {
         result = result.replaceAll("<statisticalSearchingCode/>", "<statisticalSearchingCode></statisticalSearchingCode>");
         result = result.replaceAll("<location/>", "<location></location>");
         result = result.replaceAll("<donorInfo/>", "<donorInfo></donorInfo>");
-        result = result.replaceAll("<highDensityStorage/>", "<highDensityStorage></highDensityStorage>");
         return result;
     }
 

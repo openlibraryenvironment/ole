@@ -972,9 +972,6 @@ public class Item
         if(incomingItemContent.getItemDamagedRecords() != null){
             existingItemContent.setItemDamagedRecords(incomingItemContent.getItemDamagedRecords());
         }
-        if (incomingItemContent.getHighDensityStorage() != null) {
-            existingItemContent.setHighDensityStorage(incomingItemContent.getHighDensityStorage());
-        }
         if (incomingItemContent.getNote() != null) {
             existingItemContent.setNote(incomingItemContent.getNote());
         }

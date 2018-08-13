@@ -165,12 +165,6 @@ public class WorkInstanceOlemlRecordProcessor_UT extends BaseTestCase {
         itemStatus.setCodeValue("In Process");
         itemStatus.setFullValue("In Process");
         item.setItemStatus(itemStatus);
-        HighDensityStorage highDensityStorage = objectFactory.createHighDensityStorage();
-        highDensityStorage.setModule("M001");
-        highDensityStorage.setRow("1");
-        highDensityStorage.setShelf("sh");
-        highDensityStorage.setTray("tr");
-        item.setHighDensityStorage(highDensityStorage);
         itemType = new ItemType();
         itemType.setCodeValue("IT001");
         itemType.setFullValue("IT001");
@@ -221,10 +215,6 @@ public class WorkInstanceOlemlRecordProcessor_UT extends BaseTestCase {
             LOG.info("Note Value:" + item1.getNote());
             LOG.info("Enumeration:" + item1.getEnumeration());
             LOG.info("Chronology:" + item1.getChronology());
-            LOG.info("Module:" + item1.getHighDensityStorage().getModule());
-            LOG.info("Row:" + item1.getHighDensityStorage().getRow());
-            LOG.info("Shelf:" + item1.getHighDensityStorage().getShelf());
-            LOG.info("Tray:" + item1.getHighDensityStorage().getTray());
             LOG.info("Code Value:" + item1.getItemType().getCodeValue());
             LOG.info("Full Value:" + item1.getItemType().getFullValue());
             LOG.info("Code Value:" + item1.getTemporaryItemType().getCodeValue());
@@ -749,13 +739,6 @@ public class WorkInstanceOlemlRecordProcessor_UT extends BaseTestCase {
 
   location.setMaterialsSpecified("materialsSpecified1");
   item.getLocation().add(location);
-
-  HighDensityStorage highDensityStorage = new HighDensityStorage();
-  highDensityStorage.setHds("hds1");
-  highDensityStorage.setModule("module1");
-  highDensityStorage.setRow("row1");
-  highDensityStorage.setShelf("shelf1");
-  item.setHighDensityStorage(highDensityStorage);
 
   item.getVendorLineItemIdentifier().add("Vendoer Line Item Identifier-1");
 

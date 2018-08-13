@@ -57,9 +57,6 @@
                 <note type="public"></note>
                 <enumeration></enumeration>
                 <chronology></chronology>
-                <highDensityStorage>
-                    <row></row>
-                </highDensityStorage>
                 <temporaryItemType>
                     <codeValue>DAY02</codeValue>
                 </temporaryItemType>

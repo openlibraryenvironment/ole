@@ -334,7 +334,6 @@ public class RebuildIndexBibDao implements Callable {
         Map<String, Item> itemHashMap = new HashMap<>();
         String itemQuery = getItemQuery(holdingsId);
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(itemQuery);
-        Set<String> highDensityStorageSet = null;
         Set<String> donorNoteSet = null;
         Set<String> itemNoteSet = null;
         Set<String> statisticalSearchSet = null;
@@ -418,7 +417,6 @@ public class RebuildIndexBibDao implements Callable {
                 itemObj.setNumberOfPieces(resultSet.getString("NUM_PIECES"));
                 itemObj.setDescriptionOfPieces(resultSet.getString("DESC_OF_PIECES"));
                 itemObj.setNumberOfRenew(resultSet.getInt("NUM_OF_RENEW"));
-                highDensityStorageSet = new HashSet<>();
                 itemNoteSet = new HashSet<>();
                 statisticalSearchSet = new HashSet<>();
                 donorNoteSet = new HashSet<>();
@@ -476,23 +474,18 @@ public class RebuildIndexBibDao implements Callable {
                 donorInfo.setDonorPublicDisplay(resultSet.getString("DONOR_DISPLAY_NOTE"));
                 itemObj.getDonorInfo().add(donorInfo);
             }
-            if (highDensityStorageSet.add(resultSet.getString("ITEM_DONOR_ID"))) {
-                HighDensityStorage highDensityStorage = new HighDensityStorage();
-                highDensityStorage.setRow(resultSet.getString("HIGH_DENSITY_ROW"));
-                itemObj.setHighDensityStorage(highDensityStorage);
-            }
         }
         return itemList;
     }
 
     private String getItemQuery(int holdingsId) {
         return "SELECT I.*,N.ITEM_NOTE_ID,N.NOTE,N.TYPE, S.STAT_SEARCH_CODE_ID," +
-                "D.ITEM_DONOR_ID,D.DONOR_CODE,D.DONOR_DISPLAY_NOTE,D.DONOR_NOTE,HD.HIGH_DENSITY_ROW " +
+                "D.ITEM_DONOR_ID,D.DONOR_CODE,D.DONOR_DISPLAY_NOTE,D.DONOR_NOTE " +
                 "FROM ole_ds_item_t I " +
                 "LEFT JOIN ole_ds_item_donor_t D ON I.item_id=D.item_id " +
                 "LEFT JOIN ole_ds_item_note_t N ON I.item_id = N.item_id " +
                 "LEFT JOIN ole_ds_item_stat_search_t S ON I.item_id=S.item_id " +
-                "LEFT JOIN OLE_DS_HIGH_DENSITY_STORAGE_T HD ON I.HIGH_DENSITY_STORAGE_ID =HD.HIGH_DENSITY_STORAGE_ID " +
+                /*"LEFT JOIN OLE_DS_HIGH_DENSITY_STORAGE_T HD ON I.HIGH_DENSITY_STORAGE_ID =HD.HIGH_DENSITY_STORAGE_ID " +*/
                 "WHERE I.HOLDINGS_ID= " + holdingsId;
     }
 

@@ -402,8 +402,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element type="ole:highDensityStorage" name="highDensityStorage"
-                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
             <xs:element type="ole:itemType" name="temporaryItemType"
                         xmlns:ole="http://ole.kuali.org/standards/ole-instance">
                 <xs:annotation>
@@ -561,20 +559,6 @@
             <xs:element type="xs:string" name="fullValue"/>
             <xs:element type="ole:typeOrSource" name="typeOrSource"
                         xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="highDensityStorage">
-        <xs:annotation>
-            <xs:documentation>Does not map to MFHD. Identifies the Row, Module, Shelf, and Tray information for
-                the
-                item's High Density Storage location.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element type="xs:string" name="row"/>
-            <xs:element type="xs:string" name="module"/>
-            <xs:element type="xs:string" name="shelf"/>
-            <xs:element type="xs:string" name="tray"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="itemType">

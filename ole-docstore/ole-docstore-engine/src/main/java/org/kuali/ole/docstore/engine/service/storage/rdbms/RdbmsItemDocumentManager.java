@@ -19,7 +19,6 @@ import org.kuali.ole.docstore.common.document.content.instance.AccessInformation
 import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.CheckInLocation;
 import org.kuali.ole.docstore.common.document.content.instance.FormerIdentifier;
-import org.kuali.ole.docstore.common.document.content.instance.HighDensityStorage;
 import org.kuali.ole.docstore.common.document.content.instance.Identifier;
 import org.kuali.ole.docstore.common.document.content.instance.ItemStatus;
 import org.kuali.ole.docstore.common.document.content.instance.ItemType;
@@ -471,16 +470,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         statisticalSearchingCodes.add(statisticalSearchingCode);
         item.setStatisticalSearchingCode(statisticalSearchingCodes);
-        HighDensityStorage highDensityStorage = new HighDensityStorage();
-
-        if (itemRecord.getHighDensityStorageRecord() != null) {
-            HighDensityStorageRecord highDensityStorageRecord = itemRecord.getHighDensityStorageRecord();
-            highDensityStorage.setModule(highDensityStorageRecord.getModule());
-            highDensityStorage.setRow(highDensityStorageRecord.getRow());
-            highDensityStorage.setShelf(highDensityStorageRecord.getShelf());
-            highDensityStorage.setTray(highDensityStorageRecord.getTray());
-        }
-        item.setHighDensityStorage(highDensityStorage);
         if (itemRecord.getEffectiveDate() != null) {
             //Format formatter = new SimpleDateFormat("yyyy-MM-dd");
             //String effectiveDate = formatter.format(itemRecord.getEffectiveDate().toString());
@@ -760,7 +749,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
            itemRecord.setItemTypeId(null);
             itemRecord.setTempItemTypeId(null);
             itemRecord.setStatisticalSearchId(null);
-           itemRecord.setHighDensityStorageId(null);
             getBusinessObjectService().deleteMatching(ItemStatisticalSearchRecord.class, getItemMap(id));
            getBusinessObjectService().delete(itemRecord);
         }
@@ -1006,11 +994,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             ItemStatusRecord itemStatusRecord = saveItemStatusRecord(item.getItemStatus().getCodeValue());
             itemRecord.setItemStatusId(itemStatusRecord == null ? null : itemStatusRecord.getItemStatusId());
             itemRecord.setItemStatusRecord(itemStatusRecord);
-        }
-        if (item.getHighDensityStorage() != null) {
-            HighDensityStorageRecord highDensityStorageRecord = saveHighDensityStorageRecord(item.getHighDensityStorage());
-            itemRecord.setHighDensityStorageRecord(highDensityStorageRecord);
-            itemRecord.setHighDensityStorageId(highDensityStorageRecord == null ? null : highDensityStorageRecord.getHighDensityStorageId());
         }
         StringBuffer locationLevel = new StringBuffer("");
         itemRecord.setLocation(getLocation(item.getLocation(), locationLevel));
@@ -1364,17 +1347,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         }
         return locationName.toString();
     }
-
-    protected HighDensityStorageRecord saveHighDensityStorageRecord(HighDensityStorage  highDensityStorage) {
-
-        HighDensityStorageRecord highDensityStorageRecord = new HighDensityStorageRecord();
-        highDensityStorageRecord.setRow(highDensityStorage.getRow());
-        highDensityStorageRecord.setModule(highDensityStorage.getModule());
-        highDensityStorageRecord.setShelf(highDensityStorage.getShelf());
-        getBusinessObjectService().save(highDensityStorageRecord);
-        return highDensityStorageRecord;
-    }
-
 
     protected ItemStatusRecord saveItemStatusRecord(String itemStatus) {
         Map map = new HashMap();

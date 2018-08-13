@@ -220,10 +220,6 @@ public interface DocstoreConstants {
     public static final String TEMPORARY_ITEM_TYPE_CODE_VALUE_SEARCH = "TemporaryItemTypeCodeValue_search";
     public static final String TEMPORARY_ITEM_TYPE_FULL_VALUE_DISPLAY = "TemporaryItemTypeFullValue_display";
     public static final String TEMPORARY_ITEM_TYPE_CODE_VALUE_DISPLAY = "TemporaryItemTypeCodeValue_display";
-    public static final String HIGHDENSITYSTORAGE_ROW_DISPLAY = "HighDensityStorage_Row_display";
-    public static final String HIGHDENSITYSTORAGE_MODULE_DISPLAY = "HighDensityStorage_Module_display";
-    public static final String HIGHDENSITYSTORAGE_SHELF_DISPLAY = "HighDensityStorage_Shelf_display";
-    public static final String HIGHDENSITYSTORAGE_TRAY_DISPLAY = "HighDensityStorage_Tray_display";
     public static final String ITEMNOTE_VALUE_DISPLAY = "ItemNote_Value_display";
     public static final String ITEMNOTE_TYPE_DISPLAY = "ItemNote_Type_display";
     public static final String HOLDINGS_CALLNUMBER_SEARCH = "HoldingsCallNumber_search";

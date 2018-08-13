@@ -88,12 +88,6 @@
 				</classificationOrShelvingSchemeSource>
 				<materialsSpecified>materialsSpecified-1</materialsSpecified>
 			</location>
-			<highDensityStorage>
-				<row>row-1</row>
-				<module>module-1</module>
-				<shelf>shelf-1</shelf>
-				<hds>hds-1</hds>
-			</highDensityStorage>
 			<extension displayLabel="Extension LAbel 2">
 				<additionalAttributes>
 					<dateEntered>12-2-2011</dateEntered>

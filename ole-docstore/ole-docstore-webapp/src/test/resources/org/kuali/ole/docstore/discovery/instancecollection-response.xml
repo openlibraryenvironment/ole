@@ -94,9 +94,6 @@
                 </ole:note>
                 <ole:enumeration>v.1</ole:enumeration>
                 <ole:chronology>2012</ole:chronology>
-                <ole:highDensityStorage>
-                    <ole:row></ole:row>
-                </ole:highDensityStorage>
                 <circ:temporaryItemType>
                     <ole:codeValue></ole:codeValue>
                     <ole:typeOrSource>
@@ -171,9 +168,6 @@
                 </ole:note>
                 <ole:enumeration>v.1</ole:enumeration>
                 <ole:chronology>2012</ole:chronology>
-                <ole:highDensityStorage>
-                    <ole:row></ole:row>
-                </ole:highDensityStorage>
                 <circ:temporaryItemType>
                     <ole:codeValue></ole:codeValue>
                     <ole:typeOrSource>
@@ -297,9 +291,6 @@
                 </ole:note>
                 <ole:enumeration>v.1</ole:enumeration>
                 <ole:chronology>2012</ole:chronology>
-                <ole:highDensityStorage>
-                    <ole:row></ole:row>
-                </ole:highDensityStorage>
                 <circ:temporaryItemType>
                     <ole:codeValue></ole:codeValue>
                     <ole:typeOrSource>

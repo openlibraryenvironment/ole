@@ -1861,30 +1861,6 @@
                         IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="Y" IS_SEARCH="N"
                         NAME="DonorNote_display" OBJ_ID="235" VER_NBR="1"/>
 
-    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="High Density Storage" DESCRIPTION=""
-                        DOC_FIELD_ID="236" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
-                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
-                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="Y" IS_SEARCH="N"
-                        NAME="HighDensityStorage_Row_display" OBJ_ID="236" VER_NBR="1"/>
-
-    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="High Density Storage" DESCRIPTION=""
-                        DOC_FIELD_ID="237" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
-                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
-                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="Y" IS_SEARCH="N"
-                        NAME="HighDensityStorage_Module_display" OBJ_ID="237" VER_NBR="1"/>
-
-    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="High Density Storage" DESCRIPTION=""
-                        DOC_FIELD_ID="238" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
-                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
-                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="Y" IS_SEARCH="N"
-                        NAME="HighDensityStorage_Shelf_display" OBJ_ID="238" VER_NBR="1"/>
-
-    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="High Density Storage" DESCRIPTION=""
-                        DOC_FIELD_ID="239" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
-                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
-                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="Y" IS_SEARCH="N"
-                        NAME="HighDensityStorage_Tray_display" OBJ_ID="239" VER_NBR="1"/>
-
     <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Item Note" DESCRIPTION=""
                         DOC_FIELD_ID="240" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
                         EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"

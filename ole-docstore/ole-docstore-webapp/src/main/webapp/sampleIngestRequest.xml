@@ -261,12 +261,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2012</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -555,12 +549,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.36</ole:enumeration>
         <ole:chronology>2010</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -747,12 +735,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2004</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -853,12 +835,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2006</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -1187,12 +1163,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.6</ole:enumeration>
         <ole:chronology>2002</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -1296,12 +1266,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.7</ole:enumeration>
         <ole:chronology>2009</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -1489,12 +1453,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2002</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -1682,12 +1640,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2010</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -1791,12 +1743,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.2</ole:enumeration>
         <ole:chronology>2010</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -1900,12 +1846,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2001</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
@@ -2210,12 +2150,6 @@
         <ole:note type="string"></ole:note>
         <ole:enumeration>v.1</ole:enumeration>
         <ole:chronology>2002</ole:chronology>
-        <ole:highDensityStorage>
-          <ole:row></ole:row>
-          <ole:module></ole:module>
-          <ole:shelf></ole:shelf>
-          <ole:tray></ole:tray>
-        </ole:highDensityStorage>
         <ole:temporaryItemType>
           <ole:codeValue></ole:codeValue>
           <ole:fullValue></ole:fullValue>
