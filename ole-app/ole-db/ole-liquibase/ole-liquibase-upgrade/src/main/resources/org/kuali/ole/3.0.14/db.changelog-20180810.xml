@@ -24,5 +24,8 @@
         <dropTable
                 schemaName="ole"
                 tableName="OLE_DS_HIGH_DENSITY_STORAGE_T"/>
+        <dropTable
+                schemaName="ole"
+                tableName="OLE_DS_HIGH_DENSITY_STORAGE_S"/>
     </changeSet>
 </databaseChangeLog>

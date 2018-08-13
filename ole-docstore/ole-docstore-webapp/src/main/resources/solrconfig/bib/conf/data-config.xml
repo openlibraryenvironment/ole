@@ -137,7 +137,6 @@
                                           CALL_NUMBER,
                                           SHELVING_ORDER,
                                           CALL_NUMBER_TYPE_ID,
-                                          HIGH_DENSITY_STORAGE_ID,
                                           CLAIMS_RETURNED,
                                           CLAIMS_RETURNED_DATE_CREATED ,
                                           CLAIMS_RETURNED_NOTE,
