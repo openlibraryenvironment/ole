@@ -28,4 +28,27 @@
                 schemaName="ole"
                 tableName="OLE_DS_HIGH_DENSITY_STORAGE_S"/>
     </changeSet>
+    <changeSet context="bootstrap" id="OLE_DS_BIB_INFO_T_delete" author="ole">
+        <delete tableName="OLE_DS_BIB_INFO_T">
+            <where>BIB_ID NOT IN (SELECT BIB_ID FROM OLE_DS_BIB_T)</where>
+        </delete>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_BIB_INFO_T_BIB_ID">
+        <modifyDataType
+                columnName="BIB_ID"
+                newDataType="INTEGER"
+                tableName="OLE_DS_BIB_INFO_T"/>
+
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_BIB_INFO_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="BIB_ID"
+                                 baseTableName="OLE_DS_BIB_INFO_T"
+                                 constraintName="OLE_DS_BIB_INFO_T_FK"
+                                 onDelete="CASCADE"
+                                 referencedColumnNames="BIB_ID"
+                                 referencedTableName="OLE_DS_BIB_T"/>
+    </changeSet>
 </databaseChangeLog>
