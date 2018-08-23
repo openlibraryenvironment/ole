@@ -107,6 +107,12 @@ public class SolrServerManager {
     public SolrServer getSolrServer(String solrCore, boolean isStreaming, boolean isEmbedded)
             throws SolrServerException {
         SolrServer solr = null;
+        while(docSearchUrl.endsWith("//")) {
+            docSearchUrl  = docSearchUrl.substring(0,docSearchUrl.lastIndexOf("/"));
+        }
+        if(solrCore.contains("/")) {
+            solrCore = solrCore.replaceAll("/","");
+        }
         try {
             if (null == serverMap) {
                 serverMap = new HashMap<String, SolrServer>();
