@@ -162,7 +162,7 @@ function populateBatchExportReportFromContent(fileContent, $scope) {
 function populateBatchNoticeReportFromContent(fileContent, $scope) {
     var batchNoticeReport = getBatchNoticeReportContent(fileContent);
     $scope.batchDeliverNoticeReportPanel = batchNoticeReport;
-    console.log($scope.batchDeliverNoticeReportPanel);
+    $scope.failureLoanAndNoticeResponsePanel = prepareFailureLoanAndNoticeResponses(fileContent)
 }
 
 function getMainSectionContent(fileContent) {
@@ -221,6 +221,22 @@ function getBatchNoticeReportContent(fileContent) {
     };
     return batchNoticereport;
 }
+
+function prepareFailureLoanAndNoticeResponses(fileContent){
+    var tmpFailureLoanAndNoticeResponse = fileContent["failureLoanAndNoticeResponses"];
+    var failureLoanAndNoticeResponses = [];
+    for(var i = 0; i < tmpFailureLoanAndNoticeResponse.length; i++){
+        var failureLoanAndNoticeResponse = {
+            "failedLoanId" : tmpFailureLoanAndNoticeResponse[i].failedLoanId,
+            "failedNoticeId" : tmpFailureLoanAndNoticeResponse[i].failedNoticeId
+        }
+        failureLoanAndNoticeResponses.push(failureLoanAndNoticeResponse);
+    }
+
+    return failureLoanAndNoticeResponses;
+}
+
+
 
 function getMainSectionContentForOrderAndInvoiceImport(fileContent) {
     var mainSectionContent = {

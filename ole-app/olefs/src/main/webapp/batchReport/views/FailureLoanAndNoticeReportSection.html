@@ -1,0 +1,52 @@
+<div class="panel-group" ng-model="failureLoanAndNoticeResponseActivePanel" data-allow-multiple="true" role="tablist"
+     aria-multiselectable="true" bs-collapse>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a bs-collapse-toggle href="#"
+                   ng-click="failureLoanAndNoticeResponsePanel.collapsed = !failureLoanAndNoticeResponsePanel.collapsed">
+                    <span class="glyphicon"
+                          ng-class="{'glyphicon-chevron-right': !failureLoanAndNoticeResponsePanel.collapsed, 'glyphicon-chevron-down': failureLoanAndNoticeResponsePanel.collapsed}"></span>
+                    Failure Notice Details Section
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+                <div class="form-group" ng-show="failureLoanAndNoticeResponsePanel.length > 0">
+                    <label>Show
+                        <select ng-model="pageSize">
+                            <option ng-repeat="row in rowsToDisplay">{{row}}</option>
+                        </select> entries
+                    </label>
+                    <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="failureLoanAndNoticeResponsePanel.length"
+                        ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-bordered row-border hover">
+                        <thead>
+                        <tr>
+                            <th>Failed Loan Id</th>
+                            <th>Failed Notice Id</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="failureLoanAndNoticeResponse in failureLoanAndNoticeResponsePanel | orderBy :'failedLoanId' | paginate:currentPage:pageSize">
+                            <td ng-bind="failureLoanAndNoticeResponse.failedLoanId"></td>
+                            <td ng-bind="failureLoanAndNoticeResponse.failedNoticeId"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <div ng-show="failureLoanAndNoticeResponsePanel.length > 0">
+                        Showing {{((currentPage - 1)*pageSize) + 1}} to {{currentPage * pageSize > failureLoanAndNoticeResponsePanel.length ? failureLoanAndNoticeResponsePanel.length : currentPage * pageSize}} from {{failureLoanAndNoticeResponsePanel.length}}
+                        <ul uib-pagination  class="pull-right" previous-text="< Prev" next-text="Next >" total-items="failureLoanAndNoticeResponsePanel.length"
+                            ng-model="currentPage" items-per-page="pageSize" max-size="5" boundary-links="true"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

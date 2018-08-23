@@ -351,6 +351,7 @@ public abstract class NoticeCallable implements Callable {
             oleNGBatchNoticeResponse.setNoOfSuccessNotice(noticeCount);
         }else{
             oleNGBatchNoticeResponse.setNoOfFailureNotice(noticeCount);
+            oleNGBatchNoticeResponse.setFailureLoanAndNoticeResponses(deliverNoticeHandler.getFailureLoanAndNoticeResponses(oleLoanDocuments,noticeType,noticeToBeSendDate));
         }
     }
 

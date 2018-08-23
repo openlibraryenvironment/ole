@@ -7,6 +7,7 @@ import org.apache.commons.net.ntp.TimeStamp;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.service.*;
+import org.kuali.ole.docstore.common.response.FailureLoanAndNoticeResponse;
 import org.kuali.ole.docstore.common.response.OleNGBatchNoticeResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
@@ -48,6 +49,10 @@ public class NoticeDAO {
         String noticeToSendDate = null;
 
         oleNGBatchNoticeResponse.setNoticeType(noticeType);
+
+        if(CollectionUtils.isEmpty(oleNGBatchNoticeResponse.getFailureLoanAndNoticeResponses())){
+            oleNGBatchNoticeResponse.setFailureLoanAndNoticeResponses(new ArrayList<FailureLoanAndNoticeResponse>());
+        }
 
         List<Future> futures = new ArrayList<>();
 
@@ -104,6 +109,7 @@ public class NoticeDAO {
                     }catch (Exception e){
                         int failedNoticeCount = deliverNoticeHandler.getTotalNoticesCount(configMap.get(configName), noticeType, noticetoBeSendDate);
                         oleNGBatchNoticeResponse.setNoOfFailureNotice(oleNGBatchNoticeResponse.getNoOfFailureNotice() + failedNoticeCount);
+                        oleNGBatchNoticeResponse.getFailureLoanAndNoticeResponses().addAll(deliverNoticeHandler.getFailureLoanAndNoticeResponses(configMap.get(configName), noticeType, noticetoBeSendDate));
                     }
 
                 }
@@ -141,25 +147,8 @@ public class NoticeDAO {
     private void mergeResponses(OleNGBatchNoticeResponse originalNoticeResponse, OleNGBatchNoticeResponse noticeResponse) {
         originalNoticeResponse.setNoOfSuccessNotice(originalNoticeResponse.getNoOfSuccessNotice() + noticeResponse.getNoOfSuccessNotice());
         originalNoticeResponse.setNoOfFailureNotice(originalNoticeResponse.getNoOfFailureNotice() + noticeResponse.getNoOfFailureNotice());
-    }
-    public int getMaximumNumberOfThreadForExportService() {
-        String maxNumberOfThreadFromParameter = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
-                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
-        int maxNumberOfThread = 10;
-        if(StringUtils.isNotBlank(maxNumberOfThreadFromParameter)){
-            try{
-                int maxNumberOfThreadFromParameterInterger = Integer.parseInt(maxNumberOfThreadFromParameter);
-                if(maxNumberOfThreadFromParameterInterger > 0){
-                    maxNumberOfThread = maxNumberOfThreadFromParameterInterger;
-                }else{
-                    LOG.info("Invalid max number of thread for export service from system parameter. So taking the default max number of thread : " + maxNumberOfThread);
-                }
-            }catch(Exception exception){
-                LOG.info("Invalid max number of thread for export service from system parameter. So taking the default max number of thread : " + maxNumberOfThread);
-            }
-        }else{
-            LOG.info("Invalid max number of thread for export service from system parameter. So taking the default max number of thread : " + maxNumberOfThread);
+        if(CollectionUtils.isNotEmpty(noticeResponse.getFailureLoanAndNoticeResponses())) {
+            originalNoticeResponse.getFailureLoanAndNoticeResponses().addAll(noticeResponse.getFailureLoanAndNoticeResponses());
         }
-        return maxNumberOfThread;
     }
 }

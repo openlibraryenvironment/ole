@@ -1,9 +1,13 @@
 /**
  * Created by SheikS on 2/11/2016.
  */
-var batchReportViewerApp = angular.module('batchReportViewerApp', ['datatables', 'customDirectives', 'ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap']);
+var batchReportViewerApp = angular.module('batchReportViewerApp', ['datatables', 'customDirectives', 'ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ui.bootstrap', 'ole.app-filter']);
 
 batchReportViewerApp.controller('batchReportViewerController', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.currentPage = 1;
+    $scope.rowsToDisplay = [10,25, 50, 75, 100];
+    $scope.pageSize = 10;
 
     initializePanels($scope);
     $scope.fileList = [];

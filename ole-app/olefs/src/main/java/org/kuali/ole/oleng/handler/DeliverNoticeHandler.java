@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.docstore.common.response.FailureLoanAndNoticeResponse;
 import org.kuali.ole.docstore.common.response.OleNGBatchNoticeResponse;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.profile.model.BatchDeliverNotices;
@@ -99,6 +100,26 @@ public class DeliverNoticeHandler extends BatchUtil {
         return noticeCount;
     }
 
+
+    public List<FailureLoanAndNoticeResponse> getFailureLoanAndNoticeResponses(List<OleLoanDocument> oleLoanDocuments, String noticeType, Timestamp noticeToBeSendDate){
+
+        List<FailureLoanAndNoticeResponse> failureLoanAndNoticeResponses = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(oleLoanDocuments)){
+            for(OleLoanDocument oleLoanDocument : oleLoanDocuments){
+                for(OLEDeliverNotice oleDeliverNotice : oleLoanDocument.getDeliverNotices()){
+                    if(oleDeliverNotice != null && oleDeliverNotice.getNoticeType().equals(noticeType) &&
+                            noticeToBeSendDate != null && oleDeliverNotice.getNoticeToBeSendDate().compareTo(noticeToBeSendDate) < 0){
+                        FailureLoanAndNoticeResponse failureLoanAndNoticeResponse = new FailureLoanAndNoticeResponse();
+                        failureLoanAndNoticeResponse.setFailedLoanId(oleDeliverNotice.getLoanId());
+                        failureLoanAndNoticeResponse.setFailedNoticeId(oleDeliverNotice.getId());
+                        failureLoanAndNoticeResponses.add(failureLoanAndNoticeResponse);
+                    }
+                }
+            }
+        }
+
+        return  failureLoanAndNoticeResponses;
+    }
 
 }
 
