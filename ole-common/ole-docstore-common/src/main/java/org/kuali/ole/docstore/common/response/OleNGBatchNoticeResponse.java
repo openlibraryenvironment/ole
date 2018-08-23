@@ -38,6 +38,10 @@ public class OleNGBatchNoticeResponse {
     @JsonProperty("reportDirectoryName")
     private String reportDirectoryName;
 
+    @JsonProperty("failureLoanAndNoticeResponses")
+    private List<FailureLoanAndNoticeResponse> failureLoanAndNoticeResponses;
+
+
     public String getJobDetailId() {
         return jobDetailId;
     }
@@ -102,4 +106,11 @@ public class OleNGBatchNoticeResponse {
         this.reportDirectoryName = reportDirectoryName;
     }
 
+    public List<FailureLoanAndNoticeResponse> getFailureLoanAndNoticeResponses() {
+        return failureLoanAndNoticeResponses;
+    }
+
+    public void setFailureLoanAndNoticeResponses(List<FailureLoanAndNoticeResponse> failureLoanAndNoticeResponses) {
+        this.failureLoanAndNoticeResponses = failureLoanAndNoticeResponses;
+    }
 }
