@@ -24,6 +24,7 @@ import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.common.service.DocstoreService;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.engine.service.DocstoreServiceImpl;
+import org.kuali.ole.docstore.engine.service.storage.DocstoreRDBMSStorageService;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
@@ -430,8 +431,18 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
     protected void updateRecordInSolr(Object object, List<SolrInputDocument> solrInputDocuments) {
         LOG.info("HoldingsOlemlIndexer class");
         Holdings holdings = (Holdings) object;
-        List<SolrDocument> solrDocumentList = getSolrDocumentBySolrId(holdings.getId());
-        SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
+        List<SolrDocument> solrDocumentList;
+        SolrDocument holdingsSolrDocument;
+        try{
+            solrDocumentList = getSolrDocumentBySolrId(holdings.getId());
+            holdingsSolrDocument = solrDocumentList.get(0);
+        }catch(Exception e){
+            BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+            DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+            bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(rdbmsStorageService.retrieveHoldings(holdings.getId()).getBib().getId()));
+            solrDocumentList = getSolrDocumentBySolrId(holdings.getId());
+            holdingsSolrDocument = solrDocumentList.get(0);
+        }
 
         if (holdingsSolrDocument != null) {
             Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
@@ -451,13 +462,22 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Do
             solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
             solrDocForHolding.addField(DATE_UPDATED, date);
             solrInputDocuments.add(solrDocForHolding);
-            addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdings.getBib().getId());
+            addHoldingsDetailsToBib(solrInputDocuments, solrDocForHolding, holdings.getBib().getId());
         }
     }
 
     private void addHoldingsDetailsToBib(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, Object bibs) {
         String bibId = (String) bibs;
-        SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
+        SolrDocument solrBibDocument;
+        try{
+            solrBibDocument = getSolrDocumentByUUID(bibId);
+        }
+        catch(Exception e){
+            BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+            DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+            bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(bibId));
+            solrBibDocument = getSolrDocumentByUUID(bibId);
+        }
         Collection<Object> bibValues = solrBibDocument.getFieldValues(URI_SEARCH);
         setStaffOnly(solrInputDocuments, solrInputDocument, bibId, solrBibDocument);
         Object holdigsValue = solrInputDocument.getFieldValue(URI_SEARCH);
