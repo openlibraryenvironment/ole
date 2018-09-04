@@ -16,6 +16,7 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRe
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.common.util.ReindexBatchStatistics;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
+import org.kuali.ole.docstore.engine.service.storage.DocstoreRDBMSStorageService;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
@@ -399,23 +400,34 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
 
     protected void updateRecordInSolr(Object object, List<SolrInputDocument> solrInputDocuments) {
         Bib bib = (Bib) object;
-        List<SolrDocument> solrDocumentList = getSolrDocumentBySolrId(bib.getId());
-        SolrDocument solrDocument = solrDocumentList.get(0);
-        SolrInputDocument solrInputDocument = new SolrInputDocument();
-        if (bib.getContent() != null) {
-            BibMarcRecord workBibMarcRecord = recordProcessor.fromXML(bib.getContent()).getRecords().get(0);
-            solrInputDocument = buildSolrInputDocument(workBibMarcRecord);
-            if (solrDocument != null && solrDocument.getFieldValue(HOLDINGS_IDENTIFIER) != null) {
-                addBibInfoToHoldings(solrInputDocuments, solrInputDocument, solrDocument);
-            }
-            if (StringUtils.isNotEmpty(bib.getStatusUpdatedOn())) {
-                solrInputDocument.setField(STATUS_UPDATED_ON, getDate(bib.getStatusUpdatedOn()));
-            }
-        } else {
-            buildSolrInputDocFromSolrDoc(solrDocument, solrInputDocument);
+        List<SolrDocument> solrDocumentList;
+        SolrDocument solrDocument;
+        try {
+            solrDocumentList = getSolrDocumentBySolrId(bib.getId());
+            solrDocument = solrDocumentList.get(0);
         }
-        setCommonFieldsForSolrDoc(solrInputDocument, bib, solrDocument);
-        solrInputDocuments.add(solrInputDocument);
+        catch (Exception e){
+            BibMarcIndexer bibMarcIndexer = new BibMarcIndexer();
+            DocstoreRDBMSStorageService rdbmsStorageService = new DocstoreRDBMSStorageService();
+            bibMarcIndexer.createTree(rdbmsStorageService.retrieveBibTree(bib.getId()));
+            solrDocumentList = getSolrDocumentBySolrId(bib.getId());
+            solrDocument = solrDocumentList.get(0);
+        }
+            SolrInputDocument solrInputDocument = new SolrInputDocument();
+            if (bib.getContent() != null) {
+                BibMarcRecord workBibMarcRecord = recordProcessor.fromXML(bib.getContent()).getRecords().get(0);
+                solrInputDocument = buildSolrInputDocument(workBibMarcRecord);
+                if (solrDocument != null && solrDocument.getFieldValue(HOLDINGS_IDENTIFIER) != null) {
+                    addBibInfoToHoldings(solrInputDocuments, solrInputDocument, solrDocument);
+                }
+                if (StringUtils.isNotEmpty(bib.getStatusUpdatedOn())) {
+                    solrInputDocument.setField(STATUS_UPDATED_ON, getDate(bib.getStatusUpdatedOn()));
+                }
+            } else {
+                buildSolrInputDocFromSolrDoc(solrDocument, solrInputDocument);
+            }
+            setCommonFieldsForSolrDoc(solrInputDocument, bib, solrDocument);
+            solrInputDocuments.add(solrInputDocument);
     }
 
     /**
