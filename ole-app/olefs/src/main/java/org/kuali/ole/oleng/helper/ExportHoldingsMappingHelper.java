@@ -98,6 +98,7 @@ public class ExportHoldingsMappingHelper {
                             dataFieldList.addAll(dataFieldsItemList);
                         dataFieldsItemList.clear();
                     }
+                    isStaffOnly = Boolean.FALSE;
                 }
             }
             if (CollectionUtils.isEmpty(dataFieldsHoldingsMap) && CollectionUtils.isEmpty(dataFieldsItemsMap) && CollectionUtils.isEmpty(dataFieldsDonorMap) && CollectionUtils.isEmpty(dataFieldsItemNoteMap)){
