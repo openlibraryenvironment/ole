@@ -1939,7 +1939,7 @@ public class PatronBillHelperService {
                 }
                 loanDocument.setItemStatus(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
                 oleItemRecordForCirc.setItemStatusToBeUpdatedTo(OLEConstants.ITEM_STATUS_LOST_AND_PAID);
-                checkinItemController.getCheckinUIController(checkinForm).updateLoanDocument(loanDocument, oleItemSearch, (ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"));
+                checkinItemController.getCheckinUIController(checkinForm).updateLoanDocument(loanDocument, oleItemSearch, (ItemRecord) checkinForm.getDroolsExchange().getContext().get("itemRecord"), checkinForm);
                 checkinItemController.getCheckinUIController(checkinForm).updateItemStatusAndCircCount(oleItemRecordForCirc);
             }
         }catch (Exception e){
