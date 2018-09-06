@@ -2044,6 +2044,9 @@ public class OLEConstants {
     public static final String TO_DUE_DATE_FIELD = "toDueDate";
     public static final String TO_DUE_DATE_MANDATORY = "error.deliver.toDueDate.field";
     public static final String TIME_SPAN_MANDATORY = "error.deliver.timespan.section";
+    public static final String FIXED_DUE_DATE_DUPLICATE_FIELD = "error.deliver.fixedDueDate.duplicate";
+    public static final String TIME_SPAN_OVERLAP = "error.deliver.timespan.overlap.section";
+    public static final String FROM_DATE_LESS_TO_DATE = "error.deliver.fromDate.less.field";
 
 
     public static final class OleDeliverRequest {
