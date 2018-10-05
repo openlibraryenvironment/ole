@@ -15,7 +15,7 @@ import java.util.List;
  * Created by pvsubrah on 12/24/15.
  */
 public abstract class HoldingsHandler extends HoldingsAndItemsGeneralHandler {
-    public abstract void processDataMappings(JSONObject requestJsonObject, Exchange exchange);
+    public abstract void processDataMappings(JSONObject requestJsonObject, Exchange exchange) throws Exception;
 
     public  boolean doesAlreadyNoteExist(String noteType, String publicNote, HoldingsRecord holdingRecord) {
         List<HoldingsNoteRecord> holdingsNoteRecords = holdingRecord.getHoldingsNoteRecords();

@@ -375,181 +375,179 @@ public class WorkEInstanceOlemlEditor
             }
         }
         long startTime = System.currentTimeMillis();
-        try {
-            if (docId != null && docId.length() > 0) {
-                OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
-                List<DonorInfo> donorInfos = eHoldings.getDonorInfo();
-                if(donorInfos.size() > 0) {
-                    for (DonorInfo donorInformation : donorInfos) {
-                        if(donorInformation.getDonorPublicDisplay() != null || donorInformation.getDonorNote() != null) {
-                            if(donorInformation.getDonorNote() != null) {
-                                String modifiedDonorNoteValue = donorInformation.getDonorNote().replaceAll("\"","&quot;");
-                                donorInformation.setDonorNote(modifiedDonorNoteValue);
+        if(isUrlValid(workEInstanceOlemlForm.getSelectedEHoldings().getLink())) {
+            try {
+                if (docId != null && docId.length() > 0) {
+                    OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
+                    List<DonorInfo> donorInfos = eHoldings.getDonorInfo();
+                    if (donorInfos.size() > 0) {
+                        for (DonorInfo donorInformation : donorInfos) {
+                            if (donorInformation.getDonorPublicDisplay() != null || donorInformation.getDonorNote() != null) {
+                                if (donorInformation.getDonorNote() != null) {
+                                    String modifiedDonorNoteValue = donorInformation.getDonorNote().replaceAll("\"", "&quot;");
+                                    donorInformation.setDonorNote(modifiedDonorNoteValue);
 
-                            }
-                            if(donorInformation.getDonorPublicDisplay() != null) {
-                                String modifiedDonorDisplayValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
-                                donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                                }
+                                if (donorInformation.getDonorPublicDisplay() != null) {
+                                    String modifiedDonorDisplayValue = donorInformation.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                                    donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                                }
+                            } else {
+                                Map donorMap = new HashMap();
+                                donorMap.put("donorCode", donorInformation.getDonorCode());
+                                OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, donorMap);
+                                if (oleDonor.getDonorNote() != null) {
+                                    String modifiedDonorNoteValue = oleDonor.getDonorNote().replaceAll("\"", "&quot;");
+                                    donorInformation.setDonorNote(modifiedDonorNoteValue);
+                                }
+                                if (oleDonor.getDonorPublicDisplay() != null) {
+                                    String modifiedDonorDisplayValue = oleDonor.getDonorPublicDisplay().replaceAll("\"", "&quot;");
+                                    donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
+                                }
                             }
                         }
-                        else {
-                            Map donorMap = new HashMap();
-                            donorMap.put("donorCode", donorInformation.getDonorCode());
-                            OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, donorMap);
-                            if(oleDonor.getDonorNote() != null) {
-                                String modifiedDonorNoteValue = oleDonor.getDonorNote().replaceAll("\"","&quot;");
-                                donorInformation.setDonorNote(modifiedDonorNoteValue);
-                            }
-                            if(oleDonor.getDonorPublicDisplay() != null) {
-                                String modifiedDonorDisplayValue = oleDonor.getDonorPublicDisplay().replaceAll("\"","&quot;");
-                                donorInformation.setDonorPublicDisplay(modifiedDonorDisplayValue);
-                            }
-                        }
+                        eHoldings.setDonorInfo(donorInfos);
                     }
-                    eHoldings.setDonorInfo(donorInfos);
-                }
-                boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
-                if (dateFlag) {
-                    getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
-                    String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
-                    getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
-                    eHoldingsDoc = new EHoldings();
-                    eHoldingsDoc.setId(editorForm.getDocId());
-                    eHoldingsDoc.setType(editorForm.getDocType());
-                    eHoldingsDoc.setFormat(editorForm.getDocFormat());
-                    eHoldingsDoc.setCategory(editorForm.getDocCategory());
-                    eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
-                    eHoldingsDoc.setUpdatedBy(user);
-                    eHoldingsDoc.setBib(bibTree.getBib());
-                    eHoldings = (OleHoldings) holdingOlemlRecordProcessor.fromXML(content);
-                    eHoldings = getEHolding(editorForm, eHoldings);
-                    String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
-                    eHoldingsDoc.setContent(newContent);
-                    docstoreClient.updateHoldings(eHoldingsDoc);
-                    workEInstanceOlemlForm.getSelectedEHoldings().setHoldingsIdentifier(eHoldingsDoc.getId());
-                    // To add updated EHoldings to bib tree
-                    addEHoldingsToBibTree(workEInstanceOlemlForm.getBibTreeList(), eHoldingsDoc);
-                    editorStatusMessage = "holdings.record.update.message";
+                    boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
+                    if (dateFlag) {
+                        getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
+                        String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
+                        getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
+                        eHoldingsDoc = new EHoldings();
+                        eHoldingsDoc.setId(editorForm.getDocId());
+                        eHoldingsDoc.setType(editorForm.getDocType());
+                        eHoldingsDoc.setFormat(editorForm.getDocFormat());
+                        eHoldingsDoc.setCategory(editorForm.getDocCategory());
+                        eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
+                        eHoldingsDoc.setUpdatedBy(user);
+                        eHoldingsDoc.setBib(bibTree.getBib());
+                        eHoldings = (OleHoldings) holdingOlemlRecordProcessor.fromXML(content);
+                        eHoldings = getEHolding(editorForm, eHoldings);
+                        String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
+                        eHoldingsDoc.setContent(newContent);
+                        docstoreClient.updateHoldings(eHoldingsDoc);
+                        workEInstanceOlemlForm.getSelectedEHoldings().setHoldingsIdentifier(eHoldingsDoc.getId());
+                        // To add updated EHoldings to bib tree
+                        addEHoldingsToBibTree(workEInstanceOlemlForm.getBibTreeList(), eHoldingsDoc);
+                        editorStatusMessage = "holdings.record.update.message";
+                    } else {
+                        return workEInstanceOlemlForm;
+                    }
                 } else {
-                    return workEInstanceOlemlForm;
-                }
-            } else {
-                OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
-                boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
-                if (dateFlag) {
-                    getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
-                    getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
-                    String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
-                    eHoldingsDoc = new EHoldings();
-                    eHoldingsDoc.setCategory(DocCategory.WORK.getCode());
-                    eHoldingsDoc.setType(DocType.EHOLDINGS.getCode());
-                    eHoldingsDoc.setFormat(DocFormat.OLEML.getCode());
-                    eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
-                    eHoldingsDoc.setCreatedBy(user);
-                    eHoldingsDoc.setBib(bibTree.getBib());
-                    eHoldings = (OleHoldings) holdingOlemlRecordProcessor.fromXML(content);
-                    eHoldings = getEHolding(editorForm, eHoldings);
-                    String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
-                    eHoldingsDoc.setContent(newContent);
-                    docstoreClient.createHoldings(eHoldingsDoc);
-                    editorForm.setDocId(eHoldingsDoc.getId());
-                    workEInstanceOlemlForm.setHoldingsId(DocumentUniqueIDPrefix.getDocumentId(eHoldingsDoc.getId()));
-                    processResponse(eHoldingsDoc.getId(), eHoldingsDoc.getBib().getId(), editorForm.getTokenId(), editorForm.getLinkToOrderOption());
-                    workEInstanceOlemlForm.getSelectedEHoldings().setHoldingsIdentifier(eHoldingsDoc.getId());
-                    HoldingsTree holdingsTree = new HoldingsTree();
-                    holdingsTree.setHoldings(eHoldingsDoc);
-                    List<HoldingsTree> holdingsTreeList = new ArrayList<>();
-                    holdingsTreeList.add(holdingsTree);
-                    bibTree.getHoldingsTrees().addAll(holdingsTreeList);
-                    editorStatusMessage = "record.create.message";
-                } else {
-                    return workEInstanceOlemlForm;
-                }
-            }
-            if(editorForm.getDocId()!=null){
-            Holdings holdingsDoc = docstoreClient.retrieveHoldings(editorForm.getDocId());
-            editorForm.setHoldingUpdatedDate(holdingsDoc.getUpdatedOn());
-            editorForm.setHoldingUpdatedBy(holdingsDoc.getUpdatedBy());
-            editorForm.setHoldingCreatedDate(holdingsDoc.getCreatedOn());
-            editorForm.setHoldingCreatedBy(holdingsDoc.getCreatedBy());
-            }
-
-        }
-        catch (DocstoreException e) {
-            LOG.error(e);
-            DocstoreException docstoreException = (DocstoreException) e;
-            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
-            } else {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
-            }
-            return workEInstanceOlemlForm;
-        }
-        catch (Exception e) {
-            LOG.error("Exception :", e);
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
-            return workEInstanceOlemlForm;
-
-        }
-        long endTime = System.currentTimeMillis();
-        editorForm.setSolrTime(String.valueOf((endTime-startTime)/1000));
-
-        try {
-            getEInstanceFormDataHandler().setLocationDetails(workEInstanceOlemlForm);
-            String eResId = workEInstanceOlemlForm.geteResourceId();
-            editorForm.seteResourceId(null);
-            workEInstanceOlemlForm.setViewId("WorkEInstanceViewPage");
-
-            GlobalVariables.getMessageMap().getInfoMessages().clear();
-            if (eResId != null && !eResId.isEmpty()) {
-                Map<String, String> tempId = new HashMap<String, String>();
-                tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, eResId);
-                OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
-
-                Person principalPerson = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                tempDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(tempDocument.getDocumentNumber()));
-                tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
-                if (tempDocument != null) {
-                    try {
-                        tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
-                        tempDocument.seteInstanceFlag(true);
-                        Map<String, String> eInsMap = new HashMap<>();
-                        eInsMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, tempDocument.getOleERSIdentifier());
-                        eInsMap.put(OLEConstants.INSTANCE_ID, editorForm.getDocId());
-                        List<OLEEResourceInstance> oleERSInstances = (List<OLEEResourceInstance>)KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceInstance.class, eInsMap);
-                        tempDocument.setOleERSInstances(oleERSInstances);
-                        for (OLEEResourceInstance oleeResourceInstance : tempDocument.getOleERSInstances()) {
-                            if (oleeResourceInstance.getInstanceId().equals(editorForm.getDocId())) {
-                                processResponse(editorForm.getDocId(), editorForm.getBibId(), tempDocument.getDocumentNumber(), editorForm.getLinkToOrderOption());
-                            }
-                        }
-                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), eHoldingsDoc);
-                        KRADServiceLocator.getBusinessObjectService().save(tempDocument.getCopyList());
-                        KRADServiceLocator.getBusinessObjectService().save(tempDocument.getOleERSInstances());
-                       // getDocumentService().updateDocument(tempDocument);
-                    } catch (Exception e) {
-                        LOG.error("Exception :", e);
-                        throw new RiceRuntimeException(
-                                "Exception trying to save document: " + tempDocument
-                                        .getDocumentNumber(), e);
+                    OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
+                    boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
+                    if (dateFlag) {
+                        getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
+                        getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
+                        String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
+                        eHoldingsDoc = new EHoldings();
+                        eHoldingsDoc.setCategory(DocCategory.WORK.getCode());
+                        eHoldingsDoc.setType(DocType.EHOLDINGS.getCode());
+                        eHoldingsDoc.setFormat(DocFormat.OLEML.getCode());
+                        eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
+                        eHoldingsDoc.setCreatedBy(user);
+                        eHoldingsDoc.setBib(bibTree.getBib());
+                        eHoldings = (OleHoldings) holdingOlemlRecordProcessor.fromXML(content);
+                        eHoldings = getEHolding(editorForm, eHoldings);
+                        String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
+                        eHoldingsDoc.setContent(newContent);
+                        docstoreClient.createHoldings(eHoldingsDoc);
+                        editorForm.setDocId(eHoldingsDoc.getId());
+                        workEInstanceOlemlForm.setHoldingsId(DocumentUniqueIDPrefix.getDocumentId(eHoldingsDoc.getId()));
+                        processResponse(eHoldingsDoc.getId(), eHoldingsDoc.getBib().getId(), editorForm.getTokenId(), editorForm.getLinkToOrderOption());
+                        workEInstanceOlemlForm.getSelectedEHoldings().setHoldingsIdentifier(eHoldingsDoc.getId());
+                        HoldingsTree holdingsTree = new HoldingsTree();
+                        holdingsTree.setHoldings(eHoldingsDoc);
+                        List<HoldingsTree> holdingsTreeList = new ArrayList<>();
+                        holdingsTreeList.add(holdingsTree);
+                        bibTree.getHoldingsTrees().addAll(holdingsTreeList);
+                        editorStatusMessage = "record.create.message";
+                    } else {
+                        return workEInstanceOlemlForm;
                     }
                 }
+                if (editorForm.getDocId() != null) {
+                    Holdings holdingsDoc = docstoreClient.retrieveHoldings(editorForm.getDocId());
+                    editorForm.setHoldingUpdatedDate(holdingsDoc.getUpdatedOn());
+                    editorForm.setHoldingUpdatedBy(holdingsDoc.getUpdatedBy());
+                    editorForm.setHoldingCreatedDate(holdingsDoc.getCreatedOn());
+                    editorForm.setHoldingCreatedBy(holdingsDoc.getCreatedBy());
+                }
+            } catch (DocstoreException e) {
+                LOG.error(e);
+                DocstoreException docstoreException = (DocstoreException) e;
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                }
+                return workEInstanceOlemlForm;
+            } catch (Exception e) {
+                LOG.error("Exception :", e);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
+                return workEInstanceOlemlForm;
+
             }
-        }
-        catch (DocstoreException e) {
-            LOG.error(e);
-            DocstoreException docstoreException = (DocstoreException) e;
-            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
-            } else {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+            long endTime = System.currentTimeMillis();
+            editorForm.setSolrTime(String.valueOf((endTime - startTime) / 1000));
+
+            try {
+                getEInstanceFormDataHandler().setLocationDetails(workEInstanceOlemlForm);
+                String eResId = workEInstanceOlemlForm.geteResourceId();
+                editorForm.seteResourceId(null);
+                workEInstanceOlemlForm.setViewId("WorkEInstanceViewPage");
+
+                GlobalVariables.getMessageMap().getInfoMessages().clear();
+                if (eResId != null && !eResId.isEmpty()) {
+                    Map<String, String> tempId = new HashMap<String, String>();
+                    tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, eResId);
+                    OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
+
+                    Person principalPerson = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                    tempDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(tempDocument.getDocumentNumber()));
+                    tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
+                    if (tempDocument != null) {
+                        try {
+                            tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
+                            tempDocument.seteInstanceFlag(true);
+                            Map<String, String> eInsMap = new HashMap<>();
+                            eInsMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, tempDocument.getOleERSIdentifier());
+                            eInsMap.put(OLEConstants.INSTANCE_ID, editorForm.getDocId());
+                            List<OLEEResourceInstance> oleERSInstances = (List<OLEEResourceInstance>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceInstance.class, eInsMap);
+                            tempDocument.setOleERSInstances(oleERSInstances);
+                            for (OLEEResourceInstance oleeResourceInstance : tempDocument.getOleERSInstances()) {
+                                if (oleeResourceInstance.getInstanceId().equals(editorForm.getDocId())) {
+                                    processResponse(editorForm.getDocId(), editorForm.getBibId(), tempDocument.getDocumentNumber(), editorForm.getLinkToOrderOption());
+                                }
+                            }
+                            getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), eHoldingsDoc);
+                            KRADServiceLocator.getBusinessObjectService().save(tempDocument.getCopyList());
+                            KRADServiceLocator.getBusinessObjectService().save(tempDocument.getOleERSInstances());
+                            // getDocumentService().updateDocument(tempDocument);
+                        } catch (Exception e) {
+                            LOG.error("Exception :", e);
+                            throw new RiceRuntimeException(
+                                    "Exception trying to save document: " + tempDocument
+                                            .getDocumentNumber(), e);
+                        }
+                    }
+                }
+            } catch (DocstoreException e) {
+                LOG.error(e);
+                DocstoreException docstoreException = (DocstoreException) e;
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                }
+                return workEInstanceOlemlForm;
+            } catch (Exception e) {
+                LOG.error("Exception :", e);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
+                return workEInstanceOlemlForm;
             }
-            return workEInstanceOlemlForm;
-        }
-        catch (Exception e) {
-            LOG.error("Exception :", e);
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
-            return workEInstanceOlemlForm;
+        }else{
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_EDIT_INSTANCE_HOLDINGS_URI_LENGTH);
         }
        /* WorkEInstanceOlemlForm eInstanceOlemlForm = (WorkEInstanceOlemlForm) loadDocument(editorForm);
         GlobalVariables.getMessageMap().getInfoMessages().clear();
@@ -1089,4 +1087,22 @@ public class WorkEInstanceOlemlEditor
         return workEInstanceOlemlForm;
     }
 
+
+    private boolean isUrlValid(List<Link> links){
+        if(CollectionUtils.isNotEmpty(links)){
+            for(Link link : links){
+                if(StringUtils.isNotBlank(link.getUrl())){
+                    if(link.getUrl().length() > 2400){
+                        return false;
+                    }
+                }
+                if(StringUtils.isNotBlank(link.getText())){
+                    if(link.getText().length() > 2400){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

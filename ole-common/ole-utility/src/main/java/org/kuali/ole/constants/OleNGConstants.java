@@ -419,6 +419,8 @@ public class OleNGConstants {
 
     public static final String _VERSION_ = "_version_";
     public final static String ERR_HOLDINGS_HAS_REQ_OR_PO = "Requisition/PO linked with holdings/eholdings : ";
+    public final static String ERR_EHOLDINGS_URI_LENGTH = "Url exceeds more than 2400 characters for the Bib";
+    public final static String ERR_EHOLDINGS_LINK_TEXT_LENGTH = "Link Text exceeds more than 2400 characters for the Bib";
     public final static String ERR_ITEM_HAS_REQ_OR_PO = "Requisition/PO linked with item : ";
     public static final String MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE = "MAX_NO_OF_THREAD_FOR_EXPORT_SERVICE";
     public static final String PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM = "PROCESS_AUDIT_FOR_BIB_HOLDINGS_ITEM";

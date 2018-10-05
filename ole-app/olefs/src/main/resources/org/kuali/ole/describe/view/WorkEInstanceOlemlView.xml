@@ -918,13 +918,13 @@
                         <bean parent="UrlPatternConstraint" />
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
+                        <bean parent="Uif-TextAreaControl"  p:maxLength="3000" p:rows="1" p:cols="20"/>
                     </property>
                 </bean>
                 <bean id="OleEinstance-linkText" parent="Uif-InputField" p:propertyName="text"
                       p:label="Link Text" p:render="@{editable eq 'true'}">
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
+                        <bean parent="Uif-TextAreaControl"  p:maxLength="3000" p:rows="1" p:cols="20"/>
                     </property>
                 </bean>
 
