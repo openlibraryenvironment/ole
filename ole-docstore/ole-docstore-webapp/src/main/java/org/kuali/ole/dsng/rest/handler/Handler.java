@@ -80,7 +80,7 @@ public abstract class Handler extends OleDsHelperUtil {
         this.oleDsNGMemorizeService = oleDsNGMemorizeService;
     }
 
-    public void processDataMappings(JSONObject jsonObject, Exchange exchange) throws JSONException, IOException {
+    public void processDataMappings(JSONObject jsonObject, Exchange exchange) throws Exception {
         JSONObject dataMapping = (JSONObject) exchange.get(OleNGConstants.DATAMAPPING);
         Map<String, Object> dataMappingsMap = new ObjectMapper().readValue(dataMapping.toString(), new TypeReference<Map<String, Object>>() {
         });

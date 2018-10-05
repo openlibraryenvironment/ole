@@ -47,7 +47,7 @@ public class UrlHandler extends HoldingsHandler {
     }
 
     @Override
-    public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) {
+    public void processDataMappings(JSONObject requestJsonObject, Exchange exchange) throws Exception {
         JSONArray jsonArrayeFromJsonObject = getJSONArrayeFromJsonObject(requestJsonObject, TYPE);
         List<String> listFromJSONArray = getListFromJSONArray(jsonArrayeFromJsonObject.toString());
         if(CollectionUtils.isNotEmpty(listFromJSONArray)) {
@@ -56,19 +56,27 @@ public class UrlHandler extends HoldingsHandler {
             if(CollectionUtils.isNotEmpty(holdingsUriRecords)) {
                 for (Iterator<String> uriRecordIterator = listFromJSONArray.iterator(); uriRecordIterator.hasNext(); ) {
                     String url = uriRecordIterator.next();
-                    for (Iterator<HoldingsUriRecord> iterator = holdingsUriRecords.iterator(); iterator.hasNext(); ) {
-                        HoldingsUriRecord holdingsUriRecord = iterator.next();
-                        holdingsUriRecord.setUri(url);
+                    if(url.length() <= 2400) {
+                        for (Iterator<HoldingsUriRecord> iterator = holdingsUriRecords.iterator(); iterator.hasNext(); ) {
+                            HoldingsUriRecord holdingsUriRecord = iterator.next();
+                            holdingsUriRecord.setUri(url);
+                        }
+                    }else{
+                        throw new Exception(OleNGConstants.ERR_EHOLDINGS_URI_LENGTH +" "+ holdingRecord.getBibId());
                     }
                 }
             } else {
                 holdingsUriRecords = new ArrayList<HoldingsUriRecord>();
                 for (Iterator<String> iterator = listFromJSONArray.iterator(); iterator.hasNext(); ) {
                     String url = iterator.next();
-                    HoldingsUriRecord holdingsUriRecord = new HoldingsUriRecord();
-                    holdingsUriRecord.setUri(url);
-                    holdingsUriRecord.setHoldingsId(holdingRecord.getHoldingsId());
-                    holdingsUriRecords.add(holdingsUriRecord);
+                    if(url.length() <= 2400) {
+                        HoldingsUriRecord holdingsUriRecord = new HoldingsUriRecord();
+                        holdingsUriRecord.setUri(url);
+                        holdingsUriRecord.setHoldingsId(holdingRecord.getHoldingsId());
+                        holdingsUriRecords.add(holdingsUriRecord);
+                    }else{
+                        throw new Exception(OleNGConstants.ERR_EHOLDINGS_URI_LENGTH +" "+ holdingRecord.getBibId());
+                    }
                 }
                 holdingRecord.setHoldingsUriRecords(holdingsUriRecords);
 

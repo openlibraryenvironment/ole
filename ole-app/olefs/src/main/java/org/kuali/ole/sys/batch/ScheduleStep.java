@@ -29,6 +29,7 @@ public class ScheduleStep extends AbstractStep {
      * @see org.kuali.ole.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
+        System.out.println("Calling execute in ScheduleStep >>>>>>>");
         boolean isPastScheduleCutoffTime = false;
         schedulerService.reinitializeScheduledJobs();
         while (schedulerService.hasIncompleteJob() && !isPastScheduleCutoffTime) {
