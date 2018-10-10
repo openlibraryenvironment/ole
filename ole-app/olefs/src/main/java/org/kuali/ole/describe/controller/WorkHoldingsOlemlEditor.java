@@ -300,6 +300,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         List<ExtentOfOwnership> basic = new ArrayList<>();
         List<ExtentOfOwnership> supplementary = new ArrayList<>();
         List<ExtentOfOwnership> indexes = new ArrayList<>();
+	List<ExtentOfOwnership> other = new ArrayList<>();
     //    Set<String> extentOwnerShipType = new HashSet<>();
         for (ExtentOfOwnership extentOfOwnership1 : extentOfOwnershipList) {
             if(StringUtils.isNotBlank(extentOfOwnership1.getType())){
@@ -309,10 +310,13 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                     supplementary.add(extentOfOwnership1);
                 } else if (extentOfOwnership1.getType().equalsIgnoreCase("Indexes")) {
                     indexes.add(extentOfOwnership1);
-                }
+                } else {
+		    other.add(extentOfOwnership1);
+		}
             }
         }
         extentOfOwnershipList.clear();
+	extentOfOwnershipList.addAll(other);
         extentOfOwnershipList.addAll(basic);
         extentOfOwnershipList.addAll(supplementary);
         extentOfOwnershipList.addAll(indexes);
@@ -326,6 +330,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         List<BibTree> bibTreeList = null;
         BibTree bibTree = null;
         HoldingsTree holdingsTree = new HoldingsTree();
+	HoldingsTree existingHoldingsTree = null;
         String editorMessage = "";
         Bib bib = null;
         Date date = new Date();
@@ -363,7 +368,9 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             for(HoldingsTree holdingsTree1 : bibTree.getHoldingsTrees()) {
                 if(!holdingsTree1.getHoldings().getId().equals(docId)) {
                     holdingsTreeList.add(holdingsTree1);
-                }
+                } else {
+		    existingHoldingsTree = holdingsTree1;
+		}
             }
             bibTree.getHoldingsTrees().clear();
             bibTree.getHoldingsTrees().addAll(holdingsTreeList);
@@ -399,8 +406,8 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             holdings.setCategory(editorForm.getDocCategory());
             holdings.setType(editorForm.getDocType());
             holdings.setFormat(editorForm.getDocFormat());
-            /*holdingsTree.setHoldings(holdings);
-            holdingsTree.getItems().add(getItemRecord());*/
+	    holdingsTree.setHoldings(holdings);
+            holdingsTree.getItems().addAll(existingHoldingsTree.getItems());
             long startTime = System.currentTimeMillis();
             try {
                 docstoreClient.updateHoldings(holdings);
