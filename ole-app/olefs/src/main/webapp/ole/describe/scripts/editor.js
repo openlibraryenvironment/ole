@@ -1712,55 +1712,28 @@ function wrapEnterTextForEInstanceLink() {
             var id = jq(this).attr("id");
             var urlNumRows = jq(this).val().length / 20;
             var name = jQuery.uaMatch(navigator.userAgent).browser;
-            if ("chrome" == name) {
-                if (id.includes("OleEinstance-linkURL_line")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
+            if (id.includes("OleEinstance-linkURL_line")) {
+                var height = (parseInt(urlNumRows)) * 18;
+                if (height > 18) {
+                    jq(this).height((parseInt(urlNumRows)) * 18);
                 }
-                if (id.includes("OleEinstance-linkText_line")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
+            }
+            if (id.includes("OleEinstance-linkText_line")) {
+                var height = (parseInt(urlNumRows)) * 18;
+                if (height > 18) {
+                    jq(this).height((parseInt(urlNumRows)) * 18);
                 }
-                if (id.includes("OleEinstance-localPersistentLink")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
+            }
+            if (id.includes("OleEinstance-localPersistentLink")) {
+                var height = (parseInt(urlNumRows)) * 18;
+                if (height > 18) {
+                    jq(this).height((parseInt(urlNumRows)) * 18);
                 }
-                if (id.includes("OleEinstance-adminUrl")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
-                }
-            } else {
-                if (id.contains("OleEinstance-linkURL_line")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
-                }
-                if (id.contains("OleEinstance-linkText_line")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
-                }
-                if (id.contains("OleEinstance-localPersistentLink")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
-                }
-                if (id.includes("OleEinstance-adminUrl")) {
-                    var height = (parseInt(urlNumRows)) * 18;
-                    if (height > 18) {
-                        jq(this).height((parseInt(urlNumRows)) * 18);
-                    }
+            }
+            if (id.includes("OleEinstance-adminUrl")) {
+                var height = (parseInt(urlNumRows)) * 18;
+                if (height > 18) {
+                    jq(this).height((parseInt(urlNumRows)) * 18);
                 }
             }
         });
