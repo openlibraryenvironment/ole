@@ -17,11 +17,15 @@ batchProcessAPP.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 batchProcessAPP.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function ($scope, file, profileName, batchType, uploadUrl) {
+    this.uploadFileToUrl = function ($scope, file, profileId, profileName, batchType, outputFormat, numOfRecordsInFile, uploadUrl) {
         var fd = new FormData();
-        fd.append('file', file);
+        fd.append('profileId', profileId);
         fd.append('profileName', profileName);
         fd.append('batchType', batchType);
+        fd.append('numOfRecordsInFile', numOfRecordsInFile);
+        fd.append('outputFormat', outputFormat);
+        fd.append('file', file);
+
         $scope.batchProcessStatus = "Batch process job initiated....";
         angular.element(document.getElementById('run'))[0].disabled = true;
         angular.element(document.getElementById('file'))[0].disabled = true;
@@ -56,7 +60,8 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
         if (sessionStorage.getItem("batchType") != null && sessionStorage.getItem("batchType") != "undefined") {
             $scope.batchType = sessionStorage.getItem("batchType");
             $scope.populationProfileNames();
-            if (sessionStorage.getItem("profileName") != null && sessionStorage.getItem("profileName") != "undefined") {
+            if (sessionStorage.getItem("profileId") != null && sessionStorage.getItem("profileId") != "undefined" && sesessionStorage.getItem("profileName") != null && sessionStorage.getItem("profileName") != "undefined") {
+                $scope.profileId = sessionStorage.getItem("profileId");
                 $scope.profileName = sessionStorage.getItem("profileName");
                 if (sessionStorage.getItem("exportInputFile") != null && sessionStorage.getItem("exportInputFile") != "undefined") {
                     console.log("Input session : " + sessionStorage.getItem("exportInputFile"));
@@ -75,6 +80,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
     var url = "rest/batch/upload";
     $scope.uploadFile = function(){
         var file = $scope.selectedFile;
+        var profileId = $scope.profileId;
         var profileName = $scope.profileName;
         var batchType = $scope.batchType;
         var outputFormat = $scope.outputFormat;
@@ -82,7 +88,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
         console.log('file is ' );
         console.log('Profile Name is '  + profileName);
         console.dir(file);
-        fileUpload.uploadFileToUrl($scope,file,profileName,batchType, url);
+        fileUpload.uploadFileToUrl($scope,file,profileId,profileName,batchType,outputFormat,numOfRecordsInFile, url);
     };
 
     $scope.populationProfileNames = function() {
@@ -95,6 +101,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
     $scope.setSessionData = function() {
         sessionStorage.setItem("batchType", $scope.batchType);
         sessionStorage.setItem("profileName", $scope.profileName);
+        sessionStorage.setItem("profileId", $scope.profileId);
         sessionStorage.setItem("exportInputFile", $scope.exportInputFile);
     };
 

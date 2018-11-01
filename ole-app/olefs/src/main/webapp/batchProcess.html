@@ -48,12 +48,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="profileName" class="col-sm-6">Profile Name</label>
+                                <label for="profileId" class="col-sm-6">Profile Name</label>
 
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="profileName" name="profileName"
-                                            ng-model="profileName"
-                                            ng-change="checkToEnableInputFile(profileName); setSessionData();">
+                                    <select class="form-control" id="profileId" name="profileId"
+                                            ng-model="profileId"
+                                            ng-change="checkToEnableInputFile(profileId); setSessionData();">
                                         <option ng-repeat="option in profileNames  | orderBy:'profileName'" value="{{option.profileId}}">
                                             {{option.profileName}}
                                         </option>
