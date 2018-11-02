@@ -1,0 +1,2 @@
+NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
+"OLE-DLVR","Deliver","NCIP_BIB_STATUS","OLE-9396","1","CONFG","Circulation","This Parameter is used to configure the bib status for NCIP Request","A","KUALI"
