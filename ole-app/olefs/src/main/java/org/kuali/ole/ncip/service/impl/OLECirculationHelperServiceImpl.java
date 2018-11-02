@@ -40,6 +40,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
@@ -780,6 +781,12 @@ public class OLECirculationHelperServiceImpl {
         bib.setContent(bibMarcRecordProcessor.toXml(bibMarcRecords));
         bib.setOperation(DocstoreDocument.OperationType.CREATE);
 
+
+        String paramName = OLENCIPConstants.NCIP_BIB_STATUS;
+        String bibStatus = SpringContext.getBean(ParameterService.class).getParameterValueAsString(OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, paramName);
+        if(bibStatus != null && bibStatus.trim().length() > 0) {
+            bib.setStatus(bibStatus);
+        }
 
         OleHoldings oleHoldings = new OleHoldings();
         LocationLevel locationLevel = new LocationLevel();

@@ -64,6 +64,7 @@ public class OLENCIPConstants {
     public static final String REQUEST_NOTE="requestNote";
     public static final String NCIPAPI_PARAMETER_NAME = "NCIPAPI_VALUES";
     public static final String TEMP_ITEM_DELETE_INDICATOR="TEMP_ITEM_DELETE_INDICATOR";
+    public static final String NCIP_BIB_STATUS="NCIP_BIB_STATUS";
 
     /*Ciculation Service message Constants*/
     public static final String INVALID_PARAMETERS ="Contains Invalid Parameters";

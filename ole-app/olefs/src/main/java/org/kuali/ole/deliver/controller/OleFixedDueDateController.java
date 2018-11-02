@@ -92,7 +92,6 @@ public class OleFixedDueDateController extends MaintenanceDocumentController {
                     }
                     if (dateTimeService.dateDiff(from, to, Boolean.FALSE) < 0) {
                         GlobalVariables.getMessageMap().putErrorForSectionId("create_timeSpan", OLEConstants.FROM_DATE_LESS_TO_DATE);
-                        System.out.println("From Date less >>>>>>");
                         return getUIFModelAndView(form);
                     }
                     int fromDueDateDiff = dateTimeService.dateDiff(oldFromDueDate,toDueDate,Boolean.FALSE);

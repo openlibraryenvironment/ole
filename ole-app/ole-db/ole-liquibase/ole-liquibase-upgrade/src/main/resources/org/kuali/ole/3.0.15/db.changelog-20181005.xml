@@ -10,4 +10,20 @@
     <changeSet context="bootstrap" author="ole" id="ALTER_OLE_DS_HOLDINGS_URI_T_TEXT_MYSQL" dbms="mysql">
         <sql>ALTER TABLE OLE_DS_HOLDINGS_URI_T MODIFY TEXT VARCHAR(2400)</sql>
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ole_cat_bib_record_stat_t">
+        <loadData tableName="ole_cat_bib_record_stat_t" file="org/kuali/ole/3.0.15/data/ole_cat_bib_record_stat_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/3.0.15/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
 </databaseChangeLog>
