@@ -822,6 +822,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleNoticeBo.setItemId(itemSearch.getItemBarCode() != null ? itemSearch.getItemBarCode() : "");
             oleNoticeBo.setTitle(itemSearch.getTitle() != null ? itemSearch.getTitle() : "");
             oleNoticeBo.setOleItem(getItem(oleDeliverRequestBo.getItemUuid()));
+            oleNoticeBo.setItemCallNumberPrefix(itemSearch.getCallNumberPrefix());
             if (oleNoticeBo.getPatronEmailAddress() != null && !oleNoticeBo.getPatronEmailAddress().isEmpty()) {
                 oleNoticeBos.add(oleNoticeBo);
             }

@@ -17,6 +17,7 @@ public class OleItemSearch extends PersistableBusinessObjectBase {
     private String publisher;
     private String itemType;
     private String callNumber;
+    private String callNumberPrefix;
     private String shelvingLocation;
     private String copyNumber;
     private String itemStatus;
@@ -186,6 +187,14 @@ public class OleItemSearch extends PersistableBusinessObjectBase {
 
     public void setCallNumber(String callNumber) {
         this.callNumber = callNumber;
+    }
+
+    public String getCallNumberPrefix() {
+        return callNumberPrefix;
+    }
+
+    public void setCallNumberPrefix(String callNumberPrefix) {
+        this.callNumberPrefix = callNumberPrefix;
     }
 
     public String getShelvingLocation() {

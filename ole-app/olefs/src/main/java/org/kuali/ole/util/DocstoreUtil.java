@@ -199,6 +199,8 @@ public class DocstoreUtil {
         oleItemSearch.setItemUUID(item.getId());
         oleItemSearch.setEnumeration(itemContent.getEnumeration());
         oleItemSearch.setChronology(itemContent.getChronology());
+        String callNumberPrefix = itemContent.getCallNumber() != null ? itemContent.getCallNumber().getPrefix() : "";
+        oleItemSearch.setCallNumberPrefix(StringUtils.isNotBlank(callNumberPrefix) ? callNumberPrefix : "");
 
         return oleItemSearch;
     }
