@@ -1510,7 +1510,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 itemDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
             else if (!editorForm.isStaffOnlyFlagInGlobalEdit()) {
-                canUpdateStaffOnlyFlag = "true";
+                canUpdateStaffOnlyFlag = "false";
                 editorForm.setStaffOnlyFlagForItem(false);
                 itemDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
