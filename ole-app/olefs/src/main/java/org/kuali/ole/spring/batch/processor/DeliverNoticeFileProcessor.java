@@ -1,6 +1,5 @@
 package org.kuali.ole.spring.batch.processor;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.constants.OleNGConstants;
@@ -11,14 +10,12 @@ import org.kuali.ole.oleng.batch.process.model.BatchProcessTxObject;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.reports.BatchBibFailureReportLogHandler;
 import org.kuali.ole.oleng.batch.reports.processors.BatchNoticeReportLogHandler;
-import org.kuali.ole.oleng.handler.BatchExportHandler;
 import org.kuali.ole.oleng.handler.DeliverNoticeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Map;
 
 /**

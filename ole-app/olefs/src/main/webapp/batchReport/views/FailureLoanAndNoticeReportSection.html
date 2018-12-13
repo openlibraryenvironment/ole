@@ -1,5 +1,5 @@
 <div class="panel-group" ng-model="failureLoanAndNoticeResponseActivePanel" data-allow-multiple="true" role="tablist"
-     aria-multiselectable="true" bs-collapse>
+     aria-multiselectable="true" bs-collapse ng-show="failureLoanAndNoticeResponsePanel.length > 0">
     <div class="panel panel-default">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
@@ -7,7 +7,7 @@
                    ng-click="failureLoanAndNoticeResponsePanel.collapsed = !failureLoanAndNoticeResponsePanel.collapsed">
                     <span class="glyphicon"
                           ng-class="{'glyphicon-chevron-right': !failureLoanAndNoticeResponsePanel.collapsed, 'glyphicon-chevron-down': failureLoanAndNoticeResponsePanel.collapsed}"></span>
-                    Failure Notice Details Section
+                    Failure Loan Notice Details Section
                 </a>
             </h4>
         </div>

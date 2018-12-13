@@ -25,7 +25,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class LostNoticeCallable extends NoticeCallable {
+public class LostNoticeCallable extends LoanNoticesCallable {
 
     private static final Logger LOG = Logger.getLogger(LostNoticeCallable.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;

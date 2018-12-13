@@ -4816,7 +4816,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return map;
     }
 
-    private Map<String, Map<String, List<OLEDeliverNotice>>> buildMapofNoticesForEachPatronAndConfigName(List<OLEDeliverNotice> oleDeliverNotices) {
+    public Map<String, Map<String, List<OLEDeliverNotice>>> buildMapofNoticesForEachPatronAndConfigName(List<OLEDeliverNotice> oleDeliverNotices) {
         Map<String, Map<String, List<OLEDeliverNotice>>> map = new HashMap<>();
         String patronId;
         for (Iterator<OLEDeliverNotice> iterator = oleDeliverNotices.iterator(); iterator.hasNext(); ) {
