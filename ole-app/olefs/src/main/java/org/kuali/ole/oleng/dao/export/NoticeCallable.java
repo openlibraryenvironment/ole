@@ -1,25 +1,29 @@
 package org.kuali.ole.oleng.dao.export;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.common.util.CollectionUtils;
-import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
-import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
-import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 import org.kuali.ole.deliver.notice.util.NoticeUtil;
+import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.service.NoticesExecutor;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
+import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.response.OleNGBatchNoticeResponse;
-import org.kuali.ole.oleng.handler.DeliverNoticeHandler;
+import org.kuali.ole.docstore.common.document.ItemOleml;
+import org.kuali.ole.docstore.common.document.content.instance.Item;
+import org.kuali.ole.docstore.common.search.SearchResponse;
+import org.kuali.ole.docstore.common.search.SearchResult;
+import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
@@ -31,6 +35,8 @@ import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -41,29 +47,15 @@ import java.util.concurrent.Callable;
  */
 public abstract class NoticeCallable implements Callable {
 
+    private static final Logger LOG = Logger.getLogger(NoticesExecutor.class);
     private BusinessObjectService businessObjectService;
     private ParameterValueResolver parameterResolverInstance;
     private OleMailer oleMailer;
     private CircDeskLocationResolver circDeskLocationResolver;
     private DocstoreClientLocator docstoreClientLocator;
     private DocstoreUtil docstoreUtil;
-    private static final Logger LOG = Logger.getLogger(LoanNoticesExecutor.class);
-    protected List<OleLoanDocument> loanDocuments;
-    protected String noticeContentConfigName;
-    protected Map<String,String> fieldLabelMap = new HashMap<String,String>();
-    protected OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo;
-    private SolrRequestReponseHandler solrRequestReponseHandler;
-    private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
-    protected OleNGBatchNoticeResponse oleNGBatchNoticeResponse;
-    private DeliverNoticeHandler deliverNoticeHandler;
-
-
-    public NoticeCallable(Map loanNoticeMap){
-        this.loanDocuments = (List<OleLoanDocument>) loanNoticeMap.get(OLEConstants.LOAN_DOCUMENTS);
-        this.noticeContentConfigName = (String) loanNoticeMap.get(OLEConstants.NOTICE_CONTENT_CONFIG_NAME);
-        this.deliverNoticeHandler = (DeliverNoticeHandler) loanNoticeMap.get("DeliverNoticeHandler");
-        //this.oleBatchNoticeExport = new BatchNoticeResponse();
-    }
+    private NoticeUtil noticeUtil;
+    private Map<String,String> itemTypeMap;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -74,51 +66,6 @@ public abstract class NoticeCallable implements Callable {
         return docstoreClientLocator;
     }
 
-    @Override
-    public Object call() throws Exception {
-        LOG.info("NoticesExecutor thread id---->"+Thread.currentThread().getId()+"current thread---->"+Thread.currentThread());
-
-       try{
-        //1. Pre process
-            preProcess(loanDocuments);
-            //2. Determine the correct NoticeConfigurationBo
-            setOleNoticeContentConfigurationBo();
-            //3. generate email content
-            String mailContent = generateMailContent(loanDocuments);
-            if (StringUtils.isNotBlank(mailContent) && !mailContent.contains("FreeMarker template error")) {
-                preProcess(loanDocuments);
-                //4. Generate notices
-                List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
-                //5. Save loan document
-                saveLoanDocument();
-
-                //6. Delete notices
-                deleteNotices(oleDeliverNotices);
-
-                //7. update notice history
-                saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
-                //8. send mail
-                sendMail(mailContent);
-                //9. Index the mail content for solr search
-                getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(
-                        getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
-                                buildMapForIndexToSolr(getNoticeType(), mailContent, loanDocuments))));
-                //10. Post process
-                postProcess(loanDocuments);
-
-                //11. Prepare Success Response
-                prepareNoticeResponses(loanDocuments,getNoticeType(),getSendToDate(deliverNoticeHandler.getNoticeTypeSendDate(getNoticeType())), true);
-
-            } else {
-                // Prepare Failure Response
-                prepareNoticeResponses(loanDocuments,getNoticeType(),getSendToDate(deliverNoticeHandler.getNoticeTypeSendDate(getNoticeType())), false);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            prepareNoticeResponses(loanDocuments,getNoticeType(),getSendToDate(deliverNoticeHandler.getNoticeTypeSendDate(getNoticeType())), false);
-        }
-        return oleNGBatchNoticeResponse;
-    }
 
     public DocstoreUtil getDocstoreUtil() {
         if (docstoreUtil == null) {
@@ -158,6 +105,15 @@ public abstract class NoticeCallable implements Callable {
     public void setOleMailer(OleMailer oleMailer) {
         this.oleMailer = oleMailer;
     }
+
+    public NoticeUtil getNoticeUtil() {
+        if(noticeUtil == null){
+            noticeUtil = new NoticeUtil();
+        }
+        return noticeUtil;
+    }
+
+    //  public abstract  void sendMail(String mailContent,String mailSubject);
 
     public void deleteNotices(List<OLEDeliverNotice> oleDeliverNotices) {
         getBusinessObjectService().delete(oleDeliverNotices);
@@ -272,6 +228,18 @@ public abstract class NoticeCallable implements Callable {
         return itemTypeCode;
     }
 
+    public Map<String,String> getItemTypeNameAndDesc(){;
+
+        List<OleInstanceItemType> instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findAll(OleInstanceItemType.class);
+        if(CollectionUtils.isNotEmpty(instanceItemTypeList) && instanceItemTypeList.size() > 0){
+            itemTypeMap = new HashMap<String,String>();
+            for(OleInstanceItemType instanceItemType : instanceItemTypeList)
+                itemTypeMap.put(instanceItemType.getInstanceItemTypeName(),instanceItemType.getInstanceItemTypeDesc());
+        }
+
+        return itemTypeMap;
+    }
+
     public Timestamp getSendToDate(String noticeToDate) {
         String lostNoticeToDate;
         lostNoticeToDate = getParameterResolverInstance().getParameter(OLEConstants
@@ -283,84 +251,99 @@ public abstract class NoticeCallable implements Callable {
         return lostNoticetoSendDate;
     }
 
-    public void saveLoanDocument() {
-        getBusinessObjectService().save(loanDocuments);
-    }
 
-    public NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
-        if (null == noticeSolrInputDocumentGenerator) {
-            noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
-        }
-        return noticeSolrInputDocumentGenerator;
-    }
-
-    public SolrRequestReponseHandler getSolrRequestReponseHandler() {
-        if (null == solrRequestReponseHandler) {
-            solrRequestReponseHandler = new SolrRequestReponseHandler();
-        }
-        return solrRequestReponseHandler;
-    }
-
-    protected abstract String getNoticeType();
-
-    public void sendMail(String mailContent) {
-        OlePatronDocument olePatron = loanDocuments.get(0).getOlePatron();
+    public boolean setItemInformations(OleDeliverRequestBo oleDeliverRequestBo) {
+        ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
+        LOG.info("Inside isItemAvailableInDocStore");
+        boolean available = false;
+        Map<String, String> itemMap = new HashMap<String, String>();
+        LocationValuesBuilder locationValuesBuilder = new LocationValuesBuilder();
+        String holdingsId = "";
+        String bibTitle="";
+        String bibAuthor="";
         try {
-            EntityTypeContactInfoBo entityTypeContactInfoBo = olePatron.getEntity()
-                    .getEntityTypeContactInfos().get(0);
-            String emailAddress = getPatronHomeEmailId(entityTypeContactInfoBo) != null ?
-                    getPatronHomeEmailId(entityTypeContactInfoBo) : "";
-
-            if (loanDocuments.size() == 1) {
-                sendMailsToPatron(emailAddress, mailContent, loanDocuments.get(0).getItemLocation(),oleNoticeContentConfigurationBo.getNoticeSubjectLine());
-            } else {
-                sendMailsToPatron(emailAddress, mailContent, null,oleNoticeContentConfigurationBo.getNoticeSubjectLine());
+            try {
+                org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
+                org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
+                SearchResponse searchResponse = null;
+                if(StringUtils.isNotBlank(oleDeliverRequestBo.getItemId())) {
+                    search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ITEM_BARCODE, oleDeliverRequestBo.getItemId()), ""));
+                } else {
+                    search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ID, oleDeliverRequestBo.getItemUuid()), ""));
+                }
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "id"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "holdingsIdentifier"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Author_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"CallNumberPrefix_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"TemporaryItemTypeFullValue_search"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),"ItemTypeFullValue_display"));
+                searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
+                for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                    for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                        String fieldName = searchResultField.getFieldName();
+                        String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
+                        if (fieldName.equalsIgnoreCase("holdingsIdentifier") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode())) {
+                            holdingsId = fieldValue;
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("Title_display") &&!fieldValue.isEmpty()) {
+                            bibTitle = searchResultField.getFieldValue();
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("Author_display") &&!fieldValue.isEmpty()) {
+                            bibAuthor = searchResultField.getFieldValue();
+                        } else  if (searchResultField.getFieldName().equalsIgnoreCase("id") &&!fieldValue.isEmpty()){
+                            oleDeliverRequestBo.setItemUuid(fieldValue);
+                        }else  if (searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display") &&!fieldValue.isEmpty()){
+                            oleDeliverRequestBo.setCallNumberPrefix(fieldValue);
+                        }else if (searchResultField.getFieldName().equalsIgnoreCase("TemporaryItemTypeFullValue_search")) {
+                            oleDeliverRequestBo.setItemTypeName(searchResultField.getFieldValue());
+                            oleDeliverRequestBo.setItemTypeDesc(itemTypeMap.get(oleDeliverRequestBo.getItemTypeName()));
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display") &&
+                                (oleDeliverRequestBo.getItemTypeName() == null || oleDeliverRequestBo.getItemTypeName().isEmpty())) {
+                            oleDeliverRequestBo.setItemTypeName(searchResultField.getFieldValue());
+                            oleDeliverRequestBo.setItemTypeDesc(itemTypeMap.get(oleDeliverRequestBo.getItemTypeName()));
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "Item Exists");
+                LOG.error(OLEConstants.ITEM_EXIST + ex);
             }
-
+            OleItemSearch itemSearchList = getDocstoreUtil().getOleItemSearchList(oleDeliverRequestBo.getItemUuid());
+            if (asrHelperService.isAnASRItem(itemSearchList.getShelvingLocation())) {
+                oleDeliverRequestBo.setAsrFlag(true);
+            } else {
+                oleDeliverRequestBo.setAsrFlag(false);
+            }
+            if (itemSearchList != null) {
+                oleDeliverRequestBo.setTitle(itemSearchList.getTitle());
+                oleDeliverRequestBo.setAuthor(itemSearchList.getAuthor());
+                String[] callNum = itemSearchList.getCallNumber().split(OLEConstants.DELIMITER_DASH);
+                if(callNum!=null && callNum.length>0){
+                    oleDeliverRequestBo.setCallNumber(callNum[callNum.length-1]);
+                }
+                oleDeliverRequestBo.setItemType(itemSearchList.getItemType());
+                oleDeliverRequestBo.setItemLocation(itemSearchList.getShelvingLocation());
+            }
+            if(org.apache.commons.lang.StringUtils.isNotEmpty(bibTitle)){
+                oleDeliverRequestBo.setTitle(bibTitle);
+            }
+            if(org.apache.commons.lang.StringUtils.isNotEmpty(bibAuthor)){
+                oleDeliverRequestBo.setAuthor(bibAuthor);
+            }
+            LoanProcessor loanProcessor = new LoanProcessor();
+            String itemXml = loanProcessor.getItemXML(oleDeliverRequestBo.getItemUuid());
+            Item oleItem = loanProcessor.getItemPojo(itemXml);
+            oleDeliverRequestBo.setOleItem(oleItem);
+            oleDeliverRequestBo.setCopyNumber(oleItem.getCopyNumber());
+            oleDeliverRequestBo.setEnumeration(oleItem.getEnumeration());
+            oleDeliverRequestBo.setChronology(oleItem.getChronology());
+            oleDeliverRequestBo.setItemStatus(oleItem.getItemStatus().getCodeValue());
+            oleDeliverRequestBo.setClaimsReturnedFlag(oleItem.isClaimsReturnedFlag());
+            locationValuesBuilder.getLocation(oleItem, oleDeliverRequestBo, holdingsId);
+            available = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVAL_LOC) + e);
         }
+        return available;
     }
-
-    public Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleLoanDocument> oleLoanDocuments) {
-        Map parameterMap = new HashMap();
-        parameterMap.put("DocType", noticeType);
-        parameterMap.put("DocFormat", "Email");
-        parameterMap.put("noticeType", noticeType);
-        parameterMap.put("noticeContent", noticeContent);
-        String patronBarcode = oleLoanDocuments.get(0).getOlePatron().getBarcode();
-        String patronId = oleLoanDocuments.get(0).getOlePatron().getOlePatronId();
-        parameterMap.put("patronBarcode", patronBarcode);
-        Date dateSent = new Date();
-        parameterMap.put("dateSent", dateSent);
-        parameterMap.put("uniqueId", patronId + dateSent.getTime());
-        List<String> itemBarcodes = new ArrayList<>();
-        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
-            OleLoanDocument oleLoanDocument = iterator.next();
-            String itemBarcode = oleLoanDocument.getItemId();
-            itemBarcodes.add(itemBarcode);
-        }
-        parameterMap.put("itemBarcodes",itemBarcodes);
-        return parameterMap;
-    }
-
-    public void prepareNoticeResponses(List<OleLoanDocument> oleLoanDocuments, String noticeType , Timestamp noticeToBeSendDate,boolean isNoticeSent){
-        oleNGBatchNoticeResponse = new OleNGBatchNoticeResponse();
-        int noticeCount = deliverNoticeHandler.getTotalNoticesCount(oleLoanDocuments,noticeType,noticeToBeSendDate);
-        if(isNoticeSent){
-            oleNGBatchNoticeResponse.setNoOfSuccessNotice(noticeCount);
-        }else{
-            oleNGBatchNoticeResponse.setNoOfFailureNotice(noticeCount);
-            oleNGBatchNoticeResponse.setFailureLoanAndNoticeResponses(deliverNoticeHandler.getFailureLoanAndNoticeResponses(oleLoanDocuments,noticeType,noticeToBeSendDate));
-        }
-    }
-
-
-    protected abstract void postProcess(List<OleLoanDocument> loanDocuments);
-    protected abstract void preProcess(List<OleLoanDocument> loanDocuments);
-    public abstract List<OLEDeliverNotice> buildNoticesForDeletion();
-    public abstract String generateMailContent(List<OleLoanDocument> oleLoanDocuments);
-    public abstract void setOleNoticeContentConfigurationBo();
-    public abstract void setOleNoticeContentConfigurationBo(OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo);
 
 }

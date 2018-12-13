@@ -41,6 +41,9 @@ public class OleNGBatchNoticeResponse {
     @JsonProperty("failureLoanAndNoticeResponses")
     private List<FailureLoanAndNoticeResponse> failureLoanAndNoticeResponses;
 
+    @JsonProperty("failureRequestAndNoticeResponses")
+    private List<FailureRequestAndNoticeResponse> failureRequestAndNoticeResponses;
+
 
     public String getJobDetailId() {
         return jobDetailId;
@@ -112,5 +115,13 @@ public class OleNGBatchNoticeResponse {
 
     public void setFailureLoanAndNoticeResponses(List<FailureLoanAndNoticeResponse> failureLoanAndNoticeResponses) {
         this.failureLoanAndNoticeResponses = failureLoanAndNoticeResponses;
+    }
+
+    public List<FailureRequestAndNoticeResponse> getFailureRequestAndNoticeResponses() {
+        return failureRequestAndNoticeResponses;
+    }
+
+    public void setFailureRequestAndNoticeResponses(List<FailureRequestAndNoticeResponse> failureRequestAndNoticeResponses) {
+        this.failureRequestAndNoticeResponses = failureRequestAndNoticeResponses;
     }
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by govindarajank on 25/4/18.
  */
-public class CourtesyNoticeCallable extends NoticeCallable {
+public class CourtesyNoticeCallable extends LoanNoticesCallable {
 
     private static final Logger LOG = Logger.getLogger(CourtesyNoticeCallable.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
@@ -27,6 +27,12 @@ public class CourtesyNoticeCallable extends NoticeCallable {
     public CourtesyNoticeCallable(Map loanNoticeMap){
         super(loanNoticeMap);
     }
+
+    @Override
+    public void saveLoanDocument() {
+        getBusinessObjectService().save(loanDocuments);
+    }
+
 
     @Override
     protected String getNoticeType() {

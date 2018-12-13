@@ -14,7 +14,7 @@ import org.kuali.ole.deliver.service.OverdueNoticeEmailContentFormatter;
 import java.sql.Timestamp;
 import java.util.*;
 
-public class OverdueNoticeCallable extends NoticeCallable {
+public class OverdueNoticeCallable extends LoanNoticesCallable {
     private static final Logger LOG = Logger.getLogger(OverdueNoticeCallable.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
 

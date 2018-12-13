@@ -131,17 +131,13 @@ public class DescribeDAOImpl extends BusinessObjectServiceHelperUtil implements 
     @Override
     public Map<String,String> getDeliverNoticeNames(){
         Map<String,String> deliverNoticeMap = new HashMap<>();
-        Map<String,Object> parameterMap = new HashMap<String,Object>();
-        List<String> noticeNames = new ArrayList<>();
-        String[] deliverNoticeNames = new String[]{OLEConstants.COURTESY_NOTICE,OLEConstants.OVERDUE_NOTICE,OLEConstants.NOTICE_LOST};
-        noticeNames.addAll(Arrays.asList(deliverNoticeNames));
-        parameterMap.put("noticeType",noticeNames);
-        List<OleNoticeContentConfigurationBo> noticeContentConfigurationBos = (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,parameterMap);
-        if(CollectionUtils.isNotEmpty(noticeContentConfigurationBos)){
-            for(OleNoticeContentConfigurationBo noticeContentConfigurationBo : noticeContentConfigurationBos){
-                deliverNoticeMap.put(noticeContentConfigurationBo.getNoticeType(),noticeContentConfigurationBo.getNoticeType());
-            }
-        }
+        deliverNoticeMap.put(OLEConstants.COURTESY_NOTICE,OLEConstants.COURTESY_NOTICE);
+        deliverNoticeMap.put(OLEConstants.OVERDUE_NOTICE,OLEConstants.OVERDUE_NOTICE);
+        deliverNoticeMap.put(OLEConstants.NOTICE_LOST,OLEConstants.NOTICE_LOST);
+        deliverNoticeMap.put(OLEConstants.REQUEST_EXPIRATION_NOTICE,OLEConstants.REQUEST_EXPIRATION_NOTICE);
+        deliverNoticeMap.put(OLEConstants.ONHOLD_NOTICE,OLEConstants.ONHOLD_NOTICE);
+        deliverNoticeMap.put(OLEConstants.ONHOLD_COURTESY_NOTICE,OLEConstants.ONHOLD_COURTESY_NOTICE);
+        deliverNoticeMap.put(OLEConstants.ONHOLD_EXPIRATION_NOTICE,OLEConstants.ONHOLD_EXPIRATION_NOTICE);
         return deliverNoticeMap;
     }
 }
