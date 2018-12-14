@@ -1,0 +1,14 @@
+PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+OLELOAN1001,OLELOAN1001,1,56,OLE-DLVR,View Alter Due Date Button,Allows users to viea and access Alter Due Date Operation.,Y
+OLELOAN1002,OLELOAN1002,1,56,OLE-DLVR,View Replace Copy Button,Allows users to view and access Replace Copy Operation.,Y
+OLELOAN1003,OLELOAN1003,1,56,OLE-DLVR,View Claims Return Button,Allows users to view and access Claims Return Operation.,Y
+OLELOAN1004,OLELOAN1004,1,56,OLE-DLVR,View Bill Item as Lost Button,Allows users to view and access Bill Item as Lost Operation..,Y
+OLELOAN1005,OLELOAN1005,1,56,OLE-DLVR,View Missing Piece Button,Allows users to view and access Missing Piece Operation.,Y
+OLELOAN1006,OLELOAN1006,1,56,OLE-DLVR,View Damaged Button,Allows users to view and access Damaged Operation.,Y
+OLELOAN1007,OLELOAN1007,1,56,OLE-DLVR,View Cancel Button,Allows users to view and access Cancel Operation..,Y
+OLELOAN1008,OLELOAN1008,1,56,OLE-DLVR,View Cancel Credit Button,Allows users to view and access Cancel Credit Operation.,Y
+OLELOAN1009,OLELOAN1009,1,56,OLE-DLVR,View Error Button,Allows users to view and access Error Operation,Y
+OLELOAN1010,OLELOAN1010,1,56,OLE-DLVR,View Claims Return Screen,Allows users to view and access Claims Return Screen.,Y
+OLELOAN1011,OLELOAN1011,1,56,OLE-DLVR,Override Patron Block,Allows users to view and access Override Patron.,Y
+OLELOAN1012,OLELOAN1012,1,42,OLE-DLVR,View Create Bill Screen,Allows users to view and access Create Bill Screen.,Y
+

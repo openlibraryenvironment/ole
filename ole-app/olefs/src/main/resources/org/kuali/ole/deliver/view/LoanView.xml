@@ -998,9 +998,9 @@
             <list>
                 <bean id="loanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setDueDate();" p:actionLabel="Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and !blockUser and !claimsFlag}"/>
 
-                <bean id="hdnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loan" p:actionLabel="Loan" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusItem();validationsForPop();" />
+                <bean id="hdnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:render = "@{patronDocument.hasOverrideBlockPermission()}"  p:methodToCall="loan" p:actionLabel="Loan" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusItem();validationsForPop();" />
 
-                <bean id="noLoanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="doNotLoan();" p:actionLabel="Do not Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and !claimsFlag}" />
+                <bean id="noLoanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="doNotLoan();" p:actionLabel="Do not Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and !claimsFlag and patronDocument.hasOverrideBlockPermission()}" />
 
                 <bean id="hdnNoLoanBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noLoan" p:actionLabel="Do not Loan" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusPatron();focusItem()" />
 
@@ -1018,7 +1018,9 @@
 
                 <bean id="hdnNoProceedRenewBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Do not Proceed"  p:hidden="true" p:ajaxSubmit="true" p:successCallback="focusItem()" />
 
-                <bean id="patronNameLk" parent="Uif-LinkField" p:target="_blank" p:render = "@{addressVerified}" p:href="patronMaintenance?olePatronId=@{patronId}&amp;methodToCall=maintenanceEdit&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;viewTypeName=MAINTENANCE&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="Edit Patron" >
+                <bean id="okLoanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="doNotLoan();" p:actionLabel="Close" p:render="@{!patronDocument.hasOverrideBlockPermission()}" />
+
+                <bean id="patronNameLk" parent="Uif-LinkField" p:target="_blank" p:render = "@{(addressVerified) and (patronDocument.hasOverrideBlockPermission())}" p:href="patronMaintenance?olePatronId=@{patronId}&amp;methodToCall=maintenanceEdit&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;viewTypeName=MAINTENANCE&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="Edit Patron" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>uif-smallActionButton</value>

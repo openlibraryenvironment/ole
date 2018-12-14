@@ -99,15 +99,15 @@
                 <bean parent="Uif-SecondaryActionButton" p:style="margin-left:40%;"
                       p:actionLabel="Claims Item as Lost"
                       p:actionScript="submitForm('processBillForItem',{isBillForItem:true},null,true,function(){});"
-                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0 and hasClaimsReturnPermission()}"/>
                 <bean parent="Uif-SecondaryActionButton"
                       p:actionLabel="Claims Item as Missing"
                       p:actionScript="submitForm('processBillForItem',{isBillForItem:false},null,true,function(){});"
-                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0 and hasClaimsReturnPermission()}"/>
                 <bean parent="Uif-SecondaryActionButton"
                       p:actionLabel="Cancel Claims Return"
                       p:methodToCall="cancelClaimsReturn"
-                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0}"/>
+                      p:render="@{claimedReturnedItemResults ne null and claimedReturnedItemResults.size() > 0 and hasClaimsReturnPermission()}"/>
             </list>
         </property>
     </bean>
