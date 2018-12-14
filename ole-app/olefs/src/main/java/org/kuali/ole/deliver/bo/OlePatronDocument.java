@@ -12,6 +12,7 @@ import org.kuali.rice.kim.api.identity.address.EntityAddress;
 import org.kuali.rice.kim.api.identity.email.EntityEmail;
 import org.kuali.rice.kim.api.identity.employment.EntityEmployment;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
+import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
@@ -26,6 +27,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -109,6 +111,17 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private int loanCount;
     private int requestedItemRecordsCount;
     private int tempCirculationHistoryCount;
+
+    private boolean alterDueDatePermission;
+    private boolean damagedPermission;
+    private boolean missingPiecePermission;
+    private boolean billItemAsLostPermission;
+    private boolean replaceCopyPermission;
+    private boolean cancelPermission;
+    private boolean cancelCreditPermission;
+    private boolean errorPermission;
+    private boolean claimsReturnPermission;
+    private boolean overrideBlockPermission;
 
     private transient IdentityService identityService;
     private boolean lostPatron = false;
@@ -2101,5 +2114,121 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
             itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, map);
         }
         return itemRecords;
+    }
+
+    public boolean hasAlterDueDatePermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Alter_Due_Date_Button);
+        if (perm != null) {
+            alterDueDatePermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Alter_Due_Date_Button);
+            return alterDueDatePermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasReplaceCopyPermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Replace_Copy_Button);
+        if (perm != null) {
+        replaceCopyPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Replace_Copy_Button);
+        return replaceCopyPermission;
+    }
+    else {
+        return Boolean.TRUE;
+    }
+    }
+
+    public boolean hasDamagedPermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Damaged_Button);
+        if (perm != null) {
+            damagedPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Damaged_Button);
+            return damagedPermission;
+        }
+            else {
+                return Boolean.TRUE;
+            }
+  }
+
+    public boolean hasMissingPiecePermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Missing_Piece_Button);
+        if (perm != null) {
+
+        missingPiecePermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Missing_Piece_Button);
+        return missingPiecePermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasBillAsLostPermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Bill_Item_As_Lost_Button);
+        if (perm != null) {
+
+        billItemAsLostPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Bill_Item_As_Lost_Button);
+        return billItemAsLostPermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasCancelPermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Cancel_Button);
+        if (perm != null) {
+
+        cancelPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Cancel_Button);
+        return cancelPermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasCancelCreditPermission() {
+
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Cancel_Credit_Button);
+        if (perm != null) {
+        cancelCreditPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Cancel_Credit_Button);
+        return cancelCreditPermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasErrorPermission() {
+
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Error_Button);
+        if (perm != null) {
+        errorPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Error_Button);
+        return errorPermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasOverrideBlockPermission() {
+
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.Override_Patron_Block);
+        if (perm != null) {
+            overrideBlockPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.Override_Patron_Block);
+            return overrideBlockPermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public boolean hasClaimsReturnPermission() {
+        Permission perm = KimApiServiceLocator.getPermissionService().findPermByNamespaceCodeAndName(OLEConstants.DLVR_NMSPC, OLEConstants.View_Claims_Return_Screen);
+        if (perm != null) {
+            claimsReturnPermission = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPerson().getPrincipalId(), OLEConstants.DLVR_NMSPC, OLEConstants.View_Claims_Return_Screen);
+            return claimsReturnPermission;
+        }
+        else {
+            return Boolean.TRUE;
+        }
     }
 }

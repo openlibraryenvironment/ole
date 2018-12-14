@@ -3945,4 +3945,17 @@ public class OLEConstants {
     public static final String ZERO_ENCUMBRANCE_CHECK = "ZERO_ENCUMBRANCE_CHECK";
     public static final String HOLIDAY = "Holiday";
 
+    public static final String View_Alter_Due_Date_Button ="View Alter Due Date Button";
+    public static final String View_Claims_Return_Button = "View Claims Return Button";
+    public static final String View_Replace_Copy_Button = "View Replace Copy Button";
+    public static final String View_Bill_Item_As_Lost_Button = "View Bill Item as Lost Button";
+    public static final String View_Missing_Piece_Button = "View Missing Piece Button";
+    public static final String View_Damaged_Button = "View Damaged Button";
+
+    public static final String View_Cancel_Button = "View Cancel Button";
+    public static final String View_Cancel_Credit_Button = "View Cancel Credit Button";
+    public static final String View_Error_Button = "View Error Button";
+    public static final String View_Claims_Return_Screen = "View Claims Return Screen";
+    public static final String Override_Patron_Block = "Override Patron Block";
+
 }
