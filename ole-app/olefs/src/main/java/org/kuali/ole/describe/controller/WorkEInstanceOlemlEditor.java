@@ -1015,7 +1015,7 @@ public class WorkEInstanceOlemlEditor
                 eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
             else if (!editorForm.isStaffOnlyFlagInGlobalEdit()) {
-                canUpdateStaffOnlyFlag = "true";
+                canUpdateStaffOnlyFlag = "false";
                 editorForm.setStaffOnlyFlagForHoldings(false);
                 eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }

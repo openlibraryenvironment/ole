@@ -999,7 +999,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                 holdings.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
             else if (!editorForm.isStaffOnlyFlagInGlobalEdit()) {
-                canUpdateStaffOnlyFlag = "true";
+                canUpdateStaffOnlyFlag = "false";
                 editorForm.setStaffOnlyFlagForHoldings(false);
                 holdings.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
             }
