@@ -207,7 +207,9 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                     }
                 }
             }
-        if(oleDeliverRequestBo.getRequestExpiryDate()!= null && oleDeliverRequestBo.getRequestExpiryDate().compareTo(oldDeliverRequestBo.getRequestExpiryDate())!=0) {
+            if((oleDeliverRequestBo.getRequestExpiryDate()!= null && oldDeliverRequestBo.getRequestExpiryDate() == null) ||
+                 ((oleDeliverRequestBo.getRequestExpiryDate()!= null && oldDeliverRequestBo.getRequestExpiryDate() != null) && 
+                 	oleDeliverRequestBo.getRequestExpiryDate().compareTo(oldDeliverRequestBo.getRequestExpiryDate())!=0)) {
             if (oleDeliverRequestBo.getDeliverNotices() != null) {
                 for (OLEDeliverNotice oleDeliverNotice : oleDeliverRequestBo.getDeliverNotices()) {
                     if (oleDeliverNotice.getNoticeType().equals(OLEConstants.REQUEST_EXPIRATION_NOTICE)) {
