@@ -200,7 +200,7 @@ public class OleLoanDocumentsFromSolrBuilder {
                             oleLoanDocument.setClaimsReturnedDate(new Timestamp(date.getTime()));
 
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("dueDateTime")) {
-                            String[] formatStrings = new String[]{"MM/dd/yyyy hh:mm:ssa", "MM/dd/yyyy hh:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd hh:mm:ss"};
+                            String[] formatStrings = new String[]{"MM/dd/yyyy HH:mm:ssa", "MM/dd/yyyy HH:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd HH:mm:ss"};
                             Date date = tryParse(formatStrings, searchResultField.getFieldValue());
                             oleLoanDocument.setLoanDueDate(new Timestamp(date.getTime()));
 
