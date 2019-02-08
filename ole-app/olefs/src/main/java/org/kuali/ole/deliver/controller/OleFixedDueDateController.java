@@ -56,6 +56,33 @@ public class OleFixedDueDateController extends MaintenanceDocumentController {
                 java.util.Date fixedDueDate = oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(i).getFixedDueDate();
                 java.util.Date fromDueDate = oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(i).getFromDueDate();
                 java.util.Date toDueDate = oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(i).getToDueDate();
+                SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+                Date newFrom = oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(i).getFromDueDate();
+                String newFromDate = null;
+                String newToDate = null;
+                if (newFrom == null) {
+                    GlobalVariables.getMessageMap().putError(OLEConstants.FROM_DUE_DATE_FIELD, OLEConstants.FROM_DUE_DATE_MANDATORY);
+                } else {
+                    newFromDate = sdf1.format(newFrom);
+                }
+                Date newTo = oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(i).getToDueDate();
+                if (newTo == null) {
+                    GlobalVariables.getMessageMap().putError(OLEConstants.TO_DUE_DATE_FIELD, OLEConstants.TO_DUE_DATE_MANDATORY);
+                } else {
+                    newToDate = sdf1.format(newTo);
+                }
+                if (fixedDueDate == null) {
+                    GlobalVariables.getMessageMap().putError(OLEConstants.FIXED_DUE_DATE_FIELD, OLEConstants.FIXED_DUE_DATE_MANDATORY);
+                }
+                if (fromDueDate == null || toDueDate == null || fixedDueDate == null) {
+                    return getUIFModelAndView(form);
+                }
+                if (dateTimeService.dateDiff(newFrom, newTo, Boolean.FALSE) < 0) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId("create_timeSpan", OLEConstants.FROM_DATE_LESS_TO_DATE);
+                    return getUIFModelAndView(form);
+                }
+                String newTimeSpan = newFromDate + "-" + newToDate;
+                (oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(i)).setTimeSpan(newTimeSpan);
 
                 for (int j = i + 1; j < oleNewFixedDueDate.getOleFixedDateTimeSpanList().size(); j++) {
                     java.util.Date oldFromDueDate = oleNewFixedDueDate.getOleFixedDateTimeSpanList().get(j).getFromDueDate();
