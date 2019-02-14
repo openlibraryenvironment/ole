@@ -737,7 +737,10 @@ public abstract class CheckinBaseController extends CircUtilController {
         Date holdExpiryDate = new Date();
         LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
         OleCirculationDesk oleCirculationDesk = oleDeliverRequestBo.getOlePickUpLocation();
-        if(org.apache.commons.lang.StringUtils.isEmpty(oleCirculationDesk.getOnHoldDays())){
+        if(null == oleCirculationDesk) {
+            holdExpiryDate = new java.sql.Date(System.currentTimeMillis());
+        }
+        else if(org.apache.commons.lang.StringUtils.isEmpty(oleCirculationDesk.getOnHoldDays())){
             holdExpiryDate = new java.sql.Date(System.currentTimeMillis());
         } else if(null != oleCirculationDesk) {
             holdExpiryDate = DateUtils.addDays(new Date(), Integer.parseInt(oleCirculationDesk.getOnHoldDays()));
