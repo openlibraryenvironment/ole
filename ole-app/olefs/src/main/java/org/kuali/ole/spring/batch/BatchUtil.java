@@ -292,7 +292,8 @@ public class BatchUtil extends OleNgUtil {
                 if(StringUtils.isNotBlank(detailedMessage.toString())){
                     detailedMessage.append("\n");
                 }
-                detailedMessage.append(className + "." + methodName + "():line#" + lineNumber);
+                detailedMessage.append(className + "." + methodName + "():line#" + lineNumber+" \n");
+                detailedMessage.append(exception.getCause().getMessage().toString());
             }
         }
         return detailedMessage.toString();
