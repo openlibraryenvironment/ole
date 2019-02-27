@@ -649,7 +649,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                             cancellationNote = cancellationNote.append(attachedNote[1].trim());
                         }
                     }
-                    if(currentDocumentTypeName.equals(OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER) || currentDocumentTypeName.equals(OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_AMENDMENT)) {
+                    if(currentDocumentTypeName.equals(OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER)) {
                         oleDocstoreHelperService.createOrUpdateDocStoreBasedOnLocation(this, item, currentDocumentTypeName, cancellationNote.toString());
                     }
                     cancellationNote.delete(0,cancellationNote.length());
