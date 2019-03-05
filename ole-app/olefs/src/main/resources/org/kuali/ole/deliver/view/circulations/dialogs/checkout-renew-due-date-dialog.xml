@@ -48,7 +48,7 @@
     <bean id="checkoutRenewCustomDueDateBtn" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
-                <bean id="checkoutRenewCustomDueDateloanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Renew" p:style="width:100px"
+                <bean id="checkoutRenewCustomDueDateloanButton" parent="Uif-SecondaryActionButton" p:render="@{patronDocument.hasOverrideRenewPermission()}" p:actionLabel="Renew" p:style="width:100px"
                       p:actionScript="
                       if(jq('#kualiLightboxForm').valid()){
                         var customDueDate = jq('#checkoutRenewCustomDueDate_control').val();
