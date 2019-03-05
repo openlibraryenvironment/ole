@@ -293,6 +293,18 @@
                                     </configuration>
                                 </execution>
 
+                                <execution>
+                                    <id>db.changelog-3.0.16</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/3.0.16/db.changelog-20190305.xml</changeLogFile>
+                                        <verbose>true</verbose>
+                                        <defaultSchemaName>OLE</defaultSchemaName>
+                                    </configuration>
+                                </execution>
 
                             </executions>
                             <dependencies>
@@ -697,6 +709,18 @@
                                     </configuration>
                                 </execution>
 
+                                <execution>
+                                    <id>db.changelog-3.0.16</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/3.0.16/db.changelog-20190305.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/3.0.16.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
 
                             </executions>
                             <dependencies>

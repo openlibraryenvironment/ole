@@ -158,7 +158,7 @@
     <bean id="CircRenewalDateButton-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
         <property name="items">
             <list>
-                <bean id="circ_renewDateBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                <bean id="circ_renewDateBtn" parent="Uif-SecondaryActionButton-Small" p:render="@{patronDocument.hasOverrideRenewPermission()}" p:actionScript="
                 if(jq('#kualiLightboxForm').valid()){
                 renewOverride();
                 }" p:actionLabel="Renew" p:style="float:left;margin-left:20em"/>
