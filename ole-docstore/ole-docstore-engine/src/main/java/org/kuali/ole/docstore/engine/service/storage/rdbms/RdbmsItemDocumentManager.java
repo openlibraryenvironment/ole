@@ -302,7 +302,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         item.setDescriptionOfPieces(itemRecord.getDescriptionOfPieces());
         item.setCheckinNote(itemRecord.getCheckInNote());
         item.setLocation(getLocationDetails(itemRecord.getLocation(), itemRecord.getLocationLevel()));
-        if (itemRecord.getFormerIdentifierRecords() != null) {
+        if (CollectionUtils.isNotEmpty(itemRecord.getFormerIdentifierRecords())) {
             List<FormerIdentifier> formerIdList = new ArrayList<FormerIdentifier>();
             for (FormerIdentifierRecord formerIdentifierRecord : itemRecord.getFormerIdentifierRecords()) {
                 FormerIdentifier formerIdentifier = new FormerIdentifier();
@@ -336,7 +336,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         item.setCallNumber(itemCallNumber);
 
         List<Note> notes = new ArrayList<Note>();
-        if (itemRecord.getItemNoteRecords() != null) {
+        if (CollectionUtils.isNotEmpty(itemRecord.getItemNoteRecords())) {
             List<ItemNoteRecord> itemNoteRecords = itemRecord.getItemNoteRecords();
             for (ItemNoteRecord itemNoteRecord : itemNoteRecords) {
                 Note note = new Note();
