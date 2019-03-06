@@ -19,6 +19,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -210,7 +211,7 @@ public abstract class RenewItemsService {
         oleRenewalHistory.setItemBarcode(oleLoanDocument.getItemId());
         oleRenewalHistory.setItemId(oleLoanDocument.getItemUuid());
         oleRenewalHistory.setLoanId(oleLoanDocument.getLoanId());
-        oleRenewalHistory.setOperatorId(oleLoanDocument.getLoanOperatorId());
+        oleRenewalHistory.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
         oleRenewalHistory.setPatronBarcode(null != oleLoanDocument.getOlePatron() ? oleLoanDocument.getOlePatron().getBarcode() : oleLoanDocument.getPatronBarcode());
         oleRenewalHistory.setRenewalDueDate(oleLoanDocument.getLoanDueDate());
         oleRenewalHistory.setRenewedDate(new Timestamp(System.currentTimeMillis()));
