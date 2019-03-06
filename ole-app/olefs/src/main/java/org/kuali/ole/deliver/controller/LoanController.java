@@ -2493,7 +2493,7 @@ public class LoanController extends UifControllerBase {
                     oleRenewalHistory.setItemBarcode(oleLoanDocument.getItemId());
                     oleRenewalHistory.setItemId(oleLoanDocument.getItemUuid());
                     oleRenewalHistory.setLoanId(oleLoanDocument.getLoanId());
-                    oleRenewalHistory.setOperatorId(oleLoanDocument.getLoanOperatorId());
+                    oleRenewalHistory.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                     oleRenewalHistory.setPatronBarcode(oleLoanForm.getPatronBarcode());
                     oleRenewalHistory.setRenewalDueDate(oleLoanDocument.getLoanDueDate());
                     oleRenewalHistory.setRenewedDate(new Timestamp(System.currentTimeMillis()));
@@ -2621,7 +2621,7 @@ public class LoanController extends UifControllerBase {
                         oleRenewalHistory.setItemBarcode(loanDocument.getItemId());
                         oleRenewalHistory.setItemId(loanDocument.getItemUuid());
                         oleRenewalHistory.setLoanId(loanDocument.getLoanId());
-                        oleRenewalHistory.setOperatorId(loanDocument.getLoanOperatorId());
+                        oleRenewalHistory.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                         oleRenewalHistory.setPatronBarcode(loanDocument.getPatronBarcode());
                         oleRenewalHistory.setRenewalDueDate(loanDocument.getLoanDueDate());
                         oleRenewalHistory.setRenewedDate(new Timestamp(System.currentTimeMillis()));
@@ -2793,7 +2793,7 @@ public class LoanController extends UifControllerBase {
                                     oleRenewalHistory.setItemBarcode(loanDocument.getItemId());
                                     oleRenewalHistory.setItemId(loanDocument.getItemUuid());
                                     oleRenewalHistory.setLoanId(loanDocument.getLoanId());
-                                    oleRenewalHistory.setOperatorId(loanDocument.getLoanOperatorId());
+                                    oleRenewalHistory.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                                     oleRenewalHistory.setPatronBarcode(oleLoanForm.getPatronBarcode());
                                     oleRenewalHistory.setRenewalDueDate(loanDocument.getLoanDueDate());
                                     oleRenewalHistory.setRenewedDate(new Timestamp(System.currentTimeMillis()));
