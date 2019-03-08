@@ -2016,6 +2016,17 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleDueDateDocument" table="OLE_DUE_DATE_HISTORY_T">
+        <field-descriptor name="dueDateId" column="DUE_DATE_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_DUE_DATE_HISTORY_S"></field-descriptor>
+        <field-descriptor name="loanId" column="LOAN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronBarcode" column="PTRN_BARCODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemBarcode" column="ITEM_BARCODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="loanDueDate" column="CURR_DUE_DT_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="pastDueDate" column="PAST_DUE_DT_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="updatedDateTime" column="UPDATED_DT_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="loanOperatorId" column="OPTR_ID" jdbc-type="VARCHAR"></field-descriptor>
+    </class-descriptor>
+
 </descriptor-repository>
 
 

@@ -10,6 +10,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
+import org.kuali.ole.deliver.bo.OleDueDateDocument;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.FeeType;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
@@ -32,6 +33,7 @@ import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -519,6 +521,7 @@ public class CircController extends CheckoutValidationController {
             }
         }
         List<OleLoanDocument> loanDocumentsToBeUpdatedInDb = filterListForInvalidDueDateItems(itemBarcodeMap, getSelectedLoanDocumentList(circForm));
+        List<OleDueDateDocument> oleDueDateDocumentsToBeUpdatedInDb = new ArrayList<>();
         CircUtilController circUtilController = new CircUtilController();
 
         Map<String, Map> docstoreResultMap = alterDueDateInDocstore(circForm, itemBarcodeMap, selectedLoanDocumentList);
@@ -542,7 +545,18 @@ public class CircController extends CheckoutValidationController {
                         }
                         newDueDate = getCheckoutUIController(circForm.getFormKey()).processDateAndTimeForAlterDueDate(getDateFromString(dateString), dueDateAndTime[1]);
                     }
+                    loanDocument.setPastDueDate(loanDocument.getLoanDueDate());
                     loanDocument.setLoanDueDate(newDueDate);
+                    OleDueDateDocument oleDueDateDocument = new OleDueDateDocument();
+                    oleDueDateDocument.setLoanId(loanDocument.getLoanId());
+                    oleDueDateDocument.setPatronBarcode(loanDocument.getOlePatron().getBarcode());
+                    oleDueDateDocument.setItemBarcode(loanDocument.getItemId());
+                    oleDueDateDocument.setLoanDueDate(newDueDate);
+                    oleDueDateDocument.setPastDueDate(loanDocument.getPastDueDate());
+                    oleDueDateDocument.setUpdatedDateTime(getDateTimeService().getCurrentTimestamp());
+                    oleDueDateDocument.setLoanOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                    oleDueDateDocumentsToBeUpdatedInDb.add(oleDueDateDocument);
+
                     circUtilController.updateNoticesForLoanDocument(loanDocument);
                     validItemIdsMap.put(loanDocument.getItemId(), dueDateAndTime);
                 }
@@ -553,6 +567,7 @@ public class CircController extends CheckoutValidationController {
             }
         }
         saveLoanDocumentsToDb(loanDocumentsToBeUpdatedInDb);
+        saveDueDateDocumentsToDb(oleDueDateDocumentsToBeUpdatedInDb);
         //alterDueDateForLoanInDB(loanDocumentsToBeUpdatedInDb);
         //TODO: Handle rollback in doscstore if db update fails.
         AlterDueDateAndRenewResponse alterDueDateAndRenewResponse = new AlterDueDateAndRenewResponse();
@@ -565,6 +580,11 @@ public class CircController extends CheckoutValidationController {
     private void saveLoanDocumentsToDb(List<OleLoanDocument> loanDocumentsToBeUpdatedInDb) {
         BusinessObjectService oleBusinessObjectService = (BusinessObjectService) SpringContext.getService("oleBusinessObjectService");
         oleBusinessObjectService.save(loanDocumentsToBeUpdatedInDb);
+    }
+
+    private void saveDueDateDocumentsToDb(List<OleDueDateDocument> oleDueDateDocumentsToBeUpdatedInDb) {
+        BusinessObjectService oleBusinessObjectService = (BusinessObjectService) SpringContext.getService("oleBusinessObjectService");
+        oleBusinessObjectService.save(oleDueDateDocumentsToBeUpdatedInDb);
     }
 
     private Date getDateFromString(String dateString) throws ParseException {

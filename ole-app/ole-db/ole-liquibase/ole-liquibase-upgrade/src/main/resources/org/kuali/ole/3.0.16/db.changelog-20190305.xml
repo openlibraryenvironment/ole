@@ -15,4 +15,56 @@
             </delete>
         </rollback>
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DUE_DATE_HISTORY_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DUE_DATE_HISTORY_T ">
+            <column name="DUE_DATE_ID"   type="VARCHAR(40)"/>
+            <column name="LOAN_ID"   type="VARCHAR(40)"/>
+            <column name="PTRN_BARCODE"  type="VARCHAR(100)"/>
+            <column name="ITEM_BARCODE"  type="VARCHAR(100)"/>
+            <column name="CURR_DUE_DT_TIME" type="TIMESTAMP"/>
+            <column name="PAST_DUE_DT_TIME" type="TIMESTAMP"/>
+            <column name="OPTR_ID"  type="VARCHAR(40)"/>
+            <column name="UPDATED_DT_TIME" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DUE_DATE_HISTORY_TP1">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="DUE_DATE_ID"
+                       constraintName="OLE_DUE_DATE_HISTORY_TP1"
+                       schemaName="ole"
+                       tableName="OLE_DUE_DATE_HISTORY_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DUE_DATE_HISTORY_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DUE_DATE_HISTORY_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DUE_DATE_HISTORY_S_PK"  dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_DUE_DATE_HISTORY_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_DUE_DATE_HISTORY_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DUE_DATE_HISTORY_S_AUTOINCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_DUE_DATE_HISTORY_S"/>
+    </changeSet>
+
 </databaseChangeLog>
