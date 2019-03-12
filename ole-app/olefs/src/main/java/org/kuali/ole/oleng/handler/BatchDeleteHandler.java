@@ -412,6 +412,7 @@ public class BatchDeleteHandler extends BatchUtil {
             batchDeleteMap.put(OleNGConstants.FAILURE, OleNGConstants.ERR_BIB_HAS_REQ_OR_PO);
             return true;
         } else {
+            itemSolrDocumentList.addAll(getSolrDocsForBibIdByDocType(bibId, DocType.ITEM.getCode()));
             List<String> itemIds = getItemIdsFromSolrDocs(itemSolrDocumentList);
             if (CollectionUtils.isNotEmpty(itemIds)) {
                 for (String itemId : itemIds) {
