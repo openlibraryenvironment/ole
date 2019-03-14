@@ -14,7 +14,9 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.oleng.batch.process.model.BatchJobDetails;
 import org.kuali.ole.oleng.batch.process.model.BatchProcessJob;
 import org.kuali.ole.oleng.batch.process.model.BatchScheduleJob;
+import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.dao.DescribeDAO;
+import org.kuali.ole.oleng.handler.BatchProfileRequestHandler;
 import org.kuali.ole.oleng.rest.controller.OleNgControllerBase;
 import org.kuali.ole.oleng.scheduler.OleNGBatchJobScheduler;
 import org.kuali.ole.oleng.util.BatchExcelReportUtil;
@@ -72,6 +74,9 @@ public class BatchRestController extends OleNgControllerBase {
     @Autowired
     private DescribeDAO describeDAO;
 
+    @Autowired
+    private BatchProfileRequestHandler batchProfileRequestHandler;
+
     public DescribeDAO getDescribeDAO() {
         return describeDAO;
     }
@@ -95,23 +100,24 @@ public class BatchRestController extends OleNgControllerBase {
                         originalFilename = file.getOriginalFilename();
                         extension = FilenameUtils.getExtension(originalFilename);
                     }
-
+                    BatchProcessProfile batchProcessProfile = getBatchProfileRequestHandler().getBatchProcessProfileById(Long.parseLong(profileId));
                     BatchProcessJob batchProcessJob = new BatchProcessJob();
                     batchProcessJob.setJobType(OleNGConstants.ADHOC);
                     batchProcessJob.setProfileType(batchType);
                     batchProcessJob.setBatchProfileId(Long.parseLong(profileId));
-                    batchProcessJob.setBatchProfileName(profileName);
+                    batchProcessJob.setBatchProfileName(batchProcessProfile.getBatchProcessProfileName());
                     batchProcessJob.setCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
                     batchProcessJob.setCreatedOn(new Timestamp(new Date().getTime()));
                     batchProcessJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
                     batchProcessJob.setOutputFileFormat(outputFormat);
+                    batchProcessJob.setJobName(batchType);
                     batchProcessJob.setStatus(OleNGConstants.RUNNING);
                     getBusinessObjectService().save(batchProcessJob);
 
                     BatchJobDetails batchJobDetails =  getBatchUtil().createBatchJobDetailsEntry(batchProcessJob, originalFilename);
                     getBusinessObjectService().save(batchJobDetails);
 
-                    JSONObject response = processBatch(uploadedDirectory, batchType, profileName, extension, batchJobDetails);
+                    JSONObject response = processBatch(uploadedDirectory, batchType, profileId, extension, batchJobDetails);
                     return response.toString();
                 }
             }
@@ -705,5 +711,13 @@ public class BatchRestController extends OleNgControllerBase {
             }
         }
         return false;
+    }
+
+    public BatchProfileRequestHandler getBatchProfileRequestHandler() {
+        return batchProfileRequestHandler;
+    }
+
+    public void setBatchProfileRequestHandler(BatchProfileRequestHandler batchProfileRequestHandler) {
+        this.batchProfileRequestHandler = batchProfileRequestHandler;
     }
 }
