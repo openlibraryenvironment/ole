@@ -29,7 +29,7 @@ batchProcessAPP.service('fileUpload', ['$http', function ($http) {
         $scope.batchProcessStatus = "Batch process job initiated....";
         angular.element(document.getElementById('run'))[0].disabled = true;
         angular.element(document.getElementById('file'))[0].disabled = true;
-        angular.element(document.getElementById('profileName'))[0].disabled = true;
+        angular.element(document.getElementById('profileId'))[0].disabled = true;
         doPostRequestWithMultiPartData($scope, $http, uploadUrl, fd, function (response) {
             var data = response.data;
             var filePathName = data.filePathName;
