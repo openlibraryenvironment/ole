@@ -60,7 +60,7 @@ batchProcessAPP.controller('batchProfileController', ['$scope', 'fileUpload','$h
         if (sessionStorage.getItem("batchType") != null && sessionStorage.getItem("batchType") != "undefined") {
             $scope.batchType = sessionStorage.getItem("batchType");
             $scope.populationProfileNames();
-            if (sessionStorage.getItem("profileId") != null && sessionStorage.getItem("profileId") != "undefined" && sesessionStorage.getItem("profileName") != null && sessionStorage.getItem("profileName") != "undefined") {
+            if (sessionStorage.getItem("profileId") != null && sessionStorage.getItem("profileId") != "undefined") {
                 $scope.profileId = sessionStorage.getItem("profileId");
                 $scope.profileName = sessionStorage.getItem("profileName");
                 if (sessionStorage.getItem("exportInputFile") != null && sessionStorage.getItem("exportInputFile") != "undefined") {
