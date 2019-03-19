@@ -37,7 +37,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sheiksalahudeenm on 25/6/15.
@@ -101,19 +103,28 @@ public class BatchRestController extends OleNgControllerBase {
                         extension = FilenameUtils.getExtension(originalFilename);
                     }
                     BatchProcessProfile batchProcessProfile = getBatchProfileRequestHandler().getBatchProcessProfileById(Long.parseLong(profileId));
+                    Map batchMap = new HashMap();
+                    batchMap.put("jobName", batchType);
+                    List<BatchProcessJob> batchProcessJobs = (List<BatchProcessJob>) getBusinessObjectService().findMatching(BatchProcessJob.class,batchMap);
                     BatchProcessJob batchProcessJob = new BatchProcessJob();
-                    batchProcessJob.setJobType(OleNGConstants.ADHOC);
-                    batchProcessJob.setProfileType(batchType);
-                    batchProcessJob.setBatchProfileId(Long.parseLong(profileId));
-                    batchProcessJob.setBatchProfileName(batchProcessProfile.getBatchProcessProfileName());
-                    batchProcessJob.setCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
-                    batchProcessJob.setCreatedOn(new Timestamp(new Date().getTime()));
-                    batchProcessJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
-                    batchProcessJob.setOutputFileFormat(outputFormat);
-                    batchProcessJob.setJobName(batchType);
-                    batchProcessJob.setStatus(OleNGConstants.RUNNING);
-                    getBusinessObjectService().save(batchProcessJob);
-
+                    if(org.apache.commons.collections.CollectionUtils.isEmpty(batchProcessJobs)) {
+                        batchProcessJob.setJobType(OleNGConstants.ADHOC);
+                        batchProcessJob.setProfileType(batchType);
+                        batchProcessJob.setBatchProfileId(Long.parseLong(profileId));
+                        batchProcessJob.setBatchProfileName(batchProcessProfile.getBatchProcessProfileName());
+                        batchProcessJob.setCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
+                        batchProcessJob.setCreatedOn(new Timestamp(new Date().getTime()));
+                        batchProcessJob.setNumOfRecordsInFile(Integer.parseInt(numOfRecordsInFile));
+                        batchProcessJob.setOutputFileFormat(outputFormat);
+                        batchProcessJob.setJobName(batchType);
+                        batchProcessJob.setStatus(OleNGConstants.RUNNING);
+                        getBusinessObjectService().save(batchProcessJob);
+                    }
+                    else {
+                        batchProcessJob = batchProcessJobs.get(0);
+                        batchProcessJob.setStatus(OleNGConstants.RUNNING);
+                        getBusinessObjectService().save(batchProcessJob);
+                    }
                     BatchJobDetails batchJobDetails =  getBatchUtil().createBatchJobDetailsEntry(batchProcessJob, originalFilename);
                     getBusinessObjectService().save(batchJobDetails);
 
