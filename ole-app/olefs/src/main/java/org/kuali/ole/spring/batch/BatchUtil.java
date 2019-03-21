@@ -482,6 +482,24 @@ public class BatchUtil extends OleNgUtil {
         return batchJobDetails;
     }
 
+    public BatchJobDetails createBatchJobDetailsEntryforQuickImport(BatchProcessJob batchProcessJob, String fileName) {
+        BatchProcessProfile batchProcessProfile = getBatchProcessProfileById(batchProcessJob.getBatchProfileId());
+        BatchJobDetails batchJobDetails = new BatchJobDetails();
+        batchJobDetails.setJobId(batchProcessJob.getJobId());
+        batchJobDetails.setJobName(batchProcessJob.getJobName());
+        batchJobDetails.setProfileType(batchProcessJob.getProfileType());
+        batchJobDetails.setProfileName(batchProcessProfile.getBatchProcessProfileName());
+        String loginUser = GlobalVariables.getUserSession().getPrincipalName();
+        batchJobDetails.setCreatedBy(loginUser); // Job initiated by
+        batchJobDetails.setStartTime(new Timestamp(new Date().getTime()));
+        batchJobDetails.setStatus(OleNGConstants.RUNNING);
+        batchJobDetails.setFileName(fileName);
+        batchJobDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
+        batchJobDetails.setNumOfRecordsInFile(batchProcessJob.getNumOfRecordsInFile());
+        batchJobDetails.setOutputFileFormat(batchProcessJob.getOutputFileFormat());
+        return batchJobDetails;
+    }
+
     public BatchProcessJob getBatchProcessJobById(Long jobId) {
         Map map = new HashedMap();
         map.put(OleNGConstants.JOB_ID, jobId);
@@ -540,4 +558,9 @@ public class BatchUtil extends OleNgUtil {
         return 1000;
     }
 
+    public BatchProcessProfile getBatchProcessProfileById(Long profileId) {
+        Map map = new HashedMap();
+        map.put(OleNGConstants.BATCH_PROCESS_PROFILE_ID,profileId);
+        return getBusinessObjectService().findByPrimaryKey(BatchProcessProfile.class, map);
+    }
 }
