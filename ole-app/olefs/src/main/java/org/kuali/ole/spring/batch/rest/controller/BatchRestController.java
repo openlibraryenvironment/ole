@@ -124,8 +124,9 @@ public class BatchRestController extends OleNgControllerBase {
                         batchProcessJob = batchProcessJobs.get(0);
                         batchProcessJob.setStatus(OleNGConstants.RUNNING);
                         getBusinessObjectService().save(batchProcessJob);
+                        batchProcessJob.setBatchProfileId(Long.parseLong(profileId));
                     }
-                    BatchJobDetails batchJobDetails =  getBatchUtil().createBatchJobDetailsEntry(batchProcessJob, originalFilename);
+                    BatchJobDetails batchJobDetails =  getBatchUtil().createBatchJobDetailsEntryforQuickImport(batchProcessJob, originalFilename);
                     getBusinessObjectService().save(batchJobDetails);
 
                     JSONObject response = processBatch(uploadedDirectory, batchType, profileId, extension, batchJobDetails);
