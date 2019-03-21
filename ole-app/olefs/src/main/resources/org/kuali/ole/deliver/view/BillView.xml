@@ -236,9 +236,9 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <ref bean="detailed_Item_View-BillSection"/>
+                        <ref bean="detailed_Open_Item_View-BillSection"/>
                         <!--<ref bean="detailed_Note_View-BillSection"/>-->
-                        <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
+                        <bean id="billView_open_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
                     </list>
                 </property>
             </bean>
@@ -288,9 +288,9 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <ref bean="detailed_Item_View-BillSection"/>
+                        <ref bean="detailed_Closed_Item_View-BillSection"/>
                         <!--<ref bean="detailed_Note_View-BillSection"/>-->
-                        <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
+                        <bean id="billView_closed_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
                     </list>
                 </property>
             </bean>
@@ -326,6 +326,70 @@
 
 
     <bean id="detailed_Item_View-BillSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Item Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="feeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="readOnly" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="detailed_Item_View_itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+                <bean id="detailed_Item_View_itemTitle" parent="Uif-DataField" p:label="Item Title" p:width="30%" p:propertyName="itemTitle"/>
+                <bean id="detailed_Item_View_itemAuthor" parent="Uif-DataField" p:label="Item Author" p:width="20%" p:propertyName="itemAuthor"/>
+                <bean id="detailed_Item_View_itemType" parent="Uif-DataField" p:label="Item Type" p:width="10%" p:propertyName="itemType"/>
+                <bean id="detailed_Item_View_itemCallNumber" parent="Uif-DataField" p:label="Item Call Number" p:width="10%" p:propertyName="itemCallNumber"/>
+                <bean id="detailed_Item_View_itemCopyNumber" parent="Uif-DataField" p:label="Item Copy Number" p:width="10%" p:propertyName="itemCopyNumber"/>
+                <bean id="detailed_Item_View_itemEnumeration" parent="Uif-DataField" p:label="Item Enumeration" p:width="10%" p:propertyName="itemEnumeration"/>
+                <bean id="detailed_Item_View_itemChronology" parent="Uif-DataField" p:width="10%" p:label="Item Chronology" p:propertyName="itemChronology"/>
+                <bean id="detailed_Item_View_itemOwnLocation" parent="Uif-DataField" p:width="10%" p:label="Item Own Location" p:propertyName="itemOwnLocation"/>
+                <bean id="detailed_Item_View_itemCheckOutDate" parent="Uif-DataField" p:label="Check-Out Date" p:width="10%" p:propertyName="checkOutDate"/>
+                <bean id="detailed_Item_View_itemDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate"/>
+                <bean id="detailed_Item_View_itemCheckInDate" parent="Uif-DataField" p:label="Check-In Date" p:width="10%" p:propertyName="checkInDate"/>
+                <bean id="detailed_Item_View_itemCheckInOverrideDate" parent="Uif-DataField" p:label="Check-In Override Date" p:width="10%" p:propertyName="overrideCheckInDate"/>
+                <bean id="detailed_Item_View_itemRenewalDate" parent="Uif-DataField" p:label="Renewal Date" p:width="10%" p:propertyName="renewalDate"/>
+
+              </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="detailed_Open_Item_View-BillSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Item Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="feeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="readOnly" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="detailed_Item_View_itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+                <bean id="detailed_Item_View_itemTitle" parent="Uif-DataField" p:label="Item Title" p:width="30%" p:propertyName="itemTitle"/>
+                <bean id="detailed_Item_View_itemAuthor" parent="Uif-DataField" p:label="Item Author" p:width="20%" p:propertyName="itemAuthor"/>
+                <bean id="detailed_Item_View_itemType" parent="Uif-DataField" p:label="Item Type" p:width="10%" p:propertyName="itemType"/>
+                <bean id="detailed_Item_View_itemCallNumber" parent="Uif-DataField" p:label="Item Call Number" p:width="10%" p:propertyName="itemCallNumber"/>
+                <bean id="detailed_Item_View_itemCopyNumber" parent="Uif-DataField" p:label="Item Copy Number" p:width="10%" p:propertyName="itemCopyNumber"/>
+                <bean id="detailed_Item_View_itemEnumeration" parent="Uif-DataField" p:label="Item Enumeration" p:width="10%" p:propertyName="itemEnumeration"/>
+                <bean id="detailed_Item_View_itemChronology" parent="Uif-DataField" p:width="10%" p:label="Item Chronology" p:propertyName="itemChronology"/>
+                <bean id="detailed_Item_View_itemOwnLocation" parent="Uif-DataField" p:width="10%" p:label="Item Own Location" p:propertyName="itemOwnLocation"/>
+                <bean id="detailed_Item_View_itemCheckOutDate" parent="Uif-DataField" p:label="Check-Out Date" p:width="10%" p:propertyName="checkOutDate"/>
+                <bean id="detailed_Item_View_itemDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate"/>
+                <bean id="detailed_Item_View_itemCheckInDate" parent="Uif-DataField" p:label="Check-In Date" p:width="10%" p:propertyName="checkInDate"/>
+                <bean id="detailed_Item_View_itemCheckInOverrideDate" parent="Uif-DataField" p:label="Check-In Override Date" p:width="10%" p:propertyName="overrideCheckInDate"/>
+                <bean id="detailed_Item_View_itemRenewalDate" parent="Uif-DataField" p:label="Renewal Date" p:width="10%" p:propertyName="renewalDate"/>
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="detailed_Closed_Item_View-BillSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Item Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
         <property name="propertyName" value="feeTypes"/>
