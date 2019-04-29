@@ -18,6 +18,7 @@ public class ASRTypeRequest extends PersistableBusinessObjectBase {
     private String pickUpLocation;
     private String requestId;
     private String requestStatus;
+    private String requestNote;
 
     public String getId() {
         return id;
@@ -73,5 +74,13 @@ public class ASRTypeRequest extends PersistableBusinessObjectBase {
 
     public void setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
+    }
+
+    public String getRequestNote() {
+        return requestNote;
+    }
+
+    public void setRequestNote(String requestNote) {
+        this.requestNote = requestNote;
     }
 }

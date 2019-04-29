@@ -179,7 +179,7 @@ public class ASRServiceImpl implements ASRService {
         //place the request to the asr item
         String requestType = loanProcessor.getParameter(ASRConstants.ASR_TYP_RQST);
          //String message = oleasrPlaceRequestHelperService.placeRequest(placeRequestASRItemBo.getPatronId(),placeRequestASRItemBo.getOperatorId(),placeRequestASRItemBo.getItemBarcode(),"ASR Request",placeRequestASRItemBo.getPickUpLocation());
-         String message = getOleDeliverRequestDocumentHelperService().placeRequest(placeRequestASRItemBo.getPatronId(),placeRequestASRItemBo.getOperatorId(),placeRequestASRItemBo.getItemBarcode(),requestType,placeRequestASRItemBo.getPickUpLocation(),null,null,null,null,null,null,false,null,OLEConstants.ITEM_LEVEL,null, "");
+         String message = getOleDeliverRequestDocumentHelperService().placeRequest(placeRequestASRItemBo.getPatronId(),placeRequestASRItemBo.getOperatorId(),placeRequestASRItemBo.getItemBarcode(),requestType,placeRequestASRItemBo.getPickUpLocation(),null,null,null,null,null,null,false,null,OLEConstants.ITEM_LEVEL,null, placeRequestASRItemBo.getRequestNote());
         //update the asr response with the corresponding code according to the circulation policy message
         OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
         OLEPlaceRequest olePlaceRequest = (OLEPlaceRequest)olePlaceRequestConverter.generatePlaceRequestObject(message);

@@ -32,7 +32,9 @@ public class ASRRequestBo {
     @XmlElement(name = "patronName")
     @JsonProperty("patronName")
     private String patronName;
-
+    @XmlElement(name = "requestNote")
+    @JsonProperty("requestNote")
+    private String requestNote;
     public String getItemBarcode() {
         return itemBarcode;
     }
@@ -63,5 +65,13 @@ public class ASRRequestBo {
 
     public void setPatronName(String patronName) {
         this.patronName = patronName;
+    }
+
+    public String getRequestNote() {
+        return requestNote;
+    }
+
+    public void setRequestNote(String requestNote) {
+        this.requestNote = requestNote;
     }
 }

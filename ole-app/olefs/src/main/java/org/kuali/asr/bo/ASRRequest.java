@@ -50,6 +50,9 @@ public class ASRRequest {
     @XmlElement
     @JsonProperty
     private String requestStatus;
+    @XmlElement
+    @JsonProperty
+    private String requestNote;
 
     public String getHoldId() {
         return holdId;
@@ -130,4 +133,13 @@ public class ASRRequest {
     public void setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
     }
+
+    public String getRequestNote() {
+        return requestNote;
+    }
+
+    public void setRequestNote(String requestNote) {
+        this.requestNote = requestNote;
+    }
+
 }

@@ -609,6 +609,7 @@ public class ASRHelperServiceImpl {
        asrTypeRequest.setPatronId(asrRequestBo.getPatronBarcode());
        asrTypeRequest.setPickUpLocation(asrRequestBo.getPickupLocation());
        asrTypeRequest.setPatronName(asrRequestBo.getPatronName());
+       asrTypeRequest.setRequestNote(asrRequestBo.getRequestNote());
        ASRTypeRequest asrTypeRequest1 = businessObjectService.save(asrTypeRequest);
        if(asrTypeRequest1!=null){
            saved =true;
@@ -776,6 +777,7 @@ public class ASRHelperServiceImpl {
                      asrRequest.setCallNumber(oleDeliverRequestBo.getCallNumber());
                      asrRequest.setPatronName(oleDeliverRequestBo.getBorrowerName());
                      asrRequest.setRequestStatus(oleDeliverRequestBo.getRequestStatus());
+                     asrRequest.setRequestNote(oleDeliverRequestBo.getRequestNote());
                  }
              }
       }
