@@ -35,6 +35,9 @@ public class PlaceASRItemRequestBo {
     @XmlElement
     @JsonProperty
     private String pickUpLocation;
+    @XmlElement
+    @JsonProperty
+    private String requestNote;
 
     public String getItemBarcode() {
         return itemBarcode;
@@ -74,5 +77,13 @@ public class PlaceASRItemRequestBo {
 
     public void setPickUpLocation(String pickUpLocation) {
         this.pickUpLocation = pickUpLocation;
+    }
+
+    public String getRequestNote() {
+        return requestNote;
+    }
+
+    public void setRequestNote(String requestNote) {
+        this.requestNote = requestNote;
     }
 }

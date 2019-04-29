@@ -1696,6 +1696,7 @@
         <field-descriptor name="pickUpLocation" column="PK_UP_LOCN" jdbc-type="VARCHAR" />
         <field-descriptor name="requestId" column="RQST_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="requestStatus" column="RQST_STAT" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestNote" column="RQST_NOTE" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>

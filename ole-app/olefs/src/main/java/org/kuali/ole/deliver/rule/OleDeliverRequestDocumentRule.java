@@ -155,6 +155,7 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                 asrTypeRequest.setItemId(oleDeliverRequestBo.getItemId());
                 asrTypeRequest.setRequestStatus("1");
                 asrTypeRequest.setRequestId(oleDeliverRequestBo.getRequestId());
+                asrTypeRequest.setRequestNote(oleDeliverRequestBo.getRequestNote());
                 businessObjectService.save(asrTypeRequest);
             }
           getOleNoticeService().processNoticeForRequest(oleDeliverRequestBo);
