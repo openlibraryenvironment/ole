@@ -11,6 +11,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.service.ClaimsReturnedNoticesExecutor;
+import org.kuali.ole.deliver.service.LostNoticesExecutor;
 import org.kuali.ole.deliver.service.NoticesExecutor;
 import org.kuali.ole.deliver.service.impl.CheckoutReceiptNoticeExecutor;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
@@ -59,6 +60,9 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
             //6. Delete notices
             if(!(this instanceof CheckoutReceiptNoticeExecutor)){
                 deleteNotices(oleDeliverNotices);
+            }
+            if(this instanceof LostNoticesExecutor) {
+                mailContent = generateMailContent(loanDocuments);
             }
             //7. update notice history
             saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
