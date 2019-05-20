@@ -708,7 +708,7 @@ public class BatchRestController extends OleNgControllerBase {
     // Method added as fix for OLE-9027 to disallow Second Instance of VUFIND Job to run at same time
     private boolean isJobRunning(long jobId) {
         BatchProcessJob jobRunning = getBatchUtil().getBatchProcessJobById(Long.valueOf(jobId));
-        if(jobRunning.getJobName().toUpperCase().contains("VU")) {
+        if(jobRunning.getJobName().toUpperCase().contains("VU") || jobRunning.getJobName().toUpperCase().contains("DELETE")) {
             List<BatchProcessJob> batchProcessJobs = getDescribeDAO().fetchAllBatchProcessJobs();
             for (BatchProcessJob batchProcessJob : batchProcessJobs) {
                 batchProcessJob.getStatus();
