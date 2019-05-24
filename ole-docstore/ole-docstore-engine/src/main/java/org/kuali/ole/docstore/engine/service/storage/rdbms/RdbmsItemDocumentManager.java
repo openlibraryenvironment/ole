@@ -919,8 +919,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 dueDateTime(item, itemRecord, dueDateItem);
             } else if (dueDateItemArray.length > 1) {
                 dueDateTime(item, itemRecord, dueDateItem);
-            } else {
-                itemRecord.setDueDateTime(null);
             }
         } else {
             itemRecord.setDueDateTime(null);
@@ -933,8 +931,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 originalDueDateTime(item,itemRecord,originalDueDateTime);
             } else if (originalDueDateTimeArray.length > 1) {
                 originalDueDateTime(item,itemRecord,originalDueDateTime);
-            } else {
-                itemRecord.setOriginalDueDate(null);
             }
         } else {
             itemRecord.setOriginalDueDate(null);
@@ -947,8 +943,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                 itemRecord.setCheckOutDateTime(convertDateToTimeStamp(checkOutDateItem));
             } else if (dueDateItemArray.length > 1) {
                 itemRecord.setCheckOutDateTime(convertDateToTimeStamp(checkOutDateItem));
-            } else {
-                itemRecord.setCheckOutDateTime(null);
             }
         } else {
             itemRecord.setCheckOutDateTime(null);
@@ -1242,7 +1236,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
 
     private void dueDateTime(org.kuali.ole.docstore.common.document.content.instance.Item item, ItemRecord itemRecord, String dueDateTime) {
         Timestamp dueDateTime1 = convertDateToTimeStamp(dueDateTime);
-        itemRecord.setDueDateTime(dueDateTime1);
+        if(dueDateTime1!=null) {
+            itemRecord.setDueDateTime(dueDateTime1);
+        }
     }
 
 
