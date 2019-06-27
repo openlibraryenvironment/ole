@@ -1486,7 +1486,12 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
             map.put("purapDocumentIdentifier",poID);
             List<OlePurchaseOrderDocument> purchaseOrderDocumentList = (List<OlePurchaseOrderDocument>)getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class,map);
             if(purchaseOrderDocumentList!=null && purchaseOrderDocumentList.size()>0){
-                setPurchaseOrderDocument(purchaseOrderDocumentList.get(0));
+                for(OlePurchaseOrderDocument purchaseOrderDocument : purchaseOrderDocumentList) {
+                    if(purchaseOrderDocument.isPurchaseOrderCurrentIndicator()) {
+                        setPurchaseOrderDocument(purchaseOrderDocument);
+                    }
+                }
+       //         setPurchaseOrderDocument(purchaseOrderDocumentList.get(0));
             }
           //  setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poID));
         }
