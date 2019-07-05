@@ -43,7 +43,7 @@ public abstract class LoanNoticesCallable extends NoticeCallable {
 
         try{
             //1. Pre process
-            preProcess(loanDocuments);
+           // preProcess(loanDocuments);
             //2. Determine the correct NoticeConfigurationBo
             setOleNoticeContentConfigurationBo();
             //3. generate email content
@@ -54,6 +54,10 @@ public abstract class LoanNoticesCallable extends NoticeCallable {
                 List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
                 //5. Save loan document
                 saveLoanDocument();
+
+                if(this instanceof LostNoticeCallable) {
+                    mailContent = generateMailContent(loanDocuments);
+                }
 
                 //6. Delete notices
                 deleteNotices(oleDeliverNotices);
