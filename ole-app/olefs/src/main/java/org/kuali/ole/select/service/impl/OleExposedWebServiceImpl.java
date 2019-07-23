@@ -81,7 +81,9 @@ public class OleExposedWebServiceImpl implements OleExposedWebService {
         List<OlePaymentMethod> olePaymentMethods = (List<OlePaymentMethod>) businessObjectService.findAll(OlePaymentMethod.class);
         if (olePaymentMethods != null && olePaymentMethods.size() > 0) {
             for (int i = 0; i < olePaymentMethods.size(); i++) {
-                paymentMethodbuffer.append(olePaymentMethods.get(i).getPaymentMethod() + ",");
+                if (olePaymentMethods.get(i).isActive()) {
+                    paymentMethodbuffer.append(olePaymentMethods.get(i).getPaymentMethod() + ",");
+                }
             }
 
         }
