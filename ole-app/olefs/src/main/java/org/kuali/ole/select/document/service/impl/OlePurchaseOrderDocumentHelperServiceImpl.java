@@ -298,7 +298,7 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
                 adhocRouteRecipientList.addAll(purchaseOrderDocument.getAdHocRouteWorkgroups());
                 SpringContext.getBean(org.kuali.rice.krad.service.DocumentService.class).blanketApproveDocument(rdoc, "Automatic Approval From PO", adhocRouteRecipientList);
                 GlobalVariables.setUserSession(userSession);
-                purchaseOrderDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(rdoc.getPurapDocumentIdentifier());
+                purchaseOrderDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(rdoc.getAccountsPayablePurchasingDocumentLinkIdentifier());
                 purchaseOrderDocument.setRequisitionIdentifier(rdoc.getPurapDocumentIdentifier());
             } catch (WorkflowException e) {
                 LOG.error("Exception in OlePurchaseOrderDocumentHelperServiceImpl:prepareForSave: " + e.getMessage());
