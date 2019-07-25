@@ -347,9 +347,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             item.setNote(notes);
         }
         List<DonorInfo> donorInfoList = new ArrayList<DonorInfo>();
-        if (CollectionUtils.isNotEmpty(itemRecord.getDonorList())) {
-            List<OLEItemDonorRecord> oleItemDonorRecords = itemRecord.getDonorList();
+//        if (CollectionUtils.isNotEmpty(itemRecord.getDonorList())) {
+        List<OLEItemDonorRecord> oleItemDonorRecords =  org.kuali.rice.core.api.util.collect.CollectionUtils.unmodifiableListNullSafe(itemRecord.getDonorList());
+        if(oleItemDonorRecords.size()>0 && (!oleItemDonorRecords.isEmpty())) {
             for (OLEItemDonorRecord oleItemDonorRecord : oleItemDonorRecords) {
+                LOG.info("oleItemDonorRecord DonorCode >>>> " + oleItemDonorRecord.getDonorCode());
                 DonorInfo donorInfo = new DonorInfo();
                 donorInfo.setDonorCode(oleItemDonorRecord.getDonorCode());
                 if(oleItemDonorRecord.getDonorPublicDisplay() != null || oleItemDonorRecord.getDonorNote() != null) {
@@ -1632,6 +1634,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                         if (documentId != null && documentId.equals(itemId)) {
                             return;
                         }
+                    }
+                    else {
+                        LOG.info("Duplicate Barcode >>>" + itemDocument.getAccessInformation().getBarcode());
                     }
                     DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BARCODE_EXISTS, DocstoreResources.BARCODE_EXISTS);
                     docstoreException.addErrorParams("barcode", itemDocument.getAccessInformation().getBarcode());
