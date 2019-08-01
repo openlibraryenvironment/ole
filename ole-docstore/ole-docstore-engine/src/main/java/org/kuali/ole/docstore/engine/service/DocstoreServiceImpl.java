@@ -302,20 +302,20 @@ public class DocstoreServiceImpl implements DocstoreService {
         if (!DocumentUniqueIDPrefix.hasPrefix(holdingsId)) {
             holdingsId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, holdingsId);
         }
+        Holdings holding = retrieveHoldings(holdingsId);
         try {
-            Holdings holding = retrieveHoldings(holdingsId);
             getDocstoreStorageService().deleteHoldings(holdingsId);
             getDocstoreStorageService().saveDeletedHolding(holding);
         } catch (Exception e) {
             LOG.error("Exception occurred while deleting Holdings ", e);
-            throw e;
-        }
-        try {
-            getDocstoreIndexService().deleteHoldings(holdingsId);
-        } catch (Exception e) {
-            LOG.error("Exception occurred while indexing deleted Holdings ", e);
-            docstoreStorageService.rollback();
-            throw e;
+            try {
+                getDocstoreIndexService().deleteHoldings(holdingsId);
+                getDocstoreStorageService().saveDeletedHolding(holding);
+            } catch (Exception ie) {
+                LOG.error("Exception occurred while deleting and indexing deleted Holdings ", ie);
+                docstoreStorageService.rollback();
+                throw e;
+            }
         }
     }
 
@@ -324,20 +324,20 @@ public class DocstoreServiceImpl implements DocstoreService {
         if (!DocumentUniqueIDPrefix.hasPrefix(itemId)) {
             itemId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML, itemId);
         }
+        Item item = retrieveItem(itemId);
         try {
-            Item item = retrieveItem(itemId);
             getDocstoreStorageService().deleteItem(itemId);
             getDocstoreStorageService().saveDeletedItem(item);
         } catch (Exception e) {
             LOG.error("Exception occurred while deleting item ", e);
-            throw e;
-        }
-        try {
-            getDocstoreIndexService().deleteItem(itemId);
-        } catch (Exception e) {
-            LOG.error("Exception occurred while indexing deleted item ", e);
-            docstoreStorageService.rollback();
-            throw e;
+            try {
+                getDocstoreIndexService().deleteItem(itemId);
+                getDocstoreStorageService().saveDeletedItem(item);
+            } catch (Exception ie) {
+                LOG.error("Exception occurred while deleteting and indexing deleted item ", ie);
+                docstoreStorageService.rollback();
+                throw e;
+            }
         }
     }
 
@@ -614,17 +614,18 @@ public class DocstoreServiceImpl implements DocstoreService {
             Bib bib = retrieveBib(bibId);
             bibs.add(bib);
         }
-        getDocstoreStorageService().deleteBibs(bibIds);
         try {
+            getDocstoreStorageService().deleteBibs(bibIds);
             getDocstoreStorageService().saveDeletedBibs(bibs);
         } catch (Exception e) {
             LOG.error("Exception occurred while saving deleted bib records ", e);
-        }
-        try {
-            getDocstoreIndexService().deleteBibs(bibIds);
-        } catch (Exception e) {
-            LOG.error("Exception occurred while indexing bib records after deletion", e);
-            docstoreStorageService.rollback();
+            try {
+                getDocstoreIndexService().deleteBibs(bibIds);
+                getDocstoreStorageService().saveDeletedBibs(bibs);
+            } catch (Exception ie) {
+                LOG.error("Exception occurred while deleting and indexing bib records after deletion", ie);
+                docstoreStorageService.rollback();
+            }
         }
     }
 
