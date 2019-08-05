@@ -45,6 +45,7 @@ public class OLENCIPCheckOutItemServiceImpl extends NonSip2CheckoutItemServiceIm
 
     @Override
     public CheckOutItemResponseData performService(CheckOutItemInitiationData checkOutItemInitiationData, ServiceContext serviceContext, RemoteServiceManager remoteServiceManager) throws ServiceException, ValidationException {
+        LOG.info("Calling performService in OLENCIPCheckOutItemServiceImpl >>>");
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
 
@@ -62,6 +63,9 @@ public class OLENCIPCheckOutItemServiceImpl extends NonSip2CheckoutItemServiceIm
         String patronBarcode = checkOutItemInitiationData.getUserId().getUserIdentifierValue();
         String operatorId = olencipUtil.agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
 
+        LOG.info("itemBarcode >>>" + itemBarcode);
+        LOG.info("patronBarcode >>>" + patronBarcode);
+        LOG.info("operatorId >>>" + operatorId);
         Map checkoutParameters = new HashMap();
         checkoutParameters.put("patronBarcode", patronBarcode);
         checkoutParameters.put("operatorId", operatorId);
@@ -82,14 +86,20 @@ public class OLENCIPCheckOutItemServiceImpl extends NonSip2CheckoutItemServiceIm
                 ncipCheckOutItemResponseBuilder.setItemId(checkOutItemResponseData, checkOutItemInitiationData, agencyId, olencipUtil.agencyPropertyMap.get(OLENCIPConstants.ITEM_TYPE));
                 ncipCheckOutItemResponseBuilder.setUserId(checkOutItemResponseData, checkOutItemInitiationData, agencyId, oleCheckOutItem.getUserType());
             } else {
-                String problemElement = OLENCIPConstants.ITEM;
-                String problemValue = itemBarcode;
-
-                if (oleCheckOutItem.getCode().equals("002")) {
+                String problemElement = "";
+                String problemValue = "";
+                if( getOleCheckOutItem().getCode().equals("014")) {
+                    problemElement = OLENCIPConstants.ITEM;
+                    problemValue = itemBarcode;
+                }
+                else if (oleCheckOutItem.getCode().equals("002")) {
                     problemElement = OLENCIPConstants.USER;
                     problemValue = patronBarcode;
                 } else if (oleCheckOutItem.getCode().equals("026")) {
                     problemValue = operatorId;
+                }
+                else if(oleCheckOutItem.getCode().equals("500")) {
+                    problemValue = "CheckOut Failed";
                 }
                 olencipUtil.processProblems(checkOutItemResponseData, problemValue, oleCheckOutItem.getMessage(), problemElement);
             }

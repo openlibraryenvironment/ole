@@ -254,6 +254,7 @@ public class OLENCIPAcceptItemServiceImpl extends OLENCIPUtil implements OLEAcce
 
         Map responseMap = getOlencipAcceptItemUtil().placeRequest(operatorId, olePatronDocument, itemBarcode, itemIdentifier, olePickUpLocation, oleDeliverRequestBo.getRequestTypeId(), bibId, title, author, callNumber, requestExpirationDay, location, requestExpirationConfigName,onHoldConfigName,onHoldCourtesyConfigName,onHoldExpirationConfigName);
         try {
+            LOG.info("responseMap.get(OLEConstants.STATUS) >>>>>>>>>" + responseMap.get(OLEConstants.STATUS));
             if (responseMap.get(OLEConstants.STATUS).equals(OLEConstants.RQST_SUCCESS)) {
                 ncipAcceptItemResponseBuilder.setRequestId(acceptItemResponseData, agencyId, responseMap.get(OLEConstants.OleDeliverRequest.REQUEST_ID).toString());
                 ncipAcceptItemResponseBuilder.setItemId(acceptItemResponseData, agencyId, itemBarcode);

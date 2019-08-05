@@ -150,6 +150,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     public DroolsResponse checkin(OLEForm oleForm) {
+        LOG.info("Calling checkin in CheckinBaseController >>>>");
         String itemBarcode = getItemBarcode(oleForm);
 
         ItemRecord itemRecord = null;
@@ -249,6 +250,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
 
     public DroolsResponse processCheckinAfterPreValidation(ItemRecord itemRecord, OLEForm oleForm, OleLoanDocument loanDocument) {
+        LOG.info("Calling processCheckinAfterPreValidation in CheckinBaseController >>>");
         DroolsResponse droolsResponse;
 
         OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(getSelectedCirculationDesk(oleForm));
@@ -376,6 +378,8 @@ public abstract class CheckinBaseController extends CircUtilController {
         handleCheckinNote(oleForm, oleItemRecordForCirc);
 
         handleAutoCheckout(oleForm, oleItemRecordForCirc);
+
+        LOG.info("Completed processCheckinAfterPreValidation in CheckinBaseController >>>");
 
         return droolsResponse;
     }
@@ -632,6 +636,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
 
     public void updateReturnHistory(OleItemRecordForCirc oleItemRecordForCirc, OLEForm oleForm) {
+        LOG.info("Calling updateReturnHistory in CheckinBaseController >>>");
         if(oleItemRecordForCirc != null) {
             getDroolsExchange(oleForm).addToContext("oleItemRecordForCirc", oleItemRecordForCirc);
             String itemStatusToBeUpdatedTo = oleItemRecordForCirc.getItemStatusToBeUpdatedTo();
@@ -643,6 +648,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 saveReturnHistoryRecord(oleForm, oleItemRecordForCirc);
             }
         }
+        LOG.info("Completed updateReturnHistory in CheckinBaseController >>>");
     }
 
     private void saveReturnHistoryRecord(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
@@ -676,6 +682,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private void handleOnHoldRequestIfExists(OleItemRecordForCirc oleItemRecordForCirc) {
+        LOG.info("Calling handleOnHoldRequestIfExists in CheckinBaseController >>>");
         OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
         List<String> requestTypes = getRequestTypes();
        boolean expirationDateToBeModified = false;
@@ -718,6 +725,7 @@ public abstract class CheckinBaseController extends CircUtilController {
                 }
             }
         }
+        LOG.info("Completed handleOnHoldRequestIfExists in CheckinBaseController >>>");
     }
 
     private List<String> getRequestTypes() {
@@ -773,6 +781,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private void handleMissingPieceIfExists(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch) {
+        LOG.info("Calling handleMissingPieceIfExists in CheckinBaseController >>>>");
         if(StringUtils.isNotBlank(getMissingPieceMatchCheck(oleForm)) && getMissingPieceMatchCheck(oleForm).equalsIgnoreCase("mismatched") && loanDocument!=null){
             CheckinForm checkinForm = (CheckinForm)oleForm;
             populateLoanDocumentForMissingPiece(oleForm, loanDocument, oleItemSearch, checkinForm);
@@ -785,6 +794,7 @@ public abstract class CheckinBaseController extends CircUtilController {
             executorService.shutdown();
 
         }
+        LOG.info("Completed handleMissingPieceIfExists in CheckinBaseController >>>>");
     }
 
     private void populateLoanDocumentForMissingPiece(OLEForm oleForm, OleLoanDocument loanDocument, OleItemSearch oleItemSearch, CheckinForm checkinForm) {
@@ -854,6 +864,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private void updateCheckedInItemList(OLEForm oleForm, String checkinNote, OleItemRecordForCirc oleItemRecordForCirc, OleItemSearch oleItemSearch, OlePatronDocument olePatronDocument) {
+        LOG.info("Calling updateCheckedInItemList in CheckinBaseController >>>");
         CheckedInItem checkedInItem = new CheckedInItem();
         SimpleDateFormat dateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         checkedInItem.setCheckinNote(checkinNote);
@@ -896,6 +907,7 @@ public abstract class CheckinBaseController extends CircUtilController {
         }
         addCheckedInItemToCheckedInItemList(checkedInItem, oleForm);
         setCheckedInItem(checkedInItem, oleForm);
+        LOG.info("Completed updateCheckedInItemList in CheckinBaseController >>>");
     }
 
     private String getBillName(OlePatronDocument olePatronDocument, String itemBarcode) {
@@ -1044,6 +1056,7 @@ public abstract class CheckinBaseController extends CircUtilController {
     }
 
     private void createOrUpdateRecentlyReturnedRecord(String itemUUID, String circulationDeskId) {
+        LOG.info("Calling createOrUpdateRecentlyReturnedRecord in CheckinBaseController >>>");
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("itemUuid", itemUUID);
         OleRecentlyReturned oleRecentlyReturned = getBusinessObjectService().findByPrimaryKey(OleRecentlyReturned.class, map);

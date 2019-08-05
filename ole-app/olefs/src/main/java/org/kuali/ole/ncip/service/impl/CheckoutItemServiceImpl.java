@@ -99,6 +99,7 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
     }
 
     public String checkoutItem(Map checkoutParameters) {
+        LOG.info("Calling checkoutItem in CheckoutItemServiceImpl >>>>");
         setOleCheckOutItem(new OLECheckOutItem());
         setOlePatronDocument(null);
         setOleCirculationDesk(null);
@@ -141,6 +142,7 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
     protected abstract String preProcess(Map checkoutParameters);
 
     private String process(DroolsExchange droolsExchange) {
+        LOG.info("Calling process in CheckoutItemServiceImpl >>>>");
         CheckoutAPIController checkoutAPIController = new CheckoutAPIController();
         OLEForm oleAPIForm = new OLEForm();
         oleAPIForm.setDroolsExchange(droolsExchange);

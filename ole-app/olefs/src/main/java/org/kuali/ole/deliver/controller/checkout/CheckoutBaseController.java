@@ -98,10 +98,11 @@ public abstract class CheckoutBaseController extends CircUtilController {
     public abstract String getMissingPieceMatchCheck(OLEForm oleForm);
 
     public DroolsResponse lookupItemAndSaveLoan(OLEForm oleForm) {
-
+        LOG.info("Calling lookupItemAndSaveLoan in CheckoutBaseController >>>");
         DroolsResponse droolsResponse = null;
 
         String itemBarcode = getItemBarcode(oleForm);
+        LOG.info("itemBarcode in lookupItemAndSaveLoan >>>" + itemBarcode);
 
         ItemRecord itemRecord = null;
         if(!itemBarcode.contains("*")){
@@ -134,7 +135,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private DroolsResponse preValidationForCheckout(OleItemRecordForCirc oleItemRecordForCirc, DroolsResponse droolsResponse, OLEForm oleForm) {
-
+        LOG.info("Calling preValidationForCheckout in CheckoutBaseController >>>");
         if (StringUtils.isBlank(oleItemRecordForCirc.getItemFullPathLocation())) {
             droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVAL_LOC));
@@ -179,6 +180,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     public DroolsResponse preValidationForMissingPiece(ItemRecord itemRecord, OLEForm oleForm) {
+        LOG.info("Calling preValidationForMissingPiece >>>");
         DroolsExchange droolsExchange = oleForm.getDroolsExchange();
         DroolsResponse droolsResponse;
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) droolsExchange.getContext().get("oleItemRecordForCirc");
@@ -193,6 +195,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     public DroolsResponse processCheckoutAfterPreValidations(OLEForm oleForm, OleItemRecordForCirc oleItemRecordForCirc) {
+        LOG.info("Calling processCheckoutAfterPreValidations in CheckoutItemServiceImpl >>>>");
         DroolsResponse droolsResponse;
         setItemRecord(oleForm, oleItemRecordForCirc.getItemRecord());
         droolsResponse = proceedWithExistingRequstAndLoanChecks(oleForm);
@@ -308,6 +311,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
 
     public DroolsResponse proceedWithExistingRequstAndLoanChecks(OLEForm oleForm) {
+        LOG.info("Calling proceedWithExistingRequstAndLoanChecks >>>>");
         ItemRecord itemRecord = getItemRecord(oleForm);
 
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) oleForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
@@ -347,6 +351,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
 
     public DroolsResponse proceedWithItemValidation(OLEForm oleForm) {
+        LOG.info("proceedWithItemValidation in CheckOutBaseController >>>>>");
         ItemRecord itemRecord = getItemRecord(oleForm);
 
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) oleForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");

@@ -41,6 +41,7 @@ public class OLENCIPCheckInItemServiceImpl extends NonSip2CheckinItemServiceImpl
 
     @Override
     public CheckInItemResponseData performService(CheckInItemInitiationData checkInItemInitiationData, ServiceContext serviceContext, RemoteServiceManager remoteServiceManager) throws ServiceException {
+        LOG.info("Calling performService in OLENCIPCheckInItemServiceImpl");
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
 
@@ -56,6 +57,8 @@ public class OLENCIPCheckInItemServiceImpl extends NonSip2CheckinItemServiceImpl
         String itemDeleteIndicator = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLENCIPConstants.TEMP_ITEM_DELETE_INDICATOR);
 
+        LOG.info("itemBarcode >>>" + itemBarcode);
+        LOG.info("operatorId >>>" + operatorId);
         Map checkinParameters = new HashMap();
         checkinParameters.put("operatorId", operatorId);
         checkinParameters.put("itemBarcode", itemBarcode);
@@ -71,11 +74,17 @@ public class OLENCIPCheckInItemServiceImpl extends NonSip2CheckinItemServiceImpl
                 ncipCheckInItemResponseBuilder.setUserId(checkInItemResponseData, agencyId, oleCheckInItem);
                 ncipCheckInItemResponseBuilder.setItemOptionalFields(checkInItemResponseData, oleCheckInItem);
             } else {
-                String problemElement = OLENCIPConstants.ITEM;
-                String problemValue = itemBarcode;
-
-                if (oleCheckInItem.getCode().equals("026")) {
+                String problemElement = "";
+                String problemValue = "";
+                if( oleCheckInItem.getCode().equals("014")) {
+                    problemElement = OLENCIPConstants.ITEM;
+                    problemValue = itemBarcode;
+                }
+                else if (oleCheckInItem.getCode().equals("026")) {
                     problemValue = operatorId;
+                }
+                else if(oleCheckInItem.getCode().equals("500")) {
+                    problemValue = "CheckIn Failed";
                 }
                 olencipUtil.processProblems(checkInItemResponseData, problemValue, oleCheckInItem.getMessage(), problemElement);
             }
