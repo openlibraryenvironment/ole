@@ -88,7 +88,7 @@ public abstract class CheckinItemServiceImpl implements CheckinItemService{
     }
 
     public String checkinItem(Map checkinParameters) {
-
+        LOG.info("Calling checkinItem in CheckinItemServiceImpl >>>");
         CheckInAPIController checkInAPIController = new CheckInAPIController();
 
         setOleCheckInItem(new OLECheckInItem());
@@ -165,10 +165,12 @@ public abstract class CheckinItemServiceImpl implements CheckinItemService{
                             return prepareResponse();
                         }
                     }
+                    LOG.info("Completed Calling checkinItem in CheckinItemServiceImpl >>>");
                     return prepareResponse();
                 } else {
                     getOleCheckInItem().setCode("025");
                     getOleCheckInItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
+                    LOG.info("Inside checkinItem in CheckinItemServiceImpl >>>" + ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
                     return prepareResponse();
                 }
             }

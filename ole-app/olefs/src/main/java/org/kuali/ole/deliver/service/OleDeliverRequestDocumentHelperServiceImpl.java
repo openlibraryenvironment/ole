@@ -5322,7 +5322,14 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         Long endTime = System.currentTimeMillis();
         Long timeDifference = endTime - startTime;
         LOG.info("Time Taken to set the item information in the loan records in milliseconds : " + timeDifference);
-        return loanDocumentsWithItemInfo.get(0);
+        if(CollectionUtils.isNotEmpty(loanDocumentsWithItemInfo)) {
+            LOG.info("loan item info >>>>" + loanDocumentsWithItemInfo.get(0));
+            return loanDocumentsWithItemInfo.get(0);
+        }
+        else {
+            LOG.info("Empty Loan Document");
+            return null;
+        }
     }
 
     public void deleteLoanNoticeHistoryRecord() throws Exception {
