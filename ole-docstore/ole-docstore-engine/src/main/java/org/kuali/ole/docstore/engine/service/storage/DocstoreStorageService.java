@@ -3,6 +3,8 @@ package org.kuali.ole.docstore.engine.service.storage;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +61,10 @@ public interface DocstoreStorageService {
     public void deleteItem(String itemId);
 
     public void rollback();
+
+    public void rollback(HoldingsRecord holding, String holdingsId, List<ItemRecord> itemRecordList);
+
+    public void rollback(String itemId, ItemRecord itemRecord);
 
     public void boundHoldingsWithBibs(String holdingsId, List<String> bibIds);
 
