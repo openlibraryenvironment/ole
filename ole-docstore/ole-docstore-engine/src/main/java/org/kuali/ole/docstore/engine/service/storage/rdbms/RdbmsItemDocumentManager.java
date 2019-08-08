@@ -347,11 +347,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
             item.setNote(notes);
         }
         List<DonorInfo> donorInfoList = new ArrayList<DonorInfo>();
-//        if (CollectionUtils.isNotEmpty(itemRecord.getDonorList())) {
-        List<OLEItemDonorRecord> oleItemDonorRecords =  org.kuali.rice.core.api.util.collect.CollectionUtils.unmodifiableListNullSafe(itemRecord.getDonorList());
-        if(oleItemDonorRecords.size()>0 && (!oleItemDonorRecords.isEmpty())) {
-            for (OLEItemDonorRecord oleItemDonorRecord : oleItemDonorRecords) {
-                LOG.info("oleItemDonorRecord DonorCode >>>> " + oleItemDonorRecord.getDonorCode());
+        if (CollectionUtils.isNotEmpty(itemRecord.getDonorList())) {
+            for (OLEItemDonorRecord oleItemDonorRecord : itemRecord.getDonorList()) {
                 DonorInfo donorInfo = new DonorInfo();
                 donorInfo.setDonorCode(oleItemDonorRecord.getDonorCode());
                 if(oleItemDonorRecord.getDonorPublicDisplay() != null || oleItemDonorRecord.getDonorNote() != null) {
@@ -1249,7 +1246,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         Timestamp originalDueDateTime1 = convertDateToTimeStamp(originalDueDateTime);
         itemRecord.setOriginalDueDate(originalDueDateTime1);
     }
-    
+
     public Timestamp convertDateToTimeStamp(String dateString) {
         Timestamp dueDateTime1 = null;
         String DATE_FORMAT_AM_PM_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)(00|1[012]|0[1-9]):[0-5][0-9]:[0-5][0-9]?(?i)(am|pm)";
@@ -1634,9 +1631,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
                         if (documentId != null && documentId.equals(itemId)) {
                             return;
                         }
-                    }
-                    else {
-                        LOG.info("Duplicate Barcode >>>" + itemDocument.getAccessInformation().getBarcode());
                     }
                     DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BARCODE_EXISTS, DocstoreResources.BARCODE_EXISTS);
                     docstoreException.addErrorParams("barcode", itemDocument.getAccessInformation().getBarcode());
