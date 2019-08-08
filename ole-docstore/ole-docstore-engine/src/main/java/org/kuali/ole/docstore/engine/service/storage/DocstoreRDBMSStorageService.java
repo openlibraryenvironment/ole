@@ -11,7 +11,12 @@ import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.engine.factory.DocumentManagerFactory;
 import org.kuali.ole.docstore.engine.service.BibTreeProcessor;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.*;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibDeletionRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.ole.utility.OleStopWatch;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,6 +42,8 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreRDBMSStorageService.class);
     private PlatformTransactionManager transactionManager;
+    private BusinessObjectService businessObjectService;
+
 
     @Override
     public void createBib(Bib bib) {
@@ -244,6 +252,42 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     @Override
     public void rollback() {
+        //TODO: implementation is pending for rollback.
+    }
+
+    @Override
+    public void rollback(HoldingsRecord holdingRecord, String holdingsId, List<ItemRecord> itemRecordList) {
+        Map holdingsMap = new HashMap();
+        holdingsMap.put("holdingsId", DocumentUniqueIDPrefix.getDocumentId(holdingsId));
+        List<HoldingsRecord> holdingsRecordList = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord.class,holdingsMap);
+        if(holdingsRecordList.size() == 0) {
+            getBusinessObjectService().save(holdingRecord);
+        }
+        if(itemRecordList.size() > 0) {
+            List<ItemRecord> itemRecordsList = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, holdingsMap);
+            if(itemRecordsList.size() == 0) {
+                getBusinessObjectService().save(itemRecordList);
+            }
+        }
+        Map map = new HashMap();
+        map.put("holdingId", DocumentUniqueIDPrefix.getDocumentId(holdingsId));
+        map.put("holdingIdIndicator", "Y");
+        getBusinessObjectService().deleteMatching(BibDeletionRecord.class, map);
+    }
+
+    @Override
+    public void rollback(String itemId, ItemRecord itemRecord) {
+        Map itemMap = new HashMap();
+        itemMap.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemId));
+        ItemRecord item= (ItemRecord) getBusinessObjectService().findByPrimaryKey(ItemRecord.class, itemMap);
+        if(item == null) {
+            getBusinessObjectService().save(itemRecord);
+        }
+
+
+        Map map = new HashMap();
+        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemId));
+        getBusinessObjectService().deleteMatching(BibDeletionRecord.class, map);
         //TODO: implementation is pending for rollback.
     }
 
@@ -657,6 +701,12 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
         LOG.info("Finished Saving deleted Bibs");
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
 
 }
 

@@ -691,7 +691,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         validateHoldings(oleHoldings);
     }
 
-    private HoldingsRecord getExistingHoldings(String holdingsId) {
+    public HoldingsRecord getExistingHoldings(String holdingsId) {
         Map map = new HashMap();
         map.put("holdingsId", DocumentUniqueIDPrefix.getDocumentId(holdingsId));
         HoldingsRecord holdingsRecord = (HoldingsRecord) getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, map);
