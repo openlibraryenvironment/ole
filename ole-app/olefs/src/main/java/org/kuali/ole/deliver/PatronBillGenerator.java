@@ -126,19 +126,47 @@ public class PatronBillGenerator {
 
             Map<String,String> noticeTypeMap = new HashMap<>();
             noticeTypeMap.put("noticeType",noticeType);
+            noticeTypeMap.put("active","Y");
 
             List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBos = (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeTypeMap);
 
             OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = null;
-
-            if(CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBos) && oleNoticeContentConfigurationBos.size() > 0){
+            if (CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBos) && oleNoticeContentConfigurationBos.size() == 1) {
                 oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBos.get(0);
+            }
 
-                if(oleNoticeContentConfigurationBo != null){
-                    emailSubject = oleNoticeContentConfigurationBo.getNoticeSubjectLine();
-                    NoticeMailContentFormatter noticeMailContentFormatter = new FineNoticeEmailContentFormatter();
-                    contentForSendMail.append(noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments,oleNoticeContentConfigurationBo));
+            if (CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBos) && oleNoticeContentConfigurationBos.size() > 1) {
+                for (OleNoticeContentConfigurationBo oleNtcContentConfigurationBo : oleNoticeContentConfigurationBos) {
+                    if (oleNoticeContentConfigurationBo == null) {
+                        Map<String, String> noticeConfigTypeMap = new HashMap<>();
+                        noticeConfigTypeMap.put("noticeType", oleNtcContentConfigurationBo.getNoticeName());
+                        List<OleNoticeTypeConfiguration> oleNoticeTypeConfigurationList = (List<OleNoticeTypeConfiguration>) getBusinessObjectService().findMatching(OleNoticeTypeConfiguration.class, noticeConfigTypeMap);
+                        if (oleNoticeTypeConfigurationList.size() > 0) {
+                            for (OleNoticeTypeConfiguration oleNoticeTypeConfiguration : oleNoticeTypeConfigurationList) {
+                                if (oleNoticeTypeConfiguration.getCircPolicyId().equalsIgnoreCase(oleLoanDocument.getCirculationPolicyId())) {
+                                    oleNoticeContentConfigurationBo = oleNtcContentConfigurationBo;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
+                if (oleNoticeContentConfigurationBo == null) {
+                    noticeTypeMap.put("noticeName",noticeType);
+                    noticeTypeMap.put("active","Y");
+                    oleNoticeContentConfigurationBos = (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeTypeMap);
+                    if (CollectionUtils.isNotEmpty(oleNoticeContentConfigurationBos) && oleNoticeContentConfigurationBos.size() > 0) {
+                        oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBos.get(0);
+                    }
+                }
+
+        }
+            //   oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBos.get(0);
+
+            if (oleNoticeContentConfigurationBo != null) {
+                emailSubject = oleNoticeContentConfigurationBo.getNoticeSubjectLine();
+                NoticeMailContentFormatter noticeMailContentFormatter = new FineNoticeEmailContentFormatter();
+                contentForSendMail.append(noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments, oleNoticeContentConfigurationBo));
             }
         }else{
             emailSubject = feeTypeName;
