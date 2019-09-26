@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
+import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.deliver.util.ItemFineRate;
@@ -2016,19 +2017,33 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     }
 
     public void loanPeriod(String defaultLoanPeriod, String recallLoanPeriod) {
+        String unitOfTime = defaultLoanPeriod.substring(defaultLoanPeriod.indexOf("-")+1);
         LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
         loanDateTimeUtil.setPolicyId(getCirculationPolicyId());
-        if(null == oleCirculationDesk){
+        if (null == oleCirculationDesk) {
             OleCirculationDesk oleCirculationDesk = getCirculationLocationId() != null ? new CircDeskLocationResolver().getOleCirculationDesk(getCirculationLocationId()) : null;
             setOleCirculationDesk(oleCirculationDesk);
         }
         Date calculateDateTimeByPeriod = null;
+        if(unitOfTime != null && unitOfTime.equalsIgnoreCase("c")) {
+            Date loanDueDateTime = new Date();
+            OleCalendar activeCalendar = loanDateTimeUtil.getActiveCalendar(loanDueDateTime, oleCirculationDesk.getCalendarGroupId());
+
+            Map<String, Map<String, String>> openingAndClosingTimeMap = loanDateTimeUtil.getOpenAndClosingTimeForTheGivenDayFromWeekList(loanDueDateTime, activeCalendar.getOleCalendarWeekList());
+            Map<String, String> closeTime = openingAndClosingTimeMap.get("closeTime");
+            Calendar calendar;
+            calendar = loanDateTimeUtil.resolveDateTime(closeTime, loanDueDateTime);
+            calculateDateTimeByPeriod = calendar.getTime();
+            setLoanDueDate((calculateDateTimeByPeriod != null ? new Timestamp(calculateDateTimeByPeriod.getTime()) : null));
+        }
+        else {
         if (!isRequestPatron()) {
             calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(defaultLoanPeriod, getOleCirculationDesk());
         } else {
             calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, getOleCirculationDesk());
         }
         setLoanDueDate((calculateDateTimeByPeriod != null ? new Timestamp(calculateDateTimeByPeriod.getTime()) : null));
+        }
     }
 
     public Integer getOverdueFineAmount(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {
