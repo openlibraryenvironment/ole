@@ -261,7 +261,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
         return false;
     }
 
-    private Calendar resolveDateTime(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
+    public Calendar resolveDateTime(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
         String time = closingTimeForTheGivenDay.keySet().iterator().next();
         StringTokenizer timeTokenizer = new StringTokenizer(time, ":");
         int hour = Integer.parseInt(timeTokenizer.nextToken());
