@@ -409,7 +409,7 @@ public class DocumentUUIDUpdateServiceImpl implements DocumentUUIDUpdateService 
                     serRcvngUdatePreparedStatement.setString(1, destBibId);
                     serRcvngUdatePreparedStatement.setString(2, destInstanceId);
                     serRcvngUdatePreparedStatement.setString(3, sourceBibId);
-                    serRcvngUdatePreparedStatement.setString(3, sourceInstanceId);
+                    serRcvngUdatePreparedStatement.setString(4, sourceInstanceId);
                     try {
                         serRcvngUdatePreparedStatement.executeUpdate();
                     } catch (Exception e1) {
