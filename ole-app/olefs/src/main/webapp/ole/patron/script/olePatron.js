@@ -38,7 +38,22 @@ jq(document).ready(function(){
     window.onbeforeunload = unloadPage(unsaved);
 
 });
+function getApplicationBanner() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    loc1 = loc1.substring(0, loc1.lastIndexOf('/ole-kr-krad')+1);
+    return loc1.replace("/ole-kr-krad","");
+}
+function getApplicationPath() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    return loc1.substring(0, loc1.lastIndexOf('/ole-kr-krad') + 1);
+}
 
+function viewGlobalEditPatron(){
+    window.open(getApplicationBanner()+"portal.do?channelTitle=Patron&channelUrl="+getApplicationPath()+"ole-kr-krad/patronGlobalEditController?viewId=OlePatronGlobalEditView&methodToCall=start");
+    return false;
+}
 
 function unloadPage(unsaved){
     if(unsaved){
@@ -367,6 +382,17 @@ jq("#OlePatronDocument-reinstate-reason-note_control").live("keypress", function
     jq("#OlePatronDocument-validation-Message-Section-reinstate").hide();
 
 });
+
+jq("#deliver-selectAll").live("click",function(){
+    jq("input:checkbox").attr('checked',true);
+
+});
+
+jq("#deliver-deSelectAll").live("click",function(){
+    jq("input:checkbox").attr('checked',false);
+
+});
+
 
 function setLoanModified(obj){
     var id=obj.id;

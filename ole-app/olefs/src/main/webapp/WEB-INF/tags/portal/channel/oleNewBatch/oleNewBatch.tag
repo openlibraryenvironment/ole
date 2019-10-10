@@ -24,5 +24,8 @@
     <portal:portalLink displayTitle="true" title="Batch Process Jobs" url="${ConfigProperties.application.url}/batchProcessJobs.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Reports" url="${ConfigProperties.application.url}/reportViewer.html"/><br/>
     <portal:portalLink displayTitle="true" title="Batch Display Reports" url="${ConfigProperties.application.url}/showBatchReport.html"/><br/>
+    <portal:portalLink displayTitle="true"   title="Patron"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/patronLookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&&showMaintenanceLinks=false"/><br/>
+    <portal:portalLink displayTitle="true" title="Global Changes via Patron File" url="${ConfigProperties.application.url}/PatronImportGlobalEdit.html"/><br/>
 </div>
 <channel:portalChannelBottom/>

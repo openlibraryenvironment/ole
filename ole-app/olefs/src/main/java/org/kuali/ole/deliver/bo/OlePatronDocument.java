@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.api.*;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
@@ -38,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * OlePatronDocument provides OlePatronDocument information through getter and setter.
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class OlePatronDocument extends PersistableBusinessObjectBase implements OlePatronContract {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronDocument.class);
@@ -141,7 +143,15 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         }
         return identityService;
     }
+    private boolean select=false;
 
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
     public boolean isPatronHomePage() {
         return patronHomePage;
     }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OlePatronGlobalEditView" parent="OlePatronGlobalEditView-parentBean" />
+    <bean id="OlePatronGlobalEditView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Edit Patron"/>
+        <property name="items">
+            <list>
+                <bean id="OlePatronLoanedRecordPage" parent="Uif-Page">
+                    <!--<property name="headerText" value="Patron details"/>-->
+                    <property name="items">
+                        <list>
+                            <ref bean="OlePatronGlobalEditView-OverviewSection"/>
+                            <ref bean="OlePatronGlobalEditView-OtherSection"/>
+                            <ref bean="OlePatronGlobalEditView-NoteSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="OlePatronGlobalEditView-HorizontalBoxSection-button" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.PatronGlobalEditForm"/>
+    </bean>
+
+    <bean id="OlePatronGlobalEditView-OverviewSection" parent="Uif-VerticalBoxSection" >
+        <!--<property name="headerText" value="Patron "/>-->
+        <property name="items">
+            <list>
+                <bean id="OlePatronGlobalEditView-patronEditSection" parent="Uif-HorizontalFieldGroup" >
+                    <property name="items">
+                        <list>
+                            <bean id="OlePatronGlobalEditView-borrowerType" parent="OlePatron-InputField" p:propertyName="borrowerType" p:label="Patron Type"  p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleBorrowerKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                            </bean>
+                            <bean id="OlePatronGlobalEditView-sourceType" parent="OlePatron-InputField" p:propertyName="source" p:label="Source" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleSourceKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                            </bean>
+                            <bean id="OlePatronGlobalEditView-activationDate" parent="OlePatron-InputField" p:propertyName="activationDate" p:label="Activation Date" >
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="OlePatronGlobalEditView-expirationDate" parent="OlePatron-InputField" p:propertyName="expirationDate" p:label="Expiration Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="OlePatronGlobalEditView-activeIndicator" parent="OlePatron-InputField" p:propertyName="activeIndicator" p:label="Active">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronGlobalEditView-OtherSection" parent="Uif-VerticalBoxSection" >
+        <!--<property name="headerText" value="Patron "/>-->
+        <property name="items">
+            <list>
+                <bean id="OlePatronGlobalEditView-editSection" parent="Uif-HorizontalFieldGroup" >
+                    <property name="items">
+                        <list>
+                            <!--<bean id="OlePatronGlobalEditView-namePrefix" parent="OlePatron-InputField" p:propertyName="namePrefix" p:label="PCODE1">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.SOASPatronPrefixFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="OlePatronGlobalEditView-nameSuffix" parent="OlePatron-InputField" p:propertyName="nameSuffix" p:label="PCODE2">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.SOASPatronSuffixFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>-->
+                            <bean id="OlePatronGlobalEditView-statisticalCategory" parent="OlePatron-InputField" p:propertyName="statisticalCategory" p:label="Statistical Category" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleStatisticalCategoryKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronGlobalEditView-NoteSection" parent="Uif-VerticalBoxSection" >
+        <!--<property name="headerText" value="Patron "/>-->
+        <property name="items">
+            <list>
+                <bean id="OlePatronGlobalEditView-patronDetailSection" parent="Uif-HorizontalFieldGroup" >
+                    <property name="items">
+                        <list>
+                            <bean id="OlePatronGlobalEditView-patronNoteTypeId" parent="OlePatron-InputField" p:propertyName="patronNoteTypeId" p:label="Note Type" p:required="true">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleNoteTypeKeyValues" />
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="OlePatronGlobalEditView-patronNoteText" parent="OlePatron-InputField" p:propertyName="patronNoteText" p:label="Note Text">
+                                <property name="control">
+                                    <bean parent="Uif-LargeTextAreaControl" p:cssClasses="comments" p:watermarkText="size 800"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronGlobalEditView-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="OlePatronGlobalEditView-Save-Button" parent="Uif-SecondaryActionButton"  p:methodToCall="saveGlobalEditPatron" p:actionLabel="Save Patron"/>
+                <bean id="OlePatronGlobalEditView-Cancel-Buttonn" parent="Uif-SecondaryActionButton" p:methodToCall="cancelGlobalEditPatron" p:onClickScript="parent.window.close();" p:actionLabel="Cancel" />
+            </list>
+        </property>
+    </bean>
+</beans>

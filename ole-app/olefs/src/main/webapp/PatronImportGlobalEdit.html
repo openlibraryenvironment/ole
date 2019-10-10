@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="patronImportApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Changes via Patron File</title>
+    <script src="framework/jquery/js/jquery-1.11.3.js"></script>
+    <script src="framework/bootstrap/js/bootstrap.min.js"></script>
+    <script src="framework/plugins/js/datatables.min.js"></script>
+    <script src="framework/angular/js/angular.js"></script>
+    <script src="framework/angular/js/angular-datatables.min.js"></script>
+    <script src="framework/jquery/js/FileSaver.js"></script>
+    <script src="framework/plugins/js/spin.min.js"></script>
+    <script src="framework/angular/js/angular-loading-spinner.js"></script>
+    <script src="framework/angular/js/angular-spinner.min.js"></script>
+    <script src="oleng/js/oleng.js"></script>
+    <script src="oleng/js/batch/patronImport.js"></script>
+    <script src="framework/angular/js/customDirectives.js"></script>
+    <script src="batchFramework/scripts/angular-animate.min.js"></script>
+    <script src="batchFramework/scripts/angular-sanitize.min.js"></script>
+    <script src="batchFramework/scripts/angular-strap.js"></script>
+    <script src="framework/angular/js/ui-bootstrap-tpls-0.14.3.js"></script>
+    <link rel="stylesheet" href="framework/bootstrap/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="framework/plugins/css/datatables.min.css" type="text/css" />
+    <link rel="stylesheet" href="oleng/css/oleng.css" type="text/css" />
+</head>
+
+<body ng-controller="patronImportController">
+<div class="container">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+    <br><br>
+    <div>
+        <h2 style="display:inline !important; font-weight: bold;">Patron Global Changes via Import</h2>
+        <br><br>
+    </div>
+    <br><br>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form name="patronImportForm" class="form-horizontal" data-toggle="validator">
+                        <div class="form-group">
+                            <label for="file" class="col-sm-6">Select file to ingest</label>
+
+                            <div class="col-sm-6">
+                                <input type="file" file-model="selectedFile" id="file" name="file"
+                                       placeholder="Select File to Ingest"/>
+                               <p style="color: red"> {{fileMessage}} </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="patronField" class="col-sm-6">Select Records By :</label>
+
+                            <div class="col-sm-6">
+                                <select class="form-control"  id="patronField" name="patronField"
+                                        ng-model="patronField">
+                                    <option ng-repeat="option in patronFields | orderBy:'value'" value="{{option.value}}">
+                                        {{option.id}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+        <div class="form-group">
+            <label for="load" class="col-sm-6"></label>
+
+            <div class="col-sm-6">
+                <button id="load" type="button"
+                        class="btn btn-info active  pull-left" ng-click="load()">
+                    Search
+                </button>
+                <button id="clear" type="button" style="margin-left: 30px"
+                        class="btn btn-info active " ng-click="clear()">
+                    Clear
+                </button>
+            </div>
+        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <table datatable="ng" class="table table-bordered row-border hover">
+            <thead>
+            <tr>
+                <th><input type="checkbox" ng-click="selectedAllPatron(selectedAll)" ng-model="selectedAll"></th>
+                <th>Patron Id</th>
+                <th>Patron Name</th>
+                <th>Student Id</th>
+                <th>Barcode</th>
+                <th>Expiration Date</th>
+                <th>Pcode 1</th>
+                <th>Pcode 2</th>
+                <th>Patron Type</th>
+                <th>Pcode 3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="patron in patronList">
+                <td><input type="checkbox" ng-click="selectedPatron(patron.selected,patron.olePatronId)" ng-model="patron.selected"></td>
+                <td>{{patron.olePatronId}}</td>
+                <td>{{patron.patronName}}</td>
+                <td>{{patron.studentId}}</td>
+                <td>{{patron.barcode}}</td>
+                <td>{{patron.expirationDate}}</td>
+                <td>{{patron.Pcode1}}</td>
+                <td>{{patron.Pcode2}}</td>
+                <td>{{patron.borrowerType}}</td>
+                <td>{{patron.statisticalCategory}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-sm-6">
+    <button ng-show="displayEditButton" type="button"
+            class="btn btn-info active  pull-right" ng-click="editPatron()">
+        Edit Patron Records
+    </button>
+</div>
+
+</body>
+
+</html>

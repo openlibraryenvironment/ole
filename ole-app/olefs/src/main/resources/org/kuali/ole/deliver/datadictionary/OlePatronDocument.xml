@@ -16,6 +16,7 @@
                 <ref bean="OlePatronDocument-pagingPrivilege"/>
                 <ref bean="OlePatronDocument-courtesyNotice"/>
                 <ref bean="OlePatronDocument-borrowerType"/>
+                <ref bean ="OlePatronDocument-statisticalCategory"/>
                 <ref bean="OlePatronDocument-firstName"/>
                 <ref bean="OlePatronDocument-middleName"/>
                 <ref bean="OlePatronDocument-lastName"/>
@@ -145,10 +146,22 @@
             <bean parent="Uif-TextControl" p:size="20"/>
         </property>
     </bean>
+    <bean id="OlePatronDocument-statisticalCategory" parent="OlePatronDocument-statisticalCategory-parentBean"/>
 
     <bean id="OlePatronDocument-firstName" parent="OlePatronDocument-firstName-parentBean"/>
     <bean id="OlePatronDocument-firstName-parentBean" parent="AttributeDefinition" abstract="true" p:name="firstName"
           p:forceUppercase="false" p:label="First Name" p:shortLabel="First Name" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-statisticalCategory-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statisticalCategory"/>
+        <property name="label" value="Statistical Category"/>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="20"/>
         </property>
@@ -264,6 +277,17 @@
                         <null></null>
                     </property>
                 </bean>
+                <bean id="statisticalCat" parent="Uif-LookupCriteriaInputField" p:propertyName="statisticalCategory" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleStatisticalCategoryKeyValue" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
                 <bean id="emailAddress" parent="Uif-LookupCriteriaInputField" p:propertyName="emailAddress" />
                 <bean id="PatronSearch_phoneNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="phoneNumber" p:label="Phone Number" />
                 <bean id="olePatronId" parent="Uif-LookupCriteriaInputField" p:propertyName="olePatronId" p:label="Patron Id" p:enableAutoDirectInquiry="false"/>
@@ -273,6 +297,11 @@
         <property name="resultFields">
             <list>
                 <!--<bean id="searchResult_olePatronId" parent="Uif-LinkField" p:href="inquiry?olePatronId=@{#line.olePatronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=true" p:target="_blank" p:linkText="@{#line.olePatronId}" p:label="Patron Id"/>-->
+                <bean id="searchResult_select" parent="Uif-InputField" p:propertyName="select" p:label="Select" p:cssClasses="select">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
                 <bean id="searchResult_olePatronId" parent="Uif-DataField" p:propertyName="olePatronId" p:label="Patron Id" />
                 <bean id="searchResult_namePrefix" parent="Uif-MessageField" p:messageText="@{#line.namePrefix}" p:width="1%" p:label="Name Prefix" />
                 <bean id="searchResult_firstName" parent="Uif-DataField" p:propertyName="firstName" p:label="First Name" />
@@ -399,6 +428,18 @@
                               value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
                 </bean>
             </list>
+        </property>
+        <property name="footer">
+            <bean id="globalEditButtons" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean id="deliver-selectAll" parent="Uif-SecondaryActionButton" p:actionLabel="Select All"  p:render="@{ lookupResults != null and !lookupResults.empty and !view.showMaintenanceLinks}"/>
+                        <bean id="deliver-deSelectAll" parent="Uif-SecondaryActionButton" p:actionLabel="De-Select All" p:render="@{ lookupResults != null and !lookupResults.empty and !view.showMaintenanceLinks}"/>
+                        <bean id="globalEditPatrons" parent="Uif-SecondaryActionButton" p:actionLabel="Multiple Edit" p:methodToCall="globalEditPatron"
+                              p:ajaxSubmit="true" p:successCallback="viewGlobalEditPatron();" p:render="@{ lookupResults != null and !lookupResults.empty and !view.showMaintenanceLinks}"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 

@@ -60,7 +60,16 @@ var BATCH_CONSTANTS = {
     ]
 };
 
-
+var PATRON_CONSTANTS = {
+    PATRON_IMPORT_CRITERIA: [
+        {id: 'Patron Id', value: 'olePatronId'},
+        /*{id: 'Pcode 3', value: 'statisticalCategory'}*/
+    ]/*,
+    PATRON_TYPES: [
+        {id: 'Patron Id', value: 'olePatronId'},
+        {id: 'Pcode 3', value: 'statisticalCategory'}
+    ]*/
+};
 
 var getUrlVars = function () {
     var vars = {}, hash;
