@@ -25,12 +25,15 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "link", propOrder = {
+        "holdingsUriId",
         "text",
         "url"
 })
 @XStreamAlias("link")
 public class Link {
 
+    @XmlElement(namespace = "http://ole.kuali.org/standards/ole-eInstance")
+    protected String holdingsUriId;
     //@XmlElement(name = "text")
     protected String text;
     //@XmlElement(name = "url")
@@ -77,4 +80,11 @@ public class Link {
         this.url = value;
     }
 
+    public String getHoldingsUriId() {
+        return holdingsUriId;
+    }
+
+    public void setHoldingsUriId(String holdingsUriId) {
+        this.holdingsUriId = holdingsUriId;
+    }
 }

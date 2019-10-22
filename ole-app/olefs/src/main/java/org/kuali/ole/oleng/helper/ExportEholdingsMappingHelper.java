@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.helper.InstanceMappingHelper;
 import org.kuali.ole.constants.OleNGConstants;
+import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
@@ -34,16 +35,11 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
     public List<DataField> generateDataFieldForEHolding(HoldingsTree holdingsTree, BatchProcessProfile profile) throws Exception {
         dataFieldList.clear();
         if (holdingsTree != null) {
-            OleHoldings oleHoldings = null;
-            if (holdingsTree.getHoldings().getContentObject() != null) {
-                oleHoldings= holdingsTree.getHoldings().getContentObject();
-            } else {
-                oleHoldings = workEHoldingOlemlRecordProcessor.fromXML(holdingsTree.getHoldings().getContent());
-                oleHoldings.setHoldingsIdentifier(holdingsTree.getHoldings().getId());
-            }
             Map<String, String> dataFieldEHoldingMap = new LinkedHashMap<>();
+            Map<String, String> dataFieldLinkUrlMap = new LinkedHashMap<>();
             Map<String, String> dataFieldCoverageMap = new HashMap<>();
             Map<String, String> dataFieldsDonorMap = new HashMap<>();
+            Map<String, String> dataFieldPerpetualAccessMap = new HashMap<>();
             List<BatchProfileDataMapping> mappingOptionsBoList = profile.getBatchProfileDataMappingList();
             for (BatchProfileDataMapping mappingOptionsBo : mappingOptionsBoList) {
                 String key=buildkey(mappingOptionsBo);
@@ -55,10 +51,21 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_VOLUME)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_VOLUME)) {
                         dataFieldCoverageMap.put(key, mappingOptionsBo.getField());
+                    } else if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_PERPETUAL_ACCESS_START_DATE)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_PERPETUAL_ACCESS_END_DATE)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_PERPETUAL_ACCESS_START_ISSUE)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_PERPETUAL_ACCESS_END_ISSUE)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_PERPETUAL_ACCESS_START_VOLUME)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_PERPETUAL_ACCESS_END_VOLUME)) {
+                        dataFieldPerpetualAccessMap.put(key, mappingOptionsBo.getField());
                     } else if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)
                             || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
                         dataFieldsDonorMap.put(key, mappingOptionsBo.getField());
+                    } else if (mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_LINK_TEXT)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_HOLDINGS_URI_ID)
+                            || mappingOptionsBo.getField().equalsIgnoreCase(DESTINATION_FIELD_LINK_URL)) {
+                        dataFieldLinkUrlMap.put(key, mappingOptionsBo.getField());
                     } else {
                         dataFieldEHoldingMap.put(key, mappingOptionsBo.getField());
                     }
@@ -73,7 +80,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                     }
                 }
                 if(!isStaffOnly) {
-                    generateSubFieldsForEHolding(oleHoldings, dataFieldEHoldingMap, dataFieldCoverageMap, dataFieldsDonorMap);
+                    generateSubFieldsForEHolding(holdingsTree.getHoldings(), dataFieldEHoldingMap, dataFieldLinkUrlMap,dataFieldCoverageMap, dataFieldsDonorMap, dataFieldPerpetualAccessMap);
                 }
             } else {
                 return Collections.EMPTY_LIST;
@@ -82,47 +89,17 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
         return dataFieldList;
     }
 
-    protected void generateSubFieldsForEHolding(OleHoldings oleHoldings, Map<String, String> dataFieldEHoldingMap, Map<String, String> dataFieldCoverageMap, Map<String, String> dataFieldsDonorMap) throws Exception {
+    protected void generateSubFieldsForEHolding(Holdings holdings, Map<String, String> dataFieldEHoldingMap, Map<String, String> dataFieldLinkUrlMap, Map<String, String> dataFieldCoverageMap, Map<String, String> dataFieldsDonorMap, Map<String, String> dataFieldPerpetualAccessMap) throws Exception {
         List<DataField> linkList = new ArrayList<>();
+        OleHoldings oleHoldings = null;
+        if (holdings.getContentObject() != null) {
+            oleHoldings= holdings.getContentObject();
+        } else {
+            oleHoldings = workEHoldingOlemlRecordProcessor.fromXML(holdings.getContent());
+            oleHoldings.setHoldingsIdentifier(holdings.getId());
+        }
         try {
             DataField dataField;
-            for (Map.Entry<String, String> entry : dataFieldEHoldingMap.entrySet()) {
-                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
-                    for (Link link : oleHoldings.getLink()) {
-                        if (StringUtils.isNotEmpty(link.getUrl())) {
-                            dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
-                            if (dataField == null) {
-                                dataField = getDataField(entry);
-                                generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
-                                if (dataFieldEHoldingMap.containsValue(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                                    for (Map.Entry<String, String> dataMapEntry : dataFieldEHoldingMap.entrySet()) {
-                                        if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                                            if (StringUtils.isNotEmpty(link.getText())) {
-                                                generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
-                            } else {
-                                generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
-                                if (dataFieldEHoldingMap.containsValue(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                                    for (Map.Entry<String, String> dataMapEntry : dataFieldEHoldingMap.entrySet()) {
-                                        if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                                            if (StringUtils.isNotEmpty(link.getText())) {
-                                                generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
             for (Map.Entry<String, String> entry : dataFieldEHoldingMap.entrySet()) {
 
                 if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_IDENTIFIER)) {
@@ -142,6 +119,24 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                         if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
                     } else {
                         generateCallNumber(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DATE_CREATED)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateDateCreated(holdings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateDateCreated(holdings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_DATE_UPDATED)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateDateUpdated(holdings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateDateUpdated(holdings, getCode(entry.getKey()), dataField);
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
@@ -260,6 +255,141 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                     } else {
                         generateHoldingsAccesssInformationSI(oleHoldings, getCode(entry.getKey()), dataField);
                     }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_NO_OF_SIMULTANEOUS_USERS)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingsAccesssInformationNoOfSimultaneousUsers(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingsAccesssInformationNoOfSimultaneousUsers(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PROXIED_RESOURCE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingsAccesssInformationProxied(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingsAccesssInformationProxied(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_ACCESS_LOCATION)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingsAccesssInformationAccessLocation(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingsAccesssInformationAccessLocation(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_AUTHENTICATION_TYPE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingsAccesssInformationAuthenticationType(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingsAccesssInformationAuthenticationType(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_ACCESS_USERNAME)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingsAccesssInformationAccessUsername(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingsAccesssInformationAccessUsername(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_ACCESS_PASSWORD)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateHoldingsAccesssInformationAccessPassword(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateHoldingsAccesssInformationAccessPassword(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_INITIAL_SUBSCRIPTION_START_DATE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateInitialSubscriptionStartDate(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateInitialSubscriptionStartDate(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CURRENT_SUBSCRIPTION_START_DATE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateCurrentSubscriptionStartDate(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateCurrentSubscriptionStartDate(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CURRENT_SUBSCRIPTION_END_DATE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateCurrentSubscriptionEndDate(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateCurrentSubscriptionEndDate(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_SUBSCRIPTION_STATUS)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateSubscriptionStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateSubscriptionStatus(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CANCELLATION_DECISION_DATE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateCancellationDecisionDate(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateCancellationDecisionDate(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CANCELLATION_EFFECTIVE_DATE)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateCancellationEffectiveDate(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateCancellationEffectiveDate(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_CANCELLATION_REASON)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateCancellationReason(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateCancellationReason(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_IMPRINT)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateImprint(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generateImprint(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
+                }else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PUBLISHER)) {
+                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generatePublisher(oleHoldings, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    } else {
+                        generatePublisher(oleHoldings, getCode(entry.getKey()), dataField);
+                    }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PLATFORM)) {
                     dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                     if (dataField == null) {
@@ -300,6 +430,12 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
             if (!CollectionUtils.isEmpty(dataFieldCoverageMap)) {
                 generateCoverageFields(oleHoldings, dataFieldCoverageMap);
             }
+            if (!CollectionUtils.isEmpty(dataFieldLinkUrlMap)) {
+                generateLinkFields(oleHoldings, dataFieldLinkUrlMap);
+            }
+            if (!CollectionUtils.isEmpty(dataFieldPerpetualAccessMap)) {
+                generatePerpetualAccessFields(oleHoldings, dataFieldPerpetualAccessMap);
+            }
             if (!CollectionUtils.isEmpty(linkList)) {
                 dataFieldList.addAll(linkList);
             }
@@ -310,6 +446,37 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
             LOG.error("Error while mapping oleHoldings data ::" + oleHoldings.getHoldingsIdentifier(), ex);
             buildError(ERR_INSTANCE, oleHoldings.getHoldingsIdentifier(), ERR_CAUSE, ex.getMessage(), TIME_STAMP, new Date().toString());
             throw ex;
+        }
+    }
+
+    private void generateLinkFields(OleHoldings oleHoldings, Map<String, String> dataFieldLinkUrlMap) throws Exception {
+        DataField dataField;
+        for (Map.Entry<String, String> entry : dataFieldLinkUrlMap.entrySet()) {
+            if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
+                for (Link link : oleHoldings.getLink()) {
+                    if (StringUtils.isNotEmpty(link.getUrl())) {
+                        //dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                        dataField = getDataField(entry);
+                        generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+
+                        for (Map.Entry<String, String> dataMapEntry : dataFieldLinkUrlMap.entrySet()) {
+                            if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                if (StringUtils.isNotEmpty(link.getText())) {
+                                    generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
+                                }
+                            }
+                            if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_HOLDINGS_URI_ID)) {
+                                if (StringUtils.isNotEmpty(link.getText())) {
+                                    generateLinkId(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
+                                }
+                            }
+                        }
+
+                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                    }
+                }
+                break;
+            }
         }
     }
 
@@ -380,6 +547,81 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
                             }
                             dataFieldList.addAll(coverageFieldList);
                             coverageFieldList.clear();
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            LOG.error("Error while mapping oleHoldings data ::" + oleHoldings.getHoldingsIdentifier(), ex);
+            buildError(ERR_INSTANCE, oleHoldings.getHoldingsIdentifier(), ERR_CAUSE, ex.getMessage(), TIME_STAMP, new Date().toString());
+            throw ex;
+        }
+
+    }
+    private void generatePerpetualAccessFields(OleHoldings oleHoldings, Map<String, String> dataFieldPerpetualAccessMap) throws Exception {
+        try {
+            if (!CollectionUtils.isEmpty(oleHoldings.getExtentOfOwnership())) {
+                for (ExtentOfOwnership extentOfOwnership : oleHoldings.getExtentOfOwnership()) {
+                    if (null != extentOfOwnership.getPerpetualAccesses() && !CollectionUtils.isEmpty(extentOfOwnership.getPerpetualAccesses().getPerpetualAccess())) {
+                        for (PerpetualAccess perpetualAccess : extentOfOwnership.getPerpetualAccesses().getPerpetualAccess()) {
+                            for (Map.Entry<String, String> entry : dataFieldPerpetualAccessMap.entrySet()) {
+                                DataField dataField;
+                                if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERPETUAL_ACCESS_START_DATE)) {
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    if (dataField == null) {
+                                        dataField = getDataField(entry);
+                                        generatePerpetualAccessStartDate(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                    } else {
+                                        generatePerpetualAccessStartDate(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                    }
+                                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERPETUAL_ACCESS_END_DATE)) {
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    if (dataField == null) {
+                                        dataField = getDataField(entry);
+                                        generatePerpetualAccessEndDate(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                    } else {
+                                        generatePerpetualAccessEndDate(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                    }
+                                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERPETUAL_ACCESS_START_ISSUE)) {
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    if (dataField == null) {
+                                        dataField = getDataField(entry);
+                                        generatePerpetualAccessStartIssue(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                    } else {
+                                        generatePerpetualAccessStartIssue(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                    }
+                                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERPETUAL_ACCESS_END_ISSUE)) {
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    if (dataField == null) {
+                                        dataField = getDataField(entry);
+                                        generatePerpetualAccessEndIssue(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                    } else {
+                                        generatePerpetualAccessEndIssue(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                    }
+                                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERPETUAL_ACCESS_START_VOLUME)) {
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    if (dataField == null) {
+                                        dataField = getDataField(entry);
+                                        generatePerpetualAccessStartVolume(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                    } else {
+                                        generatePerpetualAccessStartVolume(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                    }
+                                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PERPETUAL_ACCESS_END_VOLUME)) {
+                                    dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                    if (dataField == null) {
+                                        dataField = getDataField(entry);
+                                        generatePerpetualAccessEndVolume(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                    } else {
+                                        generatePerpetualAccessEndVolume(oleHoldings, perpetualAccess, getCode(entry.getKey()), dataField);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -494,6 +736,27 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
         try {
             if (link != null && null != link.getText()) {
                 subField.setData(link.getText());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateLinkText()");
+        }
+
+    }
+
+    /**
+     * generates the Link Id for the given oleHoldings
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     * @throws Exception
+     */
+    private void generateLinkId(OleHoldings oleHoldings,Link link, char code, DataField dataField) throws Exception {
+        Subfield subField = new SubfieldImpl();
+        subField.setCode(code);
+        try {
+            if (link != null && null != link.getHoldingsUriId()) {
+                subField.setData(link.getHoldingsUriId());
                 dataField.addSubfield(subField);
             }
         } catch (Exception ex) {
@@ -682,8 +945,168 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
         }
     }
 
+
     /**
-     * generates the subfields for the Coverage End Issue for the given oleHoldings
+     * generates the subfields for the Perpetual Access Start Date for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePerpetualAccessStartDate(OleHoldings oleHoldings, PerpetualAccess perpetualAccess, char code, DataField dataField) throws Exception {
+        try {
+            if (null != perpetualAccess) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(perpetualAccess.getPerpetualAccessStartDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePerpetualAccessStartDate()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Perpetual Access End Date for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePerpetualAccessEndDate(OleHoldings oleHoldings, PerpetualAccess perpetualAccess, char code, DataField dataField) throws Exception {
+        try {
+            if (null != perpetualAccess) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(perpetualAccess.getPerpetualAccessEndDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePerpetualAccessEndDate()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Perpetual Access Start Volume for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePerpetualAccessStartVolume(OleHoldings oleHoldings, PerpetualAccess perpetualAccess, char code, DataField dataField) throws Exception {
+        try {
+            if (null != perpetualAccess) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(perpetualAccess.getPerpetualAccessStartVolume());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePerpetualAccessStartVolume()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Perpetual Access End Volume for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePerpetualAccessEndVolume(OleHoldings oleHoldings, PerpetualAccess perpetualAccess, char code, DataField dataField) throws Exception {
+        try {
+            if (null != perpetualAccess) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(perpetualAccess.getPerpetualAccessEndVolume());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePerpetualAccessEndVolume()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Perpetual Access Start Issue for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePerpetualAccessStartIssue(OleHoldings oleHoldings,  PerpetualAccess perpetualAccess, char code, DataField dataField) throws Exception {
+        try {
+            if (null != perpetualAccess) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(perpetualAccess.getPerpetualAccessStartIssue());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePerpetualAccessStartIssue()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Perpetual Access End Issue for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePerpetualAccessEndIssue(OleHoldings oleHoldings, PerpetualAccess perpetualAccess, char code, DataField dataField) throws Exception {
+        try {
+            if (null != perpetualAccess) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(perpetualAccess.getPerpetualAccessEndIssue());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePerpetualAccessEndIssue()");
+        }
+    }
+
+    /**
+     * generates the subfields for theImprint for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generateImprint(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (null != oleHoldings) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getImprint());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateImprint()");
+        }
+    }
+    /**
+     * generates the subfields for Publisher for the given oleHoldings
+     *
+     * @param oleHoldings
+     * @param code
+     * @param dataField
+     */
+    private void generatePublisher(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (null != oleHoldings) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getPublisher());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generatePublisher()");
+        }
+    }
+
+    /**
+     * generates the subfields for the Public Note for the given oleHoldings
      *
      * @param oleHoldings
      * @param code
@@ -791,7 +1214,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
 
     private void generateHoldingsAccesssInformationFI(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
         try {
-            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getFirstIndicator()!=null) {
                 Subfield subField = new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(oleHoldings.getHoldingsAccessInformation().getFirstIndicator());
@@ -804,7 +1227,7 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
 
     private void generateHoldingsAccesssInformationSI(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
         try {
-            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null) {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getSecondIndicator()!=null) {
                 Subfield subField =  new SubfieldImpl();
                 subField.setCode(code);
                 subField.setData(oleHoldings.getHoldingsAccessInformation().getSecondIndicator());
@@ -815,6 +1238,175 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
         }
     }
 
+
+    private void generateHoldingsAccesssInformationNoOfSimultaneousUsers(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformationNoOfSimultaneousUsers()");
+        }
+    }
+
+    private void generateHoldingsAccesssInformationProxied(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getProxiedResource() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getHoldingsAccessInformation().getProxiedResource());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformationProxied()");
+        }
+    }
+
+    private void generateHoldingsAccesssInformationAccessLocation(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getAccessLocation() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getHoldingsAccessInformation().getAccessLocation());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformationAccessLocation()");
+        }
+    }
+
+    private void generateHoldingsAccesssInformationAccessUsername(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getAccessUsername() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getHoldingsAccessInformation().getAccessUsername());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformationAccessUsername()");
+        }
+    }
+
+    private void generateHoldingsAccesssInformationAccessPassword(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getAccessPassword() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getHoldingsAccessInformation().getAccessPassword());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformationAccessPassword()");
+        }
+    }
+
+    private void generateInitialSubscriptionStartDate(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getInitialSubscriptionStartDate() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getInitialSubscriptionStartDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateInitialSubscriptionStartDate()");
+        }
+    }
+
+    private void generateCurrentSubscriptionStartDate(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getCurrentSubscriptionStartDate() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getCurrentSubscriptionStartDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateCurrentSubscriptionStartDate()");
+        }
+    }
+
+    private void generateCurrentSubscriptionEndDate(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getCurrentSubscriptionEndDate() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getCurrentSubscriptionEndDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateCurrentSubscriptionEndDate()");
+        }
+    }
+
+    private void generateSubscriptionStatus(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getSubscriptionStatus() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getSubscriptionStatus());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateCurrentSubscriptionEndDate()");
+        }
+    }
+
+    private void generateCancellationDecisionDate(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getCancellationDecisionDate() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getCancellationDecisionDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateCancellationDecisionDate()");
+        }
+    }
+
+    private void generateCancellationEffectiveDate(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getCancellationEffectiveDate() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getCancellationEffectiveDate());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateCancellationEffectiveDate()");
+        }
+    }
+
+    private void generateCancellationReason(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getCancellationReason() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getCancellationReason());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateCancellationReason()");
+        }
+    }
+
+    private void generateHoldingsAccesssInformationAuthenticationType(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
+        try {
+            if (oleHoldings != null && oleHoldings.getHoldingsAccessInformation() != null && oleHoldings.getHoldingsAccessInformation().getAuthenticationType() != null) {
+                Subfield subField = new SubfieldImpl();
+                subField.setCode(code);
+                subField.setData(oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
+                dataField.addSubfield(subField);
+            }
+        } catch (Exception ex) {
+            logError(oleHoldings, ex, "generateHoldingsAccesssInformationAuthenticationType()");
+        }
+    }
 
     private void generateHoldingsAccesssInformation(OleHoldings oleHoldings, char code, DataField dataField) throws Exception {
         try {
