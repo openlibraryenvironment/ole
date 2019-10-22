@@ -1137,7 +1137,7 @@ public class ExportHoldingsMappingHelper {
      * @param code
      * @param dataField
      */
-    private void generateDateCreated(Holdings holdings, char code, DataField dataField) throws Exception {
+    protected void generateDateCreated(Holdings holdings, char code, DataField dataField) throws Exception {
         Subfield subField = new SubfieldImpl();
         subField.setCode(code);
         try {
@@ -1157,7 +1157,7 @@ public class ExportHoldingsMappingHelper {
      * @param code
      * @param dataField
      */
-    private void generateDateUpdated(Holdings holdings, char code, DataField dataField) throws Exception {
+    protected void generateDateUpdated(Holdings holdings, char code, DataField dataField) throws Exception {
         Subfield subField = new SubfieldImpl();
         subField.setCode(code);
         try {
