@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
+import org.apache.log4j.Logger;
 
 /**
  * Created by sheiks on 20/09/16.
@@ -51,6 +52,7 @@ public abstract class ExportCallable implements Callable {
     protected BatchExportHandler batchExportHandler;
     protected BatchProcessTxObject batchProcessTxObject;
     protected List<String> bibIds;
+    private static final Logger LOG = Logger.getLogger(ExportCallable.class);
 
     public ExportCallable(Map<String, Map<String, String>> commomFields, JdbcTemplate jdbcTemplate, int fileNumber, BatchExportHandler batchExportHandler,
                                          BatchProcessTxObject batchProcessTxObject) {
@@ -100,6 +102,9 @@ public abstract class ExportCallable implements Callable {
                                     oleNGBatchExportResponse.getDeletedBibIds().add(bib.getId());
                                 }
                             } catch (Exception e) {
+                                LOG.error("Exception in Job Name : " + batchProcessTxObject.getBatchJobDetails().getJobName() + "  <<< Job ID : " + batchProcessTxObject.getBatchJobDetails().getJobId() +
+                                        " >>>  <<< Job Detail ID : " + batchProcessTxObject.getBatchJobDetails().getJobDetailId() + " >>>");
+                                LOG.error("Exception Message : " + e.getMessage() + " <<< Bib ID : " + bib.getId() + " >>>");
                                 e.printStackTrace();
                                 numberOfFailureRecord++;
                                 oleNGBatchExportResponse.addFailureRecord(bib.getLocalId(), bib.getId(), e.getMessage());
