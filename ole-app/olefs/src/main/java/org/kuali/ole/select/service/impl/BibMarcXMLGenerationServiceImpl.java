@@ -29,45 +29,45 @@ public class BibMarcXMLGenerationServiceImpl implements BibMarcXMLGenerationServ
         //StringBuffer xmlString = new StringBuffer();
         StringBuilder xmlString = new StringBuilder();
         //xmlString.append("<?xml version=\"1.0\"?>");
-        xmlString.append("<marc:collection>");
-        xmlString.append("<marc:record>");
+        xmlString.append("<collection>");
+        xmlString.append("<record>");
         xmlString.append("<leader>" + bibInfoBean.getLeader() + "</leader>");
-        xmlString.append("<marc:controlfield tag=\"001\"></marc:controlfield>");
-        xmlString.append("<marc:controlfield tag=\"008\">" + bibInfoBean.getControlField() + "</marc:controlfield>");
+        xmlString.append("<controlfield tag=\"001\"></controlfield>");
+        xmlString.append("<controlfield tag=\"008\">" + bibInfoBean.getControlField() + "</controlfield>");
         if (bibInfoBean.getStandardNumber() != null && !bibInfoBean.getStandardNumber().isEmpty()) {
-            xmlString.append("<marc:datafield tag=\"020\" >");
-            xmlString.append("<marc:subfield code=\"a\">").append(bibInfoBean.getStandardNumber()).append("</marc:subfield>");
-            xmlString.append("</marc:datafield>");
+            xmlString.append("<datafield tag=\"020\" >");
+            xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getStandardNumber()).append("</subfield>");
+            xmlString.append("</datafield>");
         }
         if (bibInfoBean.getAuthor() != null && !bibInfoBean.getAuthor().isEmpty()) {
-            xmlString.append("<marc:datafield tag=\"100\" >");
-            xmlString.append("<marc:subfield code=\"a\">").append(bibInfoBean.getAuthor()).append("</marc:subfield>");
-            xmlString.append("</marc:datafield>");
+            xmlString.append("<datafield tag=\"100\" >");
+            xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getAuthor()).append("</subfield>");
+            xmlString.append("</datafield>");
         }
         if (bibInfoBean.getTitle() != null && !bibInfoBean.getTitle().isEmpty()) {
-            xmlString.append("<marc:datafield tag=\"245\" >");
-            xmlString.append("<marc:subfield code=\"a\">").append(bibInfoBean.getTitle()).append("</marc:subfield>");
-            xmlString.append("</marc:datafield>");
+            xmlString.append("<datafield tag=\"245\" >");
+            xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getTitle()).append("</subfield>");
+            xmlString.append("</datafield>");
         }
         if (bibInfoBean.getEdition() != null && !bibInfoBean.getEdition().isEmpty()) {
-            xmlString.append("<marc:datafield tag=\"250\" >");
-            xmlString.append("<marc:subfield code=\"a\">").append(bibInfoBean.getEdition()).append("</marc:subfield>");
-            xmlString.append("</marc:datafield>");
+            xmlString.append("<datafield tag=\"250\" >");
+            xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getEdition()).append("</subfield>");
+            xmlString.append("</datafield>");
         }
         if ((bibInfoBean.getPlaceOfPublication() != null && !bibInfoBean.getPlaceOfPublication().isEmpty()) || (bibInfoBean.getPublisher() != null && !bibInfoBean.getPublisher().isEmpty()) || (bibInfoBean.getYearOfPublication() != null && !bibInfoBean.getYearOfPublication().isEmpty())) {
-            xmlString.append("<marc:datafield tag=\"260\" >");
+            xmlString.append("<datafield tag=\"260\" >");
             //if (bibInfoBean.getPlaceOfPublication() != null)
-            xmlString.append("<marc:subfield code=\"a\">").append(bibInfoBean.getPlaceOfPublication()).append("</marc:subfield>");
+            xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getPlaceOfPublication()).append("</subfield>");
             //if (bibInfoBean.getPublisher() != null)
-            xmlString.append("<marc:subfield code=\"b\">").append(bibInfoBean.getPublisher()).append("</marc:subfield>");
+            xmlString.append("<subfield code=\"b\">").append(bibInfoBean.getPublisher()).append("</subfield>");
             //if (bibInfoBean.getYearOfPublication() != null)
-            xmlString.append("<marc:subfield code=\"c\">").append(bibInfoBean.getYearOfPublication()).append("</marc:subfield>");
-            xmlString.append("</marc:datafield>");
+            xmlString.append("<subfield code=\"c\">").append(bibInfoBean.getYearOfPublication()).append("</subfield>");
+            xmlString.append("</datafield>");
         }
         if (bibInfoBean.getSeriesOfStatement() != null && !bibInfoBean.getSeriesOfStatement().isEmpty()) {
-            xmlString.append("<marc:datafield tag=\"490\" >");
-            xmlString.append("<marc:subfield code=\"a\">").append(bibInfoBean.getSeriesOfStatement()).append("</marc:subfield>");
-            xmlString.append("</marc:datafield>");
+            xmlString.append("<datafield tag=\"490\" >");
+            xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getSeriesOfStatement()).append("</subfield>");
+            xmlString.append("</datafield>");
         }
         /*if ((bibInfoBean.getFundCode() != null && !bibInfoBean.getFundCode().isEmpty()) || ((bibInfoBean.getLocation() != null)&& !bibInfoBean.getLocation().isEmpty())) {
             xmlString.append("<datafield tag=\"960\" >");
@@ -170,8 +170,8 @@ public class BibMarcXMLGenerationServiceImpl implements BibMarcXMLGenerationServ
             xmlString.append("<subfield code=\"a\">").append(bibInfoBean.getSeries()).append("</subfield>");
             xmlString.append("</datafield>");
         }*/
-        xmlString.append("</marc:record>");
-        xmlString.append("</marc:collection>");
+        xmlString.append("</record>");
+        xmlString.append("</collection>");
         if (LOG.isDebugEnabled())
             LOG.debug("xmlString----------->" + xmlString.toString());
         return xmlString.toString();
