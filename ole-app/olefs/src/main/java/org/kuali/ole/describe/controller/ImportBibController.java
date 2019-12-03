@@ -155,7 +155,11 @@ public class ImportBibController
         Bib bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(uuid);
 
         if (bib.getContent() != null && bib.getContent().length() > 0) {
-            BibMarcRecords marcRecords = workBibMarcRecordProcessor.fromXML(bib.getContent());
+            String content = bib.getContent();
+            if(content != null && content.contains("marc:")) {
+                content = content.replaceAll("marc:leader","leader");
+            }
+            BibMarcRecords marcRecords = workBibMarcRecordProcessor.fromXML(content);
             if (marcRecords != null && marcRecords.getRecords() != null && marcRecords.getRecords().size() > 0) {
                 importBibForm.setExistingBibMarcRecord(marcRecords.getRecords().get(0));
             }
@@ -176,6 +180,9 @@ public class ImportBibController
         String marcXmlContent = getMarcXml(multipartFile, importBibForm);
         request.getSession().setAttribute("showDetailForLocalSearchRecord", marcXmlContent);
         if (marcXmlContent != null && marcXmlContent.length() > 0) {
+            if(marcXmlContent.contains("marc:")) {
+                marcXmlContent = marcXmlContent.replaceAll("marc:leader","leader");
+            }
             //convert xml to pojo
             BibMarcRecords bibMarcRecords = workBibMarcRecordProcessor.fromXML(marcXmlContent);
             List<BibMarcRecord> workBibMarcRecordList = new ArrayList<BibMarcRecord>();
@@ -302,13 +309,16 @@ public class ImportBibController
     public BibMarcRecords prepareWorkBibMarcRecords(List<String> results) {
         MRKToMARCXMLConverter mrkToMARCXMLConverter = new MRKToMARCXMLConverter();
         StringBuffer sb = new StringBuffer(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><marc:collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
         for (String marcString : results) {
             String marcXML = mrkToMARCXMLConverter.convert(marcString);
             sb.append(marcXML.substring(marcXML.indexOf("<record>"), marcXML.indexOf("</collection>")));
         }
-        sb.append("</collection>");
+        sb.append("</marc:collection>");
         String marcXmlContent = sb.toString();
+        if(marcXmlContent != null && marcXmlContent.contains("marc:")) {
+            marcXmlContent = marcXmlContent.replaceAll("marc:leader","leader");
+        }
         BibMarcRecords marcRecords = workBibMarcRecordProcessor.fromXML(marcXmlContent);
         return marcRecords;
     }
@@ -737,6 +747,10 @@ public class ImportBibController
 
     public SortedMap<BibDocumentSearchResult, BibMarcRecord> sort(String marcXmlContent) {
         if (marcXmlContent != null && marcXmlContent.length() > 0) {
+            if(marcXmlContent.contains("marc:")) {
+                marcXmlContent = marcXmlContent.replaceAll("marc:leader","leader");
+            }
+
             //convert xml to pojo
             BibMarcRecords marcRecords = workBibMarcRecordProcessor.fromXML(marcXmlContent);
             List<BibMarcRecord> workBibMarcRecordList = marcRecords.getRecords();
