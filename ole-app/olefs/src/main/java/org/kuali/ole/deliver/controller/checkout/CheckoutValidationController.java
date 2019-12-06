@@ -1,7 +1,6 @@
 package org.kuali.ole.deliver.controller.checkout;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.deliver.controller.PermissionsValidatorUtil;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -23,10 +22,7 @@ public class CheckoutValidationController extends CheckoutPatronController {
                                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
         boolean hasValidOverridePermissions = new PermissionsValidatorUtil().hasValidOverridePermissions(circForm);
-        if(circForm.getItemBarcode() != null && StringUtils.isNotBlank(circForm.getItemBarcode())) {
-            hasValidOverridePermissions = Boolean.TRUE;
-        }
-        if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions()) && circForm.getItemBarcode() == null){
+        if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions())){
             return postPatronValidation(circForm, result, request, response);
         } else {
             if ((hasValidOverridePermissions)) {
