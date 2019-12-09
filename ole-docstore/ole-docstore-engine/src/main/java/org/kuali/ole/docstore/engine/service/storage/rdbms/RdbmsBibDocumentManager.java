@@ -54,41 +54,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         BibRecord bibRecord = new BibRecord();
         Bib bib = (Bib) object;
         modifyAdditionalAttributes(bib);
-        String content = bib.getContent();
-        if(content != null && content.contains("marc:")) {
-            content = content.replaceAll("marc:leader","leader");
-            if(content.contains("<controlfield")) {
-                content = content.replaceAll("<controlfield","<marc:controlfield");
-            }
-            if(content.contains("<datafield")) {
-                content = content.replaceAll("<datafield","<marc:datafield");
-            }
-            if(content.contains("<subfield")) {
-                content = content.replaceAll("<subfield","<marc:subfield");
-            }
-
-            if(content.contains("</controlfield")) {
-                content = content.replaceAll("</controlfield","</marc:controlfield");
-            }
-            if(content.contains("</datafield")) {
-                content = content.replaceAll("</datafield","</marc:datafield");
-            }
-            if(content.contains("</subfield")) {
-                content = content.replaceAll("</subfield","</marc:subfield");
-            }
-            if(content.contains("xmlns=")) {
-                content = content.replaceAll("xmlns=", "xmlns:marc=");
-            }
-        }
-        else if(content != null && !content.contains("marc:")) {
-            content = content.replaceAll("collection","marc:collection");
-            content = content.replaceAll("record","marc:record");
-            content = content.replaceAll("controlfield","marc:controlfield");
-            content = content.replaceAll("datafield","marc:datafield");
-            content = content.replaceAll("subfield","marc:subfield");
-            content = content.replaceAll("xmlns=","xmlns:marc=");
-        }
-        bibRecord.setContent(content);
+        bibRecord.setContent(bib.getContent());
         boolean isBibIdFlag = getBibIdFromBibXMLContent(bibRecord);
         bibRecord.setCreatedBy(bib.getCreatedBy());
         bibRecord.setDateCreated(getTimeStampFromString(bib.getCreatedOn()));
@@ -152,41 +118,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
           }
 
         if (bibRecord != null) {
-            String content = bib.getContent();
-            if(content != null && content.contains("marc:")) {
-                content = content.replaceAll("marc:leader","leader");
-                if(content.contains("<controlfield")) {
-                    content = content.replaceAll("<controlfield","<marc:controlfield");
-                }
-                if(content.contains("<datafield")) {
-                    content = content.replaceAll("<datafield","<marc:datafield");
-                }
-                if(content.contains("<subfield")) {
-                    content = content.replaceAll("<subfield","<marc:subfield");
-                }
-
-                if(content.contains("</controlfield")) {
-                    content = content.replaceAll("</controlfield","</marc:controlfield");
-                }
-                if(content.contains("</datafield")) {
-                    content = content.replaceAll("</datafield","</marc:datafield");
-                }
-                if(content.contains("</subfield")) {
-                    content = content.replaceAll("</subfield","</marc:subfield");
-                }
-                if(content.contains("xmlns=")) {
-                    content = content.replaceAll("xmlns=", "xmlns:marc=");
-                }
-            }
-            else if(content != null && !content.contains("marc:")) {
-                content = content.replaceAll("collection","marc:collection");
-                content = content.replaceAll("record","marc:record");
-                content = content.replaceAll("controlfield","marc:controlfield");
-                content = content.replaceAll("datafield","marc:datafield");
-                content = content.replaceAll("subfield","marc:subfield");
-                content = content.replaceAll("xmlns=","xmlns:marc=");
-            }
-            bibRecord.setContent(content);
+            bibRecord.setContent(bib.getContent());
             bibRecord.setFassAddFlag(bib.isFastAdd());
             bibRecord.setStaffOnlyFlag(bib.isStaffOnly());
             bibRecord.setSuppressFromPublic(String.valueOf(bib.isPublic()));
@@ -424,41 +356,6 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         bibMarc.setCategory(DocCategory.WORK.getCode());
         bibMarc.setType(DocType.BIB.getCode());
         String content = bibRecord.getContent();
-        if(content != null && content.contains("marc:")) {
-            content = content.replaceAll("marc:leader","leader");
-            if(content.contains("<controlfield")) {
-                content = content.replaceAll("<controlfield","<marc:controlfield");
-            }
-            if(content.contains("<datafield")) {
-                content = content.replaceAll("<datafield","<marc:datafield");
-            }
-            if(content.contains("<subfield")) {
-                content = content.replaceAll("<subfield","<marc:subfield");
-            }
-
-            if(content.contains("</controlfield")) {
-                content = content.replaceAll("</controlfield","</marc:controlfield");
-            }
-            if(content.contains("</datafield")) {
-                content = content.replaceAll("</datafield","</marc:datafield");
-            }
-            if(content.contains("</subfield")) {
-                content = content.replaceAll("</subfield","</marc:subfield");
-            }
-            if(content.contains("xmlns=")) {
-                content = content.replaceAll("xmlns=", "xmlns:marc=");
-            }
-        }
-        else if(content != null && !content.contains("marc:")) {
-            content = content.replaceAll("collection","marc:collection");
-            content = content.replaceAll("record","marc:record");
-            content = content.replaceAll("controlfield","marc:controlfield");
-            content = content.replaceAll("datafield","marc:datafield");
-            content = content.replaceAll("subfield","marc:subfield");
-            content = content.replaceAll("xmlns=","xmlns:marc=");
-        }
-
-        bibRecord.setContent(content);
         bibMarc.setId(DocumentUniqueIDPrefix.getPrefixedId(bibRecord.getUniqueIdPrefix(), bibRecord.getBibId()));
         if (bibRecord.getFassAddFlag() != null) {
             bibMarc.setFastAdd(bibRecord.getFassAddFlag());

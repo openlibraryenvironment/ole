@@ -268,9 +268,6 @@ public class RdbmsWorkBibDocumentManager extends RdbmsAbstarctDocumentManager {
         if (bibRecords != null && bibRecords.size() > 0) {
             BibRecord bibRecord = bibRecords.get(0);
             String content = bibRecord.getContent();
-            if(content != null && content.contains("marc")) {
-                content = content.replaceAll("marc:leader","leader");
-            }
             AdditionalAttributes additionalAttributes = new AdditionalAttributes();
             if (bibRecord.getFassAddFlag() != null) {
                 additionalAttributes.setAttribute(AdditionalAttributes.FAST_ADD_FLAG, bibRecord.getFassAddFlag().toString());

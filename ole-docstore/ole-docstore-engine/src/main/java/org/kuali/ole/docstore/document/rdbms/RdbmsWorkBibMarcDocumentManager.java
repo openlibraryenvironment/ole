@@ -50,10 +50,10 @@ public class RdbmsWorkBibMarcDocumentManager extends RdbmsWorkBibDocumentManager
             Matcher matcher = pattern.matcher(content);
             Matcher matcher2 = pattern2.matcher(content);
             if (matcher.find()) {
-                doc.getContent().setContent(matcher.replaceAll("tag=\"001\">" + identifier + "</marc:controlfield"));
+                doc.getContent().setContent(matcher.replaceAll("tag=\"001\">" + identifier + "</controlfield"));
             } else if (matcher2.find()) {
                 doc.getContent()
-                        .setContent(matcher2.replaceAll("<marc:controlfield tag=\"001\">" + identifier + "</marc:controlfield>"));
+                        .setContent(matcher2.replaceAll("<controlfield tag=\"001\">" + identifier + "</controlfield>"));
             } else {
                 int ind = content.indexOf("</leader>") + 9;
                 if (ind == 8) {
@@ -64,9 +64,9 @@ public class RdbmsWorkBibMarcDocumentManager extends RdbmsWorkBibDocumentManager
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.append(content.substring(0, ind));
-                sb.append("<marc:controlfield tag=\"001\">");
+                sb.append("<controlfield tag=\"001\">");
                 sb.append(identifier);
-                sb.append("</marc:controlfield>");
+                sb.append("</controlfield>");
                 sb.append(content.substring(ind + 1));
                 doc.getContent().setContent(sb.toString());
             }

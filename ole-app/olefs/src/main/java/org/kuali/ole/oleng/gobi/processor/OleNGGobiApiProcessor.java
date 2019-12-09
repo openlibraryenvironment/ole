@@ -14,6 +14,7 @@ import org.kuali.ole.constants.OleNGConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.pojo.RecordDetails;
 import org.kuali.ole.docstore.common.response.OleNgBatchResponse;
+import org.kuali.ole.docstore.common.util.BusinessObjectServiceHelperUtil;
 import org.kuali.ole.gobi.GobiRequest;
 import org.kuali.ole.gobi.dao.GobiDAO;
 import org.kuali.ole.gobi.processor.GobiResponseTimer;
@@ -36,10 +37,11 @@ import org.marc4j.MarcWriter;
 import org.marc4j.MarcXmlReader;
 import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.DataField;
-import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
+import org.marc4j.marc.impl.DataFieldImpl;
 import org.marc4j.marc.impl.SubfieldImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -211,7 +213,7 @@ public abstract class OleNGGobiApiProcessor extends BatchOrderImportProcessor{
             if (null != dataField) {
                 record.getDataFields().remove(dataField);
             }
-            dataField = MarcFactory.newInstance().newDataField();
+            dataField = new DataFieldImpl();
             dataField.setTag("980");
             dataField.setIndicator1(' ');
             dataField.setIndicator2(' ');

@@ -1,9 +1,6 @@
 package org.kuali.ole.batch.marc;
 
-import org.marc4j.MarcException;
-import org.marc4j.MarcXmlHandler;
-import org.marc4j.MarcXmlParser;
-import org.marc4j.RecordStack;
+import org.marc4j.*;
 import org.xml.sax.InputSource;
 
 /**
@@ -17,9 +14,9 @@ public class OLEMarcXmlParserThread extends Thread {
 
     private RecordStack queue;
     private InputSource input;
-    private OLEMarcErrorHandler errors;
+    private ErrorHandler errors;
 
-    public OLEMarcXmlParserThread(RecordStack queue, InputSource input, OLEMarcErrorHandler errors) {
+    public OLEMarcXmlParserThread(RecordStack queue, InputSource input, ErrorHandler errors) {
         this.queue = queue;
         this.input = input;
         this.errors = errors;

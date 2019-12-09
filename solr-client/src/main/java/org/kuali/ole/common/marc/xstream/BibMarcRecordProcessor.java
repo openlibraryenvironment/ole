@@ -21,10 +21,10 @@ public class BibMarcRecordProcessor implements Serializable {
     private static XStream xStream = getXstream();
     private static XStream xStreamObj = buildXstream();
 
-    private final static String RECORD = "marc:record";
-    private final static String CONTROLFIELD = "marc:controlfield";
-    private final static String DATAFIELD = "marc:datafield";
-    private final static String SUBFIELD = "marc:subfield";
+    private final static String RECORD = "record";
+    private final static String CONTROLFIELD = "controlfield";
+    private final static String DATAFIELD = "datafield";
+    private final static String SUBFIELD = "subfield";
     private final static String CONTROLFIELDS = "controlfields";
     private final static String DATAFIELDS = "datafields";
     private final static String SUBFIELDS = "subFields";
@@ -49,11 +49,11 @@ public class BibMarcRecordProcessor implements Serializable {
     private static XStream getXstream() {
         if(xStream == null){
             XStream newXStream = new XStream();
-            newXStream.alias("marc:collection", BibMarcRecords.class);
-            newXStream.alias("marc:record", BibMarcRecord.class);
-            newXStream.alias("marc:controlfield", ControlField.class);
-            newXStream.alias("marc:datafield", DataField.class);
-            newXStream.alias("marc:subfield", SubField.class);
+            newXStream.alias("collection", BibMarcRecords.class);
+            newXStream.alias("record", BibMarcRecord.class);
+            newXStream.alias("controlfield", ControlField.class);
+            newXStream.alias("datafield", DataField.class);
+            newXStream.alias("subfield", SubField.class);
             newXStream.addImplicitCollection(BibMarcRecord.class, "dataFields", DataField.class);
             newXStream.addImplicitCollection(BibMarcRecord.class, "controlFields", ControlField.class);
             newXStream.addImplicitCollection(BibMarcRecords.class, "records");
@@ -100,12 +100,12 @@ public class BibMarcRecordProcessor implements Serializable {
     public String generateXML(BibMarcRecord bibMarcRecord) {
         StringBuffer stringBuffer = new StringBuffer();
         try{
-            stringBuffer.append("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">");
+            stringBuffer.append("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
             stringBuffer.append("\n");
             String xml = xStreamObj.toXML(bibMarcRecord);
             stringBuffer.append(xml);
             stringBuffer.append("\n");
-            stringBuffer.append("</marc:collection>");
+            stringBuffer.append("</collection>");
             successCnt++;
         } catch (Exception ex) {
             LOG.error("Exception :", ex);
@@ -119,7 +119,7 @@ public class BibMarcRecordProcessor implements Serializable {
 
     public String generateXML(List<BibMarcRecord> bibMarcRecords) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">");
+        stringBuilder.append("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
         stringBuilder.append("\n");
         for (BibMarcRecord record : bibMarcRecords) {
             try {
@@ -136,7 +136,7 @@ public class BibMarcRecordProcessor implements Serializable {
                 return null;
             }
         }
-        stringBuilder.append("</marc:collection>");
+        stringBuilder.append("</collection>");
         return stringBuilder.toString();
     }
 
@@ -144,7 +144,7 @@ public class BibMarcRecordProcessor implements Serializable {
     public String generateXML(List<BibMarcRecord> bibMarcRecords, Boolean isFirstBatch, Boolean isLastBatch) {
         StringBuilder stringBuilder = new StringBuilder();
         if(isFirstBatch){
-            stringBuilder.append("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">");
+            stringBuilder.append("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
         }
 
         stringBuilder.append("\n");
@@ -164,7 +164,7 @@ public class BibMarcRecordProcessor implements Serializable {
             }
         }
         if(isLastBatch) {
-            stringBuilder.append("</marc:collection>");
+            stringBuilder.append("</collection>");
         }
 
         return stringBuilder.toString();
