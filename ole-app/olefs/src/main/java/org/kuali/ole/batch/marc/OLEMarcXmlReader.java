@@ -1,18 +1,13 @@
 package org.kuali.ole.batch.marc;
 
-import org.marc4j.ErrorHandler.Error;
 import org.marc4j.RecordStack;
 import org.marc4j.marc.Record;
 import org.xml.sax.InputSource;
-import org.marc4j.ErrorHandler;
-
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,12 +19,11 @@ import java.util.concurrent.Future;
 public class OLEMarcXmlReader implements OLEMarcReader {
 
     private RecordStack queue;
-    private ErrorHandler errors;
+    private OLEMarcErrorHandler errors;
     private int errCount;
 
     public OLEMarcXmlReader(InputSource input) throws ExecutionException, InterruptedException {
         this.queue = new RecordStack();
-        this.errors = new OLEMarcErrorHandler();
         /*ExecutorService executor = Executors.newSingleThreadExecutor();
         //OLEMarcXmlParserThread producer = new OLEMarcXmlParserThread(queue, input, errors);
         Runnable worker = new OLEMarcXmlParserThread(queue, input, errors);
@@ -70,19 +64,19 @@ public class OLEMarcXmlReader implements OLEMarcReader {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Error> getErrors() {
-        return errors.getErrors();
+    public List<OLEMarcErrorHandler> getErrors() {
+        ArrayList errorList =  new ArrayList<>();
+        errorList.add(errors);
+        return errorList;
     }
-
     @Override
-    public Error getError() {
-        return (Error) errors.getErrors().get(0);
+    public OLEMarcErrorHandler getError() {
+        return  errors;
     }
 
     public void clearErrors(){
-       errors.getErrors().clear();
        OLEMarcErrorHandler errorHandler = (OLEMarcErrorHandler)errors;
         errorHandler.getErrorMap().clear();
+        errors = null;
     }
-
 }

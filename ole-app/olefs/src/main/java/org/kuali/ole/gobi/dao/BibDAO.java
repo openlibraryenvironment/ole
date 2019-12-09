@@ -9,6 +9,7 @@ import org.marc4j.MarcWriter;
 import org.marc4j.MarcXmlReader;
 import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.impl.DataFieldImpl;
@@ -41,7 +42,7 @@ public class BibDAO extends PlatformAwareDaoBaseJdbc {
             if (null != dataField) {
                 record.getDataFields().remove(dataField);
             }
-            dataField = new DataFieldImpl();
+            dataField = MarcFactory.newInstance().newDataField();
             dataField.setTag("980");
             dataField.setIndicator1(' ');
             dataField.setIndicator2(' ');

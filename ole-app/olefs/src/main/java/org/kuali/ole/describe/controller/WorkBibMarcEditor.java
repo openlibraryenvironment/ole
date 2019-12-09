@@ -399,6 +399,39 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                         }
                     }
                     bib.setStaffOnly(staffOnlyFlag);
+                    if(content != null && content.contains("marc:")) {
+                        content = content.replaceAll("marc:leader","leader");
+                        if(content.contains("<controlfield")) {
+                            content = content.replaceAll("<controlfield","<marc:controlfield");
+                        }
+                        if(content.contains("<datafield")) {
+                            content = content.replaceAll("<datafield","<marc:datafield");
+                        }
+                        if(content.contains("<subfield")) {
+                            content = content.replaceAll("<subfield","<marc:subfield");
+                        }
+
+                        if(content.contains("</controlfield")) {
+                            content = content.replaceAll("</controlfield","</marc:controlfield");
+                        }
+                        if(content.contains("</datafield")) {
+                            content = content.replaceAll("</datafield","</marc:datafield");
+                        }
+                        if(content.contains("</subfield")) {
+                            content = content.replaceAll("</subfield","</marc:subfield");
+                        }
+                        if(content.contains("xmlns=")) {
+                            content = content.replaceAll("xmlns=", "xmlns:marc=");
+                        }
+                    }
+                    else if(content != null && !content.contains("marc:")) {
+                        content = content.replaceAll("collection","marc:collection");
+                        content = content.replaceAll("record","marc:record");
+                        content = content.replaceAll("controlfield","marc:controlfield");
+                        content = content.replaceAll("datafield","marc:datafield");
+                        content = content.replaceAll("subfield","marc:subfield");
+                        content = content.replaceAll("xmlns=","xmlns:marc=");
+                    }
                     bib.setContent(content);
                     bib.setUpdatedBy(GlobalVariables.getUserSession().getPrincipalName());
                     bib.setUpdatedOn(dateStr);

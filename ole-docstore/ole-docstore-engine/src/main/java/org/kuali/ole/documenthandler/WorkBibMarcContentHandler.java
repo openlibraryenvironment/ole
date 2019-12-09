@@ -36,10 +36,10 @@ public class WorkBibMarcContentHandler {
             Matcher matcher = pattern.matcher(content);
             Matcher matcher2 = pattern2.matcher(content);
             if (matcher.find()) {
-                doc.getContent().setContent(matcher.replaceAll("tag=\"001\">" + fileNodeUUID + "</controlfield"));
+                doc.getContent().setContent(matcher.replaceAll("tag=\"001\">" + fileNodeUUID + "</marc:controlfield"));
             } else if (matcher2.find()) {
                 doc.getContent()
-                        .setContent(matcher2.replaceAll("<controlfield tag=\"001\">" + fileNodeUUID + "</controlfield>"));
+                        .setContent(matcher2.replaceAll("<marc:controlfield tag=\"001\">" + fileNodeUUID + "</marc:controlfield>"));
             } else {
                 int ind = content.indexOf("</leader>") + 9;
                 if (ind == 8) {
@@ -50,9 +50,9 @@ public class WorkBibMarcContentHandler {
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.append(content.substring(0, ind));
-                sb.append("<controlfield tag=\"001\">");
+                sb.append("<marc:controlfield tag=\"001\">");
                 sb.append(fileNodeUUID);
-                sb.append("</controlfield>");
+                sb.append("</marc:controlfield>");
                 sb.append(content.substring(ind + 1));
                 doc.getContent().setContent(sb.toString());
             }
@@ -71,9 +71,9 @@ public class WorkBibMarcContentHandler {
         }
         StringBuilder sb = new StringBuilder();
         sb.append(content.substring(0, ind));
-        sb.append("<controlfield tag=\"001\">");
+        sb.append("<marc:controlfield tag=\"001\">");
         sb.append(fileNodeUUID);
-        sb.append("</controlfield>");
+        sb.append("</marc:controlfield>");
         sb.append(content.substring(ind + 1));
         doc.getContent().setContent(sb.toString());
     }

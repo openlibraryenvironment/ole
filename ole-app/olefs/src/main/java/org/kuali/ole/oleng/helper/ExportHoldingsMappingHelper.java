@@ -15,6 +15,7 @@ import org.kuali.ole.docstore.common.response.OleNGBatchExportResponse;
 import org.kuali.ole.oleng.batch.profile.model.BatchProcessProfile;
 import org.kuali.ole.oleng.batch.profile.model.BatchProfileDataMapping;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.impl.DataFieldImpl;
 import org.marc4j.marc.impl.SubfieldImpl;
@@ -246,7 +247,7 @@ public class ExportHoldingsMappingHelper {
     }
 
     protected DataField getDataField(Map.Entry<String, String> entry) {
-        DataField dataField = new DataFieldImpl();
+        DataField dataField = MarcFactory.newInstance().newDataField();
         dataField.setTag(StringUtils.trim(entry.getKey()).substring(0, 3));
         dataField.setIndicator1(entry.getKey().charAt(3));
         dataField.setIndicator2(entry.getKey().charAt(4));
