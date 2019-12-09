@@ -226,9 +226,9 @@ public abstract class AbstractDocumentIndexer implements IndexerService {
                                 LOG.debug("Processing Record(" + recordsProcessedInFile + ") of File: " + srcFileName);
                                 fileIOTimer.resume();
                                 StringWriter str = new StringWriter();
-                                str.append("<marc:collection>");
+                                str.append("<collection>");
                                 t.transform(new StAXSource(xsr), new StreamResult(str));
-                                str.append("</marc:collection>");
+                                str.append("</collection>");
                                 xmlContent = str.getBuffer().toString();
                                 fileIOTimer.suspend();
                                 conversionTimer.resume();

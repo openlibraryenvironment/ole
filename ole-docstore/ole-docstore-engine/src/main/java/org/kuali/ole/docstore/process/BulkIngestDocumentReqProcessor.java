@@ -41,8 +41,8 @@ public class BulkIngestDocumentReqProcessor
         this.format = format;
         this.target = target;
         if (DocCategory.WORK.isEqualTo(category) && DocType.BIB.isEqualTo(type) && DocFormat.MARC.isEqualTo(format)) {
-            this.preend = "<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">\n\t";
-            this.postend = "\n</marc:collection>\n";
+            this.preend = "<collection xmlns=\"http://www.loc.gov/MARC21/slim\">\n\t";
+            this.postend = "\n</collection>\n";
         } else if (DocCategory.WORK.isEqualTo(category) && DocType.BIB.isEqualTo(type) && DocFormat.DUBLIN_UNQUALIFIED
                 .isEqualTo(format)) {
             this.preend =

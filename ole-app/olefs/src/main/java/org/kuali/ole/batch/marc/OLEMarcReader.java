@@ -4,6 +4,7 @@ import org.marc4j.MarcReader;
 
 import java.util.List;
 
+import org.marc4j.ErrorHandler.Error;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,9 +16,9 @@ import java.util.List;
 public interface OLEMarcReader extends MarcReader {
     public boolean hasErrors();
 
-    public List<OLEMarcErrorHandler> getErrors();
+    public List<Error> getErrors();
 
-    public OLEMarcErrorHandler getError();
+    public Error getError();
 
     public void clearErrors();
 

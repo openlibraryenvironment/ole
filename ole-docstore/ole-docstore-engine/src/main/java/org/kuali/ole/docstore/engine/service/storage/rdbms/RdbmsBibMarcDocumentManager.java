@@ -57,42 +57,7 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
         if (parameter.booleanValue() == Boolean.TRUE) {
 
             BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
-            String content = bibRecord.getContent();
-            if(content != null && content.contains("marc:")) {
-                content = content.replaceAll("marc:leader","leader");
-                if(content.contains("<controlfield")) {
-                    content = content.replaceAll("<controlfield","<marc:controlfield");
-                }
-                if(content.contains("<datafield")) {
-                    content = content.replaceAll("<datafield","<marc:datafield");
-                }
-                if(content.contains("<subfield")) {
-                    content = content.replaceAll("<subfield","<marc:subfield");
-                }
-
-                if(content.contains("</controlfield")) {
-                    content = content.replaceAll("</controlfield","</marc:controlfield");
-                }
-                if(content.contains("</datafield")) {
-                    content = content.replaceAll("</datafield","</marc:datafield");
-                }
-                if(content.contains("</subfield")) {
-                    content = content.replaceAll("</subfield","</marc:subfield");
-                }
-                if(content.contains("xmlns=")) {
-                    content = content.replaceAll("xmlns=", "xmlns:marc=");
-                }
-            }
-            else if(content != null && !content.contains("marc:")) {
-                content = content.replaceAll("collection","marc:collection");
-                content = content.replaceAll("record","marc:record");
-                content = content.replaceAll("controlfield","marc:controlfield");
-                content = content.replaceAll("datafield","marc:datafield");
-                content = content.replaceAll("subfield","marc:subfield");
-                content = content.replaceAll("xmlns=","xmlns:marc=");
-            }
-            bibRecord.setContent(content);
-            BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(content);
+            BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(bibRecord.getContent());
             if (bibMarcRecords != null && bibMarcRecords.getRecords() != null && bibMarcRecords.getRecords().size() > 0) {
                 BibMarcRecord bibMarcRecord = bibMarcRecords.getRecords().get(0);
                 if (bibMarcRecord.getControlFields() != null) {
@@ -125,9 +90,9 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
             Matcher matcher = pattern.matcher(content);
             Matcher matcher2 = pattern2.matcher(content);
             if (matcher.find()) {
-                bib.setContent(matcher.replaceAll("tag=\"001\">" + bibRecord.getBibId() + "</marc:controlfield"));
+                bib.setContent(matcher.replaceAll("tag=\"001\">" + bibRecord.getBibId() + "</controlfield"));
             } else if (matcher2.find()) {
-                bib.setContent(matcher2.replaceAll("<marc:controlfield tag=\"001\">" + bibRecord.getBibId() + "</marc:controlfield>"));
+                bib.setContent(matcher2.replaceAll("<controlfield tag=\"001\">" + bibRecord.getBibId() + "</controlfield>"));
             } else {
                 int ind = content.indexOf("</leader>") + 9;
                 if (ind == 8) {
@@ -138,9 +103,9 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.append(content.substring(0, ind));
-                sb.append("<marc:controlfield tag=\"001\">");
+                sb.append("<controlfield tag=\"001\">");
                 sb.append(bibRecord.getBibId());
-                sb.append("</marc:controlfield>");
+                sb.append("</controlfield>");
                 sb.append(content.substring(ind + 1));
                 bib.setContent(sb.toString());
             }
@@ -207,42 +172,7 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
 
     protected void createBibInfoRecord(BibRecord bibRecord) {
 
-        String content = bibRecord.getContent();
-        if(content != null && content.contains("marc:")) {
-            content = content.replaceAll("marc:leader","leader");
-            if(content.contains("<controlfield")) {
-                content = content.replaceAll("<controlfield","<marc:controlfield");
-            }
-            if(content.contains("<datafield")) {
-                content = content.replaceAll("<datafield","<marc:datafield");
-            }
-            if(content.contains("<subfield")) {
-                content = content.replaceAll("<subfield","<marc:subfield");
-            }
-
-            if(content.contains("</controlfield")) {
-                content = content.replaceAll("</controlfield","</marc:controlfield");
-            }
-            if(content.contains("</datafield")) {
-                content = content.replaceAll("</datafield","</marc:datafield");
-            }
-            if(content.contains("</subfield")) {
-                content = content.replaceAll("</subfield","</marc:subfield");
-            }
-            if(content.contains("xmlns=")) {
-                content = content.replaceAll("xmlns=", "xmlns:marc=");
-            }
-        }
-        else if(content != null && !content.contains("marc:")) {
-            content = content.replaceAll("collection","marc:collection");
-            content = content.replaceAll("record","marc:record");
-            content = content.replaceAll("controlfield","marc:controlfield");
-            content = content.replaceAll("datafield","marc:datafield");
-            content = content.replaceAll("subfield","marc:subfield");
-            content = content.replaceAll("xmlns=","xmlns:marc=");
-        }
-        bibRecord.setContent(content);
-        BibMarcRecords bibMarcRecords = getBibMarcRecordProcessor().fromXML(content);
+        BibMarcRecords bibMarcRecords = getBibMarcRecordProcessor().fromXML(bibRecord.getContent());
 
         if(bibMarcRecords != null && bibMarcRecords.getRecords() != null && bibMarcRecords.getRecords().size() > 0) {
             Map<String, String> dataFields = bibMarcUtil.buildDataValuesForBibInfo(bibMarcRecords.getRecords().get(0));

@@ -1,11 +1,15 @@
 package org.kuali.ole.batch.marc;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.marc4j.MarcError;
+import org.marc4j.ErrorHandler;
 import org.marc4j.MarcXmlHandler;
 import org.marc4j.RecordStack;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +30,7 @@ public class OLEMarcXmlHandler extends MarcXmlHandler {
     private String recordId;
     private String dataField;
     private String subField;
-    private OLEMarcErrorHandler errors;
+    private ErrorHandler errors;
     private String qName;
     private Attributes atts;
     private boolean elementHasErrors=false;
@@ -41,7 +45,7 @@ public class OLEMarcXmlHandler extends MarcXmlHandler {
 
     private RecordStack queue;
 
-    public OLEMarcXmlHandler(RecordStack queue, OLEMarcErrorHandler errors) {
+    public OLEMarcXmlHandler(RecordStack queue, ErrorHandler errors) {
         super(queue);
         this.queue = queue;
         this.errors = errors;
@@ -91,7 +95,7 @@ public class OLEMarcXmlHandler extends MarcXmlHandler {
             setError(value);
     }
 
-    public MarcError getErrors() {
+    public ErrorHandler getErrors() {
         return errors;
     }
 
@@ -113,7 +117,7 @@ public class OLEMarcXmlHandler extends MarcXmlHandler {
         super.endDocument();
         OLEMarcErrorHandler errorHandler = (OLEMarcErrorHandler)errors;
         if(!errorHandler.getErrorMap().isEmpty()){
-            errors.addError(recordId,dataField,subField, MarcError.MAJOR_ERROR,"Error occurred while converting marcxml to mrc");
+            errors.addError(recordId,dataField,subField,ErrorHandler.MAJOR_ERROR,"Error occurred while converting marcxml to mrc");
         }
     }
 }
