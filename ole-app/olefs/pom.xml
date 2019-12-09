@@ -1157,7 +1157,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.kuali.ole</groupId>
+            <groupId>org.marc4j</groupId>
             <artifactId>marc4j</artifactId>
         </dependency>
 

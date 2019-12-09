@@ -165,9 +165,16 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
         if (styleSheet != null) {
             opacXML = opacXML.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <?xml-stylesheet type=\"text/xsl\" href=\"" + styleSheet + "\"?>");
         }
-        opacXML = opacXML.replace("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">", "");
-        opacXML = opacXML.replace("<collection>","");
-        opacXML = opacXML.replace("</collection>", "");
+        if(opacXML.contains("marc:")) {
+            opacXML = opacXML.replace("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">", "");
+            opacXML = opacXML.replace("<marc:collection>", "");
+            opacXML = opacXML.replace("</marc:collection>", "");
+        }
+        else {
+            opacXML = opacXML.replace("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">", "");
+            opacXML = opacXML.replace("<collection>", "");
+            opacXML = opacXML.replace("</collection>", "");
+        }
         LOG.info("opac xml response ---->  " + opacXML);
         return opacXML;
     }

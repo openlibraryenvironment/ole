@@ -19,11 +19,11 @@ public class WorkBibMarcRecordProcessor {
 
     private static XStream getXstream() {
         XStream xStream = new XStream();
-        xStream.alias("collection", WorkBibMarcRecords.class);
-        xStream.alias("record", WorkBibMarcRecord.class);
-        xStream.alias("controlfield", ControlField.class);
-        xStream.alias("datafield", DataField.class);
-        xStream.alias("subfield", SubField.class);
+        xStream.alias("marc:collection", WorkBibMarcRecords.class);
+        xStream.alias("marc:record", WorkBibMarcRecord.class);
+        xStream.alias("marc:controlfield", ControlField.class);
+        xStream.alias("marc:datafield", DataField.class);
+        xStream.alias("marc:subfield", SubField.class);
         xStream.addImplicitCollection(WorkBibMarcRecord.class, "dataFields", DataField.class);
         xStream.addImplicitCollection(WorkBibMarcRecord.class, "controlFields", ControlField.class);
         xStream.addImplicitCollection(WorkBibMarcRecords.class, "records");

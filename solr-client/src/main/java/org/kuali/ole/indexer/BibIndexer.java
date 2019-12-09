@@ -99,7 +99,19 @@ public class BibIndexer extends OleDsNgIndexer {
         SolrInputDocument solrInputDocument = null;
         BibRecord bibRecord = (BibRecord) object;
         try {
-            BibMarcRecords bibMarcRecords = getBibMarcRecordProcessor().fromXML(bibRecord.getContent());
+            String bibRecordContent = bibRecord.getContent();
+            if(bibRecordContent != null && bibRecordContent.contains("marc:")) {
+                bibRecordContent = bibRecordContent.replaceAll("marc:leader","leader");
+            }
+            else if(bibRecordContent != null && !bibRecordContent.contains("marc:")) {
+                bibRecordContent = bibRecordContent.replaceAll("collection","marc:collection");
+                bibRecordContent = bibRecordContent.replaceAll("record","marc:record");
+                bibRecordContent = bibRecordContent.replaceAll("controlfield","marc:controlfield");
+                bibRecordContent = bibRecordContent.replaceAll("datafield","marc:datafield");
+                bibRecordContent = bibRecordContent.replaceAll("subfield","marc:subfield");
+                bibRecordContent = bibRecordContent.replaceAll("xmlns=","xmlns:marc=");
+            }
+            BibMarcRecords bibMarcRecords = getBibMarcRecordProcessor().fromXML(bibRecordContent);
             solrInputDocument = buildSolrInputDocumentWithBibMarcRecord(bibMarcRecords.getRecords().get(0));
 
             setCommonFields(bibRecord, solrInputDocument);
