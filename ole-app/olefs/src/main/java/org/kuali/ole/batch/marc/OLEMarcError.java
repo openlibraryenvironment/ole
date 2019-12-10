@@ -1,6 +1,6 @@
 package org.kuali.ole.batch.marc;
 
-import org.marc4j.ErrorHandler;
+import org.marc4j.MarcError;
 
 import java.util.Date;
 import java.util.Map;
@@ -12,19 +12,19 @@ import java.util.Map;
  * Time: 11:54 AM
  * To change this template use File | Settings | File Templates.
  */
-public class OLEMarcError extends ErrorHandler.Error {
+public class OLEMarcError extends MarcError {
     private static final String COMMA =",";
     private OLEMarcErrorHandler errorHandler;
 
-    protected OLEMarcError(ErrorHandler errorHandler, String recordID,
-                           String field, String subfield, int severity, String message) {
-        errorHandler.super(recordID, field, subfield, severity, message);
-        this.errorHandler = (OLEMarcErrorHandler)errorHandler;
+    protected OLEMarcError(String field, String subfield, int severity, String message) {
+        super(field, subfield, severity, message);
+        //   this.addError(field, subfield, severity, message);
+   //     this.errorHandler = (OLEMarcErrorHandler)errorHandler;
     }
 
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append("Record").append(COMMA).append(curRecordID).append(COMMA).append("Time Stamp").append(COMMA).append(new Date().toString()).append(COMMA);
+        str.append("Record").append(COMMA).append(this.curField).append(COMMA).append("Time Stamp").append(COMMA).append(new Date().toString()).append(COMMA);
 
         for(Map.Entry<String,String>entry : errorHandler.getErrorMap().entrySet()){
             str.append(entry.getKey()).append(COMMA).append(entry.getValue()).append(COMMA);

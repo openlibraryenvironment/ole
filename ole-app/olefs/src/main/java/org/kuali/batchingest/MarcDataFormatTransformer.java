@@ -518,7 +518,7 @@ public class MarcDataFormatTransformer {
                 rootFlag = true;
             }else if(fieldCode.contains("008")){
             String controlField = fieldLine.substring(fieldCode.length(), fieldLine.length());
-            xmlString.append("<controlfield><![CDATA["+controlField.trim()+"]]></controlfield>\n");
+            xmlString.append("<marc:controlfield><![CDATA["+controlField.trim()+"]]></marc:controlfield>\n");
             }else if (fieldCode.contains("020")) {
                 String[] subField = fieldLine.split("\\$");
                 String isbn = "";

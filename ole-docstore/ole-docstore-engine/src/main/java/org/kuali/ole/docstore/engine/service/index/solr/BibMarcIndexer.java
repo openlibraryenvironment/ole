@@ -97,7 +97,42 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements Docstore
     private void buildSolrDocsForBibTree(BibTree bibTree, List<SolrInputDocument> solrInputDocuments) {
         Bib bib = bibTree.getBib();
         if (bib.getId() != null && bib.getId().contains("wbm")) {
-            BibMarcRecords bibMarcRecords = recordProcessor.fromXML(bib.getContent());
+            String content = bib.getContent();
+            if(content != null && content.contains("marc:")) {
+                content = content.replaceAll("marc:leader","leader");
+                if(content.contains("<controlfield")) {
+                    content = content.replaceAll("<controlfield","<marc:controlfield");
+                }
+                if(content.contains("<datafield")) {
+                    content = content.replaceAll("<datafield","<marc:datafield");
+                }
+                if(content.contains("<subfield")) {
+                    content = content.replaceAll("<subfield","<marc:subfield");
+                }
+
+                if(content.contains("</controlfield")) {
+                    content = content.replaceAll("</controlfield","</marc:controlfield");
+                }
+                if(content.contains("</datafield")) {
+                    content = content.replaceAll("</datafield","</marc:datafield");
+                }
+                if(content.contains("</subfield")) {
+                    content = content.replaceAll("</subfield","</marc:subfield");
+                }
+                if(content.contains("xmlns=")) {
+                    content = content.replaceAll("xmlns=", "xmlns:marc=");
+                }
+            }
+            else if(content != null && !content.contains("marc:")) {
+                content = content.replaceAll("collection","marc:collection");
+                content = content.replaceAll("record","marc:record");
+                content = content.replaceAll("controlfield","marc:controlfield");
+                content = content.replaceAll("datafield","marc:datafield");
+                content = content.replaceAll("subfield","marc:subfield");
+                content = content.replaceAll("xmlns=","xmlns:marc=");
+            }
+            bib.setContent(content);
+            BibMarcRecords bibMarcRecords = recordProcessor.fromXML(content);
             SolrInputDocument bibSolrDoc = buildSolrInputDocument(bibMarcRecords.getRecords().get(0));
             setCommonFields(bib, bibSolrDoc);
             solrInputDocuments.add(bibSolrDoc);

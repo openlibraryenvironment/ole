@@ -32,20 +32,20 @@ public class ItemMarcXMLGenerationServiceImpl implements ItemMarcXMLGenerationSe
 
     private String buildXmlString(BibInfoBean bibInfoBean, HashMap dataMap) throws Exception {
         StringBuilder xmlString = new StringBuilder();
-        xmlString.append("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
-        xmlString.append("<record>");
+        xmlString.append("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">");
+        xmlString.append("<marc:record>");
         xmlString.append("<leader></leader>");
-        xmlString.append("<controlfield tag=\"001\"></controlfield>");
-        xmlString.append("<datafield tag=\"999\" ind1=\"\" ind2=\"\" >");
-        xmlString.append("<subfield code=\"a\"></subfield>");
-        xmlString.append("<subfield code=\"b\">").append(bibInfoBean.getVolumeNumber() != null ? bibInfoBean.getVolumeNumber() : "").append("</subfield>");
-        xmlString.append("<subfield code=\"i\"></subfield>");
-        xmlString.append("<subfield code=\"l\">").append(bibInfoBean.getLocation() != null ? bibInfoBean.getLocation() : "").append("</subfield>");
-        xmlString.append("<subfield code=\"m\"></subfield>");
-        xmlString.append("<subfield code=\"p\">").append(bibInfoBean.getListprice() != null ? bibInfoBean.getListprice() : "").append("</subfield>");
-        xmlString.append("</datafield>");
-        xmlString.append("</record>");
-        xmlString.append("</collection>");
+        xmlString.append("<marc:controlfield tag=\"001\"></marc:controlfield>");
+        xmlString.append("<marc:datafield tag=\"999\" ind1=\"\" ind2=\"\" >");
+        xmlString.append("<marc:subfield code=\"a\"></marc:subfield>");
+        xmlString.append("<marc:subfield code=\"b\">").append(bibInfoBean.getVolumeNumber() != null ? bibInfoBean.getVolumeNumber() : "").append("</marc:subfield>");
+        xmlString.append("<marc:subfield code=\"i\"></marc:subfield>");
+        xmlString.append("<marc:subfield code=\"l\">").append(bibInfoBean.getLocation() != null ? bibInfoBean.getLocation() : "").append("</marc:subfield>");
+        xmlString.append("<marc:subfield code=\"m\"></marc:subfield>");
+        xmlString.append("<marc:subfield code=\"p\">").append(bibInfoBean.getListprice() != null ? bibInfoBean.getListprice() : "").append("</marc:subfield>");
+        xmlString.append("</marc:datafield>");
+        xmlString.append("</marc:record>");
+        xmlString.append("</marc:collection>");
         if (LOG.isDebugEnabled())
             LOG.debug("itemxmlString----------->" + xmlString.toString());
         return xmlString.toString();

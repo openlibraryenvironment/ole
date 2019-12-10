@@ -133,6 +133,9 @@ public abstract class BibHandler extends Handler {
 
     public void saveBibInfoRecord(BibRecord bibRecord, boolean create) {
         String content = bibRecord.getContent();
+        if(content != null && content.contains("marc:")) {
+            content = content.replaceAll("marc:leader","leader");
+        }
         List<Record> records = getMarcRecordUtil().convertMarcXmlContentToMarcRecord(content);
         BibInfoRecord bibInfoRecord = null;
         if(!create) {

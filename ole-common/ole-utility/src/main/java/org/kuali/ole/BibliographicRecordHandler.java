@@ -33,10 +33,10 @@ public class BibliographicRecordHandler {
     private static final String lineSeparator = System.getProperty("line.separator");
     private int errCnt;
     private int successCnt;
-    private final static String RECORD = "record";
-    private final static String CONTROLFIELD = "controlfield";
-    private final static String DATAFIELD = "datafield";
-    private final static String SUBFIELD = "subfield";
+    private final static String RECORD = "marc:record";
+    private final static String CONTROLFIELD = "marc:controlfield";
+    private final static String DATAFIELD = "marc:datafield";
+    private final static String SUBFIELD = "marc:subfield";
     private final static String CONTROLFIELDS = "controlfields";
     private final static String DATAFIELDS = "datafields";
     private final static String SUBFIELDS = "subFields";
@@ -57,7 +57,7 @@ public class BibliographicRecordHandler {
     public String generateXML(BibliographicRecord bibliographicRecord) {
         StringBuffer stringBuffer = new StringBuffer();
         try{
-            stringBuffer.append("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
+            stringBuffer.append("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">");
             stringBuffer.append("\n");
 
             XStream xStream = new XStream();
@@ -75,7 +75,7 @@ public class BibliographicRecordHandler {
             String xml = xStream.toXML(bibliographicRecord);
             stringBuffer.append(xml);
             stringBuffer.append("\n");
-            stringBuffer.append("</collection>");
+            stringBuffer.append("</marc:collection>");
             successCnt++;
         } catch (Exception ex) {
             LOG.error("Error while converting BibliographicRecord to string for Bib Record id:: " + bibliographicRecord.getRecordId(), ex);
@@ -95,7 +95,7 @@ public class BibliographicRecordHandler {
     public String generateXML(List<BibliographicRecord> bibliographicRecord) {
         StringBuffer stringBuffer = new StringBuffer();
         //stringBuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
-        stringBuffer.append("<collection xmlns=\"http://www.loc.gov/MARC21/slim\">");
+        stringBuffer.append("<marc:collection xmlns:marc=\"http://www.loc.gov/MARC21/slim\">");
         for (BibliographicRecord record : bibliographicRecord) {
             try {
                 if (record != null) {
@@ -125,7 +125,7 @@ public class BibliographicRecordHandler {
             }
         }
         stringBuffer.append(lineSeparator);
-        stringBuffer.append("</collection>");
+        stringBuffer.append("</marc:collection>");
         return stringBuffer.toString();
     }
 
@@ -148,12 +148,12 @@ public class BibliographicRecordHandler {
 
     public Collection fromXML(String marcXMLContent) {
         XStream xStream = new XStream();
-        xStream.alias("collection", Collection.class);
+        xStream.alias("marc:collection", Collection.class);
         xStream.alias(LEADER, LeaderTag.class);
-        xStream.alias("record", BibliographicRecord.class);
-        xStream.alias("controlfield", ControlField.class);
-        xStream.alias("datafield", DataField.class);
-        xStream.alias("subfield", SubField.class);
+        xStream.alias("marc:record", BibliographicRecord.class);
+        xStream.alias("marc:controlfield", ControlField.class);
+        xStream.alias("marc:datafield", DataField.class);
+        xStream.alias("marc:subfield", SubField.class);
         xStream.addImplicitCollection(BibliographicRecord.class, "datafields", DataField.class);
         xStream.addImplicitCollection(BibliographicRecord.class, "controlfields", ControlField.class);
         xStream.addImplicitCollection(Collection.class, "collection");
@@ -196,12 +196,12 @@ public class BibliographicRecordHandler {
         stringBuffer.append("\n");
 
         XStream xStream = new XStream();
-        xStream.alias("collection", Collection.class);
+        xStream.alias("marc:collection", Collection.class);
         xStream.alias(LEADER, LeaderTag.class);
-        xStream.alias("record", BibliographicRecord.class);
-        xStream.alias("controlfield", ControlField.class);
-        xStream.alias("datafield", DataField.class);
-        xStream.alias("subfield", SubField.class);
+        xStream.alias("marc:record", BibliographicRecord.class);
+        xStream.alias("marc:controlfield", ControlField.class);
+        xStream.alias("marc:datafield", DataField.class);
+        xStream.alias("marc:subfield", SubField.class);
         xStream.addImplicitCollection(BibliographicRecord.class, "datafields", DataField.class);
         xStream.addImplicitCollection(BibliographicRecord.class, "controlfields", ControlField.class);
         xStream.addImplicitCollection(Collection.class, "collection");
