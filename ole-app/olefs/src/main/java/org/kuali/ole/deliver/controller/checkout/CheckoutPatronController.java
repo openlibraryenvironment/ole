@@ -383,11 +383,15 @@ public class CheckoutPatronController extends CheckoutItemController {
                                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
         circForm.setPageSize("10");
-        if((searchHold(circForm))) {
+        boolean hold = Boolean.FALSE;
+        if(circForm.getItemBarcode() == null || circForm.getItemBarcode().isEmpty()) {
+            hold = searchHold(circForm);
+        }
+        if(hold) {
             showHoldErrorMessageDialog(circForm, request, response);
         }else{
             boolean hasValidOverridePermissions = new PermissionsValidatorUtil().hasValidOverridePermissions(circForm);
-            if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions())){
+            if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions()) && (circForm.getItemBarcode() == null || circForm.getItemBarcode().isEmpty())){
                 return postPatronValidation(circForm, result, request, response);
             } else {
                 if ((hasValidOverridePermissions)) {
