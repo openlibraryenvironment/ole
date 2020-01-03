@@ -253,7 +253,7 @@ public class ASRServiceImpl implements ASRService {
      */
     @Override
     public Object updateASRRequestStatus(UpdateASRRequestStatusBo updateASRRequestStatusBo) {
-        LOG.info("Inside the  updateASRItemStatusToMissing method . Request Id  : "+updateASRRequestStatusBo.getHoldId() + ". OperatorId : "+updateASRRequestStatusBo.getOperatorId()  );
+        LOG.info("Inside the  updateASRRequestStatus method . Request Id  : "+updateASRRequestStatusBo.getHoldId() + ". OperatorId : "+updateASRRequestStatusBo.getOperatorId()  );
          ASRTypeRequest asrTypeRequest;
         //check the operator id send is an operator
         if(!asrHelperService.isAuthorized(updateASRRequestStatusBo.getOperatorId())){
@@ -286,7 +286,7 @@ public class ASRServiceImpl implements ASRService {
      */
     @Override
     public Object updateASRItemStatusToBeingRetrieved(UpdateASRItemStatusBo updateASRItemStatusBo) {
-        LOG.info("Inside the  updateASRItemStatusToMissing method . Item Barcode : "+updateASRItemStatusBo.getItemBarcode() + ". OperatorId : "+updateASRItemStatusBo.getOperatorId()  );
+        LOG.info("Inside the  updateASRItemStatusToBeingRetrieved method . Item Barcode : "+updateASRItemStatusBo.getItemBarcode() + ". OperatorId : "+updateASRItemStatusBo.getOperatorId()  );
         //check the operator id send is an operator
         if(!asrHelperService.isAuthorized(updateASRItemStatusBo.getOperatorId())){
             return asrHelperService.generateResponse(ASRConstants.OPERATOR_NOT_FOUND_CODE, ConfigContext.getCurrentContextConfig().getProperty(ASRConstants.OPERATOR_NOT_FOUND), ASRConstants.SUCCESS_STATUS);
