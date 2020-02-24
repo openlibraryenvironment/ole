@@ -44,7 +44,7 @@
                       p:methodToCall="validateOveridePermission" p:ajaxSubmit="true"
                       p:onClickScript="jq.fancybox.close();"
                       p:successCallback="jq('#checkoutItem_control').focus();"/>
-                <bean id="donNotProceedButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Proceed"
+                <bean id="donNotProceedButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Procced"
                       p:style="width:300px"
                       p:methodToCall="clearUI" p:ajaxSubmit="true" p:onClickScript="jq.fancybox.close();"/>
                 <bean id="holdRecordLink" parent="Uif-LinkField" p:target="_blank"
