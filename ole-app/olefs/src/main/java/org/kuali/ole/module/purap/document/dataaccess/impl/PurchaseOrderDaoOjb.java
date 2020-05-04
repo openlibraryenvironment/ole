@@ -242,7 +242,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes, java.sql.Date poCloseFromDate,Date poCloseToDate, Collection<String> orderTypeString) {
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
-        criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
+      //  criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
         Boolean encumb_check = getParameterService().getParameterValueAsBoolean(PurapConstants.PURAP_NAMESPACE, "All", OLEConstants.ZERO_ENCUMBRANCE_CHECK, Boolean.FALSE);
         if(encumb_check) {
             criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
