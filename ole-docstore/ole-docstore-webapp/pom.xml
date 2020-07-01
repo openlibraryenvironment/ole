@@ -15,7 +15,7 @@
         <!--allows the supported database to be changed via parameter (ex: oracle to mysql) -->
         <database.groupId>mysql</database.groupId>
         <database.artifactId>${mysql.jdbc.artifactId}</database.artifactId>
-        <database.version>${mysql.jdbc.version}</database.version>
+        <database.version>8.0.16</database.version>
         <!--dependency versions -->
         <jsp-api.version>2.1</jsp-api.version>
         <junit.version>4.10</junit.version>
@@ -910,7 +910,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.23</version>
+            <version>8.0.16</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.ole</groupId>
