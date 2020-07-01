@@ -196,7 +196,7 @@
                                 <dependency>
                                     <groupId>mysql</groupId>
                                     <artifactId>mysql-connector-java</artifactId>
-                                    <version>5.1.20</version>
+                                    <version>8.0.16</version>
                                 </dependency>
                                 <dependency>
                                     <groupId>com.oracle</groupId>
@@ -300,7 +300,7 @@
                                 <dependency>
                                     <groupId>mysql</groupId>
                                     <artifactId>mysql-connector-java</artifactId>
-                                    <version>5.1.20</version>
+                                    <version>8.0.16</version>
                                 </dependency>
                                 <dependency>
                                     <groupId>com.oracle</groupId>
@@ -830,7 +830,7 @@
                                 <dependency>
                                     <groupId>mysql</groupId>
                                     <artifactId>mysql-connector-java</artifactId>
-                                    <version>5.1.20</version>
+                                    <version>8.0.16</version>
                                 </dependency>
                             </dependencies>
                         </plugin>
@@ -930,7 +930,7 @@
                                 <dependency>
                                     <groupId>mysql</groupId>
                                     <artifactId>mysql-connector-java</artifactId>
-                                    <version>5.1.20</version>
+                                    <version>8.0.16</version>
                                 </dependency>
                             </dependencies>
                         </plugin>
@@ -1118,7 +1118,7 @@
                                 <dependency>
                                     <groupId>mysql</groupId>
                                     <artifactId>mysql-connector-java</artifactId>
-                                    <version>5.1.20</version>
+                                    <version>8.0.16</version>
                                 </dependency>
                                 <dependency>
                                     <groupId>com.oracle</groupId>
@@ -1209,7 +1209,7 @@
                                 <dependency>
                                     <groupId>mysql</groupId>
                                     <artifactId>mysql-connector-java</artifactId>
-                                    <version>5.1.20</version>
+                                    <version>8.0.16</version>
                                 </dependency>
                                 <dependency>
                                     <groupId>com.oracle</groupId>
