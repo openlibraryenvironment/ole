@@ -494,9 +494,11 @@ public abstract class DocumentBase extends PersistableBusinessObjectBase impleme
     }
 
     public void validateBusinessRules(KualiDocumentEvent event) {
-        if (GlobalVariables.getMessageMap().hasErrors()) {
+       if (GlobalVariables.getMessageMap().hasErrors()) {
             logErrors();
-            throw new ValidationException("errors occured before business rule");
+           GlobalVariables.getMessageMap().clearErrorMessages();;
+           GlobalVariables.getMessageMap().clearErrorPath();
+           throw new ValidationException("errors occured before business rule");
         }
 
         // perform validation against rules engine
