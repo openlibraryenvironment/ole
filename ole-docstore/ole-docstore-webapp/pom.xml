@@ -18,7 +18,7 @@
         <database.version>${mysql.jdbc.version}</database.version>
         <!--dependency versions -->
         <jsp-api.version>2.1</jsp-api.version>
-        <junit.version>4.10</junit.version>
+        <junit.version>4.13.1</junit.version>
         <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
         <mysql.jdbc.version>5.1.18</mysql.jdbc.version>
