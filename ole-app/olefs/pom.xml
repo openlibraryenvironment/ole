@@ -13,7 +13,7 @@
         <build.version>${kuali.build.timestamp}</build.version>
         <liquibase.fail.on.error>false</liquibase.fail.on.error>
         <jsp-api.version>2.1</jsp-api.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <jaxb-impl.version>2.2.11</jaxb-impl.version>
         <servlet-api.version>2.5</servlet-api.version>
         <jaxb-impl.version>2.2.11</jaxb-impl.version>
