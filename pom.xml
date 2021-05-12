@@ -66,7 +66,7 @@
         <servlet-api.version>2.4</servlet-api.version>
         <slf4j.version>1.6.4</slf4j.version>
         <sli4j-slf4j-simple.version>2.0</sli4j-slf4j-simple.version>
-        <solr.version>4.9.0</solr.version>
+        <solr.version>8.8.2</solr.version>
         <spring.version>4.0.1.RELEASE</spring.version>
         <spring.security.version>4.0.1.RELEASE</spring.security.version>
         <spring-webflow.version>2.3.0.RELEASE</spring-webflow.version>
