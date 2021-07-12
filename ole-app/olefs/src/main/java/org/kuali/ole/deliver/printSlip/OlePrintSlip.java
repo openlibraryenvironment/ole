@@ -784,6 +784,8 @@ public class OlePrintSlip extends PdfPageEventHelper {
             EntityNameBo nameBo = oleRequestPatronDocument != null ? oleRequestPatronDocument.getEntity().getNames().get(0) : null;
             String patronName = nameBo != null ? nameBo.getLastName() + "," + nameBo.getFirstName() : null;
             Date expirationDate = oleRequestPatronDocument != null ? oleRequestPatronDocument.getExpirationDate() : null;
+            String patronBarcode = oleRequestPatronDocument.getOlePatronEntityViewBo().getPatronBarcode();
+
             String itemCallNumber = null;
             String copyNumber = null;
             String volumeNumber = null;
@@ -810,6 +812,8 @@ public class OlePrintSlip extends PdfPageEventHelper {
                 pdfTable.addCell(getPdfPCellAligned("Hold Slip", Font.BOLD, -18));
                 pdfTable.addCell(getEmptyCell());
                 pdfTable.addCell(getPdfPCellAligned(patronName, Font.NORMAL, -18));
+                pdfTable.addCell(getPdfPCellAligned(patronBarcode, Font.NORMAL, -18));
+
                 if (oleCirculationDesk != null) {
                     int noDays = Integer.parseInt(oleCirculationDesk.getOnHoldDays());
                     Calendar calendar = Calendar.getInstance();
@@ -857,6 +861,10 @@ public class OlePrintSlip extends PdfPageEventHelper {
                 pdfTable.addCell(getPdfPCellInJustified("Patron Name"));
                 pdfTable.addCell(getPdfPCellInLeft(":"));
                 pdfTable.addCell(getPdfPCellInJustified(patronName));
+
+                pdfTable.addCell(getPdfPCellInJustified("Patron Barcode"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified(patronBarcode));
 
                 pdfTable.addCell(getPdfPCellInJustified("Expiration Date"));
                 pdfTable.addCell(getPdfPCellInLeft(":"));

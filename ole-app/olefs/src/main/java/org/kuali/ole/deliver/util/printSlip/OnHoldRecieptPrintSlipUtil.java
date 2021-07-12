@@ -37,8 +37,10 @@ public class OnHoldRecieptPrintSlipUtil extends OleRecieptPrintSlipUtil {
         OleCirculationDesk oleCirculationDesk = null != getOleItemRecordForCirc() ? getOleItemRecordForCirc().getCheckinLocation() : null;
         OleDeliverRequestBo oleDeliverRequestBo = getOleItemRecordForCirc().getOleDeliverRequestBo();
         String patronName = oleDeliverRequestBo != null ? oleDeliverRequestBo.getOlePatron().getPatronName() : null;
+        String patronBarcode = oleDeliverRequestBo != null ? oleDeliverRequestBo.getOlePatron().getBarcode() : null;
         try {
             pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(patronName));
+            pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(patronBarcode));
             if(null != oleDeliverRequestBo && oleDeliverRequestBo.getHoldExpirationDate() != null) {
                 Date date = oleDeliverRequestBo.getHoldExpirationDate();
                 if (date != null) {

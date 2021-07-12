@@ -26,10 +26,16 @@ public class OnHoldRegularPrintSlipUtil extends OleRegularPrintSlipUtil {
     protected void populateBody(PdfPTable pdfTable) {
         OleDeliverRequestBo oleDeliverRequestBo = getOleItemRecordForCirc().getOleDeliverRequestBo();
         String patronName = oleDeliverRequestBo != null ? oleDeliverRequestBo.getOlePatron().getPatronName() : null;
+        String patronBarcode = oleDeliverRequestBo != null ? oleDeliverRequestBo.getOlePatron().getBarcode() : null;
+
         Object expirationDate = oleDeliverRequestBo != null ? oleDeliverRequestBo.getHoldExpirationDate() : null;
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Patron Name"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(patronName));
+
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Patron Barcode"));
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified(patronBarcode));
 
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Expiration Date"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));
