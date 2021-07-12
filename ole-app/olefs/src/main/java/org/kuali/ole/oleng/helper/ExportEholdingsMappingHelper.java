@@ -452,33 +452,41 @@ public class ExportEholdingsMappingHelper extends ExportHoldingsMappingHelper {
     private void generateLinkFields(OleHoldings oleHoldings, Map<String, String> dataFieldLinkUrlMap) throws Exception {
         DataField dataField;
         for (Map.Entry<String, String> entry : dataFieldLinkUrlMap.entrySet()) {
-            if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_URL)) {
-                for (Link link : oleHoldings.getLink()) {
-                    if (StringUtils.isNotEmpty(link.getUrl())) {
-                        //dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
-                        dataField = getDataField(entry);
-                        generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
-
-                        for (Map.Entry<String, String> dataMapEntry : dataFieldLinkUrlMap.entrySet()) {
-                            if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
-                                if (StringUtils.isNotEmpty(link.getText())) {
-                                    generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
-                                }
-                            }
-                            if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_HOLDINGS_URI_ID)) {
-                                if (StringUtils.isNotEmpty(link.getText())) {
-                                    generateLinkId(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
-                                }
-                            }
-                        }
-
-                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
-                    }
-                }
-                break;
+                                for (Link link : oleHoldings.getLink()) {
+                                        if (StringUtils.isNotEmpty(link.getUrl())) {
+                                                dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                                                if (dataField == null) {
+                                                        dataField = getDataField(entry);
+                                                        generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                                                        if (dataFieldLinkUrlMap.containsValue(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                                                for (Map.Entry<String, String> dataMapEntry : dataFieldLinkUrlMap.entrySet()) {
+                                                                        if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                                                                if (StringUtils.isNotEmpty(link.getText())) {
+                                                                                        generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
+                                                                                        break;
+                                                                                    }
+                                                                            }
+                                                                    }
+                                                            }
+                                                        if (!dataField.getSubfields().isEmpty()) dataFieldList.add(dataField);
+                                                    } else {
+                                                        generateLink(oleHoldings, link, getCode(entry.getKey()), dataField);
+                                                        if (dataFieldLinkUrlMap.containsValue(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                                                for (Map.Entry<String, String> dataMapEntry : dataFieldLinkUrlMap.entrySet()) {
+                                                                        if (dataMapEntry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_LINK_TEXT)) {
+                                                                                if (StringUtils.isNotEmpty(link.getText())) {
+                                                                                        generateLinkText(oleHoldings, link, getCode(dataMapEntry.getKey()), dataField);
+                                                                                        break;
+                                                                                    }
+                                                                            }
+                                                                    }
+                                                            }
+                                                    }
+                                            }
+                                    }
+            break;
             }
         }
-    }
 
     private void generateCoverageFields(OleHoldings oleHoldings, Map<String, String> dataFieldCoverageMap) throws Exception {
         List<DataField> coverageFieldList = new ArrayList<>();
