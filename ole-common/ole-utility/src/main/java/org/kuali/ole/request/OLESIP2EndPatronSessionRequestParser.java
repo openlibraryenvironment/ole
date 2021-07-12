@@ -17,7 +17,7 @@ public class OLESIP2EndPatronSessionRequestParser extends OLESIP2RequestParser {
 
     public void parseEndPatronSession(String requestData) {
 
-        LOG.info("Entry OLESIP2EndPatronSessionRequestParser.parseEndPatronSession(String requestData)");
+        LOG.info("Entry OLESIP2EndPatronSessionRequestParser.parseEndPatronSession >>> " + requestData);
 
         String[] requestDataArray = requestData.split("\\|");
 

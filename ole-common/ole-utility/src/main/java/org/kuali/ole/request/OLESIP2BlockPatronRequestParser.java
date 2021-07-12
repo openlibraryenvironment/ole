@@ -19,7 +19,7 @@ public class OLESIP2BlockPatronRequestParser extends OLESIP2RequestParser {
 
     public void parseBlockPatron(String requestData) {
 
-        LOG.info("Entry OLESIP2BlockPatronRequestParser.parseBlockPatron(String requestData)");
+        LOG.info("Entry OLESIP2BlockPatronRequestParser.parseBlockPatron >>> " + requestData);
         String[] requestDataArray = requestData.split("\\|");
         try {
             for (String data : requestDataArray) {

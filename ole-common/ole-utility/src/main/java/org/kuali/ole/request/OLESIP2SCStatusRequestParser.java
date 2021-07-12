@@ -22,7 +22,7 @@ public class OLESIP2SCStatusRequestParser extends OLESIP2RequestParser {
 
     public void parseSCStstusRequest(String requestData) {
 
-        LOG.info("Entry OLESIP2SCStatusRequestParser.parseSCStstusRequest(String requestData)");
+        LOG.info("Entry OLESIP2SCStatusRequestParser.parseSCStstusRequest >>>>> " + requestData);
         requestData = requestData.trim();
         code = requestData.substring(0, 2);
         if (String.valueOf(requestData.charAt(2)).equalsIgnoreCase("0"))

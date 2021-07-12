@@ -22,7 +22,7 @@ public class OLESIP2CheckInRequestParser extends OLESIP2RequestParser {
 
     public void parseCheckInRequest(String requestData) {
 
-        LOG.info("Entry OLESIP2CheckInRequestParser.parseCheckinRequest(String requestData)");
+        LOG.info("Entry OLESIP2CheckInRequestParser.parseCheckinRequest >>>> " + requestData);
         String[] requestDataArray = requestData.split("\\|");
         try {
 

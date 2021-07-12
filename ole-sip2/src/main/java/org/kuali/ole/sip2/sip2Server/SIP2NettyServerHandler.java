@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketAddress;
 import java.util.*;
-
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @ChannelHandler.Sharable
@@ -26,7 +26,7 @@ public class SIP2NettyServerHandler extends NettyHandler {
 
     private String clientIP;
 
-    private Map<String, String> lastResponseSendToClient = new HashMap<String, String>();
+    private Map<String, String> lastResponseSendToClient = new ConcurrentHashMap<String, String>();
 
     private List<NettyProcessor> nettyProcessors;
 

@@ -20,7 +20,7 @@ public class OLESIP2CheckOutRequestParser extends OLESIP2RequestParser {
 
     public void parseCheckoutRequest(String requestData) {
 
-        LOG.info("Entry OLESIP2CheckOutRequestParser.parseCheckoutRequest(String requestData)");
+        LOG.info("Entry OLESIP2CheckOutRequestParser.parseCheckoutRequest >>>> " + requestData);
         String[] requestDataArray = requestData.split("\\|");
 
         try {

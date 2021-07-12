@@ -22,7 +22,7 @@ public class OLESIP2RenewRequestParser extends OLESIP2RequestParser {
 
 
     public void parseRenewRequest(String requestData) {
-        LOG.info("Entry OLESIP2RenewRequestParser.parseRenewRequest(String requestData)");
+        LOG.info("Entry OLESIP2RenewRequestParser.parseRenewRequest >>>> " + requestData);
 
         LOG.info(requestData);
 

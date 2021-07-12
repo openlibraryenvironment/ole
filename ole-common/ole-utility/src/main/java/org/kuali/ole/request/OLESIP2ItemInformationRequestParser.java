@@ -19,7 +19,7 @@ public class OLESIP2ItemInformationRequestParser extends OLESIP2RequestParser {
 
     public void parseItemInformationRequest(String requestData) {
 
-        LOG.info("Entry OLESIP2ItemInformationRequestParser.parseItemInformation(String requestData)");
+        LOG.info("Entry OLESIP2ItemInformationRequestParser.parseItemInformation >>>> " + requestData);
         String[] requestDataArray = requestData.split("\\|");
 
         for (String data : requestDataArray) {

@@ -24,7 +24,7 @@ public class OLESIP2LoginRequestParser extends OLESIP2RequestParser {
     public void parseLoginRequest(String requestData) {
 
         String[] requestDataArray = requestData.split("\\|");
-        LOG.info("Entry OLESIP2LoginRequestParser.parseLoginRequest(String requestData)");
+        LOG.info("Entry OLESIP2LoginRequestParser.parseLoginRequest >>>>> " + requestData);
 
         try {
             for (String data : requestDataArray) {

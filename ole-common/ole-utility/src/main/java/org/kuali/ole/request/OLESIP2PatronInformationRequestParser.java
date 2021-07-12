@@ -23,7 +23,7 @@ public class OLESIP2PatronInformationRequestParser extends OLESIP2RequestParser 
 
     public void parsePatronInformationRequest(String requestData) {
 
-        LOG.info("Entry OLESIP2PatronInformationRequestParser.parsePatronInformation(String requestData)");
+        LOG.info("Entry OLESIP2PatronInformationRequestParser.parsePatronInformation( >>> " + requestData);
 
         String[] requestDataArray = requestData.split("\\|");
         for (String data : requestDataArray) {

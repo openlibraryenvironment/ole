@@ -18,7 +18,7 @@ public class OLESIP2PatronEnableRequestParser extends OLESIP2RequestParser {
 
 
     public void parsePatronEnableRequest(String requestData) {
-        LOG.info("Entry OLESIP2PatronEnableRequestParser.parsePatronEnable(String requestData)");
+        LOG.info("Entry OLESIP2PatronEnableRequestParser.parsePatronEnable >>>> " + requestData);
 
         String[] requestDataArray = requestData.split("\\|");
         for (String data : requestDataArray) {

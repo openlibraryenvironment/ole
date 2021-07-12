@@ -14,6 +14,8 @@ import org.kuali.ole.sip2.response.OLESIP2CheckOutTurnedOffResponse;
 import org.kuali.ole.sip2.sip2Server.MessageUtil;
 
 import java.util.Properties;
+import org.apache.log4j.Logger;
+
 
 /**
  * Created by chenchulakshmig on 9/28/15.
@@ -22,6 +24,7 @@ public class CheckoutNetttyProcessor extends NettyProcessor {
 
     private final Properties properties;
     private String serverURL;
+    private final static Logger LOG = Logger.getLogger(CheckoutNetttyProcessor.class.getName());
 
     public CheckoutNetttyProcessor(Properties properties, String serverURL) {
         this.properties = properties;
@@ -36,22 +39,25 @@ public class CheckoutNetttyProcessor extends NettyProcessor {
     @Override
     public String process(String requestData) {
         String response = "";
+         LOG.info("requestData inside CheckoutNetttyProcessor >>> " + requestData);
         OLESIP2CheckOutRequestParser sip2CheckOutRequestParser = new OLESIP2CheckOutRequestParser(requestData);
         if(requestData.contains("|AA") && requestData.contains("|AB") && requestData.contains("|AY")) {
-
+            LOG.info("inside if >>> " + requestData);
             requestData = createJSONForCheckoutItemRequest(sip2CheckOutRequestParser.getPatronIdentifier(), sip2CheckOutRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID");
             response = postRequest(requestData, "/checkoutItemSIP2", serverURL);
         }else{
-
+            LOG.info("inside else >>> " + requestData);
             StringBuilder builder = new StringBuilder();
             builder.append("96AZ");
             builder.append(MessageUtil.computeChecksum(builder.toString()));
+            LOG.info("inside else  calculated checksum >>> " + builder.toString());
             response = builder.toString() + '\r';
         }
 
 
 
         if (StringUtils.isNotBlank(response)) {
+            LOG.info("response received >>> " + response);
             if (response.contains("<renewItemList>")) {
                 OLERenewItemList oleRenewItemList = (OLERenewItemList) new OLERenewItemConverter().generateRenewItemListObjectForSip2(response);
                 OLESIP2CheckOutResponse sip2CheckOutResponseParser = new OLESIP2CheckOutResponse();
