@@ -76,13 +76,13 @@
         <db.vendor>mysql</db.vendor>
         <mysql.groupId>mysql</mysql.groupId>
         <mysql.artifactId>mysql-connector-java</mysql.artifactId>
-        <mysql.version>5.1.20</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc6_g</oracle.artifactId>
         <oracle.version>11.2.0.2</oracle.version>
         <jdbc.driver.groupId>${mysql.groupId}</jdbc.driver.groupId>
         <jdbc.driver.artifactId>${mysql.artifactId}</jdbc.driver.artifactId>
-        <jdbc.driver.version>${mysql.version}</jdbc.driver.version>
+        <jdbc.driver.version>8.0.28</jdbc.driver.version>
         <plugin.liquibase.version>3.2.1-kuali-patch1</plugin.liquibase.version>
         <!-- These 2 are used by the Liquibase plugin execution when it generates SQL -->
         <project.groupId.path>org/kuali/ole</project.groupId.path>
