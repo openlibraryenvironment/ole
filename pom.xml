@@ -48,7 +48,7 @@
         <groovycsv.version>1.0</groovycsv.version>
         <httpclient.version>3.1</httpclient.version>
         <jackrabbit.version>2.4.1</jackrabbit.version>
-        <javamelody.version>1.51.0</javamelody.version>
+        <javamelody.version>1.74.0</javamelody.version>
         <jrobin.version>1.5.9</jrobin.version>
         <jcr.version>2.0</jcr.version>
         <jcrom.version>1.3.2</jcrom.version>
