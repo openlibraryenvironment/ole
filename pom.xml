@@ -69,7 +69,7 @@
         <solr.version>4.9.0</solr.version>
         <spring.version>4.0.1.RELEASE</spring.version>
         <spring.security.version>4.0.1.RELEASE</spring.security.version>
-        <spring-webflow.version>2.3.0.RELEASE</spring-webflow.version>
+        <spring-webflow.version>2.4.6.RELEASE</spring-webflow.version>
         <struts.version>1.2.9</struts.version>
         <xstream.version>1.4.1</xstream.version>
         <!-- JDBC Drivers -->
